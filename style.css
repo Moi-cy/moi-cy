@@ -1,3 +1,8 @@
+/* =========================================
+   MOI-CY
+   DARK STREET × ELECTRIC BLUE
+========================================= */
+
 * {
   margin: 0;
   padding: 0;
@@ -78,6 +83,7 @@ img {
 .graffiti-word,
 .handwritten {
   font-family: "Permanent Marker", cursive;
+
   color: var(--blue);
 
   line-height: 1;
@@ -115,6 +121,7 @@ img {
 .logo {
   display: flex;
   align-items: center;
+
   gap: 10px;
 
   font-size: 1.4rem;
@@ -238,19 +245,19 @@ img {
 
   min-height: 100vh;
 
-  padding: 145px 5vw 35px;
+  padding: 105px 5vw 45px;
 
   display: flex;
   flex-direction: column;
 
-  justify-content: space-between;
+  justify-content: center;
 
   overflow: hidden;
 }
 
 
 /* =========================================
-   BACKGROUND EFFECTS
+   HERO BACKGROUND
 ========================================= */
 
 .hero-background-glow {
@@ -305,7 +312,7 @@ img {
 
   inset: 0;
 
-  opacity: 0.09;
+  opacity: 0.07;
 
   pointer-events: none;
 
@@ -332,21 +339,6 @@ img {
 
 
 /* =========================================
-   HERO TOP
-========================================= */
-
-.hero-top {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  z-index: 10;
-}
-
-
-/* =========================================
    LOGO STAGE
 ========================================= */
 
@@ -355,18 +347,21 @@ img {
 
   width: 100%;
 
-  min-height: 560px;
+  min-height: 680px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
+
+  flex-direction: column;
 
   z-index: 5;
 }
 
 
 /* =========================================
-   MAIN BRAND LOGO
+   MAIN LOGO BOX
 ========================================= */
 
 .brand-logo {
@@ -418,7 +413,6 @@ img {
   left: 20%;
 
   width: 18%;
-
   height: 2px;
 
   background: var(--blue);
@@ -449,6 +443,7 @@ img {
   position: relative;
 
   display: flex;
+
   justify-content: space-between;
 
   margin-bottom: 20px;
@@ -472,12 +467,13 @@ img {
   min-height: 210px;
 
   display: flex;
+
   align-items: center;
 }
 
 
 /* =========================================
-   M SIGN
+   M SYMBOL
 ========================================= */
 
 .logo-m {
@@ -489,6 +485,7 @@ img {
   flex-shrink: 0;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -581,7 +578,6 @@ img {
     0 0 45px rgba(255,255,255,0.025);
 
   transition:
-    color 0.4s ease,
     text-shadow 0.4s ease;
 }
 
@@ -592,7 +588,7 @@ img {
 
 
 /* =========================================
-   BLUE GLITCH CUT
+   BLUE LOGO CUT
 ========================================= */
 
 .logo-cut {
@@ -655,7 +651,7 @@ img {
 
 
 /* =========================================
-   GRAFFITI
+   GRAFFITI SKATE
 ========================================= */
 
 .logo-tag {
@@ -697,7 +693,7 @@ img {
 
 
 /* =========================================
-   LOGO BOTTOM
+   LOGO BOTTOM LINE
 ========================================= */
 
 .logo-bottom {
@@ -741,7 +737,7 @@ img {
 
 
 /* =========================================
-   ROUND STAMP
+   LOGO STAMP
 ========================================= */
 
 .logo-stamp {
@@ -760,6 +756,7 @@ img {
   background: #050505;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
@@ -833,7 +830,7 @@ img {
 .decoration-left {
   left: 5%;
 
-  top: 50%;
+  top: 42%;
 
   transform:
     translateY(-50%)
@@ -884,51 +881,47 @@ img {
 
 }
 
-
 .decoration-right {
   right: 4%;
 
-  top: 50%;
-
-  display: flex;
-  align-items: center;
-
-  gap: 25px;
+  top: 42%;
 
   transform:
     translateY(-50%)
-    rotate(90deg);
-}
-
-.vertical-text {
-  color: #303030;
-
-  font-size: 0.55rem;
-  font-weight: 800;
-
-  letter-spacing: 0.2em;
+    rotate(-35deg);
 }
 
 .slash-group {
   display: flex;
 
-  gap: 7px;
+  flex-direction: column;
+
+  gap: 9px;
 }
 
 .slash-group i {
   display: block;
 
-  width: 38px;
-  height: 2px;
+  width: 55px;
+  height: 3px;
 
   background: var(--blue);
 
-  transform: rotate(-35deg);
+  box-shadow:
+    0 0 10px rgba(0,168,255,0.25);
+}
+
+.slash-group i:nth-child(2) {
+  width: 35px;
+}
+
+.slash-group i:nth-child(3) {
+  width: 20px;
 }
 
 
 /* =========================================
-   FLOATING MARKS
+   FLOATING DOTS
 ========================================= */
 
 .floating-mark {
@@ -978,11 +971,13 @@ img {
   0%,
   100% {
     transform: translateY(0);
+
     opacity: 0.35;
   }
 
   50% {
     transform: translateY(-14px);
+
     opacity: 1;
   }
 
@@ -990,49 +985,13 @@ img {
 
 
 /* =========================================
-   CORNER TEXT
+   SKATEPARK BUTTON
 ========================================= */
 
-.logo-corner {
-  position: absolute;
-
-  color: #333;
-
-  font-size: 0.5rem;
-  font-weight: 800;
-
-  letter-spacing: 0.16em;
-}
-
-.corner-top-left {
-  left: 11%;
-  top: 18%;
-}
-
-.corner-top-right {
-  right: 11%;
-  top: 19%;
-}
-
-.corner-bottom-left {
-  left: 12%;
-  bottom: 18%;
-}
-
-.corner-bottom-right {
-  right: 12%;
-  bottom: 17%;
-
-  color: var(--blue);
-}
-
-
-/* =========================================
-   HERO FOOTER
-========================================= */
-
-.hero-logo-footer {
+.skatepark-button {
   position: relative;
+
+  z-index: 20;
 
   display: flex;
 
@@ -1040,73 +999,99 @@ img {
 
   justify-content: center;
 
-  gap: 18px;
+  gap: 24px;
 
-  color: #444;
+  min-width: 330px;
 
-  font-size: 0.55rem;
+  margin-top: 75px;
+
+  padding: 17px 24px;
+
+  border: 1px solid rgba(0,168,255,0.5);
+
+  background:
+    rgba(0,168,255,0.025);
+
+  color: var(--white);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.skatepark-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 80%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0,168,255,0.22),
+      transparent
+    );
+
+  transform: skewX(-20deg);
+
+  transition: left 0.6s ease;
+}
+
+.skatepark-button:hover::before {
+  left: 140%;
+}
+
+.skatepark-button:hover {
+  transform: translateY(-5px);
+
+  border-color: var(--blue);
+
+  background:
+    rgba(0,168,255,0.08);
+
+  box-shadow:
+    0 0 35px rgba(0,168,255,0.14);
+}
+
+.skatepark-button-small {
+  color: #555;
+
+  font-size: 0.48rem;
   font-weight: 800;
 
-  letter-spacing: 0.18em;
-
-  z-index: 10;
+  letter-spacing: 0.16em;
 }
 
-.footer-line {
-  width: 100px;
-
-  height: 1px;
-
-  background: rgba(255,255,255,0.12);
-}
-
-
-/* =========================================
-   SCROLL
-========================================= */
-
-.hero-scroll {
-  position: relative;
-
-  margin-top: 20px;
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-
-  gap: 5px;
-
-  color: #333;
-
-  font-size: 0.5rem;
-  font-weight: 800;
-
-  letter-spacing: 0.18em;
-
-  z-index: 10;
-}
-
-.scroll-arrow {
+.skatepark-button-main {
   color: var(--blue);
 
-  font-size: 1rem;
+  font-size: 0.75rem;
+  font-weight: 900;
 
-  animation:
-    scrollBounce 1.8s ease-in-out infinite;
+  letter-spacing: 0.16em;
 }
 
-@keyframes scrollBounce {
+.skatepark-arrow {
+  color: var(--blue);
 
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+  font-size: 1.25rem;
 
-  50% {
-    transform: translateY(6px);
-  }
+  transition:
+    transform 0.3s ease;
+}
 
+.skatepark-button:hover .skatepark-arrow {
+  transform: translateX(7px);
 }
 
 
@@ -1163,6 +1148,8 @@ img {
 .intro-text .handwritten {
   margin-top: 55px;
 
+  font-size: clamp(2rem,4vw,4rem);
+
   transform: rotate(-8deg);
 }
 
@@ -1204,6 +1191,7 @@ img {
   display: flex;
 
   justify-content: space-between;
+
   align-items: center;
 
   margin-bottom: 85px;
@@ -1289,6 +1277,7 @@ img {
   display: flex;
 
   align-items: end;
+
   justify-content: space-between;
 
   gap: 50px;
@@ -1436,6 +1425,7 @@ img {
   display: flex;
 
   justify-content: space-between;
+
   align-items: end;
 
   margin-bottom: 70px;
@@ -1596,6 +1586,7 @@ img {
   z-index: 3;
 
   display: flex;
+
   flex-direction: column;
 
   gap: 5px;
@@ -1758,6 +1749,7 @@ img {
   color: var(--blue);
 
   font-size: 1rem;
+
   font-weight: 600;
 
   border-bottom: 1px solid var(--blue);
@@ -1786,6 +1778,7 @@ img {
 
 .footer-logo {
   display: flex;
+
   align-items: center;
 
   gap: 10px;
@@ -1815,6 +1808,7 @@ img {
   color: #444;
 
   font-size: 0.6rem;
+
   font-weight: 700;
 
   letter-spacing: 0.15em;
@@ -1842,7 +1836,7 @@ img {
   }
 
   .logo-stage {
-    min-height: 480px;
+    min-height: 580px;
   }
 
   .brand-logo {
@@ -1871,11 +1865,6 @@ img {
     display: none;
   }
 
-  .corner-top-left,
-  .corner-top-right {
-    display: none;
-  }
-
   .intro {
     grid-template-columns: 1fr 1fr;
 
@@ -1897,6 +1886,7 @@ img {
 
     gap: 70px;
   }
+
 }
 
 
@@ -1944,13 +1934,15 @@ img {
   }
 
 
-  /* HERO */
+  /* =====================================
+     MOBILE HERO
+  ====================================== */
 
   .hero {
     min-height: 100svh;
 
     padding:
-      105px
+      90px
       6vw
       30px;
   }
@@ -1961,7 +1953,7 @@ img {
   }
 
   .logo-stage {
-    min-height: 390px;
+    min-height: 530px;
 
     margin-top: 10px;
   }
@@ -2052,7 +2044,7 @@ img {
   }
 
   .decoration-left {
-    left: -3%;
+    left: -5%;
 
     transform:
       translateY(-50%)
@@ -2064,34 +2056,39 @@ img {
     display: none;
   }
 
-  .corner-bottom-left {
-    left: 3%;
-    bottom: 10%;
+
+  /* =====================================
+     MOBILE SKATEPARK BUTTON
+  ====================================== */
+
+  .skatepark-button {
+    min-width: 0;
+
+    width: 90%;
+
+    margin-top: 65px;
+
+    padding: 15px 16px;
+
+    gap: 12px;
   }
 
-  .corner-bottom-right {
-    right: 3%;
-    bottom: 10%;
+  .skatepark-button-small {
+    font-size: 0.4rem;
   }
 
-  .hero-logo-footer {
-    gap: 8px;
-
-    font-size: 0.38rem;
-
-    letter-spacing: 0.09em;
+  .skatepark-button-main {
+    font-size: 0.65rem;
   }
 
-  .footer-line {
-    width: 35px;
-  }
-
-  .hero-scroll {
-    margin-top: 8px;
+  .skatepark-arrow {
+    font-size: 1rem;
   }
 
 
-  /* INTRO */
+  /* =====================================
+     INTRO
+  ====================================== */
 
   .intro {
     padding: 120px 6vw;
@@ -2110,7 +2107,9 @@ img {
   }
 
 
-  /* ABOUT */
+  /* =====================================
+     ABOUT
+  ====================================== */
 
   .about-section {
     padding: 120px 6vw;
@@ -2125,7 +2124,9 @@ img {
   }
 
 
-  /* BILDER */
+  /* =====================================
+     BILDER
+  ====================================== */
 
   .media-section {
     padding: 120px 6vw;
@@ -2164,7 +2165,9 @@ img {
   }
 
 
-  /* VIDEO */
+  /* =====================================
+     VIDEO
+  ====================================== */
 
   .video-section {
     padding: 120px 6vw;
@@ -2187,7 +2190,9 @@ img {
   }
 
 
-  /* CURRENT */
+  /* =====================================
+     CURRENT
+  ====================================== */
 
   .current-section {
     padding: 120px 6vw;
@@ -2198,7 +2203,9 @@ img {
   }
 
 
-  /* CONTACT */
+  /* =====================================
+     CONTACT
+  ====================================== */
 
   .contact-section {
     padding: 120px 6vw;
@@ -2209,7 +2216,9 @@ img {
   }
 
 
-  /* FOOTER */
+  /* =====================================
+     FOOTER
+  ====================================== */
 
   .footer {
     padding: 30px 6vw;
