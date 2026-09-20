@@ -1,9 +1,3 @@
-/* =========================================
-   MOI-CY
-   DARK STREET × ELECTRIC BLUE
-   LOGO EDITION
-========================================= */
-
 * {
   margin: 0;
   padding: 0;
@@ -45,13 +39,12 @@ img {
   --white: #f2f2f2;
   --blue: #00a8ff;
   --gray: #888;
-  --dark: #0d0d0d;
   --line: rgba(255,255,255,0.09);
 }
 
 
 /* =========================================
-   HELPERS
+   BASIC
 ========================================= */
 
 .no-break {
@@ -64,16 +57,21 @@ img {
 
 .small-label {
   display: inline-block;
+
   color: var(--blue);
+
   font-size: 0.68rem;
   font-weight: 700;
+
   letter-spacing: 0.16em;
 }
 
 .section-number {
   color: #444;
+
   font-size: 0.7rem;
   font-weight: 600;
+
   letter-spacing: 0.1em;
 }
 
@@ -81,17 +79,8 @@ img {
 .handwritten {
   font-family: "Permanent Marker", cursive;
   color: var(--blue);
+
   line-height: 1;
-}
-
-.graffiti-word {
-  text-shadow:
-    3px 3px 0 #050505,
-    0 0 18px rgba(0,168,255,0.2);
-}
-
-.handwritten {
-  font-size: clamp(2rem,4vw,4rem);
 }
 
 
@@ -101,6 +90,7 @@ img {
 
 .header {
   position: fixed;
+
   top: 0;
   left: 0;
 
@@ -114,6 +104,7 @@ img {
   justify-content: space-between;
 
   background: rgba(5,5,5,0.88);
+
   backdrop-filter: blur(14px);
 
   border-bottom: 1px solid var(--line);
@@ -130,6 +121,7 @@ img {
   font-weight: 900;
 
   letter-spacing: -0.06em;
+
   white-space: nowrap;
 
   transition: 0.25s ease;
@@ -155,9 +147,6 @@ img {
   font-weight: 900;
 
   transform: rotate(-8deg);
-
-  box-shadow:
-    0 0 15px rgba(0,168,255,0.15);
 }
 
 
@@ -168,6 +157,7 @@ img {
 .navigation {
   display: flex;
   align-items: center;
+
   gap: 32px;
 }
 
@@ -218,6 +208,7 @@ img {
   height: 42px;
 
   border: none;
+
   background: transparent;
 
   cursor: pointer;
@@ -247,48 +238,111 @@ img {
 
   min-height: 100vh;
 
-  padding: 145px 5vw 45px;
+  padding: 145px 5vw 35px;
 
   display: flex;
   flex-direction: column;
 
+  justify-content: space-between;
+
   overflow: hidden;
 }
 
-.hero-noise {
+
+/* =========================================
+   BACKGROUND EFFECTS
+========================================= */
+
+.hero-background-glow {
+  position: absolute;
+
+  width: 750px;
+  height: 750px;
+
+  left: 50%;
+  top: 48%;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0,168,255,0.075) 0%,
+      rgba(0,168,255,0.025) 35%,
+      transparent 70%
+    );
+
+  pointer-events: none;
+
+  animation:
+    logoGlow 6s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+
+  0% {
+    transform:
+      translate(-50%, -50%)
+      scale(0.95);
+  }
+
+  50% {
+    transform:
+      translate(-50%, -50%)
+      scale(1.08);
+  }
+
+  100% {
+    transform:
+      translate(-50%, -50%)
+      scale(0.95);
+  }
+
+}
+
+.hero-grid {
   position: absolute;
 
   inset: 0;
 
+  opacity: 0.09;
+
   pointer-events: none;
 
-  opacity: 0.035;
-
   background-image:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,0.8) 0,
-      rgba(255,255,255,0.8) 1px,
-      transparent 1px,
-      transparent 4px
+    linear-gradient(
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px
+    );
+
+  background-size: 100px 100px;
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      black 0%,
+      transparent 70%
     );
 }
 
+
+/* =========================================
+   HERO TOP
+========================================= */
+
 .hero-top {
+  position: relative;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 30px;
-}
-
-.hero-number {
-  color: #444;
-
-  font-size: 0.7rem;
-  font-weight: 600;
-
-  letter-spacing: 0.1em;
+  z-index: 10;
 }
 
 
@@ -299,13 +353,15 @@ img {
 .logo-stage {
   position: relative;
 
-  min-height: 350px;
+  width: 100%;
+
+  min-height: 560px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 45px;
+  z-index: 5;
 }
 
 
@@ -316,11 +372,11 @@ img {
 .brand-logo {
   position: relative;
 
-  width: min(900px, 80vw);
+  width: min(980px, 82vw);
 
-  padding: 30px 35px 25px;
+  padding: 38px 45px 32px;
 
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.2);
 
   background:
     linear-gradient(
@@ -329,7 +385,11 @@ img {
       rgba(0,168,255,0.025)
     );
 
-  transform: rotate(-1.2deg);
+  transform: rotate(-1deg);
+
+  box-shadow:
+    0 0 0 1px rgba(0,168,255,0.025),
+    0 30px 100px rgba(0,0,0,0.45);
 
   transition:
     transform 0.5s ease,
@@ -342,27 +402,47 @@ img {
 
   position: absolute;
 
-  inset: 7px;
+  inset: 9px;
 
   border: 1px solid rgba(0,168,255,0.16);
 
   pointer-events: none;
 }
 
+.brand-logo::after {
+  content: "";
+
+  position: absolute;
+
+  top: -1px;
+  left: 20%;
+
+  width: 18%;
+
+  height: 2px;
+
+  background: var(--blue);
+
+  box-shadow:
+    0 0 14px rgba(0,168,255,0.7);
+}
+
 .brand-logo:hover {
   transform:
     rotate(0deg)
-    translateY(-5px);
+    translateY(-6px);
 
-  border-color: rgba(0,168,255,0.55);
+  border-color:
+    rgba(0,168,255,0.55);
 
   box-shadow:
-    0 0 40px rgba(0,168,255,0.08);
+    0 0 50px rgba(0,168,255,0.08),
+    0 35px 100px rgba(0,0,0,0.5);
 }
 
 
 /* =========================================
-   LOGO TOPLINE
+   LOGO TOP
 ========================================= */
 
 .logo-topline {
@@ -371,9 +451,9 @@ img {
   display: flex;
   justify-content: space-between;
 
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 
-  color: #555;
+  color: #4c4c4c;
 
   font-size: 0.58rem;
   font-weight: 800;
@@ -389,17 +469,22 @@ img {
 .logo-main {
   position: relative;
 
+  min-height: 210px;
+
   display: flex;
   align-items: center;
-
-  min-height: 180px;
 }
+
+
+/* =========================================
+   M SIGN
+========================================= */
 
 .logo-m {
   position: relative;
 
-  width: 135px;
-  height: 135px;
+  width: 150px;
+  height: 150px;
 
   flex-shrink: 0;
 
@@ -407,11 +492,11 @@ img {
   align-items: center;
   justify-content: center;
 
-  border: 7px solid var(--blue);
+  border: 8px solid var(--blue);
 
   color: var(--blue);
 
-  font-size: 6rem;
+  font-size: 6.8rem;
   font-weight: 900;
 
   line-height: 1;
@@ -421,10 +506,14 @@ img {
     skew(-4deg);
 
   text-shadow:
-    0 0 25px rgba(0,168,255,0.25);
+    0 0 30px rgba(0,168,255,0.3);
 
   box-shadow:
-    0 0 30px rgba(0,168,255,0.08);
+    0 0 35px rgba(0,168,255,0.08);
+
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
 }
 
 .logo-m::before {
@@ -432,9 +521,9 @@ img {
 
   position: absolute;
 
-  inset: 8px;
+  inset: 9px;
 
-  border: 1px solid rgba(0,168,255,0.6);
+  border: 1px solid rgba(0,168,255,0.7);
 }
 
 .logo-m::after {
@@ -442,40 +531,54 @@ img {
 
   position: absolute;
 
-  width: 35px;
+  width: 45px;
   height: 7px;
 
-  background: var(--blue);
+  right: -28px;
+  top: 20px;
 
-  right: -22px;
-  top: 18px;
+  background: var(--blue);
 
   transform: rotate(-45deg);
 
   box-shadow:
-    0 0 15px rgba(0,168,255,0.4);
+    0 0 16px rgba(0,168,255,0.5);
 }
 
+.brand-logo:hover .logo-m {
+  transform:
+    rotate(-3deg)
+    skew(-4deg)
+    scale(1.03);
+
+  box-shadow:
+    0 0 45px rgba(0,168,255,0.2);
+}
+
+
+/* =========================================
+   WORDMARK
+========================================= */
 
 .logo-word {
   position: relative;
 
-  margin-left: 25px;
+  margin-left: 30px;
 
   color: var(--white);
 
-  font-size: clamp(4rem, 9vw, 9.5rem);
+  font-size: clamp(4.5rem, 9.5vw, 10rem);
 
   font-weight: 900;
 
   line-height: 0.8;
 
-  letter-spacing: -0.095em;
+  letter-spacing: -0.1em;
 
   white-space: nowrap;
 
   text-shadow:
-    0 0 40px rgba(255,255,255,0.025);
+    0 0 45px rgba(255,255,255,0.025);
 
   transition:
     color 0.4s ease,
@@ -484,21 +587,21 @@ img {
 
 .brand-logo:hover .logo-word {
   text-shadow:
-    0 0 20px rgba(0,168,255,0.2);
+    0 0 35px rgba(0,168,255,0.15);
 }
 
 
 /* =========================================
-   LOGO CUT / GLITCH
+   BLUE GLITCH CUT
 ========================================= */
 
 .logo-cut {
   position: absolute;
 
   right: 3%;
-  top: 48%;
+  top: 50%;
 
-  width: 34%;
+  width: 36%;
 
   height: 7px;
 
@@ -508,19 +611,14 @@ img {
     skewX(-35deg)
     rotate(-2deg);
 
-  opacity: 0.85;
+  opacity: 0.9;
 
   box-shadow:
-    0 0 18px rgba(0,168,255,0.35);
+    0 0 18px rgba(0,168,255,0.45);
 
   transition:
     width 0.4s ease,
-    opacity 0.4s ease;
-}
-
-.brand-logo:hover .logo-cut {
-  width: 42%;
-  opacity: 1;
+    box-shadow 0.4s ease;
 }
 
 .logo-cut::before,
@@ -536,56 +634,65 @@ img {
 
 .logo-cut::before {
   width: 55%;
-  right: 10px;
-  top: -8px;
+
+  right: 8px;
+  top: -9px;
 }
 
 .logo-cut::after {
-  width: 30%;
-  right: 40px;
+  width: 28%;
+
+  right: 45px;
   top: 12px;
+}
+
+.brand-logo:hover .logo-cut {
+  width: 44%;
+
+  box-shadow:
+    0 0 28px rgba(0,168,255,0.7);
 }
 
 
 /* =========================================
-   GRAFFITI TAG
+   GRAFFITI
 ========================================= */
 
 .logo-tag {
   position: absolute;
 
-  right: 11%;
-  top: -48px;
+  right: 12%;
+  top: -58px;
 
-  z-index: 5;
+  z-index: 10;
 
   font-family: "Permanent Marker", cursive;
 
   color: var(--blue);
 
-  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-size: clamp(3.2rem, 5vw, 5.5rem);
 
   line-height: 1;
 
   transform: rotate(-9deg);
 
   text-shadow:
-    4px 4px 0 #050505,
-    0 0 22px rgba(0,168,255,0.35);
+    5px 5px 0 #050505,
+    0 0 25px rgba(0,168,255,0.35);
 
   transition:
-    transform 0.4s ease,
-    text-shadow 0.4s ease;
+    transform 0.45s ease,
+    text-shadow 0.45s ease;
 }
 
 .brand-logo:hover .logo-tag {
   transform:
-    rotate(-5deg)
+    rotate(-4deg)
     scale(1.08);
 
   text-shadow:
-    5px 5px 0 #050505,
-    0 0 35px rgba(0,168,255,0.55);
+    6px 6px 0 #050505,
+    0 0 38px rgba(0,168,255,0.6);
 }
 
 
@@ -595,12 +702,14 @@ img {
 
 .logo-bottom {
   display: flex;
+
   align-items: center;
-  gap: 14px;
 
-  margin-top: 20px;
+  gap: 15px;
 
-  color: #555;
+  margin-top: 25px;
+
+  color: #4b4b4b;
 
   font-size: 0.55rem;
   font-weight: 800;
@@ -609,29 +718,46 @@ img {
 }
 
 .logo-line {
-  height: 1px;
   flex: 1;
 
-  background: rgba(255,255,255,0.12);
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.16)
+    );
+}
+
+.logo-line:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.16),
+      transparent
+    );
 }
 
 
 /* =========================================
-   LOGO STAMP
+   ROUND STAMP
 ========================================= */
 
 .logo-stamp {
   position: absolute;
 
-  right: -28px;
-  bottom: -45px;
+  right: -35px;
+  bottom: -50px;
 
-  width: 105px;
-  height: 105px;
+  width: 112px;
+  height: 112px;
 
   border: 2px solid var(--blue);
 
   border-radius: 50%;
+
+  background: #050505;
 
   display: flex;
   flex-direction: column;
@@ -641,16 +767,14 @@ img {
 
   color: var(--blue);
 
-  background: #050505;
-
   transform: rotate(12deg);
 
   box-shadow:
     0 0 25px rgba(0,168,255,0.12);
 
   transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+    transform 0.45s ease,
+    box-shadow 0.45s ease;
 }
 
 .logo-stamp::before {
@@ -660,7 +784,7 @@ img {
 
   inset: 7px;
 
-  border: 1px dashed rgba(0,168,255,0.5);
+  border: 1px dashed rgba(0,168,255,0.55);
 
   border-radius: 50%;
 }
@@ -668,80 +792,107 @@ img {
 .logo-stamp span {
   font-size: 0.55rem;
   font-weight: 800;
+
   letter-spacing: 0.16em;
 }
 
 .logo-stamp strong {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+
   letter-spacing: 0.08em;
 }
 
 .logo-stamp small {
   margin-top: 3px;
 
-  font-size: 0.48rem;
+  font-size: 0.45rem;
+
   letter-spacing: 0.12em;
 }
 
 .brand-logo:hover .logo-stamp {
   transform:
-    rotate(3deg)
+    rotate(2deg)
     scale(1.08);
 
   box-shadow:
-    0 0 35px rgba(0,168,255,0.28);
+    0 0 38px rgba(0,168,255,0.3);
 }
 
 
 /* =========================================
-   LOGO DECORATIONS
+   SIDE GRAPHICS
 ========================================= */
 
 .logo-decoration {
   position: absolute;
 
-  color: #444;
-
   pointer-events: none;
 }
 
 .decoration-left {
-  left: 2%;
+  left: 5%;
+
   top: 50%;
 
   transform:
     translateY(-50%)
-    rotate(-12deg);
+    rotate(-15deg);
 }
 
 .decoration-left span {
   display: block;
 
-  width: 55px;
+  width: 75px;
   height: 5px;
 
-  margin-bottom: 9px;
+  margin-bottom: 10px;
 
   background: var(--blue);
 
-  opacity: 0.8;
+  box-shadow:
+    0 0 12px rgba(0,168,255,0.3);
+
+  animation:
+    linePulse 3s ease-in-out infinite;
 }
 
 .decoration-left span:nth-child(2) {
-  width: 35px;
+  width: 48px;
+
+  animation-delay: 0.2s;
 }
 
 .decoration-left span:nth-child(3) {
-  width: 18px;
+  width: 25px;
+
+  animation-delay: 0.4s;
+}
+
+@keyframes linePulse {
+
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translateX(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(8px);
+  }
+
 }
 
 
 .decoration-right {
-  right: 1%;
-  top: 45%;
+  right: 4%;
+
+  top: 50%;
 
   display: flex;
   align-items: center;
+
   gap: 25px;
 
   transform:
@@ -750,7 +901,7 @@ img {
 }
 
 .vertical-text {
-  color: #333;
+  color: #303030;
 
   font-size: 0.55rem;
   font-weight: 800;
@@ -760,13 +911,14 @@ img {
 
 .slash-group {
   display: flex;
-  gap: 6px;
+
+  gap: 7px;
 }
 
 .slash-group i {
   display: block;
 
-  width: 35px;
+  width: 38px;
   height: 2px;
 
   background: var(--blue);
@@ -776,360 +928,185 @@ img {
 
 
 /* =========================================
-   HERO MAIN
+   FLOATING MARKS
 ========================================= */
 
-.hero-main {
-  position: relative;
+.floating-mark {
+  position: absolute;
 
-  display: grid;
+  width: 8px;
+  height: 8px;
 
-  grid-template-columns: 1fr 0.75fr;
+  border-radius: 50%;
 
-  align-items: end;
-
-  gap: 8vw;
-
-  z-index: 5;
-}
-
-.hero-intro {
-  padding-left: 5vw;
-}
-
-.hero-small {
-  color: #555;
-
-  font-size: 0.62rem;
-  font-weight: 800;
-
-  letter-spacing: 0.18em;
-}
-
-.hero-intro h1 {
-  margin-top: 18px;
-
-  max-width: 700px;
-
-  font-size: clamp(4rem, 8vw, 8rem);
-
-  line-height: 0.82;
-
-  letter-spacing: -0.08em;
-
-  font-weight: 900;
-}
-
-.hero-intro h1 span {
-  display: block;
-
-  color: var(--blue);
-
-  text-shadow:
-    0 0 30px rgba(0,168,255,0.18);
-}
-
-.hero-info {
-  max-width: 440px;
-}
-
-.hero-slogan {
-  color: var(--blue);
-
-  font-size: 0.85rem;
-  font-weight: 800;
-
-  letter-spacing: 0.13em;
-
-  margin-bottom: 22px;
-}
-
-.hero-description {
-  color: #999;
-
-  font-size: 0.95rem;
-
-  line-height: 1.85;
-
-  margin-bottom: 30px;
-}
-
-
-/* =========================================
-   BUTTON
-========================================= */
-
-.outline-button {
-  display: inline-flex;
-
-  align-items: center;
-  gap: 15px;
-
-  padding: 13px 21px;
-
-  border: 1px solid rgba(255,255,255,0.3);
-
-  font-size: 0.67rem;
-  font-weight: 700;
-
-  letter-spacing: 0.14em;
-
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.outline-button:hover {
   background: var(--blue);
 
-  color: #000;
-
-  border-color: var(--blue);
-
-  transform: translateY(-3px);
-
   box-shadow:
-    0 0 25px rgba(0,168,255,0.25);
+    0 0 15px rgba(0,168,255,0.7);
+
+  animation:
+    floatDot 4s ease-in-out infinite;
 }
 
-
-/* =========================================
-   HERO IMAGE
-========================================= */
-
-.hero-visual {
-  position: relative;
-
-  width: 100%;
-
-  margin-top: 80px;
-
-  z-index: 2;
+.mark-one {
+  left: 18%;
+  top: 28%;
 }
 
-.hero-image {
-  position: relative;
+.mark-two {
+  right: 17%;
+  top: 35%;
 
-  width: 68%;
-
-  margin-left: auto;
-
-  aspect-ratio: 16 / 7;
-
-  overflow: hidden;
-
-  border: 1px solid var(--line);
-
-  background: #0d0d0d;
-}
-
-.hero-image img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-
-  filter:
-    grayscale(45%)
-    brightness(0.65)
-    contrast(1.1);
-
-  transform: scale(1.03);
-
-  transition:
-    transform 0.9s ease,
-    filter 0.9s ease;
-}
-
-.hero-image:hover img {
-  transform: scale(1.1);
-
-  filter:
-    grayscale(0%)
-    brightness(0.85)
-    contrast(1.12);
-}
-
-.image-gradient {
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,0.65),
-      transparent 55%,
-      rgba(0,168,255,0.1)
-    );
-}
-
-.image-number {
-  position: absolute;
-
-  right: 20px;
-  top: 18px;
-
-  color: rgba(255,255,255,0.45);
-
-  font-size: 0.55rem;
-  font-weight: 800;
-
-  letter-spacing: 0.15em;
-}
-
-.image-caption {
-  position: absolute;
-
-  left: 25px;
-  bottom: 22px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.image-caption span {
-  color: var(--blue);
-
-  font-size: 0.55rem;
-  font-weight: 800;
-
-  letter-spacing: 0.15em;
-}
-
-.image-caption strong {
-  font-size: 1.1rem;
-  font-weight: 900;
-}
-
-
-/* =========================================
-   BLUE STROKES
-========================================= */
-
-.blue-stroke {
-  position: absolute;
-
+  width: 5px;
   height: 5px;
 
-  background: var(--blue);
-
-  box-shadow:
-    0 0 16px rgba(0,168,255,0.35);
-
-  transform: rotate(-15deg);
+  animation-delay: 1s;
 }
 
-.stroke-one {
-  left: 8%;
-  bottom: 8%;
+.mark-three {
+  right: 22%;
+  bottom: 24%;
 
-  width: 90px;
+  width: 4px;
+  height: 4px;
+
+  animation-delay: 2s;
 }
 
-.stroke-two {
-  left: 11%;
-  bottom: 3%;
+@keyframes floatDot {
 
-  width: 50px;
-}
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
 
-.stroke-three {
-  left: 15%;
-  bottom: -2%;
+  50% {
+    transform: translateY(-14px);
+    opacity: 1;
+  }
 
-  width: 25px;
 }
 
 
 /* =========================================
-   FLOATING TAG
+   CORNER TEXT
 ========================================= */
 
-.floating-tag {
+.logo-corner {
   position: absolute;
 
-  right: 4%;
-  bottom: -35px;
+  color: #333;
 
-  width: 110px;
-  height: 110px;
+  font-size: 0.5rem;
+  font-weight: 800;
 
-  border: 1px solid var(--blue);
+  letter-spacing: 0.16em;
+}
 
-  border-radius: 50%;
+.corner-top-left {
+  left: 11%;
+  top: 18%;
+}
 
-  display: flex;
-  flex-direction: column;
+.corner-top-right {
+  right: 11%;
+  top: 19%;
+}
 
-  align-items: center;
-  justify-content: center;
+.corner-bottom-left {
+  left: 12%;
+  bottom: 18%;
+}
+
+.corner-bottom-right {
+  right: 12%;
+  bottom: 17%;
 
   color: var(--blue);
-
-  background: #050505;
-
-  transform: rotate(-10deg);
-
-  transition: 0.4s ease;
-}
-
-.floating-tag::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 7px;
-
-  border: 1px dashed rgba(0,168,255,0.45);
-
-  border-radius: 50%;
-}
-
-.floating-tag span {
-  font-size: 0.55rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-}
-
-.floating-tag strong {
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
-}
-
-.floating-tag:hover {
-  transform:
-    rotate(0deg)
-    scale(1.1);
-
-  box-shadow:
-    0 0 30px rgba(0,168,255,0.25);
 }
 
 
 /* =========================================
-   HERO BOTTOM
+   HERO FOOTER
 ========================================= */
 
-.hero-bottom {
-  margin-top: 35px;
+.hero-logo-footer {
+  position: relative;
 
   display: flex;
 
-  justify-content: space-between;
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 18px;
 
   color: #444;
 
-  font-size: 0.6rem;
-  font-weight: 700;
+  font-size: 0.55rem;
+  font-weight: 800;
 
-  letter-spacing: 0.13em;
+  letter-spacing: 0.18em;
+
+  z-index: 10;
+}
+
+.footer-line {
+  width: 100px;
+
+  height: 1px;
+
+  background: rgba(255,255,255,0.12);
+}
+
+
+/* =========================================
+   SCROLL
+========================================= */
+
+.hero-scroll {
+  position: relative;
+
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color: #333;
+
+  font-size: 0.5rem;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  z-index: 10;
+}
+
+.scroll-arrow {
+  color: var(--blue);
+
+  font-size: 1rem;
+
+  animation:
+    scrollBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(6px);
+  }
+
 }
 
 
@@ -1227,7 +1204,6 @@ img {
   display: flex;
 
   justify-content: space-between;
-
   align-items: center;
 
   margin-bottom: 85px;
@@ -1239,10 +1215,6 @@ img {
   grid-template-columns: 1.1fr 0.9fr;
 
   gap: 10vw;
-}
-
-.about-title {
-  position: relative;
 }
 
 .about-tag {
@@ -1269,15 +1241,19 @@ img {
 }
 
 .about-title .graffiti-word {
-  position: relative;
-
   display: inline-block;
+
+  position: relative;
 
   z-index: 5;
 
   font-size: 0.85em;
 
   transform: rotate(-4deg);
+
+  text-shadow:
+    3px 3px 0 #050505,
+    0 0 18px rgba(0,168,255,0.2);
 }
 
 .about-content {
@@ -1298,7 +1274,7 @@ img {
 
 
 /* =========================================
-   MEDIA / BILDER
+   BILDER
 ========================================= */
 
 .media-section {
@@ -1313,7 +1289,6 @@ img {
   display: flex;
 
   align-items: end;
-
   justify-content: space-between;
 
   gap: 50px;
@@ -1340,11 +1315,6 @@ img {
 
   line-height: 1.8;
 }
-
-
-/* =========================================
-   IMAGE GRID
-========================================= */
 
 .homepage-media-link {
   display: block;
@@ -1425,8 +1395,6 @@ img {
   opacity: 0;
 
   transition: opacity 0.35s ease;
-
-  z-index: 4;
 }
 
 .image-box:hover .media-overlay {
@@ -1434,9 +1402,8 @@ img {
 }
 
 .media-overlay span {
-  color: #fff;
-
   font-size: 0.65rem;
+
   font-weight: 800;
 
   letter-spacing: 0.15em;
@@ -1469,7 +1436,6 @@ img {
   display: flex;
 
   justify-content: space-between;
-
   align-items: end;
 
   margin-bottom: 70px;
@@ -1545,7 +1511,10 @@ img {
 
   background-size: 70px 70px;
 
-  transform: perspective(400px) rotateX(55deg) scale(1.8);
+  transform:
+    perspective(400px)
+    rotateX(55deg)
+    scale(1.8);
 
   transform-origin: center bottom;
 
@@ -1743,10 +1712,6 @@ img {
   align-items: end;
 }
 
-.contact-title {
-  position: relative;
-}
-
 .contact-graffiti {
   position: relative;
 
@@ -1755,6 +1720,10 @@ img {
   display: inline-block;
 
   transform: rotate(-5deg);
+
+  text-shadow:
+    3px 3px 0 #050505,
+    0 0 18px rgba(0,168,255,0.25);
 }
 
 .contact-title h2 {
@@ -1818,6 +1787,7 @@ img {
 .footer-logo {
   display: flex;
   align-items: center;
+
   gap: 10px;
 
   font-size: 1.4rem;
@@ -1872,7 +1842,7 @@ img {
   }
 
   .logo-stage {
-    min-height: 300px;
+    min-height: 480px;
   }
 
   .brand-logo {
@@ -1880,14 +1850,14 @@ img {
   }
 
   .logo-m {
-    width: 105px;
-    height: 105px;
+    width: 110px;
+    height: 110px;
 
-    font-size: 4.5rem;
+    font-size: 5rem;
   }
 
   .logo-word {
-    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-size: clamp(3.7rem, 8vw, 7rem);
   }
 
   .logo-stamp {
@@ -1901,20 +1871,14 @@ img {
     display: none;
   }
 
-  .hero-main {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-info {
-    max-width: 600px;
-  }
-
-  .hero-image {
-    width: 75%;
+  .corner-top-left,
+  .corner-top-right {
+    display: none;
   }
 
   .intro {
     grid-template-columns: 1fr 1fr;
+
     gap: 50px;
   }
 
@@ -1930,6 +1894,7 @@ img {
   .current-layout,
   .contact-content {
     grid-template-columns: 1fr;
+
     gap: 70px;
   }
 }
@@ -1943,6 +1908,7 @@ img {
 
   .header {
     height: 70px;
+
     padding: 0 6vw;
   }
 
@@ -1978,39 +1944,49 @@ img {
   }
 
 
-  /* Hero */
+  /* HERO */
 
   .hero {
-    padding: 110px 6vw 35px;
+    min-height: 100svh;
+
+    padding:
+      105px
+      6vw
+      30px;
   }
 
-  .hero-top {
-    margin-bottom: 20px;
+  .hero-background-glow {
+    width: 500px;
+    height: 500px;
   }
 
   .logo-stage {
-    min-height: 235px;
+    min-height: 390px;
 
-    margin-bottom: 35px;
+    margin-top: 10px;
   }
 
   .brand-logo {
     width: 100%;
 
-    padding: 22px 18px 18px;
+    padding: 25px 18px 20px;
+
+    transform: rotate(-0.7deg);
   }
 
   .logo-topline {
-    font-size: 0.45rem;
+    margin-bottom: 12px;
+
+    font-size: 0.4rem;
   }
 
   .logo-main {
-    min-height: 120px;
+    min-height: 100px;
   }
 
   .logo-m {
-    width: 70px;
-    height: 70px;
+    width: 68px;
+    height: 68px;
 
     border-width: 4px;
 
@@ -2031,7 +2007,7 @@ img {
   .logo-word {
     margin-left: 13px;
 
-    font-size: clamp(3rem, 13vw, 5.5rem);
+    font-size: clamp(2.9rem, 13vw, 5rem);
   }
 
   .logo-cut {
@@ -2039,128 +2015,83 @@ img {
   }
 
   .logo-tag {
-    top: -31px;
-    right: 5%;
+    top: -32px;
+    right: 4%;
 
-    font-size: 2.6rem;
+    font-size: 2.5rem;
   }
 
   .logo-bottom {
-    gap: 8px;
+    gap: 7px;
 
-    font-size: 0.42rem;
+    margin-top: 15px;
 
-    letter-spacing: 0.1em;
+    font-size: 0.36rem;
+
+    letter-spacing: 0.08em;
   }
 
   .logo-stamp {
-    width: 70px;
-    height: 70px;
+    width: 72px;
+    height: 72px;
 
     right: -5px;
-    bottom: -32px;
+    bottom: -34px;
   }
 
   .logo-stamp span {
-    font-size: 0.4rem;
+    font-size: 0.37rem;
   }
 
   .logo-stamp strong {
-    font-size: 0.58rem;
+    font-size: 0.55rem;
   }
 
   .logo-stamp small {
-    font-size: 0.35rem;
+    font-size: 0.32rem;
   }
 
   .decoration-left {
-    left: -4%;
+    left: -3%;
 
     transform:
       translateY(-50%)
-      rotate(-12deg)
-      scale(0.65);
+      rotate(-15deg)
+      scale(0.55);
   }
 
-
-  /* Hero text */
-
-  .hero-intro {
-    padding-left: 0;
-  }
-
-  .hero-intro h1 {
-    font-size: clamp(3.5rem, 17vw, 6rem);
-  }
-
-  .hero-info {
-    margin-top: 35px;
-  }
-
-  .hero-description {
-    font-size: 0.9rem;
-  }
-
-
-  /* Hero image */
-
-  .hero-visual {
-    margin-top: 65px;
-  }
-
-  .hero-image {
-    width: 100%;
-
-    aspect-ratio: 16 / 9;
-  }
-
-  .floating-tag {
-    width: 78px;
-    height: 78px;
-
-    right: 2%;
-    bottom: -30px;
-  }
-
-  .floating-tag span {
-    font-size: 0.42rem;
-  }
-
-  .floating-tag strong {
-    font-size: 0.7rem;
-  }
-
-  .blue-stroke {
-    height: 4px;
-  }
-
-  .stroke-one {
-    left: 2%;
-    width: 55px;
-  }
-
-  .stroke-two {
-    left: 5%;
-    width: 35px;
-  }
-
-  .stroke-three {
-    left: 10%;
-    width: 18px;
-  }
-
-  .hero-bottom {
-    margin-top: 45px;
-
-    font-size: 0.5rem;
-  }
-
-  .hero-bottom span:last-child {
+  .floating-mark {
     display: none;
   }
 
+  .corner-bottom-left {
+    left: 3%;
+    bottom: 10%;
+  }
 
-  /* Intro */
+  .corner-bottom-right {
+    right: 3%;
+    bottom: 10%;
+  }
+
+  .hero-logo-footer {
+    gap: 8px;
+
+    font-size: 0.38rem;
+
+    letter-spacing: 0.09em;
+  }
+
+  .footer-line {
+    width: 35px;
+  }
+
+  .hero-scroll {
+    margin-top: 8px;
+  }
+
+
+  /* INTRO */
 
   .intro {
     padding: 120px 6vw;
@@ -2179,7 +2110,7 @@ img {
   }
 
 
-  /* About */
+  /* ABOUT */
 
   .about-section {
     padding: 120px 6vw;
@@ -2194,7 +2125,7 @@ img {
   }
 
 
-  /* Images */
+  /* BILDER */
 
   .media-section {
     padding: 120px 6vw;
@@ -2214,6 +2145,7 @@ img {
 
   .image-grid {
     grid-template-columns: 1fr;
+
     grid-template-rows: auto;
   }
 
@@ -2232,7 +2164,7 @@ img {
   }
 
 
-  /* Video */
+  /* VIDEO */
 
   .video-section {
     padding: 120px 6vw;
@@ -2254,18 +2186,8 @@ img {
     min-height: 380px;
   }
 
-  .video-preview-label {
-    left: 20px;
-    bottom: 20px;
-  }
 
-  .video-corner {
-    right: 20px;
-    bottom: 20px;
-  }
-
-
-  /* Current */
+  /* CURRENT */
 
   .current-section {
     padding: 120px 6vw;
@@ -2276,7 +2198,7 @@ img {
   }
 
 
-  /* Contact */
+  /* CONTACT */
 
   .contact-section {
     padding: 120px 6vw;
@@ -2287,7 +2209,7 @@ img {
   }
 
 
-  /* Footer */
+  /* FOOTER */
 
   .footer {
     padding: 30px 6vw;
