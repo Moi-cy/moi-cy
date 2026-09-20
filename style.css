@@ -337,6 +337,7 @@ img {
 }
 
 @keyframes gridMove {
+
   from {
     background-position: 0 0;
   }
@@ -344,6 +345,7 @@ img {
   to {
     background-position: 100px 100px;
   }
+
 }
 
 
@@ -382,30 +384,37 @@ img {
 
   width: min(1000px, 92vw);
 
-  min-height: 300px;
+  min-height: 290px;
 
-  animation: logoStageAppear 0.9s ease-out both;
-
-  isolation: isolate;
+  animation:
+    logoStageAppear 0.8s
+    ease-out
+    both;
 }
 
 @keyframes logoStageAppear {
 
   0% {
     opacity: 0;
-    transform: scale(0.94) rotate(-1deg);
+
+    transform:
+      scale(0.94)
+      rotate(-2deg);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1) rotate(0);
+
+    transform:
+      scale(1)
+      rotate(0);
   }
 
 }
 
 
 /* =========================================
-   BLUE PAINT BEHIND LOGO
+   PAINT STROKE
 ========================================= */
 
 .paint-stroke {
@@ -437,28 +446,34 @@ img {
 
   opacity: 0;
 
-  z-index: -2;
+  z-index: 1;
 
-  animation: paintWake 1.7s ease-out 0.2s forwards;
+  animation:
+    paintWake 1.6s
+    ease-out
+    0.25s
+    forwards;
 }
 
 @keyframes paintWake {
 
   0% {
     opacity: 0;
+
     transform:
       translateY(-50%)
       rotate(-5deg)
       skewX(-12deg)
-      scaleX(0.65);
+      scaleX(0.6);
   }
 
-  60% {
-    opacity: 0.8;
+  55% {
+    opacity: 0.85;
   }
 
   100% {
-    opacity: 0.72;
+    opacity: 0.65;
+
     transform:
       translateY(-50%)
       rotate(-5deg)
@@ -470,195 +485,196 @@ img {
 
 
 /* =========================================
-   SVG GRAFFITI LOGO
+   GRAFFITI LOGO
 ========================================= */
 
-.graffiti-logo {
+.logo-graffiti-wrap {
   position: relative;
 
-  z-index: 5;
+  z-index: 6;
 
-  width: 100%;
-  height: auto;
-
-  overflow: visible;
+  display: inline-block;
 
   transform:
-    rotate(-4deg)
-    scale(1);
+    rotate(-5deg)
+    translateY(3px);
 
-  filter:
-    drop-shadow(
-      0 12px 0 rgba(0, 0, 0, 0.9)
-    );
+  animation:
+    graffitiPop 0.75s
+    cubic-bezier(0.18, 0.8, 0.25, 1)
+    0.85s
+    both;
 
   transition:
-    transform 0.4s ease,
-    filter 0.4s ease;
+    transform 0.35s ease;
 }
 
 
 /* =========================================
-   LOGO TEXT
+   GRAFFITI SHADOW
 ========================================= */
 
-.graffiti-logo text {
+.logo-graffiti-shadow {
+  position: absolute;
+
+  left: 9px;
+  top: 10px;
+
   font-family: "Permanent Marker", cursive;
 
-  font-size: 185px;
+  font-size: clamp(7rem, 17vw, 14rem);
 
-  letter-spacing: -7px;
+  line-height: 0.75;
 
-  paint-order: stroke fill;
+  letter-spacing: -0.06em;
+
+  white-space: nowrap;
+
+  color: #050505;
+
+  z-index: 1;
+
+  pointer-events: none;
 }
 
 
-/* verschwommene blaue Farbe */
+/* =========================================
+   BLUE GRAFFITI OUTLINE
+========================================= */
 
-.logo-glow-text {
-  fill: transparent;
+.logo-graffiti-outline {
+  position: absolute;
 
-  stroke: rgba(0, 168, 255, 0.75);
+  left: 3px;
+  top: 2px;
 
-  stroke-width: 15;
+  font-family: "Permanent Marker", cursive;
 
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  font-size: clamp(7rem, 17vw, 14rem);
 
-  filter: url(#blueGlow);
+  line-height: 0.75;
 
-  opacity: 0;
+  letter-spacing: -0.06em;
 
-  stroke-dasharray: 1500;
+  white-space: nowrap;
 
-  stroke-dashoffset: 1500;
+  color: transparent;
 
-  animation:
-    logoDrawGlow 2.2s
-    cubic-bezier(0.55, 0.05, 0.25, 1)
-    0.25s
-    forwards;
+  -webkit-text-stroke:
+    4px var(--blue);
+
+  text-shadow:
+    0 0 8px rgba(0, 168, 255, 0.7),
+    0 0 22px rgba(0, 168, 255, 0.28);
+
+  z-index: 2;
+
+  pointer-events: none;
 }
 
 
-/* eigentliche Spray-Kontur */
+/* =========================================
+   MAIN GRAFFITI LETTERING
+========================================= */
 
-.logo-spray-text {
-  fill: transparent;
+.logo-graffiti {
+  position: relative;
 
-  stroke: var(--blue);
+  display: block;
 
-  stroke-width: 6;
+  font-family: "Permanent Marker", cursive;
 
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  font-size: clamp(7rem, 17vw, 14rem);
 
-  opacity: 0;
+  line-height: 0.75;
 
-  stroke-dasharray: 1500;
+  letter-spacing: -0.06em;
 
-  stroke-dashoffset: 1500;
+  white-space: nowrap;
 
-  animation:
-    logoDraw 2s
-    cubic-bezier(0.55, 0.05, 0.25, 1)
-    0.25s
-    forwards;
-}
+  color: var(--white);
 
+  z-index: 3;
 
-/* weiße Farbe des fertigen Logos */
+  /*
+    etwas unruhiger / kräftiger wie
+    gesprühte Schrift
+  */
 
-.logo-fill-text {
-  fill: var(--white);
+  -webkit-text-stroke:
+    2px #050505;
 
-  stroke: #050505;
-
-  stroke-width: 7;
-
-  stroke-linejoin: round;
-
-  opacity: 0;
-
-  transform-origin: center;
+  text-shadow:
+    5px 6px 0 #050505,
+    0 0 15px rgba(0, 168, 255, 0.32),
+    0 0 38px rgba(0, 168, 255, 0.12);
 
   animation:
-    logoFill 0.7s
+    paintLetters 0.8s
     ease-out
-    1.65s
-    forwards;
+    1s
+    both;
+
+  transition:
+    color 0.35s ease,
+    transform 0.35s ease,
+    text-shadow 0.35s ease;
 }
 
 
-@keyframes logoDrawGlow {
-
-  0% {
-    opacity: 0;
-
-    stroke-dashoffset: 1500;
-
-    filter:
-      blur(10px)
-      drop-shadow(
-        0 0 0 rgba(0, 168, 255, 0)
-      );
-  }
-
-  15% {
-    opacity: 0.75;
-  }
-
-  100% {
-    opacity: 0.5;
-
-    stroke-dashoffset: 0;
-
-    filter:
-      blur(3px)
-      drop-shadow(
-        0 0 22px rgba(0, 168, 255, 0.5)
-      );
-  }
-
-}
-
-
-@keyframes logoDraw {
-
-  0% {
-    opacity: 0;
-
-    stroke-dashoffset: 1500;
-  }
-
-  8% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-
-    stroke-dashoffset: 0;
-  }
-
-}
-
-
-@keyframes logoFill {
+@keyframes graffitiPop {
 
   0% {
     opacity: 0;
 
     transform:
-      scale(0.985);
+      rotate(-10deg)
+      scale(0.82);
   }
 
-  70% {
-    opacity: 0.85;
+  55% {
+    opacity: 1;
+
+    transform:
+      rotate(-4deg)
+      scale(1.035);
   }
 
   100% {
     opacity: 1;
+
+    transform:
+      rotate(-5deg)
+      scale(1);
+  }
+
+}
+
+
+@keyframes paintLetters {
+
+  0% {
+    opacity: 0;
+
+    filter:
+      blur(7px);
+
+    transform:
+      scale(0.96);
+  }
+
+  45% {
+    opacity: 0.75;
+
+    filter:
+      blur(2px);
+  }
+
+  100% {
+    opacity: 1;
+
+    filter:
+      blur(0);
 
     transform:
       scale(1);
@@ -671,235 +687,200 @@ img {
    LOGO HOVER
 ========================================= */
 
-.main-logo:hover .graffiti-logo {
+.main-logo:hover .logo-graffiti-wrap {
 
   transform:
     rotate(-2deg)
+    translateY(0)
     scale(1.025);
-
-  filter:
-    drop-shadow(
-      0 12px 0 rgba(0, 0, 0, 0.9)
-    )
-    drop-shadow(
-      0 0 24px rgba(0, 168, 255, 0.32)
-    );
 }
 
-.main-logo:hover .logo-fill-text {
-  fill: var(--blue);
+.main-logo:hover .logo-graffiti {
+
+  color: var(--blue);
+
+  text-shadow:
+    5px 6px 0 #050505,
+    0 0 25px rgba(0, 168, 255, 0.7),
+    0 0 60px rgba(0, 168, 255, 0.3);
+}
+
+.main-logo:hover .logo-graffiti-outline {
+
+  -webkit-text-stroke:
+    4px rgba(0, 168, 255, 0.95);
 }
 
 
 /* =========================================
-   SPRAY CLOUDS
+   SPRAY CLOUD
 ========================================= */
 
-.spray-cloud {
+.logo-spray-cloud {
   position: absolute;
 
   border-radius: 50%;
-
-  pointer-events: none;
-
-  z-index: 2;
-
-  opacity: 0;
 
   background:
     radial-gradient(
       circle,
-      rgba(0, 168, 255, 0.22) 0%,
-      rgba(0, 168, 255, 0.09) 32%,
-      rgba(0, 168, 255, 0.035) 55%,
+      rgba(0, 168, 255, 0.28) 0%,
+      rgba(0, 168, 255, 0.12) 30%,
+      rgba(0, 168, 255, 0.04) 55%,
       transparent 75%
     );
 
-  filter: blur(10px);
+  filter: blur(11px);
 
-  mix-blend-mode: screen;
+  pointer-events: none;
+
+  z-index: 0;
+
+  opacity: 0;
 }
 
-.cloud-left {
-  width: 330px;
+.logo-cloud-1 {
+  width: 310px;
+  height: 160px;
+
+  left: 4%;
+  top: 29%;
+
+  animation:
+    cloudBurst 1.2s
+    ease-out
+    0.15s
+    forwards;
+}
+
+.logo-cloud-2 {
+  width: 350px;
   height: 180px;
 
-  left: 6%;
-  top: 25%;
+  right: 4%;
+  top: 31%;
 
   animation:
-    sprayCloudLeft 2.1s
+    cloudBurst 1.2s
     ease-out
-    0.1s
+    0.45s
     forwards;
 }
 
-.cloud-right {
-  width: 350px;
-  height: 190px;
-
-  right: 5%;
-  top: 30%;
-
-  animation:
-    sprayCloudRight 2.1s
-    ease-out
-    0.65s
-    forwards;
-}
-
-.cloud-top {
-  width: 300px;
+.logo-cloud-3 {
+  width: 280px;
   height: 150px;
 
-  left: 35%;
-  top: 4%;
+  left: 34%;
+  top: 15%;
 
   animation:
-    sprayCloudTop 2.2s
+    cloudBurst 1.3s
     ease-out
-    1s
+    0.7s
     forwards;
 }
 
-
-@keyframes sprayCloudLeft {
+@keyframes cloudBurst {
 
   0% {
     opacity: 0;
-    transform: scale(0.25) translateX(-40px);
+
+    transform:
+      scale(0.2);
   }
 
-  30% {
+  25% {
     opacity: 0.8;
   }
 
   100% {
-    opacity: 0.18;
-    transform: scale(1.2) translateX(0);
-  }
+    opacity: 0.08;
 
-}
-
-
-@keyframes sprayCloudRight {
-
-  0% {
-    opacity: 0;
-    transform: scale(0.2) translateX(40px);
-  }
-
-  30% {
-    opacity: 0.75;
-  }
-
-  100% {
-    opacity: 0.16;
-    transform: scale(1.25) translateX(0);
-  }
-
-}
-
-
-@keyframes sprayCloudTop {
-
-  0% {
-    opacity: 0;
-    transform: scale(0.2) translateY(-25px);
-  }
-
-  35% {
-    opacity: 0.65;
-  }
-
-  100% {
-    opacity: 0.12;
-    transform: scale(1.2) translateY(0);
+    transform:
+      scale(1.25);
   }
 
 }
 
 
 /* =========================================
-   SPRAY NOZZLE
+   FINE OVERSPRAY
 ========================================= */
 
-.spray-nozzle {
+.logo-overspray {
   position: absolute;
-
-  width: 9px;
-  height: 9px;
 
   border-radius: 50%;
 
-  background: #f2f2f2;
+  background: var(--blue);
 
   box-shadow:
-    0 0 5px #fff,
-    0 0 15px var(--blue),
-    0 0 35px rgba(0, 168, 255, 0.8);
+    0 0 10px rgba(0, 168, 255, 0.7);
 
-  z-index: 12;
+  z-index: 4;
 
   opacity: 0;
 
   pointer-events: none;
 
   animation:
-    sprayNozzle 2.15s
-    cubic-bezier(0.55, 0.05, 0.25, 1)
-    0.28s
+    oversprayPop 0.8s
+    ease-out
     forwards;
 }
 
-@keyframes sprayNozzle {
+.overspray-1 {
+  width: 7px;
+  height: 7px;
+
+  left: 13%;
+  top: 37%;
+
+  animation-delay: 0.75s;
+}
+
+.overspray-2 {
+  width: 4px;
+  height: 4px;
+
+  left: 77%;
+  top: 30%;
+
+  animation-delay: 0.95s;
+}
+
+.overspray-3 {
+  width: 5px;
+  height: 5px;
+
+  right: 12%;
+  bottom: 29%;
+
+  animation-delay: 1.15s;
+}
+
+@keyframes oversprayPop {
 
   0% {
     opacity: 0;
 
-    left: 17%;
-    top: 57%;
+    transform:
+      scale(0);
   }
 
-  5% {
-    opacity: 1;
-  }
+  60% {
+    opacity: 0.9;
 
-  18% {
-    left: 28%;
-    top: 35%;
-  }
-
-  34% {
-    left: 39%;
-    top: 58%;
-  }
-
-  51% {
-    left: 51%;
-    top: 33%;
-  }
-
-  68% {
-    left: 64%;
-    top: 57%;
-  }
-
-  84% {
-    left: 77%;
-    top: 37%;
-  }
-
-  94% {
-    left: 87%;
-    top: 52%;
+    transform:
+      scale(1.4);
   }
 
   100% {
-    left: 91%;
-    top: 49%;
+    opacity: 0.5;
 
-    opacity: 0;
+    transform:
+      scale(1);
   }
 
 }
@@ -1122,16 +1103,40 @@ img {
   animation-delay: 1.8s, 3.1s;
 }
 
+.speck-9 {
+  left: 12%;
+  top: 57%;
+
+  width: 2px;
+  height: 2px;
+
+  animation-delay: 2s, 3.3s;
+}
+
+.speck-10 {
+  right: 13%;
+  top: 57%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 2.2s, 3.5s;
+}
+
 @keyframes speckAppear {
 
   0% {
     opacity: 0;
-    transform: scale(0);
+
+    transform:
+      scale(0);
   }
 
   100% {
     opacity: 0.8;
-    transform: scale(1);
+
+    transform:
+      scale(1);
   }
 
 }
@@ -1140,11 +1145,13 @@ img {
 
   0%,
   100% {
-    transform: translate(0, 0);
+    transform:
+      translate(0, 0);
   }
 
   50% {
-    transform: translate(8px, -12px);
+    transform:
+      translate(8px, -12px);
   }
 
 }
@@ -1159,11 +1166,6 @@ img {
 
   z-index: 20;
 
-  /*
-    bewusst deutlich mehr Abstand
-    zum Logo
-  */
-
   margin-top: 105px;
 
   display: flex;
@@ -1172,7 +1174,10 @@ img {
   align-items: center;
 
   animation:
-    ctaAppear 0.9s ease-out 2s both;
+    ctaAppear 0.9s
+    ease-out
+    1.9s
+    both;
 }
 
 @keyframes ctaAppear {
@@ -1751,7 +1756,10 @@ img {
 
   opacity: 0.35;
 
-  animation: videoGridMove 10s linear infinite;
+  animation:
+    videoGridMove 10s
+    linear
+    infinite;
 }
 
 @keyframes videoGridMove {
@@ -1802,14 +1810,18 @@ img {
 
   transition: 0.3s ease;
 
-  animation: playPulse 3s ease-in-out infinite;
+  animation:
+    playPulse 3s
+    ease-in-out
+    infinite;
 }
 
 @keyframes playPulse {
 
   0%,
   100% {
-    box-shadow: 0 0 0 rgba(0, 168, 255, 0);
+    box-shadow:
+      0 0 0 rgba(0, 168, 255, 0);
   }
 
   50% {
@@ -2106,10 +2118,6 @@ img {
     gap: 20px;
   }
 
-  .logo-main {
-    font-size: clamp(5rem, 15vw, 9rem);
-  }
-
   .intro {
     grid-template-columns: 1fr 1fr;
 
@@ -2130,10 +2138,6 @@ img {
     grid-template-columns: 1fr;
 
     gap: 70px;
-  }
-
-  .graffiti-logo text {
-    font-size: 175px;
   }
 
 }
@@ -2206,33 +2210,37 @@ img {
   .main-logo {
     width: 110%;
 
-    min-height: 165px;
+    min-height: 175px;
   }
 
-  .graffiti-logo {
-    width: 100%;
+  .logo-graffiti-shadow,
+  .logo-graffiti-outline,
+  .logo-graffiti {
 
-    transform:
-      rotate(-4deg)
-      scale(1.04);
+    font-size:
+      clamp(4.7rem, 20vw, 7rem);
   }
 
-  .graffiti-logo text {
-    font-size: 190px;
-
-    letter-spacing: -8px;
+  .logo-graffiti-shadow {
+    left: 5px;
+    top: 6px;
   }
 
-  .logo-glow-text {
-    stroke-width: 12;
+  .logo-graffiti-outline {
+    left: 2px;
+    top: 1px;
+
+    -webkit-text-stroke:
+      2px var(--blue);
   }
 
-  .logo-spray-text {
-    stroke-width: 5;
-  }
+  .logo-graffiti {
+    -webkit-text-stroke:
+      1.5px #050505;
 
-  .logo-fill-text {
-    stroke-width: 5;
+    text-shadow:
+      4px 5px 0 #050505,
+      0 0 14px rgba(0, 168, 255, 0.35);
   }
 
   .paint-stroke {
@@ -2240,7 +2248,28 @@ img {
 
     left: 0;
 
-    height: 75px;
+    height: 70px;
+  }
+
+  .logo-cloud-1 {
+    width: 210px;
+    height: 110px;
+
+    left: -8%;
+  }
+
+  .logo-cloud-2 {
+    width: 220px;
+    height: 120px;
+
+    right: -8%;
+  }
+
+  .logo-cloud-3 {
+    width: 190px;
+    height: 100px;
+
+    left: 27%;
   }
 
 
@@ -2270,36 +2299,11 @@ img {
     right: 24%;
   }
 
-  .cloud-left {
-    width: 220px;
-    height: 120px;
-
-    left: -5%;
-  }
-
-  .cloud-right {
-    width: 230px;
-    height: 130px;
-
-    right: -5%;
-  }
-
-  .cloud-top {
-    width: 200px;
-    height: 100px;
-
-    left: 28%;
-  }
-
 
   /* CTA */
 
   .skatepark-cta {
     width: 100%;
-
-    /*
-      bewusst weit unter dem Logo
-    */
 
     margin-top: 75px;
   }
