@@ -1,1 +1,1042 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Bilder – Moi-cy</title>
+
+  <meta
+    name="description"
+    content="Bilder von Moi-cy – Skateboarding, Sessions und Skateparks."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css?v=bilder1">
+
+  <style>
+
+    /* =========================================
+       MOI-CY BILDER
+       SCHLICHT × DARK STREET
+    ========================================= */
+
+    .bilder-page {
+      min-height: 100vh;
+
+      padding:
+        150px
+        7vw
+        110px;
+
+      background: #050505;
+    }
+
+
+    /* =========================================
+       ÜBERSCHRIFT
+    ========================================= */
+
+    .bilder-header {
+      max-width: 1200px;
+
+      margin:
+        0
+        auto
+        70px;
+    }
+
+
+    .bilder-label {
+      display: block;
+
+      margin-bottom: 18px;
+
+      color: #00a8ff;
+
+      font-size: 0.65rem;
+      font-weight: 800;
+
+      letter-spacing: 0.18em;
+    }
+
+
+    .bilder-title {
+      margin: 0;
+
+      color: #f2f2f2;
+
+      font-size: clamp(3.5rem, 8vw, 7rem);
+
+      line-height: 0.9;
+
+      letter-spacing: -0.07em;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================
+       BILDER GRID
+    ========================================= */
+
+    .bilder-grid {
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 20px;
+    }
+
+
+    /* =========================================
+       BILD
+    ========================================= */
+
+    .bild {
+      position: relative;
+
+      width: 100%;
+
+      aspect-ratio: 4 / 3;
+
+      overflow: hidden;
+
+      background: #0d0d0d;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.09);
+
+      cursor: pointer;
+
+      transition:
+        border-color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .bild img {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      filter:
+        grayscale(35%)
+        brightness(0.75)
+        contrast(1.05);
+
+      transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+    }
+
+
+    .bild:hover {
+      border-color: #00a8ff;
+
+      transform: translateY(-3px);
+    }
+
+
+    .bild:hover img {
+      transform: scale(1.06);
+
+      filter:
+        grayscale(0%)
+        brightness(0.9)
+        contrast(1.08);
+    }
+
+
+    /* =========================================
+       BILD NUMMER
+    ========================================= */
+
+    .bild-number {
+      position: absolute;
+
+      left: 16px;
+      bottom: 14px;
+
+      z-index: 2;
+
+      color: rgba(255, 255, 255, 0.55);
+
+      font-size: 0.55rem;
+
+      font-weight: 700;
+
+      letter-spacing: 0.15em;
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================
+       LIGHTBOX
+    ========================================= */
+
+    .lightbox {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 2000;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 40px;
+
+      background:
+        rgba(0, 0, 0, 0.94);
+
+      backdrop-filter: blur(10px);
+    }
+
+
+    .lightbox.active {
+      display: flex;
+    }
+
+
+    .lightbox-image {
+      max-width: 88vw;
+      max-height: 84vh;
+
+      object-fit: contain;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+      box-shadow:
+        0 0 60px
+        rgba(0, 0, 0, 0.8);
+
+      user-select: none;
+    }
+
+
+    /* =========================================
+       LIGHTBOX SCHLIESSEN
+    ========================================= */
+
+    .lightbox-close {
+      position: absolute;
+
+      top: 25px;
+      right: 30px;
+
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+      background: rgba(5, 5, 5, 0.7);
+
+      color: #f2f2f2;
+
+      font-size: 1.6rem;
+
+      font-weight: 300;
+
+      cursor: pointer;
+
+      transition:
+        color 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+    }
+
+
+    .lightbox-close:hover {
+      color: #050505;
+
+      border-color: #00a8ff;
+
+      background: #00a8ff;
+    }
+
+
+    /* =========================================
+       LIGHTBOX PFEILE
+    ========================================= */
+
+    .lightbox-arrow {
+      position: absolute;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      width: 52px;
+      height: 52px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+      background:
+        rgba(5, 5, 5, 0.7);
+
+      color: #f2f2f2;
+
+      font-size: 1.4rem;
+
+      cursor: pointer;
+
+      transition:
+        color 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+
+    .lightbox-arrow:hover {
+      color: #050505;
+
+      border-color: #00a8ff;
+
+      background: #00a8ff;
+    }
+
+
+    .lightbox-prev {
+      left: 25px;
+    }
+
+
+    .lightbox-next {
+      right: 25px;
+    }
+
+
+    /* =========================================
+       LIGHTBOX INFO
+    ========================================= */
+
+    .lightbox-counter {
+      position: absolute;
+
+      left: 50%;
+
+      bottom: 25px;
+
+      transform: translateX(-50%);
+
+      color: #666;
+
+      font-size: 0.6rem;
+
+      font-weight: 700;
+
+      letter-spacing: 0.16em;
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 900px) {
+
+      .bilder-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+    }
+
+
+    @media (max-width: 700px) {
+
+      .bilder-page {
+        padding:
+          120px
+          6vw
+          80px;
+      }
+
+
+      .bilder-header {
+        margin-bottom: 45px;
+      }
+
+
+      .bilder-title {
+        font-size:
+          clamp(3.5rem, 17vw, 6rem);
+      }
+
+
+      .bilder-grid {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+      }
+
+
+      .bild:hover {
+        transform: none;
+      }
+
+
+      .bild:hover img {
+        transform: none;
+      }
+
+
+      .lightbox {
+        padding: 20px;
+      }
+
+
+      .lightbox-image {
+        max-width: 94vw;
+        max-height: 78vh;
+      }
+
+
+      .lightbox-close {
+        top: 15px;
+        right: 15px;
+
+        width: 42px;
+        height: 42px;
+      }
+
+
+      .lightbox-arrow {
+        width: 44px;
+        height: 44px;
+      }
+
+
+      .lightbox-prev {
+        left: 12px;
+      }
+
+
+      .lightbox-next {
+        right: 12px;
+      }
+
+
+      .lightbox-counter {
+        bottom: 18px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+  <a href="index.html" class="logo">
+
+    <span class="logo-mark">
+      M
+    </span>
+
+    <span>
+      Moi-cy
+    </span>
+
+  </a>
+
+
+  <nav class="navigation">
+
+    <a href="index.html">
+      HOME
+    </a>
+
+    <a href="bilder.html">
+      BILDER
+    </a>
+
+    <a href="videos.html">
+      VIDEOS
+    </a>
+
+    <a href="skateplaetze.html">
+      SKATEPLÄTZE
+    </a>
+
+    <a href="kontakt.html">
+      KONTAKT
+    </a>
+
+    <a href="shop.html">
+      SHOP
+    </a>
+
+  </nav>
+
+
+  <button
+    class="menu-button"
+    id="menuButton"
+    aria-label="Menü öffnen"
+  >
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+  </button>
+
+</header>
+
+
+
+<!-- =========================================
+     BILDER
+========================================= -->
+
+<main>
+
+  <section class="bilder-page">
+
+
+    <!-- ÜBERSCHRIFT -->
+
+    <div class="bilder-header">
+
+      <span class="bilder-label">
+        MOI-CY / BILDER
+      </span>
+
+      <h1 class="bilder-title">
+        Bilder
+      </h1>
+
+    </div>
+
+
+
+    <!-- =====================================
+         BILDER GRID
+    ====================================== -->
+
+    <section class="bilder-grid">
+
+
+      <!-- BILD 01 -->
+
+      <div
+        class="bild"
+        data-index="0"
+      >
+
+        <img
+          src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+01"
+          alt="Moi-cy Bild 01"
+        >
+
+        <span class="bild-number">
+          01
+        </span>
+
+      </div>
+
+
+
+      <!-- BILD 02 -->
+
+      <div
+        class="bild"
+        data-index="1"
+      >
+
+        <img
+          src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+02"
+          alt="Moi-cy Bild 02"
+        >
+
+        <span class="bild-number">
+          02
+        </span>
+
+      </div>
+
+
+
+      <!-- BILD 03 -->
+
+      <div
+        class="bild"
+        data-index="2"
+      >
+
+        <img
+          src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+03"
+          alt="Moi-cy Bild 03"
+        >
+
+        <span class="bild-number">
+          03
+        </span>
+
+      </div>
+
+
+
+      <!-- BILD 04 -->
+
+      <div
+        class="bild"
+        data-index="3"
+      >
+
+        <img
+          src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+04"
+          alt="Moi-cy Bild 04"
+        >
+
+        <span class="bild-number">
+          04
+        </span>
+
+      </div>
+
+
+
+      <!-- BILD 05 -->
+
+      <div
+        class="bild"
+        data-index="4"
+      >
+
+        <img
+          src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+05"
+          alt="Moi-cy Bild 05"
+        >
+
+        <span class="bild-number">
+          05
+        </span>
+
+      </div>
+
+
+
+      <!-- BILD 06 -->
+
+      <div
+        class="bild"
+        data-index="5"
+      >
+
+        <img
+          src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+06"
+          alt="Moi-cy Bild 06"
+        >
+
+        <span class="bild-number">
+          06
+        </span>
+
+      </div>
+
+
+    </section>
+
+  </section>
+
+</main>
+
+
+
+<!-- =========================================
+     LIGHTBOX
+========================================= -->
+
+<div
+  class="lightbox"
+  id="lightbox"
+  aria-hidden="true"
+>
+
+
+  <!-- SCHLIESSEN -->
+
+  <button
+    class="lightbox-close"
+    id="lightboxClose"
+    aria-label="Bild schließen"
+  >
+    ×
+  </button>
+
+
+  <!-- VORHERIGES BILD -->
+
+  <button
+    class="lightbox-arrow lightbox-prev"
+    id="lightboxPrev"
+    aria-label="Vorheriges Bild"
+  >
+    ←
+  </button>
+
+
+  <!-- BILD -->
+
+  <img
+    class="lightbox-image"
+    id="lightboxImage"
+    src=""
+    alt=""
+  >
+
+
+  <!-- NÄCHSTES BILD -->
+
+  <button
+    class="lightbox-arrow lightbox-next"
+    id="lightboxNext"
+    aria-label="Nächstes Bild"
+  >
+    →
+  </button>
+
+
+  <!-- ZÄHLER -->
+
+  <div
+    class="lightbox-counter"
+    id="lightboxCounter"
+  >
+    01 / 06
+  </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="footer">
+
+  <div class="footer-logo">
+
+    <span class="footer-mark">
+      M
+    </span>
+
+    Moi-cy
+
+  </div>
+
+
+  <div class="footer-center">
+    SKATE / CREATE / EXPLORE
+  </div>
+
+
+  <div class="footer-copy">
+    © 2026 Moi-cy
+  </div>
+
+</footer>
+
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script src="script.js"></script>
+
+
+<script>
+
+  /* =========================================
+     BILDER LIGHTBOX
+  ========================================= */
+
+  const bildElements =
+    document.querySelectorAll(".bild");
+
+  const lightbox =
+    document.getElementById("lightbox");
+
+  const lightboxImage =
+    document.getElementById("lightboxImage");
+
+  const lightboxClose =
+    document.getElementById("lightboxClose");
+
+  const lightboxPrev =
+    document.getElementById("lightboxPrev");
+
+  const lightboxNext =
+    document.getElementById("lightboxNext");
+
+  const lightboxCounter =
+    document.getElementById("lightboxCounter");
+
+
+  let currentImage = 0;
+
+
+  /* =========================================
+     BILD ÖFFNEN
+  ========================================= */
+
+  function openLightbox(index) {
+
+    currentImage = index;
+
+    updateLightbox();
+
+    lightbox.classList.add("active");
+
+    lightbox.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow = "hidden";
+
+  }
+
+
+  /* =========================================
+     LIGHTBOX AKTUALISIEREN
+  ========================================= */
+
+  function updateLightbox() {
+
+    const image =
+      bildElements[currentImage]
+        .querySelector("img");
+
+    lightboxImage.src = image.src;
+
+    lightboxImage.alt = image.alt;
+
+    lightboxCounter.textContent =
+      String(currentImage + 1).padStart(2, "0")
+      + " / "
+      + String(bildElements.length).padStart(2, "0");
+
+  }
+
+
+  /* =========================================
+     LIGHTBOX SCHLIESSEN
+  ========================================= */
+
+  function closeLightbox() {
+
+    lightbox.classList.remove("active");
+
+    lightbox.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    document.body.style.overflow = "";
+
+  }
+
+
+  /* =========================================
+     VORHERIGES BILD
+  ========================================= */
+
+  function previousImage() {
+
+    currentImage--;
+
+    if (currentImage < 0) {
+
+      currentImage =
+        bildElements.length - 1;
+
+    }
+
+    updateLightbox();
+
+  }
+
+
+  /* =========================================
+     NÄCHSTES BILD
+  ========================================= */
+
+  function nextImage() {
+
+    currentImage++;
+
+    if (
+      currentImage >=
+      bildElements.length
+    ) {
+
+      currentImage = 0;
+
+    }
+
+    updateLightbox();
+
+  }
+
+
+  /* =========================================
+     BILDER KLICKEN
+  ========================================= */
+
+  bildElements.forEach(
+    (bild, index) => {
+
+      bild.addEventListener(
+        "click",
+        () => {
+
+          openLightbox(index);
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =========================================
+     BUTTONS
+  ========================================= */
+
+  lightboxClose.addEventListener(
+    "click",
+    closeLightbox
+  );
+
+
+  lightboxPrev.addEventListener(
+    "click",
+    previousImage
+  );
+
+
+  lightboxNext.addEventListener(
+    "click",
+    nextImage
+  );
+
+
+  /* =========================================
+     HINTERGRUND KLICKEN
+  ========================================= */
+
+  lightbox.addEventListener(
+    "click",
+    (event) => {
+
+      if (
+        event.target === lightbox
+      ) {
+
+        closeLightbox();
+
+      }
+
+    }
+  );
+
+
+  /* =========================================
+     TASTATUR
+  ========================================= */
+
+  document.addEventListener(
+    "keydown",
+    (event) => {
+
+      if (
+        !lightbox.classList.contains(
+          "active"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      if (event.key === "Escape") {
+
+        closeLightbox();
+
+      }
+
+
+      if (event.key === "ArrowLeft") {
+
+        previousImage();
+
+      }
+
+
+      if (event.key === "ArrowRight") {
+
+        nextImage();
+
+      }
+
+    }
+  );
+
+</script>
+
+
+</body>
+</html>
