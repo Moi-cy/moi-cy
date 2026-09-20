@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Kontakt – Moi-cy</title>
+
+  <meta
+    name="description"
+    content="Kontakt zu Moi-cy."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css?v=kontakt1">
+</head>
+
+<body>
+
+<header class="header">
+
+  <a href="index.html" class="logo">
+    <span class="logo-mark">M</span>
+    <span>Moi-cy</span>
+  </a>
+
+  <nav class="navigation">
+    <a href="index.html">HOME</a>
+    <a href="bilder.html">BILDER</a>
+    <a href="videos.html">VIDEOS</a>
+    <a href="skateplaetze.html">SKATEPLÄTZE</a>
+    <a href="kontakt.html" class="active">KONTAKT</a>
+  </nav>
+
+  <button
+    class="menu-button"
+    id="menuButton"
+    aria-label="Menü öffnen"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+</header>
+
+
+<main>
+
+  <section class="contact-page">
+
+    <div class="contact-page-top">
+
+      <span class="small-label">
+        MOI-CY / KONTAKT
+      </span>
+
+      <span class="section-number">
+        01
+      </span>
+
+    </div>
+
+
+    <div class="contact-page-content">
+
+      <div class="contact-page-intro">
+
+        <h1>
+          Kontakt
+        </h1>
+
+        <p>
+          Du hast eine Frage, möchtest etwas loswerden
+          oder mit Moi-cy zusammenarbeiten?
+        </p>
+
+      </div>
+
+
+      <form
+        class="contact-form"
+        action="https://formsubmit.co/DEINE-EMAIL@BEISPIEL.DE"
+        method="POST"
+      >
+
+        <input
+          type="hidden"
+          name="_subject"
+          value="Neue Nachricht über Moi-cy"
+        >
+
+        <input
+          type="hidden"
+          name="_captcha"
+          value="false"
+        >
+
+        <input
+          type="hidden"
+          name="_template"
+          value="table"
+        >
+
+
+        <div class="form-field">
+
+          <label for="name">
+            NAME
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Dein Name"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="email">
+            E-MAIL
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="deine@email.de"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="message">
+            NACHRICHT
+          </label>
+
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Deine Nachricht..."
+            rows="6"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="contact-submit"
+        >
+          NACHRICHT SENDEN
+          <span>→</span>
+        </button>
+
+      </form>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer class="footer">
+
+  <div class="footer-logo">
+
+    <span class="footer-mark">
+      M
+    </span>
+
+    Moi-cy
+
+  </div>
+
+  <div class="footer-center">
+    SKATE / CREATE / EXPLORE
+  </div>
+
+  <div class="footer-copy">
+    © 2026 Moi-cy
+  </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
