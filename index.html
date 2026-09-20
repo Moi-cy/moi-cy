@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Moi-cy – Skateboarding</title>
 
@@ -11,18 +17,32 @@
     content="Moi-cy – Skateboarding, Skateplätze, Bilder und Videos."
   >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&family=Rubik+Dirt&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=graffiti5">
+  <link
+    rel="stylesheet"
+    href="style.css?v=graffiti6"
+  >
+
 </head>
 
+
 <body>
+
 
   <!-- =====================================================
        HEADER
@@ -30,19 +50,50 @@
 
   <header class="header">
 
-    <a href="index.html" class="logo">
-      <span class="logo-mark">M</span>
-      <span>Moi-cy</span>
+    <a
+      href="index.html"
+      class="logo"
+    >
+
+      <span class="logo-mark">
+        M
+      </span>
+
+      <span>
+        Moi-cy
+      </span>
+
     </a>
 
+
     <nav class="navigation">
-      <a href="index.html">HOME</a>
-      <a href="bilder.html">BILDER</a>
-      <a href="videos.html">VIDEOS</a>
-      <a href="skateplaetze.html">SKATEPLÄTZE</a>
-      <a href="kontakt.html">KONTAKT</a>
-      <a href="shop.html">SHOP</a>
+
+      <a href="index.html">
+        HOME
+      </a>
+
+      <a href="bilder.html">
+        BILDER
+      </a>
+
+      <a href="videos.html">
+        VIDEOS
+      </a>
+
+      <a href="skateplaetze.html">
+        SKATEPLÄTZE
+      </a>
+
+      <a href="kontakt.html">
+        KONTAKT
+      </a>
+
+      <a href="shop.html">
+        SHOP
+      </a>
+
     </nav>
+
 
     <button
       class="menu-button"
@@ -50,9 +101,11 @@
       aria-label="Menü öffnen"
       aria-expanded="false"
     >
+
       <span></span>
       <span></span>
       <span></span>
+
     </button>
 
   </header>
@@ -62,16 +115,36 @@
        MOBILE MENU
   ====================================================== -->
 
-  <div class="mobile-menu" id="mobileMenu">
+  <div
+    class="mobile-menu"
+    id="mobileMenu"
+  >
 
     <nav>
 
-      <a href="index.html">HOME</a>
-      <a href="bilder.html">BILDER</a>
-      <a href="videos.html">VIDEOS</a>
-      <a href="skateplaetze.html">SKATEPLÄTZE</a>
-      <a href="kontakt.html">KONTAKT</a>
-      <a href="shop.html">SHOP</a>
+      <a href="index.html">
+        HOME
+      </a>
+
+      <a href="bilder.html">
+        BILDER
+      </a>
+
+      <a href="videos.html">
+        VIDEOS
+      </a>
+
+      <a href="skateplaetze.html">
+        SKATEPLÄTZE
+      </a>
+
+      <a href="kontakt.html">
+        KONTAKT
+      </a>
+
+      <a href="shop.html">
+        SHOP
+      </a>
 
     </nav>
 
@@ -80,11 +153,13 @@
 
   <main>
 
+
     <!-- ===================================================
          HERO
     ==================================================== -->
 
     <section class="hero">
+
 
       <div class="hero-background"></div>
 
@@ -95,19 +170,24 @@
 
       <div class="hero-content">
 
+
         <span class="hero-small">
           SKATEBOARDING / SINCE 2023
         </span>
 
 
-        <!-- ===============================================
+        <!-- =================================================
              GRAFFITI LOGO
-             EIN Logo – EINfarbig
-        ================================================= -->
+        ================================================== -->
 
-        <div class="graffiti-logo" id="graffitiLogo">
+        <div
+          class="graffiti-logo"
+          id="graffitiLogo"
+        >
+
 
           <!-- Spraywolke -->
+
           <div
             class="spray-cloud"
             id="sprayCloud"
@@ -115,7 +195,13 @@
           ></div>
 
 
-          <!-- SVG für das tatsächliche Aufsprühen -->
+          <!--
+            EIN EINZIGES LOGO.
+
+            Die ClipPath-Fläche wird durch JavaScript
+            von links nach rechts bewegt.
+          -->
+
           <svg
             class="graffiti-svg"
             viewBox="0 0 1000 300"
@@ -126,115 +212,34 @@
 
             <defs>
 
-              <!--
-                Diese Maske wird von links nach rechts
-                aufgedeckt.
-              -->
-              <linearGradient
-                id="sprayReveal"
-                x1="0"
-                y1="0"
-                x2="1"
-                y2="0"
+              <clipPath
+                id="logoReveal"
+                clipPathUnits="userSpaceOnUse"
               >
-                <stop
-                  id="revealStart"
-                  offset="0%"
-                  stop-color="white"
-                />
-
-                <stop
-                  id="revealEdge"
-                  offset="0%"
-                  stop-color="white"
-                />
-
-                <stop
-                  id="revealEnd"
-                  offset="0%"
-                  stop-color="black"
-                />
-
-                <stop
-                  id="revealFinish"
-                  offset="0%"
-                  stop-color="black"
-                />
-              </linearGradient>
-
-              <mask id="sprayMask">
 
                 <rect
-                  x="0"
-                  y="0"
-                  width="1000"
-                  height="300"
-                  fill="black"
-                />
-
-                <rect
-                  id="revealRect"
+                  id="logoRevealRect"
                   x="0"
                   y="0"
                   width="0"
                   height="300"
-                  fill="white"
-                />
+                ></rect>
 
-              </mask>
-
-              <!-- leichter Spray-Noise-Effekt -->
-              <filter
-                id="sprayRoughness"
-                x="-20%"
-                y="-30%"
-                width="140%"
-                height="160%"
-              >
-
-                <feTurbulence
-                  type="fractalNoise"
-                  baseFrequency="0.035"
-                  numOctaves="2"
-                  seed="7"
-                  result="noise"
-                />
-
-                <feDisplacementMap
-                  in="SourceGraphic"
-                  in2="noise"
-                  scale="2.5"
-                  xChannelSelector="R"
-                  yChannelSelector="G"
-                />
-
-              </filter>
+              </clipPath>
 
             </defs>
 
 
             <!--
-              Die Schrift wird nur EINMAL gezeichnet.
-              Keine drei Texte mehr.
+              Nur eine blaue Logo-Ebene.
             -->
 
             <text
               x="500"
               y="205"
               text-anchor="middle"
-              class="graffiti-text graffiti-shadow"
-              aria-hidden="true"
-            >
-              Moi-cy
-            </text>
-
-            <text
-              x="500"
-              y="205"
-              text-anchor="middle"
-              class="graffiti-text graffiti-outline"
-              mask="url(#sprayMask)"
-              filter="url(#sprayRoughness)"
+              class="graffiti-text"
+              clip-path="url(#logoReveal)"
             >
               Moi-cy
             </text>
@@ -242,7 +247,9 @@
           </svg>
 
 
-          <!-- kleine Sprühpartikel -->
+          <!-- =================================================
+               SPRAY SPRITZER
+          ================================================== -->
 
           <span class="spray-dot dot-1"></span>
           <span class="spray-dot dot-2"></span>
@@ -256,6 +263,8 @@
           <span class="spray-dot dot-10"></span>
           <span class="spray-dot dot-11"></span>
           <span class="spray-dot dot-12"></span>
+          <span class="spray-dot dot-13"></span>
+          <span class="spray-dot dot-14"></span>
 
         </div>
 
@@ -277,6 +286,7 @@
 
       </div>
 
+
     </section>
 
 
@@ -290,14 +300,22 @@
         01 / ABOUT MOI-CY
       </div>
 
+
       <div class="intro-layout">
+
 
         <div class="intro-title">
 
           <h2>
+
             SKATEBOARDING
-            <span>IS MORE</span>
+
+            <span>
+              IS MORE
+            </span>
+
             THAN A SPORT.
+
           </h2>
 
         </div>
@@ -323,6 +341,7 @@
 
         </div>
 
+
       </div>
 
     </section>
@@ -338,12 +357,19 @@
         02 / SKATEPLÄTZE
       </div>
 
+
       <div class="feature-heading">
 
         <h2>
+
           FIND YOUR
-          <span>SPOT.</span>
+
+          <span>
+            SPOT.
+          </span>
+
         </h2>
+
 
         <a
           href="skateplaetze.html"
@@ -371,6 +397,7 @@
 
       <div class="media-grid">
 
+
         <a
           href="bilder.html"
           class="media-card media-images"
@@ -383,7 +410,13 @@
             </span>
 
             <h2>
-              BILDER<span>.</span>
+
+              BILDER
+
+              <span>
+                .
+              </span>
+
             </h2>
 
             <strong>
@@ -407,7 +440,13 @@
             </span>
 
             <h2>
-              VIDEOS<span>.</span>
+
+              VIDEOS
+
+              <span>
+                .
+              </span>
+
             </h2>
 
             <strong>
@@ -417,6 +456,7 @@
           </div>
 
         </a>
+
 
       </div>
 
@@ -433,12 +473,19 @@
         KEEP MOVING.
       </span>
 
+
       <h2>
+
         SEE YOU
-        <em>OUT THERE.</em>
+
+        <em>
+          OUT THERE.
+        </em>
+
       </h2>
 
     </section>
+
 
   </main>
 
@@ -448,6 +495,7 @@
   ====================================================== -->
 
   <footer class="footer">
+
 
     <div class="footer-logo">
 
@@ -469,10 +517,12 @@
       © 2026 Moi-cy
     </div>
 
+
   </footer>
 
 
-  <script src="script.js?v=graffiti5"></script>
+  <script src="script.js?v=graffiti6"></script>
 
 </body>
+
 </html>
