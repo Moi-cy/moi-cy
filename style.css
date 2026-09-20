@@ -1,25 +1,16 @@
-/* =========================================================
-   MOI-CY
-   DARK STREET × URBAN GRAFFITI
-   ========================================================= */
-
 :root {
-
   --black: #000000;
   --dark: #050505;
   --dark-soft: #0a0a0a;
-
   --white: #f2f2f2;
   --blue: #00a8ff;
-
   --grey: #8c8c8c;
-
 }
 
 
 /* =========================================================
    RESET
-   ========================================================= */
+========================================================= */
 
 * {
   margin: 0;
@@ -32,125 +23,82 @@ html {
 }
 
 body {
-
   background: var(--black);
-
   color: var(--white);
-
   font-family: "Inter", sans-serif;
-
   overflow-x: hidden;
 }
 
 a {
-
   color: inherit;
-
   text-decoration: none;
 }
 
 button {
-  font-family: inherit;
+  font: inherit;
 }
 
 
 /* =========================================================
    HEADER
-   ========================================================= */
+========================================================= */
 
 .header {
-
-  position: fixed;
-
+  position: absolute;
   top: 0;
   left: 0;
-
   width: 100%;
-  height: 82px;
-
-  padding: 0 42px;
+  z-index: 100;
 
   display: flex;
-
   align-items: center;
   justify-content: space-between;
 
-  z-index: 100;
+  padding: 26px 42px;
 
-  background: rgba(0, 0, 0, 0.78);
-
-  backdrop-filter: blur(12px);
-
-  border-bottom:
-    1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-
-
-/* LOGO */
 
 .logo {
-
   display: flex;
-
   align-items: center;
+  gap: 10px;
 
-  gap: 11px;
-
-  font-size: 16px;
-
+  font-size: 17px;
   font-weight: 800;
-
   letter-spacing: -0.5px;
-
-  transition: color 0.25s ease;
-}
-
-.logo:hover {
-  color: var(--blue);
 }
 
 .logo-mark {
-
-  width: 30px;
-  height: 30px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
+
+  width: 29px;
+  height: 29px;
 
   border: 1px solid var(--blue);
 
   color: var(--blue);
 
   font-size: 14px;
-
-  font-weight: 800;
+  font-weight: 900;
 }
 
-
-/* NAVIGATION */
-
 .navigation {
-
   display: flex;
-
   align-items: center;
-
-  gap: 32px;
+  gap: 30px;
 }
 
 .navigation a {
-
   position: relative;
 
   font-size: 11px;
-
   font-weight: 700;
+  letter-spacing: 1.4px;
 
-  letter-spacing: 1.5px;
-
-  color: #bdbdbd;
+  color: rgba(242, 242, 242, 0.72);
 
   transition:
     color 0.25s ease,
@@ -158,13 +106,10 @@ button {
 }
 
 .navigation a::after {
-
   content: "";
 
   position: absolute;
-
   left: 0;
-
   bottom: -7px;
 
   width: 0;
@@ -176,45 +121,32 @@ button {
 }
 
 .navigation a:hover {
-
   color: var(--white);
-
-  transform: translateY(-1px);
 }
 
 .navigation a:hover::after {
   width: 100%;
 }
 
-
-/* MENU */
-
 .menu-button {
-
   display: none;
 
-  width: 42px;
-  height: 42px;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.15);
+  width: 38px;
+  height: 38px;
 
   background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   cursor: pointer;
-
-  align-items: center;
-  justify-content: center;
-
-  flex-direction: column;
-
-  gap: 5px;
 }
 
 .menu-button span {
+  display: block;
 
   width: 17px;
   height: 1px;
+
+  margin: 4px auto;
 
   background: var(--white);
 }
@@ -222,16 +154,14 @@ button {
 
 /* =========================================================
    HERO
-   ========================================================= */
+========================================================= */
 
 .hero {
-
   position: relative;
 
   min-height: 100vh;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -240,270 +170,127 @@ button {
   background: var(--black);
 }
 
-
-/* BACKGROUND */
-
 .hero-background {
-
   position: absolute;
-
   inset: 0;
 
   background:
-
     radial-gradient(
       circle at 50% 45%,
-      rgba(0, 168, 255, 0.07),
-      transparent 30%
-    ),
-
-    linear-gradient(
-      180deg,
-      #000000 0%,
-      #030303 55%,
-      #000000 100%
+      rgba(0, 168, 255, 0.10),
+      transparent 35%
     );
-
-  z-index: 0;
 }
 
-
-/* GRID */
-
 .hero-grid {
-
   position: absolute;
-
   inset: 0;
 
-  background-image:
+  opacity: 0.13;
 
+  background-image:
     linear-gradient(
-      rgba(255, 255, 255, 0.025) 1px,
+      rgba(255, 255, 255, 0.04) 1px,
       transparent 1px
     ),
-
     linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.025) 1px,
+      rgba(255, 255, 255, 0.04) 1px,
       transparent 1px
     );
 
   background-size: 80px 80px;
 
-  opacity: 0.35;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      transparent,
-      black 25%,
-      black 70%,
-      transparent
-    );
-
-  z-index: 1;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 25%,
+    black 70%,
+    transparent
+  );
 }
-
-
-/* BLUE LIGHT */
 
 .hero-glow {
-
   position: absolute;
 
-  width: 600px;
-  height: 600px;
+  width: 520px;
+  height: 520px;
 
-  left: 50%;
-  top: 48%;
+  border-radius: 50%;
 
-  transform:
-    translate(-50%, -50%);
+  background: rgba(0, 168, 255, 0.06);
 
-  background:
-
-    radial-gradient(
-      circle,
-      rgba(0, 168, 255, 0.07),
-      transparent 68%
-    );
-
-  filter: blur(20px);
-
-  z-index: 1;
+  filter: blur(100px);
 }
 
-
-/* CONTENT */
-
 .hero-content {
-
   position: relative;
-
-  z-index: 5;
+  z-index: 3;
 
   width: 100%;
 
-  padding:
-    120px 20px
-    100px;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
 }
 
-
-/* SMALL LABEL */
-
 .hero-small {
+  margin-bottom: 45px;
 
-  display: block;
-
-  margin-bottom: 30px;
+  color: rgba(242, 242, 242, 0.55);
 
   font-size: 10px;
-
   font-weight: 700;
-
   letter-spacing: 4px;
-
-  color:
-    rgba(242, 242, 242, 0.5);
 }
 
 
 /* =========================================================
    GRAFFITI LOGO
-   ========================================================= */
+========================================================= */
 
 .graffiti-logo {
-
   position: relative;
 
-  display: block;
-
-  width: min(900px, 92vw);
-
-  min-height: 250px;
-
-  transform:
-    rotate(-2deg);
-
-}
-
-
-/* =========================================================
-   SPRAY
-   ========================================================= */
-
-.graffiti-spray {
-
-  position: absolute;
-
-  left: 5%;
-  right: 5%;
-
-  top: 15%;
-  bottom: 12%;
-
-  z-index: 0;
-
-  background:
-
-    radial-gradient(
-      ellipse at center,
-      rgba(0, 168, 255, 0.28),
-      transparent 58%
-    ),
-
-    radial-gradient(
-      circle at 5% 25%,
-      rgba(0, 168, 255, 0.65) 0 2px,
-      transparent 4px
-    ),
-
-    radial-gradient(
-      circle at 12% 72%,
-      rgba(0, 168, 255, 0.55) 0 3px,
-      transparent 5px
-    ),
-
-    radial-gradient(
-      circle at 20% 12%,
-      rgba(0, 168, 255, 0.45) 0 2px,
-      transparent 4px
-    ),
-
-    radial-gradient(
-      circle at 82% 15%,
-      rgba(0, 168, 255, 0.6) 0 3px,
-      transparent 5px
-    ),
-
-    radial-gradient(
-      circle at 93% 38%,
-      rgba(0, 168, 255, 0.55) 0 2px,
-      transparent 4px
-    ),
-
-    radial-gradient(
-      circle at 88% 80%,
-      rgba(0, 168, 255, 0.5) 0 3px,
-      transparent 5px
-    );
-
-  filter: blur(1px);
-
-  transform: scale(1.08);
-}
-
-
-/* =========================================================
-   LOGO WORD
-   ========================================================= */
-
-.graffiti-word {
-
-  position: relative;
-
-  width: 100%;
-
-  min-height: 250px;
+  width: min(1050px, 94vw);
+  height: 300px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
+  transform: rotate(-2deg);
 }
 
 
-/* ALL LOGO LAYERS */
+/*
+   Das ist bewusst EIN einziges Textelement.
+   Rubik Dirt gibt die grobe, unregelmäßige Basis.
+   Die restliche Form kommt über Stroke, Shadow,
+   Transform und Spray-Effekte.
+*/
 
-.graffiti-shadow,
-.graffiti-white,
+.graffiti-word {
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+}
+
 .graffiti-main {
+  position: relative;
 
-  position: absolute;
+  display: inline-block;
 
-  left: 50%;
-  top: 50%;
-
-  transform:
-    translate(-50%, -50%)
-    scaleY(1.05)
-    skewX(-4deg);
-
-  white-space: nowrap;
+  color: var(--blue);
 
   font-family:
     "Rubik Dirt",
@@ -511,115 +298,76 @@ button {
     Impact,
     sans-serif;
 
-  font-size:
-    clamp(105px, 17vw, 235px);
+  font-size: clamp(110px, 18vw, 250px);
 
   line-height: 0.8;
 
-  letter-spacing: -5px;
-
   font-weight: 900;
 
-  user-select: none;
+  letter-spacing: -9px;
 
+  white-space: nowrap;
+
+  transform:
+    scaleY(1.08)
+    skewX(-5deg)
+    rotate(-1deg);
+
+  /*
+    Schwarz außen
+  */
+  -webkit-text-stroke: 15px #000;
+
+  /*
+    Weißer Street-Art-Rand + schwarzer Schatten
+  */
+  text-shadow:
+    7px 7px 0 #f2f2f2,
+    11px 12px 0 #000,
+    16px 17px 0 #000,
+    20px 21px 0 rgba(0, 168, 255, 0.75);
+
+  filter: contrast(1.08);
 }
 
 
 /* =========================================================
-   BLACK SHADOW
-   ========================================================= */
+   SPRAY CLOUD
+========================================================= */
 
-.graffiti-shadow {
+.graffiti-spray {
+  position: absolute;
+
+  left: 50%;
+  top: 52%;
+
+  width: 72%;
+  height: 48%;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 168, 255, 0.20) 0%,
+      rgba(0, 168, 255, 0.08) 35%,
+      transparent 72%
+    );
+
+  filter: blur(22px);
+
+  opacity: 0.75;
 
   z-index: 1;
-
-  color: #000000;
-
-  -webkit-text-stroke:
-    17px #000000;
-
-  text-shadow:
-
-    10px 12px 0 #000000,
-
-    16px 18px 0 rgba(0, 0, 0, 0.75);
-
 }
 
 
 /* =========================================================
-   WHITE BORDER
-   ========================================================= */
-
-.graffiti-white {
-
-  z-index: 2;
-
-  color: var(--blue);
-
-  -webkit-text-stroke:
-    15px var(--white);
-
-  text-shadow:
-    5px 6px 0 var(--white);
-
-}
-
-
-/* =========================================================
-   BLUE MAIN
-   ========================================================= */
-
-.graffiti-main {
-
-  z-index: 3;
-
-  color: var(--blue);
-
-  -webkit-text-stroke:
-    7px #000000;
-
-  text-shadow:
-
-    3px 3px 0 #000000,
-
-    6px 7px 0 #000000,
-
-    9px 10px 0 var(--blue);
-
-}
-
-
-/* =========================================================
-   SMALL BLUE HIGHLIGHT
-   ========================================================= */
-
-.graffiti-main::after {
-
-  content: "Moi-cy";
-
-  position: absolute;
-
-  left: 2px;
-  top: -2px;
-
-  color: transparent;
-
-  -webkit-text-stroke:
-    2px rgba(242, 242, 242, 0.35);
-
-}
-
-
-/* =========================================================
-   SPLATTERS
-   ========================================================= */
+   SPRAY SPLATTER
+========================================================= */
 
 .splash {
-
   position: absolute;
-
-  z-index: 4;
 
   display: block;
 
@@ -627,141 +375,121 @@ button {
 
   background: var(--blue);
 
+  box-shadow:
+    0 0 0 1px rgba(0, 168, 255, 0.2),
+    0 0 12px rgba(0, 168, 255, 0.35);
+
+  z-index: 4;
 }
 
 
-/* LEFT */
+/* große Spritzer */
 
 .splash-1 {
+  width: 13px;
+  height: 13px;
 
-  width: 12px;
-  height: 12px;
-
-  left: 5%;
+  left: 8%;
   top: 31%;
-
-  box-shadow:
-
-    18px 12px 0 -4px var(--blue),
-
-    -12px 20px 0 -5px var(--blue),
-
-    27px -15px 0 -6px var(--blue);
 }
-
-
-/* RIGHT */
 
 .splash-2 {
-
-  width: 9px;
-  height: 9px;
-
-  right: 5%;
-  top: 28%;
-
-  box-shadow:
-
-    17px -8px 0 -3px var(--blue),
-
-    28px 14px 0 -5px var(--blue),
-
-    -14px 20px 0 -5px var(--blue);
-}
-
-
-/* TOP */
-
-.splash-3 {
-
   width: 7px;
   height: 7px;
 
-  top: 8%;
-  left: 43%;
-
-  box-shadow:
-
-    18px 12px 0 -2px var(--blue),
-
-    -17px 17px 0 -3px var(--blue);
+  left: 14%;
+  top: 65%;
 }
 
+.splash-3 {
+  width: 18px;
+  height: 18px;
 
-/* BOTTOM LEFT */
+  left: 22%;
+  top: 17%;
+}
 
 .splash-4 {
+  width: 6px;
+  height: 6px;
 
-  width: 8px;
-  height: 8px;
-
-  bottom: 7%;
-  left: 17%;
-
-  box-shadow:
-
-    -16px 13px 0 -3px var(--blue),
-
-    23px 10px 0 -4px var(--blue);
+  right: 15%;
+  top: 26%;
 }
-
-
-/* BOTTOM RIGHT */
 
 .splash-5 {
+  width: 11px;
+  height: 11px;
 
-  width: 10px;
-  height: 10px;
-
-  bottom: 8%;
-  right: 18%;
-
-  box-shadow:
-
-    18px 11px 0 -4px var(--blue),
-
-    30px -4px 0 -5px var(--blue);
+  right: 9%;
+  top: 61%;
 }
-
-
-/* TINY */
 
 .splash-6 {
-
   width: 5px;
   height: 5px;
 
-  left: 29%;
-  top: 3%;
-
-  box-shadow:
-    13px 8px 0 -1px var(--blue),
-    -15px 14px 0 -2px var(--blue);
+  right: 21%;
+  bottom: 14%;
 }
 
 
-/* TINY RIGHT */
+/* kleine Sprühpunkte */
 
 .splash-7 {
+  width: 3px;
+  height: 3px;
 
+  left: 10%;
+  top: 48%;
+}
+
+.splash-8 {
+  width: 4px;
+  height: 4px;
+
+  left: 18%;
+  top: 77%;
+}
+
+.splash-9 {
+  width: 3px;
+  height: 3px;
+
+  left: 29%;
+  top: 10%;
+}
+
+.splash-10 {
+  width: 4px;
+  height: 4px;
+
+  right: 28%;
+  top: 13%;
+}
+
+.splash-11 {
+  width: 3px;
+  height: 3px;
+
+  right: 13%;
+  top: 46%;
+}
+
+.splash-12 {
   width: 5px;
   height: 5px;
 
-  right: 29%;
-  bottom: 3%;
-
-  box-shadow:
-    14px -7px 0 -1px var(--blue),
-    -16px -12px 0 -2px var(--blue);
+  right: 25%;
+  bottom: 10%;
 }
 
 
 /* =========================================================
    HERO SIDE TEXT
-   ========================================================= */
+========================================================= */
 
 .hero-side-text {
-
   position: absolute;
 
   right: 32px;
@@ -771,193 +499,135 @@ button {
     translateY(-50%)
     rotate(90deg);
 
+  color: rgba(242, 242, 242, 0.3);
+
   font-size: 9px;
-
   font-weight: 700;
-
-  letter-spacing: 3px;
-
-  color:
-    rgba(242, 242, 242, 0.28);
-
-  z-index: 5;
+  letter-spacing: 4px;
 }
 
 
 /* =========================================================
    HERO BOTTOM
-   ========================================================= */
+========================================================= */
 
 .hero-bottom {
-
   position: absolute;
 
-  bottom: 36px;
-
-  left: 50%;
-
-  transform:
-    translateX(-50%);
+  left: 42px;
+  bottom: 35px;
 
   display: flex;
-
-  flex-direction: column;
-
   align-items: center;
+  gap: 18px;
 
-  gap: 12px;
+  color: rgba(242, 242, 242, 0.4);
 
-  z-index: 5;
-}
-
-.hero-bottom span {
-
-  font-size: 8px;
-
+  font-size: 9px;
   font-weight: 700;
-
-  letter-spacing: 3px;
-
-  color:
-    rgba(242, 242, 242, 0.4);
+  letter-spacing: 2px;
 }
 
 .scroll-line {
+  width: 80px;
+  height: 1px;
 
-  width: 1px;
-
-  height: 45px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      var(--blue),
-      transparent
-    );
+  background: rgba(242, 242, 242, 0.25);
 }
 
 
 /* =========================================================
-   GENERAL SECTION
-   ========================================================= */
+   GENERAL SECTIONS
+========================================================= */
 
 .section-label {
+  margin-bottom: 55px;
 
-  font-size: 9px;
+  color: rgba(242, 242, 242, 0.38);
 
+  font-size: 10px;
   font-weight: 700;
-
   letter-spacing: 3px;
-
-  color: var(--blue);
 }
 
 
 /* =========================================================
    INTRO
-   ========================================================= */
+========================================================= */
 
 .intro-section {
-
-  padding:
-    150px 7vw
-    155px;
+  padding: 140px 8vw 150px;
 
   background: var(--dark);
 }
 
-.intro-section .section-label {
-  margin-bottom: 75px;
-}
-
 .intro-layout {
-
   display: grid;
 
-  grid-template-columns:
-    minmax(0, 1.4fr)
-    minmax(280px, 0.6fr);
+  grid-template-columns: 1.3fr 0.7fr;
 
-  gap: 100px;
+  gap: 90px;
 
-  align-items: end;
+  align-items: start;
 }
 
 .intro-title h2 {
+  max-width: 850px;
 
-  font-size:
-    clamp(52px, 7vw, 105px);
+  font-size: clamp(48px, 6vw, 88px);
 
-  line-height: 0.9;
+  line-height: 0.92;
 
   letter-spacing: -5px;
-
-  font-weight: 900;
 }
 
 .intro-title h2 span {
-
   display: inline-block;
 
   color: var(--blue);
 
-  font-family:
-    "Permanent Marker",
-    cursive;
+  font-family: "Permanent Marker", cursive;
 
   font-weight: 400;
-
-  font-size: 0.82em;
-
-  margin-left: 7px;
 
   transform: rotate(-3deg);
 }
 
 .intro-text {
+  padding-top: 8px;
 
-  position: relative;
+  color: rgba(242, 242, 242, 0.62);
 
-  padding-bottom: 20px;
-}
-
-.intro-text p {
-
-  margin-bottom: 22px;
-
-  font-size: 14px;
+  font-size: 15px;
 
   line-height: 1.8;
+}
 
-  color: #a7a7a7;
+.intro-text p + p {
+  margin-top: 25px;
 }
 
 .handwritten {
+  display: block;
 
-  display: inline-block;
-
-  margin-top: 20px;
+  margin-top: 45px;
 
   color: var(--blue);
 
-  font-family:
-    "Permanent Marker",
-    cursive;
+  font-family: "Permanent Marker", cursive;
 
   font-size: 25px;
 
-  transform: rotate(-5deg);
+  transform: rotate(-4deg);
 }
 
 
 /* =========================================================
-   SKATEPLÄTZE
-   ========================================================= */
+   FEATURE
+========================================================= */
 
 .feature-section {
-
-  padding:
-    95px 7vw;
+  padding: 95px 8vw;
 
   background: var(--dark);
 }
@@ -967,35 +637,26 @@ button {
 }
 
 .feature-heading {
-
   display: flex;
 
   align-items: center;
-
   justify-content: space-between;
 
   gap: 30px;
 }
 
 .feature-heading h2 {
-
-  font-size:
-    clamp(48px, 6vw, 82px);
+  font-size: clamp(48px, 6vw, 82px);
 
   line-height: 0.88;
 
   letter-spacing: -4px;
-
-  font-weight: 900;
 }
 
 .feature-heading h2 span {
-
   color: var(--blue);
 
-  font-family:
-    "Permanent Marker",
-    cursive;
+  font-family: "Permanent Marker", cursive;
 
   font-weight: 400;
 
@@ -1007,14 +668,12 @@ button {
 }
 
 .feature-arrow {
-
   flex-shrink: 0;
 
   width: 58px;
   height: 58px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -1031,7 +690,6 @@ button {
 }
 
 .feature-arrow:hover {
-
   background: var(--blue);
 
   color: var(--black);
@@ -1042,304 +700,206 @@ button {
 
 /* =========================================================
    MEDIA
-   ========================================================= */
+========================================================= */
 
 .media-section {
-
-  padding:
-    120px 7vw
-    150px;
+  padding: 120px 8vw 150px;
 
   background: var(--black);
 }
 
-.media-section .section-label {
-  margin-bottom: 45px;
-}
-
 .media-grid {
-
   display: grid;
 
-  grid-template-columns:
-    1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
   gap: 18px;
 }
 
 .media-card {
-
   position: relative;
 
   min-height: 430px;
 
-  overflow: hidden;
-
   display: flex;
-
   align-items: flex-end;
+
+  overflow: hidden;
 
   background: var(--dark-soft);
 
-  border:
-    1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   transition:
-    border-color 0.3s ease,
-    transform 0.3s ease;
+    transform 0.35s ease,
+    border-color 0.35s ease;
 }
 
 .media-card::before {
-
   content: "";
 
   position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(0, 168, 255, 0.12),
-      transparent 55%
-    );
-
-  transition:
-    transform 0.5s ease;
-}
-
-.media-card::after {
-
-  content: "";
-
-  position: absolute;
-
   inset: 0;
 
   background:
     radial-gradient(
-      circle at 75% 20%,
-      rgba(0, 168, 255, 0.16),
-      transparent 25%
+      circle at 70% 40%,
+      rgba(0, 168, 255, 0.20),
+      transparent 45%
     );
+
+  opacity: 0.5;
+
+  transition: transform 0.5s ease;
 }
 
 .media-card:hover {
+  transform: translateY(-6px);
 
-  border-color:
-    rgba(0, 168, 255, 0.5);
-
-  transform:
-    translateY(-4px);
+  border-color: rgba(0, 168, 255, 0.5);
 }
 
 .media-card:hover::before {
-  transform: scale(1.08);
+  transform: scale(1.15);
 }
 
 .media-card-content {
-
   position: relative;
-
   z-index: 2;
 
-  padding: 42px;
-
-  width: 100%;
+  padding: 40px;
 }
 
 .media-card-content > span {
+  color: rgba(242, 242, 242, 0.45);
 
-  font-size: 9px;
-
+  font-size: 10px;
   font-weight: 700;
 
   letter-spacing: 3px;
-
-  color:
-    rgba(242, 242, 242, 0.45);
 }
 
 .media-card h2 {
+  margin: 12px 0 35px;
 
-  margin-top: 18px;
-
-  font-size:
-    clamp(55px, 7vw, 95px);
+  font-size: clamp(48px, 6vw, 85px);
 
   line-height: 0.85;
 
   letter-spacing: -5px;
-
-  font-weight: 900;
 }
 
 .media-card h2 span {
-
   color: var(--blue);
 
-  font-family:
-    "Permanent Marker",
-    cursive;
-
-  font-weight: 400;
+  font-family: "Permanent Marker", cursive;
 }
 
 .media-card strong {
-
-  display: block;
-
-  margin-top: 34px;
+  color: var(--blue);
 
   font-size: 10px;
 
   letter-spacing: 2px;
-
-  color: var(--blue);
 }
 
 
 /* =========================================================
    FINAL
-   ========================================================= */
+========================================================= */
 
 .final-section {
-
-  position: relative;
-
   min-height: 65vh;
 
-  padding:
-    120px 7vw;
+  padding: 120px 8vw;
 
   display: flex;
-
   flex-direction: column;
-
+  align-items: flex-start;
   justify-content: center;
 
-  overflow: hidden;
-
-  background: var(--black);
-}
-
-.final-section::before {
-
-  content: "";
-
-  position: absolute;
-
-  width: 500px;
-  height: 500px;
-
-  right: -250px;
-  bottom: -250px;
-
-  border-radius: 50%;
-
-  background:
-    rgba(0, 168, 255, 0.08);
-
-  filter: blur(80px);
+  background: var(--dark);
 }
 
 .final-section > span {
+  margin-bottom: 25px;
 
-  position: relative;
+  color: rgba(242, 242, 242, 0.4);
 
-  font-size: 9px;
-
+  font-size: 10px;
   font-weight: 700;
 
   letter-spacing: 4px;
-
-  color: var(--blue);
-
-  margin-bottom: 28px;
 }
 
 .final-section h2 {
+  max-width: 1000px;
 
-  position: relative;
-
-  font-size:
-    clamp(70px, 11vw, 170px);
+  font-size: clamp(58px, 9vw, 140px);
 
   line-height: 0.82;
 
-  letter-spacing: -7px;
-
-  font-weight: 900;
+  letter-spacing: -8px;
 }
 
-.final-section h2 em {
-
-  display: block;
+.final-section em {
+  display: inline-block;
 
   color: var(--blue);
 
-  font-family:
-    "Permanent Marker",
-    cursive;
+  font-family: "Permanent Marker", cursive;
 
   font-style: normal;
-
   font-weight: 400;
 
-  font-size: 0.82em;
-
   transform: rotate(-3deg);
-
-  transform-origin: left center;
 }
 
 
 /* =========================================================
    FOOTER
-   ========================================================= */
+========================================================= */
 
 .footer {
+  min-height: 110px;
 
-  min-height: 100px;
-
-  padding:
-    30px 42px;
+  padding: 30px 42px;
 
   display: grid;
 
-  grid-template-columns:
-    1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 
   align-items: center;
 
-  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 
-  border-top:
-    1px solid rgba(255, 255, 255, 0.08);
+  background: var(--black);
 
-  background: #000;
+  color: rgba(242, 242, 242, 0.45);
+
+  font-size: 9px;
+
+  letter-spacing: 2px;
 }
 
 .footer-logo {
-
   display: flex;
-
   align-items: center;
-
   gap: 10px;
 
-  font-size: 14px;
+  color: var(--white);
 
+  font-size: 14px;
   font-weight: 800;
+
+  letter-spacing: 0;
 }
 
 .footer-mark {
-
-  width: 27px;
-  height: 27px;
+  width: 25px;
+  height: 25px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -1351,38 +911,22 @@ button {
 }
 
 .footer-center {
-
   text-align: center;
-
-  font-size: 8px;
-
-  font-weight: 700;
-
-  letter-spacing: 3px;
-
-  color: #555;
 }
 
 .footer-copy {
-
   text-align: right;
-
-  font-size: 8px;
-
-  letter-spacing: 1px;
-
-  color: #555;
 }
 
 
 /* =========================================================
    TABLET
-   ========================================================= */
+========================================================= */
 
 @media (max-width: 900px) {
 
   .header {
-    padding: 0 25px;
+    padding: 22px 25px;
   }
 
   .navigation {
@@ -1390,28 +934,20 @@ button {
   }
 
   .navigation a {
-
     font-size: 9px;
-
-    letter-spacing: 1px;
   }
 
   .intro-layout {
-
     grid-template-columns: 1fr;
-
     gap: 55px;
   }
 
-  .intro-section {
-
-    padding-top: 110px;
-
-    padding-bottom: 110px;
+  .graffiti-logo {
+    height: 240px;
   }
 
-  .media-card {
-    min-height: 360px;
+  .graffiti-main {
+    font-size: clamp(90px, 18vw, 180px);
   }
 
 }
@@ -1419,15 +955,14 @@ button {
 
 /* =========================================================
    MOBILE
-   ========================================================= */
+========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 650px) {
 
   .header {
+    padding: 20px;
 
-    height: 70px;
-
-    padding: 0 20px;
+    position: absolute;
   }
 
   .navigation {
@@ -1435,278 +970,162 @@ button {
   }
 
   .menu-button {
-    display: flex;
+    display: block;
   }
 
 
   /* HERO */
 
   .hero {
-    min-height: 100svh;
-  }
-
-  .hero-content {
-
-    padding:
-      100px 5px
-      100px;
+    min-height: 90vh;
   }
 
   .hero-small {
-
-    margin-bottom: 18px;
+    margin-bottom: 25px;
 
     font-size: 8px;
 
     letter-spacing: 2.5px;
   }
 
-
-  /* MOBILE LOGO */
-
   .graffiti-logo {
+    width: 100vw;
+    height: 190px;
 
-    width: 112vw;
-
-    min-height: 190px;
-
-    margin-left: -6vw;
-  }
-
-  .graffiti-word {
-
-    min-height: 190px;
-  }
-
-  .graffiti-shadow,
-  .graffiti-white,
-  .graffiti-main {
-
-    font-size:
-      clamp(82px, 21vw, 145px);
-
-    letter-spacing: -4px;
-  }
-
-  .graffiti-shadow {
-
-    -webkit-text-stroke:
-      11px #000000;
-
-    text-shadow:
-      7px 9px 0 #000000;
-  }
-
-  .graffiti-white {
-
-    -webkit-text-stroke:
-      10px var(--white);
+    transform: rotate(-2deg);
   }
 
   .graffiti-main {
+    font-size: clamp(65px, 18vw, 125px);
 
-    -webkit-text-stroke:
-      5px #000000;
+    letter-spacing: -5px;
+
+    -webkit-text-stroke: 9px #000;
 
     text-shadow:
-      3px 4px 0 #000000,
-      6px 7px 0 var(--blue);
+      4px 4px 0 #f2f2f2,
+      7px 8px 0 #000,
+      11px 12px 0 #000,
+      14px 15px 0 rgba(0, 168, 255, 0.75);
   }
 
+  .graffiti-spray {
+    width: 90%;
+    height: 55%;
+  }
 
   .hero-side-text {
     display: none;
   }
 
   .hero-bottom {
-    bottom: 24px;
-  }
-
-  .hero-bottom span {
-
-    font-size: 7px;
-
-    letter-spacing: 2px;
+    left: 20px;
+    bottom: 25px;
   }
 
 
-  /* INTRO */
+  /* SECTIONS */
+
+  .intro-section,
+  .feature-section,
+  .media-section,
+  .final-section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 
   .intro-section {
-
-    padding:
-      95px 22px
-      100px;
+    padding-top: 100px;
+    padding-bottom: 100px;
   }
 
-  .intro-section .section-label {
-    margin-bottom: 45px;
-  }
-
-  .intro-layout {
-    gap: 45px;
+  .section-label {
+    margin-bottom: 35px;
   }
 
   .intro-title h2 {
-
-    font-size:
-      clamp(43px, 13vw, 70px);
+    font-size: clamp(43px, 12vw, 65px);
 
     letter-spacing: -3px;
   }
 
-  .intro-text p {
-
-    font-size: 13px;
-
-    line-height: 1.7;
+  .intro-text {
+    font-size: 14px;
   }
 
 
-  /* SKATEPLÄTZE */
+  /* FEATURE */
 
   .feature-section {
-
-    padding:
-      80px 22px
-      90px;
-  }
-
-  .feature-section .section-label {
-    margin-bottom: 28px;
-  }
-
-  .feature-heading {
-    gap: 18px;
+    padding-top: 80px;
+    padding-bottom: 80px;
   }
 
   .feature-heading h2 {
-
-    font-size:
-      clamp(43px, 12vw, 68px);
+    font-size: clamp(42px, 12vw, 65px);
 
     letter-spacing: -3px;
   }
 
   .feature-arrow {
-
     width: 50px;
     height: 50px;
-
-    font-size: 21px;
   }
 
 
   /* MEDIA */
 
   .media-section {
-
-    padding:
-      85px 22px
-      100px;
+    padding-top: 90px;
+    padding-bottom: 100px;
   }
 
   .media-grid {
-
     grid-template-columns: 1fr;
-
-    gap: 14px;
   }
 
   .media-card {
-    min-height: 300px;
+    min-height: 330px;
   }
 
   .media-card-content {
-    padding: 30px;
-  }
-
-  .media-card h2 {
-
-    font-size: 65px;
-
-    letter-spacing: -4px;
+    padding: 28px;
   }
 
 
   /* FINAL */
 
   .final-section {
-
     min-height: 55vh;
 
-    padding:
-      90px 22px;
+    padding-top: 100px;
+    padding-bottom: 100px;
   }
 
   .final-section h2 {
+    font-size: clamp(50px, 14vw, 80px);
 
-    font-size:
-      clamp(62px, 17vw, 105px);
-
-    letter-spacing: -5px;
+    letter-spacing: -4px;
   }
 
 
   /* FOOTER */
 
   .footer {
-
-    padding:
-      28px 22px;
+    padding: 30px 20px;
 
     grid-template-columns: 1fr;
 
+    gap: 20px;
+
     text-align: center;
-
-    gap: 18px;
   }
 
-  .footer-logo {
-    justify-content: center;
-  }
-
-  .footer-center {
-    order: 3;
-  }
-
+  .footer-logo,
+  .footer-center,
   .footer-copy {
+    justify-content: center;
     text-align: center;
-  }
-
-}
-
-
-/* =========================================================
-   VERY SMALL
-   ========================================================= */
-
-@media (max-width: 390px) {
-
-  .graffiti-logo {
-
-    width: 118vw;
-
-    margin-left: -9vw;
-  }
-
-  .graffiti-shadow,
-  .graffiti-white,
-  .graffiti-main {
-
-    font-size: 82px;
-
-    letter-spacing: -3px;
-  }
-
-  .feature-heading h2 {
-    font-size: 40px;
-  }
-
-  .feature-arrow {
-
-    width: 46px;
-    height: 46px;
   }
 
 }
