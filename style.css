@@ -159,6 +159,7 @@ img {
 
 .navigation {
   display: flex;
+
   align-items: center;
 
   gap: 32px;
@@ -244,6 +245,7 @@ img {
   padding: 120px 5vw 70px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -271,15 +273,16 @@ img {
   background:
     radial-gradient(
       circle,
-      rgba(0, 168, 255, 0.15) 0%,
-      rgba(0, 168, 255, 0.07) 25%,
+      rgba(0, 168, 255, 0.16) 0%,
+      rgba(0, 168, 255, 0.07) 27%,
       rgba(0, 168, 255, 0.025) 48%,
       transparent 72%
     );
 
   pointer-events: none;
 
-  animation: heroGlow 6s ease-in-out infinite;
+  animation:
+    heroGlow 6s ease-in-out infinite;
 }
 
 @keyframes heroGlow {
@@ -347,6 +350,7 @@ img {
   width: 100%;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
@@ -357,7 +361,7 @@ img {
 
 
 /* =========================================
-   MAIN LOGO
+   MAIN LOGO AREA
 ========================================= */
 
 .main-logo {
@@ -368,24 +372,37 @@ img {
   align-items: center;
   justify-content: center;
 
-  width: min(1000px, 90vw);
+  width: min(1050px, 92vw);
 
-  min-height: 230px;
+  min-height: 250px;
 
-  animation: logoAppear 1s ease-out both;
+  animation:
+    logoEntrance 1.2s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    both;
+
+  isolation: isolate;
 }
 
-@keyframes logoAppear {
+@keyframes logoEntrance {
 
-  from {
+  0% {
     opacity: 0;
 
     transform:
-      scale(0.86)
-      rotate(-2deg);
+      scale(0.72)
+      rotate(-8deg);
   }
 
-  to {
+  60% {
+    opacity: 1;
+
+    transform:
+      scale(1.04)
+      rotate(1deg);
+  }
+
+  100% {
     opacity: 1;
 
     transform:
@@ -397,49 +414,155 @@ img {
 
 
 /* =========================================
-   BLUE PAINT BEHIND LOGO
+   PAINT CLOUD
 ========================================= */
 
-.paint-stroke {
+.paint-cloud {
   position: absolute;
 
-  width: 78%;
-  height: 105px;
+  width: 76%;
+  height: 120px;
 
-  left: 11%;
+  left: 12%;
   top: 50%;
 
   transform:
     translateY(-50%)
-    rotate(-5deg)
-    skewX(-12deg);
+    rotate(-5deg);
 
   background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 168, 255, 0.12) 8%,
-      rgba(0, 168, 255, 0.42) 30%,
-      rgba(0, 168, 255, 0.2) 70%,
-      transparent 100%
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 168, 255, 0.5) 0%,
+      rgba(0, 168, 255, 0.25) 30%,
+      rgba(0, 168, 255, 0.08) 58%,
+      transparent 76%
     );
 
-  filter: blur(8px);
+  filter: blur(12px);
 
-  opacity: 0.7;
+  opacity: 0;
 
-  z-index: 1;
+  z-index: -2;
+
+  animation:
+    paintAppear 0.9s ease-out 0.35s
+    forwards;
+}
+
+@keyframes paintAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      rotate(-5deg)
+      scaleX(0.2);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(-50%)
+      rotate(-5deg)
+      scaleX(1);
+  }
+
 }
 
 
 /* =========================================
-   MOI-CY LOGO
+   PAINT LINES
+========================================= */
+
+.paint-line {
+  position: absolute;
+
+  height: 3px;
+
+  background: var(--blue);
+
+  border-radius: 50%;
+
+  filter:
+    blur(1px)
+    drop-shadow(
+      0 0 8px
+      rgba(0, 168, 255, 0.7)
+    );
+
+  opacity: 0;
+
+  z-index: -1;
+
+  animation:
+    sprayLine 0.8s
+    ease-out
+    forwards;
+}
+
+.paint-line-1 {
+  width: 115px;
+
+  left: 9%;
+  top: 35%;
+
+  transform: rotate(-13deg);
+
+  animation-delay: 0.45s;
+}
+
+.paint-line-2 {
+  width: 80px;
+
+  right: 9%;
+  top: 62%;
+
+  transform: rotate(11deg);
+
+  animation-delay: 0.58s;
+}
+
+.paint-line-3 {
+  width: 45px;
+
+  right: 17%;
+  top: 29%;
+
+  transform: rotate(-22deg);
+
+  animation-delay: 0.7s;
+}
+
+@keyframes sprayLine {
+
+  from {
+    opacity: 0;
+
+    transform:
+      scaleX(0)
+      rotate(-13deg);
+  }
+
+  to {
+    opacity: 0.75;
+
+    transform:
+      scaleX(1)
+      rotate(-13deg);
+  }
+
+}
+
+
+/* =========================================
+   THE ACTUAL LOGO
 ========================================= */
 
 .logo-main {
   position: relative;
-
-  z-index: 5;
 
   display: block;
 
@@ -459,13 +582,36 @@ img {
 
   transform: rotate(-4deg);
 
-  /* Ein einziger Schriftzug + echter Logo-Effekt */
-  -webkit-text-stroke: 3px #050505;
+  /*
+     kräftige schwarze Graffiti-Kontur
+  */
+
+  -webkit-text-stroke: 4px #050505;
+
+  /*
+     Spray-/Street-Shadow
+  */
 
   text-shadow:
-    7px 7px 0 #050505,
-    0 0 18px rgba(0, 168, 255, 0.4),
-    0 0 45px rgba(0, 168, 255, 0.16);
+    8px 8px 0 #050505,
+    12px 12px 0 rgba(0, 0, 0, 0.45),
+    0 0 12px rgba(0, 168, 255, 0.55),
+    0 0 38px rgba(0, 168, 255, 0.2);
+
+  /*
+     Das "Aufsprühen"
+  */
+
+  clip-path:
+    inset(
+      0 100% 0 0
+    );
+
+  animation:
+    sprayReveal 1.15s
+    cubic-bezier(0.77, 0, 0.175, 1)
+    0.15s
+    forwards;
 
   transition:
     color 0.35s ease,
@@ -473,36 +619,68 @@ img {
     text-shadow 0.35s ease;
 }
 
+@keyframes sprayReveal {
 
-/* dezenter blauer Rand */
+  0% {
+    clip-path:
+      inset(
+        0 100% 0 0
+      );
+  }
 
-.logo-main::after {
+  100% {
+    clip-path:
+      inset(
+        0 0 0 0
+      );
+  }
+
+}
+
+
+/* =========================================
+   GRAFFITI EDGE
+========================================= */
+
+.logo-main::before {
   content: "";
 
   position: absolute;
 
-  inset: 0;
+  left: -5%;
+  right: -5%;
 
-  z-index: -1;
+  bottom: -13%;
 
-  color: transparent;
+  height: 9px;
 
-  -webkit-text-stroke: 2px rgba(0, 168, 255, 0.65);
-
-  transform:
-    translate(5px, 4px);
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 168, 255, 0.8),
+      transparent
+    );
 
   filter:
+    blur(4px)
     drop-shadow(
-      0 0 10px
-      rgba(0, 168, 255, 0.45)
+      0 0 8px
+      rgba(0, 168, 255, 0.7)
     );
+
+  opacity: 0.7;
+
+  transform:
+    rotate(-1deg);
 
   pointer-events: none;
 }
 
 
-/* HOVER */
+/* =========================================
+   LOGO HOVER
+========================================= */
 
 .main-logo:hover .logo-main {
   color: var(--blue);
@@ -512,9 +690,9 @@ img {
     scale(1.025);
 
   text-shadow:
-    7px 7px 0 #050505,
-    0 0 25px rgba(0, 168, 255, 0.75),
-    0 0 60px rgba(0, 168, 255, 0.3);
+    8px 8px 0 #050505,
+    0 0 22px rgba(0, 168, 255, 0.8),
+    0 0 55px rgba(0, 168, 255, 0.4);
 }
 
 
@@ -533,59 +711,137 @@ img {
   background: var(--blue);
 
   box-shadow:
-    0 0 12px rgba(0, 168, 255, 0.8);
-
-  opacity: 0.7;
+    0 0 10px rgba(0, 168, 255, 0.9);
 
   pointer-events: none;
+
+  opacity: 0;
+
+  animation:
+    particleAppear
+    0.5s
+    ease-out
+    forwards;
 }
 
 .spray-1 {
-  left: 22%;
-  top: 42%;
+  left: 20%;
+  top: 39%;
 
   width: 7px;
   height: 7px;
+
+  animation-delay: 0.35s;
 }
 
 .spray-2 {
-  left: 26%;
-  top: 49%;
+  left: 24%;
+  top: 52%;
 
   width: 3px;
   height: 3px;
+
+  animation-delay: 0.5s;
 }
 
 .spray-3 {
-  right: 23%;
-  top: 38%;
+  right: 20%;
+  top: 36%;
 
   width: 8px;
   height: 8px;
+
+  animation-delay: 0.45s;
 }
 
 .spray-4 {
-  right: 27%;
-  top: 55%;
+  right: 24%;
+  top: 56%;
 
   width: 4px;
   height: 4px;
+
+  animation-delay: 0.65s;
 }
 
 .spray-5 {
-  left: 31%;
-  top: 32%;
+  left: 29%;
+  top: 29%;
 
   width: 3px;
   height: 3px;
+
+  animation-delay: 0.7s;
 }
 
 .spray-6 {
-  right: 31%;
-  top: 30%;
+  right: 29%;
+  top: 28%;
 
   width: 4px;
   height: 4px;
+
+  animation-delay: 0.55s;
+}
+
+.spray-7 {
+  left: 17%;
+  top: 48%;
+
+  width: 2px;
+  height: 2px;
+
+  animation-delay: 0.8s;
+}
+
+.spray-8 {
+  right: 18%;
+  top: 45%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 0.75s;
+}
+
+.spray-9 {
+  left: 34%;
+  top: 63%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 0.9s;
+}
+
+.spray-10 {
+  right: 34%;
+  top: 62%;
+
+  width: 2px;
+  height: 2px;
+
+  animation-delay: 1s;
+}
+
+@keyframes particleAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      scale(0)
+      translateY(8px);
+  }
+
+  to {
+    opacity: 0.75;
+
+    transform:
+      scale(1)
+      translateY(0);
+  }
+
 }
 
 
@@ -598,15 +854,24 @@ img {
 
   z-index: 20;
 
-  margin-top: 45px;
+  /*
+     deutlich mehr Abstand zum Logo
+  */
+
+  margin-top: 85px;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
 
   animation:
-    ctaAppear 0.9s ease-out 0.25s both;
+    ctaAppear
+    0.9s
+    ease-out
+    0.9s
+    both;
 }
 
 @keyframes ctaAppear {
@@ -615,7 +880,7 @@ img {
     opacity: 0;
 
     transform:
-      translateY(20px);
+      translateY(35px);
   }
 
   to {
@@ -662,7 +927,7 @@ img {
 
   gap: 30px;
 
-  margin-top: 22px;
+  margin-top: 25px;
 
   min-width: 300px;
 
@@ -670,7 +935,8 @@ img {
 
   border: 1px solid var(--blue);
 
-  background: rgba(0, 168, 255, 0.035);
+  background:
+    rgba(0, 168, 255, 0.035);
 
   color: #f2f2f2;
 
@@ -701,7 +967,8 @@ img {
 
   background: var(--blue);
 
-  transition: width 0.35s ease;
+  transition:
+    width 0.35s ease;
 
   z-index: 0;
 }
@@ -728,7 +995,8 @@ img {
 .skatepark-button:hover {
   color: #050505;
 
-  transform: translateY(-4px);
+  transform:
+    translateY(-4px);
 
   box-shadow:
     0 0 30px rgba(0, 168, 255, 0.3),
@@ -742,7 +1010,8 @@ img {
 .skatepark-button:hover strong {
   color: #050505;
 
-  transform: translateX(8px);
+  transform:
+    translateX(8px);
 }
 
 
@@ -1028,7 +1297,8 @@ img {
 
   opacity: 0;
 
-  transition: opacity 0.35s ease;
+  transition:
+    opacity 0.35s ease;
 }
 
 .image-box:hover .media-overlay {
@@ -1583,7 +1853,7 @@ img {
   }
 
 
-  /* HERO */
+  /* MOBILE HERO */
 
   .hero {
     min-height: 100svh;
@@ -1606,7 +1876,7 @@ img {
   .main-logo {
     width: 100%;
 
-    min-height: 150px;
+    min-height: 155px;
   }
 
   .logo-main {
@@ -1616,59 +1886,51 @@ img {
 
     text-shadow:
       5px 5px 0 #050505,
-      0 0 16px rgba(0, 168, 255, 0.4),
-      0 0 35px rgba(0, 168, 255, 0.16);
+      0 0 15px rgba(0, 168, 255, 0.55),
+      0 0 35px rgba(0, 168, 255, 0.2);
   }
 
-  .logo-main::after {
-    -webkit-text-stroke: 1px rgba(0, 168, 255, 0.65);
-
-    transform:
-      translate(3px, 3px);
+  .logo-main::before {
+    bottom: -10%;
   }
 
-  .paint-stroke {
-    width: 92%;
+  .paint-cloud {
+    width: 95%;
 
-    left: 4%;
+    left: 2.5%;
 
-    height: 70px;
+    height: 75px;
   }
 
+  .paint-line-1 {
+    width: 55px;
 
-  /* SPRAY */
-
-  .spray-1 {
-    left: 10%;
+    left: 1%;
   }
 
-  .spray-2 {
-    left: 18%;
+  .paint-line-2 {
+    width: 45px;
+
+    right: 1%;
   }
 
-  .spray-3 {
-    right: 10%;
-  }
+  .paint-line-3 {
+    width: 30px;
 
-  .spray-4 {
-    right: 17%;
-  }
-
-  .spray-5 {
-    left: 24%;
-  }
-
-  .spray-6 {
-    right: 24%;
+    right: 8%;
   }
 
 
-  /* CTA */
+  /* MOBILE CTA */
 
   .skatepark-cta {
     width: 100%;
 
-    margin-top: 30px;
+    /*
+       ebenfalls etwas tiefer auf Mobile
+    */
+
+    margin-top: 65px;
   }
 
   .cta-label {
