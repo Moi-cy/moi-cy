@@ -19,290 +19,460 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=graffiti4">
+  <link rel="stylesheet" href="style.css?v=graffiti5">
 </head>
 
 <body>
 
-<header class="header">
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
 
-  <a href="index.html" class="logo">
-    <span class="logo-mark">M</span>
-    <span>Moi-cy</span>
-  </a>
+  <header class="header">
 
-  <nav class="navigation">
-    <a href="index.html">HOME</a>
-    <a href="bilder.html">BILDER</a>
-    <a href="videos.html">VIDEOS</a>
-    <a href="skateplaetze.html">SKATEPLÄTZE</a>
-    <a href="kontakt.html">KONTAKT</a>
-    <a href="shop.html">SHOP</a>
-  </nav>
+    <a href="index.html" class="logo">
+      <span class="logo-mark">M</span>
+      <span>Moi-cy</span>
+    </a>
 
-  <button
-    class="menu-button"
-    id="menuButton"
-    aria-label="Menü öffnen"
-  >
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+    <nav class="navigation">
+      <a href="index.html">HOME</a>
+      <a href="bilder.html">BILDER</a>
+      <a href="videos.html">VIDEOS</a>
+      <a href="skateplaetze.html">SKATEPLÄTZE</a>
+      <a href="kontakt.html">KONTAKT</a>
+      <a href="shop.html">SHOP</a>
+    </nav>
 
-</header>
+    <button
+      class="menu-button"
+      id="menuButton"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-
-<main>
-
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <div class="hero-background"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
+  </header>
 
 
-    <div class="hero-content">
+  <!-- =====================================================
+       MOBILE MENU
+  ====================================================== -->
 
-      <span class="hero-small">
-        SKATEBOARDING / SINCE 2023
-      </span>
+  <div class="mobile-menu" id="mobileMenu">
+
+    <nav>
+
+      <a href="index.html">HOME</a>
+      <a href="bilder.html">BILDER</a>
+      <a href="videos.html">VIDEOS</a>
+      <a href="skateplaetze.html">SKATEPLÄTZE</a>
+      <a href="kontakt.html">KONTAKT</a>
+      <a href="shop.html">SHOP</a>
+
+    </nav>
+
+  </div>
 
 
-      <!-- GRAFFITI LOGO -->
+  <main>
 
-      <div class="graffiti-logo">
+    <!-- ===================================================
+         HERO
+    ==================================================== -->
 
-        <div class="graffiti-spray"></div>
+    <section class="hero">
 
-        <div class="graffiti-word">
+      <div class="hero-background"></div>
 
-          <span class="graffiti-main">
-            Moi-cy
-          </span>
+      <div class="hero-grid"></div>
+
+      <div class="hero-glow"></div>
+
+
+      <div class="hero-content">
+
+        <span class="hero-small">
+          SKATEBOARDING / SINCE 2023
+        </span>
+
+
+        <!-- ===============================================
+             GRAFFITI LOGO
+             EIN Logo – EINfarbig
+        ================================================= -->
+
+        <div class="graffiti-logo" id="graffitiLogo">
+
+          <!-- Spraywolke -->
+          <div
+            class="spray-cloud"
+            id="sprayCloud"
+            aria-hidden="true"
+          ></div>
+
+
+          <!-- SVG für das tatsächliche Aufsprühen -->
+          <svg
+            class="graffiti-svg"
+            viewBox="0 0 1000 300"
+            role="img"
+            aria-label="Moi-cy"
+            preserveAspectRatio="xMidYMid meet"
+          >
+
+            <defs>
+
+              <!--
+                Diese Maske wird von links nach rechts
+                aufgedeckt.
+              -->
+              <linearGradient
+                id="sprayReveal"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0"
+              >
+                <stop
+                  id="revealStart"
+                  offset="0%"
+                  stop-color="white"
+                />
+
+                <stop
+                  id="revealEdge"
+                  offset="0%"
+                  stop-color="white"
+                />
+
+                <stop
+                  id="revealEnd"
+                  offset="0%"
+                  stop-color="black"
+                />
+
+                <stop
+                  id="revealFinish"
+                  offset="0%"
+                  stop-color="black"
+                />
+              </linearGradient>
+
+              <mask id="sprayMask">
+
+                <rect
+                  x="0"
+                  y="0"
+                  width="1000"
+                  height="300"
+                  fill="black"
+                />
+
+                <rect
+                  id="revealRect"
+                  x="0"
+                  y="0"
+                  width="0"
+                  height="300"
+                  fill="white"
+                />
+
+              </mask>
+
+              <!-- leichter Spray-Noise-Effekt -->
+              <filter
+                id="sprayRoughness"
+                x="-20%"
+                y="-30%"
+                width="140%"
+                height="160%"
+              >
+
+                <feTurbulence
+                  type="fractalNoise"
+                  baseFrequency="0.035"
+                  numOctaves="2"
+                  seed="7"
+                  result="noise"
+                />
+
+                <feDisplacementMap
+                  in="SourceGraphic"
+                  in2="noise"
+                  scale="2.5"
+                  xChannelSelector="R"
+                  yChannelSelector="G"
+                />
+
+              </filter>
+
+            </defs>
+
+
+            <!--
+              Die Schrift wird nur EINMAL gezeichnet.
+              Keine drei Texte mehr.
+            -->
+
+            <text
+              x="500"
+              y="205"
+              text-anchor="middle"
+              class="graffiti-text graffiti-shadow"
+              aria-hidden="true"
+            >
+              Moi-cy
+            </text>
+
+            <text
+              x="500"
+              y="205"
+              text-anchor="middle"
+              class="graffiti-text graffiti-outline"
+              mask="url(#sprayMask)"
+              filter="url(#sprayRoughness)"
+            >
+              Moi-cy
+            </text>
+
+          </svg>
+
+
+          <!-- kleine Sprühpartikel -->
+
+          <span class="spray-dot dot-1"></span>
+          <span class="spray-dot dot-2"></span>
+          <span class="spray-dot dot-3"></span>
+          <span class="spray-dot dot-4"></span>
+          <span class="spray-dot dot-5"></span>
+          <span class="spray-dot dot-6"></span>
+          <span class="spray-dot dot-7"></span>
+          <span class="spray-dot dot-8"></span>
+          <span class="spray-dot dot-9"></span>
+          <span class="spray-dot dot-10"></span>
+          <span class="spray-dot dot-11"></span>
+          <span class="spray-dot dot-12"></span>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-side-text">
+        SKATE / CREATE / EXPLORE
+      </div>
+
+
+      <div class="hero-bottom">
+
+        <span>
+          SCROLL TO EXPLORE
+        </span>
+
+        <div class="scroll-line"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         INTRO
+    ==================================================== -->
+
+    <section class="intro-section">
+
+      <div class="section-label">
+        01 / ABOUT MOI-CY
+      </div>
+
+      <div class="intro-layout">
+
+        <div class="intro-title">
+
+          <h2>
+            SKATEBOARDING
+            <span>IS MORE</span>
+            THAN A SPORT.
+          </h2>
 
         </div>
 
 
-        <!-- SPRAY / SPLATTER -->
+        <div class="intro-text">
 
-        <span class="splash splash-1"></span>
-        <span class="splash splash-2"></span>
-        <span class="splash splash-3"></span>
-        <span class="splash splash-4"></span>
-        <span class="splash splash-5"></span>
-        <span class="splash splash-6"></span>
-        <span class="splash splash-7"></span>
-        <span class="splash splash-8"></span>
-        <span class="splash splash-9"></span>
-        <span class="splash splash-10"></span>
-        <span class="splash splash-11"></span>
-        <span class="splash splash-12"></span>
+          <p>
+            Moi-cy steht für Skateboarding, Bewegung,
+            Kreativität und die Freiheit, neue Orte
+            und neue Lines zu entdecken.
+          </p>
+
+          <p>
+            Von Street über Bowl bis Pool –
+            hier geht es vor allem darum,
+            rauszugehen und zu skaten.
+          </p>
+
+          <span class="handwritten">
+            just skate.
+          </span>
+
+        </div>
 
       </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SKATEPLÄTZE
+    ==================================================== -->
+
+    <section class="feature-section">
+
+      <div class="section-label">
+        02 / SKATEPLÄTZE
+      </div>
+
+      <div class="feature-heading">
+
+        <h2>
+          FIND YOUR
+          <span>SPOT.</span>
+        </h2>
+
+        <a
+          href="skateplaetze.html"
+          class="feature-arrow"
+          aria-label="Skateplätze entdecken"
+        >
+          →
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         MEDIA
+    ==================================================== -->
+
+    <section class="media-section">
+
+      <div class="section-label">
+        03 / MEDIA
+      </div>
+
+
+      <div class="media-grid">
+
+        <a
+          href="bilder.html"
+          class="media-card media-images"
+        >
+
+          <div class="media-card-content">
+
+            <span>
+              VISUAL ARCHIVE
+            </span>
+
+            <h2>
+              BILDER<span>.</span>
+            </h2>
+
+            <strong>
+              ANSEHEN →
+            </strong>
+
+          </div>
+
+        </a>
+
+
+        <a
+          href="videos.html"
+          class="media-card media-videos"
+        >
+
+          <div class="media-card-content">
+
+            <span>
+              WATCH
+            </span>
+
+            <h2>
+              VIDEOS<span>.</span>
+            </h2>
+
+            <strong>
+              ANSEHEN →
+            </strong>
+
+          </div>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         FINAL
+    ==================================================== -->
+
+    <section class="final-section">
+
+      <span>
+        KEEP MOVING.
+      </span>
+
+      <h2>
+        SEE YOU
+        <em>OUT THERE.</em>
+      </h2>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer class="footer">
+
+    <div class="footer-logo">
+
+      <span class="footer-mark">
+        M
+      </span>
+
+      Moi-cy
 
     </div>
 
 
-    <div class="hero-side-text">
+    <div class="footer-center">
       SKATE / CREATE / EXPLORE
     </div>
 
 
-    <div class="hero-bottom">
-
-      <span>
-        SCROLL TO EXPLORE
-      </span>
-
-      <div class="scroll-line"></div>
-
+    <div class="footer-copy">
+      © 2026 Moi-cy
     </div>
 
-  </section>
+  </footer>
 
 
-  <!-- INTRO -->
-
-  <section class="intro-section">
-
-    <div class="section-label">
-      01 / ABOUT MOI-CY
-    </div>
-
-    <div class="intro-layout">
-
-      <div class="intro-title">
-
-        <h2>
-          SKATEBOARDING
-          <span>IS MORE</span>
-          THAN A SPORT.
-        </h2>
-
-      </div>
-
-      <div class="intro-text">
-
-        <p>
-          Moi-cy steht für Skateboarding, Bewegung,
-          Kreativität und die Freiheit, neue Orte
-          und neue Lines zu entdecken.
-        </p>
-
-        <p>
-          Von Street über Bowl bis Pool –
-          hier geht es vor allem darum,
-          rauszugehen und zu skaten.
-        </p>
-
-        <span class="handwritten">
-          just skate.
-        </span>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- SKATEPLÄTZE -->
-
-  <section class="feature-section">
-
-    <div class="section-label">
-      02 / SKATEPLÄTZE
-    </div>
-
-    <div class="feature-heading">
-
-      <h2>
-        FIND YOUR
-        <span>SPOT.</span>
-      </h2>
-
-      <a
-        href="skateplaetze.html"
-        class="feature-arrow"
-        aria-label="Skateplätze entdecken"
-      >
-        →
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- MEDIA -->
-
-  <section class="media-section">
-
-    <div class="section-label">
-      03 / MEDIA
-    </div>
-
-    <div class="media-grid">
-
-      <a
-        href="bilder.html"
-        class="media-card media-images"
-      >
-
-        <div class="media-card-content">
-
-          <span>
-            VISUAL ARCHIVE
-          </span>
-
-          <h2>
-            BILDER<span>.</span>
-          </h2>
-
-          <strong>
-            ANSEHEN →
-          </strong>
-
-        </div>
-
-      </a>
-
-
-      <a
-        href="videos.html"
-        class="media-card media-videos"
-      >
-
-        <div class="media-card-content">
-
-          <span>
-            WATCH
-          </span>
-
-          <h2>
-            VIDEOS<span>.</span>
-          </h2>
-
-          <strong>
-            ANSEHEN →
-          </strong>
-
-        </div>
-
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- FINAL -->
-
-  <section class="final-section">
-
-    <span>
-      KEEP MOVING.
-    </span>
-
-    <h2>
-      SEE YOU
-      <em>OUT THERE.</em>
-    </h2>
-
-  </section>
-
-</main>
-
-
-<!-- FOOTER -->
-
-<footer class="footer">
-
-  <div class="footer-logo">
-
-    <span class="footer-mark">
-      M
-    </span>
-
-    Moi-cy
-
-  </div>
-
-  <div class="footer-center">
-    SKATE / CREATE / EXPLORE
-  </div>
-
-  <div class="footer-copy">
-    © 2026 Moi-cy
-  </div>
-
-</footer>
-
-
-<script src="script.js"></script>
+  <script src="script.js?v=graffiti5"></script>
 
 </body>
 </html>
