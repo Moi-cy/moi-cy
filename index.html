@@ -2,7 +2,13 @@
 <html lang="de">
 
 <head>
+
   <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Moi-cy – Skateboarding</title>
@@ -10,10 +16,18 @@
   <meta
     name="description"
     content="Moi-cy – Skateboarding, Skateplätze, Bilder und Videos."
-    data-i18n-attr="content"
-    data-i18n="meta.description"
   >
 
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+    crossorigin
+  >
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -22,83 +36,46 @@
     rel="stylesheet"
   >
 
+  <link
+    rel="stylesheet"
+    href="style.css?v=graffiti9"
+  >
+
   <link rel="stylesheet" href="style.css?v=shop-slider1">
-  <link rel="stylesheet" href="style.css?v=language1">
 </head>
 
 <body>
+
 
   <!-- HEADER -->
 
   <header class="header">
 
+    <a
+      href="index.html"
+      class="logo"
+    >
     <a href="index.html" class="logo">
       <span class="logo-mark">M</span>
       <span>Moi-cy</span>
     </a>
 
+
     <nav class="navigation">
+
       <a href="index.html">HOME</a>
+
       <a href="bilder.html">BILDER</a>
+
       <a href="videos.html">VIDEOS</a>
+
       <a href="skateplaetze.html">SKATEPLÄTZE</a>
+
       <a href="kontakt.html">KONTAKT</a>
+
       <a href="shop.html">SHOP</a>
 
-      <a href="index.html" data-i18n="nav.home">HOME</a>
-
-      <a href="bilder.html" data-i18n="nav.images">BILDER</a>
-
-      <a href="videos.html" data-i18n="nav.videos">VIDEOS</a>
-
-      <a href="skateplaetze.html" data-i18n="nav.spots">
-        SKATEPLÄTZE
-      </a>
-
-      <a href="kontakt.html" data-i18n="nav.contact">
-        KONTAKT
-      </a>
-
-      <a href="shop.html" data-i18n="nav.shop">
-        SHOP
-      </a>
-
     </nav>
-
-
-    <!-- LANGUAGE SWITCHER -->
-
-    <div class="language-switcher" aria-label="Sprache auswählen">
-
-      <button
-        class="language-button active"
-        data-language="de"
-        aria-label="Deutsch"
-      >
-        DE
-      </button>
-
-      <span>/</span>
-
-      <button
-        class="language-button"
-        data-language="en"
-        aria-label="English"
-      >
-        EN
-      </button>
-
-      <span>/</span>
-
-      <button
-        class="language-button"
-        data-language="fr"
-        aria-label="Français"
-      >
-        FR
-      </button>
-
-    </div>
 
 
     <button
@@ -107,48 +84,27 @@
       aria-label="Menü öffnen"
       aria-expanded="false"
     >
+
       <span></span>
       <span></span>
       <span></span>
+
     </button>
 
   </header>
 
 
+
   <!-- MOBILE MENU -->
 
+  <div
+    class="mobile-menu"
+    id="mobileMenu"
+  >
   <div class="mobile-menu" id="mobileMenu">
 
-    <div class="mobile-language-switcher">
-
-      <button
-        class="language-button active"
-        data-language="de"
-      >
-        DE
-      </button>
-
-      <span>/</span>
-
-      <button
-        class="language-button"
-        data-language="en"
-      >
-        EN
-      </button>
-
-      <span>/</span>
-
-      <button
-        class="language-button"
-        data-language="fr"
-      >
-        FR
-      </button>
-
-    </div>
-
     <nav>
+
       <a href="index.html">HOME</a>
       <a href="bilder.html">BILDER</a>
       <a href="videos.html">VIDEOS</a>
@@ -156,33 +112,10 @@
       <a href="kontakt.html">KONTAKT</a>
       <a href="shop.html">SHOP</a>
 
-      <a href="index.html" data-i18n="nav.home">
-        HOME
-      </a>
-
-      <a href="bilder.html" data-i18n="nav.images">
-        BILDER
-      </a>
-
-      <a href="videos.html" data-i18n="nav.videos">
-        VIDEOS
-      </a>
-
-      <a href="skateplaetze.html" data-i18n="nav.spots">
-        SKATEPLÄTZE
-      </a>
-
-      <a href="kontakt.html" data-i18n="nav.contact">
-        KONTAKT
-      </a>
-
-      <a href="shop.html" data-i18n="nav.shop">
-        SHOP
-      </a>
-
     </nav>
 
   </div>
+
 
 
   <main>
@@ -202,26 +135,47 @@
       <div class="hero-content">
 
         <span class="hero-small">
-        <span
-          class="hero-small"
-          data-i18n="hero.small"
-        >
           SKATEBOARDING / SINCE 2023
         </span>
 
         <div class="graffiti-logo" id="graffitiLogo">
 
-          <div class="graffiti-word" id="graffitiWord" aria-label="Moi-cy">
         <div
           class="graffiti-logo"
           id="graffitiLogo"
         >
+
+
+          <!-- SPRAY CLOUD -->
+
+          <div
+            class="spray-head"
+            id="sprayHead"
+            aria-hidden="true"
+          >
+
+            <div class="spray-cloud"></div>
+
+            <i class="spray-particle particle-1"></i>
+            <i class="spray-particle particle-2"></i>
+            <i class="spray-particle particle-3"></i>
+            <i class="spray-particle particle-4"></i>
+            <i class="spray-particle particle-5"></i>
+            <i class="spray-particle particle-6"></i>
+            <i class="spray-particle particle-7"></i>
+            <i class="spray-particle particle-8"></i>
+
+          </div>
+
+
+          <!-- LOGO -->
 
           <div
             class="graffiti-word"
             id="graffitiWord"
             aria-label="Moi-cy"
           >
+          <div class="graffiti-word" id="graffitiWord" aria-label="Moi-cy">
 
             <span class="graffiti-letter">M</span>
             <span class="graffiti-letter">o</span>
@@ -232,26 +186,32 @@
 
           </div>
 
+
+          <!-- SMALL PAINT SPLASHES -->
+
+          <span class="paint-splash splash-1"></span>
+          <span class="paint-splash splash-2"></span>
+          <span class="paint-splash splash-3"></span>
+          <span class="paint-splash splash-4"></span>
+          <span class="paint-splash splash-5"></span>
+          <span class="paint-splash splash-6"></span>
+
         </div>
 
       </div>
 
-      <div class="hero-side-text">
 
-      <div
-        class="hero-side-text"
-        data-i18n="hero.side"
-      >
+      <div class="hero-side-text">
         SKATE / CREATE / EXPLORE
       </div>
 
 
       <div class="hero-bottom">
 
-        <span>SCROLL TO EXPLORE</span>
-        <span data-i18n="hero.scroll">
+        <span>
           SCROLL TO EXPLORE
         </span>
+        <span>SCROLL TO EXPLORE</span>
 
         <div class="scroll-line"></div>
 
@@ -260,40 +220,30 @@
     </section>
 
 
+
     <!-- ABOUT -->
 
     <section class="intro-section">
 
       <div class="section-label">
-      <div
-        class="section-label"
-        data-i18n="about.label"
-      >
         01 / ABOUT MOI-CY
       </div>
 
 
       <div class="intro-layout">
 
-
         <div class="intro-title">
 
           <h2>
+
             SKATEBOARDING
-            <span>IS MORE</span>
-            THAN A SPORT.
 
-            <span data-i18n="about.title1">
-              SKATEBOARDING
-            </span>
-
-            <span data-i18n="about.title2">
+            <span>
               IS MORE
             </span>
 
-            <span data-i18n="about.title3">
-              THAN A SPORT.
-            </span>
+            <span>IS MORE</span>
+            THAN A SPORT.
 
           </h2>
 
@@ -303,26 +253,20 @@
         <div class="intro-text">
 
           <p>
-          <p data-i18n="about.text1">
             Moi-cy steht für Skateboarding, Bewegung,
             Kreativität und die Freiheit, neue Orte
             und neue Lines zu entdecken.
           </p>
 
-          <p>
 
-          <p data-i18n="about.text2">
+          <p>
             Von Street über Bowl bis Pool –
             hier geht es vor allem darum,
             rauszugehen und zu skaten.
           </p>
 
-          <span class="handwritten">
 
-          <span
-            class="handwritten"
-            data-i18n="about.handwritten"
-          >
+          <span class="handwritten">
             just skate.
           </span>
 
@@ -333,15 +277,12 @@
     </section>
 
 
+
     <!-- SKATEPLÄTZE -->
 
     <section class="feature-section">
 
       <div class="section-label">
-      <div
-        class="section-label"
-        data-i18n="spots.label"
-      >
         02 / SKATEPLÄTZE
       </div>
 
@@ -349,17 +290,14 @@
       <div class="feature-heading">
 
         <h2>
+
           FIND YOUR
-          <span>SPOT.</span>
 
-          <span data-i18n="spots.title1">
-            FIND YOUR
-          </span>
-
-          <span data-i18n="spots.title2">
+          <span>
             SPOT.
           </span>
 
+          <span>SPOT.</span>
         </h2>
 
 
@@ -367,8 +305,6 @@
           href="skateplaetze.html"
           class="feature-arrow"
           aria-label="Skateplätze entdecken"
-          data-i18n-attr="aria-label"
-          data-i18n="spots.button"
         >
           →
         </a>
@@ -378,44 +314,37 @@
     </section>
 
 
+
     <!-- MEDIA -->
 
     <section class="media-section">
 
       <div class="section-label">
-      <div
-        class="section-label"
-        data-i18n="media.label"
-      >
         03 / MEDIA
       </div>
 
 
       <div class="media-grid">
 
-        <a href="bilder.html" class="media-card media-images">
 
         <a
           href="bilder.html"
           class="media-card media-images"
         >
+        <a href="bilder.html" class="media-card media-images">
 
           <div class="media-card-content">
 
-            <span>VISUAL ARCHIVE</span>
-            <span data-i18n="media.images.category">
+            <span>
               VISUAL ARCHIVE
             </span>
+            <span>VISUAL ARCHIVE</span>
 
             <h2>
               BILDER<span>.</span>
-              <span data-i18n="media.images.title">
-                BILDER
-              </span><span>.</span>
             </h2>
 
             <strong>
-            <strong data-i18n="media.images.button">
               ANSEHEN →
             </strong>
 
@@ -424,28 +353,24 @@
         </a>
 
 
-        <a href="videos.html" class="media-card media-videos">
         <a
           href="videos.html"
           class="media-card media-videos"
         >
+        <a href="videos.html" class="media-card media-videos">
 
           <div class="media-card-content">
 
-            <span>WATCH</span>
-            <span data-i18n="media.videos.category">
+            <span>
               WATCH
             </span>
+            <span>WATCH</span>
 
             <h2>
               VIDEOS<span>.</span>
-              <span data-i18n="media.videos.title">
-                VIDEOS
-              </span><span>.</span>
             </h2>
 
             <strong>
-            <strong data-i18n="media.videos.button">
               ANSEHEN →
             </strong>
 
@@ -459,15 +384,10 @@
 
 
     <!-- SHOP SLIDER -->
-    <!-- SHOP -->
 
     <section class="products-section">
 
       <div class="section-label">
-      <div
-        class="section-label"
-        data-i18n="shop.label"
-      >
         04 / SHOP
       </div>
 
@@ -477,22 +397,11 @@
         <h2>
           PICK YOUR
           <span>GEAR.</span>
-
-          <span data-i18n="shop.title1">
-            PICK YOUR
-          </span>
-
-          <span data-i18n="shop.title2">
-            GEAR.
-          </span>
-
         </h2>
-
 
         <a
           href="shop.html"
           class="products-shop-link"
-          data-i18n="shop.button"
         >
           SHOP →
         </a>
@@ -501,11 +410,6 @@
 
 
       <div class="product-slider" id="productSlider">
-      <div
-        class="product-slider"
-        id="productSlider"
-      >
-
 
         <!-- PRODUCT 1 -->
 
@@ -524,33 +428,23 @@
 
           </div>
 
-
           <div class="product-info">
 
             <div>
               <span class="product-category">
-
-              <span
-                class="product-category"
-                data-i18n="products.collection"
-              >
                 MOI-CY / COLLECTION
               </span>
 
               <h3>
-              <h3 data-i18n="products.hoodie">
                 UNISEX HOODIE
               </h3>
-
             </div>
-
 
             <div class="product-price">
               30,39 €
             </div>
 
           </div>
-
 
           <span class="product-arrow">
             →
@@ -576,33 +470,23 @@
 
           </div>
 
-
           <div class="product-info">
 
             <div>
               <span class="product-category">
-
-              <span
-                class="product-category"
-                data-i18n="products.collection"
-              >
                 MOI-CY / COLLECTION
               </span>
 
               <h3>
-              <h3 data-i18n="products.shirt">
                 BIO T-SHIRT
               </h3>
-
             </div>
-
 
             <div class="product-price">
               32,79 €
             </div>
 
           </div>
-
 
           <span class="product-arrow">
             →
@@ -628,33 +512,23 @@
 
           </div>
 
-
           <div class="product-info">
 
             <div>
               <span class="product-category">
-
-              <span
-                class="product-category"
-                data-i18n="products.skate"
-              >
                 MOI-CY / SKATE
               </span>
 
               <h3>
-              <h3 data-i18n="products.board">
                 SKATEBOARD
               </h3>
-
             </div>
-
 
             <div class="product-price">
               88,95 €
             </div>
 
           </div>
-
 
           <span class="product-arrow">
             →
@@ -697,22 +571,19 @@
     <section class="final-section">
 
       <span>
-      <span data-i18n="final.small">
         KEEP MOVING.
       </span>
 
+
       <h2>
+
         SEE YOU
-        <em>OUT THERE.</em>
 
-        <span data-i18n="final.title">
-          SEE YOU
-        </span>
-
-        <em data-i18n="final.title2">
+        <em>
           OUT THERE.
         </em>
 
+        <em>OUT THERE.</em>
       </h2>
 
     </section>
@@ -720,10 +591,10 @@
   </main>
 
 
+
   <!-- FOOTER -->
 
   <footer class="footer">
-
 
     <div class="footer-logo">
 
@@ -737,10 +608,6 @@
 
 
     <div class="footer-center">
-    <div
-      class="footer-center"
-      data-i18n="footer.center"
-    >
       SKATE / CREATE / EXPLORE
     </div>
 
@@ -752,8 +619,9 @@
   </footer>
 
 
+  <script src="script.js?v=graffiti9"></script>
   <script src="script.js?v=shop-slider1"></script>
-  <script src="script.js?v=language1"></script>
 
 </body>
+
 </html>
