@@ -39,7 +39,7 @@
 
     /* =========================
        HEADER
-    ========================= */
+    ========================== */
 
     header {
       position: fixed;
@@ -65,6 +65,7 @@
       font-size: 1.8rem;
       font-weight: 900;
       letter-spacing: -0.08em;
+      white-space: nowrap;
     }
 
     .logo span {
@@ -101,7 +102,7 @@
 
     /* =========================
        HERO
-    ========================= */
+    ========================== */
 
     .hero {
       min-height: 100vh;
@@ -133,6 +134,7 @@
     }
 
     .hero h1 {
+      white-space: nowrap;
       font-size: clamp(5rem, 12vw, 11rem);
       line-height: 0.78;
       letter-spacing: -0.09em;
@@ -170,6 +172,7 @@
 
     .hero-image::after {
       content: "Moi-cy";
+      white-space: nowrap;
       position: absolute;
       right: -20px;
       bottom: 10px;
@@ -189,7 +192,7 @@
 
     /* =========================
        INTRO
-    ========================= */
+    ========================== */
 
     .intro {
       padding: 180px 40px;
@@ -215,7 +218,7 @@
 
     /* =========================
        ABOUT
-    ========================= */
+    ========================== */
 
     .about {
       padding: 160px 40px;
@@ -255,7 +258,7 @@
 
     /* =========================
        CURRENT
-    ========================= */
+    ========================== */
 
     .current {
       padding: 160px 40px;
@@ -325,7 +328,7 @@
 
     /* =========================
        CONTACT
-    ========================= */
+    ========================== */
 
     .contact {
       padding: 180px 40px;
@@ -372,7 +375,7 @@
 
     /* =========================
        FOOTER
-    ========================= */
+    ========================== */
 
     footer {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -391,6 +394,7 @@
     .footer-logo {
       font-weight: 900;
       letter-spacing: -0.05em;
+      white-space: nowrap;
     }
 
     .footer-logo span {
@@ -405,7 +409,7 @@
 
     /* =========================
        RESPONSIVE
-    ========================= */
+    ========================== */
 
     @media (max-width: 900px) {
 
@@ -477,7 +481,7 @@
     @media (max-width: 600px) {
 
       .hero h1 {
-        font-size: 5rem;
+        font-size: clamp(4rem, 20vw, 6rem);
       }
 
       .hero-image {
@@ -600,6 +604,7 @@
       <div class="about-inner">
 
         <div>
+
           <div class="section-label">
             ABOUT MOI-CY
           </div>
@@ -609,6 +614,7 @@
             CREATE.<br>
             EXPLORE.
           </h2>
+
         </div>
 
 
@@ -639,7 +645,7 @@
 
 
     <!-- =========================
-         CURRENT
+         BILDER & VIDEOS
     ========================== -->
 
     <section class="current" id="bilder">
@@ -649,6 +655,7 @@
         <div class="current-header">
 
           <div>
+
             <div class="section-label">
               MOI-CY
             </div>
@@ -656,6 +663,7 @@
             <h2>
               MOMENTS
             </h2>
+
           </div>
 
           <p>
