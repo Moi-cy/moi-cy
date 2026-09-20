@@ -58,30 +58,23 @@ img {
 
 .small-label {
   display: inline-block;
-
   color: var(--blue);
-
   font-size: 0.68rem;
   font-weight: 700;
-
   letter-spacing: 0.16em;
 }
 
 .section-number {
   color: #444;
-
   font-size: 0.7rem;
   font-weight: 600;
-
   letter-spacing: 0.1em;
 }
 
 .graffiti-word,
 .handwritten {
   font-family: "Permanent Marker", cursive;
-
   color: var(--blue);
-
   line-height: 1;
 }
 
@@ -92,13 +85,10 @@ img {
 
 .header {
   position: fixed;
-
   top: 0;
   left: 0;
-
   width: 100%;
   height: 82px;
-
   padding: 0 5vw;
 
   display: flex;
@@ -106,9 +96,7 @@ img {
   justify-content: space-between;
 
   background: rgba(5, 5, 5, 0.9);
-
   backdrop-filter: blur(14px);
-
   border-bottom: 1px solid var(--line);
 
   z-index: 1000;
@@ -117,14 +105,11 @@ img {
 .logo {
   display: flex;
   align-items: center;
-
   gap: 10px;
 
   font-size: 1.4rem;
   font-weight: 900;
-
   letter-spacing: -0.06em;
-
   white-space: nowrap;
 
   transition: color 0.25s ease;
@@ -143,7 +128,6 @@ img {
   justify-content: center;
 
   border: 1px solid var(--blue);
-
   color: var(--blue);
 
   font-size: 0.65rem;
@@ -160,7 +144,6 @@ img {
 .navigation {
   display: flex;
   align-items: center;
-
   gap: 32px;
 }
 
@@ -169,7 +152,6 @@ img {
 
   font-size: 0.68rem;
   font-weight: 700;
-
   letter-spacing: 0.13em;
 
   transition: color 0.25s ease;
@@ -179,7 +161,6 @@ img {
   content: "";
 
   position: absolute;
-
   left: 0;
   bottom: -8px;
 
@@ -211,23 +192,18 @@ img {
   height: 42px;
 
   border: none;
-
   background: transparent;
-
   cursor: pointer;
 
   flex-direction: column;
   justify-content: center;
-
   gap: 5px;
 }
 
 .menu-button span {
   display: block;
-
   width: 24px;
   height: 2px;
-
   background: var(--white);
 }
 
@@ -248,7 +224,6 @@ img {
   justify-content: center;
 
   overflow: hidden;
-
   background: #050505;
 }
 
@@ -296,7 +271,6 @@ img {
       translate(-50%, -50%)
       scale(1.08);
   }
-
 }
 
 
@@ -306,7 +280,6 @@ img {
 
 .hero-grid {
   position: absolute;
-
   inset: 0;
 
   opacity: 0.035;
@@ -341,7 +314,6 @@ img {
 
 .hero-content {
   position: relative;
-
   z-index: 10;
 
   width: 100%;
@@ -358,204 +330,110 @@ img {
 
 /* =========================================
    MAIN LOGO
+   KEINE ANIMATION
 ========================================= */
 
 .main-logo {
   position: relative;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   width: min(1000px, 90vw);
 
   min-height: 230px;
-
-  isolation: isolate;
-
-  animation: logoSprayIn 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-@keyframes logoSprayIn {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      translateY(12px)
-      rotate(-7deg)
-      scale(0.94);
-
-    filter: blur(7px);
-  }
-
-  55% {
-    opacity: 1;
-
-    transform:
-      translateY(-2px)
-      rotate(-5deg)
-      scale(1.015);
-
-    filter: blur(1px);
-  }
-
-  100% {
-    opacity: 1;
-
-    transform:
-      translateY(0)
-      rotate(-5deg)
-      scale(1);
-
-    filter: blur(0);
-  }
-
 }
 
 
 /* =========================================
-   SPRAY / PAINT CLOUD
-========================================= */
-
-.paint-stroke {
-  position: absolute;
-
-  width: 82%;
-  height: 170px;
-
-  left: 9%;
-  top: 50%;
-
-  transform:
-    translateY(-50%)
-    rotate(-5deg);
-
-  background:
-    radial-gradient(
-      ellipse at 14% 52%,
-      rgba(0, 168, 255, 0.28) 0%,
-      rgba(0, 168, 255, 0.10) 24%,
-      transparent 43%
-    ),
-    radial-gradient(
-      ellipse at 38% 42%,
-      rgba(0, 168, 255, 0.22) 0%,
-      rgba(0, 168, 255, 0.08) 27%,
-      transparent 46%
-    ),
-    radial-gradient(
-      ellipse at 63% 58%,
-      rgba(0, 168, 255, 0.24) 0%,
-      rgba(0, 168, 255, 0.08) 28%,
-      transparent 48%
-    ),
-    radial-gradient(
-      ellipse at 87% 45%,
-      rgba(0, 168, 255, 0.22) 0%,
-      rgba(0, 168, 255, 0.06) 25%,
-      transparent 44%
-    );
-
-  filter: blur(15px);
-
-  opacity: 0;
-
-  z-index: -2;
-
-  animation: sprayCloud 1.25s ease-out 0.05s both;
-}
-
-@keyframes sprayCloud {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      translateY(-50%)
-      rotate(-5deg)
-      scale(0.78);
-  }
-
-  45% {
-    opacity: 0.9;
-
-    transform:
-      translateY(-50%)
-      rotate(-5deg)
-      scale(1.04);
-  }
-
-  100% {
-    opacity: 0.62;
-
-    transform:
-      translateY(-50%)
-      rotate(-5deg)
-      scale(1);
-  }
-
-}
-
-
-/* =========================================
-   MOI-CY LOGO
+   GRAFFITI LOGO
 ========================================= */
 
 .logo-main {
   position: relative;
-
   z-index: 5;
 
-  display: block;
+  display: inline-block;
 
   font-family: "Permanent Marker", cursive;
 
   font-size: clamp(7rem, 18vw, 15rem);
 
   font-weight: 400;
-
   line-height: 0.8;
 
   letter-spacing: -0.055em;
 
   white-space: nowrap;
 
-  color: var(--white);
+  color: var(--blue);
 
-  transform:
-    rotate(-5deg)
-    skewX(-3deg);
+  transform: rotate(-4deg);
 
   -webkit-text-stroke: 2px #050505;
 
   text-shadow:
-    6px 7px 0 #050505,
-    0 0 15px rgba(0, 168, 255, 0.35),
-    0 0 38px rgba(0, 168, 255, 0.15);
+    4px 4px 0 #050505,
+    7px 7px 0 rgba(0, 168, 255, 0.18),
+    0 0 18px rgba(0, 168, 255, 0.28);
 
-  transition:
-    color 0.35s ease,
-    transform 0.35s ease,
-    text-shadow 0.35s ease;
+  filter:
+    drop-shadow(0 0 8px rgba(0, 168, 255, 0.18));
 }
 
 
-/* HOVER */
+/* kleiner gesprühter Rand */
 
-.main-logo:hover .logo-main {
-  color: var(--blue);
+.logo-main::before {
+  content: "";
 
-  transform:
-    rotate(-3deg)
-    skewX(-3deg)
-    scale(1.025);
+  position: absolute;
 
-  text-shadow:
-    6px 7px 0 #050505,
-    0 0 24px rgba(0, 168, 255, 0.7),
-    0 0 55px rgba(0, 168, 255, 0.28);
+  inset: -12px -18px;
+
+  z-index: -1;
+
+  border: 3px solid rgba(0, 168, 255, 0.18);
+
+  border-radius: 46% 54% 49% 51%;
+
+  transform: rotate(2deg);
+
+  filter: blur(7px);
+
+  opacity: 0.9;
+
+  pointer-events: none;
+}
+
+
+/* leichte zweite unregelmäßige Sprayspur */
+
+.logo-main::after {
+  content: "";
+
+  position: absolute;
+
+  left: 4%;
+  right: 1%;
+  bottom: -12px;
+
+  height: 10px;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(0, 168, 255, 0.55) 0%,
+      rgba(0, 168, 255, 0.22) 38%,
+      transparent 72%
+    );
+
+  filter: blur(5px);
+
+  transform: rotate(-2deg);
+
+  pointer-events: none;
 }
 
 
@@ -566,186 +444,84 @@ img {
 .spray {
   position: absolute;
 
+  width: 5px;
+  height: 5px;
+
   border-radius: 50%;
 
   background: var(--blue);
 
   box-shadow:
-    0 0 10px rgba(0, 168, 255, 0.7);
+    0 0 12px rgba(0, 168, 255, 0.8);
 
-  opacity: 0;
+  opacity: 0.7;
 
   pointer-events: none;
-
-  animation: sprayPop 1.2s ease-out both;
-}
-
-@keyframes sprayPop {
-
-  0% {
-    opacity: 0;
-
-    transform: scale(0.2);
-  }
-
-  35% {
-    opacity: 0.85;
-
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 0.35;
-
-    transform: scale(0.85);
-  }
-
 }
 
 .spray-1 {
-  left: 20%;
-  top: 40%;
-
+  left: 22%;
+  top: 42%;
   width: 7px;
   height: 7px;
-
-  animation-delay: 0.05s;
 }
 
 .spray-2 {
-  left: 25%;
-  top: 54%;
-
+  left: 26%;
+  top: 49%;
   width: 3px;
   height: 3px;
-
-  animation-delay: 0.18s;
 }
 
 .spray-3 {
-  right: 21%;
+  right: 23%;
   top: 38%;
-
   width: 8px;
   height: 8px;
-
-  animation-delay: 0.12s;
 }
 
 .spray-4 {
-  right: 25%;
-  top: 57%;
-
+  right: 27%;
+  top: 55%;
   width: 4px;
   height: 4px;
-
-  animation-delay: 0.24s;
 }
 
 .spray-5 {
-  left: 29%;
-  top: 31%;
-
+  left: 31%;
+  top: 32%;
   width: 3px;
   height: 3px;
-
-  animation-delay: 0.28s;
 }
 
 .spray-6 {
-  right: 30%;
-  top: 29%;
-
+  right: 31%;
+  top: 30%;
   width: 4px;
   height: 4px;
-
-  animation-delay: 0.2s;
-}
-
-.spray-7 {
-  left: 34%;
-  top: 63%;
-
-  width: 5px;
-  height: 5px;
-
-  animation-delay: 0.32s;
-}
-
-.spray-8 {
-  right: 34%;
-  top: 64%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 0.4s;
-}
-
-.spray-9 {
-  left: 16%;
-  top: 48%;
-
-  width: 2px;
-  height: 2px;
-
-  animation-delay: 0.45s;
-}
-
-.spray-10 {
-  right: 17%;
-  top: 46%;
-
-  width: 2px;
-  height: 2px;
-
-  animation-delay: 0.38s;
 }
 
 
 /* =========================================
    SKATEPARK CTA
+   DEUTLICH WEITER UNTEN
 ========================================= */
 
 .skatepark-cta {
   position: relative;
-
   z-index: 20;
 
-  margin-top: 45px;
+  margin-top: 125px;
 
   display: flex;
   flex-direction: column;
-
   align-items: center;
-
-  animation:
-    ctaAppear 0.9s ease-out 0.25s both;
-}
-
-@keyframes ctaAppear {
-
-  from {
-    opacity: 0;
-
-    transform:
-      translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0);
-  }
-
 }
 
 .cta-label {
   color: var(--blue);
 
   font-size: 0.7rem;
-
   font-weight: 800;
 
   letter-spacing: 0.2em;
@@ -757,7 +533,6 @@ img {
   color: #777;
 
   font-size: 0.8rem;
-
   letter-spacing: 0.02em;
 }
 
@@ -789,7 +564,6 @@ img {
   color: #f2f2f2;
 
   font-size: 0.7rem;
-
   font-weight: 800;
 
   letter-spacing: 0.14em;
@@ -823,7 +597,6 @@ img {
 .skatepark-button span,
 .skatepark-button strong {
   position: relative;
-
   z-index: 2;
 }
 
@@ -831,7 +604,6 @@ img {
   color: var(--blue);
 
   font-size: 1.2rem;
-
   font-weight: 400;
 
   transition:
@@ -855,7 +627,6 @@ img {
 
 .skatepark-button:hover strong {
   color: #050505;
-
   transform: translateX(8px);
 }
 
@@ -1630,7 +1401,6 @@ img {
 
   .intro {
     grid-template-columns: 1fr 1fr;
-
     gap: 50px;
   }
 
@@ -1646,7 +1416,6 @@ img {
   .current-layout,
   .contact-content {
     grid-template-columns: 1fr;
-
     gap: 70px;
   }
 
@@ -1661,7 +1430,6 @@ img {
 
   .header {
     height: 70px;
-
     padding: 0 6vw;
   }
 
@@ -1719,7 +1487,6 @@ img {
 
   .main-logo {
     width: 100%;
-
     min-height: 150px;
   }
 
@@ -1729,62 +1496,46 @@ img {
     -webkit-text-stroke: 1.5px #050505;
 
     text-shadow:
-      4px 5px 0 #050505,
-      0 0 14px rgba(0, 168, 255, 0.4),
-      0 0 32px rgba(0, 168, 255, 0.16);
+      3px 3px 0 #050505,
+      6px 6px 0 rgba(0, 168, 255, 0.18),
+      0 0 16px rgba(0, 168, 255, 0.35);
   }
 
-  .paint-stroke {
-    width: 110%;
+  .logo-main::before {
+    inset: -8px -12px;
+    border-width: 2px;
+  }
 
-    left: -5%;
-
-    height: 105px;
-
-    filter: blur(12px);
+  .logo-main::after {
+    bottom: -8px;
+    height: 7px;
   }
 
 
   /* SPRAY */
 
   .spray-1 {
-    left: 8%;
+    left: 10%;
   }
 
   .spray-2 {
-    left: 16%;
+    left: 18%;
   }
 
   .spray-3 {
-    right: 8%;
+    right: 10%;
   }
 
   .spray-4 {
-    right: 15%;
+    right: 17%;
   }
 
   .spray-5 {
-    left: 23%;
+    left: 24%;
   }
 
   .spray-6 {
-    right: 23%;
-  }
-
-  .spray-7 {
-    left: 28%;
-  }
-
-  .spray-8 {
-    right: 28%;
-  }
-
-  .spray-9 {
-    left: 12%;
-  }
-
-  .spray-10 {
-    right: 12%;
+    right: 24%;
   }
 
 
@@ -1793,18 +1544,16 @@ img {
   .skatepark-cta {
     width: 100%;
 
-    margin-top: 30px;
+    margin-top: 105px;
   }
 
   .cta-label {
     font-size: 0.58rem;
-
     letter-spacing: 0.14em;
   }
 
   .skatepark-cta p {
     max-width: 280px;
-
     font-size: 0.7rem;
   }
 
@@ -1827,7 +1576,6 @@ img {
 
   .intro {
     padding: 120px 6vw;
-
     display: block;
   }
 
@@ -1865,19 +1613,16 @@ img {
 
   .media-heading {
     display: block;
-
     margin-bottom: 55px;
   }
 
   .media-heading h2 {
     font-size: clamp(3.8rem, 18vw, 7rem);
-
     margin-bottom: 35px;
   }
 
   .image-grid {
     grid-template-columns: 1fr;
-
     grid-template-rows: auto;
   }
 
@@ -1891,7 +1636,6 @@ img {
 
   .media-overlay {
     opacity: 1;
-
     padding: 18px;
   }
 
@@ -1904,13 +1648,11 @@ img {
 
   .video-heading {
     display: block;
-
     margin-bottom: 55px;
   }
 
   .video-heading h2 {
     font-size: clamp(3.8rem, 18vw, 7rem);
-
     margin-bottom: 35px;
   }
 
