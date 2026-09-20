@@ -4,8 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Moi-cy – Skate. Create. Explore.</title>
-  <meta name="description" content="Moi-cy – Skateboarding, Kreativität und Abenteuer. Skate. Create. Explore.">
+  <title>Moi-cy – Skateboarding & Lifestyle</title>
+  <meta
+    name="description"
+    content="Moi-cy – Skateboarding, Kreativität und die Suche nach neuen Spots."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+  >
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -13,123 +24,119 @@
 <body>
 
   <!-- HEADER -->
-  <header>
-    <nav class="nav">
+  <header class="site-header">
+    <a href="#home" class="logo">
+      Moi-cy
+    </a>
 
-      <a href="#home" class="logo">Moi<span>-cy</span></a>
+    <button class="menu-button" id="menuButton" aria-label="Menü öffnen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-      <button class="menu-button" id="menuButton" aria-label="Menü öffnen">
-        ☰
-      </button>
-
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#home">HOME</a></li>
-        <li><a href="#bilder">BILDER</a></li>
-        <li><a href="#videos">VIDEOS</a></li>
-        <li><a href="#about">ABOUT</a></li>
-        <li><a href="#kontakt">KONTAKT</a></li>
-      </ul>
-
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">HOME</a>
+      <a href="#bilder">BILDER</a>
+      <a href="#videos">VIDEOS</a>
+      <a href="#about">ABOUT</a>
+      <a href="#kontakt">KONTAKT</a>
     </nav>
   </header>
 
 
+  <!-- HERO -->
   <main>
 
-    <!-- HERO -->
     <section class="hero" id="home">
 
-      <div class="hero-inner">
+      <div class="hero-content">
 
-        <div class="hero-text">
-
-          <div class="small-label">
-            SKATEBOARDING / SINCE 2023
-          </div>
-
-          <h1 class="hero-title">
-            <span>Moi-cy</span>
-          </h1>
-
-          <div class="hero-slogan">
-            SKATE. CREATE. EXPLORE.
-          </div>
-
-          <p class="hero-description">
-            Skateboarding, Kreativität und die Suche nach neuen Spots.
-            Moi-cy steht für Spaß am Skaten und dafür, diesen Lifestyle
-            mit anderen zu teilen.
-          </p>
-
+        <div class="section-label">
+          SKATEBOARDING / SINCE 2023
         </div>
 
+        <h1 class="hero-title">
+          <span>Moi-cy</span>
+        </h1>
 
-        <div class="hero-image">
-          <div class="image-placeholder">
-            DEIN MOI-CY FOTO
-          </div>
+        <p class="hero-slogan">
+          SKATE. CREATE. EXPLORE.
+        </p>
+
+        <p class="hero-description">
+          Skateboarding, Kreativität und die Suche nach neuen Spots.
+          <span class="no-break">Moi-cy</span> steht für Spaß am Skaten
+          und dafür, diesen Lifestyle mit anderen zu teilen.
+        </p>
+
+        <a href="#about" class="hero-button">
+          MEHR ENTDECKEN
+        </a>
+
+      </div>
+
+      <div class="hero-image">
+        <div class="image-placeholder">
+          <span>DEIN HERO-BILD</span>
         </div>
-
       </div>
 
     </section>
 
 
     <!-- INTRO -->
-    <section class="intro">
+    <section class="intro-section">
 
-      <div class="intro-inner">
-
-        <div class="section-label">
-          WHAT IS MOI-CY?
-        </div>
-
-        <h2>
-          Skateboarding ist mehr als nur ein <span>Sport.</span>
-        </h2>
-
+      <div class="section-label">
+        WHY SKATE?
       </div>
+
+      <h2>
+        Skateboarding ist<br>
+        mehr als nur ein Sport.
+      </h2>
+
+      <p>
+        Es geht um Bewegung, Kreativität, Freiheit und darum,
+        immer wieder neue Wege zu finden.
+      </p>
 
     </section>
 
 
     <!-- ABOUT -->
-    <section class="about" id="about">
+    <section class="about-section" id="about">
 
-      <div class="about-inner">
+      <div class="section-label">
+        ABOUT <span class="no-break">Moi-cy</span>
+      </div>
 
-        <div>
+      <div class="about-grid">
 
-          <div class="section-label">
-            ABOUT MOI-CY
-          </div>
-
+        <div class="about-heading">
           <h2>
-            SKATE.<br>
-            CREATE.<br>
-            EXPLORE.
+            Vom Skateboard<br>
+            zum Lifestyle.
           </h2>
-
         </div>
-
 
         <div class="about-text">
 
           <p>
-            Moi-cy entstand aus der Leidenschaft für Skateboarding
-            und der Idee, diese Leidenschaft mit anderen zu teilen.
+            <span class="no-break">Moi-cy</span> entstand aus der Leidenschaft
+            für Skateboarding und dem Wunsch, diese Begeisterung mit anderen
+            zu teilen.
           </p>
 
           <p>
-            Seit März 2023 geht es darum, Skateboarding so zu zeigen,
-            wie es wirklich ist: kreativ, spontan und vor allem mit
-            viel Spaß.
+            Seit März 2023 geht es um Skateboarding, kreative Projekte,
+            neue Spots und die Menschen dahinter.
           </p>
 
           <p>
-            Egal ob Street, Pool oder Bowl – im Mittelpunkt stehen
-            die Menschen, die Spots und die Momente, die beim Skaten
-            entstehen.
+            Street, Pool oder Bowl – am Ende geht es darum,
+            rauszugehen, zu skaten und neue Dinge zu entdecken.
           </p>
 
         </div>
@@ -139,59 +146,111 @@
     </section>
 
 
-    <!-- BILDER & VIDEOS -->
-    <section class="current" id="bilder">
+    <!-- BILDER -->
+    <section class="content-section" id="bilder">
 
-      <div class="current-inner">
+      <div class="section-label">
+        <span class="no-break">Moi-cy</span> / BILDER
+      </div>
 
-        <div class="current-header">
+      <div class="content-header">
 
-          <div>
+        <h2>
+          MOMENTS.
+        </h2>
 
-            <div class="section-label">
-              MOI-CY
-            </div>
+        <p>
+          Ein paar Eindrücke aus der Welt von
+          <span class="no-break">Moi-cy</span>.
+        </p>
 
-            <h2>
-              MOMENTS
-            </h2>
+      </div>
 
+      <div class="media-grid">
+
+        <div class="media-card large">
+          <div class="media-placeholder">
+            <span>BILD 01</span>
           </div>
-
-          <p>
-            Bilder und Videos aus der Welt von Moi-cy.
-            Echte Sessions, echte Spots und echte Momente.
-          </p>
-
         </div>
 
+        <div class="media-card">
+          <div class="media-placeholder">
+            <span>BILD 02</span>
+          </div>
+        </div>
 
-        <div class="content-grid">
+        <div class="media-card">
+          <div class="media-placeholder">
+            <span>BILD 03</span>
+          </div>
+        </div>
 
-          <div class="content-card large">
+      </div>
 
-            <div class="image-placeholder">
-              DEIN MOI-CY FOTO
-            </div>
+    </section>
 
-            <div class="card-label">
-              BILDER
-            </div>
 
+    <!-- VIDEOS -->
+    <section class="content-section videos-section" id="videos">
+
+      <div class="section-label">
+        <span class="no-break">Moi-cy</span> / VIDEOS
+      </div>
+
+      <div class="content-header">
+
+        <h2>
+          ON THE MOVE.
+        </h2>
+
+        <p>
+          Skateclips, Sessions und mehr.
+        </p>
+
+      </div>
+
+      <div class="video-card">
+
+        <div class="video-placeholder">
+          <div class="play-button">
+            ▶
           </div>
 
+          <span>DEIN VIDEO</span>
+        </div>
 
-          <div class="content-card" id="videos">
+      </div>
 
-            <div class="image-placeholder">
-              DEIN MOI-CY VIDEO
-            </div>
+    </section>
 
-            <div class="card-label">
-              VIDEOS
-            </div>
 
+    <!-- CURRENT -->
+    <section class="current-section">
+
+      <div class="section-label">
+        <span class="no-break">Moi-cy</span> / CURRENT
+      </div>
+
+      <div class="current-grid">
+
+        <div class="current-image">
+          <div class="image-placeholder">
+            <span>AKTUELLES BILD</span>
           </div>
+        </div>
+
+        <div class="current-text">
+
+          <h2>
+            KEEP<br>
+            MOVING.
+          </h2>
+
+          <p>
+            <span class="no-break">Moi-cy</span> steht für den Moment,
+            in dem man einfach losfährt und schaut, wohin es geht.
+          </p>
 
         </div>
 
@@ -201,25 +260,29 @@
 
 
     <!-- KONTAKT -->
-    <section class="contact" id="kontakt">
+    <section class="contact-section" id="kontakt">
 
-      <div class="contact-inner">
+      <div class="section-label">
+        CONTACT
+      </div>
 
-        <div class="section-label">
-          GET IN TOUCH
-        </div>
+      <div class="contact-content">
 
         <h2>
-          LET'S <span>CONNECT.</span>
+          LET'S<br>
+          CONNECT.
         </h2>
 
-        <p class="contact-text">
-          Du möchtest mit Moi-cy Kontakt aufnehmen,
-          hast Fragen oder möchtest einfach Hallo sagen?
+        <p>
+          Du willst mit <span class="no-break">Moi-cy</span> in Kontakt
+          treten oder hast eine Frage?
         </p>
 
-        <a href="mailto:DEINE-EMAIL@BEISPIEL.DE" class="contact-button">
-          KONTAKT AUFNEHMEN
+        <a
+          href="mailto:DEINE-EMAIL@BEISPIEL.DE"
+          class="contact-email"
+        >
+          DEINE-EMAIL@BEISPIEL.DE
         </a>
 
       </div>
@@ -230,18 +293,14 @@
 
 
   <!-- FOOTER -->
-  <footer>
+  <footer class="site-footer">
 
-    <div class="footer-inner">
+    <div class="footer-logo">
+      Moi-cy
+    </div>
 
-      <div class="footer-logo">
-        Moi<span>-cy</span>
-      </div>
-
-      <div class="copyright">
-        © 2026 Moi-cy
-      </div>
-
+    <div class="footer-right">
+      © 2026 Moi-cy
     </div>
 
   </footer>
