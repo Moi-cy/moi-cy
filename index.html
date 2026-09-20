@@ -19,7 +19,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 
 <body>
@@ -62,14 +62,14 @@
     <div class="hero-glow"></div>
     <div class="hero-grid"></div>
 
+    <!-- Spray particles -->
+
     <div class="spray spray-1"></div>
     <div class="spray spray-2"></div>
     <div class="spray spray-3"></div>
     <div class="spray spray-4"></div>
     <div class="spray spray-5"></div>
     <div class="spray spray-6"></div>
-
-    <!-- zusätzliche Spray-Partikel -->
 
     <div class="spray-speck speck-1"></div>
     <div class="spray-speck speck-2"></div>
@@ -79,7 +79,8 @@
     <div class="spray-speck speck-6"></div>
     <div class="spray-speck speck-7"></div>
     <div class="spray-speck speck-8"></div>
-
+    <div class="spray-speck speck-9"></div>
+    <div class="spray-speck speck-10"></div>
 
     <div class="hero-content">
 
@@ -87,100 +88,39 @@
 
       <div class="main-logo">
 
-        <div class="spray-cloud cloud-left"></div>
-        <div class="spray-cloud cloud-right"></div>
-        <div class="spray-cloud cloud-top"></div>
+        <!-- weicher Spray-Nebel -->
+
+        <div class="logo-spray-cloud logo-cloud-1"></div>
+        <div class="logo-spray-cloud logo-cloud-2"></div>
+        <div class="logo-spray-cloud logo-cloud-3"></div>
+
+        <!-- feiner Overspray hinter dem Schriftzug -->
+
+        <div class="logo-overspray overspray-1"></div>
+        <div class="logo-overspray overspray-2"></div>
+        <div class="logo-overspray overspray-3"></div>
+
+        <!-- blauer Farbstrich -->
 
         <div class="paint-stroke"></div>
 
-        <!--
-          Das SVG zeichnet die Buchstaben selbst.
-          Dadurch läuft der Effekt entlang des Schriftzuges
-          und nicht als rechteckige Maske von links nach rechts.
-        -->
+        <!-- eigentlicher Graffiti-Schriftzug -->
 
-        <svg
-          class="graffiti-logo"
-          viewBox="0 0 900 260"
-          role="img"
-          aria-label="Moi-cy"
-        >
+        <div class="logo-graffiti-wrap">
 
-          <defs>
-
-            <filter
-              id="blueGlow"
-              x="-40%"
-              y="-40%"
-              width="180%"
-              height="180%"
-            >
-              <feGaussianBlur
-                stdDeviation="7"
-                result="blur"
-              />
-
-              <feMerge>
-                <feMergeNode in="blur"></feMergeNode>
-                <feMergeNode in="SourceGraphic"></feMergeNode>
-              </feMerge>
-            </filter>
-
-            <filter
-              id="softSpray"
-              x="-30%"
-              y="-30%"
-              width="160%"
-              height="160%"
-            >
-              <feGaussianBlur stdDeviation="2.5"></feGaussianBlur>
-            </filter>
-
-          </defs>
-
-
-          <!-- blauer Glow hinter der Zeichnung -->
-
-          <text
-            class="logo-glow-text"
-            x="450"
-            y="175"
-            text-anchor="middle"
-          >
+          <span class="logo-graffiti-shadow">
             Moi-cy
-          </text>
+          </span>
 
-
-          <!-- blaue Spray-Linie -->
-
-          <text
-            class="logo-spray-text"
-            x="450"
-            y="175"
-            text-anchor="middle"
-          >
+          <span class="logo-graffiti-outline">
             Moi-cy
-          </text>
+          </span>
 
-
-          <!-- weißer eigentlicher Schriftzug -->
-
-          <text
-            class="logo-fill-text"
-            x="450"
-            y="175"
-            text-anchor="middle"
-          >
+          <span class="logo-graffiti">
             Moi-cy
-          </text>
+          </span>
 
-        </svg>
-
-
-        <!-- kleiner Spray-Punkt, der während des Zeichnens
-             über dem Logo auftaucht -->
-
-        <div class="spray-nozzle"></div>
+        </div>
 
       </div>
 
