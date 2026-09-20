@@ -1,8 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =========================
+  /* =========================================
+     MOI-CY — GLOBAL JAVASCRIPT
+  ========================================= */
+
+
+  /* =========================================
      MOBILE MENU
-  ========================= */
+  ========================================= */
 
   const menuButton =
     document.getElementById("menuButton");
@@ -45,12 +50,285 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* =========================
+  /* =========================================
+     LANGUAGE SYSTEM
+     
+     DE = Deutsch
+     EN = English
+     FR = Français
+  ========================================= */
+
+  const LANGUAGE_KEY = "moiCyLanguage";
+
+  const supportedLanguages = [
+    "de",
+    "en",
+    "fr"
+  ];
+
+
+  /* -----------------------------------------
+     GET SAVED LANGUAGE
+  ----------------------------------------- */
+
+  function getSavedLanguage() {
+
+    try {
+
+      const saved =
+        localStorage.getItem(LANGUAGE_KEY);
+
+      if (
+        saved &&
+        supportedLanguages.includes(saved)
+      ) {
+
+        return saved;
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "Moi-cy: Sprache konnte nicht geladen werden.",
+        error
+      );
+
+    }
+
+    return "de";
+
+  }
+
+
+  /* -----------------------------------------
+     SAVE LANGUAGE
+  ----------------------------------------- */
+
+  function saveLanguage(language) {
+
+    try {
+
+      localStorage.setItem(
+        LANGUAGE_KEY,
+        language
+      );
+
+    } catch (error) {
+
+      console.warn(
+        "Moi-cy: Sprache konnte nicht gespeichert werden.",
+        error
+      );
+
+    }
+
+  }
+
+
+  /* -----------------------------------------
+     TRANSLATIONS
+     
+     HIER KOMMEN SPÄTER ALLE TEXTE REIN.
+  ----------------------------------------- */
+
+  const translations = {
+
+    de: {
+
+      /*
+       * Beispiel:
+       *
+       * nav_home: "HOME"
+       *
+       * nav_images: "BILDER"
+       *
+       * nav_videos: "VIDEOS"
+       *
+       */
+
+    },
+
+
+    en: {
+
+      /*
+       * Beispiel:
+       *
+       * nav_home: "HOME"
+       *
+       * nav_images: "IMAGES"
+       *
+       * nav_videos: "VIDEOS"
+       *
+       */
+
+    },
+
+
+    fr: {
+
+      /*
+       * Beispiel:
+       *
+       * nav_home: "ACCUEIL"
+       *
+       * nav_images: "PHOTOS"
+       *
+       * nav_videos: "VIDÉOS"
+       *
+       */
+
+    }
+
+  };
+
+
+  /* -----------------------------------------
+     TRANSLATE ELEMENTS
+     
+     HTML:
+     data-i18n="nav_home"
+  ----------------------------------------- */
+
+  function translatePage(language) {
+
+    const elements =
+      document.querySelectorAll("[data-i18n]");
+
+
+    elements.forEach((element) => {
+
+      const key =
+        element.dataset.i18n;
+
+      if (
+        translations[language] &&
+        translations[language][key]
+      ) {
+
+        element.textContent =
+          translations[language][key];
+
+      }
+
+    });
+
+
+    /* ---------------------------------------
+       PLACEHOLDER TRANSLATIONS
+    --------------------------------------- */
+
+    const placeholderElements =
+      document.querySelectorAll(
+        "[data-i18n-placeholder]"
+      );
+
+
+    placeholderElements.forEach((element) => {
+
+      const key =
+        element.dataset.i18nPlaceholder;
+
+      if (
+        translations[language] &&
+        translations[language][key]
+      ) {
+
+        element.placeholder =
+          translations[language][key];
+
+      }
+
+    });
+
+
+    /* ---------------------------------------
+       HTML LANG ATTRIBUTE
+    --------------------------------------- */
+
+    document.documentElement.lang =
+      language;
+
+
+    /* ---------------------------------------
+       LANGUAGE BUTTONS
+    --------------------------------------- */
+
+    document
+      .querySelectorAll("[data-language]")
+      .forEach((button) => {
+
+        const buttonLanguage =
+          button.dataset.language;
+
+        button.classList.toggle(
+          "active",
+          buttonLanguage === language
+        );
+
+        button.setAttribute(
+          "aria-pressed",
+          String(
+            buttonLanguage === language
+          )
+        );
+
+      });
+
+  }
+
+
+  /* -----------------------------------------
+     LANGUAGE BUTTONS
+  ----------------------------------------- */
+
+  document
+    .querySelectorAll("[data-language]")
+    .forEach((button) => {
+
+      button.addEventListener("click", () => {
+
+        const language =
+          button.dataset.language;
+
+        if (
+          !supportedLanguages.includes(language)
+        ) {
+
+          return;
+
+        }
+
+
+        saveLanguage(language);
+
+        translatePage(language);
+
+      });
+
+    });
+
+
+  /* -----------------------------------------
+     START LANGUAGE SYSTEM
+  ----------------------------------------- */
+
+  const currentLanguage =
+    getSavedLanguage();
+
+  translatePage(currentLanguage);
+
+
+  /* =========================================
      HERO LOGO
-  ========================= */
+  ========================================= */
 
   const letters =
-    document.querySelectorAll(".graffiti-letter");
+    document.querySelectorAll(
+      ".graffiti-letter"
+    );
+
 
   if (letters.length) {
 
@@ -67,18 +345,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* =========================
+  /* =========================================
      PRODUCT SLIDER
-  ========================= */
+  ========================================= */
 
   const slides =
-    document.querySelectorAll(".product-slide");
+    document.querySelectorAll(
+      ".product-slide"
+    );
 
   const dots =
-    document.querySelectorAll(".product-dot");
+    document.querySelectorAll(
+      ".product-dot"
+    );
+
 
   if (!slides.length) {
+
     return;
+
   }
 
 
@@ -87,26 +372,34 @@ document.addEventListener("DOMContentLoaded", () => {
   let sliderTimer;
 
 
+  /* -----------------------------------------
+     SHOW SLIDE
+  ----------------------------------------- */
+
   function showSlide(index) {
 
-    slides.forEach((slide, slideIndex) => {
+    slides.forEach(
+      (slide, slideIndex) => {
 
-      slide.classList.toggle(
-        "active",
-        slideIndex === index
-      );
+        slide.classList.toggle(
+          "active",
+          slideIndex === index
+        );
 
-    });
+      }
+    );
 
 
-    dots.forEach((dot, dotIndex) => {
+    dots.forEach(
+      (dot, dotIndex) => {
 
-      dot.classList.toggle(
-        "active",
-        dotIndex === index
-      );
+        dot.classList.toggle(
+          "active",
+          dotIndex === index
+        );
 
-    });
+      }
+    );
 
 
     currentSlide = index;
@@ -114,19 +407,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+  /* -----------------------------------------
+     NEXT SLIDE
+  ----------------------------------------- */
+
   function nextSlide() {
 
     const next =
-      (currentSlide + 1) % slides.length;
+      (currentSlide + 1) %
+      slides.length;
 
     showSlide(next);
 
   }
 
 
+  /* -----------------------------------------
+     START SLIDER
+  ----------------------------------------- */
+
   function startSlider() {
 
-    clearInterval(sliderTimer);
+    clearInterval(
+      sliderTimer
+    );
+
 
     sliderTimer =
       setInterval(
@@ -137,28 +442,49 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+  /* -----------------------------------------
+     STOP SLIDER
+  ----------------------------------------- */
+
   function stopSlider() {
 
-    clearInterval(sliderTimer);
+    clearInterval(
+      sliderTimer
+    );
 
   }
 
 
-  dots.forEach((dot, index) => {
+  /* -----------------------------------------
+     SLIDER DOTS
+  ----------------------------------------- */
 
-    dot.addEventListener("click", () => {
+  dots.forEach(
+    (dot, index) => {
 
-      showSlide(index);
+      dot.addEventListener(
+        "click",
+        () => {
 
-      startSlider();
+          showSlide(index);
 
-    });
+          startSlider();
 
-  });
+        }
+      );
 
+    }
+  );
+
+
+  /* -----------------------------------------
+     SLIDER HOVER
+  ----------------------------------------- */
 
   const slider =
-    document.getElementById("productSlider");
+    document.getElementById(
+      "productSlider"
+    );
 
 
   if (slider) {
@@ -168,6 +494,7 @@ document.addEventListener("DOMContentLoaded", () => {
       stopSlider
     );
 
+
     slider.addEventListener(
       "mouseleave",
       startSlider
@@ -175,6 +502,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
+
+  /* -----------------------------------------
+     START PRODUCT SLIDER
+  ----------------------------------------- */
 
   showSlide(0);
 
