@@ -1,18 +1,47 @@
+/* =========================================
+   MOI-CY — JAVASCRIPT
+========================================= */
+
 const menuButton = document.getElementById("menuButton");
-const navLinks = document.getElementById("navLinks");
+const navigation = document.querySelector(".navigation");
 
 
-// Mobile Menü öffnen / schließen
-menuButton.addEventListener("click", function () {
-  navLinks.classList.toggle("active");
-});
+/* =========================================
+   MOBILE MENU
+========================================= */
 
+if (menuButton && navigation) {
 
-// Menü nach Klick auf einen Link schließen
-document.querySelectorAll(".nav-links a").forEach(function (link) {
-
-  link.addEventListener("click", function () {
-    navLinks.classList.remove("active");
+  menuButton.addEventListener("click", () => {
+    navigation.classList.toggle("active");
   });
+
+
+  navigation.querySelectorAll("a").forEach((link) => {
+
+    link.addEventListener("click", () => {
+      navigation.classList.remove("active");
+    });
+
+  });
+
+}
+
+
+/* =========================================
+   HEADER ON SCROLL
+========================================= */
+
+const header = document.querySelector(".header");
+
+window.addEventListener("scroll", () => {
+
+  if (!header) return;
+
+  if (window.scrollY > 40) {
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
+  }
 
 });
