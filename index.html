@@ -4,24 +4,34 @@
 <head>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Moi-cy – Skateboarding</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title data-i18n-title="what_is_moicy">
+    WHAT IS Moi-cy?
+  </title>
 
   <meta
     name="description"
-    content="Moi-cy – Skateboarding, Skateplätze, Bilder und Videos."
+    data-i18n-description="story_intro"
+    content="Ein kleiner Einblick in die Welt von Moi-cy."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&family=Rubik+Dirt&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=homepage-final">
+  <link
+    rel="stylesheet"
+    href="style.css?v=homepage3"
+  >
 
 </head>
 
@@ -35,33 +45,8 @@
 
   <header class="header">
 
-    <a href="index.html" class="logo" aria-label="Moi-cy">
 
-      <span class="logo-mark">M</span>
-
-      <span>Moi-cy</span>
-
-    </a>
-
-
-    <nav class="navigation">
-
-      <a href="index.html" data-i18n="nav_home">HOME</a>
-
-      <a href="bilder.html" data-i18n="nav_images">BILDER</a>
-
-      <a href="videos.html" data-i18n="nav_videos">VIDEOS</a>
-
-      <a href="skateplaetze.html" data-i18n="nav_skateparks">
-        SKATEPLÄTZE
-      </a>
-
-      <a href="kontakt.html" data-i18n="nav_contact">KONTAKT</a>
-
-      <a href="shop.html" data-i18n="nav_shop">SHOP</a>
-
-    </nav>
-
+    <!-- SPRACHE LINKS -->
 
     <div
       class="language-switcher"
@@ -101,6 +86,72 @@
     </div>
 
 
+    <!-- LOGO -->
+
+    <a
+      href="index.html"
+      class="logo"
+      aria-label="Moi-cy"
+    >
+
+      <span class="logo-mark">M</span>
+
+      <span>Moi-cy</span>
+
+    </a>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+
+      <a
+        href="index.html"
+        data-i18n="nav_home"
+      >
+        HOME
+      </a>
+
+      <a
+        href="bilder.html"
+        data-i18n="nav_images"
+      >
+        BILDER
+      </a>
+
+      <a
+        href="videos.html"
+        data-i18n="nav_videos"
+      >
+        VIDEOS
+      </a>
+
+      <a
+        href="skateplaetze.html"
+        data-i18n="nav_skateparks"
+      >
+        SKATEPLÄTZE
+      </a>
+
+      <a
+        href="kontakt.html"
+        data-i18n="nav_contact"
+      >
+        KONTAKT
+      </a>
+
+      <a
+        href="shop.html"
+        data-i18n="nav_shop"
+      >
+        SHOP
+      </a>
+
+    </nav>
+
+
+    <!-- MOBILE -->
+
     <button
       class="menu-button"
       id="menuButton"
@@ -134,8 +185,6 @@
         type="button"
         class="language-button active"
         data-language="de"
-        aria-label="Deutsch"
-        aria-pressed="true"
       >
         DE
       </button>
@@ -144,8 +193,6 @@
         type="button"
         class="language-button"
         data-language="en"
-        aria-label="English"
-        aria-pressed="false"
       >
         EN
       </button>
@@ -154,8 +201,6 @@
         type="button"
         class="language-button"
         data-language="fr"
-        aria-label="Français"
-        aria-pressed="false"
       >
         FR
       </button>
@@ -165,11 +210,26 @@
 
     <nav>
 
-      <a href="index.html" data-i18n="nav_home">HOME</a>
+      <a
+        href="index.html"
+        data-i18n="nav_home"
+      >
+        HOME
+      </a>
 
-      <a href="bilder.html" data-i18n="nav_images">BILDER</a>
+      <a
+        href="bilder.html"
+        data-i18n="nav_images"
+      >
+        BILDER
+      </a>
 
-      <a href="videos.html" data-i18n="nav_videos">VIDEOS</a>
+      <a
+        href="videos.html"
+        data-i18n="nav_videos"
+      >
+        VIDEOS
+      </a>
 
       <a
         href="skateplaetze.html"
@@ -178,11 +238,17 @@
         SKATEPLÄTZE
       </a>
 
-      <a href="kontakt.html" data-i18n="nav_contact">
+      <a
+        href="kontakt.html"
+        data-i18n="nav_contact"
+      >
         KONTAKT
       </a>
 
-      <a href="shop.html" data-i18n="nav_shop">
+      <a
+        href="shop.html"
+        data-i18n="nav_shop"
+      >
         SHOP
       </a>
 
@@ -220,14 +286,10 @@
 
         <div
           class="graffiti-logo"
-          id="graffitiLogo"
           aria-label="Moi-cy"
         >
 
-          <div
-            class="graffiti-word"
-            id="graffitiWord"
-          >
+          <div class="graffiti-word">
 
             <span class="graffiti-letter">M</span>
             <span class="graffiti-letter">o</span>
@@ -250,7 +312,9 @@
 
       <div class="hero-bottom">
 
-        <span>SCROLL TO EXPLORE</span>
+        <span>
+          SCROLL TO EXPLORE
+        </span>
 
         <div class="scroll-line"></div>
 
@@ -265,9 +329,11 @@
 
     <section class="intro-section">
 
-      <div class="section-label">
-        01 / ABOUT MOI-CY
-      </div>
+      <span class="section-label">
+        <span data-i18n="about_moicy">
+          ABOUT Moi-cy
+        </span>
+      </span>
 
 
       <div class="intro-layout">
@@ -277,16 +343,12 @@
 
           <h2>
 
-            <span>
-              SKATEBOARDING
+            <span data-i18n="what_is_moicy">
+              WHAT IS
             </span>
 
-            <span>
-              IS MORE
-            </span>
-
-            <span>
-              THAN A SPORT.
+            <span data-i18n="the_story">
+              Moi-cy?
             </span>
 
           </h2>
@@ -296,24 +358,33 @@
 
         <div class="intro-text">
 
-          <p>
+          <p data-i18n="story_text_1">
             Skateboarding ist mehr als nur ein Sport.
           </p>
 
-          <p>
+          <p data-i18n="story_text_2">
             Es geht um Bewegung, Kreativität,
             Freiheit und darum, immer wieder
             neue Wege zu finden.
           </p>
 
-          <p>
+          <p data-i18n="story_text_3">
             Moi-cy entstand aus der Leidenschaft
             für Skateboarding und dem Wunsch,
             diese Begeisterung mit anderen zu teilen.
           </p>
 
-          <span class="handwritten">
-            just skate.
+          <p data-i18n="story_text_4">
+            Seit März 2023 geht es um Skateboarding,
+            kreative Projekte, neue Spots und
+            die Menschen dahinter.
+          </p>
+
+          <span
+            class="handwritten"
+            data-i18n="keep_moving"
+          >
+            keep moving.
           </span>
 
         </div>
@@ -329,20 +400,22 @@
 
     <section class="feature-section">
 
-      <div class="section-label">
-        02 / SKATEPLÄTZE
-      </div>
+      <span class="section-label">
+        <span data-i18n="skatepark_reviews">
+          SKATEPLATZ-BEWERTUNGEN
+        </span>
+      </span>
 
 
       <div class="feature-heading">
 
         <h2>
 
-          <span>
+          <span data-i18n="find_your_line">
             FIND YOUR
           </span>
 
-          <span>
+          <span data-i18n="skatepark_reviews">
             SPOT.
           </span>
 
@@ -359,6 +432,14 @@
 
       </div>
 
+
+      <p
+        class="feature-description"
+        data-i18n="skatepark_reviews_text"
+      >
+        Skateplätze entdecken, ansehen und bewerten.
+      </p>
+
     </section>
 
 
@@ -368,9 +449,11 @@
 
     <section class="media-section">
 
-      <div class="section-label">
-        03 / MEDIA
-      </div>
+      <span class="section-label">
+        <span data-i18n="visual_archive">
+          VISUAL ARCHIVE
+        </span>
+      </span>
 
 
       <div class="media-grid">
@@ -378,21 +461,27 @@
 
         <a
           href="bilder.html"
-          class="media-card media-images"
+          class="media-card"
         >
 
           <div class="media-card-content">
 
-            <span>
-              VISUAL ARCHIVE
+            <span data-i18n="moments">
+              MOMENTS.
             </span>
 
             <h2>
-              BILDER<span>.</span>
+              <span data-i18n="watch">
+                WATCH
+              </span>
+              <span> / </span>
+              <span data-i18n="images_title">
+                BILDER
+              </span>
             </h2>
 
-            <strong>
-              ANSEHEN →
+            <strong data-i18n="view_all_images">
+              ALLE BILDER ANSEHEN →
             </strong>
 
           </div>
@@ -402,21 +491,27 @@
 
         <a
           href="videos.html"
-          class="media-card media-videos"
+          class="media-card"
         >
 
           <div class="media-card-content">
 
-            <span>
-              WATCH
+            <span data-i18n="on_the_move">
+              ON THE MOVE.
             </span>
 
             <h2>
-              VIDEOS<span>.</span>
+              <span data-i18n="watch">
+                WATCH
+              </span>
+              <span> / </span>
+              <span data-i18n="videos_title">
+                VIDEOS
+              </span>
             </h2>
 
-            <strong>
-              ANSEHEN →
+            <strong data-i18n="all_videos">
+              ALLE VIDEOS →
             </strong>
 
           </div>
@@ -435,9 +530,9 @@
 
     <section class="products-section">
 
-      <div class="section-label">
-        04 / SHOP
-      </div>
+      <span class="section-label">
+        MOI-CY / SHOP
+      </span>
 
 
       <div class="products-header">
@@ -458,6 +553,7 @@
         <a
           href="shop.html"
           class="products-shop-link"
+          data-i18n="shop_title"
         >
           SHOP →
         </a>
@@ -471,8 +567,6 @@
       >
 
 
-        <!-- PRODUCT 1 -->
-
         <a
           class="product-slide active"
           href="https://shop.teamshirts.de/moi-cy/product/475947/765"
@@ -480,7 +574,7 @@
           rel="noopener noreferrer"
         >
 
-          <div class="product-image product-placeholder product-hoodie">
+          <div class="product-image product-placeholder">
 
             <div class="placeholder-shape hoodie-shape">
               HOODIE
@@ -503,10 +597,6 @@
 
             </div>
 
-            <div class="product-price">
-              30,39 €
-            </div>
-
           </div>
 
 
@@ -517,8 +607,6 @@
         </a>
 
 
-        <!-- PRODUCT 2 -->
-
         <a
           class="product-slide"
           href="https://shop.teamshirts.de/moi-cy/product/476639/263"
@@ -526,7 +614,7 @@
           rel="noopener noreferrer"
         >
 
-          <div class="product-image product-placeholder product-shirt">
+          <div class="product-image product-placeholder">
 
             <div class="placeholder-shape shirt-shape">
               TEE
@@ -549,10 +637,6 @@
 
             </div>
 
-            <div class="product-price">
-              32,79 €
-            </div>
-
           </div>
 
 
@@ -563,8 +647,6 @@
         </a>
 
 
-        <!-- PRODUCT 3 -->
-
         <a
           class="product-slide"
           href="https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
@@ -572,7 +654,7 @@
           rel="noopener noreferrer"
         >
 
-          <div class="product-image product-placeholder product-board">
+          <div class="product-image product-placeholder">
 
             <div class="placeholder-shape board-shape">
               MOI-CY
@@ -593,10 +675,6 @@
                 SKATEBOARD
               </h3>
 
-            </div>
-
-            <div class="product-price">
-              88,95 €
             </div>
 
           </div>
@@ -646,18 +724,19 @@
 
     <section class="final-section">
 
-      <span>
-        KEEP MOVING.
+      <span data-i18n="current">
+        CURRENT
       </span>
+
 
       <h2>
 
-        <span>
-          SEE YOU
+        <span data-i18n="current_moicy">
+          Moi-cy
         </span>
 
-        <em>
-          OUT THERE.
+        <em data-i18n="keep_moving">
+          keep moving.
         </em>
 
       </h2>
@@ -676,28 +755,30 @@
 
     <div class="footer-logo">
 
-      <span class="footer-mark">
-        M
-      </span>
-
+      <span class="footer-mark">M</span>
       Moi-cy
 
     </div>
 
 
-    <div class="footer-center">
-      SKATE / CREATE / EXPLORE
+    <div
+      class="footer-center"
+      data-i18n="from_streets"
+    >
+      FROM THE streets TO EVERYWHERE.
     </div>
 
 
     <div class="footer-copy">
+
       © 2026 Moi-cy
+
     </div>
 
   </footer>
 
 
-  <script src="script.js?v=homepage-final"></script>
+  <script src="script.js?v=homepage3"></script>
 
 </body>
 
