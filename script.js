@@ -2,13 +2,13 @@
    MOI-CY — JAVASCRIPT
 ========================================= */
 
-const menuButton = document.getElementById("menuButton");
-const navigation = document.querySelector(".navigation");
-
 
 /* =========================================
    MOBILE MENU
 ========================================= */
+
+const menuButton = document.getElementById("menuButton");
+const navigation = document.querySelector(".navigation");
 
 if (menuButton && navigation) {
 
@@ -51,7 +51,9 @@ window.addEventListener("scroll", () => {
    SKATEBOARD MOUSE CURSOR
 ========================================= */
 
-if (window.matchMedia("(pointer: fine)").matches) {
+const finePointer = window.matchMedia("(pointer: fine)");
+
+if (finePointer.matches) {
 
   const skateCursor = document.createElement("div");
 
@@ -64,7 +66,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
       aria-hidden="true"
     >
 
-      <!-- Board -->
+      <!-- Skateboard deck -->
       <path
         d="M18 43
            C19 39 23 37 28 38
@@ -80,15 +82,15 @@ if (window.matchMedia("(pointer: fine)").matches) {
         stroke-width="3"
       />
 
-      <!-- Board highlight -->
+      <!-- Deck highlight -->
       <path
         d="M25 43
-           C37 41 62 41 75 43"
+           C38 41 62 41 75 43"
         fill="none"
         stroke="#f2f2f2"
         stroke-width="2"
         stroke-linecap="round"
-        opacity="0.8"
+        opacity="0.85"
       />
 
       <!-- Front wheel -->
@@ -111,7 +113,7 @@ if (window.matchMedia("(pointer: fine)").matches) {
         stroke-width="3"
       />
 
-      <!-- Wheel details -->
+      <!-- Wheel centers -->
       <circle
         cx="28"
         cy="59"
@@ -129,6 +131,11 @@ if (window.matchMedia("(pointer: fine)").matches) {
     </svg>
   `;
 
+
+  /* Cursor erst jetzt aktivieren */
+
+  document.body.classList.add("skate-cursor-enabled");
+
   document.body.appendChild(skateCursor);
 
 
@@ -138,9 +145,11 @@ if (window.matchMedia("(pointer: fine)").matches) {
   let cursorX = mouseX;
   let cursorY = mouseY;
 
+  let mouseInside = false;
+
 
   /* =========================================
-     SMOOTH MOUSE MOVEMENT
+     MOUSE MOVEMENT
   ========================================= */
 
   document.addEventListener("mousemove", (event) => {
@@ -148,45 +157,57 @@ if (window.matchMedia("(pointer: fine)").matches) {
     mouseX = event.clientX;
     mouseY = event.clientY;
 
-    skateCursor.classList.remove("hidden");
+    mouseInside = true;
+
+    skateCursor.classList.add("visible");
 
   });
 
 
-  function animateCursor() {
+  /* =========================================
+     SMOOTH FOLLOW
+  ========================================= */
 
-    cursorX += (mouseX - cursorX) * 0.18;
-    cursorY += (mouseY - cursorY) * 0.18;
+  function moveCursor() {
 
-    skateCursor.style.transform =
-      `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%) rotate(-8deg)`;
+    cursorX += (mouseX - cursorX) * 0.22;
+    cursorY += (mouseY - cursorY) * 0.22;
 
-    requestAnimationFrame(animateCursor);
+    skateCursor.style.left = `${cursorX}px`;
+    skateCursor.style.top = `${cursorY}px`;
+
+    requestAnimationFrame(moveCursor);
 
   }
 
-  animateCursor();
+  moveCursor();
 
 
   /* =========================================
      HOVER EFFECT
   ========================================= */
 
-  const hoverElements = document.querySelectorAll(
-    "a, button, .image-box, .video-preview, .play-button"
-  );
+  function setupHoverElements() {
 
-  hoverElements.forEach((element) => {
+    const hoverElements = document.querySelectorAll(
+      "a, button, input, textarea, select, .image-box, .video-preview, .play-button"
+    );
 
-    element.addEventListener("mouseenter", () => {
-      skateCursor.classList.add("hover");
+    hoverElements.forEach((element) => {
+
+      element.addEventListener("mouseenter", () => {
+        skateCursor.classList.add("hover");
+      });
+
+      element.addEventListener("mouseleave", () => {
+        skateCursor.classList.remove("hover");
+      });
+
     });
 
-    element.addEventListener("mouseleave", () => {
-      skateCursor.classList.remove("hover");
-    });
+  }
 
-  });
+  setupHoverElements();
 
 
   /* =========================================
@@ -199,7 +220,6 @@ if (window.matchMedia("(pointer: fine)").matches) {
 
   });
 
-
   document.addEventListener("mouseup", () => {
 
     skateCursor.classList.remove("click");
@@ -208,19 +228,46 @@ if (window.matchMedia("(pointer: fine)").matches) {
 
 
   /* =========================================
-     HIDE WHEN LEAVING THE WEBSITE
+     HIDE OUTSIDE WINDOW
   ========================================= */
 
   document.addEventListener("mouseleave", () => {
 
-    skateCursor.classList.add("hidden");
+    mouseInside = false;
+
+    skateCursor.classList.remove("visible");
+
+  });
+
+  document.addEventListener("mouseenter", () => {
+
+    mouseInside = true;
 
   });
 
 
-  document.addEventListener("mouseenter", () => {
+  /* =========================================
+     TAB / KEYBOARD FOCUS
+  ========================================= */
 
-    skateCursor.classList.remove("hidden");
+  document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Tab") {
+      skateCursor.classList.remove("visible");
+    }
+
+  });
+
+
+  /* =========================================
+     RESTORE AFTER MOUSE MOVEMENT
+  ========================================= */
+
+  document.addEventListener("mousemove", () => {
+
+    if (mouseInside) {
+      skateCursor.classList.add("visible");
+    }
 
   });
 
