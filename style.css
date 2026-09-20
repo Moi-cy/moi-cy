@@ -13,19 +13,20 @@
 }
 
 
-/* =========================
-   RESET
-========================= */
-
 * {
+
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
+
 }
 
 
 html {
+
   scroll-behavior: smooth;
+
 }
 
 
@@ -46,13 +47,18 @@ body {
 
 
 a {
+
   color: inherit;
+
   text-decoration: none;
+
 }
 
 
 button {
+
   font: inherit;
+
 }
 
 
@@ -84,7 +90,7 @@ button {
   z-index: 100;
 
   background:
-    rgba(0, 0, 0, 0.72);
+    rgba(0,0,0,0.72);
 
   backdrop-filter:
     blur(12px);
@@ -147,16 +153,23 @@ button {
 
   position: relative;
 
+  color: #bdbdbd;
+
   font-size: 11px;
 
   font-weight: 700;
 
   letter-spacing: 1.2px;
 
-  color: #bdbdbd;
-
   transition:
     color 0.25s ease;
+
+}
+
+
+.navigation a:hover {
+
+  color: var(--white);
 
 }
 
@@ -168,23 +181,18 @@ button {
   position: absolute;
 
   left: 0;
+
   bottom: -7px;
 
   width: 0;
 
   height: 1px;
 
-  background: var(--blue);
+  background:
+    var(--blue);
 
   transition:
     width 0.25s ease;
-
-}
-
-
-.navigation a:hover {
-
-  color: var(--white);
 
 }
 
@@ -198,7 +206,7 @@ button {
 
 
 /* =========================
-   MOBILE MENU
+   MOBILE
 ========================= */
 
 .menu-button {
@@ -208,10 +216,10 @@ button {
   width: 42px;
   height: 42px;
 
-  background: transparent;
-
   border:
     1px solid rgba(255,255,255,0.2);
+
+  background: transparent;
 
   align-items: center;
 
@@ -229,10 +237,10 @@ button {
 .menu-button span {
 
   width: 18px;
-
   height: 1px;
 
-  background: var(--white);
+  background:
+    var(--white);
 
 }
 
@@ -263,7 +271,8 @@ button {
 
   overflow: hidden;
 
-  background: var(--black);
+  background:
+    var(--black);
 
 }
 
@@ -331,9 +340,8 @@ button {
       transparent 68%
     );
 
-  filter: blur(30px);
-
-  pointer-events: none;
+  filter:
+    blur(30px);
 
 }
 
@@ -345,7 +353,7 @@ button {
   z-index: 5;
 
   width:
-    min(1200px, 90vw);
+    min(1200px, 94vw);
 
   display: flex;
 
@@ -360,7 +368,7 @@ button {
 
 .hero-small {
 
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 
   color: #777;
 
@@ -373,6 +381,11 @@ button {
 }
 
 
+
+/* =========================
+   GRAFFITI LOGO
+========================= */
+
 .graffiti-logo {
 
   position: relative;
@@ -383,26 +396,39 @@ button {
   height:
     clamp(190px, 28vw, 330px);
 
-}
+  display: flex;
 
+  align-items: center;
 
-.graffiti-svg {
-
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  overflow: visible;
+  justify-content: center;
 
 }
 
 
-.graffiti-text {
+.graffiti-word {
 
-  fill: var(--blue);
+  position: relative;
+
+  z-index: 5;
+
+  display: flex;
+
+  align-items: baseline;
+
+  justify-content: center;
+
+  white-space: nowrap;
+
+}
+
+
+.graffiti-letter {
+
+  display: inline-block;
+
+  position: relative;
+
+  color: var(--blue);
 
   font-family:
     "Rubik Dirt",
@@ -410,11 +436,98 @@ button {
     Impact,
     sans-serif;
 
-  font-size: 190px;
+  font-size:
+    clamp(105px, 15vw, 190px);
 
   font-weight: 900;
 
-  letter-spacing: -8px;
+  line-height: 1;
+
+  letter-spacing: -7px;
+
+  opacity: 0;
+
+  transform:
+    scale(0.88)
+    rotate(-2deg);
+
+  filter:
+    blur(8px);
+
+  text-shadow:
+    0 0 0 var(--blue);
+
+}
+
+
+.graffiti-letter.sprayed {
+
+  opacity: 1;
+
+  filter:
+    blur(0);
+
+  transform:
+    scale(1)
+    rotate(0deg);
+
+  animation:
+    freshPaint
+    0.42s
+    cubic-bezier(.2,.8,.2,1);
+
+}
+
+
+@keyframes freshPaint {
+
+  0% {
+
+    opacity: 0;
+
+    filter:
+      blur(7px);
+
+    transform:
+      scale(0.88)
+      rotate(-3deg);
+
+    text-shadow:
+      0 0 20px rgba(0,168,255,0.9);
+
+  }
+
+  45% {
+
+    opacity: 1;
+
+    filter:
+      blur(1px);
+
+    transform:
+      scale(1.04)
+      rotate(1deg);
+
+    text-shadow:
+      0 0 14px rgba(0,168,255,0.7);
+
+  }
+
+  100% {
+
+    opacity: 1;
+
+    filter:
+      blur(0);
+
+    transform:
+      scale(1)
+      rotate(0deg);
+
+    text-shadow:
+      0 0 0 var(--blue);
+
+  }
 
 }
 
@@ -428,16 +541,16 @@ button {
 
   position: absolute;
 
-  left: 0;
-  top: 50%;
+  z-index: 20;
 
-  width: 145px;
-  height: 145px;
+  width: 160px;
+  height: 160px;
+
+  left: 50%;
+  top: 50%;
 
   transform:
     translate(-50%, -50%);
-
-  z-index: 20;
 
   pointer-events: none;
 
@@ -453,30 +566,30 @@ button {
 }
 
 
-.spray-haze {
+.spray-cloud {
 
   position: absolute;
 
-  inset: -35px;
+  inset: -20px;
 
   border-radius: 50%;
 
   background:
     radial-gradient(
       circle,
-      rgba(0,168,255,0.52) 0%,
+      rgba(0,168,255,0.58) 0%,
       rgba(0,168,255,0.34) 17%,
-      rgba(0,168,255,0.20) 33%,
+      rgba(0,168,255,0.20) 32%,
       rgba(0,168,255,0.10) 48%,
-      rgba(0,168,255,0.035) 63%,
-      transparent 75%
+      rgba(0,168,255,0.035) 64%,
+      transparent 76%
     );
 
   filter:
     blur(8px);
 
   animation:
-    sprayPulse
+    cloudBreath
     0.22s
     ease-in-out
     infinite
@@ -485,21 +598,21 @@ button {
 }
 
 
-@keyframes sprayPulse {
+@keyframes cloudBreath {
 
   from {
 
     transform:
-      scale(0.85);
+      scale(0.82);
 
-    opacity: 0.65;
+    opacity: 0.68;
 
   }
 
   to {
 
     transform:
-      scale(1.15);
+      scale(1.12);
 
     opacity: 1;
 
@@ -510,75 +623,103 @@ button {
 
 
 /* =========================
-   SPRAY MIST
+   SPRAY PARTICLES
 ========================= */
 
-.spray-mist {
+.spray-particle {
 
   position: absolute;
 
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 
   border-radius: 50%;
 
-  background: var(--blue);
+  background:
+    var(--blue);
 
   box-shadow:
-    0 0 10px rgba(0,168,255,0.7);
+    0 0 9px
+    rgba(0,168,255,0.7);
+
+  opacity: 0;
+
+}
+
+
+.spray-head.active
+.spray-particle {
 
   animation:
-    mistFloat
-    0.5s
+    sprayParticle
+    0.55s
     ease-out
     infinite;
 
 }
 
 
-.mist-1 {
+.particle-1 {
   left: 18%;
-  top: 45%;
+  top: 42%;
 }
 
-.mist-2 {
-  left: 34%;
+.particle-2 {
+  left: 29%;
+  top: 25%;
+  animation-delay: .04s;
+}
+
+.particle-3 {
+  left: 42%;
+  top: 64%;
+  animation-delay: .08s;
+}
+
+.particle-4 {
+  left: 56%;
   top: 22%;
-  animation-delay: 0.08s;
+  animation-delay: .12s;
 }
 
-.mist-3 {
-  left: 52%;
-  top: 68%;
-  animation-delay: 0.15s;
+.particle-5 {
+  left: 69%;
+  top: 61%;
+  animation-delay: .16s;
 }
 
-.mist-4 {
-  left: 71%;
-  top: 35%;
-  animation-delay: 0.22s;
+.particle-6 {
+  left: 79%;
+  top: 34%;
+  animation-delay: .20s;
 }
 
-.mist-5 {
-  left: 82%;
-  top: 59%;
-  animation-delay: 0.29s;
+.particle-7 {
+  left: 86%;
+  top: 53%;
+  animation-delay: .24s;
+}
+
+.particle-8 {
+  left: 51%;
+  top: 49%;
+  animation-delay: .28s;
 }
 
 
-@keyframes mistFloat {
+@keyframes sprayParticle {
 
   0% {
 
     opacity: 0;
 
     transform:
-      scale(0.3)
-      translate(0, 0);
+      scale(0.2)
+      translate(0,0);
 
   }
 
-  35% {
+  30% {
 
     opacity: 0.85;
 
@@ -589,10 +730,10 @@ button {
     opacity: 0;
 
     transform:
-      scale(1.4)
+      scale(1.1)
       translate(
-        18px,
-        -8px
+        15px,
+        -9px
       );
 
   }
@@ -602,34 +743,30 @@ button {
 
 
 /* =========================
-   PAINT DROPS
+   PAINT SPLASHES
 ========================= */
 
-.paint-drop {
+.paint-splash {
 
   position: absolute;
 
-  z-index: 15;
-
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 
   border-radius: 50%;
 
-  background: var(--blue);
+  background:
+    var(--blue);
 
   opacity: 0;
-
-  box-shadow:
-    0 0 8px rgba(0,168,255,0.6);
 
 }
 
 
-.paint-drop.active {
+.paint-splash.active {
 
   animation:
-    paintDrop
+    splashPop
     0.7s
     ease-out
     forwards;
@@ -637,7 +774,38 @@ button {
 }
 
 
-@keyframes paintDrop {
+.splash-1 {
+  left: 21%;
+  top: 38%;
+}
+
+.splash-2 {
+  left: 33%;
+  top: 63%;
+}
+
+.splash-3 {
+  left: 48%;
+  top: 30%;
+}
+
+.splash-4 {
+  left: 61%;
+  top: 68%;
+}
+
+.splash-5 {
+  left: 75%;
+  top: 35%;
+}
+
+.splash-6 {
+  left: 84%;
+  top: 58%;
+}
+
+
+@keyframes splashPop {
 
   0% {
 
@@ -659,27 +827,15 @@ button {
     opacity: 0;
 
     transform:
-      scale(1.5)
+      scale(1.6)
       translate(
-        var(--x),
-        var(--y)
+        18px,
+        -15px
       );
 
   }
 
 }
-
-
-.drop-1  { left: 18%; top: 42%; --x: -18px; --y: -17px; }
-.drop-2  { left: 25%; top: 55%; --x: 16px; --y: 20px; }
-.drop-3  { left: 31%; top: 37%; --x: -12px; --y: -24px; }
-.drop-4  { left: 39%; top: 61%; --x: 22px; --y: 15px; }
-.drop-5  { left: 46%; top: 32%; --x: -17px; --y: -20px; }
-.drop-6  { left: 53%; top: 56%; --x: 19px; --y: 18px; }
-.drop-7  { left: 61%; top: 38%; --x: -18px; --y: -18px; }
-.drop-8  { left: 69%; top: 60%; --x: 20px; --y: 15px; }
-.drop-9  { left: 77%; top: 40%; --x: 17px; --y: -21px; }
-.drop-10 { left: 84%; top: 54%; --x: -20px; --y: 10px; }
 
 
 
@@ -699,8 +855,6 @@ button {
     translateY(-50%)
     rotate(90deg);
 
-  transform-origin: center;
-
   color: #4d4d4d;
 
   font-size: 9px;
@@ -711,11 +865,6 @@ button {
 
 }
 
-
-
-/* =========================
-   HERO BOTTOM
-========================= */
 
 .hero-bottom {
 
@@ -827,7 +976,8 @@ button {
 
   display: inline-block;
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-family:
     "Permanent Marker",
@@ -837,15 +987,6 @@ button {
 
   transform:
     rotate(-3deg);
-
-}
-
-
-.intro-text {
-
-  position: relative;
-
-  padding-bottom: 15px;
 
 }
 
@@ -871,7 +1012,8 @@ button {
 
   margin-top: 20px;
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-family:
     "Permanent Marker",
@@ -935,7 +1077,8 @@ button {
 
 .feature-heading h2 span {
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-family:
     "Permanent Marker",
@@ -968,7 +1111,8 @@ button {
   border:
     1px solid var(--blue);
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-size: 24px;
 
@@ -982,9 +1126,11 @@ button {
 
 .feature-arrow:hover {
 
-  background: var(--blue);
+  background:
+    var(--blue);
 
-  color: var(--black);
+  color:
+    var(--black);
 
   transform:
     translateX(5px);
@@ -1020,7 +1166,7 @@ button {
   display: grid;
 
   grid-template-columns:
-    repeat(2, 1fr);
+    repeat(2,1fr);
 
   gap: 20px;
 
@@ -1068,17 +1214,6 @@ button {
   inset: 0;
 
   opacity: 0.55;
-
-  transition:
-    transform 0.6s ease;
-
-}
-
-
-.media-card:hover::before {
-
-  transform:
-    scale(1.05);
 
 }
 
@@ -1145,7 +1280,7 @@ button {
 .media-card h2 {
 
   font-size:
-    clamp(44px, 5vw, 72px);
+    clamp(44px,5vw,72px);
 
   line-height: 0.9;
 
@@ -1156,7 +1291,8 @@ button {
 
 .media-card h2 span {
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
 }
 
@@ -1165,7 +1301,8 @@ button {
 
   margin-top: 25px;
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-size: 10px;
 
@@ -1222,7 +1359,7 @@ button {
   max-width: 900px;
 
   font-size:
-    clamp(58px, 9vw, 130px);
+    clamp(58px,9vw,130px);
 
   line-height: 0.82;
 
@@ -1235,7 +1372,8 @@ button {
 
   display: block;
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-family:
     "Permanent Marker",
@@ -1305,7 +1443,8 @@ button {
   border:
     1px solid var(--blue);
 
-  color: var(--blue);
+  color:
+    var(--blue);
 
   font-size: 12px;
 
@@ -1338,7 +1477,7 @@ button {
 
 
 /* =========================
-   MOBILE
+   RESPONSIVE
 ========================= */
 
 @media (max-width: 850px) {
@@ -1357,8 +1496,10 @@ button {
 
     position: fixed;
 
-    inset:
-      78px 0 0 0;
+    top: 78px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     z-index: 90;
 
@@ -1474,9 +1615,6 @@ button {
 
   .mobile-menu {
     top: 68px;
-    inset-left: 0;
-    inset-right: 0;
-    inset-bottom: 0;
   }
 
 
@@ -1487,18 +1625,18 @@ button {
 
   .graffiti-logo {
 
-    width: 98vw;
+    width: 100vw;
 
-    height: 220px;
+    height: 210px;
 
   }
 
 
-  .graffiti-text {
+  .graffiti-letter {
 
-    font-size: 150px;
+    font-size: 21vw;
 
-    letter-spacing: -6px;
+    letter-spacing: -5px;
 
   }
 
