@@ -171,10 +171,13 @@ button {
 
   display: flex;
   align-items: center;
+  justify-content: center;
 
   padding: 140px 10vw 100px;
 
   overflow: hidden;
+
+  text-align: center;
 }
 
 .hero-grid {
@@ -231,7 +234,12 @@ button {
   position: relative;
   z-index: 2;
 
-  max-width: 900px;
+  width: 100%;
+  max-width: 1100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-small {
@@ -275,45 +283,6 @@ button {
   line-height: 1.4;
 
   color: rgba(242, 242, 242, 0.72);
-}
-
-.hero-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 25px;
-
-  margin-top: 42px;
-
-  padding: 17px 23px;
-
-  border: 1px solid var(--blue);
-
-  color: var(--white);
-
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease;
-}
-
-.hero-button span {
-  color: var(--blue);
-  font-size: 18px;
-}
-
-.hero-button:hover {
-  background: var(--blue);
-  color: var(--black);
-
-  transform: translateX(5px);
-}
-
-.hero-button:hover span {
-  color: var(--black);
 }
 
 .hero-side-text {
@@ -485,9 +454,6 @@ button {
 
   display: inline-block;
 }
-
-
-/* BUTTON RECHTS NEBEN FIND YOUR SPOT */
 
 .feature-arrow {
   flex-shrink: 0;
