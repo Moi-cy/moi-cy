@@ -16,7 +16,6 @@
     content="Moi-cy – Skateboarding, Skateparks, Bilder und Videos."
   >
 
-  <!-- FAVICON -->
   <link
     rel="icon"
     type="image/png"
@@ -33,1498 +32,6 @@
 
   <link rel="stylesheet" href="style.css">
 
-
-  <!-- =========================================
-       HOMEPAGE DESIGN
-       bewusst nur für index.html
-  ========================================== -->
-
-  <style>
-
-    :root {
-      --mc-blue: #168cff;
-      --mc-blue-light: #55b7ff;
-      --mc-blue-dark: #003b82;
-      --mc-black: #030507;
-      --mc-dark: #070b11;
-      --mc-white: #f5f8fc;
-      --mc-grey: #87909c;
-    }
-
-
-    /* =========================================
-       HOMEPAGE BASE
-    ========================================== */
-
-    body.home-page {
-      margin: 0;
-      background:
-        radial-gradient(
-          circle at 72% 12%,
-          rgba(0, 111, 255, .24),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 10% 70%,
-          rgba(0, 71, 180, .13),
-          transparent 30%
-        ),
-        #030507;
-      color: var(--mc-white);
-      font-family: "Space Grotesk", sans-serif;
-      overflow-x: hidden;
-    }
-
-
-    body.home-page * {
-      box-sizing: border-box;
-    }
-
-
-    /* =========================================
-       HERO
-    ========================================== */
-
-    .mc-hero {
-      min-height: calc(100vh - 80px);
-      position: relative;
-      overflow: hidden;
-
-      display: flex;
-      align-items: center;
-
-      background:
-        linear-gradient(
-          115deg,
-          #020305 0%,
-          #050a11 48%,
-          #06152a 100%
-        );
-    }
-
-
-    .mc-hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-
-      background-image:
-        linear-gradient(
-          rgba(255,255,255,.025) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,.025) 1px,
-          transparent 1px
-        );
-
-      background-size: 55px 55px;
-
-      mask-image:
-        linear-gradient(
-          to bottom,
-          black,
-          transparent 90%
-        );
-
-      pointer-events: none;
-    }
-
-
-    .mc-hero::after {
-      content: "";
-
-      position: absolute;
-
-      width: 650px;
-      height: 650px;
-
-      right: -180px;
-      top: -200px;
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(0,130,255,.28),
-          rgba(0,90,255,.08) 35%,
-          transparent 70%
-        );
-
-      filter: blur(15px);
-
-      pointer-events: none;
-    }
-
-
-    .mc-hero-inner {
-      width: min(1400px, 92%);
-      margin: 0 auto;
-
-      position: relative;
-      z-index: 2;
-
-      padding: 100px 0 80px;
-    }
-
-
-    /* =========================================
-       SMALL TOP LABEL
-    ========================================== */
-
-    .mc-kicker {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .24em;
-
-      color: var(--mc-blue-light);
-      text-transform: uppercase;
-
-      margin-bottom: 20px;
-    }
-
-
-    .mc-kicker::before {
-      content: "";
-
-      width: 42px;
-      height: 2px;
-
-      background: var(--mc-blue);
-
-      box-shadow:
-        0 0 12px var(--mc-blue);
-    }
-
-
-    /* =========================================
-       GRAFFITI LOGO
-    ========================================== */
-
-    .mc-logo-stage {
-      position: relative;
-
-      width: fit-content;
-
-      margin-left: -10px;
-    }
-
-
-    .mc-logo {
-      position: relative;
-
-      margin: 0;
-
-      font-family: "Permanent Marker", cursive;
-
-      font-size: clamp(
-        110px,
-        19vw,
-        280px
-      );
-
-      line-height: .72;
-
-      letter-spacing: -.075em;
-
-      color: #f8fbff;
-
-      transform: rotate(-4deg);
-
-      text-shadow:
-        7px 7px 0 #004ca8,
-        13px 13px 0 #06101d,
-        0 0 25px rgba(0,132,255,.6);
-
-      -webkit-text-stroke:
-        2px rgba(16,137,255,.75);
-    }
-
-
-    .mc-logo::after {
-      content: "MOI-CY";
-
-      position: absolute;
-
-      left: 17%;
-      bottom: -32px;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        20px,
-        3vw,
-        42px
-      );
-
-      letter-spacing: .5em;
-
-      color: var(--mc-blue-light);
-
-      transform: rotate(4deg);
-
-      text-shadow:
-        0 0 12px rgba(0,137,255,.8);
-    }
-
-
-    /* graffiti spray marks */
-
-    .mc-spray {
-      position: absolute;
-
-      background: var(--mc-blue);
-
-      border-radius: 50%;
-
-      filter: blur(.4px);
-
-      box-shadow:
-        0 0 12px rgba(0,130,255,.6);
-    }
-
-
-    .mc-spray.one {
-      width: 8px;
-      height: 8px;
-
-      left: 8%;
-      top: 20%;
-    }
-
-
-    .mc-spray.two {
-      width: 5px;
-      height: 5px;
-
-      right: 2%;
-      top: 10%;
-    }
-
-
-    .mc-spray.three {
-      width: 12px;
-      height: 4px;
-
-      right: 9%;
-      bottom: 2%;
-      border-radius: 100%;
-      transform: rotate(-25deg);
-    }
-
-
-    .mc-spray.four {
-      width: 4px;
-      height: 4px;
-
-      left: 2%;
-      bottom: 5%;
-    }
-
-
-    /* =========================================
-       HERO TEXT
-    ========================================== */
-
-    .mc-hero-row {
-      display: flex;
-
-      justify-content: space-between;
-      align-items: flex-end;
-
-      gap: 40px;
-
-      margin-top: 70px;
-    }
-
-
-    .mc-hero-copy {
-      max-width: 500px;
-    }
-
-
-    .mc-hero-copy p {
-      margin: 0;
-
-      color: #b6c0cc;
-
-      font-size: 15px;
-
-      line-height: 1.7;
-    }
-
-
-    .mc-hero-copy strong {
-      display: block;
-
-      margin-top: 5px;
-
-      color: white;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: 28px;
-
-      letter-spacing: .08em;
-    }
-
-
-    .mc-hero-cta {
-      display: inline-flex;
-
-      align-items: center;
-      gap: 18px;
-
-      padding: 17px 23px;
-
-      background: var(--mc-blue);
-
-      color: white;
-
-      text-decoration: none;
-
-      font-size: 12px;
-      font-weight: 700;
-
-      letter-spacing: .13em;
-
-      text-transform: uppercase;
-
-      box-shadow:
-        0 0 30px rgba(0,128,255,.25);
-
-      transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background .25s ease;
-    }
-
-
-    .mc-hero-cta span {
-      font-size: 21px;
-      line-height: 1;
-    }
-
-
-    .mc-hero-cta:hover {
-      transform: translateY(-4px);
-
-      background: #3ba7ff;
-
-      box-shadow:
-        0 10px 35px rgba(0,128,255,.4);
-    }
-
-
-    /* =========================================
-       HERO SIDE NUMBERS
-    ========================================== */
-
-    .mc-hero-side {
-      position: absolute;
-
-      right: 4%;
-      bottom: 90px;
-
-      display: flex;
-      flex-direction: column;
-
-      gap: 12px;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      color: #40505f;
-
-      font-size: 13px;
-
-      letter-spacing: .2em;
-    }
-
-
-    .mc-hero-side span:first-child {
-      color: var(--mc-blue);
-    }
-
-
-    /* =========================================
-       BLUE DIVIDER
-    ========================================== */
-
-    .mc-divider {
-      height: 1px;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          rgba(21,140,255,.7),
-          transparent
-        );
-
-      box-shadow:
-        0 0 15px rgba(0,130,255,.3);
-    }
-
-
-    /* =========================================
-       ABOUT
-    ========================================== */
-
-    .mc-about {
-      position: relative;
-
-      padding: 130px 0;
-
-      background: #05080d;
-    }
-
-
-    .mc-container {
-      width: min(1200px, 88%);
-      margin: 0 auto;
-    }
-
-
-    .mc-section-label {
-      color: var(--mc-blue);
-
-      font-size: 11px;
-      font-weight: 700;
-
-      letter-spacing: .25em;
-
-      text-transform: uppercase;
-
-      margin-bottom: 25px;
-    }
-
-
-    .mc-about-grid {
-      display: grid;
-
-      grid-template-columns:
-        .8fr 1.2fr;
-
-      gap: 100px;
-
-      align-items: start;
-    }
-
-
-    .mc-about-title {
-      margin: 0;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        70px,
-        9vw,
-        130px
-      );
-
-      line-height: .82;
-
-      letter-spacing: -.02em;
-
-      text-transform: uppercase;
-    }
-
-
-    .mc-about-title span {
-      color: var(--mc-blue);
-
-      text-shadow:
-        0 0 25px rgba(0,130,255,.45);
-    }
-
-
-    .mc-about-text {
-      padding-top: 15px;
-    }
-
-
-    .mc-about-text .big {
-      margin: 0 0 25px;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        28px,
-        4vw,
-        52px
-      );
-
-      line-height: 1;
-
-      color: white;
-    }
-
-
-    .mc-about-text p {
-      max-width: 560px;
-
-      color: #8e99a6;
-
-      font-size: 15px;
-
-      line-height: 1.8;
-    }
-
-
-    .mc-text-link {
-      display: inline-flex;
-
-      align-items: center;
-      gap: 14px;
-
-      margin-top: 28px;
-
-      color: white;
-
-      text-decoration: none;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      letter-spacing: .18em;
-
-      transition: color .2s ease;
-    }
-
-
-    .mc-text-link span {
-      color: var(--mc-blue);
-
-      font-size: 19px;
-
-      transition:
-        transform .2s ease;
-    }
-
-
-    .mc-text-link:hover {
-      color: var(--mc-blue-light);
-    }
-
-
-    .mc-text-link:hover span {
-      transform: translateX(5px);
-    }
-
-
-    /* =========================================
-       FIND YOUR SPOT
-    ========================================== */
-
-    .mc-spot {
-      position: relative;
-
-      min-height: 680px;
-
-      overflow: hidden;
-
-      display: flex;
-      align-items: center;
-
-      background:
-        linear-gradient(
-          115deg,
-          #06101d,
-          #031b35 52%,
-          #004c9f
-        );
-    }
-
-
-    .mc-spot::before {
-      content: "SPOT";
-
-      position: absolute;
-
-      right: -70px;
-      top: 50%;
-
-      transform:
-        translateY(-50%)
-        rotate(-90deg);
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: 300px;
-
-      line-height: .7;
-
-      color: rgba(255,255,255,.035);
-
-      pointer-events: none;
-    }
-
-
-    .mc-spot::after {
-      content: "";
-
-      position: absolute;
-
-      width: 500px;
-      height: 500px;
-
-      right: 10%;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      border-radius: 50%;
-
-      border:
-        1px solid rgba(255,255,255,.09);
-
-      box-shadow:
-        0 0 0 70px rgba(255,255,255,.025),
-        0 0 0 140px rgba(255,255,255,.015);
-    }
-
-
-    .mc-spot-content {
-      position: relative;
-      z-index: 2;
-
-      width: min(1200px, 88%);
-      margin: 0 auto;
-    }
-
-
-    .mc-spot .mc-section-label {
-      color: #8bcaff;
-    }
-
-
-    .mc-spot-title {
-      margin: 0;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        85px,
-        12vw,
-        180px
-      );
-
-      line-height: .76;
-
-      letter-spacing: -.02em;
-    }
-
-
-    .mc-spot-title span {
-      color: #8fd2ff;
-
-      -webkit-text-stroke:
-        1px rgba(255,255,255,.25);
-
-      text-shadow:
-        0 0 35px rgba(0,130,255,.4);
-    }
-
-
-    .mc-spot-description {
-      max-width: 400px;
-
-      margin: 40px 0 30px;
-
-      color: #b9d3e9;
-
-      font-size: 15px;
-
-      line-height: 1.7;
-    }
-
-
-    .mc-blue-button {
-      display: inline-flex;
-
-      align-items: center;
-      gap: 25px;
-
-      padding: 17px 23px;
-
-      background: white;
-
-      color: #03101e;
-
-      text-decoration: none;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      letter-spacing: .15em;
-
-      transition:
-        transform .2s ease,
-        background .2s ease;
-    }
-
-
-    .mc-blue-button strong {
-      color: #007cff;
-      font-size: 19px;
-    }
-
-
-    .mc-blue-button:hover {
-      transform: translateY(-4px);
-
-      background: #e7f5ff;
-    }
-
-
-    /* =========================================
-       VISUAL ARCHIVE
-    ========================================== */
-
-    .mc-archive {
-      padding: 130px 0;
-
-      background: #030507;
-    }
-
-
-    .mc-archive-head {
-      display: flex;
-
-      justify-content: space-between;
-      align-items: flex-end;
-
-      gap: 30px;
-
-      margin-bottom: 45px;
-    }
-
-
-    .mc-archive-title {
-      margin: 0;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        70px,
-        10vw,
-        145px
-      );
-
-      line-height: .8;
-    }
-
-
-    .mc-archive-title span {
-      color: var(--mc-blue);
-    }
-
-
-    .mc-archive-grid {
-      display: grid;
-
-      grid-template-columns:
-        1.5fr 1fr 1fr;
-
-      gap: 12px;
-    }
-
-
-    .mc-photo {
-      position: relative;
-
-      min-height: 400px;
-
-      overflow: hidden;
-
-      background:
-        linear-gradient(
-          135deg,
-          #07101c,
-          #003f82
-        );
-
-      border: 1px solid rgba(255,255,255,.06);
-
-      text-decoration: none;
-
-      transition:
-        transform .3s ease,
-        border-color .3s ease;
-    }
-
-
-    .mc-photo:first-child {
-      min-height: 500px;
-    }
-
-
-    .mc-photo::before {
-      content: "";
-
-      position: absolute;
-      inset: 0;
-
-      background:
-        radial-gradient(
-          circle at 30% 30%,
-          rgba(54,170,255,.35),
-          transparent 28%
-        ),
-        linear-gradient(
-          135deg,
-          transparent 35%,
-          rgba(0,0,0,.65)
-        );
-    }
-
-
-    .mc-photo:nth-child(2) {
-      background:
-        linear-gradient(
-          145deg,
-          #0b111a,
-          #0053aa
-        );
-    }
-
-
-    .mc-photo:nth-child(3) {
-      background:
-        linear-gradient(
-          145deg,
-          #03101b,
-          #102c49
-        );
-    }
-
-
-    .mc-photo:hover {
-      transform: translateY(-7px);
-
-      border-color:
-        rgba(22,140,255,.6);
-    }
-
-
-    .mc-photo-content {
-      position: absolute;
-
-      left: 25px;
-      right: 25px;
-      bottom: 25px;
-
-      display: flex;
-
-      justify-content: space-between;
-      align-items: flex-end;
-
-      z-index: 2;
-    }
-
-
-    .mc-photo-content strong {
-      display: block;
-
-      color: white;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: 32px;
-
-      letter-spacing: .05em;
-    }
-
-
-    .mc-photo-content small {
-      display: block;
-
-      color: #8fcaff;
-
-      font-size: 9px;
-
-      letter-spacing: .2em;
-    }
-
-
-    .mc-photo-number {
-      color: white;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: 42px;
-    }
-
-
-    /* =========================================
-       VIDEO
-    ========================================== */
-
-    .mc-video {
-      padding: 120px 0;
-
-      background:
-        #06101c;
-    }
-
-
-    .mc-video-head {
-      margin-bottom: 45px;
-    }
-
-
-    .mc-video-title {
-      margin: 0;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        70px,
-        10vw,
-        140px
-      );
-
-      line-height: .8;
-    }
-
-
-    .mc-video-title span {
-      color: var(--mc-blue);
-    }
-
-
-    .mc-video-box {
-      min-height: 550px;
-
-      position: relative;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at center,
-          #07549b,
-          #02070d 65%
-        );
-
-      border:
-        1px solid rgba(38,150,255,.25);
-    }
-
-
-    .mc-video-box::before {
-      content: "";
-
-      position: absolute;
-      inset: 0;
-
-      background:
-        repeating-linear-gradient(
-          135deg,
-          transparent 0,
-          transparent 12px,
-          rgba(255,255,255,.025) 13px,
-          transparent 14px
-        );
-    }
-
-
-    .mc-play {
-      width: 90px;
-      height: 90px;
-
-      position: relative;
-      z-index: 2;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border:
-        1px solid rgba(255,255,255,.5);
-
-      border-radius: 50%;
-
-      color: white;
-
-      font-size: 22px;
-
-      background:
-        rgba(0,0,0,.25);
-
-      backdrop-filter: blur(8px);
-
-      transition:
-        transform .25s ease,
-        background .25s ease;
-    }
-
-
-    .mc-video-box:hover .mc-play {
-      transform: scale(1.12);
-
-      background:
-        rgba(0,119,255,.5);
-    }
-
-
-    .mc-video-label {
-      position: absolute;
-
-      left: 30px;
-      bottom: 25px;
-
-      color: white;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: 27px;
-
-      letter-spacing: .08em;
-    }
-
-
-    /* =========================================
-       SHOP
-    ========================================== */
-
-    .mc-shop {
-      padding: 130px 0;
-
-      background: #030507;
-    }
-
-
-    .mc-shop-head {
-      display: flex;
-
-      justify-content: space-between;
-      align-items: flex-end;
-
-      margin-bottom: 45px;
-    }
-
-
-    .mc-shop-title {
-      margin: 0;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        70px,
-        9vw,
-        130px
-      );
-
-      line-height: .8;
-    }
-
-
-    .mc-shop-title span {
-      color: var(--mc-blue);
-    }
-
-
-    .mc-products {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 14px;
-    }
-
-
-    .mc-product {
-      display: block;
-
-      color: white;
-
-      text-decoration: none;
-    }
-
-
-    .mc-product-image {
-      height: 420px;
-
-      position: relative;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      overflow: hidden;
-
-      border:
-        1px solid rgba(255,255,255,.06);
-
-      transition:
-        transform .3s ease;
-    }
-
-
-    .mc-product:hover .mc-product-image {
-      transform: translateY(-7px);
-    }
-
-
-    .mc-product:nth-child(1)
-    .mc-product-image {
-      background:
-        linear-gradient(
-          135deg,
-          #02172e,
-          #0084ff
-        );
-    }
-
-
-    .mc-product:nth-child(2)
-    .mc-product-image {
-      background:
-        linear-gradient(
-          135deg,
-          #070b10,
-          #102235
-        );
-    }
-
-
-    .mc-product:nth-child(3)
-    .mc-product-image {
-      background:
-        linear-gradient(
-          135deg,
-          #00376e,
-          #1b9dff
-        );
-    }
-
-
-    .mc-product-image::before {
-      content: "MOI-CY";
-
-      position: absolute;
-
-      font-family: "Permanent Marker", cursive;
-
-      font-size: 70px;
-
-      color: rgba(255,255,255,.95);
-
-      transform: rotate(-8deg);
-
-      text-shadow:
-        5px 5px 0 rgba(0,0,0,.3);
-    }
-
-
-    .mc-product-image small {
-      position: absolute;
-
-      left: 20px;
-      bottom: 18px;
-
-      font-size: 9px;
-
-      letter-spacing: .2em;
-
-      color: rgba(255,255,255,.7);
-    }
-
-
-    .mc-product-info {
-      display: flex;
-
-      justify-content: space-between;
-
-      padding: 17px 3px;
-
-      border-bottom:
-        1px solid rgba(255,255,255,.12);
-
-      font-size: 10px;
-
-      letter-spacing: .13em;
-    }
-
-
-    .mc-product-info strong {
-      font-weight: 700;
-    }
-
-
-    /* =========================================
-       FINAL
-    ========================================== */
-
-    .mc-final {
-      min-height: 550px;
-
-      position: relative;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at center,
-          #0755a2 0%,
-          #031224 42%,
-          #020406 75%
-        );
-    }
-
-
-    .mc-final-outline {
-      position: absolute;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: clamp(
-        150px,
-        28vw,
-        400px
-      );
-
-      line-height: .7;
-
-      color: transparent;
-
-      -webkit-text-stroke:
-        1px rgba(255,255,255,.08);
-
-      white-space: nowrap;
-    }
-
-
-    .mc-final-content {
-      position: relative;
-
-      z-index: 2;
-
-      text-align: center;
-    }
-
-
-    .mc-final-content p {
-      margin: 0 0 15px;
-
-      color: #8bcaff;
-
-      font-size: 10px;
-
-      font-weight: 700;
-
-      letter-spacing: .35em;
-    }
-
-
-    .mc-final-content h2 {
-      margin: 0;
-
-      font-family: "Permanent Marker", cursive;
-
-      font-size: clamp(
-        80px,
-        13vw,
-        180px
-      );
-
-      line-height: .8;
-
-      color: white;
-
-      transform: rotate(-4deg);
-
-      text-shadow:
-        6px 6px 0 #0051ae,
-        0 0 30px rgba(0,130,255,.45);
-    }
-
-
-    .mc-final-content span {
-      display: block;
-
-      margin-top: 35px;
-
-      color: white;
-
-      font-family: "Bebas Neue", sans-serif;
-
-      font-size: 22px;
-
-      letter-spacing: .35em;
-    }
-
-
-    /* =========================================
-       FOOTER
-    ========================================== */
-
-    body.home-page .site-footer {
-      background: #020305;
-      color: white;
-      border-top:
-        1px solid rgba(255,255,255,.08);
-    }
-
-
-    /* =========================================
-       MOBILE
-    ========================================== */
-
-    @media (max-width: 850px) {
-
-      .mc-hero-inner {
-        padding: 80px 0 60px;
-      }
-
-
-      .mc-logo {
-        font-size: clamp(
-          85px,
-          24vw,
-          160px
-        );
-      }
-
-
-      .mc-hero-row {
-        flex-direction: column;
-        align-items: flex-start;
-
-        margin-top: 60px;
-      }
-
-
-      .mc-hero-side {
-        display: none;
-      }
-
-
-      .mc-about-grid {
-        grid-template-columns: 1fr;
-
-        gap: 40px;
-      }
-
-
-      .mc-spot {
-        min-height: 600px;
-      }
-
-
-      .mc-spot::before {
-        font-size: 180px;
-      }
-
-
-      .mc-archive-head,
-      .mc-shop-head {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-
-      .mc-archive-grid {
-        grid-template-columns: 1fr;
-      }
-
-
-      .mc-photo,
-      .mc-photo:first-child {
-        min-height: 380px;
-      }
-
-
-      .mc-products {
-        grid-template-columns: 1fr;
-      }
-
-
-      .mc-product-image {
-        height: 380px;
-      }
-
-
-      .mc-video-box {
-        min-height: 400px;
-      }
-
-    }
-
-
-    @media (max-width: 550px) {
-
-      .mc-hero-inner,
-      .mc-container,
-      .mc-spot-content {
-        width: 90%;
-      }
-
-
-      .mc-kicker {
-        font-size: 9px;
-      }
-
-
-      .mc-logo {
-        font-size: 28vw;
-      }
-
-
-      .mc-logo::after {
-        bottom: -22px;
-
-        font-size: 16px;
-      }
-
-
-      .mc-about,
-      .mc-archive,
-      .mc-video,
-      .mc-shop {
-        padding: 90px 0;
-      }
-
-
-      .mc-spot {
-        min-height: 540px;
-      }
-
-
-      .mc-spot-title {
-        font-size: 24vw;
-      }
-
-
-      .mc-final {
-        min-height: 420px;
-      }
-
-
-      .mc-final-content h2 {
-        font-size: 24vw;
-      }
-
-    }
-
-  </style>
-
 </head>
 
 
@@ -1533,16 +40,17 @@
 
   <!-- =========================================
        HEADER
-       NICHT ÄNDERN
+       GLEICH WIE AUF DEN UNTERSEITEN
   ========================================== -->
 
-  <header class="site-header">
+  <header class="header">
 
     <a
       href="index.html"
       class="logo"
       aria-label="Moi-cy Home"
     >
+      <span class="logo-mark">M</span>
       <span>Moi-cy</span>
     </a>
 
@@ -1596,26 +104,27 @@
 
     <div
       class="language-switcher"
-      aria-label="Sprache"
+      aria-label="Language"
+      data-i18n-aria="language_switcher"
     >
 
       <button
         type="button"
-        data-lang="de"
+        data-language="de"
       >
         DE
       </button>
 
       <button
         type="button"
-        data-lang="en"
+        data-language="en"
       >
         EN
       </button>
 
       <button
         type="button"
-        data-lang="fr"
+        data-language="fr"
       >
         FR
       </button>
@@ -1624,11 +133,12 @@
 
 
     <button
-      id="menuButton"
       class="menu-button"
+      id="menuButton"
       type="button"
-      aria-expanded="false"
       aria-label="Menü öffnen"
+      aria-expanded="false"
+      data-i18n-aria="menu_open"
     >
       <span></span>
       <span></span>
@@ -1643,8 +153,8 @@
   ========================================== -->
 
   <div
-    id="mobileMenu"
     class="mobile-menu"
+    id="mobileMenu"
   >
 
     <a
@@ -1692,6 +202,10 @@
   </div>
 
 
+  <!-- =========================================
+       MAIN
+  ========================================== -->
+
   <main>
 
 
@@ -1699,60 +213,61 @@
          HERO
     ========================================== -->
 
-    <section class="mc-hero">
+    <section class="home-hero">
 
-      <div class="mc-hero-inner">
+      <div class="home-hero-grid"></div>
 
-        <div class="mc-kicker">
+      <div class="home-hero-glow"></div>
+
+
+      <div class="home-hero-content">
+
+        <div class="home-hero-kicker">
           SKATEBOARDING
           <span>/</span>
           SINCE 2023
         </div>
 
 
-        <div class="mc-logo-stage">
+        <div class="home-logo-stage">
 
-          <h1 class="mc-logo">
+          <h1 class="home-graffiti-logo">
             Moi-cy
           </h1>
 
-          <i class="mc-spray one"></i>
-          <i class="mc-spray two"></i>
-          <i class="mc-spray three"></i>
-          <i class="mc-spray four"></i>
+          <span class="home-spray home-spray-1"></span>
+          <span class="home-spray home-spray-2"></span>
+          <span class="home-spray home-spray-3"></span>
+          <span class="home-spray home-spray-4"></span>
 
         </div>
 
 
-        <div class="mc-hero-row">
+        <div class="home-hero-bottom">
 
-          <div class="mc-hero-copy">
+          <div class="home-hero-text">
 
             <p>
-              Skateboarding.
-              Skateparks.
-              Bilder.
-              Videos.
-              Street culture.
+              SKATE. CREATE. EXPLORE.
             </p>
 
-            <strong>
-              FROM THE STREETS TO EVERYWHERE.
-            </strong>
+            <span>
+              Skateboarding / Skateparks / Images / Videos
+            </span>
 
           </div>
 
 
           <a
             href="skateplaetze.html"
-            class="mc-hero-cta"
+            class="home-hero-link"
           >
 
             <span data-i18n="discover_skateparks">
               SKATEPLÄTZE ENTDECKEN
             </span>
 
-            <span>↗</span>
+            <strong>↗</strong>
 
           </a>
 
@@ -1761,71 +276,156 @@
       </div>
 
 
-      <div class="mc-hero-side">
-
-        <span>01</span>
-        <span>02</span>
-        <span>03</span>
-        <span>04</span>
-
+      <div class="home-hero-scroll">
+        <span>SCROLL</span>
+        <i></i>
       </div>
 
     </section>
 
 
-    <div class="mc-divider"></div>
-
-
     <!-- =========================================
-         ABOUT
+         IMAGES + VIDEOS
     ========================================== -->
 
-    <section class="mc-about">
+    <section class="home-media-section">
 
-      <div class="mc-container">
+      <div class="home-container">
 
-        <div class="mc-about-grid">
+
+        <div class="home-section-heading">
 
           <div>
 
-            <div class="mc-section-label">
-              01 / ABOUT MOI-CY
-            </div>
+            <span class="home-section-label">
+              01 / MEDIA
+            </span>
 
-            <h2 class="mc-about-title">
-              WHAT IS
-              <br>
-              MOI<span>-CY?</span>
+            <h2>
+              SEE THE
+              <span>ACTION.</span>
             </h2>
 
           </div>
 
+        </div>
 
-          <div class="mc-about-text">
 
-            <p class="big">
-              Skateboarding is more than just a sport.
-            </p>
+        <div class="home-media-grid">
 
-            <p data-i18n="story_text_2">
-              Es geht um Bewegung, Kreativität, Freiheit und darum,
-              immer wieder neue Wege zu finden.
-            </p>
 
-            <p data-i18n="story_text_3">
-              Moi-cy entstand aus der Leidenschaft für Skateboarding
-              und dem Wunsch, diese Begeisterung mit anderen zu teilen.
-            </p>
+          <!-- IMAGE -->
 
-            <a
-              href="skateplaetze.html"
-              class="mc-text-link"
-            >
-              EXPLORE THE SPOTS
-              <span>→</span>
-            </a>
+          <a
+            href="bilder.html"
+            class="home-media-card home-media-image"
+          >
 
-          </div>
+            <div class="home-media-visual">
+
+              <img
+                src="bilder/karlsruhe-1.jpg"
+                alt="Skateboarding in Karlsruhe"
+              >
+
+              <div class="home-media-overlay"></div>
+
+              <div class="home-media-number">
+                01
+              </div>
+
+              <div class="home-media-icon">
+                ↗
+              </div>
+
+            </div>
+
+
+            <div class="home-media-info">
+
+              <div>
+
+                <span>
+                  MOI-CY / IMAGES
+                </span>
+
+                <h3 data-i18n="nav_images">
+                  BILDER
+                </h3>
+
+              </div>
+
+              <strong>
+                →
+              </strong>
+
+            </div>
+
+          </a>
+
+
+          <!-- VIDEO -->
+
+          <a
+            href="videos.html"
+            class="home-media-card home-media-video"
+          >
+
+            <div class="home-media-visual">
+
+              <div class="home-video-background">
+
+                <span class="home-video-lines"></span>
+
+                <span class="home-video-word">
+                  MOVE
+                </span>
+
+              </div>
+
+
+              <div class="home-media-overlay"></div>
+
+
+              <div class="home-video-play">
+                ▶
+              </div>
+
+
+              <div class="home-media-number">
+                02
+              </div>
+
+
+              <div class="home-media-icon">
+                ↗
+              </div>
+
+            </div>
+
+
+            <div class="home-media-info">
+
+              <div>
+
+                <span>
+                  MOI-CY / VIDEO
+                </span>
+
+                <h3 data-i18n="nav_videos">
+                  VIDEOS
+                </h3>
+
+              </div>
+
+              <strong>
+                →
+              </strong>
+
+            </div>
+
+          </a>
+
 
         </div>
 
@@ -1838,32 +438,36 @@
          FIND YOUR SPOT
     ========================================== -->
 
-    <section class="mc-spot">
+    <section class="home-spot-section">
 
-      <div class="mc-spot-content">
-
-        <div class="mc-section-label">
-          02 / SKATEPARKS / LOCATIONS
-        </div>
+      <div class="home-spot-background">
+        <span>SPOT</span>
+      </div>
 
 
-        <h2 class="mc-spot-title">
+      <div class="home-container home-spot-content">
+
+        <span class="home-section-label">
+          02 / SKATEPARKS
+        </span>
+
+
+        <h2>
           FIND YOUR
           <br>
           <span>SPOT.</span>
         </h2>
 
 
-        <p class="mc-spot-description">
-          Neue Skateparks entdecken,
-          Spots anschauen und deine nächste
-          Session planen.
+        <p data-i18n="skateparks_intro">
+          Entdecke Skateparks, neue Spots und
+          plane deine nächste Session.
         </p>
 
 
         <a
           href="skateplaetze.html"
-          class="mc-blue-button"
+          class="home-button"
         >
 
           <span data-i18n="discover_skateparks">
@@ -1880,164 +484,24 @@
 
 
     <!-- =========================================
-         IMAGES
-    ========================================== -->
-
-    <section class="mc-archive">
-
-      <div class="mc-container">
-
-        <div class="mc-archive-head">
-
-          <div>
-
-            <div class="mc-section-label">
-              03 / VISUAL ARCHIVE
-            </div>
-
-            <h2 class="mc-archive-title">
-              MOMENTS<span>.</span>
-            </h2>
-
-          </div>
-
-
-          <a
-            href="bilder.html"
-            class="mc-text-link"
-          >
-            ALLE BILDER
-            <span>→</span>
-          </a>
-
-        </div>
-
-
-        <div class="mc-archive-grid">
-
-          <a
-            href="bilder.html"
-            class="mc-photo"
-          >
-
-            <div class="mc-photo-content">
-
-              <div>
-                <small>MOI-CY / SESSION</small>
-                <strong>01</strong>
-              </div>
-
-              <span class="mc-photo-number">01</span>
-
-            </div>
-
-          </a>
-
-
-          <a
-            href="bilder.html"
-            class="mc-photo"
-          >
-
-            <div class="mc-photo-content">
-
-              <div>
-                <small>STREET</small>
-                <strong>02</strong>
-              </div>
-
-              <span class="mc-photo-number">02</span>
-
-            </div>
-
-          </a>
-
-
-          <a
-            href="bilder.html"
-            class="mc-photo"
-          >
-
-            <div class="mc-photo-content">
-
-              <div>
-                <small>SKATEPARK</small>
-                <strong>03</strong>
-              </div>
-
-              <span class="mc-photo-number">03</span>
-
-            </div>
-
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         VIDEO
-    ========================================== -->
-
-    <section class="mc-video">
-
-      <div class="mc-container">
-
-        <div class="mc-video-head">
-
-          <div class="mc-section-label">
-            04 / MOVING IMAGES
-          </div>
-
-          <h2 class="mc-video-title">
-            ON THE
-            <span>MOVE.</span>
-          </h2>
-
-        </div>
-
-
-        <a
-          href="videos.html"
-          class="mc-video-box"
-        >
-
-          <div class="mc-play">
-            ▶
-          </div>
-
-          <span class="mc-video-label">
-            SKATE SESSION #01
-          </span>
-
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
          SHOP
     ========================================== -->
 
-    <section class="mc-shop">
+    <section class="home-shop-section">
 
-      <div class="mc-container">
+      <div class="home-container">
 
-        <div class="mc-shop-head">
+
+        <div class="home-section-heading home-shop-heading">
 
           <div>
 
-            <div class="mc-section-label">
-              05 / MOI-CY SHOP
-            </div>
+            <span class="home-section-label">
+              03 / SHOP
+            </span>
 
-            <h2 class="mc-shop-title">
-              PICK YOUR
+            <h2>
+              MOI-CY
               <span>GEAR.</span>
             </h2>
 
@@ -2046,26 +510,35 @@
 
           <a
             href="shop.html"
-            class="mc-text-link"
+            class="home-section-link"
           >
             SHOP
-            <span>→</span>
+            <strong>→</strong>
           </a>
 
         </div>
 
 
-        <div class="mc-products">
+        <div
+          class="home-product-slider"
+          id="productSlider"
+        >
 
+
+          <!-- PRODUCT 01 -->
 
           <a
             href="https://shop.teamshirts.de/moi-cy/product/475947/765"
-            class="mc-product"
+            class="home-product-slide"
             target="_blank"
             rel="noopener noreferrer"
           >
 
-            <div class="mc-product-image">
+            <div class="home-product-image">
+
+              <span class="home-product-placeholder">
+                MOI-CY
+              </span>
 
               <small>
                 TEAMSHIRTS / 01
@@ -2074,29 +547,39 @@
             </div>
 
 
-            <div class="mc-product-info">
+            <div class="home-product-info">
 
-              <span>01</span>
+              <span>
+                01
+              </span>
 
               <strong>
                 MOI-CY SHIRT
               </strong>
 
-              <span>↗</span>
+              <span>
+                ↗
+              </span>
 
             </div>
 
           </a>
 
 
+          <!-- PRODUCT 02 -->
+
           <a
             href="https://shop.teamshirts.de/moi-cy/product/476639/263"
-            class="mc-product"
+            class="home-product-slide"
             target="_blank"
             rel="noopener noreferrer"
           >
 
-            <div class="mc-product-image">
+            <div class="home-product-image">
+
+              <span class="home-product-placeholder">
+                MOI-CY
+              </span>
 
               <small>
                 TEAMSHIRTS / 02
@@ -2105,29 +588,39 @@
             </div>
 
 
-            <div class="mc-product-info">
+            <div class="home-product-info">
 
-              <span>02</span>
+              <span>
+                02
+              </span>
 
               <strong>
                 MOI-CY COLLECTION
               </strong>
 
-              <span>↗</span>
+              <span>
+                ↗
+              </span>
 
             </div>
 
           </a>
 
 
+          <!-- PRODUCT 03 -->
+
           <a
             href="https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
-            class="mc-product"
+            class="home-product-slide"
             target="_blank"
             rel="noopener noreferrer"
           >
 
-            <div class="mc-product-image">
+            <div class="home-product-image">
+
+              <span class="home-product-placeholder">
+                MOI-CY
+              </span>
 
               <small>
                 ZAZZLE / 03
@@ -2136,20 +629,50 @@
             </div>
 
 
-            <div class="mc-product-info">
+            <div class="home-product-info">
 
-              <span>03</span>
+              <span>
+                03
+              </span>
 
               <strong>
                 SKATEBOARD BLUE
               </strong>
 
-              <span>↗</span>
+              <span>
+                ↗
+              </span>
 
             </div>
 
           </a>
 
+
+        </div>
+
+
+        <div class="home-product-dots">
+
+          <button
+            type="button"
+            class="home-product-dot active"
+            data-slide="0"
+            aria-label="Produkt 1"
+          ></button>
+
+          <button
+            type="button"
+            class="home-product-dot"
+            data-slide="1"
+            aria-label="Produkt 2"
+          ></button>
+
+          <button
+            type="button"
+            class="home-product-dot"
+            data-slide="2"
+            aria-label="Produkt 3"
+          ></button>
 
         </div>
 
@@ -2162,26 +685,26 @@
          FINAL
     ========================================== -->
 
-    <section class="mc-final">
+    <section class="home-final-section">
 
-      <div class="mc-final-outline">
+      <div class="home-final-outline">
         MOI-CY
       </div>
 
 
-      <div class="mc-final-content">
+      <div class="home-final-content">
 
-        <p>
+        <span>
           CURRENT
-        </p>
+        </span>
 
         <h2>
           Moi-cy
         </h2>
 
-        <span>
+        <p>
           keep moving.
-        </span>
+        </p>
 
       </div>
 
@@ -2193,13 +716,14 @@
 
   <!-- =========================================
        FOOTER
-  ========================================== -->
+    ========================================== -->
 
-  <footer class="site-footer">
+  <footer class="footer">
 
     <div class="footer-top">
 
       <div class="footer-logo">
+        <span class="footer-mark">M</span>
         Moi-cy
       </div>
 
