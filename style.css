@@ -7,14 +7,24 @@
   --black: #050505;
   --dark: #090909;
   --dark-2: #101010;
+
   --white: #f2f2f2;
   --gray: #888;
   --blue: #00a8ff;
+
+  --blue-soft: rgba(0, 168, 255, 0.18);
+
   --line: rgba(255, 255, 255, 0.09);
 
   --header-height: 82px;
+
   --content-width: 1200px;
 }
+
+
+/* =========================================
+   RESET
+========================================= */
 
 * {
   box-sizing: border-box;
@@ -26,9 +36,13 @@ html {
 
 body {
   margin: 0;
+
   background: var(--black);
+
   color: var(--white);
+
   font-family: "Inter", Arial, sans-serif;
+
   overflow-x: hidden;
 }
 
@@ -61,6 +75,7 @@ img {
 
 .header {
   position: fixed;
+
   top: 0;
   left: 0;
   right: 0;
@@ -70,7 +85,9 @@ img {
   height: var(--header-height);
 
   display: flex;
+
   align-items: center;
+  justify-content: center;
 
   padding: 0 34px;
 
@@ -83,26 +100,36 @@ img {
 }
 
 
-/* LOGO */
+/* =========================================
+   LOGO
+========================================= */
 
 .logo {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 5;
 
   display: flex;
+
   align-items: center;
 
   gap: 8px;
 
-  flex-shrink: 0;
-
   color: var(--white);
+
+  flex-shrink: 0;
 }
 
 .logo-mark {
   color: var(--blue);
 
   font-size: 1rem;
+
   font-weight: 900;
 
   letter-spacing: -0.08em;
@@ -117,72 +144,23 @@ img {
 }
 
 
-/* NAVIGATION */
-
-.navigation {
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  display: flex;
-  align-items: center;
-
-  gap: 25px;
-
-  white-space: nowrap;
-}
-
-.navigation a {
-  position: relative;
-
-  color: #aaa;
-
-  font-size: 0.68rem;
-  font-weight: 800;
-
-  letter-spacing: 0.12em;
-
-  transition: color 0.2s ease;
-}
-
-.navigation a::after {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  bottom: -7px;
-
-  height: 1px;
-
-  background: var(--blue);
-
-  transform: scaleX(0);
-
-  transition: transform 0.2s ease;
-}
-
-.navigation a:hover {
-  color: var(--white);
-}
-
-.navigation a:hover::after {
-  transform: scaleX(1);
-}
-
-
 /* =========================================
-   LANGUAGE
+   LANGUAGE SWITCHER
+   LINKS WIE AUF DEN ANDEREN SEITEN
 ========================================= */
 
 .language-switcher {
-  margin-left: auto;
+  position: absolute;
+
+  left: 34px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  z-index: 6;
 
   display: flex;
+
   align-items: center;
 
   gap: 5px;
@@ -202,6 +180,7 @@ img {
   color: #777;
 
   font-size: 0.58rem;
+
   font-weight: 800;
 
   letter-spacing: 0.08em;
@@ -216,6 +195,7 @@ img {
 
 .language-button:hover {
   color: var(--white);
+
   border-color: var(--blue);
 }
 
@@ -229,6 +209,75 @@ img {
 
 
 /* =========================================
+   NAVIGATION
+========================================= */
+
+.navigation {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 3;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 25px;
+
+  white-space: nowrap;
+}
+
+.navigation a {
+  position: relative;
+
+  color: #aaa;
+
+  font-size: 0.68rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.12em;
+
+  transition:
+    color 0.2s ease;
+}
+
+.navigation a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  bottom: -7px;
+
+  height: 1px;
+
+  background: var(--blue);
+
+  transform: scaleX(0);
+
+  transform-origin: center;
+
+  transition:
+    transform 0.2s ease;
+}
+
+.navigation a:hover {
+  color: var(--white);
+}
+
+.navigation a:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* =========================================
    MOBILE MENU BUTTON
 ========================================= */
 
@@ -237,8 +286,6 @@ img {
 
   width: 38px;
   height: 38px;
-
-  margin-left: 12px;
 
   padding: 7px;
 
@@ -258,6 +305,10 @@ img {
   margin: 5px 0;
 
   background: var(--white);
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 
@@ -291,6 +342,8 @@ img {
 .mobile-language-switcher {
   display: flex;
 
+  align-items: center;
+
   gap: 5px;
 
   margin-bottom: 15px;
@@ -298,6 +351,7 @@ img {
 
 .mobile-menu nav {
   display: flex;
+
   flex-direction: column;
 }
 
@@ -309,6 +363,7 @@ img {
   color: var(--white);
 
   font-size: 0.8rem;
+
   font-weight: 800;
 
   letter-spacing: 0.12em;
@@ -333,6 +388,7 @@ section {
   color: var(--blue);
 
   font-size: 0.65rem;
+
   font-weight: 900;
 
   letter-spacing: 0.18em;
@@ -349,6 +405,7 @@ section {
   min-height: 100vh;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -364,6 +421,7 @@ section {
 
 .hero-background {
   position: absolute;
+
   inset: 0;
 
   background:
@@ -373,10 +431,13 @@ section {
       transparent 38%
     ),
     var(--black);
+
+  pointer-events: none;
 }
 
 .hero-grid {
   position: absolute;
+
   inset: 0;
 
   opacity: 0.28;
@@ -402,6 +463,8 @@ section {
       black 75%,
       transparent
     );
+
+  pointer-events: none;
 }
 
 .hero-glow {
@@ -415,6 +478,8 @@ section {
   background: rgba(0, 168, 255, 0.07);
 
   filter: blur(90px);
+
+  pointer-events: none;
 }
 
 .hero-content {
@@ -422,12 +487,15 @@ section {
 
   z-index: 2;
 
-  width: min(100%, 1200px);
+  width: min(100%, var(--content-width));
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
+
+  justify-content: center;
 
   gap: 30px;
 }
@@ -436,6 +504,7 @@ section {
   color: var(--blue);
 
   font-size: 0.65rem;
+
   font-weight: 900;
 
   letter-spacing: 0.2em;
@@ -445,13 +514,14 @@ section {
 
 
 /* =========================================
-   GRAFFITI
+   GRAFFITI LOGO
 ========================================= */
 
 .graffiti-logo {
   display: flex;
-  justify-content: center;
+
   align-items: center;
+  justify-content: center;
 
   width: 100%;
 
@@ -459,7 +529,12 @@ section {
 
   font-family: "Permanent Marker", cursive;
 
-  font-size: clamp(5rem, 16vw, 13rem);
+  font-size:
+    clamp(
+      5rem,
+      16vw,
+      13rem
+    );
 
   line-height: 0.8;
 
@@ -468,12 +543,17 @@ section {
   transform: rotate(-3deg);
 
   filter:
-    drop-shadow(0 0 12px rgba(0,168,255,0.18))
-    drop-shadow(0 0 35px rgba(0,168,255,0.08));
+    drop-shadow(
+      0 0 12px rgba(0,168,255,0.18)
+    )
+    drop-shadow(
+      0 0 35px rgba(0,168,255,0.08)
+    );
 }
 
 .graffiti-word {
   display: flex;
+
   align-items: center;
   justify-content: center;
 }
@@ -502,7 +582,7 @@ section {
 
 
 /* =========================================
-   HERO SIDE
+   HERO SIDE TEXT
 ========================================= */
 
 .hero-side-text {
@@ -520,6 +600,7 @@ section {
   color: #666;
 
   font-size: 0.58rem;
+
   font-weight: 900;
 
   letter-spacing: 0.2em;
@@ -543,7 +624,9 @@ section {
   transform: translateX(-50%);
 
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
 
   gap: 12px;
@@ -551,6 +634,7 @@ section {
   color: #666;
 
   font-size: 0.58rem;
+
   font-weight: 800;
 
   letter-spacing: 0.18em;
@@ -572,7 +656,7 @@ section {
 
 
 /* =========================================
-   ABOUT
+   ABOUT / INTRO
 ========================================= */
 
 .intro-section {
@@ -589,7 +673,7 @@ section {
 }
 
 .intro-layout {
-  width: min(100%, 1200px);
+  width: min(100%, var(--content-width));
 
   margin: 75px auto 0;
 
@@ -608,9 +692,15 @@ section {
   margin: 0;
 
   display: flex;
+
   flex-direction: column;
 
-  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-size:
+    clamp(
+      3.5rem,
+      8vw,
+      8rem
+    );
 
   line-height: 0.86;
 
@@ -673,17 +763,19 @@ section {
     );
 
   border-top: 1px solid var(--line);
+
   border-bottom: 1px solid var(--line);
 }
 
 .feature-heading {
-  width: min(100%, 1200px);
+  width: min(100%, var(--content-width));
 
   margin: 60px auto 0;
 
   display: flex;
 
   align-items: center;
+
   justify-content: space-between;
 
   gap: 30px;
@@ -693,9 +785,15 @@ section {
   margin: 0;
 
   display: flex;
+
   flex-direction: column;
 
-  font-size: clamp(4rem, 11vw, 10rem);
+  font-size:
+    clamp(
+      4rem,
+      11vw,
+      10rem
+    );
 
   line-height: 0.8;
 
@@ -713,6 +811,7 @@ section {
   height: 75px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -725,6 +824,7 @@ section {
   transition:
     background 0.2s ease,
     color 0.2s ease,
+    border-color 0.2s ease,
     transform 0.2s ease;
 }
 
@@ -736,6 +836,18 @@ section {
   border-color: var(--blue);
 
   transform: translateX(5px);
+}
+
+.feature-description {
+  width: min(100%, var(--content-width));
+
+  margin: 25px auto 0;
+
+  color: #888;
+
+  font-size: 0.9rem;
+
+  line-height: 1.7;
 }
 
 
@@ -750,14 +862,17 @@ section {
 }
 
 .media-grid {
-  width: min(100%, 1200px);
+  width: min(100%, var(--content-width));
 
   margin: 70px auto 0;
 
   display: grid;
 
   grid-template-columns:
-    repeat(2, minmax(0, 1fr));
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
 
   gap: 20px;
 }
@@ -768,6 +883,7 @@ section {
   min-height: 520px;
 
   display: flex;
+
   align-items: flex-end;
 
   overflow: hidden;
@@ -790,6 +906,7 @@ section {
   content: "";
 
   position: absolute;
+
   inset: 0;
 
   background:
@@ -798,6 +915,12 @@ section {
       rgba(0,168,255,0.15),
       transparent 45%
     );
+
+  opacity: 0.7;
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
 }
 
 .media-card:hover {
@@ -805,6 +928,12 @@ section {
 
   border-color:
     rgba(0,168,255,0.4);
+}
+
+.media-card:hover::before {
+  transform: scale(1.15);
+
+  opacity: 1;
 }
 
 .media-card-content {
@@ -821,6 +950,7 @@ section {
   color: var(--blue);
 
   font-size: 0.62rem;
+
   font-weight: 900;
 
   letter-spacing: 0.16em;
@@ -829,14 +959,19 @@ section {
 .media-card-content h2 {
   margin: 20px 0 30px;
 
-  font-size: clamp(3rem, 6vw, 6rem);
+  font-size:
+    clamp(
+      3rem,
+      6vw,
+      6rem
+    );
 
   line-height: 0.85;
 
   letter-spacing: -0.07em;
 }
 
-.media-card-content h2 span {
+.media-card-content h2 span:last-child {
   color: var(--blue);
 }
 
@@ -844,9 +979,17 @@ section {
   color: #aaa;
 
   font-size: 0.65rem;
+
   font-weight: 900;
 
   letter-spacing: 0.14em;
+
+  transition:
+    color 0.2s ease;
+}
+
+.media-card:hover .media-card-content strong {
+  color: var(--white);
 }
 
 
@@ -863,13 +1006,14 @@ section {
 }
 
 .products-header {
-  width: min(100%, 1200px);
+  width: min(100%, var(--content-width));
 
   margin: 55px auto 0;
 
   display: flex;
 
   align-items: flex-end;
+
   justify-content: space-between;
 
   gap: 30px;
@@ -879,9 +1023,15 @@ section {
   margin: 0;
 
   display: flex;
+
   flex-direction: column;
 
-  font-size: clamp(3.5rem, 9vw, 8rem);
+  font-size:
+    clamp(
+      3.5rem,
+      9vw,
+      8rem
+    );
 
   line-height: 0.82;
 
@@ -898,9 +1048,13 @@ section {
   color: #aaa;
 
   font-size: 0.68rem;
+
   font-weight: 900;
 
   letter-spacing: 0.15em;
+
+  transition:
+    color 0.2s ease;
 }
 
 .products-shop-link:hover {
@@ -913,7 +1067,7 @@ section {
 ========================================= */
 
 .product-slider {
-  width: min(100%, 1200px);
+  width: min(100%, var(--content-width));
 
   margin: 60px auto 0;
 
@@ -947,18 +1101,22 @@ section {
 
   from {
     opacity: 0;
+
     transform: translateX(20px);
   }
 
   to {
     opacity: 1;
+
     transform: translateX(0);
   }
 
 }
 
 
-/* PRODUCT IMAGE */
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
 
 .product-image {
   position: absolute;
@@ -966,8 +1124,12 @@ section {
   inset: 0;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
+  overflow: hidden;
 }
 
 .product-placeholder {
@@ -984,6 +1146,7 @@ section {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   color: var(--blue);
@@ -1051,7 +1214,9 @@ section {
 }
 
 
-/* PRODUCT INFO */
+/* =========================================
+   PRODUCT INFO
+========================================= */
 
 .product-info {
   position: absolute;
@@ -1065,6 +1230,7 @@ section {
   display: flex;
 
   align-items: flex-end;
+
   justify-content: space-between;
 
   gap: 25px;
@@ -1086,6 +1252,7 @@ section {
   color: #888;
 
   font-size: 0.62rem;
+
   font-weight: 800;
 
   letter-spacing: 0.15em;
@@ -1105,6 +1272,7 @@ section {
   color: var(--blue);
 
   font-size: 0.9rem;
+
   font-weight: 900;
 
   white-space: nowrap;
@@ -1122,6 +1290,7 @@ section {
   height: 45px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -1130,6 +1299,11 @@ section {
   color: var(--blue);
 
   font-size: 1.1rem;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .product-slide:hover .product-arrow {
@@ -1141,7 +1315,9 @@ section {
 }
 
 
-/* DOTS */
+/* =========================================
+   PRODUCT DOTS
+========================================= */
 
 .product-dots {
   display: flex;
@@ -1166,6 +1342,15 @@ section {
   background: transparent;
 
   cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.product-dot:hover {
+  border-color: var(--blue);
 }
 
 .product-dot.active {
@@ -1187,6 +1372,7 @@ section {
   padding: 150px 7vw;
 
   display: flex;
+
   flex-direction: column;
 
   justify-content: center;
@@ -1200,6 +1386,7 @@ section {
   color: var(--blue);
 
   font-size: 0.65rem;
+
   font-weight: 900;
 
   letter-spacing: 0.2em;
@@ -1209,9 +1396,15 @@ section {
   margin: 45px 0 0;
 
   display: flex;
+
   flex-direction: column;
 
-  font-size: clamp(4rem, 12vw, 11rem);
+  font-size:
+    clamp(
+      4rem,
+      12vw,
+      11rem
+    );
 
   line-height: 0.78;
 
@@ -1262,6 +1455,7 @@ section {
   font-family: "Inter", sans-serif;
 
   font-size: 1rem;
+
   font-weight: 900;
 }
 
@@ -1289,7 +1483,7 @@ section {
 
 
 /* =========================================
-   RESPONSIVE
+   RESPONSIVE — 1100px
 ========================================= */
 
 @media (max-width: 1100px) {
@@ -1309,6 +1503,10 @@ section {
 }
 
 
+/* =========================================
+   RESPONSIVE — 900px
+========================================= */
+
 @media (max-width: 900px) {
 
   .header {
@@ -1319,7 +1517,15 @@ section {
     display: none;
   }
 
+  .language-switcher {
+    left: 20px;
+  }
+
   .menu-button {
+    position: absolute;
+
+    right: 20px;
+
     display: block;
   }
 
@@ -1354,6 +1560,10 @@ section {
 }
 
 
+/* =========================================
+   RESPONSIVE — 700px
+========================================= */
+
 @media (max-width: 700px) {
 
   :root {
@@ -1366,12 +1576,8 @@ section {
     padding: 0 15px;
   }
 
-  .logo-mark {
-    font-size: 0.85rem;
-  }
-
-  .logo > span:last-child {
-    font-size: 1.1rem;
+  .language-switcher {
+    left: 15px;
   }
 
   .language-button {
@@ -1380,11 +1586,25 @@ section {
     font-size: 0.52rem;
   }
 
+  .logo {
+    left: 50%;
+  }
+
+  .logo-mark {
+    font-size: 0.85rem;
+  }
+
+  .logo > span:last-child {
+    font-size: 1.1rem;
+  }
+
   .menu-button {
+    right: 15px;
+
     width: 34px;
     height: 34px;
 
-    margin-left: 7px;
+    margin-left: 0;
   }
 
   .hero {
@@ -1398,14 +1618,17 @@ section {
 
   .hero-small {
     font-size: 0.52rem;
+
+    letter-spacing: 0.15em;
   }
 
   .graffiti-logo {
-    font-size: clamp(
-      4rem,
-      20vw,
-      7rem
-    );
+    font-size:
+      clamp(
+        4rem,
+        20vw,
+        7rem
+      );
   }
 
   .hero-side-text {
@@ -1420,22 +1643,25 @@ section {
 
   .intro-section,
   .media-section {
-    padding: 100px 22px;
+    padding:
+      100px 22px;
   }
 
   .feature-section,
   .products-section,
   .final-section {
     padding-left: 22px;
+
     padding-right: 22px;
   }
 
   .intro-title h2 {
-    font-size: clamp(
-      3rem,
-      14vw,
-      5.5rem
-    );
+    font-size:
+      clamp(
+        3rem,
+        14vw,
+        5.5rem
+      );
   }
 
   .feature-heading {
@@ -1443,11 +1669,12 @@ section {
   }
 
   .feature-heading h2 {
-    font-size: clamp(
-      3.5rem,
-      15vw,
-      6rem
-    );
+    font-size:
+      clamp(
+        3.5rem,
+        15vw,
+        6rem
+      );
   }
 
   .feature-arrow {
@@ -1470,11 +1697,12 @@ section {
   }
 
   .products-header h2 {
-    font-size: clamp(
-      3rem,
-      14vw,
-      6rem
-    );
+    font-size:
+      clamp(
+        3rem,
+        14vw,
+        6rem
+      );
   }
 
   .product-slide {
@@ -1494,23 +1722,30 @@ section {
     min-height: 500px;
 
     padding-top: 100px;
+
     padding-bottom: 100px;
   }
 
   .final-section h2 {
-    font-size: clamp(
-      3.5rem,
-      15vw,
-      7rem
-    );
+    font-size:
+      clamp(
+        3.5rem,
+        15vw,
+        7rem
+      );
   }
 
   .footer {
-    padding: 40px 22px;
+    padding:
+      40px 22px;
   }
 
 }
 
+
+/* =========================================
+   RESPONSIVE — 420px
+========================================= */
 
 @media (max-width: 420px) {
 
@@ -1518,10 +1753,6 @@ section {
     padding: 3px 4px;
 
     font-size: 0.48rem;
-  }
-
-  .menu-button {
-    margin-left: 5px;
   }
 
   .media-card {
