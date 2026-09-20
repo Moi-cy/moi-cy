@@ -30,7 +30,7 @@
 
   <link
     rel="stylesheet"
-    href="style.css?v=homepage3"
+    href="style.css?v=homepage4"
   >
 
 </head>
@@ -150,7 +150,7 @@
     </nav>
 
 
-    <!-- MOBILE -->
+    <!-- MOBILE MENU BUTTON -->
 
     <button
       class="menu-button"
@@ -185,6 +185,8 @@
         type="button"
         class="language-button active"
         data-language="de"
+        aria-label="Deutsch"
+        aria-pressed="true"
       >
         DE
       </button>
@@ -193,6 +195,8 @@
         type="button"
         class="language-button"
         data-language="en"
+        aria-label="English"
+        aria-pressed="false"
       >
         EN
       </button>
@@ -201,6 +205,8 @@
         type="button"
         class="language-button"
         data-language="fr"
+        aria-label="Français"
+        aria-pressed="false"
       >
         FR
       </button>
@@ -344,11 +350,11 @@
           <h2>
 
             <span data-i18n="what_is_moicy">
-              WHAT IS
+              WHAT IS Moi-cy?
             </span>
 
             <span data-i18n="the_story">
-              Moi-cy?
+              THE STORY
             </span>
 
           </h2>
@@ -380,6 +386,12 @@
             die Menschen dahinter.
           </p>
 
+          <p data-i18n="story_text_5">
+            Street, Pool oder Bowl – am Ende geht es
+            darum, rauszugehen, zu skaten und
+            neue Dinge zu entdecken.
+          </p>
+
           <span
             class="handwritten"
             data-i18n="keep_moving"
@@ -395,7 +407,7 @@
 
 
     <!-- =========================================
-         SKATEPARK
+         SKATEPARKS
     ========================================== -->
 
     <section class="feature-section">
@@ -411,11 +423,11 @@
 
         <h2>
 
-          <span data-i18n="find_your_line">
+          <span>
             FIND YOUR
           </span>
 
-          <span data-i18n="skatepark_reviews">
+          <span>
             SPOT.
           </span>
 
@@ -459,6 +471,8 @@
       <div class="media-grid">
 
 
+        <!-- BILDER -->
+
         <a
           href="bilder.html"
           class="media-card"
@@ -471,23 +485,25 @@
             </span>
 
             <h2>
-              <span data-i18n="watch">
-                WATCH
-              </span>
-              <span> / </span>
+
               <span data-i18n="images_title">
                 BILDER
               </span>
+
+              <span>.</span>
+
             </h2>
 
             <strong data-i18n="view_all_images">
-              ALLE BILDER ANSEHEN →
+              ALLE BILDER ANSEHEN
             </strong>
 
           </div>
 
         </a>
 
+
+        <!-- VIDEOS -->
 
         <a
           href="videos.html"
@@ -501,17 +517,17 @@
             </span>
 
             <h2>
-              <span data-i18n="watch">
-                WATCH
-              </span>
-              <span> / </span>
+
               <span data-i18n="videos_title">
                 VIDEOS
               </span>
+
+              <span>.</span>
+
             </h2>
 
             <strong data-i18n="all_videos">
-              ALLE VIDEOS →
+              ALLE VIDEOS
             </strong>
 
           </div>
@@ -531,7 +547,11 @@
     <section class="products-section">
 
       <span class="section-label">
-        MOI-CY / SHOP
+
+        <span data-i18n="shop_label">
+          MOI-CY / SHOP
+        </span>
+
       </span>
 
 
@@ -553,9 +573,14 @@
         <a
           href="shop.html"
           class="products-shop-link"
-          data-i18n="shop_title"
         >
-          SHOP →
+
+          <span data-i18n="shop_title">
+            SHOP
+          </span>
+
+          →
+
         </a>
 
       </div>
@@ -567,6 +592,10 @@
       >
 
 
+        <!-- =====================================
+             PRODUCT 1
+        ====================================== -->
+
         <a
           class="product-slide active"
           href="https://shop.teamshirts.de/moi-cy/product/475947/765"
@@ -574,7 +603,9 @@
           rel="noopener noreferrer"
         >
 
-          <div class="product-image product-placeholder">
+          <div
+            class="product-image product-placeholder"
+          >
 
             <div class="placeholder-shape hoodie-shape">
               HOODIE
@@ -607,6 +638,10 @@
         </a>
 
 
+        <!-- =====================================
+             PRODUCT 2
+        ====================================== -->
+
         <a
           class="product-slide"
           href="https://shop.teamshirts.de/moi-cy/product/476639/263"
@@ -614,7 +649,9 @@
           rel="noopener noreferrer"
         >
 
-          <div class="product-image product-placeholder">
+          <div
+            class="product-image product-placeholder"
+          >
 
             <div class="placeholder-shape shirt-shape">
               TEE
@@ -647,6 +684,10 @@
         </a>
 
 
+        <!-- =====================================
+             PRODUCT 3
+        ====================================== -->
+
         <a
           class="product-slide"
           href="https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
@@ -654,7 +695,9 @@
           rel="noopener noreferrer"
         >
 
-          <div class="product-image product-placeholder">
+          <div
+            class="product-image product-placeholder"
+          >
 
             <div class="placeholder-shape board-shape">
               MOI-CY
@@ -689,6 +732,8 @@
 
       </div>
 
+
+      <!-- DOTS -->
 
       <div class="product-dots">
 
@@ -755,7 +800,10 @@
 
     <div class="footer-logo">
 
-      <span class="footer-mark">M</span>
+      <span class="footer-mark">
+        M
+      </span>
+
       Moi-cy
 
     </div>
@@ -778,7 +826,7 @@
   </footer>
 
 
-  <script src="script.js?v=homepage3"></script>
+  <script src="script.js?v=homepage4"></script>
 
 </body>
 
