@@ -1,1 +1,487 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Videos – Moi-cy</title>
+
+  <meta
+    name="description"
+    content="Videos von Moi-cy – Skate Sessions, Clips und mehr."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css?v=videos1">
+
+  <style>
+
+    /* =========================================
+       MOI-CY VIDEOS
+       SCHLICHT × DARK STREET
+    ========================================= */
+
+    .videos-page {
+      min-height: 100vh;
+      padding: 150px 7vw 110px;
+      background: #050505;
+    }
+
+
+    /* =========================================
+       ÜBERSCHRIFT
+    ========================================= */
+
+    .videos-header {
+      max-width: 1200px;
+      margin: 0 auto 70px;
+    }
+
+
+    .videos-label {
+      display: block;
+
+      margin-bottom: 18px;
+
+      color: #00a8ff;
+
+      font-size: 0.65rem;
+      font-weight: 800;
+
+      letter-spacing: 0.18em;
+    }
+
+
+    .videos-title {
+      margin: 0;
+
+      color: #f2f2f2;
+
+      font-size: clamp(3.5rem, 8vw, 7rem);
+
+      line-height: 0.9;
+
+      letter-spacing: -0.07em;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================
+       VIDEO GRID
+    ========================================= */
+
+    .videos-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 28px;
+    }
+
+
+    /* =========================================
+       VIDEO
+    ========================================= */
+
+    .video-card {
+      min-width: 0;
+    }
+
+
+    .video-frame {
+      position: relative;
+
+      width: 100%;
+
+      aspect-ratio: 16 / 9;
+
+      background: #0b0b0b;
+
+      border: 1px solid rgba(255, 255, 255, 0.09);
+
+      overflow: hidden;
+
+      transition:
+        border-color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .video-frame:hover {
+      border-color: #00a8ff;
+
+      transform: translateY(-3px);
+    }
+
+
+    .video-frame iframe {
+      display: block;
+
+      width: 100%;
+      height: 100%;
+
+      border: none;
+    }
+
+
+    /* =========================================
+       VIDEO NUMMER
+    ========================================= */
+
+    .video-number {
+      margin-top: 12px;
+
+      color: #555;
+
+      font-size: 0.58rem;
+
+      font-weight: 700;
+
+      letter-spacing: 0.16em;
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 900px) {
+
+      .videos-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+
+    @media (max-width: 700px) {
+
+      .videos-page {
+        padding:
+          120px
+          6vw
+          80px;
+      }
+
+
+      .videos-header {
+        margin-bottom: 45px;
+      }
+
+
+      .videos-title {
+        font-size: clamp(3.5rem, 17vw, 6rem);
+      }
+
+
+      .videos-grid {
+        grid-template-columns: 1fr;
+
+        gap: 38px;
+      }
+
+
+      .video-frame:hover {
+        transform: none;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+  <a href="index.html" class="logo">
+
+    <span class="logo-mark">
+      M
+    </span>
+
+    <span>
+      Moi-cy
+    </span>
+
+  </a>
+
+
+  <nav class="navigation">
+
+    <a href="index.html">
+      HOME
+    </a>
+
+    <a href="bilder.html">
+      BILDER
+    </a>
+
+    <a href="videos.html">
+      VIDEOS
+    </a>
+
+    <a href="skateplaetze.html">
+      SKATEPLÄTZE
+    </a>
+
+    <a href="kontakt.html">
+      KONTAKT
+    </a>
+
+    <a href="shop.html">
+      SHOP
+    </a>
+
+  </nav>
+
+
+  <button
+    class="menu-button"
+    id="menuButton"
+    aria-label="Menü öffnen"
+  >
+
+    <span></span>
+    <span></span>
+    <span></span>
+
+  </button>
+
+</header>
+
+
+
+<!-- =========================================
+     VIDEOS
+========================================= -->
+
+<main>
+
+  <section class="videos-page">
+
+
+    <!-- ÜBERSCHRIFT -->
+
+    <div class="videos-header">
+
+      <span class="videos-label">
+        MOI-CY / VIDEOS
+      </span>
+
+      <h1 class="videos-title">
+        Videos
+      </h1>
+
+    </div>
+
+
+
+    <!-- VIDEO GRID -->
+
+    <section class="videos-grid">
+
+
+      <!-- VIDEO 01 -->
+
+      <article class="video-card">
+
+        <div class="video-frame">
+
+          <iframe
+            src="https://www.youtube.com/embed/TVahqUl2Qhk"
+            title="Moi-cy Video 01"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+
+        </div>
+
+        <div class="video-number">
+          VIDEO 01
+        </div>
+
+      </article>
+
+
+
+      <!-- VIDEO 02 -->
+
+      <article class="video-card">
+
+        <div class="video-frame">
+
+          <iframe
+            src="https://www.youtube.com/embed/37JDOvHyxqw"
+            title="Moi-cy Video 02"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+
+        </div>
+
+        <div class="video-number">
+          VIDEO 02
+        </div>
+
+      </article>
+
+
+
+      <!-- VIDEO 03 -->
+
+      <article class="video-card">
+
+        <div class="video-frame">
+
+          <iframe
+            src="https://www.youtube.com/embed/LCBoKw7jp_8"
+            title="Moi-cy Video 03"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+
+        </div>
+
+        <div class="video-number">
+          VIDEO 03
+        </div>
+
+      </article>
+
+
+
+      <!-- VIDEO 04 -->
+
+      <article class="video-card">
+
+        <div class="video-frame">
+
+          <iframe
+            src="https://www.youtube.com/embed/JeJZi0N9mIY"
+            title="Moi-cy Video 04"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+
+        </div>
+
+        <div class="video-number">
+          VIDEO 04
+        </div>
+
+      </article>
+
+
+
+      <!-- VIDEO 05 -->
+
+      <article class="video-card">
+
+        <div class="video-frame">
+
+          <iframe
+            src="https://www.youtube.com/embed/dd2K6hFT0g4"
+            title="Moi-cy Video 05"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+
+        </div>
+
+        <div class="video-number">
+          VIDEO 05
+        </div>
+
+      </article>
+
+
+
+      <!-- VIDEO 06 -->
+
+      <article class="video-card">
+
+        <div class="video-frame">
+
+          <iframe
+            src="https://www.youtube.com/embed/qcFgEVvC_SM"
+            title="Moi-cy Video 06"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+
+        </div>
+
+        <div class="video-number">
+          VIDEO 06
+        </div>
+
+      </article>
+
+
+    </section>
+
+  </section>
+
+</main>
+
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer class="footer">
+
+  <div class="footer-logo">
+
+    <span class="footer-mark">
+      M
+    </span>
+
+    Moi-cy
+
+  </div>
+
+
+  <div class="footer-center">
+    SKATE / CREATE / EXPLORE
+  </div>
+
+
+  <div class="footer-copy">
+    © 2026 Moi-cy
+  </div>
+
+</footer>
+
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
