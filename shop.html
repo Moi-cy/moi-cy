@@ -1,1 +1,307 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Shop — Moi-cy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css?v=shop1">
+
+  <style>
+    /* =========================================
+       MOI-CY SHOP
+       SCHLICHT × DARK STREET
+    ========================================= */
+
+    .shop-page {
+      min-height: 100vh;
+      padding: 150px 7vw 100px;
+      background: #050505;
+    }
+
+    .shop-header {
+      max-width: 1100px;
+      margin: 0 auto 70px;
+    }
+
+    .shop-label {
+      display: block;
+      margin-bottom: 18px;
+      color: #00a8ff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
+
+    .shop-title {
+      margin: 0;
+      color: #f2f2f2;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+    .shop-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .shop-item {
+      min-width: 0;
+    }
+
+    .shop-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #0d0d0d;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      overflow: hidden;
+    }
+
+    .shop-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .shop-button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 14px;
+      padding: 17px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: transparent;
+      color: #f2f2f2;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-decoration: none;
+      overflow: hidden;
+      transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .shop-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: #00a8ff;
+      transition: width 0.35s ease;
+      z-index: 0;
+    }
+
+    .shop-button span,
+    .shop-button strong {
+      position: relative;
+      z-index: 2;
+    }
+
+    .shop-button strong {
+      color: #00a8ff;
+      font-size: 1.1rem;
+      font-weight: 400;
+      transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .shop-button:hover {
+      color: #050505;
+      border-color: #00a8ff;
+      transform: translateY(-3px);
+    }
+
+    .shop-button:hover::before {
+      width: 100%;
+    }
+
+    .shop-button:hover strong {
+      color: #050505;
+      transform: translateX(6px);
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+      .shop-page {
+        padding: 120px 6vw 70px;
+      }
+
+      .shop-header {
+        margin-bottom: 45px;
+      }
+
+      .shop-title {
+        font-size: clamp(3.5rem, 17vw, 6rem);
+      }
+
+      .shop-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .shop-image {
+        aspect-ratio: 1 / 1;
+      }
+
+      .shop-button {
+        padding: 16px 18px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <a href="index.html" class="logo">
+      <span class="logo-mark">M</span>
+      <span>Moi-cy</span>
+    </a>
+
+    <nav class="navigation">
+
+      <a href="index.html">HOME</a>
+
+      <a href="bilder.html">BILDER</a>
+
+      <a href="videos.html">VIDEOS</a>
+
+      <a href="skateplaetze.html">SKATEPLÄTZE</a>
+
+      <a href="kontakt.html">KONTAKT</a>
+
+      <a href="shop.html">SHOP</a>
+
+    </nav>
+
+    <button class="menu-button" aria-label="Menü öffnen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </header>
+
+
+  <!-- SHOP -->
+  <main class="shop-page">
+
+    <div class="shop-header">
+      <span class="shop-label">MOI-CY / SHOP</span>
+      <h1 class="shop-title">Shop</h1>
+    </div>
+
+
+    <section class="shop-grid">
+
+      <!-- PRODUKT 1 -->
+      <article class="shop-item">
+
+        <div class="shop-image">
+          <img
+            src="https://placehold.co/900x900/111111/00A8FF?text=SHOP+01"
+            alt="Moi-cy Shop Produkt 1"
+          >
+        </div>
+
+        <!-- LINK SPÄTER HIER EINSETZEN -->
+        <a
+          href="#"
+          class="shop-button"
+          target="_blank"
+          rel="noopener"
+        >
+          <span>PRODUKT ANSEHEN</span>
+          <strong>→</strong>
+        </a>
+
+      </article>
+
+
+      <!-- PRODUKT 2 -->
+      <article class="shop-item">
+
+        <div class="shop-image">
+          <img
+            src="https://placehold.co/900x900/111111/00A8FF?text=SHOP+02"
+            alt="Moi-cy Shop Produkt 2"
+          >
+        </div>
+
+        <!-- LINK SPÄTER HIER EINSETZEN -->
+        <a
+          href="#"
+          class="shop-button"
+          target="_blank"
+          rel="noopener"
+        >
+          <span>PRODUKT ANSEHEN</span>
+          <strong>→</strong>
+        </a>
+
+      </article>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div class="footer-logo">
+      <span class="footer-mark">M</span>
+      <span>Moi-cy</span>
+    </div>
+
+    <div class="footer-center">
+      SKATE · CREATE · MOVE
+    </div>
+
+    <div class="footer-copy">
+      © 2026 Moi-cy
+    </div>
+
+  </footer>
+
+
+  <!-- MOBILE MENU -->
+  <script>
+    const menuButton = document.querySelector(".menu-button");
+    const navigation = document.querySelector(".navigation");
+
+    if (menuButton && navigation) {
+      menuButton.addEventListener("click", () => {
+        navigation.classList.toggle("active");
+      });
+    }
+  </script>
+
+</body>
+</html>
