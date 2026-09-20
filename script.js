@@ -41,40 +41,36 @@ document.addEventListener(
       );
 
 
-      const mobileLinks =
-        mobileMenu.querySelectorAll(
-          "a"
+      mobileMenu
+        .querySelectorAll("a")
+        .forEach(
+          (link) => {
+
+            link.addEventListener(
+              "click",
+              () => {
+
+                mobileMenu.classList.remove(
+                  "active"
+                );
+
+                menuButton.setAttribute(
+                  "aria-expanded",
+                  "false"
+                );
+
+              }
+            );
+
+          }
         );
-
-
-      mobileLinks.forEach(
-        (link) => {
-
-          link.addEventListener(
-            "click",
-            () => {
-
-              mobileMenu.classList.remove(
-                "active"
-              );
-
-              menuButton.setAttribute(
-                "aria-expanded",
-                "false"
-              );
-
-            }
-          );
-
-        }
-      );
 
     }
 
 
 
     /* =========================
-       SPRAY LOGO
+       GRAFFITI SPRAY
     ========================= */
 
     const logo =
@@ -82,26 +78,38 @@ document.addEventListener(
         "graffitiLogo"
       );
 
-    const mask =
-      document.getElementById(
-        "sprayReveal"
+    const svg =
+      logo?.querySelector(
+        ".graffiti-svg"
       );
 
-    const sprayCloud =
+    const text =
       document.getElementById(
-        "sprayCloud"
+        "logoText"
       );
 
-    const particles =
+    const maskLetters =
+      document.getElementById(
+        "maskLetters"
+      );
+
+    const sprayHead =
+      document.getElementById(
+        "sprayHead"
+      );
+
+    const paintDrops =
       document.querySelectorAll(
-        ".spray-particle"
+        ".paint-drop"
       );
 
 
     if (
       !logo ||
-      !mask ||
-      !sprayCloud
+      !svg ||
+      !text ||
+      !maskLetters ||
+      !sprayHead
     ) {
       return;
     }
@@ -109,276 +117,273 @@ document.addEventListener(
 
 
     /*
-      Wir benutzen keine horizontale
-      Reveal-Fläche mehr.
+      WICHTIG:
 
-      Stattdessen wird das Logo aus
-      vielen einzelnen Spray-Punkten
-      aufgebaut.
+      Wir lesen jetzt die tatsächliche
+      Breite des Textes aus dem Browser.
 
-      Dadurch sieht es so aus,
-      als würde Farbe direkt auf die
-      Buchstaben gesprüht werden.
+      Dadurch liegen die Spraypunkte
+      wirklich auf "Moi-cy" und nicht
+      irgendwo daneben.
     */
 
 
-    const sprayPoints = [
-
-      /* M */
-
-      [305, 150],
-      [320, 132],
-      [335, 112],
-      [350, 95],
-      [365, 118],
-      [380, 145],
-      [395, 120],
-      [410, 100],
-      [425, 125],
-      [440, 150],
+    const letters =
+      Array.from(
+        "Moi-cy"
+      );
 
 
-      /* o */
-
-      [455, 150],
-      [470, 132],
-      [490, 125],
-      [510, 132],
-      [522, 150],
-      [510, 170],
-      [490, 178],
-      [470, 170],
+    const textLength =
+      text.getComputedTextLength();
 
 
-      /* i */
-
-      [540, 125],
-      [540, 150],
-      [540, 175],
+    const startX =
+      500 -
+      textLength / 2;
 
 
-      /* - */
+    /*
+      Abstand der einzelnen Buchstaben.
+    */
 
-      [565, 150],
-      [585, 150],
-
-
-      /* c */
-
-      [615, 130],
-      [635, 125],
-      [650, 140],
-      [640, 155],
-      [625, 175],
-      [610, 168],
-
-
-      /* y */
-
-      [675, 130],
-      [690, 150],
-      [705, 175],
-      [720, 150],
-      [735, 130],
-      [725, 160],
-      [710, 185]
-
-    ];
+    let currentX =
+      startX;
 
 
 
     /*
-      Erzeugt einen einzelnen
-      unregelmäßigen Spraybereich.
+      Jeder Buchstabe bekommt eine
+      eigene Spraymaske.
+
+      Die Maske wächst vom Zentrum
+      des jeweiligen Buchstabens aus.
+
+      Dadurch entsteht nicht mehr
+      der langweilige Links-nach-Rechts-
+      Effekt.
     */
 
-    function createSprayPoint(
-      x,
-      y,
-      index
-    ) {
+    const letterData = [];
 
-      const group =
-        document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "g"
+
+    letters.forEach(
+      (
+        letter,
+        index
+      ) => {
+
+
+        const temp =
+          document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+          );
+
+
+        temp.textContent =
+          letter;
+
+
+        temp.setAttribute(
+          "x",
+          String(currentX)
         );
 
 
-      const main =
-        document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "circle"
+        temp.setAttribute(
+          "y",
+          "205"
         );
 
 
-      main.setAttribute(
-        "cx",
-        x
-      );
-
-      main.setAttribute(
-        "cy",
-        y
-      );
-
-      main.setAttribute(
-        "r",
-        "20"
-      );
+        temp.setAttribute(
+          "class",
+          "graffiti-text"
+        );
 
 
-      group.appendChild(
-        main
-      );
+        temp.setAttribute(
+          "font-size",
+          "190"
+        );
 
 
-      /*
-        Kleine zusätzliche Sprühpunkte
-        um den Hauptpunkt herum.
-      */
+        temp.setAttribute(
+          "font-family",
+          "Rubik Dirt"
+        );
 
-      for (
-        let i = 0;
-        i < 5;
-        i++
-      ) {
 
-        const dot =
+        temp.setAttribute(
+          "font-weight",
+          "900"
+        );
+
+
+        temp.setAttribute(
+          "fill",
+          "white"
+        );
+
+
+        /*
+          Damit wir die exakte Breite
+          dieses Buchstabens bekommen.
+        */
+
+        svg.appendChild(
+          temp
+        );
+
+
+        const width =
+          temp.getComputedTextLength();
+
+
+        svg.removeChild(
+          temp
+        );
+
+
+        const centerX =
+          currentX +
+          width / 2;
+
+
+        letterData.push(
+          {
+            letter,
+            x: centerX,
+            y: 155,
+            width
+          }
+        );
+
+
+        currentX +=
+          width;
+
+      }
+    );
+
+
+
+    /*
+      Für jeden Buchstaben wird eine
+      weiche Sprayfläche erzeugt.
+    */
+
+    letterData.forEach(
+      (
+        item,
+        index
+      ) => {
+
+        const group =
+          document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "g"
+          );
+
+
+        const circle =
           document.createElementNS(
             "http://www.w3.org/2000/svg",
             "circle"
           );
 
 
-        const angle =
-          Math.random() *
-          Math.PI *
-          2;
-
-
-        const distance =
-          12 +
-          Math.random() *
-          25;
-
-
-        dot.setAttribute(
+        circle.setAttribute(
           "cx",
-          String(
-            x +
-            Math.cos(angle) *
-            distance
-          )
+          String(item.x)
         );
 
 
-        dot.setAttribute(
+        circle.setAttribute(
           "cy",
-          String(
-            y +
-            Math.sin(angle) *
-            distance
-          )
+          String(item.y)
         );
 
 
-        dot.setAttribute(
+        circle.setAttribute(
           "r",
-          String(
-            2 +
-            Math.random() *
-            5
-          )
+          "0"
+        );
+
+
+        circle.setAttribute(
+          "fill",
+          "white"
         );
 
 
         group.appendChild(
-          dot
+          circle
         );
 
-      }
+
+        maskLetters.appendChild(
+          group
+        );
 
 
-      group.style.opacity =
-        "0";
-
-
-      group.dataset.index =
-        String(index);
-
-
-      mask.appendChild(
-        group
-      );
-
-
-      return group;
-
-    }
-
-
-
-    const sprayGroups =
-      sprayPoints.map(
-        (
-          point,
+        letterData[
           index
-        ) =>
-          createSprayPoint(
-            point[0],
-            point[1],
-            index
-          )
-      );
+        ].circle =
+          circle;
+
+      }
+    );
 
 
 
-    /* =========================
-       ANIMATION
-    ========================= */
+    /*
+      Das ursprüngliche Text-Element
+      bleibt für die eigentliche Schrift
+      zuständig.
+
+      Die Kreise bestimmen nur,
+      welche Bereiche bereits sichtbar
+      sind.
+    */
+
 
     const duration =
-      4800;
+      2800;
 
 
-    const start =
+    const startTime =
       performance.now();
 
 
-    sprayCloud.classList.add(
+    sprayHead.classList.add(
       "active"
     );
 
 
 
     /*
-      Logo bleibt am Anfang komplett
-      unsichtbar.
-
-      Die Spraypunkte werden nacheinander
-      auf die Buchstaben gesetzt.
+      Kleine Farbspritzer werden
+      nacheinander ausgelöst.
     */
 
-
-    sprayGroups.forEach(
+    paintDrops.forEach(
       (
-        group,
+        drop,
         index
       ) => {
 
         window.setTimeout(
           () => {
 
-            group.style.transition =
-              "opacity 0.18s ease";
-
-            group.style.opacity =
-              "1";
+            drop.classList.add(
+              "active"
+            );
 
           },
-          120 +
-          index * 125
+          180 +
+          index * 145
         );
 
       }
@@ -386,18 +391,13 @@ document.addEventListener(
 
 
 
-    /*
-      Sprühwolke bewegt sich über die
-      tatsächlich gesetzten Spraypunkte.
-    */
-
     function animate(
-      currentTime
+      now
     ) {
 
       const elapsed =
-        currentTime -
-        start;
+        now -
+        startTime;
 
 
       let progress =
@@ -416,122 +416,151 @@ document.addEventListener(
 
 
       /*
-        Die Wolke folgt der aktuellen
-        Sprayposition.
+        Sehr weiches Timing.
       */
 
-      const pointCount =
-        sprayPoints.length;
+      const eased =
+        progress *
+        progress *
+        (
+          3 -
+          2 *
+          progress
+        );
+
+
+      /*
+        Aktueller Buchstabe.
+      */
+
+      const total =
+        letterData.length;
+
+
+      const floatingIndex =
+        eased *
+        total;
 
 
       const currentIndex =
         Math.min(
-          pointCount - 1,
+          total - 1,
           Math.floor(
-            progress *
-            pointCount
+            floatingIndex
           )
         );
 
 
-      const point =
-        sprayPoints[
+      const current =
+        letterData[
           currentIndex
         ];
 
 
       /*
-        SVG-Koordinaten werden auf die
-        tatsächliche Logo-Position
-        umgerechnet.
+        Der Sprühkopf sitzt direkt
+        am aktuellen Buchstaben.
       */
 
-      const logoRect =
-        logo.getBoundingClientRect();
+      if (current) {
+
+        const logoRect =
+          logo.getBoundingClientRect();
 
 
-      const x =
-        (point[0] / 1000) *
-        logoRect.width;
+        const x =
+          (
+            current.x /
+            1000
+          ) *
+          logoRect.width;
 
 
-      const y =
-        (point[1] / 300) *
-        logoRect.height;
+        const y =
+          (
+            current.y /
+            300
+          ) *
+          logoRect.height;
 
 
-      sprayCloud.style.left =
-        `${x}px`;
+        sprayHead.style.left =
+          `${x}px`;
 
 
-      sprayCloud.style.top =
-        `${y}px`;
+        sprayHead.style.top =
+          `${y}px`;
+
+      }
 
 
 
       /*
-        Spraypunkte werden während der
-        Bewegung leicht unregelmäßig
-        sichtbar.
+        Jeder Buchstabe wird mit
+        einer runden Spraybewegung
+        aufgebaut.
       */
 
-      sprayGroups.forEach(
+      letterData.forEach(
         (
-          group,
+          item,
           index
         ) => {
 
-          const threshold =
+          const begin =
             index /
-            sprayGroups.length;
+            total;
 
 
-          if (
-            progress >
-            threshold
-          ) {
+          const end =
+            (
+              index + 1
+            ) /
+            total;
 
-            group.style.opacity =
-              "1";
 
-          }
+          let localProgress =
+            (
+              eased -
+              begin
+            ) /
+            (
+              end -
+              begin
+            );
+
+
+          localProgress =
+            Math.max(
+              0,
+              Math.min(
+                1,
+                localProgress
+              )
+            );
+
+
+          /*
+            Weiches Wachstum der
+            Sprayfläche.
+          */
+
+          const radius =
+            localProgress *
+            (
+              item.width *
+              0.72 +
+              90
+            );
+
+
+          item.circle.setAttribute(
+            "r",
+            String(radius)
+          );
 
         }
       );
-
-
-
-      /*
-        Partikel werden verteilt
-        ausgelöst.
-      */
-
-      if (
-        progress > 0.08
-      ) {
-
-        const particleIndex =
-          Math.floor(
-            progress *
-            particles.length
-          );
-
-
-        if (
-          particles[
-            particleIndex
-          ]
-        ) {
-
-          particles[
-            particleIndex
-          ].classList.add(
-            "active"
-          );
-
-        }
-
-      }
 
 
 
@@ -547,27 +576,40 @@ document.addEventListener(
       } else {
 
         /*
-          Am Ende bleibt das komplette
+          Sicherheit:
+          am Ende ist das komplette
           Logo sichtbar.
         */
 
-        sprayGroups.forEach(
-          (group) => {
+        letterData.forEach(
+          (
+            item
+          ) => {
 
-            group.style.opacity =
-              "1";
+            item.circle.setAttribute(
+              "r",
+              "500"
+            );
 
           }
         );
 
 
-        sprayCloud.classList.remove(
-          "active"
+        /*
+          Spraykopf noch kurz stehen
+          lassen und dann verschwinden.
+        */
+
+        window.setTimeout(
+          () => {
+
+            sprayHead.classList.remove(
+              "active"
+            );
+
+          },
+          220
         );
-
-
-        sprayCloud.style.opacity =
-          "0";
 
       }
 
