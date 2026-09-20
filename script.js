@@ -3,303 +3,364 @@
    Main JavaScript
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
 
-  /* =======================================================
-     MOBILE MENU
-  ======================================================== */
 
-  const menuButton = document.getElementById("menuButton");
-  const mobileMenu = document.getElementById("mobileMenu");
+    /* =====================================================
+       MOBILE MENU
+    ====================================================== */
 
-  if (menuButton && mobileMenu) {
-
-    menuButton.addEventListener("click", () => {
-
-      const isOpen = mobileMenu.classList.toggle("active");
-
-      menuButton.setAttribute(
-        "aria-expanded",
-        String(isOpen)
+    const menuButton =
+      document.getElementById(
+        "menuButton"
       );
 
-    });
+    const mobileMenu =
+      document.getElementById(
+        "mobileMenu"
+      );
 
 
-    const mobileLinks =
-      mobileMenu.querySelectorAll("a");
+    if (
+      menuButton &&
+      mobileMenu
+    ) {
 
-    mobileLinks.forEach((link) => {
+      menuButton.addEventListener(
+        "click",
+        () => {
 
-      link.addEventListener("click", () => {
+          const isOpen =
+            mobileMenu.classList.toggle(
+              "active"
+            );
 
-        mobileMenu.classList.remove("active");
 
-        menuButton.setAttribute(
-          "aria-expanded",
-          "false"
+          menuButton.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+          );
+
+        }
+      );
+
+
+      const mobileLinks =
+        mobileMenu.querySelectorAll(
+          "a"
         );
 
-      });
 
-    });
+      mobileLinks.forEach(
+        (link) => {
 
-  }
+          link.addEventListener(
+            "click",
+            () => {
 
-
-  /* =======================================================
-     GRAFFITI SPRAY ANIMATION
-  ======================================================== */
-
-  const logo = document.getElementById("graffitiLogo");
-  const sprayCloud = document.getElementById("sprayCloud");
-
-  const revealRect =
-    document.getElementById("revealRect");
-
-  const revealStart =
-    document.getElementById("revealStart");
-
-  const revealEdge =
-    document.getElementById("revealEdge");
-
-  const revealEnd =
-    document.getElementById("revealEnd");
-
-  const revealFinish =
-    document.getElementById("revealFinish");
-
-  const sprayDots =
-    document.querySelectorAll(".spray-dot");
+              mobileMenu.classList.remove(
+                "active"
+              );
 
 
-  if (
-    logo &&
-    sprayCloud &&
-    revealRect &&
-    revealStart &&
-    revealEdge &&
-    revealEnd &&
-    revealFinish
-  ) {
+              menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+              );
 
-    /*
-      Dauer des Aufsprühens.
+            }
+          );
 
-      0 = noch nicht sichtbar
-      1000 = komplett sichtbar
-    */
+        }
+      );
 
-    const duration = 2400;
+    }
 
-    const startTime = performance.now();
+
+    /* =====================================================
+       GRAFFITI SPRAY
+    ====================================================== */
+
+    const logo =
+      document.getElementById(
+        "graffitiLogo"
+      );
+
+    const sprayCloud =
+      document.getElementById(
+        "sprayCloud"
+      );
+
+    const revealRect =
+      document.getElementById(
+        "logoRevealRect"
+      );
+
+    const sprayDots =
+      document.querySelectorAll(
+        ".spray-dot"
+      );
 
 
     /*
-      Kleine Spritzer werden bewusst
-      nacheinander aktiviert.
+      Nur starten, wenn wirklich
+      alle benötigten Elemente existieren.
     */
 
-    const activateDots = () => {
+    if (
+      !logo ||
+      !sprayCloud ||
+      !revealRect
+    ) {
 
-      sprayDots.forEach((dot, index) => {
+      return;
 
-        const delay =
-          350 + index * 135;
-
-        window.setTimeout(() => {
-
-          dot.classList.add("active");
-
-        }, delay);
-
-      });
-
-    };
+    }
 
 
-    activateDots();
+    /* =====================================================
+       EINSTELLUNGEN
+    ====================================================== */
+
+    const animationDuration = 2700;
+
+    const startWidth = 0;
+
+    const endWidth = 1000;
+
+
+    /*
+      Startzustand:
+      Das Logo ist KOMPLETT unsichtbar.
+    */
+
+    revealRect.setAttribute(
+      "width",
+      String(startWidth)
+    );
 
 
     /*
       Spraywolke einschalten.
     */
 
-    sprayCloud.classList.add("spraying");
+    sprayCloud.classList.add(
+      "spraying"
+    );
 
 
-    /*
-      Position der Spraywolke.
+    /* =====================================================
+       SPRAY-PARTIKEL
+    ====================================================== */
 
-      Die Wolke wandert exakt mit der
-      Aufsprühkante von links nach rechts.
-    */
+    sprayDots.forEach(
+      (dot, index) => {
 
-    const updateCloudPosition = (progress) => {
+        /*
+          Nicht alle Punkte gleichzeitig.
 
-      const clamped =
-        Math.max(
-          0,
-          Math.min(1, progress)
+          Dadurch wirkt es eher wie
+          echter Overspray.
+        */
+
+        const delay =
+          250 +
+          index * 150 +
+          Math.random() * 350;
+
+
+        window.setTimeout(
+          () => {
+
+            dot.classList.add(
+              "active"
+            );
+
+          },
+          delay
         );
-
-      /*
-        4% -> 96%
-
-        Dadurch sitzt die Wolke
-        nicht außerhalb des Logos.
-      */
-
-      const left =
-        4 + clamped * 92;
-
-      sprayCloud.style.left =
-        `${left}%`;
-
-    };
-
-
-    /*
-      Das eigentliche Aufsprühen.
-
-      Der sichtbare Bereich wächst
-      kontinuierlich von links nach rechts.
-    */
-
-    const animateSpray = (currentTime) => {
-
-      const elapsed =
-        currentTime - startTime;
-
-      const rawProgress =
-        elapsed / duration;
-
-      const progress =
-        Math.max(
-          0,
-          Math.min(1, rawProgress)
-        );
-
-
-      /*
-        Leichte Beschleunigung,
-        damit der Anfang etwas
-        kontrollierter wirkt.
-      */
-
-      const eased =
-        1 - Math.pow(1 - progress, 2);
-
-
-      /*
-        SVG-Reveal.
-      */
-
-      const revealWidth =
-        eased * 1000;
-
-
-      revealRect.setAttribute(
-        "width",
-        String(revealWidth)
-      );
-
-
-      /*
-        Der harte Übergang der Maske
-        bleibt direkt an der Spraykante.
-      */
-
-      const edge =
-        Math.max(
-          0,
-          eased * 100
-        );
-
-      revealStart.setAttribute(
-        "offset",
-        `${Math.max(0, edge - 2.2)}%`
-      );
-
-      revealEdge.setAttribute(
-        "offset",
-        `${edge}%`
-      );
-
-      revealEnd.setAttribute(
-        "offset",
-        `${Math.min(100, edge + 0.2)}%`
-      );
-
-      revealFinish.setAttribute(
-        "offset",
-        `${Math.min(100, edge + 0.4)}%`
-      );
-
-
-      /*
-        Spraywolke mitführen.
-      */
-
-      updateCloudPosition(eased);
-
-
-      /*
-        Solange noch gesprüht wird:
-        weiter animieren.
-      */
-
-      if (progress < 1) {
-
-        requestAnimationFrame(
-          animateSpray
-        );
-
-        return;
 
       }
+    );
 
 
-      /*
-        Am Ende:
-        Logo komplett sichtbar.
-      */
+    /* =====================================================
+       SPRAYWOLKE POSITIONIEREN
+    ====================================================== */
 
-      revealRect.setAttribute(
-        "width",
-        "1000"
-      );
+    const moveSprayCloud =
+      (progress) => {
 
-      updateCloudPosition(1);
+        /*
+          Die Wolke bewegt sich von
+          3% bis 97% des Logos.
+        */
+
+        const position =
+          3 +
+          progress * 94;
 
 
-      /*
-        Spraywolke noch kurz nachziehen lassen,
-        damit es nicht wie ein harter
-        Animationsstopp aussieht.
-      */
+        sprayCloud.style.left =
+          `${position}%`;
 
-      window.setTimeout(() => {
+      };
 
-        sprayCloud.classList.remove(
-          "spraying"
+
+    /* =====================================================
+       ANIMATION
+    ====================================================== */
+
+    const animationStart =
+      performance.now();
+
+
+    const animate =
+      (currentTime) => {
+
+        const elapsed =
+          currentTime -
+          animationStart;
+
+
+        let progress =
+          elapsed /
+          animationDuration;
+
+
+        /*
+          Auf 0–1 begrenzen.
+        */
+
+        progress =
+          Math.max(
+            0,
+            Math.min(
+              1,
+              progress
+            )
+          );
+
+
+        /*
+          Leichtes Anfahren.
+
+          Am Anfang langsam,
+          danach wird schneller gesprüht.
+        */
+
+        const easedProgress =
+          1 -
+          Math.pow(
+            1 - progress,
+            2
+          );
+
+
+        /*
+          Breite des sichtbaren
+          Bereichs im SVG.
+        */
+
+        const currentWidth =
+          startWidth +
+          (
+            endWidth -
+            startWidth
+          ) *
+          easedProgress;
+
+
+        /*
+          DAS IST DER EIGENTLICHE REVEAL.
+
+          Die blaue Schrift wird
+          entlang ihrer tatsächlichen
+          Buchstabenform sichtbar,
+          sobald die Spraykante
+          darüber läuft.
+        */
+
+        revealRect.setAttribute(
+          "width",
+          String(currentWidth)
         );
 
-        sprayCloud.style.opacity = "0";
 
-      }, 450);
+        /*
+          Spraywolke exakt mitführen.
+        */
 
-    };
+        moveSprayCloud(
+          easedProgress
+        );
+
+
+        /*
+          Noch nicht fertig?
+          Weiter animieren.
+        */
+
+        if (
+          progress <
+          1
+        ) {
+
+          requestAnimationFrame(
+            animate
+          );
+
+          return;
+
+        }
+
+
+        /* =================================================
+           ANIMATION FERTIG
+        ================================================== */
+
+        revealRect.setAttribute(
+          "width",
+          "1000"
+        );
+
+
+        moveSprayCloud(
+          1
+        );
+
+
+        /*
+          Wolke noch einen kurzen
+          Moment stehen lassen.
+        */
+
+        window.setTimeout(
+          () => {
+
+            sprayCloud.classList.remove(
+              "spraying"
+            );
+
+            sprayCloud.style.opacity =
+              "0";
+
+          },
+          500
+        );
+
+      };
 
 
     /*
-      Animation starten.
+      LOS.
     */
 
     requestAnimationFrame(
-      animateSpray
+      animate
     );
 
   }
-
-});
+);
