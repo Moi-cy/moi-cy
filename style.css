@@ -332,20 +332,6 @@ img {
     );
 
   pointer-events: none;
-
-  animation: gridMove 14s linear infinite;
-}
-
-@keyframes gridMove {
-
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 100px 100px;
-  }
-
 }
 
 
@@ -382,80 +368,106 @@ img {
   align-items: center;
   justify-content: center;
 
-  width: min(1000px, 92vw);
+  width: min(1000px, 90vw);
 
-  min-height: 290px;
+  min-height: 230px;
 
-  animation:
-    logoStageAppear 0.8s
-    ease-out
-    both;
+  isolation: isolate;
+
+  animation: logoSprayIn 1.15s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-@keyframes logoStageAppear {
+@keyframes logoSprayIn {
 
   0% {
     opacity: 0;
 
     transform:
-      scale(0.94)
-      rotate(-2deg);
+      translateY(12px)
+      rotate(-7deg)
+      scale(0.94);
+
+    filter: blur(7px);
+  }
+
+  55% {
+    opacity: 1;
+
+    transform:
+      translateY(-2px)
+      rotate(-5deg)
+      scale(1.015);
+
+    filter: blur(1px);
   }
 
   100% {
     opacity: 1;
 
     transform:
-      scale(1)
-      rotate(0);
+      translateY(0)
+      rotate(-5deg)
+      scale(1);
+
+    filter: blur(0);
   }
 
 }
 
 
 /* =========================================
-   PAINT STROKE
+   SPRAY / PAINT CLOUD
 ========================================= */
 
 .paint-stroke {
   position: absolute;
 
   width: 82%;
-  height: 115px;
+  height: 170px;
 
   left: 9%;
   top: 50%;
 
   transform:
     translateY(-50%)
-    rotate(-5deg)
-    skewX(-12deg);
+    rotate(-5deg);
 
   background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(0, 168, 255, 0.08) 5%,
-      rgba(0, 168, 255, 0.25) 25%,
-      rgba(0, 168, 255, 0.48) 45%,
-      rgba(0, 168, 255, 0.18) 75%,
-      transparent 100%
+    radial-gradient(
+      ellipse at 14% 52%,
+      rgba(0, 168, 255, 0.28) 0%,
+      rgba(0, 168, 255, 0.10) 24%,
+      transparent 43%
+    ),
+    radial-gradient(
+      ellipse at 38% 42%,
+      rgba(0, 168, 255, 0.22) 0%,
+      rgba(0, 168, 255, 0.08) 27%,
+      transparent 46%
+    ),
+    radial-gradient(
+      ellipse at 63% 58%,
+      rgba(0, 168, 255, 0.24) 0%,
+      rgba(0, 168, 255, 0.08) 28%,
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 87% 45%,
+      rgba(0, 168, 255, 0.22) 0%,
+      rgba(0, 168, 255, 0.06) 25%,
+      transparent 44%
     );
 
-  filter: blur(13px);
+  filter: blur(15px);
 
   opacity: 0;
 
-  z-index: 1;
+  z-index: -2;
 
-  animation:
-    paintWake 1.6s
-    ease-out
-    0.25s
-    forwards;
+  animation: sprayCloud 1.25s ease-out 0.05s both;
 }
 
-@keyframes paintWake {
+@keyframes sprayCloud {
 
   0% {
     opacity: 0;
@@ -463,157 +475,65 @@ img {
     transform:
       translateY(-50%)
       rotate(-5deg)
-      skewX(-12deg)
-      scaleX(0.6);
+      scale(0.78);
   }
 
-  55% {
-    opacity: 0.85;
-  }
-
-  100% {
-    opacity: 0.65;
+  45% {
+    opacity: 0.9;
 
     transform:
       translateY(-50%)
       rotate(-5deg)
-      skewX(-12deg)
-      scaleX(1);
+      scale(1.04);
+  }
+
+  100% {
+    opacity: 0.62;
+
+    transform:
+      translateY(-50%)
+      rotate(-5deg)
+      scale(1);
   }
 
 }
 
 
 /* =========================================
-   GRAFFITI LOGO
+   MOI-CY LOGO
 ========================================= */
 
-.logo-graffiti-wrap {
+.logo-main {
   position: relative;
 
-  z-index: 6;
-
-  display: inline-block;
-
-  transform:
-    rotate(-5deg)
-    translateY(3px);
-
-  animation:
-    graffitiPop 0.75s
-    cubic-bezier(0.18, 0.8, 0.25, 1)
-    0.85s
-    both;
-
-  transition:
-    transform 0.35s ease;
-}
-
-
-/* =========================================
-   GRAFFITI SHADOW
-========================================= */
-
-.logo-graffiti-shadow {
-  position: absolute;
-
-  left: 9px;
-  top: 10px;
-
-  font-family: "Permanent Marker", cursive;
-
-  font-size: clamp(7rem, 17vw, 14rem);
-
-  line-height: 0.75;
-
-  letter-spacing: -0.06em;
-
-  white-space: nowrap;
-
-  color: #050505;
-
-  z-index: 1;
-
-  pointer-events: none;
-}
-
-
-/* =========================================
-   BLUE GRAFFITI OUTLINE
-========================================= */
-
-.logo-graffiti-outline {
-  position: absolute;
-
-  left: 3px;
-  top: 2px;
-
-  font-family: "Permanent Marker", cursive;
-
-  font-size: clamp(7rem, 17vw, 14rem);
-
-  line-height: 0.75;
-
-  letter-spacing: -0.06em;
-
-  white-space: nowrap;
-
-  color: transparent;
-
-  -webkit-text-stroke:
-    4px var(--blue);
-
-  text-shadow:
-    0 0 8px rgba(0, 168, 255, 0.7),
-    0 0 22px rgba(0, 168, 255, 0.28);
-
-  z-index: 2;
-
-  pointer-events: none;
-}
-
-
-/* =========================================
-   MAIN GRAFFITI LETTERING
-========================================= */
-
-.logo-graffiti {
-  position: relative;
+  z-index: 5;
 
   display: block;
 
   font-family: "Permanent Marker", cursive;
 
-  font-size: clamp(7rem, 17vw, 14rem);
+  font-size: clamp(7rem, 18vw, 15rem);
 
-  line-height: 0.75;
+  font-weight: 400;
 
-  letter-spacing: -0.06em;
+  line-height: 0.8;
+
+  letter-spacing: -0.055em;
 
   white-space: nowrap;
 
   color: var(--white);
 
-  z-index: 3;
+  transform:
+    rotate(-5deg)
+    skewX(-3deg);
 
-  /*
-    etwas unruhiger / kräftiger wie
-    gesprühte Schrift
-  */
-
-  -webkit-text-stroke:
-    2px #050505;
+  -webkit-text-stroke: 2px #050505;
 
   text-shadow:
-    5px 6px 0 #050505,
-    0 0 15px rgba(0, 168, 255, 0.32),
-    0 0 38px rgba(0, 168, 255, 0.12);
-
-  animation:
-    paintLetters 0.8s
-    ease-out
-    1s
-    both;
+    6px 7px 0 #050505,
+    0 0 15px rgba(0, 168, 255, 0.35),
+    0 0 38px rgba(0, 168, 255, 0.15);
 
   transition:
     color 0.35s ease,
@@ -622,267 +542,20 @@ img {
 }
 
 
-@keyframes graffitiPop {
+/* HOVER */
 
-  0% {
-    opacity: 0;
-
-    transform:
-      rotate(-10deg)
-      scale(0.82);
-  }
-
-  55% {
-    opacity: 1;
-
-    transform:
-      rotate(-4deg)
-      scale(1.035);
-  }
-
-  100% {
-    opacity: 1;
-
-    transform:
-      rotate(-5deg)
-      scale(1);
-  }
-
-}
-
-
-@keyframes paintLetters {
-
-  0% {
-    opacity: 0;
-
-    filter:
-      blur(7px);
-
-    transform:
-      scale(0.96);
-  }
-
-  45% {
-    opacity: 0.75;
-
-    filter:
-      blur(2px);
-  }
-
-  100% {
-    opacity: 1;
-
-    filter:
-      blur(0);
-
-    transform:
-      scale(1);
-  }
-
-}
-
-
-/* =========================================
-   LOGO HOVER
-========================================= */
-
-.main-logo:hover .logo-graffiti-wrap {
-
-  transform:
-    rotate(-2deg)
-    translateY(0)
-    scale(1.025);
-}
-
-.main-logo:hover .logo-graffiti {
-
+.main-logo:hover .logo-main {
   color: var(--blue);
 
+  transform:
+    rotate(-3deg)
+    skewX(-3deg)
+    scale(1.025);
+
   text-shadow:
-    5px 6px 0 #050505,
-    0 0 25px rgba(0, 168, 255, 0.7),
-    0 0 60px rgba(0, 168, 255, 0.3);
-}
-
-.main-logo:hover .logo-graffiti-outline {
-
-  -webkit-text-stroke:
-    4px rgba(0, 168, 255, 0.95);
-}
-
-
-/* =========================================
-   SPRAY CLOUD
-========================================= */
-
-.logo-spray-cloud {
-  position: absolute;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(0, 168, 255, 0.28) 0%,
-      rgba(0, 168, 255, 0.12) 30%,
-      rgba(0, 168, 255, 0.04) 55%,
-      transparent 75%
-    );
-
-  filter: blur(11px);
-
-  pointer-events: none;
-
-  z-index: 0;
-
-  opacity: 0;
-}
-
-.logo-cloud-1 {
-  width: 310px;
-  height: 160px;
-
-  left: 4%;
-  top: 29%;
-
-  animation:
-    cloudBurst 1.2s
-    ease-out
-    0.15s
-    forwards;
-}
-
-.logo-cloud-2 {
-  width: 350px;
-  height: 180px;
-
-  right: 4%;
-  top: 31%;
-
-  animation:
-    cloudBurst 1.2s
-    ease-out
-    0.45s
-    forwards;
-}
-
-.logo-cloud-3 {
-  width: 280px;
-  height: 150px;
-
-  left: 34%;
-  top: 15%;
-
-  animation:
-    cloudBurst 1.3s
-    ease-out
-    0.7s
-    forwards;
-}
-
-@keyframes cloudBurst {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      scale(0.2);
-  }
-
-  25% {
-    opacity: 0.8;
-  }
-
-  100% {
-    opacity: 0.08;
-
-    transform:
-      scale(1.25);
-  }
-
-}
-
-
-/* =========================================
-   FINE OVERSPRAY
-========================================= */
-
-.logo-overspray {
-  position: absolute;
-
-  border-radius: 50%;
-
-  background: var(--blue);
-
-  box-shadow:
-    0 0 10px rgba(0, 168, 255, 0.7);
-
-  z-index: 4;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  animation:
-    oversprayPop 0.8s
-    ease-out
-    forwards;
-}
-
-.overspray-1 {
-  width: 7px;
-  height: 7px;
-
-  left: 13%;
-  top: 37%;
-
-  animation-delay: 0.75s;
-}
-
-.overspray-2 {
-  width: 4px;
-  height: 4px;
-
-  left: 77%;
-  top: 30%;
-
-  animation-delay: 0.95s;
-}
-
-.overspray-3 {
-  width: 5px;
-  height: 5px;
-
-  right: 12%;
-  bottom: 29%;
-
-  animation-delay: 1.15s;
-}
-
-@keyframes oversprayPop {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      scale(0);
-  }
-
-  60% {
-    opacity: 0.9;
-
-    transform:
-      scale(1.4);
-  }
-
-  100% {
-    opacity: 0.5;
-
-    transform:
-      scale(1);
-  }
-
+    6px 7px 0 #050505,
+    0 0 24px rgba(0, 168, 255, 0.7),
+    0 0 55px rgba(0, 168, 255, 0.28);
 }
 
 
@@ -893,267 +566,140 @@ img {
 .spray {
   position: absolute;
 
-  width: 5px;
-  height: 5px;
-
   border-radius: 50%;
 
   background: var(--blue);
 
   box-shadow:
-    0 0 12px rgba(0, 168, 255, 0.8);
-
-  opacity: 0.7;
-
-  pointer-events: none;
-
-  animation:
-    sprayFloat 3.8s
-    ease-in-out
-    infinite;
-}
-
-.spray-1 {
-  left: 22%;
-  top: 42%;
-
-  width: 7px;
-  height: 7px;
-
-  animation-delay: 0.3s;
-}
-
-.spray-2 {
-  left: 26%;
-  top: 49%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 1.1s;
-}
-
-.spray-3 {
-  right: 23%;
-  top: 38%;
-
-  width: 8px;
-  height: 8px;
-
-  animation-delay: 0.8s;
-}
-
-.spray-4 {
-  right: 27%;
-  top: 55%;
-
-  width: 4px;
-  height: 4px;
-
-  animation-delay: 1.6s;
-}
-
-.spray-5 {
-  left: 31%;
-  top: 32%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 2s;
-}
-
-.spray-6 {
-  right: 31%;
-  top: 30%;
-
-  width: 4px;
-  height: 4px;
-
-  animation-delay: 0.5s;
-}
-
-@keyframes sprayFloat {
-
-  0%,
-  100% {
-    transform:
-      translate(0, 0)
-      scale(0.8);
-
-    opacity: 0.35;
-  }
-
-  50% {
-    transform:
-      translate(7px, -13px)
-      scale(1.3);
-
-    opacity: 0.9;
-  }
-
-}
-
-
-/* =========================================
-   EXTRA SPRAY SPECKS
-========================================= */
-
-.spray-speck {
-  position: absolute;
-
-  width: 3px;
-  height: 3px;
-
-  border-radius: 50%;
-
-  background: var(--blue);
-
-  box-shadow:
-    0 0 9px rgba(0, 168, 255, 0.8);
+    0 0 10px rgba(0, 168, 255, 0.7);
 
   opacity: 0;
 
   pointer-events: none;
 
-  animation:
-    speckAppear 1.3s
-    ease-out
-    forwards,
-    speckFloat 4s
-    ease-in-out
-    1.3s
-    infinite;
+  animation: sprayPop 1.2s ease-out both;
 }
 
-.speck-1 {
-  left: 18%;
-  top: 47%;
-
-  animation-delay: 0.45s, 1.75s;
-}
-
-.speck-2 {
-  left: 24%;
-  top: 34%;
-
-  width: 2px;
-  height: 2px;
-
-  animation-delay: 0.7s, 2s;
-}
-
-.speck-3 {
-  left: 35%;
-  top: 62%;
-
-  width: 4px;
-  height: 4px;
-
-  animation-delay: 0.9s, 2.2s;
-}
-
-.speck-4 {
-  right: 19%;
-  top: 43%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 1.1s, 2.4s;
-}
-
-.speck-5 {
-  right: 25%;
-  top: 31%;
-
-  width: 2px;
-  height: 2px;
-
-  animation-delay: 1.25s, 2.5s;
-}
-
-.speck-6 {
-  right: 34%;
-  top: 62%;
-
-  width: 5px;
-  height: 5px;
-
-  animation-delay: 1.4s, 2.7s;
-}
-
-.speck-7 {
-  left: 42%;
-  top: 26%;
-
-  width: 2px;
-  height: 2px;
-
-  animation-delay: 1.6s, 2.9s;
-}
-
-.speck-8 {
-  right: 42%;
-  top: 28%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 1.8s, 3.1s;
-}
-
-.speck-9 {
-  left: 12%;
-  top: 57%;
-
-  width: 2px;
-  height: 2px;
-
-  animation-delay: 2s, 3.3s;
-}
-
-.speck-10 {
-  right: 13%;
-  top: 57%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 2.2s, 3.5s;
-}
-
-@keyframes speckAppear {
+@keyframes sprayPop {
 
   0% {
     opacity: 0;
 
-    transform:
-      scale(0);
+    transform: scale(0.2);
+  }
+
+  35% {
+    opacity: 0.85;
+
+    transform: scale(1);
   }
 
   100% {
-    opacity: 0.8;
+    opacity: 0.35;
 
-    transform:
-      scale(1);
+    transform: scale(0.85);
   }
 
 }
 
-@keyframes speckFloat {
+.spray-1 {
+  left: 20%;
+  top: 40%;
 
-  0%,
-  100% {
-    transform:
-      translate(0, 0);
-  }
+  width: 7px;
+  height: 7px;
 
-  50% {
-    transform:
-      translate(8px, -12px);
-  }
+  animation-delay: 0.05s;
+}
 
+.spray-2 {
+  left: 25%;
+  top: 54%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 0.18s;
+}
+
+.spray-3 {
+  right: 21%;
+  top: 38%;
+
+  width: 8px;
+  height: 8px;
+
+  animation-delay: 0.12s;
+}
+
+.spray-4 {
+  right: 25%;
+  top: 57%;
+
+  width: 4px;
+  height: 4px;
+
+  animation-delay: 0.24s;
+}
+
+.spray-5 {
+  left: 29%;
+  top: 31%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 0.28s;
+}
+
+.spray-6 {
+  right: 30%;
+  top: 29%;
+
+  width: 4px;
+  height: 4px;
+
+  animation-delay: 0.2s;
+}
+
+.spray-7 {
+  left: 34%;
+  top: 63%;
+
+  width: 5px;
+  height: 5px;
+
+  animation-delay: 0.32s;
+}
+
+.spray-8 {
+  right: 34%;
+  top: 64%;
+
+  width: 3px;
+  height: 3px;
+
+  animation-delay: 0.4s;
+}
+
+.spray-9 {
+  left: 16%;
+  top: 48%;
+
+  width: 2px;
+  height: 2px;
+
+  animation-delay: 0.45s;
+}
+
+.spray-10 {
+  right: 17%;
+  top: 46%;
+
+  width: 2px;
+  height: 2px;
+
+  animation-delay: 0.38s;
 }
 
 
@@ -1166,7 +712,7 @@ img {
 
   z-index: 20;
 
-  margin-top: 105px;
+  margin-top: 45px;
 
   display: flex;
   flex-direction: column;
@@ -1174,10 +720,7 @@ img {
   align-items: center;
 
   animation:
-    ctaAppear 0.9s
-    ease-out
-    1.9s
-    both;
+    ctaAppear 0.9s ease-out 0.25s both;
 }
 
 @keyframes ctaAppear {
@@ -1186,7 +729,7 @@ img {
     opacity: 0;
 
     transform:
-      translateY(28px);
+      translateY(20px);
   }
 
   to {
@@ -1755,23 +1298,6 @@ img {
   transform-origin: center bottom;
 
   opacity: 0.35;
-
-  animation:
-    videoGridMove 10s
-    linear
-    infinite;
-}
-
-@keyframes videoGridMove {
-
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 0 70px;
-  }
-
 }
 
 .video-dark-overlay {
@@ -1809,26 +1335,6 @@ img {
   color: var(--blue);
 
   transition: 0.3s ease;
-
-  animation:
-    playPulse 3s
-    ease-in-out
-    infinite;
-}
-
-@keyframes playPulse {
-
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 rgba(0, 168, 255, 0);
-  }
-
-  50% {
-    box-shadow:
-      0 0 30px rgba(0, 168, 255, 0.12);
-  }
-
 }
 
 .play-button span {
@@ -2118,6 +1624,10 @@ img {
     gap: 20px;
   }
 
+  .logo-main {
+    font-size: clamp(5rem, 15vw, 9rem);
+  }
+
   .intro {
     grid-template-columns: 1fr 1fr;
 
@@ -2208,95 +1718,73 @@ img {
   }
 
   .main-logo {
-    width: 110%;
+    width: 100%;
 
-    min-height: 175px;
+    min-height: 150px;
   }
 
-  .logo-graffiti-shadow,
-  .logo-graffiti-outline,
-  .logo-graffiti {
+  .logo-main {
+    font-size: clamp(4.5rem, 20vw, 7rem);
 
-    font-size:
-      clamp(4.7rem, 20vw, 7rem);
-  }
-
-  .logo-graffiti-shadow {
-    left: 5px;
-    top: 6px;
-  }
-
-  .logo-graffiti-outline {
-    left: 2px;
-    top: 1px;
-
-    -webkit-text-stroke:
-      2px var(--blue);
-  }
-
-  .logo-graffiti {
-    -webkit-text-stroke:
-      1.5px #050505;
+    -webkit-text-stroke: 1.5px #050505;
 
     text-shadow:
       4px 5px 0 #050505,
-      0 0 14px rgba(0, 168, 255, 0.35);
+      0 0 14px rgba(0, 168, 255, 0.4),
+      0 0 32px rgba(0, 168, 255, 0.16);
   }
 
   .paint-stroke {
-    width: 100%;
+    width: 110%;
 
-    left: 0;
+    left: -5%;
 
-    height: 70px;
-  }
+    height: 105px;
 
-  .logo-cloud-1 {
-    width: 210px;
-    height: 110px;
-
-    left: -8%;
-  }
-
-  .logo-cloud-2 {
-    width: 220px;
-    height: 120px;
-
-    right: -8%;
-  }
-
-  .logo-cloud-3 {
-    width: 190px;
-    height: 100px;
-
-    left: 27%;
+    filter: blur(12px);
   }
 
 
   /* SPRAY */
 
   .spray-1 {
-    left: 10%;
+    left: 8%;
   }
 
   .spray-2 {
-    left: 18%;
+    left: 16%;
   }
 
   .spray-3 {
-    right: 10%;
+    right: 8%;
   }
 
   .spray-4 {
-    right: 17%;
+    right: 15%;
   }
 
   .spray-5 {
-    left: 24%;
+    left: 23%;
   }
 
   .spray-6 {
-    right: 24%;
+    right: 23%;
+  }
+
+  .spray-7 {
+    left: 28%;
+  }
+
+  .spray-8 {
+    right: 28%;
+  }
+
+  .spray-9 {
+    left: 12%;
+  }
+
+  .spray-10 {
+    right: 12%;
   }
 
 
@@ -2305,7 +1793,7 @@ img {
   .skatepark-cta {
     width: 100%;
 
-    margin-top: 75px;
+    margin-top: 30px;
   }
 
   .cta-label {
@@ -2471,24 +1959,6 @@ img {
 
   .footer-copy {
     text-align: left;
-  }
-
-}
-
-
-/* =========================================
-   REDUCED MOTION
-========================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
   }
 
 }
