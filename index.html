@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Moi-cy — Skateboarding, Kreativität und Skateplätze."
+    content="Moi-cy — Skateboarding, Kreativität, Bilder, Videos und Skateplätze."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 
 <body>
@@ -82,105 +82,73 @@
       <div class="hero-glow"></div>
       <div class="hero-grid"></div>
 
-      <!-- allgemeiner Spray-Nebel -->
-      <div class="ambient-spray ambient-one"></div>
-      <div class="ambient-spray ambient-two"></div>
-      <div class="ambient-spray ambient-three"></div>
-
-
       <div class="hero-content">
 
-        <!-- ============================
-             SPRAY LOGO
-        ============================= -->
+        <!-- LOGO -->
+        <div class="logo-stage">
 
-        <div class="logo-stage" id="logoStage">
+          <!-- Spray-Nebel -->
+          <div class="spray-fog fog-1"></div>
+          <div class="spray-fog fog-2"></div>
+          <div class="spray-fog fog-3"></div>
 
-          <!-- großer weicher Sprühnebel -->
-          <div class="logo-fog fog-one"></div>
-          <div class="logo-fog fog-two"></div>
-          <div class="logo-fog fog-three"></div>
-
-          <!-- einzelne Spraypartikel -->
-          <div class="spray-particles particles-one">
-            <i></i><i></i><i></i><i></i><i></i>
-            <i></i><i></i><i></i><i></i><i></i>
+          <!-- kleine Farbspritzer -->
+          <div class="spray-dots">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
           </div>
 
-          <div class="spray-particles particles-two">
-            <i></i><i></i><i></i><i></i><i></i>
-            <i></i><i></i><i></i>
-          </div>
+          <!-- LOGO -->
+          <div class="logo">
 
-          <!-- tatsächliches Logo -->
-          <div class="spray-logo">
-
-            <!-- Overspray hinter dem Logo -->
-            <div class="logo-overspray">
+            <!-- diffuse Farbe hinter dem Schriftzug -->
+            <span class="logo-spray">
               Moi-cy
-            </div>
+            </span>
 
-            <!-- dunkle Farbkante -->
-            <div class="logo-shadow">
+            <!-- schwarze Farbkante -->
+            <span class="logo-dark">
               Moi-cy
-            </div>
+            </span>
 
-            <!-- Hauptlogo -->
-            <div class="logo-main">
+            <!-- eigentlicher Schriftzug -->
+            <span class="logo-text">
               Moi-cy
-            </div>
-
-            <!-- kleine Spraystruktur -->
-            <div class="logo-speckles">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+            </span>
 
           </div>
 
-
-          <!-- =================================
-               SPRAY-DÜSE / SPRAY-PUNKT
-          ================================== -->
-
-          <div class="spray-nozzle">
-            <div class="nozzle-core"></div>
-            <div class="nozzle-ring"></div>
-          </div>
-
-          <div class="spray-stream">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+          <!-- animierter Sprühpunkt -->
+          <div class="spray-point">
             <span></span>
           </div>
 
         </div>
 
 
-        <!-- ================================
-             CTA
-        ================================= -->
-
+        <!-- SKATEPLATZ BUTTON -->
         <div class="skatepark-cta">
 
           <div class="cta-line"></div>
 
-          <p class="cta-kicker">
+          <div class="cta-label">
             SKATEPLATZ-BEWERTUNGEN
-          </p>
+          </div>
 
-          <p class="cta-text">
+          <p>
             Skateplätze entdecken, bewerten und neue Spots finden.
           </p>
 
@@ -207,9 +175,9 @@
 
       <div class="section-inner">
 
-        <p class="eyebrow">
+        <div class="eyebrow">
           MOI-CY
-        </p>
+        </div>
 
         <h1>
           Skateboarding.
@@ -232,45 +200,48 @@
          BILDER
     ================================= -->
 
-    <section class="preview-section section">
+    <section class="bilder section">
 
       <div class="section-inner">
 
-        <div class="section-heading">
+        <div class="section-top">
 
           <div>
-            <p class="eyebrow">
+            <div class="eyebrow">
               VISUALS
-            </p>
+            </div>
 
             <h2>
               BILDER
             </h2>
           </div>
 
-          <a href="bilder.html" class="text-link">
+          <a
+            href="bilder.html"
+            class="section-link"
+          >
             ALLE BILDER →
           </a>
 
         </div>
 
 
-        <div class="preview-grid">
+        <div class="bilder-grid">
 
-          <a href="bilder.html" class="preview-card">
-            <div class="preview-placeholder">
+          <a href="bilder.html" class="image-card image-large">
+            <div class="image-placeholder">
               <span>01</span>
             </div>
           </a>
 
-          <a href="bilder.html" class="preview-card">
-            <div class="preview-placeholder">
+          <a href="bilder.html" class="image-card">
+            <div class="image-placeholder">
               <span>02</span>
             </div>
           </a>
 
-          <a href="bilder.html" class="preview-card">
-            <div class="preview-placeholder">
+          <a href="bilder.html" class="image-card">
+            <div class="image-placeholder">
               <span>03</span>
             </div>
           </a>
@@ -286,40 +257,46 @@
          VIDEOS
     ================================= -->
 
-    <section class="video-section section">
+    <section class="videos section">
 
       <div class="section-inner">
 
-        <div class="section-heading">
+        <div class="section-top">
 
           <div>
-            <p class="eyebrow">
+            <div class="eyebrow">
               MOTION
-            </p>
+            </div>
 
             <h2>
               VIDEOS
             </h2>
           </div>
 
-          <a href="videos.html" class="text-link">
+          <a
+            href="videos.html"
+            class="section-link"
+          >
             ALLE VIDEOS →
           </a>
 
         </div>
 
 
-        <a href="videos.html" class="video-preview">
+        <a
+          href="videos.html"
+          class="video-card"
+        >
 
-          <div class="video-overlay"></div>
+          <div class="video-bg"></div>
 
-          <div class="play-button">
-            ▶
+          <div class="play">
+            <span>▶</span>
           </div>
 
-          <p>
+          <div class="video-title">
             WATCH THE SESSION
-          </p>
+          </div>
 
         </a>
 
@@ -334,13 +311,13 @@
 
     <section class="about section">
 
-      <div class="section-inner about-grid">
+      <div class="section-inner about-inner">
 
         <div>
 
-          <p class="eyebrow">
+          <div class="eyebrow">
             ABOUT
-          </p>
+          </div>
 
           <h2>
             MADE FOR
@@ -350,15 +327,11 @@
 
         </div>
 
-        <div>
-
-          <p class="about-text">
-            Moi-cy verbindet Skateboarding mit Kreativität.
-            Entdecke neue Spots, teile deine Sessions und
-            lass dich von der Skate-Szene inspirieren.
-          </p>
-
-        </div>
+        <p class="about-text">
+          Moi-cy verbindet Skateboarding mit Kreativität.
+          Entdecke neue Spots, teile deine Sessions und
+          lass dich von der Skate-Szene inspirieren.
+        </p>
 
       </div>
 
@@ -373,16 +346,19 @@
 
       <div class="section-inner">
 
-        <p class="eyebrow">
+        <div class="eyebrow">
           GET IN TOUCH
-        </p>
+        </div>
 
         <h2>
           LET'S
           <span>CREATE.</span>
         </h2>
 
-        <a href="kontakt.html" class="contact-link">
+        <a
+          href="kontakt.html"
+          class="contact-link"
+        >
           KONTAKT →
         </a>
 
@@ -403,9 +379,9 @@
       Moi-cy
     </div>
 
-    <p>
+    <div>
       © 2026 Moi-cy
-    </p>
+    </div>
 
   </footer>
 
