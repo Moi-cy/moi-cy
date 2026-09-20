@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Moi-cy – Kontakt</title>
+  <title>Kontakt – Moi-cy</title>
 
   <meta
     name="description"
-    content="Kontakt zu Moi-cy – Skateboarding, Kreativität und mehr."
+    content="Kontakt zu Moi-cy."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,239 +20,448 @@
   >
 
   <link rel="stylesheet" href="style.css?v=kontakt2">
+
+  <style>
+
+    /* =========================================
+       KONTAKTSEITE
+       MINIMAL × DARK STREET
+    ========================================= */
+
+    .contact-page {
+      min-height: 100vh;
+
+      padding:
+        150px
+        10vw
+        120px;
+
+      display: flex;
+      justify-content: center;
+
+      background: #050505;
+    }
+
+
+    .contact-wrapper {
+      width: 100%;
+      max-width: 850px;
+    }
+
+
+    /* =========================================
+       KONTAKT ÜBERSCHRIFT
+    ========================================= */
+
+    .contact-page-heading {
+      margin-bottom: 65px;
+    }
+
+    .contact-page-heading span {
+      display: block;
+
+      margin-bottom: 18px;
+
+      color: #00a8ff;
+
+      font-size: 0.68rem;
+      font-weight: 700;
+
+      letter-spacing: 0.16em;
+    }
+
+    .contact-page-heading h1 {
+      margin: 0;
+
+      color: #f2f2f2;
+
+      font-size: clamp(3.5rem, 7vw, 6rem);
+
+      line-height: 0.9;
+
+      letter-spacing: -0.07em;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================
+       FORMULAR
+    ========================================= */
+
+    .contact-form {
+      width: 100%;
+    }
+
+
+    .form-group {
+      margin-bottom: 32px;
+    }
+
+
+    .form-group label {
+      display: block;
+
+      margin-bottom: 10px;
+
+      color: #888;
+
+      font-size: 0.65rem;
+      font-weight: 700;
+
+      letter-spacing: 0.14em;
+    }
+
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+
+      padding: 17px 18px;
+
+      border: 1px solid rgba(255, 255, 255, 0.14);
+
+      outline: none;
+
+      background: #0b0b0b;
+
+      color: #f2f2f2;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 0.9rem;
+
+      transition:
+        border-color 0.25s ease,
+        background 0.25s ease;
+    }
+
+
+    .form-group input {
+      height: 55px;
+    }
+
+
+    .form-group textarea {
+      min-height: 190px;
+
+      resize: vertical;
+    }
+
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #444;
+    }
+
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #00a8ff;
+
+      background: #080808;
+    }
+
+
+    /* =========================================
+       ABSENDEN
+    ========================================= */
+
+    .contact-submit {
+      display: inline-flex;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 25px;
+
+      margin-top: 8px;
+
+      padding: 17px 25px;
+
+      border: 1px solid #00a8ff;
+
+      background: transparent;
+
+      color: #f2f2f2;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 0.65rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.15em;
+
+      cursor: pointer;
+
+      transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .contact-submit span {
+      color: #00a8ff;
+
+      font-size: 1.1rem;
+
+      transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .contact-submit:hover {
+      background: #00a8ff;
+
+      color: #050505;
+
+      transform: translateY(-2px);
+    }
+
+
+    .contact-submit:hover span {
+      color: #050505;
+
+      transform: translateX(5px);
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 700px) {
+
+      .contact-page {
+        padding:
+          125px
+          6vw
+          90px;
+      }
+
+
+      .contact-page-heading {
+        margin-bottom: 50px;
+      }
+
+
+      .contact-page-heading h1 {
+        font-size: clamp(3.2rem, 17vw, 5rem);
+      }
+
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+
+      .form-group input {
+        height: 52px;
+      }
+
+
+      .form-group textarea {
+        min-height: 160px;
+      }
+
+
+      .contact-submit {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+
 </head>
 
+
 <body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
 
 <header class="header">
 
   <a href="index.html" class="logo">
-    <span class="logo-mark">M</span>
-    <span>Moi-cy</span>
+
+    <span class="logo-mark">
+      M
+    </span>
+
+    <span>
+      Moi-cy
+    </span>
+
   </a>
 
+
   <nav class="navigation">
-    <a href="index.html">HOME</a>
-    <a href="bilder.html">BILDER</a>
-    <a href="videos.html">VIDEOS</a>
-    <a href="skateplaetze.html">SKATEPLÄTZE</a>
-    <a href="kontakt.html" class="active">KONTAKT</a>
+
+    <a href="index.html">
+      HOME
+    </a>
+
+    <a href="bilder.html">
+      BILDER
+    </a>
+
+    <a href="videos.html">
+      VIDEOS
+    </a>
+
+    <a href="skateplaetze.html">
+      SKATEPLÄTZE
+    </a>
+
+    <a href="kontakt.html">
+      KONTAKT
+    </a>
+
   </nav>
+
 
   <button
     class="menu-button"
     id="menuButton"
     aria-label="Menü öffnen"
   >
+
     <span></span>
     <span></span>
     <span></span>
+
   </button>
 
 </header>
 
 
-<main class="contact-page">
 
-  <section class="contact-page-section">
+<!-- =========================================
+     KONTAKT
+========================================= -->
 
-    <div class="contact-page-top">
+<main>
 
-      <span class="small-label">
-        Moi-cy / KONTAKT
-      </span>
+  <section class="contact-page">
 
-      <span class="section-number">
-        07
-      </span>
-
-    </div>
+    <div class="contact-wrapper">
 
 
-    <div class="contact-page-heading">
+      <!-- ÜBERSCHRIFT -->
 
-      <div>
+      <div class="contact-page-heading">
 
-        <span class="contact-tag">
-          GET IN TOUCH
+        <span>
+          MOI-CY / KONTAKT
         </span>
 
         <h1>
-          KONTAKT<span class="blue-text">.</span>
+          Kontakt
         </h1>
 
       </div>
 
-      <p>
-        Du hast eine Frage, eine Idee oder möchtest
-        mit Moi-cy in Kontakt treten?
-      </p>
-
-    </div>
-
-
-    <div class="contact-page-layout">
-
-
-      <!-- KONTAKT INFO -->
-
-      <div class="contact-page-info">
-
-        <div class="info-block">
-
-          <span class="info-number">
-            01
-          </span>
-
-          <div>
-
-            <span class="info-label">
-              EMAIL
-            </span>
-
-            <a
-              href="mailto:DEINE-EMAIL@BEISPIEL.DE"
-              class="contact-email"
-            >
-              DEINE-EMAIL@BEISPIEL.DE
-            </a>
-
-          </div>
-
-        </div>
-
-
-        <div class="info-block">
-
-          <span class="info-number">
-            02
-          </span>
-
-          <div>
-
-            <span class="info-label">
-              MESSAGE
-            </span>
-
-            <p>
-              Schreib uns einfach über das Formular.
-              Wir freuen uns über deine Nachricht.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="contact-graffiti">
-          hello.
-        </div>
-
-      </div>
 
 
       <!-- FORMULAR -->
 
-      <div class="contact-form-wrapper">
+      <form
+        class="contact-form"
+        action="https://formsubmit.co/DEINE-EMAIL@BEISPIEL.DE"
+        method="POST"
+      >
 
-        <form
-          class="contact-form"
-          action="https://formsubmit.co/DEINE-EMAIL@BEISPIEL.DE"
-          method="POST"
+        <input
+          type="hidden"
+          name="_subject"
+          value="Neue Nachricht über Moi-cy"
         >
 
-          <input
-            type="hidden"
-            name="_subject"
-            value="Neue Nachricht über Moi-cy"
-          >
+        <input
+          type="hidden"
+          name="_captcha"
+          value="false"
+        >
+
+
+        <!-- NAME -->
+
+        <div class="form-group">
+
+          <label for="name">
+            NAME
+          </label>
 
           <input
-            type="hidden"
-            name="_captcha"
-            value="false"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Dein Name"
+            required
           >
+
+        </div>
+
+
+        <!-- E-MAIL -->
+
+        <div class="form-group">
+
+          <label for="email">
+            E-MAIL
+          </label>
 
           <input
-            type="hidden"
-            name="_template"
-            value="table"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="deine@email.de"
+            required
           >
 
-
-          <div class="form-row">
-
-            <div class="form-group">
-
-              <label for="name">
-                NAME
-              </label>
-
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Dein Name"
-                required
-              >
-
-            </div>
+        </div>
 
 
-            <div class="form-group">
+        <!-- NACHRICHT -->
 
-              <label for="email">
-                E-MAIL
-              </label>
+        <div class="form-group">
 
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="deine@email.de"
-                required
-              >
+          <label for="message">
+            NACHRICHT
+          </label>
 
-            </div>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Deine Nachricht..."
+            required
+          ></textarea>
 
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="message">
-              NACHRICHT
-            </label>
-
-            <textarea
-              id="message"
-              name="message"
-              rows="7"
-              placeholder="Deine Nachricht..."
-              required
-            ></textarea>
-
-          </div>
+        </div>
 
 
-          <button
-            type="submit"
-            class="contact-submit"
-          >
+        <!-- ABSENDEN -->
 
-            <span>
-              NACHRICHT SENDEN
-            </span>
+        <button
+          type="submit"
+          class="contact-submit"
+        >
 
-            <strong>
-              →
-            </strong>
+          <span>
+            →
+          </span>
 
-          </button>
+          NACHRICHT SENDEN
 
-        </form>
+        </button>
 
-      </div>
+      </form>
 
     </div>
 
@@ -260,6 +469,11 @@
 
 </main>
 
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
 
 <footer class="footer">
 
@@ -273,15 +487,18 @@
 
   </div>
 
+
   <div class="footer-center">
     SKATE / CREATE / EXPLORE
   </div>
+
 
   <div class="footer-copy">
     © 2026 Moi-cy
   </div>
 
 </footer>
+
 
 
 <script src="script.js"></script>
