@@ -2,19 +2,13 @@ const menuButton = document.getElementById("menuButton");
 const navLinks = document.getElementById("navLinks");
 
 
-/* =========================
-   MOBILE MENU
-========================= */
-
+// Mobile Menü öffnen / schließen
 menuButton.addEventListener("click", function () {
   navLinks.classList.toggle("active");
 });
 
 
-/* =========================
-   MENU NACH KLICK SCHLIESSEN
-========================= */
-
+// Menü nach Klick auf einen Link schließen
 document.querySelectorAll(".nav-links a").forEach(function (link) {
 
   link.addEventListener("click", function () {
