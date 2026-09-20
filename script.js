@@ -1,16 +1,11 @@
-/* =========================================================
-   MOI-CY
-   Main JavaScript
-========================================================= */
-
 document.addEventListener(
   "DOMContentLoaded",
   () => {
 
 
-    /* =====================================================
+    /* =========================
        MOBILE MENU
-    ====================================================== */
+    ========================= */
 
     const menuButton =
       document.getElementById(
@@ -36,7 +31,6 @@ document.addEventListener(
             mobileMenu.classList.toggle(
               "active"
             );
-
 
           menuButton.setAttribute(
             "aria-expanded",
@@ -64,7 +58,6 @@ document.addEventListener(
                 "active"
               );
 
-
               menuButton.setAttribute(
                 "aria-expanded",
                 "false"
@@ -79,13 +72,19 @@ document.addEventListener(
     }
 
 
-    /* =====================================================
-       GRAFFITI SPRAY
-    ====================================================== */
+
+    /* =========================
+       SPRAY LOGO
+    ========================= */
 
     const logo =
       document.getElementById(
         "graffitiLogo"
+      );
+
+    const mask =
+      document.getElementById(
+        "sprayReveal"
       );
 
     const sprayCloud =
@@ -93,270 +92,487 @@ document.addEventListener(
         "sprayCloud"
       );
 
-    const revealRect =
-      document.getElementById(
-        "logoRevealRect"
-      );
-
-    const sprayDots =
+    const particles =
       document.querySelectorAll(
-        ".spray-dot"
+        ".spray-particle"
       );
 
-
-    /*
-      Nur starten, wenn wirklich
-      alle benötigten Elemente existieren.
-    */
 
     if (
       !logo ||
-      !sprayCloud ||
-      !revealRect
+      !mask ||
+      !sprayCloud
+    ) {
+      return;
+    }
+
+
+
+    /*
+      Wir benutzen keine horizontale
+      Reveal-Fläche mehr.
+
+      Stattdessen wird das Logo aus
+      vielen einzelnen Spray-Punkten
+      aufgebaut.
+
+      Dadurch sieht es so aus,
+      als würde Farbe direkt auf die
+      Buchstaben gesprüht werden.
+    */
+
+
+    const sprayPoints = [
+
+      /* M */
+
+      [305, 150],
+      [320, 132],
+      [335, 112],
+      [350, 95],
+      [365, 118],
+      [380, 145],
+      [395, 120],
+      [410, 100],
+      [425, 125],
+      [440, 150],
+
+
+      /* o */
+
+      [455, 150],
+      [470, 132],
+      [490, 125],
+      [510, 132],
+      [522, 150],
+      [510, 170],
+      [490, 178],
+      [470, 170],
+
+
+      /* i */
+
+      [540, 125],
+      [540, 150],
+      [540, 175],
+
+
+      /* - */
+
+      [565, 150],
+      [585, 150],
+
+
+      /* c */
+
+      [615, 130],
+      [635, 125],
+      [650, 140],
+      [640, 155],
+      [625, 175],
+      [610, 168],
+
+
+      /* y */
+
+      [675, 130],
+      [690, 150],
+      [705, 175],
+      [720, 150],
+      [735, 130],
+      [725, 160],
+      [710, 185]
+
+    ];
+
+
+
+    /*
+      Erzeugt einen einzelnen
+      unregelmäßigen Spraybereich.
+    */
+
+    function createSprayPoint(
+      x,
+      y,
+      index
     ) {
 
-      return;
+      const group =
+        document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "g"
+        );
+
+
+      const main =
+        document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+
+
+      main.setAttribute(
+        "cx",
+        x
+      );
+
+      main.setAttribute(
+        "cy",
+        y
+      );
+
+      main.setAttribute(
+        "r",
+        "20"
+      );
+
+
+      group.appendChild(
+        main
+      );
+
+
+      /*
+        Kleine zusätzliche Sprühpunkte
+        um den Hauptpunkt herum.
+      */
+
+      for (
+        let i = 0;
+        i < 5;
+        i++
+      ) {
+
+        const dot =
+          document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+          );
+
+
+        const angle =
+          Math.random() *
+          Math.PI *
+          2;
+
+
+        const distance =
+          12 +
+          Math.random() *
+          25;
+
+
+        dot.setAttribute(
+          "cx",
+          String(
+            x +
+            Math.cos(angle) *
+            distance
+          )
+        );
+
+
+        dot.setAttribute(
+          "cy",
+          String(
+            y +
+            Math.sin(angle) *
+            distance
+          )
+        );
+
+
+        dot.setAttribute(
+          "r",
+          String(
+            2 +
+            Math.random() *
+            5
+          )
+        );
+
+
+        group.appendChild(
+          dot
+        );
+
+      }
+
+
+      group.style.opacity =
+        "0";
+
+
+      group.dataset.index =
+        String(index);
+
+
+      mask.appendChild(
+        group
+      );
+
+
+      return group;
 
     }
 
 
-    /* =====================================================
-       EINSTELLUNGEN
-    ====================================================== */
 
-    const animationDuration = 2700;
-
-    const startWidth = 0;
-
-    const endWidth = 1000;
-
-
-    /*
-      Startzustand:
-      Das Logo ist KOMPLETT unsichtbar.
-    */
-
-    revealRect.setAttribute(
-      "width",
-      String(startWidth)
-    );
+    const sprayGroups =
+      sprayPoints.map(
+        (
+          point,
+          index
+        ) =>
+          createSprayPoint(
+            point[0],
+            point[1],
+            index
+          )
+      );
 
 
-    /*
-      Spraywolke einschalten.
-    */
+
+    /* =========================
+       ANIMATION
+    ========================= */
+
+    const duration =
+      4800;
+
+
+    const start =
+      performance.now();
+
 
     sprayCloud.classList.add(
-      "spraying"
+      "active"
     );
 
 
-    /* =====================================================
-       SPRAY-PARTIKEL
-    ====================================================== */
 
-    sprayDots.forEach(
-      (dot, index) => {
+    /*
+      Logo bleibt am Anfang komplett
+      unsichtbar.
 
-        /*
-          Nicht alle Punkte gleichzeitig.
+      Die Spraypunkte werden nacheinander
+      auf die Buchstaben gesetzt.
+    */
 
-          Dadurch wirkt es eher wie
-          echter Overspray.
-        */
 
-        const delay =
-          250 +
-          index * 150 +
-          Math.random() * 350;
-
+    sprayGroups.forEach(
+      (
+        group,
+        index
+      ) => {
 
         window.setTimeout(
           () => {
 
-            dot.classList.add(
-              "active"
-            );
+            group.style.transition =
+              "opacity 0.18s ease";
+
+            group.style.opacity =
+              "1";
 
           },
-          delay
+          120 +
+          index * 125
         );
 
       }
     );
 
 
-    /* =====================================================
-       SPRAYWOLKE POSITIONIEREN
-    ====================================================== */
 
-    const moveSprayCloud =
-      (progress) => {
+    /*
+      Sprühwolke bewegt sich über die
+      tatsächlich gesetzten Spraypunkte.
+    */
 
-        /*
-          Die Wolke bewegt sich von
-          3% bis 97% des Logos.
-        */
+    function animate(
+      currentTime
+    ) {
 
-        const position =
-          3 +
-          progress * 94;
+      const elapsed =
+        currentTime -
+        start;
 
 
-        sprayCloud.style.left =
-          `${position}%`;
-
-      };
-
-
-    /* =====================================================
-       ANIMATION
-    ====================================================== */
-
-    const animationStart =
-      performance.now();
+      let progress =
+        elapsed /
+        duration;
 
 
-    const animate =
-      (currentTime) => {
-
-        const elapsed =
-          currentTime -
-          animationStart;
-
-
-        let progress =
-          elapsed /
-          animationDuration;
-
-
-        /*
-          Auf 0–1 begrenzen.
-        */
-
-        progress =
-          Math.max(
-            0,
-            Math.min(
-              1,
-              progress
-            )
-          );
-
-
-        /*
-          Leichtes Anfahren.
-
-          Am Anfang langsam,
-          danach wird schneller gesprüht.
-        */
-
-        const easedProgress =
-          1 -
-          Math.pow(
-            1 - progress,
-            2
-          );
-
-
-        /*
-          Breite des sichtbaren
-          Bereichs im SVG.
-        */
-
-        const currentWidth =
-          startWidth +
-          (
-            endWidth -
-            startWidth
-          ) *
-          easedProgress;
-
-
-        /*
-          DAS IST DER EIGENTLICHE REVEAL.
-
-          Die blaue Schrift wird
-          entlang ihrer tatsächlichen
-          Buchstabenform sichtbar,
-          sobald die Spraykante
-          darüber läuft.
-        */
-
-        revealRect.setAttribute(
-          "width",
-          String(currentWidth)
+      progress =
+        Math.max(
+          0,
+          Math.min(
+            1,
+            progress
+          )
         );
 
 
-        /*
-          Spraywolke exakt mitführen.
-        */
+      /*
+        Die Wolke folgt der aktuellen
+        Sprayposition.
+      */
 
-        moveSprayCloud(
-          easedProgress
+      const pointCount =
+        sprayPoints.length;
+
+
+      const currentIndex =
+        Math.min(
+          pointCount - 1,
+          Math.floor(
+            progress *
+            pointCount
+          )
         );
 
 
-        /*
-          Noch nicht fertig?
-          Weiter animieren.
-        */
+      const point =
+        sprayPoints[
+          currentIndex
+        ];
+
+
+      /*
+        SVG-Koordinaten werden auf die
+        tatsächliche Logo-Position
+        umgerechnet.
+      */
+
+      const logoRect =
+        logo.getBoundingClientRect();
+
+
+      const x =
+        (point[0] / 1000) *
+        logoRect.width;
+
+
+      const y =
+        (point[1] / 300) *
+        logoRect.height;
+
+
+      sprayCloud.style.left =
+        `${x}px`;
+
+
+      sprayCloud.style.top =
+        `${y}px`;
+
+
+
+      /*
+        Spraypunkte werden während der
+        Bewegung leicht unregelmäßig
+        sichtbar.
+      */
+
+      sprayGroups.forEach(
+        (
+          group,
+          index
+        ) => {
+
+          const threshold =
+            index /
+            sprayGroups.length;
+
+
+          if (
+            progress >
+            threshold
+          ) {
+
+            group.style.opacity =
+              "1";
+
+          }
+
+        }
+      );
+
+
+
+      /*
+        Partikel werden verteilt
+        ausgelöst.
+      */
+
+      if (
+        progress > 0.08
+      ) {
+
+        const particleIndex =
+          Math.floor(
+            progress *
+            particles.length
+          );
+
 
         if (
-          progress <
-          1
+          particles[
+            particleIndex
+          ]
         ) {
 
-          requestAnimationFrame(
-            animate
+          particles[
+            particleIndex
+          ].classList.add(
+            "active"
           );
-
-          return;
 
         }
 
+      }
 
-        /* =================================================
-           ANIMATION FERTIG
-        ================================================== */
 
-        revealRect.setAttribute(
-          "width",
-          "1000"
+
+      if (
+        progress <
+        1
+      ) {
+
+        requestAnimationFrame(
+          animate
         );
 
-
-        moveSprayCloud(
-          1
-        );
-
+      } else {
 
         /*
-          Wolke noch einen kurzen
-          Moment stehen lassen.
+          Am Ende bleibt das komplette
+          Logo sichtbar.
         */
 
-        window.setTimeout(
-          () => {
+        sprayGroups.forEach(
+          (group) => {
 
-            sprayCloud.classList.remove(
-              "spraying"
-            );
+            group.style.opacity =
+              "1";
 
-            sprayCloud.style.opacity =
-              "0";
-
-          },
-          500
+          }
         );
 
-      };
+
+        sprayCloud.classList.remove(
+          "active"
+        );
 
 
-    /*
-      LOS.
-    */
+        sprayCloud.style.opacity =
+          "0";
+
+      }
+
+    }
+
 
     requestAnimationFrame(
       animate
