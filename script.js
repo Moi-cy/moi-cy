@@ -1,470 +1,183 @@
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+document.addEventListener("DOMContentLoaded", () => {
 
+  /* =========================
+     MOBILE MENU
+  ========================= */
 
-    /* =========================
-       MOBILE MENU
-    ========================= */
+  const menuButton =
+    document.getElementById("menuButton");
 
-    const menuButton =
-      document.getElementById(
-        "menuButton"
+  const mobileMenu =
+    document.getElementById("mobileMenu");
+
+  if (menuButton && mobileMenu) {
+
+    menuButton.addEventListener("click", () => {
+
+      const open =
+        mobileMenu.classList.toggle("active");
+
+      menuButton.setAttribute(
+        "aria-expanded",
+        String(open)
       );
 
-    const mobileMenu =
-      document.getElementById(
-        "mobileMenu"
-      );
+    });
 
 
-    if (
-      menuButton &&
-      mobileMenu
-    ) {
+    mobileMenu
+      .querySelectorAll("a")
+      .forEach((link) => {
 
-      menuButton.addEventListener(
-        "click",
-        () => {
+        link.addEventListener("click", () => {
 
-          const open =
-            mobileMenu.classList.toggle(
-              "active"
-            );
+          mobileMenu.classList.remove("active");
 
           menuButton.setAttribute(
             "aria-expanded",
-            String(open)
+            "false"
           );
 
-        }
+        });
+
+      });
+
+  }
+
+
+  /* =========================
+     HERO LOGO
+  ========================= */
+
+  const letters =
+    document.querySelectorAll(".graffiti-letter");
+
+  if (letters.length) {
+
+    letters.forEach((letter, index) => {
+
+      setTimeout(() => {
+
+        letter.classList.add("sprayed");
+
+      }, 180 + index * 90);
+
+    });
+
+  }
+
+
+  /* =========================
+     PRODUCT SLIDER
+  ========================= */
+
+  const slides =
+    document.querySelectorAll(".product-slide");
+
+  const dots =
+    document.querySelectorAll(".product-dot");
+
+  if (!slides.length) {
+    return;
+  }
+
+
+  let currentSlide = 0;
+
+  let sliderTimer;
+
+
+  function showSlide(index) {
+
+    slides.forEach((slide, slideIndex) => {
+
+      slide.classList.toggle(
+        "active",
+        slideIndex === index
       );
 
-
-      mobileMenu
-        .querySelectorAll("a")
-        .forEach(
-          (link) => {
-
-            link.addEventListener(
-              "click",
-              () => {
-
-                mobileMenu.classList.remove(
-                  "active"
-                );
-
-                menuButton.setAttribute(
-                  "aria-expanded",
-                  "false"
-                );
-
-              }
-            );
-
-          }
-        );
-
-    }
+    });
 
 
+    dots.forEach((dot, dotIndex) => {
 
-    /* =========================
-       SPRAY LOGO
-    ========================= */
-
-    const logo =
-      document.getElementById(
-        "graffitiLogo"
+      dot.classList.toggle(
+        "active",
+        dotIndex === index
       );
 
-    const letters =
-      document.querySelectorAll(
-        ".graffiti-letter"
+    });
+
+
+    currentSlide = index;
+
+  }
+
+
+  function nextSlide() {
+
+    const next =
+      (currentSlide + 1) % slides.length;
+
+    showSlide(next);
+
+  }
+
+
+  function startSlider() {
+
+    clearInterval(sliderTimer);
+
+    sliderTimer =
+      setInterval(
+        nextSlide,
+        4000
       );
 
-    const sprayHead =
-      document.getElementById(
-        "sprayHead"
-      );
-
-    const splashes =
-      document.querySelectorAll(
-        ".paint-splash"
-      );
+  }
 
 
-    if (
-      !logo ||
-      !letters.length ||
-      !sprayHead
-    ) {
+  function stopSlider() {
 
-      return;
+    clearInterval(sliderTimer);
 
-    }
+  }
 
 
+  dots.forEach((dot, index) => {
 
-    /*
-      Die Buchstaben werden bewusst
-      einzeln angesprüht.
+    dot.addEventListener("click", () => {
 
-      Dadurch gibt es keine Maske,
-      keinen SVG-Fehler und keinen
-      Links-nach-Rechts-Wipe.
-    */
+      showSlide(index);
 
+      startSlider();
 
-    const totalLetters =
-      letters.length;
+    });
+
+  });
 
 
-    /*
-      Geschwindigkeit:
-
-      2,7 Sekunden für das komplette
-      Logo.
-    */
-
-    const duration =
-      2700;
+  const slider =
+    document.getElementById("productSlider");
 
 
-    /*
-      Der Mittelpunkt jedes
-      Buchstabens wird automatisch
-      aus dem echten DOM berechnet.
-    */
+  if (slider) {
 
-    function getLetterCenter(
-      letter
-    ) {
-
-      const logoRect =
-        logo.getBoundingClientRect();
-
-
-      const rect =
-        letter.getBoundingClientRect();
-
-
-      return {
-
-        x:
-          rect.left -
-          logoRect.left +
-          rect.width / 2,
-
-        y:
-          rect.top -
-          logoRect.top +
-          rect.height / 2
-
-      };
-
-    }
-
-
-
-    /*
-      Kleine zufällige Reihenfolge,
-      damit es nicht wie eine simple
-      Schreibanimation wirkt.
-
-      M -> o -> i -> -
-      -> c -> y bleibt grundsätzlich
-      die Leserichtung, aber die
-      Übergänge überschneiden sich.
-    */
-
-    const sequence = [
-
-      0,
-      1,
-      2,
-      3,
-      4,
-      5
-
-    ];
-
-
-
-    /*
-      Alle Buchstaben zuerst
-      unsichtbar.
-    */
-
-    letters.forEach(
-      (letter) => {
-
-        letter.classList.remove(
-          "sprayed"
-        );
-
-      }
+    slider.addEventListener(
+      "mouseenter",
+      stopSlider
     );
 
-
-
-    /*
-      Spraykopf aktivieren.
-    */
-
-    sprayHead.classList.add(
-      "active"
-    );
-
-
-
-    const startTime =
-      performance.now();
-
-
-
-    function animate(
-      now
-    ) {
-
-      const elapsed =
-        now -
-        startTime;
-
-
-      let progress =
-        elapsed /
-        duration;
-
-
-      progress =
-        Math.max(
-          0,
-          Math.min(
-            1,
-            progress
-          )
-        );
-
-
-      /*
-        Weiches Timing.
-      */
-
-      const eased =
-        progress *
-        progress *
-        (
-          3 -
-          2 *
-          progress
-        );
-
-
-
-      /*
-        Position des Spraykopfes.
-
-        Er bewegt sich über die
-        tatsächlichen Buchstaben,
-        nicht über eine künstliche
-        Gesamtbreite.
-      */
-
-      const floating =
-        eased *
-        sequence.length;
-
-
-      const currentIndex =
-        Math.min(
-          sequence.length - 1,
-          Math.floor(
-            floating
-          )
-        );
-
-
-      const currentLetter =
-        letters[
-          sequence[
-            currentIndex
-          ]
-        ];
-
-
-      if (
-        currentLetter
-      ) {
-
-        const position =
-          getLetterCenter(
-            currentLetter
-          );
-
-
-        sprayHead.style.left =
-          `${position.x}px`;
-
-
-        sprayHead.style.top =
-          `${position.y}px`;
-
-      }
-
-
-
-      /*
-        Buchstaben erscheinen
-        nacheinander, aber mit
-        leichter Überlappung.
-
-        So wirkt es wie Sprühen
-        statt wie Tippen.
-      */
-
-      letters.forEach(
-        (
-          letter,
-          index
-        ) => {
-
-          const start =
-            (
-              index /
-              totalLetters
-            ) *
-            0.78;
-
-
-          const end =
-            start +
-            0.24;
-
-
-          let local =
-            (
-              eased -
-              start
-            ) /
-            (
-              end -
-              start
-            );
-
-
-          local =
-            Math.max(
-              0,
-              Math.min(
-                1,
-                local
-              )
-            );
-
-
-          if (
-            local > 0
-          ) {
-
-            letter.classList.add(
-              "sprayed"
-            );
-
-          }
-
-        }
-      );
-
-
-
-      /*
-        Kleine Spritzer werden
-        entlang der Animation
-        eingeblendet.
-      */
-
-      splashes.forEach(
-        (
-          splash,
-          index
-        ) => {
-
-          const threshold =
-            0.12 +
-            index *
-            0.13;
-
-
-          if (
-            progress >
-            threshold
-          ) {
-
-            splash.classList.add(
-              "active"
-            );
-
-          }
-
-        }
-      );
-
-
-
-      if (
-        progress <
-        1
-      ) {
-
-        requestAnimationFrame(
-          animate
-        );
-
-      } else {
-
-        /*
-          Sicherstellen, dass
-          am Ende wirklich
-          "Moi-cy" vollständig
-          sichtbar ist.
-        */
-
-        letters.forEach(
-          (letter) => {
-
-            letter.classList.add(
-              "sprayed"
-            );
-
-          }
-        );
-
-
-        /*
-          Spraywolke noch einen
-          kurzen Moment stehen lassen.
-        */
-
-        window.setTimeout(
-          () => {
-
-            sprayHead.classList.remove(
-              "active"
-            );
-
-          },
-          350
-        );
-
-      }
-
-    }
-
-
-    requestAnimationFrame(
-      animate
+    slider.addEventListener(
+      "mouseleave",
+      startSlider
     );
 
   }
-);
+
+
+  showSlide(0);
+
+  startSlider();
+
+});
