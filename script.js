@@ -1,274 +1,305 @@
-/* =========================================
-   MOI-CY — JAVASCRIPT
-========================================= */
+/* =========================================================
+   MOI-CY
+   Main JavaScript
+========================================================= */
 
+document.addEventListener("DOMContentLoaded", () => {
 
-/* =========================================
-   MOBILE MENU
-========================================= */
+  /* =======================================================
+     MOBILE MENU
+  ======================================================== */
 
-const menuButton = document.getElementById("menuButton");
-const navigation = document.querySelector(".navigation");
+  const menuButton = document.getElementById("menuButton");
+  const mobileMenu = document.getElementById("mobileMenu");
 
-if (menuButton && navigation) {
+  if (menuButton && mobileMenu) {
 
-  menuButton.addEventListener("click", () => {
-    navigation.classList.toggle("active");
-  });
+    menuButton.addEventListener("click", () => {
 
+      const isOpen = mobileMenu.classList.toggle("active");
 
-  navigation.querySelectorAll("a").forEach((link) => {
+      menuButton.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
 
-    link.addEventListener("click", () => {
-      navigation.classList.remove("active");
     });
 
-  });
 
-}
+    const mobileLinks =
+      mobileMenu.querySelectorAll("a");
+
+    mobileLinks.forEach((link) => {
+
+      link.addEventListener("click", () => {
+
+        mobileMenu.classList.remove("active");
+
+        menuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      });
+
+    });
+
+  }
 
 
-/* =========================================
-   HEADER ON SCROLL
-========================================= */
+  /* =======================================================
+     GRAFFITI SPRAY ANIMATION
+  ======================================================== */
 
-const header = document.querySelector(".header");
+  const logo = document.getElementById("graffitiLogo");
+  const sprayCloud = document.getElementById("sprayCloud");
 
-window.addEventListener("scroll", () => {
+  const revealRect =
+    document.getElementById("revealRect");
 
-  if (!header) return;
+  const revealStart =
+    document.getElementById("revealStart");
 
-  if (window.scrollY > 40) {
-    header.classList.add("scrolled");
-  } else {
-    header.classList.remove("scrolled");
+  const revealEdge =
+    document.getElementById("revealEdge");
+
+  const revealEnd =
+    document.getElementById("revealEnd");
+
+  const revealFinish =
+    document.getElementById("revealFinish");
+
+  const sprayDots =
+    document.querySelectorAll(".spray-dot");
+
+
+  if (
+    logo &&
+    sprayCloud &&
+    revealRect &&
+    revealStart &&
+    revealEdge &&
+    revealEnd &&
+    revealFinish
+  ) {
+
+    /*
+      Dauer des Aufsprühens.
+
+      0 = noch nicht sichtbar
+      1000 = komplett sichtbar
+    */
+
+    const duration = 2400;
+
+    const startTime = performance.now();
+
+
+    /*
+      Kleine Spritzer werden bewusst
+      nacheinander aktiviert.
+    */
+
+    const activateDots = () => {
+
+      sprayDots.forEach((dot, index) => {
+
+        const delay =
+          350 + index * 135;
+
+        window.setTimeout(() => {
+
+          dot.classList.add("active");
+
+        }, delay);
+
+      });
+
+    };
+
+
+    activateDots();
+
+
+    /*
+      Spraywolke einschalten.
+    */
+
+    sprayCloud.classList.add("spraying");
+
+
+    /*
+      Position der Spraywolke.
+
+      Die Wolke wandert exakt mit der
+      Aufsprühkante von links nach rechts.
+    */
+
+    const updateCloudPosition = (progress) => {
+
+      const clamped =
+        Math.max(
+          0,
+          Math.min(1, progress)
+        );
+
+      /*
+        4% -> 96%
+
+        Dadurch sitzt die Wolke
+        nicht außerhalb des Logos.
+      */
+
+      const left =
+        4 + clamped * 92;
+
+      sprayCloud.style.left =
+        `${left}%`;
+
+    };
+
+
+    /*
+      Das eigentliche Aufsprühen.
+
+      Der sichtbare Bereich wächst
+      kontinuierlich von links nach rechts.
+    */
+
+    const animateSpray = (currentTime) => {
+
+      const elapsed =
+        currentTime - startTime;
+
+      const rawProgress =
+        elapsed / duration;
+
+      const progress =
+        Math.max(
+          0,
+          Math.min(1, rawProgress)
+        );
+
+
+      /*
+        Leichte Beschleunigung,
+        damit der Anfang etwas
+        kontrollierter wirkt.
+      */
+
+      const eased =
+        1 - Math.pow(1 - progress, 2);
+
+
+      /*
+        SVG-Reveal.
+      */
+
+      const revealWidth =
+        eased * 1000;
+
+
+      revealRect.setAttribute(
+        "width",
+        String(revealWidth)
+      );
+
+
+      /*
+        Der harte Übergang der Maske
+        bleibt direkt an der Spraykante.
+      */
+
+      const edge =
+        Math.max(
+          0,
+          eased * 100
+        );
+
+      revealStart.setAttribute(
+        "offset",
+        `${Math.max(0, edge - 2.2)}%`
+      );
+
+      revealEdge.setAttribute(
+        "offset",
+        `${edge}%`
+      );
+
+      revealEnd.setAttribute(
+        "offset",
+        `${Math.min(100, edge + 0.2)}%`
+      );
+
+      revealFinish.setAttribute(
+        "offset",
+        `${Math.min(100, edge + 0.4)}%`
+      );
+
+
+      /*
+        Spraywolke mitführen.
+      */
+
+      updateCloudPosition(eased);
+
+
+      /*
+        Solange noch gesprüht wird:
+        weiter animieren.
+      */
+
+      if (progress < 1) {
+
+        requestAnimationFrame(
+          animateSpray
+        );
+
+        return;
+
+      }
+
+
+      /*
+        Am Ende:
+        Logo komplett sichtbar.
+      */
+
+      revealRect.setAttribute(
+        "width",
+        "1000"
+      );
+
+      updateCloudPosition(1);
+
+
+      /*
+        Spraywolke noch kurz nachziehen lassen,
+        damit es nicht wie ein harter
+        Animationsstopp aussieht.
+      */
+
+      window.setTimeout(() => {
+
+        sprayCloud.classList.remove(
+          "spraying"
+        );
+
+        sprayCloud.style.opacity = "0";
+
+      }, 450);
+
+    };
+
+
+    /*
+      Animation starten.
+    */
+
+    requestAnimationFrame(
+      animateSpray
+    );
+
   }
 
 });
-
-
-/* =========================================
-   SKATEBOARD MOUSE CURSOR
-========================================= */
-
-const finePointer = window.matchMedia("(pointer: fine)");
-
-if (finePointer.matches) {
-
-  const skateCursor = document.createElement("div");
-
-  skateCursor.className = "skate-cursor";
-
-  skateCursor.innerHTML = `
-    <svg
-      viewBox="0 0 100 100"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-
-      <!-- Skateboard deck -->
-      <path
-        d="M18 43
-           C19 39 23 37 28 38
-           L72 38
-           C77 37 81 39 82 43
-           L80 48
-           C79 51 76 53 72 53
-           L28 53
-           C24 53 21 51 20 48
-           Z"
-        fill="#00a8ff"
-        stroke="#050505"
-        stroke-width="3"
-      />
-
-      <!-- Deck highlight -->
-      <path
-        d="M25 43
-           C38 41 62 41 75 43"
-        fill="none"
-        stroke="#f2f2f2"
-        stroke-width="2"
-        stroke-linecap="round"
-        opacity="0.85"
-      />
-
-      <!-- Front wheel -->
-      <circle
-        cx="28"
-        cy="59"
-        r="5"
-        fill="#00a8ff"
-        stroke="#050505"
-        stroke-width="3"
-      />
-
-      <!-- Back wheel -->
-      <circle
-        cx="72"
-        cy="59"
-        r="5"
-        fill="#00a8ff"
-        stroke="#050505"
-        stroke-width="3"
-      />
-
-      <!-- Wheel centers -->
-      <circle
-        cx="28"
-        cy="59"
-        r="1.5"
-        fill="#f2f2f2"
-      />
-
-      <circle
-        cx="72"
-        cy="59"
-        r="1.5"
-        fill="#f2f2f2"
-      />
-
-    </svg>
-  `;
-
-
-  /* Cursor erst jetzt aktivieren */
-
-  document.body.classList.add("skate-cursor-enabled");
-
-  document.body.appendChild(skateCursor);
-
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-
-  let cursorX = mouseX;
-  let cursorY = mouseY;
-
-  let mouseInside = false;
-
-
-  /* =========================================
-     MOUSE MOVEMENT
-  ========================================= */
-
-  document.addEventListener("mousemove", (event) => {
-
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-
-    mouseInside = true;
-
-    skateCursor.classList.add("visible");
-
-  });
-
-
-  /* =========================================
-     SMOOTH FOLLOW
-  ========================================= */
-
-  function moveCursor() {
-
-    cursorX += (mouseX - cursorX) * 0.22;
-    cursorY += (mouseY - cursorY) * 0.22;
-
-    skateCursor.style.left = `${cursorX}px`;
-    skateCursor.style.top = `${cursorY}px`;
-
-    requestAnimationFrame(moveCursor);
-
-  }
-
-  moveCursor();
-
-
-  /* =========================================
-     HOVER EFFECT
-  ========================================= */
-
-  function setupHoverElements() {
-
-    const hoverElements = document.querySelectorAll(
-      "a, button, input, textarea, select, .image-box, .video-preview, .play-button"
-    );
-
-    hoverElements.forEach((element) => {
-
-      element.addEventListener("mouseenter", () => {
-        skateCursor.classList.add("hover");
-      });
-
-      element.addEventListener("mouseleave", () => {
-        skateCursor.classList.remove("hover");
-      });
-
-    });
-
-  }
-
-  setupHoverElements();
-
-
-  /* =========================================
-     CLICK EFFECT
-  ========================================= */
-
-  document.addEventListener("mousedown", () => {
-
-    skateCursor.classList.add("click");
-
-  });
-
-  document.addEventListener("mouseup", () => {
-
-    skateCursor.classList.remove("click");
-
-  });
-
-
-  /* =========================================
-     HIDE OUTSIDE WINDOW
-  ========================================= */
-
-  document.addEventListener("mouseleave", () => {
-
-    mouseInside = false;
-
-    skateCursor.classList.remove("visible");
-
-  });
-
-  document.addEventListener("mouseenter", () => {
-
-    mouseInside = true;
-
-  });
-
-
-  /* =========================================
-     TAB / KEYBOARD FOCUS
-  ========================================= */
-
-  document.addEventListener("keydown", (event) => {
-
-    if (event.key === "Tab") {
-      skateCursor.classList.remove("visible");
-    }
-
-  });
-
-
-  /* =========================================
-     RESTORE AFTER MOUSE MOVEMENT
-  ========================================= */
-
-  document.addEventListener("mousemove", () => {
-
-    if (mouseInside) {
-      skateCursor.classList.add("visible");
-    }
-
-  });
-
-}
