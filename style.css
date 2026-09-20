@@ -1,6 +1,7 @@
 /* =========================================
    MOI-CY
    DARK STREET × ELECTRIC BLUE
+   LOGO EDITION
 ========================================= */
 
 * {
@@ -39,7 +40,6 @@ img {
   color: #000;
 }
 
-
 :root {
   --black: #050505;
   --white: #f2f2f2;
@@ -77,11 +77,6 @@ img {
   letter-spacing: 0.1em;
 }
 
-
-/* =========================================
-   GRAFFITI
-========================================= */
-
 .graffiti-word,
 .handwritten {
   font-family: "Permanent Marker", cursive;
@@ -106,7 +101,6 @@ img {
 
 .header {
   position: fixed;
-
   top: 0;
   left: 0;
 
@@ -120,8 +114,7 @@ img {
   justify-content: space-between;
 
   background: rgba(5,5,5,0.88);
-
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
 
   border-bottom: 1px solid var(--line);
 
@@ -129,8 +122,13 @@ img {
 }
 
 .logo {
-  font-size: 1.45rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 1.4rem;
   font-weight: 900;
+
   letter-spacing: -0.06em;
   white-space: nowrap;
 
@@ -141,9 +139,30 @@ img {
   color: var(--blue);
 }
 
+.logo-mark {
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--blue);
+
+  color: var(--blue);
+
+  font-size: 0.65rem;
+  font-weight: 900;
+
+  transform: rotate(-8deg);
+
+  box-shadow:
+    0 0 15px rgba(0,168,255,0.15);
+}
+
 
 /* =========================================
-   NAV
+   NAVIGATION
 ========================================= */
 
 .navigation {
@@ -157,6 +176,7 @@ img {
 
   font-size: 0.68rem;
   font-weight: 700;
+
   letter-spacing: 0.13em;
 
   transition: color 0.25s ease;
@@ -235,234 +255,603 @@ img {
   overflow: hidden;
 }
 
+.hero-noise {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.035;
+
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.8) 0,
+      rgba(255,255,255,0.8) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
 .hero-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 55px;
+  margin-bottom: 30px;
+}
+
+.hero-number {
+  color: #444;
+
+  font-size: 0.7rem;
+  font-weight: 600;
+
+  letter-spacing: 0.1em;
 }
 
 
 /* =========================================
-   NEW BRAND / LOGO AREA
+   LOGO STAGE
 ========================================= */
 
-.brand-hero {
+.logo-stage {
+  position: relative;
+
+  min-height: 350px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 45px;
+}
+
+
+/* =========================================
+   MAIN BRAND LOGO
+========================================= */
+
+.brand-logo {
+  position: relative;
+
+  width: min(900px, 80vw);
+
+  padding: 30px 35px 25px;
+
+  border: 1px solid rgba(255,255,255,0.18);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.025),
+      rgba(0,168,255,0.025)
+    );
+
+  transform: rotate(-1.2deg);
+
+  transition:
+    transform 0.5s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease;
+}
+
+.brand-logo::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border: 1px solid rgba(0,168,255,0.16);
+
+  pointer-events: none;
+}
+
+.brand-logo:hover {
+  transform:
+    rotate(0deg)
+    translateY(-5px);
+
+  border-color: rgba(0,168,255,0.55);
+
+  box-shadow:
+    0 0 40px rgba(0,168,255,0.08);
+}
+
+
+/* =========================================
+   LOGO TOPLINE
+========================================= */
+
+.logo-topline {
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+
+  color: #555;
+
+  font-size: 0.58rem;
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
+}
+
+
+/* =========================================
+   LOGO MAIN
+========================================= */
+
+.logo-main {
   position: relative;
 
   display: flex;
   align-items: center;
 
-  min-height: 260px;
-
-  margin-bottom: 45px;
-
-  z-index: 10;
+  min-height: 180px;
 }
 
-
-/* Main logo */
-
-.brand-main {
+.logo-m {
   position: relative;
 
-  z-index: 5;
-}
+  width: 135px;
+  height: 135px;
 
-.hero-logo {
-  position: relative;
+  flex-shrink: 0;
 
-  font-size: clamp(6rem, 15vw, 15rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  line-height: 0.78;
-
-  letter-spacing: -0.095em;
-
-  font-weight: 900;
-
-  white-space: nowrap;
-
-  color: #f2f2f2;
-
-  z-index: 4;
-
-  text-shadow:
-    0 0 40px rgba(255,255,255,0.025);
-}
-
-
-/* Blue underline */
-
-.brand-underline {
-  width: 72%;
-
-  height: 5px;
-
-  margin-top: 20px;
-
-  background: var(--blue);
-
-  transform: skewX(-25deg);
-
-  box-shadow:
-    0 0 18px rgba(0,168,255,0.4);
-}
-
-
-/* Skate graffiti */
-
-.brand-skate {
-  position: absolute;
-
-  top: -62px;
-  right: -55px;
-
-  z-index: 8;
+  border: 7px solid var(--blue);
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
-
-  font-size: clamp(3rem, 6vw, 6rem);
+  font-size: 6rem;
+  font-weight: 900;
 
   line-height: 1;
 
-  transform: rotate(-8deg);
+  transform:
+    rotate(-7deg)
+    skew(-4deg);
+
+  text-shadow:
+    0 0 25px rgba(0,168,255,0.25);
+
+  box-shadow:
+    0 0 30px rgba(0,168,255,0.08);
+}
+
+.logo-m::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 8px;
+
+  border: 1px solid rgba(0,168,255,0.6);
+}
+
+.logo-m::after {
+  content: "";
+
+  position: absolute;
+
+  width: 35px;
+  height: 7px;
+
+  background: var(--blue);
+
+  right: -22px;
+  top: 18px;
+
+  transform: rotate(-45deg);
+
+  box-shadow:
+    0 0 15px rgba(0,168,255,0.4);
+}
+
+
+.logo-word {
+  position: relative;
+
+  margin-left: 25px;
+
+  color: var(--white);
+
+  font-size: clamp(4rem, 9vw, 9.5rem);
+
+  font-weight: 900;
+
+  line-height: 0.8;
+
+  letter-spacing: -0.095em;
 
   white-space: nowrap;
 
   text-shadow:
-    4px 4px 0 #050505,
-    0 0 20px rgba(0,168,255,0.25);
+    0 0 40px rgba(255,255,255,0.025);
+
+  transition:
+    color 0.4s ease,
+    text-shadow 0.4s ease;
 }
 
-
-/* Logo symbol */
-
-.brand-symbol {
-  position: relative;
-
-  width: 95px;
-  height: 130px;
-
-  margin-right: 35px;
-
-  transform: rotate(-8deg);
-}
-
-.symbol-line {
-  position: absolute;
-
-  display: block;
-
-  background: var(--blue);
-
-  height: 6px;
-
-  box-shadow:
-    0 0 15px rgba(0,168,255,0.35);
-}
-
-.line-one {
-  width: 75px;
-  top: 40px;
-  left: 0;
-  transform: rotate(-35deg);
-}
-
-.line-two {
-  width: 52px;
-  top: 67px;
-  left: 17px;
-  transform: rotate(-35deg);
-}
-
-.symbol-dot {
-  position: absolute;
-
-  width: 12px;
-  height: 12px;
-
-  border-radius: 50%;
-
-  background: var(--blue);
-
-  left: 63px;
-  top: 88px;
-
-  box-shadow:
-    0 0 15px rgba(0,168,255,0.6);
-}
-
-
-/* Side information */
-
-.brand-side {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 12px;
-
-  margin-left: 45px;
-
-  color: #444;
-
-  font-size: 0.62rem;
-
-  font-weight: 700;
-
-  letter-spacing: 0.14em;
-
-  transform: rotate(90deg);
+.brand-logo:hover .logo-word {
+  text-shadow:
+    0 0 20px rgba(0,168,255,0.2);
 }
 
 
 /* =========================================
-   HERO INFO
+   LOGO CUT / GLITCH
+========================================= */
+
+.logo-cut {
+  position: absolute;
+
+  right: 3%;
+  top: 48%;
+
+  width: 34%;
+
+  height: 7px;
+
+  background: var(--blue);
+
+  transform:
+    skewX(-35deg)
+    rotate(-2deg);
+
+  opacity: 0.85;
+
+  box-shadow:
+    0 0 18px rgba(0,168,255,0.35);
+
+  transition:
+    width 0.4s ease,
+    opacity 0.4s ease;
+}
+
+.brand-logo:hover .logo-cut {
+  width: 42%;
+  opacity: 1;
+}
+
+.logo-cut::before,
+.logo-cut::after {
+  content: "";
+
+  position: absolute;
+
+  height: 2px;
+
+  background: var(--blue);
+}
+
+.logo-cut::before {
+  width: 55%;
+  right: 10px;
+  top: -8px;
+}
+
+.logo-cut::after {
+  width: 30%;
+  right: 40px;
+  top: 12px;
+}
+
+
+/* =========================================
+   GRAFFITI TAG
+========================================= */
+
+.logo-tag {
+  position: absolute;
+
+  right: 11%;
+  top: -48px;
+
+  z-index: 5;
+
+  font-family: "Permanent Marker", cursive;
+
+  color: var(--blue);
+
+  font-size: clamp(3rem, 5vw, 5.5rem);
+
+  line-height: 1;
+
+  transform: rotate(-9deg);
+
+  text-shadow:
+    4px 4px 0 #050505,
+    0 0 22px rgba(0,168,255,0.35);
+
+  transition:
+    transform 0.4s ease,
+    text-shadow 0.4s ease;
+}
+
+.brand-logo:hover .logo-tag {
+  transform:
+    rotate(-5deg)
+    scale(1.08);
+
+  text-shadow:
+    5px 5px 0 #050505,
+    0 0 35px rgba(0,168,255,0.55);
+}
+
+
+/* =========================================
+   LOGO BOTTOM
+========================================= */
+
+.logo-bottom {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-top: 20px;
+
+  color: #555;
+
+  font-size: 0.55rem;
+  font-weight: 800;
+
+  letter-spacing: 0.17em;
+}
+
+.logo-line {
+  height: 1px;
+  flex: 1;
+
+  background: rgba(255,255,255,0.12);
+}
+
+
+/* =========================================
+   LOGO STAMP
+========================================= */
+
+.logo-stamp {
+  position: absolute;
+
+  right: -28px;
+  bottom: -45px;
+
+  width: 105px;
+  height: 105px;
+
+  border: 2px solid var(--blue);
+
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--blue);
+
+  background: #050505;
+
+  transform: rotate(12deg);
+
+  box-shadow:
+    0 0 25px rgba(0,168,255,0.12);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.logo-stamp::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 7px;
+
+  border: 1px dashed rgba(0,168,255,0.5);
+
+  border-radius: 50%;
+}
+
+.logo-stamp span {
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.logo-stamp strong {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.logo-stamp small {
+  margin-top: 3px;
+
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+}
+
+.brand-logo:hover .logo-stamp {
+  transform:
+    rotate(3deg)
+    scale(1.08);
+
+  box-shadow:
+    0 0 35px rgba(0,168,255,0.28);
+}
+
+
+/* =========================================
+   LOGO DECORATIONS
+========================================= */
+
+.logo-decoration {
+  position: absolute;
+
+  color: #444;
+
+  pointer-events: none;
+}
+
+.decoration-left {
+  left: 2%;
+  top: 50%;
+
+  transform:
+    translateY(-50%)
+    rotate(-12deg);
+}
+
+.decoration-left span {
+  display: block;
+
+  width: 55px;
+  height: 5px;
+
+  margin-bottom: 9px;
+
+  background: var(--blue);
+
+  opacity: 0.8;
+}
+
+.decoration-left span:nth-child(2) {
+  width: 35px;
+}
+
+.decoration-left span:nth-child(3) {
+  width: 18px;
+}
+
+
+.decoration-right {
+  right: 1%;
+  top: 45%;
+
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  transform:
+    translateY(-50%)
+    rotate(90deg);
+}
+
+.vertical-text {
+  color: #333;
+
+  font-size: 0.55rem;
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
+}
+
+.slash-group {
+  display: flex;
+  gap: 6px;
+}
+
+.slash-group i {
+  display: block;
+
+  width: 35px;
+  height: 2px;
+
+  background: var(--blue);
+
+  transform: rotate(-35deg);
+}
+
+
+/* =========================================
+   HERO MAIN
 ========================================= */
 
 .hero-main {
   position: relative;
 
-  z-index: 5;
-
   display: grid;
 
-  grid-template-columns: 1.25fr 0.75fr;
+  grid-template-columns: 1fr 0.75fr;
 
   align-items: end;
 
-  gap: 7vw;
+  gap: 8vw;
+
+  z-index: 5;
+}
+
+.hero-intro {
+  padding-left: 5vw;
+}
+
+.hero-small {
+  color: #555;
+
+  font-size: 0.62rem;
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+}
+
+.hero-intro h1 {
+  margin-top: 18px;
+
+  max-width: 700px;
+
+  font-size: clamp(4rem, 8vw, 8rem);
+
+  line-height: 0.82;
+
+  letter-spacing: -0.08em;
+
+  font-weight: 900;
+}
+
+.hero-intro h1 span {
+  display: block;
+
+  color: var(--blue);
+
+  text-shadow:
+    0 0 30px rgba(0,168,255,0.18);
 }
 
 .hero-info {
   max-width: 440px;
-
-  padding-bottom: 10px;
 }
 
 .hero-slogan {
   color: var(--blue);
 
   font-size: 0.85rem;
-
   font-weight: 800;
 
   letter-spacing: 0.13em;
 
-  margin-bottom: 25px;
+  margin-bottom: 22px;
 }
 
 .hero-description {
-  color: #aaa;
+  color: #999;
 
   font-size: 0.95rem;
 
   line-height: 1.85;
 
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 
@@ -474,14 +863,13 @@ img {
   display: inline-flex;
 
   align-items: center;
-  justify-content: center;
+  gap: 15px;
 
   padding: 13px 21px;
 
   border: 1px solid rgba(255,255,255,0.3);
 
   font-size: 0.67rem;
-
   font-weight: 700;
 
   letter-spacing: 0.14em;
@@ -501,7 +889,7 @@ img {
 
   border-color: var(--blue);
 
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 
   box-shadow:
     0 0 25px rgba(0,168,255,0.25);
@@ -522,23 +910,23 @@ img {
   z-index: 2;
 }
 
-.hero-image-placeholder {
+.hero-image {
   position: relative;
 
-  width: 54%;
+  width: 68%;
 
   margin-left: auto;
 
   aspect-ratio: 16 / 7;
 
-  background: #0d0d0d;
+  overflow: hidden;
 
   border: 1px solid var(--line);
 
-  overflow: hidden;
+  background: #0d0d0d;
 }
 
-.hero-photo img {
+.hero-image img {
   width: 100%;
   height: 100%;
 
@@ -547,117 +935,137 @@ img {
   display: block;
 
   filter:
-    grayscale(35%)
-    contrast(1.1)
-    brightness(0.7);
+    grayscale(45%)
+    brightness(0.65)
+    contrast(1.1);
 
-  transform: scale(1.02);
+  transform: scale(1.03);
 
   transition:
-    transform 0.8s ease,
-    filter 0.8s ease;
+    transform 0.9s ease,
+    filter 0.9s ease;
 }
 
-.hero-photo:hover img {
-  transform: scale(1.07);
+.hero-image:hover img {
+  transform: scale(1.1);
 
   filter:
     grayscale(0%)
-    contrast(1.12)
-    brightness(0.85);
+    brightness(0.85)
+    contrast(1.12);
 }
 
-.hero-photo::after {
-  content: "";
-
+.image-gradient {
   position: absolute;
 
   inset: 0;
 
   background:
     linear-gradient(
-      120deg,
-      transparent 35%,
-      rgba(0,168,255,0.12),
-      transparent 65%
+      90deg,
+      rgba(0,0,0,0.65),
+      transparent 55%,
+      rgba(0,168,255,0.1)
     );
+}
 
-  pointer-events: none;
+.image-number {
+  position: absolute;
+
+  right: 20px;
+  top: 18px;
+
+  color: rgba(255,255,255,0.45);
+
+  font-size: 0.55rem;
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+}
+
+.image-caption {
+  position: absolute;
+
+  left: 25px;
+  bottom: 22px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.image-caption span {
+  color: var(--blue);
+
+  font-size: 0.55rem;
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+}
+
+.image-caption strong {
+  font-size: 1.1rem;
+  font-weight: 900;
 }
 
 
 /* =========================================
-   HERO GRAPHICS
+   BLUE STROKES
 ========================================= */
 
-.blue-mark {
+.blue-stroke {
   position: absolute;
 
-  left: 5%;
-  bottom: 5%;
-
-  display: flex;
-
-  gap: 7px;
-
-  transform: rotate(-15deg);
-
-  animation:
-    blueMarkFloat 4s ease-in-out infinite;
-}
-
-.blue-mark span {
-  display: block;
-
-  width: 55px;
   height: 5px;
 
   background: var(--blue);
 
   box-shadow:
-    0 0 10px rgba(0,168,255,0.25);
+    0 0 16px rgba(0,168,255,0.35);
+
+  transform: rotate(-15deg);
 }
 
-.blue-mark span:nth-child(2) {
-  width: 35px;
+.stroke-one {
+  left: 8%;
+  bottom: 8%;
+
+  width: 90px;
 }
 
-.blue-mark span:nth-child(3) {
-  width: 18px;
+.stroke-two {
+  left: 11%;
+  bottom: 3%;
+
+  width: 50px;
 }
 
-@keyframes blueMarkFloat {
+.stroke-three {
+  left: 15%;
+  bottom: -2%;
 
-  0% {
-    transform: rotate(-15deg) translateY(0);
-  }
-
-  50% {
-    transform: rotate(-12deg) translateY(-7px);
-  }
-
-  100% {
-    transform: rotate(-15deg) translateY(0);
-  }
-
+  width: 25px;
 }
 
 
-.hero-sticker {
+/* =========================================
+   FLOATING TAG
+========================================= */
+
+.floating-tag {
   position: absolute;
 
   right: 4%;
-  bottom: -30px;
+  bottom: -35px;
 
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
 
   border: 1px solid var(--blue);
 
   border-radius: 50%;
 
   display: flex;
-
   flex-direction: column;
 
   align-items: center;
@@ -665,58 +1073,43 @@ img {
 
   color: var(--blue);
 
-  font-size: 0.6rem;
+  background: #050505;
 
-  font-weight: 800;
+  transform: rotate(-10deg);
 
-  letter-spacing: 0.1em;
-
-  transform: rotate(11deg);
-
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+  transition: 0.4s ease;
 }
 
-.hero-sticker::before {
+.floating-tag::before {
   content: "";
 
   position: absolute;
 
-  inset: 6px;
+  inset: 7px;
 
-  border: 1px dashed rgba(0,168,255,0.5);
+  border: 1px dashed rgba(0,168,255,0.45);
 
   border-radius: 50%;
 }
 
-.hero-sticker:hover {
-  transform: rotate(4deg) scale(1.08);
+.floating-tag span {
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.floating-tag strong {
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+
+.floating-tag:hover {
+  transform:
+    rotate(0deg)
+    scale(1.1);
 
   box-shadow:
     0 0 30px rgba(0,168,255,0.25);
-}
-
-
-.hero-floating-text {
-  position: absolute;
-
-  left: 8%;
-  top: 15%;
-
-  color: rgba(242,242,242,0.12);
-
-  font-size: clamp(1.5rem,3vw,3rem);
-
-  font-weight: 900;
-
-  line-height: 0.85;
-
-  letter-spacing: -0.06em;
-
-  transform: rotate(-90deg);
-
-  pointer-events: none;
 }
 
 
@@ -734,7 +1127,6 @@ img {
   color: #444;
 
   font-size: 0.6rem;
-
   font-weight: 700;
 
   letter-spacing: 0.13em;
@@ -810,6 +1202,27 @@ img {
   border-top: 1px solid var(--line);
 }
 
+.about-section::before,
+.media-section::before,
+.video-section::before,
+.current-section::before,
+.contact-section::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 5vw;
+
+  width: 45px;
+  height: 1px;
+
+  background: var(--blue);
+
+  box-shadow:
+    0 0 12px rgba(0,168,255,0.5);
+}
+
 .section-top {
   display: flex;
 
@@ -830,7 +1243,19 @@ img {
 
 .about-title {
   position: relative;
-  z-index: 2;
+}
+
+.about-tag {
+  display: inline-block;
+
+  margin-bottom: 25px;
+
+  color: #444;
+
+  font-size: 0.58rem;
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
 }
 
 .about-title h2 {
@@ -843,20 +1268,16 @@ img {
   font-weight: 900;
 }
 
-.about-title .small-graffiti {
+.about-title .graffiti-word {
   position: relative;
 
-  z-index: 5;
-
   display: inline-block;
+
+  z-index: 5;
 
   font-size: 0.85em;
 
   transform: rotate(-4deg);
-
-  text-shadow:
-    3px 3px 0 #050505,
-    0 0 18px rgba(0,168,255,0.2);
 }
 
 .about-content {
@@ -877,7 +1298,7 @@ img {
 
 
 /* =========================================
-   BILDER
+   MEDIA / BILDER
 ========================================= */
 
 .media-section {
@@ -886,27 +1307,6 @@ img {
   padding: 150px 5vw;
 
   border-top: 1px solid var(--line);
-}
-
-.media-section::before,
-.video-section::before,
-.about-section::before,
-.current-section::before,
-.contact-section::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 5vw;
-
-  width: 45px;
-  height: 1px;
-
-  background: var(--blue);
-
-  box-shadow:
-    0 0 12px rgba(0,168,255,0.5);
 }
 
 .media-heading {
@@ -922,6 +1322,8 @@ img {
 }
 
 .media-heading h2 {
+  margin-top: 20px;
+
   font-size: clamp(4.5rem,10vw,11rem);
 
   line-height: 0.75;
@@ -1035,7 +1437,6 @@ img {
   color: #fff;
 
   font-size: 0.65rem;
-
   font-weight: 800;
 
   letter-spacing: 0.15em;
@@ -1098,7 +1499,7 @@ img {
   display: block;
 }
 
-.video-placeholder {
+.video-preview {
   position: relative;
 
   min-height: 580px;
@@ -1126,39 +1527,29 @@ img {
   cursor: pointer;
 }
 
-.video-preview::before {
-  content: "";
-
+.video-grid {
   position: absolute;
 
-  inset: -20%;
+  inset: 0;
 
-  background:
+  background-image:
     linear-gradient(
-      125deg,
-      transparent 20%,
-      rgba(0,168,255,0.13) 50%,
-      transparent 70%
+      rgba(0,168,255,0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0,168,255,0.05) 1px,
+      transparent 1px
     );
 
-  animation:
-    videoLight 5s ease-in-out infinite;
-}
+  background-size: 70px 70px;
 
-@keyframes videoLight {
+  transform: perspective(400px) rotateX(55deg) scale(1.8);
 
-  0% {
-    transform: translateX(-40%);
-  }
+  transform-origin: center bottom;
 
-  50% {
-    transform: translateX(40%);
-  }
-
-  100% {
-    transform: translateX(-40%);
-  }
-
+  opacity: 0.35;
 }
 
 .video-dark-overlay {
@@ -1170,7 +1561,7 @@ img {
     radial-gradient(
       circle at center,
       transparent,
-      rgba(0,0,0,0.6) 78%
+      rgba(0,0,0,0.75) 78%
     );
 
   z-index: 1;
@@ -1181,8 +1572,8 @@ img {
 
   z-index: 3;
 
-  width: 80px;
-  height: 80px;
+  width: 85px;
+  height: 85px;
 
   border: 1px solid var(--blue);
 
@@ -1198,7 +1589,11 @@ img {
   transition: 0.3s ease;
 }
 
-.video-placeholder:hover .play-button {
+.play-button span {
+  margin-left: 4px;
+}
+
+.video-preview:hover .play-button {
   background: var(--blue);
 
   color: #000;
@@ -1209,7 +1604,7 @@ img {
     0 0 35px rgba(0,168,255,0.3);
 }
 
-.video-placeholder > span {
+.video-watch {
   position: relative;
 
   z-index: 3;
@@ -1232,7 +1627,6 @@ img {
   z-index: 3;
 
   display: flex;
-
   flex-direction: column;
 
   gap: 5px;
@@ -1351,7 +1745,6 @@ img {
 
 .contact-title {
   position: relative;
-  z-index: 2;
 }
 
 .contact-graffiti {
@@ -1362,10 +1755,6 @@ img {
   display: inline-block;
 
   transform: rotate(-5deg);
-
-  text-shadow:
-    3px 3px 0 #050505,
-    0 0 18px rgba(0,168,255,0.25);
 }
 
 .contact-title h2 {
@@ -1400,7 +1789,6 @@ img {
   color: var(--blue);
 
   font-size: 1rem;
-
   font-weight: 600;
 
   border-bottom: 1px solid var(--blue);
@@ -1428,13 +1816,27 @@ img {
 }
 
 .footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   font-size: 1.4rem;
 
   font-weight: 900;
 
   letter-spacing: -0.05em;
+}
 
-  white-space: nowrap;
+.footer-mark {
+  color: var(--blue);
+
+  font-size: 0.75rem;
+
+  border: 1px solid var(--blue);
+
+  padding: 3px 6px;
+
+  transform: rotate(-7deg);
 }
 
 .footer-center {
@@ -1443,7 +1845,6 @@ img {
   color: #444;
 
   font-size: 0.6rem;
-
   font-weight: 700;
 
   letter-spacing: 0.15em;
@@ -1470,16 +1871,33 @@ img {
     gap: 20px;
   }
 
-  .brand-hero {
-    min-height: 220px;
+  .logo-stage {
+    min-height: 300px;
   }
 
-  .brand-symbol {
-    width: 65px;
-    margin-right: 20px;
+  .brand-logo {
+    width: 88vw;
   }
 
-  .brand-side {
+  .logo-m {
+    width: 105px;
+    height: 105px;
+
+    font-size: 4.5rem;
+  }
+
+  .logo-word {
+    font-size: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  .logo-stamp {
+    width: 90px;
+    height: 90px;
+
+    right: -15px;
+  }
+
+  .decoration-right {
     display: none;
   }
 
@@ -1491,8 +1909,8 @@ img {
     max-width: 600px;
   }
 
-  .hero-image-placeholder {
-    width: 70%;
+  .hero-image {
+    width: 75%;
   }
 
   .intro {
@@ -1514,7 +1932,6 @@ img {
     grid-template-columns: 1fr;
     gap: 70px;
   }
-
 }
 
 
@@ -1564,96 +1981,178 @@ img {
   /* Hero */
 
   .hero {
-    padding: 115px 6vw 35px;
+    padding: 110px 6vw 35px;
   }
 
   .hero-top {
+    margin-bottom: 20px;
+  }
+
+  .logo-stage {
+    min-height: 235px;
+
     margin-bottom: 35px;
   }
 
-  .brand-hero {
-    min-height: 185px;
+  .brand-logo {
+    width: 100%;
 
-    margin-bottom: 40px;
+    padding: 22px 18px 18px;
   }
 
-  .brand-symbol {
-    width: 40px;
-
-    margin-right: 12px;
-
-    transform: scale(0.65) rotate(-8deg);
-    transform-origin: center;
+  .logo-topline {
+    font-size: 0.45rem;
   }
 
-  .hero-logo {
-    font-size: clamp(4rem, 19vw, 7rem);
+  .logo-main {
+    min-height: 120px;
   }
 
-  .brand-skate {
-    top: -35px;
-    right: -5px;
+  .logo-m {
+    width: 70px;
+    height: 70px;
+
+    border-width: 4px;
+
+    font-size: 3rem;
+  }
+
+  .logo-m::before {
+    inset: 5px;
+  }
+
+  .logo-m::after {
+    width: 22px;
+    height: 4px;
+
+    right: -14px;
+  }
+
+  .logo-word {
+    margin-left: 13px;
+
+    font-size: clamp(3rem, 13vw, 5.5rem);
+  }
+
+  .logo-cut {
+    height: 4px;
+  }
+
+  .logo-tag {
+    top: -31px;
+    right: 5%;
 
     font-size: 2.6rem;
   }
 
-  .brand-underline {
-    height: 3px;
+  .logo-bottom {
+    gap: 8px;
 
-    margin-top: 12px;
+    font-size: 0.42rem;
+
+    letter-spacing: 0.1em;
+  }
+
+  .logo-stamp {
+    width: 70px;
+    height: 70px;
+
+    right: -5px;
+    bottom: -32px;
+  }
+
+  .logo-stamp span {
+    font-size: 0.4rem;
+  }
+
+  .logo-stamp strong {
+    font-size: 0.58rem;
+  }
+
+  .logo-stamp small {
+    font-size: 0.35rem;
+  }
+
+  .decoration-left {
+    left: -4%;
+
+    transform:
+      translateY(-50%)
+      rotate(-12deg)
+      scale(0.65);
+  }
+
+
+  /* Hero text */
+
+  .hero-intro {
+    padding-left: 0;
+  }
+
+  .hero-intro h1 {
+    font-size: clamp(3.5rem, 17vw, 6rem);
   }
 
   .hero-info {
-    margin-top: 20px;
+    margin-top: 35px;
   }
 
   .hero-description {
     font-size: 0.9rem;
   }
 
+
+  /* Hero image */
+
   .hero-visual {
     margin-top: 65px;
   }
 
-  .hero-image-placeholder {
+  .hero-image {
     width: 100%;
 
     aspect-ratio: 16 / 9;
   }
 
-  .hero-floating-text {
-    display: none;
-  }
+  .floating-tag {
+    width: 78px;
+    height: 78px;
 
-  .blue-mark {
-    left: 3%;
-    bottom: -20px;
-  }
-
-  .blue-mark span {
-    width: 38px;
-  }
-
-  .blue-mark span:nth-child(2) {
-    width: 25px;
-  }
-
-  .blue-mark span:nth-child(3) {
-    width: 14px;
-  }
-
-  .hero-sticker {
     right: 2%;
-    bottom: -45px;
+    bottom: -30px;
+  }
 
-    width: 82px;
-    height: 82px;
+  .floating-tag span {
+    font-size: 0.42rem;
+  }
+
+  .floating-tag strong {
+    font-size: 0.7rem;
+  }
+
+  .blue-stroke {
+    height: 4px;
+  }
+
+  .stroke-one {
+    left: 2%;
+    width: 55px;
+  }
+
+  .stroke-two {
+    left: 5%;
+    width: 35px;
+  }
+
+  .stroke-three {
+    left: 10%;
+    width: 18px;
   }
 
   .hero-bottom {
-    margin-top: 50px;
+    margin-top: 45px;
 
-    font-size: 0.52rem;
+    font-size: 0.5rem;
   }
 
   .hero-bottom span:last-child {
@@ -1715,7 +2214,6 @@ img {
 
   .image-grid {
     grid-template-columns: 1fr;
-
     grid-template-rows: auto;
   }
 
@@ -1752,7 +2250,7 @@ img {
     margin-bottom: 35px;
   }
 
-  .video-placeholder {
+  .video-preview {
     min-height: 380px;
   }
 
