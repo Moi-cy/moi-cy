@@ -4,389 +4,647 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Moi-cy — Skateboarding & Creativity</title>
+  <title>Moi-cy – Skateboarding</title>
 
   <meta
     name="description"
-    content="Moi-cy — Skateboarding, Kreativität, Bilder, Videos und Skateplätze."
+    content="Moi-cy – Skateboarding, Skateplätze, Bilder und Videos."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Rubik+Wet+Paint&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
 
-  <!-- ================================
-       HEADER
-  ================================= -->
-
-  <header class="header">
-
-    <a href="index.html" class="header-logo">
-      Moi-cy
-    </a>
-
-    <button
-      class="menu-button"
-      id="menuButton"
-      aria-label="Menü öffnen"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+<header class="header">
 
-    <nav class="navigation">
+  <a href="index.html" class="logo">
+    <span class="logo-mark">M</span>
+    <span>Moi-cy</span>
+  </a>
 
-      <a href="index.html" class="active">
-        HOME
-      </a>
+  <nav class="navigation">
+    <a href="index.html">HOME</a>
+    <a href="bilder.html">BILDER</a>
+    <a href="videos.html">VIDEOS</a>
+    <a href="#about">ABOUT</a>
+    <a href="skateplaetze.html">SKATEPLÄTZE</a>
+    <a href="#kontakt">KONTAKT</a>
+  </nav>
 
-      <a href="bilder.html">
-        BILDER
-      </a>
+  <button
+    class="menu-button"
+    id="menuButton"
+    aria-label="Menü öffnen"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 
-      <a href="videos.html">
-        VIDEOS
-      </a>
-
-      <a href="skateplaetze.html">
-        SKATEPLÄTZE
-      </a>
-
-      <a href="kontakt.html">
-        KONTAKT
-      </a>
+</header>
 
-    </nav>
 
-  </header>
+<main>
 
+  <!-- HERO -->
 
-  <!-- ================================
-       HERO
-  ================================= -->
+  <section class="hero">
 
-  <main>
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
 
-    <section class="hero">
+    <div class="spray spray-1"></div>
+    <div class="spray spray-2"></div>
+    <div class="spray spray-3"></div>
+    <div class="spray spray-4"></div>
+    <div class="spray spray-5"></div>
+    <div class="spray spray-6"></div>
 
-      <div class="hero-glow"></div>
-      <div class="hero-grid"></div>
+    <!-- zusätzliche Spray-Partikel -->
 
-      <div class="hero-content">
+    <div class="spray-speck speck-1"></div>
+    <div class="spray-speck speck-2"></div>
+    <div class="spray-speck speck-3"></div>
+    <div class="spray-speck speck-4"></div>
+    <div class="spray-speck speck-5"></div>
+    <div class="spray-speck speck-6"></div>
+    <div class="spray-speck speck-7"></div>
+    <div class="spray-speck speck-8"></div>
 
-        <!-- LOGO -->
-        <div class="logo-stage">
 
-          <!-- Spray-Nebel -->
-          <div class="spray-fog fog-1"></div>
-          <div class="spray-fog fog-2"></div>
-          <div class="spray-fog fog-3"></div>
+    <div class="hero-content">
 
-          <!-- kleine Farbspritzer -->
-          <div class="spray-dots">
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-            <i></i>
-          </div>
+      <!-- MOI-CY LOGO -->
 
-          <!-- LOGO -->
-          <div class="logo">
+      <div class="main-logo">
 
-            <!-- diffuse Farbe hinter dem Schriftzug -->
-            <span class="logo-spray">
-              Moi-cy
-            </span>
+        <div class="spray-cloud cloud-left"></div>
+        <div class="spray-cloud cloud-right"></div>
+        <div class="spray-cloud cloud-top"></div>
 
-            <!-- schwarze Farbkante -->
-            <span class="logo-dark">
-              Moi-cy
-            </span>
+        <div class="paint-stroke"></div>
 
-            <!-- eigentlicher Schriftzug -->
-            <span class="logo-text">
-              Moi-cy
-            </span>
+        <!--
+          Das SVG zeichnet die Buchstaben selbst.
+          Dadurch läuft der Effekt entlang des Schriftzuges
+          und nicht als rechteckige Maske von links nach rechts.
+        -->
 
-          </div>
-
-          <!-- animierter Sprühpunkt -->
-          <div class="spray-point">
-            <span></span>
-          </div>
-
-        </div>
-
-
-        <!-- SKATEPLATZ BUTTON -->
-        <div class="skatepark-cta">
-
-          <div class="cta-line"></div>
-
-          <div class="cta-label">
-            SKATEPLATZ-BEWERTUNGEN
-          </div>
-
-          <p>
-            Skateplätze entdecken, bewerten und neue Spots finden.
-          </p>
-
-          <a
-            href="skateplaetze.html"
-            class="cta-button"
-          >
-            SKATEPLÄTZE ENTDECKEN
-            <span>→</span>
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================================
-         INTRO
-    ================================= -->
-
-    <section class="intro section">
-
-      <div class="section-inner">
-
-        <div class="eyebrow">
-          MOI-CY
-        </div>
-
-        <h1>
-          Skateboarding.
-          <br>
-          Creativity.
-          <span>Freedom.</span>
-        </h1>
-
-        <p class="intro-text">
-          Eine Plattform für Skateboarding, kreative Projekte,
-          Bilder, Videos und Skateplätze.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================================
-         BILDER
-    ================================= -->
-
-    <section class="bilder section">
-
-      <div class="section-inner">
-
-        <div class="section-top">
-
-          <div>
-            <div class="eyebrow">
-              VISUALS
-            </div>
-
-            <h2>
-              BILDER
-            </h2>
-          </div>
-
-          <a
-            href="bilder.html"
-            class="section-link"
-          >
-            ALLE BILDER →
-          </a>
-
-        </div>
-
-
-        <div class="bilder-grid">
-
-          <a href="bilder.html" class="image-card image-large">
-            <div class="image-placeholder">
-              <span>01</span>
-            </div>
-          </a>
-
-          <a href="bilder.html" class="image-card">
-            <div class="image-placeholder">
-              <span>02</span>
-            </div>
-          </a>
-
-          <a href="bilder.html" class="image-card">
-            <div class="image-placeholder">
-              <span>03</span>
-            </div>
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================================
-         VIDEOS
-    ================================= -->
-
-    <section class="videos section">
-
-      <div class="section-inner">
-
-        <div class="section-top">
-
-          <div>
-            <div class="eyebrow">
-              MOTION
-            </div>
-
-            <h2>
-              VIDEOS
-            </h2>
-          </div>
-
-          <a
-            href="videos.html"
-            class="section-link"
-          >
-            ALLE VIDEOS →
-          </a>
-
-        </div>
-
-
-        <a
-          href="videos.html"
-          class="video-card"
+        <svg
+          class="graffiti-logo"
+          viewBox="0 0 900 260"
+          role="img"
+          aria-label="Moi-cy"
         >
 
-          <div class="video-bg"></div>
+          <defs>
 
-          <div class="play">
-            <span>▶</span>
-          </div>
+            <filter
+              id="blueGlow"
+              x="-40%"
+              y="-40%"
+              width="180%"
+              height="180%"
+            >
+              <feGaussianBlur
+                stdDeviation="7"
+                result="blur"
+              />
 
-          <div class="video-title">
-            WATCH THE SESSION
-          </div>
+              <feMerge>
+                <feMergeNode in="blur"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+              </feMerge>
+            </filter>
 
+            <filter
+              id="softSpray"
+              x="-30%"
+              y="-30%"
+              width="160%"
+              height="160%"
+            >
+              <feGaussianBlur stdDeviation="2.5"></feGaussianBlur>
+            </filter>
+
+          </defs>
+
+
+          <!-- blauer Glow hinter der Zeichnung -->
+
+          <text
+            class="logo-glow-text"
+            x="450"
+            y="175"
+            text-anchor="middle"
+          >
+            Moi-cy
+          </text>
+
+
+          <!-- blaue Spray-Linie -->
+
+          <text
+            class="logo-spray-text"
+            x="450"
+            y="175"
+            text-anchor="middle"
+          >
+            Moi-cy
+          </text>
+
+
+          <!-- weißer eigentlicher Schriftzug -->
+
+          <text
+            class="logo-fill-text"
+            x="450"
+            y="175"
+            text-anchor="middle"
+          >
+            Moi-cy
+          </text>
+
+        </svg>
+
+
+        <!-- kleiner Spray-Punkt, der während des Zeichnens
+             über dem Logo auftaucht -->
+
+        <div class="spray-nozzle"></div>
+
+      </div>
+
+
+      <!-- SKATEPARK CTA -->
+
+      <div class="skatepark-cta">
+
+        <span class="cta-label">
+          SKATEPLATZ-BEWERTUNGEN
+        </span>
+
+        <p>
+          Skateplätze entdecken, ansehen und bewerten.
+        </p>
+
+        <a
+          href="skateplaetze.html"
+          class="skatepark-button"
+        >
+          <span>
+            SKATEPLÄTZE ENTDECKEN
+          </span>
+
+          <strong>
+            →
+          </strong>
         </a>
 
       </div>
 
-    </section>
+    </div>
+
+  </section>
 
 
-    <!-- ================================
-         ABOUT
-    ================================= -->
+  <!-- INTRO -->
 
-    <section class="about section">
+  <section class="intro" id="about">
 
-      <div class="section-inner about-inner">
+    <div class="section-number">
+      02
+    </div>
 
-        <div>
+    <div class="section-heading">
 
-          <div class="eyebrow">
-            ABOUT
-          </div>
+      <span class="small-label">
+        WHAT IS Moi-cy?
+      </span>
 
-          <h2>
-            MADE FOR
-            <br>
-            <span>SKATERS.</span>
-          </h2>
+      <h2>
+        Skateboarding<br>
+        ist mehr als<br>
+        <span class="blue-text">
+          nur ein Sport.
+        </span>
+      </h2>
 
-        </div>
+    </div>
 
-        <p class="about-text">
-          Moi-cy verbindet Skateboarding mit Kreativität.
-          Entdecke neue Spots, teile deine Sessions und
-          lass dich von der Skate-Szene inspirieren.
+    <div class="intro-text">
+
+      <p>
+        Es geht um Bewegung, Kreativität, Freiheit und darum,
+        immer wieder neue Wege zu finden.
+      </p>
+
+      <div class="handwritten">
+        just skate.
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ABOUT -->
+
+  <section class="about-section">
+
+    <div class="section-top">
+
+      <span class="small-label">
+        ABOUT Moi-cy
+      </span>
+
+      <span class="section-number">
+        03
+      </span>
+
+    </div>
+
+    <div class="about-layout">
+
+      <div class="about-title">
+
+        <span class="about-tag">
+          THE STORY
+        </span>
+
+        <h2>
+          FROM THE<br>
+
+          <span class="graffiti-word">
+            streets
+          </span>
+
+          <br>
+
+          TO EVERYWHERE.
+        </h2>
+
+      </div>
+
+      <div class="about-content">
+
+        <p>
+          Moi-cy entstand aus der Leidenschaft für Skateboarding
+          und dem Wunsch, diese Begeisterung mit anderen zu teilen.
+        </p>
+
+        <p>
+          Seit März 2023 geht es um Skateboarding,
+          kreative Projekte, neue Spots und die Menschen dahinter.
+        </p>
+
+        <p>
+          Street, Pool oder Bowl – am Ende geht es darum,
+          rauszugehen, zu skaten und neue Dinge zu entdecken.
         </p>
 
       </div>
 
-    </section>
+    </div>
+
+  </section>
 
 
-    <!-- ================================
-         CONTACT
-    ================================= -->
+  <!-- BILDER -->
 
-    <section class="contact section">
+  <section class="media-section">
 
-      <div class="section-inner">
+    <div class="section-top">
 
-        <div class="eyebrow">
-          GET IN TOUCH
+      <span class="small-label">
+        Moi-cy / BILDER
+      </span>
+
+      <span class="section-number">
+        04
+      </span>
+
+    </div>
+
+    <div class="media-heading">
+
+      <div>
+
+        <span class="small-label">
+          VISUAL ARCHIVE
+        </span>
+
+        <h2>
+          MOMENTS<span class="blue-text">.</span>
+        </h2>
+
+      </div>
+
+      <p>
+        Ein kleiner Einblick in die Welt von Moi-cy.
+      </p>
+
+    </div>
+
+    <a
+      href="bilder.html"
+      class="homepage-media-link"
+    >
+
+      <div class="image-grid">
+
+        <div class="image-box image-large">
+
+          <img
+            src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=1400&q=85"
+            alt="Skateboarder"
+          >
+
+          <div class="media-overlay">
+            <span>ALLE BILDER ANSEHEN</span>
+            <strong>↗</strong>
+          </div>
+
+        </div>
+
+        <div class="image-box">
+
+          <img
+            src="https://images.unsplash.com/photo-1572776685600-aca48f3fdb8b?auto=format&fit=crop&w=900&q=85"
+            alt="Skateboard"
+          >
+
+        </div>
+
+        <div class="image-box">
+
+          <img
+            src="https://images.unsplash.com/photo-1547447134-cd3f5c716030?auto=format&fit=crop&w=900&q=85"
+            alt="Skateboarder"
+          >
+
+        </div>
+
+      </div>
+
+    </a>
+
+    <div class="media-more">
+
+      <a
+        href="bilder.html"
+        class="outline-button"
+      >
+        ZUR BILDERGALERIE →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- VIDEOS -->
+
+  <section class="video-section">
+
+    <div class="section-top">
+
+      <span class="small-label">
+        Moi-cy / VIDEOS
+      </span>
+
+      <span class="section-number">
+        05
+      </span>
+
+    </div>
+
+    <div class="video-heading">
+
+      <div>
+
+        <span class="small-label">
+          WATCH
+        </span>
+
+        <h2>
+          ON THE<br>
+
+          <span class="blue-text">
+            MOVE.
+          </span>
+        </h2>
+
+      </div>
+
+      <p>
+        Skateclips, Sessions und mehr.
+      </p>
+
+    </div>
+
+    <a
+      href="videos.html"
+      class="homepage-video-link"
+    >
+
+      <div class="video-preview">
+
+        <div class="video-grid"></div>
+        <div class="video-dark-overlay"></div>
+
+        <div class="play-button">
+          <span>▶</span>
+        </div>
+
+        <span class="video-watch">
+          VIDEO ANSEHEN
+        </span>
+
+        <div class="video-preview-label">
+
+          <span>
+            Moi-cy
+          </span>
+
+          <strong>
+            SKATE SESSION #01
+          </strong>
+
+        </div>
+
+        <div class="video-corner">
+          00:42
+        </div>
+
+      </div>
+
+    </a>
+
+    <div class="media-more">
+
+      <a
+        href="videos.html"
+        class="outline-button"
+      >
+        ALLE VIDEOS →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- CURRENT -->
+
+  <section class="current-section">
+
+    <div class="section-top">
+
+      <span class="small-label">
+        CURRENT / Moi-cy
+      </span>
+
+      <span class="section-number">
+        06
+      </span>
+
+    </div>
+
+    <div class="current-layout">
+
+      <div class="current-image">
+
+        <div class="image-box">
+
+          <img
+            src="https://images.unsplash.com/photo-1536318431364-5cc7d6c8f6d1?auto=format&fit=crop&w=1200&q=85"
+            alt="Skateboarder"
+          >
+
+        </div>
+
+      </div>
+
+      <div class="current-content">
+
+        <div class="handwritten large-handwritten">
+          keep moving.
         </div>
 
         <h2>
-          LET'S
-          <span>CREATE.</span>
+          FIND<br>
+          YOUR<br>
+
+          <span class="blue-text">
+            LINE.
+          </span>
         </h2>
 
+        <p>
+          Moi-cy steht für den Moment, in dem man einfach
+          losfährt und schaut, wohin es geht.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTACT -->
+
+  <section
+    class="contact-section"
+    id="kontakt"
+  >
+
+    <div class="section-top">
+
+      <span class="small-label">
+        CONTACT
+      </span>
+
+      <span class="section-number">
+        07
+      </span>
+
+    </div>
+
+    <div class="contact-content">
+
+      <div class="contact-title">
+
+        <span class="graffiti-word contact-graffiti">
+          hello
+        </span>
+
+        <h2>
+          LET'S<br>
+          CONNECT<span class="blue-text">.</span>
+        </h2>
+
+      </div>
+
+      <div class="contact-info">
+
+        <p>
+          Du willst mit Moi-cy in Kontakt treten
+          oder hast eine Frage?
+        </p>
+
         <a
-          href="kontakt.html"
-          class="contact-link"
+          href="mailto:DEINE-EMAIL@BEISPIEL.DE"
+          class="email-link"
         >
-          KONTAKT →
+          DEINE-EMAIL@BEISPIEL.DE
         </a>
 
       </div>
 
-    </section>
-
-  </main>
-
-
-  <!-- ================================
-       FOOTER
-  ================================= -->
-
-  <footer class="footer">
-
-    <div class="footer-logo">
-      Moi-cy
     </div>
 
-    <div>
-      © 2026 Moi-cy
-    </div>
+  </section>
 
-  </footer>
+</main>
 
 
-  <script src="script.js"></script>
+<!-- FOOTER -->
+
+<footer class="footer">
+
+  <div class="footer-logo">
+
+    <span class="footer-mark">
+      M
+    </span>
+
+    Moi-cy
+
+  </div>
+
+  <div class="footer-center">
+    SKATE / CREATE / EXPLORE
+  </div>
+
+  <div class="footer-copy">
+    © 2026 Moi-cy
+  </div>
+
+</footer>
+
+
+<script src="script.js"></script>
 
 </body>
 </html>
