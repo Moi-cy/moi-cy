@@ -27,14 +27,14 @@ document.addEventListener(
         "click",
         () => {
 
-          const isOpen =
+          const open =
             mobileMenu.classList.toggle(
               "active"
             );
 
           menuButton.setAttribute(
             "aria-expanded",
-            String(isOpen)
+            String(open)
           );
 
         }
@@ -70,7 +70,7 @@ document.addEventListener(
 
 
     /* =========================
-       GRAFFITI SPRAY
+       SPRAY LOGO
     ========================= */
 
     const logo =
@@ -78,19 +78,9 @@ document.addEventListener(
         "graffitiLogo"
       );
 
-    const svg =
-      logo?.querySelector(
-        ".graffiti-svg"
-      );
-
-    const text =
-      document.getElementById(
-        "logoText"
-      );
-
-    const maskLetters =
-      document.getElementById(
-        "maskLetters"
+    const letters =
+      document.querySelectorAll(
+        ".graffiti-letter"
       );
 
     const sprayHead =
@@ -98,264 +88,129 @@ document.addEventListener(
         "sprayHead"
       );
 
-    const paintDrops =
+    const splashes =
       document.querySelectorAll(
-        ".paint-drop"
+        ".paint-splash"
       );
 
 
     if (
       !logo ||
-      !svg ||
-      !text ||
-      !maskLetters ||
+      !letters.length ||
       !sprayHead
     ) {
+
       return;
+
     }
 
 
 
     /*
-      WICHTIG:
+      Die Buchstaben werden bewusst
+      einzeln angesprüht.
 
-      Wir lesen jetzt die tatsächliche
-      Breite des Textes aus dem Browser.
-
-      Dadurch liegen die Spraypunkte
-      wirklich auf "Moi-cy" und nicht
-      irgendwo daneben.
+      Dadurch gibt es keine Maske,
+      keinen SVG-Fehler und keinen
+      Links-nach-Rechts-Wipe.
     */
 
 
-    const letters =
-      Array.from(
-        "Moi-cy"
-      );
-
-
-    const textLength =
-      text.getComputedTextLength();
-
-
-    const startX =
-      500 -
-      textLength / 2;
+    const totalLetters =
+      letters.length;
 
 
     /*
-      Abstand der einzelnen Buchstaben.
+      Geschwindigkeit:
+
+      2,7 Sekunden für das komplette
+      Logo.
     */
-
-    let currentX =
-      startX;
-
-
-
-    /*
-      Jeder Buchstabe bekommt eine
-      eigene Spraymaske.
-
-      Die Maske wächst vom Zentrum
-      des jeweiligen Buchstabens aus.
-
-      Dadurch entsteht nicht mehr
-      der langweilige Links-nach-Rechts-
-      Effekt.
-    */
-
-    const letterData = [];
-
-
-    letters.forEach(
-      (
-        letter,
-        index
-      ) => {
-
-
-        const temp =
-          document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-          );
-
-
-        temp.textContent =
-          letter;
-
-
-        temp.setAttribute(
-          "x",
-          String(currentX)
-        );
-
-
-        temp.setAttribute(
-          "y",
-          "205"
-        );
-
-
-        temp.setAttribute(
-          "class",
-          "graffiti-text"
-        );
-
-
-        temp.setAttribute(
-          "font-size",
-          "190"
-        );
-
-
-        temp.setAttribute(
-          "font-family",
-          "Rubik Dirt"
-        );
-
-
-        temp.setAttribute(
-          "font-weight",
-          "900"
-        );
-
-
-        temp.setAttribute(
-          "fill",
-          "white"
-        );
-
-
-        /*
-          Damit wir die exakte Breite
-          dieses Buchstabens bekommen.
-        */
-
-        svg.appendChild(
-          temp
-        );
-
-
-        const width =
-          temp.getComputedTextLength();
-
-
-        svg.removeChild(
-          temp
-        );
-
-
-        const centerX =
-          currentX +
-          width / 2;
-
-
-        letterData.push(
-          {
-            letter,
-            x: centerX,
-            y: 155,
-            width
-          }
-        );
-
-
-        currentX +=
-          width;
-
-      }
-    );
-
-
-
-    /*
-      Für jeden Buchstaben wird eine
-      weiche Sprayfläche erzeugt.
-    */
-
-    letterData.forEach(
-      (
-        item,
-        index
-      ) => {
-
-        const group =
-          document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "g"
-          );
-
-
-        const circle =
-          document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "circle"
-          );
-
-
-        circle.setAttribute(
-          "cx",
-          String(item.x)
-        );
-
-
-        circle.setAttribute(
-          "cy",
-          String(item.y)
-        );
-
-
-        circle.setAttribute(
-          "r",
-          "0"
-        );
-
-
-        circle.setAttribute(
-          "fill",
-          "white"
-        );
-
-
-        group.appendChild(
-          circle
-        );
-
-
-        maskLetters.appendChild(
-          group
-        );
-
-
-        letterData[
-          index
-        ].circle =
-          circle;
-
-      }
-    );
-
-
-
-    /*
-      Das ursprüngliche Text-Element
-      bleibt für die eigentliche Schrift
-      zuständig.
-
-      Die Kreise bestimmen nur,
-      welche Bereiche bereits sichtbar
-      sind.
-    */
-
 
     const duration =
-      2800;
+      2700;
 
 
-    const startTime =
-      performance.now();
+    /*
+      Der Mittelpunkt jedes
+      Buchstabens wird automatisch
+      aus dem echten DOM berechnet.
+    */
 
+    function getLetterCenter(
+      letter
+    ) {
+
+      const logoRect =
+        logo.getBoundingClientRect();
+
+
+      const rect =
+        letter.getBoundingClientRect();
+
+
+      return {
+
+        x:
+          rect.left -
+          logoRect.left +
+          rect.width / 2,
+
+        y:
+          rect.top -
+          logoRect.top +
+          rect.height / 2
+
+      };
+
+    }
+
+
+
+    /*
+      Kleine zufällige Reihenfolge,
+      damit es nicht wie eine simple
+      Schreibanimation wirkt.
+
+      M -> o -> i -> -
+      -> c -> y bleibt grundsätzlich
+      die Leserichtung, aber die
+      Übergänge überschneiden sich.
+    */
+
+    const sequence = [
+
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+
+    ];
+
+
+
+    /*
+      Alle Buchstaben zuerst
+      unsichtbar.
+    */
+
+    letters.forEach(
+      (letter) => {
+
+        letter.classList.remove(
+          "sprayed"
+        );
+
+      }
+    );
+
+
+
+    /*
+      Spraykopf aktivieren.
+    */
 
     sprayHead.classList.add(
       "active"
@@ -363,31 +218,8 @@ document.addEventListener(
 
 
 
-    /*
-      Kleine Farbspritzer werden
-      nacheinander ausgelöst.
-    */
-
-    paintDrops.forEach(
-      (
-        drop,
-        index
-      ) => {
-
-        window.setTimeout(
-          () => {
-
-            drop.classList.add(
-              "active"
-            );
-
-          },
-          180 +
-          index * 145
-        );
-
-      }
-    );
+    const startTime =
+      performance.now();
 
 
 
@@ -416,7 +248,7 @@ document.addEventListener(
 
 
       /*
-        Sehr weiches Timing.
+        Weiches Timing.
       */
 
       const eased =
@@ -429,135 +261,151 @@ document.addEventListener(
         );
 
 
+
       /*
-        Aktueller Buchstabe.
+        Position des Spraykopfes.
+
+        Er bewegt sich über die
+        tatsächlichen Buchstaben,
+        nicht über eine künstliche
+        Gesamtbreite.
       */
 
-      const total =
-        letterData.length;
-
-
-      const floatingIndex =
+      const floating =
         eased *
-        total;
+        sequence.length;
 
 
       const currentIndex =
         Math.min(
-          total - 1,
+          sequence.length - 1,
           Math.floor(
-            floatingIndex
+            floating
           )
         );
 
 
-      const current =
-        letterData[
-          currentIndex
+      const currentLetter =
+        letters[
+          sequence[
+            currentIndex
+          ]
         ];
 
 
-      /*
-        Der Sprühkopf sitzt direkt
-        am aktuellen Buchstaben.
-      */
+      if (
+        currentLetter
+      ) {
 
-      if (current) {
-
-        const logoRect =
-          logo.getBoundingClientRect();
-
-
-        const x =
-          (
-            current.x /
-            1000
-          ) *
-          logoRect.width;
-
-
-        const y =
-          (
-            current.y /
-            300
-          ) *
-          logoRect.height;
+        const position =
+          getLetterCenter(
+            currentLetter
+          );
 
 
         sprayHead.style.left =
-          `${x}px`;
+          `${position.x}px`;
 
 
         sprayHead.style.top =
-          `${y}px`;
+          `${position.y}px`;
 
       }
 
 
 
       /*
-        Jeder Buchstabe wird mit
-        einer runden Spraybewegung
-        aufgebaut.
+        Buchstaben erscheinen
+        nacheinander, aber mit
+        leichter Überlappung.
+
+        So wirkt es wie Sprühen
+        statt wie Tippen.
       */
 
-      letterData.forEach(
+      letters.forEach(
         (
-          item,
+          letter,
           index
         ) => {
 
-          const begin =
-            index /
-            total;
+          const start =
+            (
+              index /
+              totalLetters
+            ) *
+            0.78;
 
 
           const end =
-            (
-              index + 1
-            ) /
-            total;
+            start +
+            0.24;
 
 
-          let localProgress =
+          let local =
             (
               eased -
-              begin
+              start
             ) /
             (
               end -
-              begin
+              start
             );
 
 
-          localProgress =
+          local =
             Math.max(
               0,
               Math.min(
                 1,
-                localProgress
+                local
               )
             );
 
 
-          /*
-            Weiches Wachstum der
-            Sprayfläche.
-          */
+          if (
+            local > 0
+          ) {
 
-          const radius =
-            localProgress *
-            (
-              item.width *
-              0.72 +
-              90
+            letter.classList.add(
+              "sprayed"
             );
 
+          }
 
-          item.circle.setAttribute(
-            "r",
-            String(radius)
-          );
+        }
+      );
+
+
+
+      /*
+        Kleine Spritzer werden
+        entlang der Animation
+        eingeblendet.
+      */
+
+      splashes.forEach(
+        (
+          splash,
+          index
+        ) => {
+
+          const threshold =
+            0.12 +
+            index *
+            0.13;
+
+
+          if (
+            progress >
+            threshold
+          ) {
+
+            splash.classList.add(
+              "active"
+            );
+
+          }
 
         }
       );
@@ -576,19 +424,17 @@ document.addEventListener(
       } else {
 
         /*
-          Sicherheit:
-          am Ende ist das komplette
-          Logo sichtbar.
+          Sicherstellen, dass
+          am Ende wirklich
+          "Moi-cy" vollständig
+          sichtbar ist.
         */
 
-        letterData.forEach(
-          (
-            item
-          ) => {
+        letters.forEach(
+          (letter) => {
 
-            item.circle.setAttribute(
-              "r",
-              "500"
+            letter.classList.add(
+              "sprayed"
             );
 
           }
@@ -596,8 +442,8 @@ document.addEventListener(
 
 
         /*
-          Spraykopf noch kurz stehen
-          lassen und dann verschwinden.
+          Spraywolke noch einen
+          kurzen Moment stehen lassen.
         */
 
         window.setTimeout(
@@ -608,7 +454,7 @@ document.addEventListener(
             );
 
           },
-          220
+          350
         );
 
       }
