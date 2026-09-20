@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Bilder – Moi-cy</title>
+  <title data-i18n-title>
+    Bilder – Moi-cy
+  </title>
 
   <meta
     name="description"
+    data-i18n-description
     content="Bilder von Moi-cy – Skateboarding, Sessions und Skateparks."
   >
 
@@ -19,7 +23,11 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=bilder1">
+  <link
+    rel="stylesheet"
+    href="style.css?v=bilder1"
+  >
+
 
   <style>
 
@@ -73,13 +81,78 @@
 
       color: #f2f2f2;
 
-      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-size:
+        clamp(3.5rem, 8vw, 7rem);
 
       line-height: 0.9;
 
       letter-spacing: -0.07em;
 
       font-weight: 900;
+    }
+
+
+    /* =========================================
+       SPRACHUMSCHALTER
+    ========================================= */
+
+    .language-switcher {
+      display: flex;
+
+      align-items: center;
+
+      gap: 5px;
+
+      margin-left: 20px;
+    }
+
+
+    .language-switcher button {
+      padding:
+        7px
+        8px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.14);
+
+      background:
+        transparent;
+
+      color:
+        rgba(255, 255, 255, 0.5);
+
+      font-family:
+        Inter,
+        sans-serif;
+
+      font-size:
+        0.62rem;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        0.08em;
+
+      cursor:
+        pointer;
+
+      transition:
+        0.25s ease;
+    }
+
+
+    .language-switcher button:hover,
+    .language-switcher button.active {
+      color:
+        #050505;
+
+      background:
+        #00a8ff;
+
+      border-color:
+        #00a8ff;
     }
 
 
@@ -150,12 +223,14 @@
     .bild:hover {
       border-color: #00a8ff;
 
-      transform: translateY(-3px);
+      transform:
+        translateY(-3px);
     }
 
 
     .bild:hover img {
-      transform: scale(1.06);
+      transform:
+        scale(1.06);
 
       filter:
         grayscale(0%)
@@ -176,15 +251,20 @@
 
       z-index: 2;
 
-      color: rgba(255, 255, 255, 0.55);
+      color:
+        rgba(255, 255, 255, 0.55);
 
-      font-size: 0.55rem;
+      font-size:
+        0.55rem;
 
-      font-weight: 700;
+      font-weight:
+        700;
 
-      letter-spacing: 0.15em;
+      letter-spacing:
+        0.15em;
 
-      pointer-events: none;
+      pointer-events:
+        none;
     }
 
 
@@ -209,7 +289,8 @@
       background:
         rgba(0, 0, 0, 0.94);
 
-      backdrop-filter: blur(10px);
+      backdrop-filter:
+        blur(10px);
     }
 
 
@@ -232,7 +313,8 @@
         0 0 60px
         rgba(0, 0, 0, 0.8);
 
-      user-select: none;
+      user-select:
+        none;
     }
 
 
@@ -258,15 +340,20 @@
         1px solid
         rgba(255, 255, 255, 0.18);
 
-      background: rgba(5, 5, 5, 0.7);
+      background:
+        rgba(5, 5, 5, 0.7);
 
-      color: #f2f2f2;
+      color:
+        #f2f2f2;
 
-      font-size: 1.6rem;
+      font-size:
+        1.6rem;
 
-      font-weight: 300;
+      font-weight:
+        300;
 
-      cursor: pointer;
+      cursor:
+        pointer;
 
       transition:
         color 0.25s ease,
@@ -276,11 +363,14 @@
 
 
     .lightbox-close:hover {
-      color: #050505;
+      color:
+        #050505;
 
-      border-color: #00a8ff;
+      border-color:
+        #00a8ff;
 
-      background: #00a8ff;
+      background:
+        #00a8ff;
     }
 
 
@@ -293,7 +383,8 @@
 
       top: 50%;
 
-      transform: translateY(-50%);
+      transform:
+        translateY(-50%);
 
       width: 52px;
       height: 52px;
@@ -310,11 +401,14 @@
       background:
         rgba(5, 5, 5, 0.7);
 
-      color: #f2f2f2;
+      color:
+        #f2f2f2;
 
-      font-size: 1.4rem;
+      font-size:
+        1.4rem;
 
-      cursor: pointer;
+      cursor:
+        pointer;
 
       transition:
         color 0.25s ease,
@@ -325,11 +419,14 @@
 
 
     .lightbox-arrow:hover {
-      color: #050505;
+      color:
+        #050505;
 
-      border-color: #00a8ff;
+      border-color:
+        #00a8ff;
 
-      background: #00a8ff;
+      background:
+        #00a8ff;
     }
 
 
@@ -351,18 +448,22 @@
       position: absolute;
 
       left: 50%;
-
       bottom: 25px;
 
-      transform: translateX(-50%);
+      transform:
+        translateX(-50%);
 
-      color: #666;
+      color:
+        #666;
 
-      font-size: 0.6rem;
+      font-size:
+        0.6rem;
 
-      font-weight: 700;
+      font-weight:
+        700;
 
-      letter-spacing: 0.16em;
+      letter-spacing:
+        0.16em;
     }
 
 
@@ -391,7 +492,8 @@
 
 
       .bilder-header {
-        margin-bottom: 45px;
+        margin-bottom:
+          45px;
       }
 
 
@@ -402,60 +504,86 @@
 
 
       .bilder-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
 
-        gap: 18px;
+        gap:
+          18px;
       }
 
 
       .bild:hover {
-        transform: none;
+        transform:
+          none;
       }
 
 
       .bild:hover img {
-        transform: none;
+        transform:
+          none;
       }
 
 
       .lightbox {
-        padding: 20px;
+        padding:
+          20px;
       }
 
 
       .lightbox-image {
-        max-width: 94vw;
-        max-height: 78vh;
+        max-width:
+          94vw;
+
+        max-height:
+          78vh;
       }
 
 
       .lightbox-close {
-        top: 15px;
-        right: 15px;
+        top:
+          15px;
 
-        width: 42px;
-        height: 42px;
+        right:
+          15px;
+
+        width:
+          42px;
+
+        height:
+          42px;
       }
 
 
       .lightbox-arrow {
-        width: 44px;
-        height: 44px;
+        width:
+          44px;
+
+        height:
+          44px;
       }
 
 
       .lightbox-prev {
-        left: 12px;
+        left:
+          12px;
       }
 
 
       .lightbox-next {
-        right: 12px;
+        right:
+          12px;
       }
 
 
       .lightbox-counter {
-        bottom: 18px;
+        bottom:
+          18px;
+      }
+
+
+      .language-switcher {
+        margin-left:
+          10px;
       }
 
     }
@@ -474,7 +602,11 @@
 
 <header class="header">
 
-  <a href="index.html" class="logo">
+
+  <a
+    href="index.html"
+    class="logo"
+  >
 
     <span class="logo-mark">
       M
@@ -489,31 +621,92 @@
 
   <nav class="navigation">
 
-    <a href="index.html">
+    <a
+      href="index.html"
+      data-i18n="nav_home"
+    >
       HOME
     </a>
 
-    <a href="bilder.html">
+
+    <a
+      href="bilder.html"
+      data-i18n="nav_images"
+    >
       BILDER
     </a>
 
-    <a href="videos.html">
+
+    <a
+      href="videos.html"
+      data-i18n="nav_videos"
+    >
       VIDEOS
     </a>
 
-    <a href="skateplaetze.html">
+
+    <a
+      href="skateplaetze.html"
+      data-i18n="nav_skateparks"
+    >
       SKATEPLÄTZE
     </a>
 
-    <a href="kontakt.html">
+
+    <a
+      href="kontakt.html"
+      data-i18n="nav_contact"
+    >
       KONTAKT
     </a>
 
-    <a href="shop.html">
+
+    <a
+      href="shop.html"
+      data-i18n="nav_shop"
+    >
       SHOP
     </a>
 
   </nav>
+
+
+  <!-- =======================================
+       SPRACHE
+  ======================================== -->
+
+  <div
+    class="language-switcher"
+    aria-label="Sprache"
+  >
+
+    <button
+      type="button"
+      data-language="de"
+      aria-label="Deutsch"
+    >
+      DE
+    </button>
+
+
+    <button
+      type="button"
+      data-language="en"
+      aria-label="English"
+    >
+      EN
+    </button>
+
+
+    <button
+      type="button"
+      data-language="fr"
+      aria-label="Français"
+    >
+      FR
+    </button>
+
+  </div>
 
 
   <button
@@ -541,20 +734,24 @@
   <section class="bilder-page">
 
 
-    <!-- ÜBERSCHRIFT -->
-
     <div class="bilder-header">
 
-      <span class="bilder-label">
+      <span
+        class="bilder-label"
+        data-i18n="images_label"
+      >
         MOI-CY / BILDER
       </span>
 
-      <h1 class="bilder-title">
+
+      <h1
+        class="bilder-title"
+        data-i18n="images_title"
+      >
         Bilder
       </h1>
 
     </div>
-
 
 
     <!-- =====================================
@@ -574,6 +771,7 @@
         <img
           src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+01"
           alt="Moi-cy Bild 01"
+          data-i18n-alt="image_01_alt"
         >
 
         <span class="bild-number">
@@ -581,7 +779,6 @@
         </span>
 
       </div>
-
 
 
       <!-- BILD 02 -->
@@ -594,6 +791,7 @@
         <img
           src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+02"
           alt="Moi-cy Bild 02"
+          data-i18n-alt="image_02_alt"
         >
 
         <span class="bild-number">
@@ -601,7 +799,6 @@
         </span>
 
       </div>
-
 
 
       <!-- BILD 03 -->
@@ -614,6 +811,7 @@
         <img
           src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+03"
           alt="Moi-cy Bild 03"
+          data-i18n-alt="image_03_alt"
         >
 
         <span class="bild-number">
@@ -621,7 +819,6 @@
         </span>
 
       </div>
-
 
 
       <!-- BILD 04 -->
@@ -634,6 +831,7 @@
         <img
           src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+04"
           alt="Moi-cy Bild 04"
+          data-i18n-alt="image_04_alt"
         >
 
         <span class="bild-number">
@@ -641,7 +839,6 @@
         </span>
 
       </div>
-
 
 
       <!-- BILD 05 -->
@@ -654,6 +851,7 @@
         <img
           src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+05"
           alt="Moi-cy Bild 05"
+          data-i18n-alt="image_05_alt"
         >
 
         <span class="bild-number">
@@ -661,7 +859,6 @@
         </span>
 
       </div>
-
 
 
       <!-- BILD 06 -->
@@ -674,6 +871,7 @@
         <img
           src="https://placehold.co/1200x900/111111/00A8FF?text=MOI-CY+06"
           alt="Moi-cy Bild 06"
+          data-i18n-alt="image_06_alt"
         >
 
         <span class="bild-number">
@@ -702,29 +900,25 @@
 >
 
 
-  <!-- SCHLIESSEN -->
-
   <button
     class="lightbox-close"
     id="lightboxClose"
     aria-label="Bild schließen"
+    data-i18n-aria="lightbox_close"
   >
     ×
   </button>
 
 
-  <!-- VORHERIGES BILD -->
-
   <button
     class="lightbox-arrow lightbox-prev"
     id="lightboxPrev"
     aria-label="Vorheriges Bild"
+    data-i18n-aria="lightbox_previous"
   >
     ←
   </button>
 
-
-  <!-- BILD -->
 
   <img
     class="lightbox-image"
@@ -734,18 +928,15 @@
   >
 
 
-  <!-- NÄCHSTES BILD -->
-
   <button
     class="lightbox-arrow lightbox-next"
     id="lightboxNext"
     aria-label="Nächstes Bild"
+    data-i18n-aria="lightbox_next"
   >
     →
   </button>
 
-
-  <!-- ZÄHLER -->
 
   <div
     class="lightbox-counter"
@@ -764,6 +955,7 @@
 ========================================= -->
 
 <footer class="footer">
+
 
   <div class="footer-logo">
 
@@ -805,20 +997,26 @@
   const bildElements =
     document.querySelectorAll(".bild");
 
+
   const lightbox =
     document.getElementById("lightbox");
+
 
   const lightboxImage =
     document.getElementById("lightboxImage");
 
+
   const lightboxClose =
     document.getElementById("lightboxClose");
+
 
   const lightboxPrev =
     document.getElementById("lightboxPrev");
 
+
   const lightboxNext =
     document.getElementById("lightboxNext");
+
 
   const lightboxCounter =
     document.getElementById("lightboxCounter");
@@ -844,7 +1042,8 @@
       "false"
     );
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+      "hidden";
 
   }
 
@@ -859,14 +1058,25 @@
       bildElements[currentImage]
         .querySelector("img");
 
-    lightboxImage.src = image.src;
 
-    lightboxImage.alt = image.alt;
+    lightboxImage.src =
+      image.src;
+
+
+    lightboxImage.alt =
+      image.alt;
+
 
     lightboxCounter.textContent =
-      String(currentImage + 1).padStart(2, "0")
-      + " / "
-      + String(bildElements.length).padStart(2, "0");
+      String(
+        currentImage + 1
+      ).padStart(2, "0")
+      +
+      " / "
+      +
+      String(
+        bildElements.length
+      ).padStart(2, "0");
 
   }
 
@@ -877,14 +1087,19 @@
 
   function closeLightbox() {
 
-    lightbox.classList.remove("active");
+    lightbox.classList.remove(
+      "active"
+    );
+
 
     lightbox.setAttribute(
       "aria-hidden",
       "true"
     );
 
-    document.body.style.overflow = "";
+
+    document.body.style.overflow =
+      "";
 
   }
 
@@ -897,12 +1112,14 @@
 
     currentImage--;
 
+
     if (currentImage < 0) {
 
       currentImage =
         bildElements.length - 1;
 
     }
+
 
     updateLightbox();
 
@@ -917,6 +1134,7 @@
 
     currentImage++;
 
+
     if (
       currentImage >=
       bildElements.length
@@ -925,6 +1143,7 @@
       currentImage = 0;
 
     }
+
 
     updateLightbox();
 
@@ -1012,21 +1231,27 @@
       }
 
 
-      if (event.key === "Escape") {
+      if (
+        event.key === "Escape"
+      ) {
 
         closeLightbox();
 
       }
 
 
-      if (event.key === "ArrowLeft") {
+      if (
+        event.key === "ArrowLeft"
+      ) {
 
         previousImage();
 
       }
 
 
-      if (event.key === "ArrowRight") {
+      if (
+        event.key === "ArrowRight"
+      ) {
 
         nextImage();
 
@@ -1036,7 +1261,6 @@
   );
 
 </script>
-
 
 </body>
 </html>
