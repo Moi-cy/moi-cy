@@ -20,34 +20,32 @@
     rel="stylesheet"
   >
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-
   <!-- =========================
-       NAVIGATION
+       HEADER
   ========================== -->
 
   <header class="header">
 
-    <a href="#home" class="logo">
+    <a href="index.html" class="logo">
       Moi-cy
     </a>
 
     <nav class="navigation">
 
-      <a href="#home">HOME</a>
-      <a href="#bilder">BILDER</a>
-      <a href="#videos">VIDEOS</a>
+      <a href="index.html">HOME</a>
+      <a href="bilder.html">BILDER</a>
+      <a href="videos.html">VIDEOS</a>
       <a href="#about">ABOUT</a>
       <a href="#kontakt">KONTAKT</a>
 
     </nav>
 
-    <button class="menu-button" id="menuButton">
+    <button class="menu-button" id="menuButton" aria-label="Menü öffnen">
       <span></span>
       <span></span>
       <span></span>
@@ -56,12 +54,16 @@
   </header>
 
 
-
   <!-- =========================
-       HERO
+       MAIN
   ========================== -->
 
   <main>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
 
     <section class="hero" id="home">
 
@@ -113,6 +115,8 @@
 
       </div>
 
+
+      <!-- Hero Visual -->
 
       <div class="hero-visual">
 
@@ -217,10 +221,13 @@
 
           <h2>
             FROM THE<br>
+
             <span class="graffiti-word small-graffiti">
               streets
             </span>
+
             <br>
+
             TO EVERYWHERE.
           </h2>
 
@@ -255,7 +262,7 @@
 
 
     <!-- =========================
-         BILDER
+         BILDER VORSCHAU
     ========================== -->
 
     <section class="media-section" id="bilder">
@@ -275,31 +282,66 @@
 
       <div class="media-heading">
 
-        <h2>
-          MOMENTS<span class="blue-text">.</span>
-        </h2>
+        <div>
+
+          <h2>
+            MOMENTS<span class="blue-text">.</span>
+          </h2>
+
+        </div>
 
         <p>
-          Ein paar Eindrücke aus der Welt von
+          Ein kleiner Einblick in die Welt von
           <span class="no-break">Moi-cy</span>.
         </p>
 
       </div>
 
 
-      <div class="image-grid">
+      <!--
+        DIE GANZE BILDER-FLÄCHE IST KLICKBAR
+        Später kommt hier ein echtes Bild rein.
+      -->
 
-        <div class="image-box image-large">
-          <span>IMAGE 01</span>
+      <a href="bilder.html" class="homepage-media-link">
+
+        <div class="image-grid">
+
+          <div class="image-box image-large">
+
+            <span>VORSCHAUBILD</span>
+
+            <div class="media-overlay">
+              <span>ALLE BILDER ANSEHEN</span>
+              <strong>→</strong>
+            </div>
+
+          </div>
+
+
+          <div class="image-box">
+
+            <span>IMAGE 02</span>
+
+          </div>
+
+
+          <div class="image-box">
+
+            <span>IMAGE 03</span>
+
+          </div>
+
         </div>
 
-        <div class="image-box">
-          <span>IMAGE 02</span>
-        </div>
+      </a>
 
-        <div class="image-box">
-          <span>IMAGE 03</span>
-        </div>
+
+      <div class="media-more">
+
+        <a href="bilder.html" class="outline-button">
+          ZUR BILDERGALERIE →
+        </a>
 
       </div>
 
@@ -308,7 +350,7 @@
 
 
     <!-- =========================
-         VIDEOS
+         VIDEOS VORSCHAU
     ========================== -->
 
     <section class="video-section" id="videos">
@@ -348,15 +390,38 @@
       </div>
 
 
-      <div class="video-placeholder">
+      <!--
+        VIDEO VORSCHAU
+        Klick führt später zur kompletten VIDEOS-SEITE.
+      -->
 
-        <div class="play-button">
-          ▶
+      <a href="videos.html" class="homepage-video-link">
+
+        <div class="video-placeholder">
+
+          <div class="play-button">
+            ▶
+          </div>
+
+          <span>
+            VIDEO ANSEHEN
+          </span>
+
+          <div class="video-preview-label">
+            <span>MOI-CY</span>
+            <strong>SKATE SESSION #01</strong>
+          </div>
+
         </div>
 
-        <span>
-          YOUR VIDEO
-        </span>
+      </a>
+
+
+      <div class="media-more">
+
+        <a href="videos.html" class="outline-button">
+          ALLE VIDEOS →
+        </a>
 
       </div>
 
@@ -386,9 +451,11 @@
       <div class="current-layout">
 
         <div class="current-image">
+
           <div class="image-box">
             <span>CURRENT IMAGE</span>
           </div>
+
         </div>
 
 
@@ -498,8 +565,6 @@
   </footer>
 
 
-
-  <!-- JAVASCRIPT -->
   <script src="script.js"></script>
 
 </body>
