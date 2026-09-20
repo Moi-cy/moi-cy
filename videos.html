@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Videos – Moi-cy</title>
+  <title data-i18n-title>
+    Videos – Moi-cy
+  </title>
 
   <meta
     name="description"
+    data-i18n-description
     content="Videos von Moi-cy – Skate Sessions, Clips und mehr."
   >
 
@@ -19,7 +23,10 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=videos1">
+  <link
+    rel="stylesheet"
+    href="style.css?v=videos1"
+  >
 
   <style>
 
@@ -30,7 +37,12 @@
 
     .videos-page {
       min-height: 100vh;
-      padding: 150px 7vw 110px;
+
+      padding:
+        150px
+        7vw
+        110px;
+
       background: #050505;
     }
 
@@ -41,7 +53,11 @@
 
     .videos-header {
       max-width: 1200px;
-      margin: 0 auto 70px;
+
+      margin:
+        0
+        auto
+        70px;
     }
 
 
@@ -64,7 +80,8 @@
 
       color: #f2f2f2;
 
-      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-size:
+        clamp(3.5rem, 8vw, 7rem);
 
       line-height: 0.9;
 
@@ -75,16 +92,82 @@
 
 
     /* =========================================
+       SPRACHUMSCHALTER
+    ========================================= */
+
+    .language-switcher {
+      display: flex;
+
+      align-items: center;
+
+      gap: 5px;
+
+      margin-left: 20px;
+    }
+
+
+    .language-switcher button {
+      padding:
+        7px
+        8px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.14);
+
+      background:
+        transparent;
+
+      color:
+        rgba(255, 255, 255, 0.5);
+
+      font-family:
+        Inter,
+        sans-serif;
+
+      font-size:
+        0.62rem;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        0.08em;
+
+      cursor:
+        pointer;
+
+      transition:
+        0.25s ease;
+    }
+
+
+    .language-switcher button:hover,
+    .language-switcher button.active {
+      color:
+        #050505;
+
+      background:
+        #00a8ff;
+
+      border-color:
+        #00a8ff;
+    }
+
+
+    /* =========================================
        VIDEO GRID
     ========================================= */
 
     .videos-grid {
       max-width: 1200px;
+
       margin: 0 auto;
 
       display: grid;
 
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns:
+        repeat(3, 1fr);
 
       gap: 28px;
     }
@@ -108,7 +191,9 @@
 
       background: #0b0b0b;
 
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.09);
 
       overflow: hidden;
 
@@ -121,7 +206,8 @@
     .video-frame:hover {
       border-color: #00a8ff;
 
-      transform: translateY(-3px);
+      transform:
+        translateY(-3px);
     }
 
 
@@ -159,7 +245,8 @@
     @media (max-width: 900px) {
 
       .videos-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
     }
@@ -176,24 +263,35 @@
 
 
       .videos-header {
-        margin-bottom: 45px;
+        margin-bottom:
+          45px;
       }
 
 
       .videos-title {
-        font-size: clamp(3.5rem, 17vw, 6rem);
+        font-size:
+          clamp(3.5rem, 17vw, 6rem);
       }
 
 
       .videos-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
 
-        gap: 38px;
+        gap:
+          38px;
       }
 
 
       .video-frame:hover {
-        transform: none;
+        transform:
+          none;
+      }
+
+
+      .language-switcher {
+        margin-left:
+          10px;
       }
 
     }
@@ -212,7 +310,11 @@
 
 <header class="header">
 
-  <a href="index.html" class="logo">
+
+  <a
+    href="index.html"
+    class="logo"
+  >
 
     <span class="logo-mark">
       M
@@ -227,31 +329,94 @@
 
   <nav class="navigation">
 
-    <a href="index.html">
+
+    <a
+      href="index.html"
+      data-i18n="nav_home"
+    >
       HOME
     </a>
 
-    <a href="bilder.html">
+
+    <a
+      href="bilder.html"
+      data-i18n="nav_images"
+    >
       BILDER
     </a>
 
-    <a href="videos.html">
+
+    <a
+      href="videos.html"
+      data-i18n="nav_videos"
+    >
       VIDEOS
     </a>
 
-    <a href="skateplaetze.html">
+
+    <a
+      href="skateplaetze.html"
+      data-i18n="nav_skateparks"
+    >
       SKATEPLÄTZE
     </a>
 
-    <a href="kontakt.html">
+
+    <a
+      href="kontakt.html"
+      data-i18n="nav_contact"
+    >
       KONTAKT
     </a>
 
-    <a href="shop.html">
+
+    <a
+      href="shop.html"
+      data-i18n="nav_shop"
+    >
       SHOP
     </a>
 
+
   </nav>
+
+
+  <!-- =======================================
+       SPRACHE
+  ======================================== -->
+
+  <div
+    class="language-switcher"
+    aria-label="Sprache"
+  >
+
+    <button
+      type="button"
+      data-language="de"
+      aria-label="Deutsch"
+    >
+      DE
+    </button>
+
+
+    <button
+      type="button"
+      data-language="en"
+      aria-label="English"
+    >
+      EN
+    </button>
+
+
+    <button
+      type="button"
+      data-language="fr"
+      aria-label="Français"
+    >
+      FR
+    </button>
+
+  </div>
 
 
   <button
@@ -265,6 +430,7 @@
     <span></span>
 
   </button>
+
 
 </header>
 
@@ -283,19 +449,30 @@
 
     <div class="videos-header">
 
-      <span class="videos-label">
+
+      <span
+        class="videos-label"
+        data-i18n="videos_label"
+      >
         MOI-CY / VIDEOS
       </span>
 
-      <h1 class="videos-title">
+
+      <h1
+        class="videos-title"
+        data-i18n="videos_title"
+      >
         Videos
       </h1>
+
 
     </div>
 
 
 
-    <!-- VIDEO GRID -->
+    <!-- =====================================
+         VIDEO GRID
+    ====================================== -->
 
     <section class="videos-grid">
 
@@ -309,6 +486,7 @@
           <iframe
             src="https://www.youtube.com/embed/TVahqUl2Qhk"
             title="Moi-cy Video 01"
+            data-i18n-title-attr="video_01_title"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -316,7 +494,11 @@
 
         </div>
 
-        <div class="video-number">
+
+        <div
+          class="video-number"
+          data-i18n="video_01"
+        >
           VIDEO 01
         </div>
 
@@ -333,6 +515,7 @@
           <iframe
             src="https://www.youtube.com/embed/37JDOvHyxqw"
             title="Moi-cy Video 02"
+            data-i18n-title-attr="video_02_title"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -340,7 +523,11 @@
 
         </div>
 
-        <div class="video-number">
+
+        <div
+          class="video-number"
+          data-i18n="video_02"
+        >
           VIDEO 02
         </div>
 
@@ -357,6 +544,7 @@
           <iframe
             src="https://www.youtube.com/embed/LCBoKw7jp_8"
             title="Moi-cy Video 03"
+            data-i18n-title-attr="video_03_title"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -364,7 +552,11 @@
 
         </div>
 
-        <div class="video-number">
+
+        <div
+          class="video-number"
+          data-i18n="video_03"
+        >
           VIDEO 03
         </div>
 
@@ -381,6 +573,7 @@
           <iframe
             src="https://www.youtube.com/embed/JeJZi0N9mIY"
             title="Moi-cy Video 04"
+            data-i18n-title-attr="video_04_title"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -388,7 +581,11 @@
 
         </div>
 
-        <div class="video-number">
+
+        <div
+          class="video-number"
+          data-i18n="video_04"
+        >
           VIDEO 04
         </div>
 
@@ -405,6 +602,7 @@
           <iframe
             src="https://www.youtube.com/embed/dd2K6hFT0g4"
             title="Moi-cy Video 05"
+            data-i18n-title-attr="video_05_title"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -412,7 +610,11 @@
 
         </div>
 
-        <div class="video-number">
+
+        <div
+          class="video-number"
+          data-i18n="video_05"
+        >
           VIDEO 05
         </div>
 
@@ -429,6 +631,7 @@
           <iframe
             src="https://www.youtube.com/embed/qcFgEVvC_SM"
             title="Moi-cy Video 06"
+            data-i18n-title-attr="video_06_title"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
@@ -436,7 +639,11 @@
 
         </div>
 
-        <div class="video-number">
+
+        <div
+          class="video-number"
+          data-i18n="video_06"
+        >
           VIDEO 06
         </div>
 
@@ -456,6 +663,7 @@
 ========================================= -->
 
 <footer class="footer">
+
 
   <div class="footer-logo">
 
@@ -477,11 +685,16 @@
     © 2026 Moi-cy
   </div>
 
+
 </footer>
 
 
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
 
 <script src="script.js"></script>
+
 
 </body>
 </html>
