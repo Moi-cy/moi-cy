@@ -1,1503 +1,781 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Moi-cy — Skate. Create. Explore.</title>
-    <meta
-        name="description"
-        content="Moi-cy — Skateboarding, Skateplätze, Bilder, Videos und mehr."
-    >
-
-    <style>
-        /* =====================================================
-           MOI-CY
-           Homepage
-           ===================================================== */
-
-        :root {
-            --black: #050505;
-            --black-soft: #0b0b0b;
-            --white: #f2f2f2;
-            --gray: #999999;
-            --blue: #00a8ff;
-            --blue-dark: #0078b8;
-            --border: rgba(255,255,255,0.10);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--black);
-            color: var(--white);
-            font-family: Arial, Helvetica, sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        /* =====================================================
-           GENERAL
-           ===================================================== */
-
-        .container {
-            width: min(1180px, 90%);
-            margin: 0 auto;
-        }
-
-        .blue {
-            color: var(--blue);
-        }
-
-        .eyebrow {
-            color: var(--blue);
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-        }
-
-        .section-title {
-            font-size: clamp(2.5rem, 6vw, 5.5rem);
-            line-height: 0.95;
-            letter-spacing: -0.05em;
-            font-weight: 900;
-            text-transform: uppercase;
-        }
-
-        .section-text {
-            color: #bdbdbd;
-            max-width: 650px;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .button {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            padding: 15px 22px;
-            border: 1px solid var(--border);
-            color: var(--white);
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            transition: 0.25s ease;
-        }
-
-        .button::after {
-            content: "→";
-            color: var(--blue);
-            font-size: 1.1rem;
-            transition: 0.25s ease;
-        }
-
-        .button:hover {
-            border-color: var(--blue);
-            background: var(--blue);
-            color: #000;
-            transform: translateY(-2px);
-        }
-
-        .button:hover::after {
-            color: #000;
-            transform: translateX(4px);
-        }
-
-        /* =====================================================
-           HEADER
-           ===================================================== */
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(5,5,5,0.88);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
-
-        .nav {
-            min-height: 78px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 30px;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: -0.08em;
-            white-space: nowrap;
-        }
-
-        .logo span {
-            color: var(--blue);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            position: relative;
-            color: #cfcfcf;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.13em;
-            text-transform: uppercase;
-            transition: 0.2s ease;
-        }
-
-        .nav-links a::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: -7px;
-            width: 0;
-            height: 2px;
-            background: var(--blue);
-            transition: width 0.25s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--white);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .menu-button {
-            display: none;
-            background: none;
-            border: 0;
-            color: white;
-            font-size: 1.6rem;
-            cursor: pointer;
-        }
-
-        /* =====================================================
-           HERO
-           ===================================================== */
-
-        .hero {
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 150px 0 100px;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            right: -300px;
-            top: 100px;
-            background: var(--blue);
-            opacity: 0.06;
-            border-radius: 50%;
-            filter: blur(100px);
-        }
-
-        .hero-grid {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1.05fr 0.95fr;
-            gap: 70px;
-            align-items: center;
-        }
-
-        .hero-content {
-            position: relative;
-        }
-
-        .hero-small {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: #999;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            margin-bottom: 25px;
-        }
-
-        .hero-small::before {
-            content: "";
-            width: 32px;
-            height: 2px;
-            background: var(--blue);
-        }
-
-        .hero h1 {
-            font-size: clamp(5rem, 12vw, 11rem);
-            line-height: 0.75;
-            letter-spacing: -0.09em;
-            font-weight: 900;
-        }
-
-        .hero h1 .blue-word {
-            color: var(--blue);
-        }
-
-        .hero-subtitle {
-            margin-top: 35px;
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
-            font-weight: 700;
-            letter-spacing: 0.08em;
-        }
-
-        .hero-subtitle span {
-            color: #777;
-        }
-
-        .hero-description {
-            max-width: 520px;
-            color: #999;
-            margin-top: 20px;
-            font-size: 0.98rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 35px;
-        }
-
-        .hero-visual {
-            position: relative;
-            min-height: 530px;
-        }
-
-        .visual-frame {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 90%;
-            height: 100%;
-            border: 1px solid rgba(255,255,255,0.12);
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(0,168,255,0.12),
-                    rgba(255,255,255,0.02)
-                );
-            overflow: hidden;
-        }
-
-        .visual-frame::before {
-            content: "MOI-CY";
-            position: absolute;
-            left: -35px;
-            bottom: 40px;
-            color: rgba(255,255,255,0.035);
-            font-size: 8rem;
-            line-height: 0.8;
-            font-weight: 900;
-            transform: rotate(-90deg);
-            transform-origin: left bottom;
-        }
-
-        .visual-frame::after {
-            content: "";
-            position: absolute;
-            inset: 18px;
-            border: 1px solid rgba(0,168,255,0.35);
-            pointer-events: none;
-        }
-
-        .visual-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555;
-            text-align: center;
-            padding: 50px;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
-        .visual-number {
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            font-size: 0.7rem;
-            color: var(--blue);
-            letter-spacing: 0.15em;
-        }
-
-        /* =====================================================
-           INTRO
-           ===================================================== */
-
-        .intro {
-            padding: 150px 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 0.7fr 1.3fr;
-            gap: 100px;
-        }
-
-        .intro-left {
-            padding-top: 10px;
-        }
-
-        .intro-left::before {
-            content: "";
-            display: block;
-            width: 65px;
-            height: 4px;
-            background: var(--blue);
-            margin-bottom: 25px;
-        }
-
-        .intro-right h2 {
-            margin-bottom: 30px;
-        }
-
-        .intro-right p + p {
-            margin-top: 18px;
-        }
-
-        /* =====================================================
-           ABOUT
-           ===================================================== */
-
-        .about {
-            padding: 150px 0;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
-            align-items: start;
-        }
-
-        .about-text {
-            margin-top: 35px;
-        }
-
-        .about-facts {
-            border-top: 1px solid var(--border);
-        }
-
-        .fact {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 25px;
-            padding: 25px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .fact-label {
-            color: var(--blue);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-        }
-
-        .fact p {
-            color: #b5b5b5;
-        }
-
-        /* =====================================================
-           CURRENT
-           ===================================================== */
-
-        .current {
-            padding: 150px 0;
-            background: var(--black-soft);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .current-head {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 0.8fr;
-            gap: 20px;
-        }
-
-        .content-card {
-            min-height: 430px;
-            border: 1px solid var(--border);
-            position: relative;
-            overflow: hidden;
-            background: #080808;
-            transition: 0.3s ease;
-        }
-
-        .content-card:hover {
-            border-color: rgba(0,168,255,0.55);
-            transform: translateY(-4px);
-        }
-
-        .content-card.small {
-            min-height: 430px;
-        }
-
-        .card-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #444;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
-        .card-overlay {
-            position: absolute;
-            inset: auto 0 0 0;
-            padding: 35px;
-            background: linear-gradient(
-                transparent,
-                rgba(0,0,0,0.95)
-            );
-        }
-
-        .card-label {
-            color: var(--blue);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-        }
-
-        .card-title {
-            margin-top: 8px;
-            font-size: 1.8rem;
-            font-weight: 800;
-        }
-
-        /* =====================================================
-           SKATEPARKS
-           ===================================================== */
-
-        .parks {
-            padding: 150px 0;
-        }
-
-        .parks-intro {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-            gap: 60px;
-            margin-bottom: 70px;
-        }
-
-        .parks-list {
-            border-top: 1px solid var(--border);
-        }
-
-        .park {
-            display: grid;
-            grid-template-columns: 90px 1fr auto;
-            align-items: center;
-            gap: 30px;
-            padding: 28px 0;
-            border-bottom: 1px solid var(--border);
-            transition: 0.25s ease;
-        }
-
-        .park:hover {
-            padding-left: 15px;
-            padding-right: 15px;
-            background: rgba(0,168,255,0.035);
-        }
-
-        .park-number {
-            color: #555;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-        }
-
-        .park-name {
-            font-size: clamp(1.2rem, 2vw, 1.7rem);
-            font-weight: 800;
-        }
-
-        .park-country {
-            color: var(--blue);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-        }
-
-        .park-rating {
-            color: #aaa;
-            font-size: 0.85rem;
-        }
-
-        /* =====================================================
-           SHOP
-           ===================================================== */
-
-        .shop {
-            padding: 150px 0;
-            background: var(--blue);
-            color: #000;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .shop::after {
-            content: "SHOP";
-            position: absolute;
-            right: -40px;
-            bottom: -90px;
-            font-size: 17rem;
-            line-height: 0.8;
-            font-weight: 900;
-            letter-spacing: -0.1em;
-            opacity: 0.08;
-        }
-
-        .shop-grid {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
-            align-items: center;
-        }
-
-        .shop .eyebrow {
-            color: #000;
-        }
-
-        .shop-title {
-            font-size: clamp(4rem, 9vw, 8rem);
-            line-height: 0.8;
-            letter-spacing: -0.08em;
-            font-weight: 900;
-        }
-
-        .shop-text {
-            margin-top: 30px;
-            max-width: 500px;
-            font-size: 1rem;
-        }
-
-        .shop .button {
-            margin-top: 35px;
-            border-color: rgba(0,0,0,0.3);
-            color: #000;
-        }
-
-        .shop .button::after {
-            color: #000;
-        }
-
-        .shop .button:hover {
-            background: #000;
-            color: white;
-            border-color: #000;
-        }
-
-        .shop-product {
-            min-height: 420px;
-            border: 1px solid rgba(0,0,0,0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .shop-product::before {
-            content: "MOI-CY";
-            font-size: clamp(4rem, 8vw, 8rem);
-            font-weight: 900;
-            letter-spacing: -0.08em;
-            transform: rotate(-12deg);
-        }
-
-        .shop-product-label {
-            position: absolute;
-            left: 25px;
-            bottom: 25px;
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            font-weight: 700;
-        }
-
-        /* =====================================================
-           FOOTER
-           ===================================================== */
-
-        footer {
-            padding: 70px 0 35px;
-            background: #020202;
-        }
-
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 40px;
-            padding-bottom: 60px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: -0.08em;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .footer-links a {
-            color: #888;
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            transition: 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--blue);
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            padding-top: 25px;
-            color: #555;
-            font-size: 0.7rem;
-        }
-
-        /* =====================================================
-           MOBILE
-           ===================================================== */
-
-        @media (max-width: 900px) {
-
-            .nav-links {
-                position: absolute;
-                top: 78px;
-                left: 0;
-                width: 100%;
-                display: none;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0;
-                padding: 20px 5%;
-                background: #050505;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links li {
-                width: 100%;
-            }
-
-            .nav-links a {
-                display: block;
-                padding: 16px 0;
-            }
-
-            .menu-button {
-                display: block;
-            }
-
-            .hero-grid,
-            .about-grid,
-            .shop-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                padding-top: 130px;
-            }
-
-            .hero-visual {
-                min-height: 420px;
-            }
-
-            .visual-frame {
-                width: 100%;
-            }
-
-            .intro-grid {
-                grid-template-columns: 1fr;
-                gap: 45px;
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .parks-intro,
-            .current-head {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .shop-grid {
-                gap: 50px;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .container {
-                width: 88%;
-            }
-
-            .nav {
-                min-height: 70px;
-            }
-
-            .nav-links {
-                top: 70px;
-            }
-
-            .hero h1 {
-                font-size: 22vw;
-            }
-
-            .hero-visual {
-                min-height: 330px;
-            }
-
-            .section-title {
-                font-size: 3rem;
-            }
-
-            .intro,
-            .about,
-            .current,
-            .parks,
-            .shop {
-                padding: 100px 0;
-            }
-
-            .fact {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .park {
-                grid-template-columns: 40px 1fr;
-                gap: 15px;
-            }
-
-            .park-rating {
-                grid-column: 2;
-            }
-
-            .footer-top,
-            .footer-bottom {
-                flex-direction: column;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Moi-cy – Skate. Create. Explore.</title>
+  <meta name="description" content="Moi-cy – Skateboarding, Kreativität und Abenteuer. Skate. Create. Explore.">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #050505;
+      color: #f2f2f2;
+      font-family: 'Inter', Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(5, 5, 5, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+    }
+
+    .logo span {
+      color: #00a8ff;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #00a8ff;
+    }
+
+    /* Mobile menu */
+
+    .menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 100vh;
+      padding: 150px 40px 80px;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-inner {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 0.8fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .hero-text {
+      position: relative;
+    }
+
+    .small-label {
+      color: #00a8ff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: clamp(5rem, 12vw, 11rem);
+      line-height: 0.78;
+      letter-spacing: -0.09em;
+      font-weight: 900;
+      margin-bottom: 35px;
+    }
+
+    .hero h1 span {
+      color: #00a8ff;
+    }
+
+    .hero-slogan {
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 35px;
+    }
+
+    .hero-description {
+      max-width: 500px;
+      color: #999;
+      font-size: 1rem;
+    }
+
+    .hero-image {
+      aspect-ratio: 4 / 5;
+      background: #0c0c0c;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image::after {
+      content: "Moi-cy";
+      position: absolute;
+      right: -20px;
+      bottom: 10px;
+      font-size: 4rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.04);
+      transform: rotate(-90deg);
+    }
+
+    .image-placeholder {
+      color: #555;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-align: center;
+    }
+
+    /* =========================
+       INTRO
+    ========================= */
+
+    .intro {
+      padding: 180px 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .intro-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .intro h2 {
+      font-size: clamp(2.5rem, 6vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      font-weight: 800;
+    }
+
+    .intro h2 span {
+      color: #00a8ff;
+    }
+
+    /* =========================
+       ABOUT
+    ========================= */
+
+    .about {
+      padding: 160px 40px;
+    }
+
+    .about-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.7fr 1fr;
+      gap: 100px;
+    }
+
+    .section-label {
+      color: #00a8ff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .about h2 {
+      margin-top: 20px;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+    }
+
+    .about-text {
+      color: #aaa;
+      font-size: 1.05rem;
+    }
+
+    .about-text p + p {
+      margin-top: 25px;
+    }
+
+    /* =========================
+       CURRENT
+    ========================= */
+
+    .current {
+      padding: 160px 40px;
+      background: #080808;
+    }
+
+    .current-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .current-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 60px;
+      gap: 30px;
+    }
+
+    .current-header h2 {
+      font-size: clamp(2.5rem, 6vw, 6rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+    }
+
+    .current-header p {
+      max-width: 350px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 25px;
+    }
+
+    .content-card {
+      background: #050505;
+      min-height: 450px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .content-card:hover {
+      border-color: rgba(0, 168, 255, 0.5);
+    }
+
+    .content-card.large {
+      min-height: 600px;
+    }
+
+    .card-label {
+      position: absolute;
+      left: 25px;
+      bottom: 20px;
+      color: #00a8ff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+    }
+
+    /* =========================
+       CONTACT
+    ========================= */
+
+    .contact {
+      padding: 180px 40px;
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-size: clamp(3rem, 8vw, 8rem);
+      line-height: 0.85;
+      letter-spacing: -0.07em;
+      margin: 20px 0 40px;
+    }
+
+    .contact h2 span {
+      color: #00a8ff;
+    }
+
+    .contact-text {
+      max-width: 550px;
+      margin: 0 auto 45px;
+      color: #888;
+    }
+
+    .contact-button {
+      display: inline-block;
+      padding: 16px 28px;
+      border: 1px solid #00a8ff;
+      color: #00a8ff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      transition: all 0.25s ease;
+    }
+
+    .contact-button:hover {
+      background: #00a8ff;
+      color: #050505;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 35px 40px;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .footer-logo span {
+      color: #00a8ff;
+    }
+
+    .copyright {
+      color: #555;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .nav {
+        padding: 18px 25px;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #050505;
+        padding: 30px 25px;
+        flex-direction: column;
+        gap: 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hero {
+        padding: 130px 25px 70px;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+
+      .hero-image {
+        max-width: 600px;
+      }
+
+      .intro,
+      .about,
+      .current,
+      .contact {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+
+      .about-inner {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .current-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      footer {
+        padding: 30px 25px;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .hero h1 {
+        font-size: 5rem;
+      }
+
+      .hero-image {
+        aspect-ratio: 1 / 1;
+      }
+
+      .content-card,
+      .content-card.large {
+        min-height: 350px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- =====================================================
-         HEADER
-         ===================================================== -->
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-    <header>
-        <div class="container nav">
+  <header>
+    <nav class="nav">
 
-            <a href="#home" class="logo">
-                Moi<span>-cy</span>
-            </a>
+      <a href="#home" class="logo">
+        Moi<span>-cy</span>
+      </a>
 
-            <button class="menu-button" aria-label="Menü öffnen">
-                ☰
-            </button>
+      <button class="menu-button" id="menuButton" aria-label="Menü öffnen">
+        ☰
+      </button>
 
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#bilder-videos">Bilder</a></li>
-                <li><a href="#bilder-videos">Videos</a></li>
-                <li><a href="#skateplaetze">Skateplätze</a></li>
-                <li><a href="#shop">Shop</a></li>
-                <li><a href="#kontakt">Kontakt</a></li>
-            </ul>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">HOME</a></li>
+        <li><a href="#bilder">BILDER</a></li>
+        <li><a href="#videos">VIDEOS</a></li>
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#kontakt">KONTAKT</a></li>
+      </ul>
 
-        </div>
-    </header>
+    </nav>
+  </header>
 
 
-    <main>
+  <main>
 
-        <!-- =================================================
-             HERO
-             ================================================= -->
+    <!-- =========================
+         HERO
+    ========================== -->
 
-        <section class="hero" id="home">
+    <section class="hero" id="home">
 
-            <div class="container hero-grid">
+      <div class="hero-inner">
 
-                <div class="hero-content">
+        <div class="hero-text">
 
-                    <div class="hero-small">
-                        Skateboarding & Lifestyle
-                    </div>
+          <div class="small-label">
+            SKATEBOARDING / SINCE 2023
+          </div>
 
-                    <h1>
-                        Moi<span class="blue-word">-cy</span>
-                    </h1>
+          <h1>
+            Moi<span>-cy</span>
+          </h1>
 
-                    <div class="hero-subtitle">
-                        SKATE. <span>CREATE.</span> EXPLORE.
-                    </div>
+          <div class="hero-slogan">
+            SKATE. CREATE. EXPLORE.
+          </div>
 
-                    <p class="hero-description">
-                        Skateboarding, Spots, Bilder, Videos und alles,
-                        was rund um Moi-cy entsteht.
-                    </p>
-
-                    <div class="hero-buttons">
-                        <a href="#bilder-videos" class="button">
-                            Entdecken
-                        </a>
-
-                        <a href="#about" class="button">
-                            Über Moi-cy
-                        </a>
-                    </div>
-
-                </div>
-
-
-                <div class="hero-visual">
-
-                    <div class="visual-frame">
-
-                        <!--
-                            HIER KANN SPÄTER DAS ERSTE STARKE
-                            MOI-CY FOTO EINGESETZT WERDEN.
-
-                            Ich habe absichtlich noch kein fremdes
-                            Bild eingesetzt.
-                        -->
-
-                        <div class="visual-placeholder">
-                            Dein Moi-cy Foto
-                        </div>
-
-                        <div class="visual-number">
-                            01 / MOI-CY
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             INTRO
-             ================================================= -->
-
-        <section class="intro">
-
-            <div class="container intro-grid">
-
-                <div class="intro-left">
-
-                    <div class="eyebrow">
-                        Willkommen
-                    </div>
-
-                    <h2 class="section-title">
-                        Skate<br>
-                        Different<span class="blue">.</span>
-                    </h2>
-
-                </div>
-
-
-                <div class="intro-right">
-
-                    <h2 class="section-title">
-                        Was ist Moi-cy<span class="blue">?</span>
-                    </h2>
-
-                    <p class="section-text">
-                        Moi-cy gibt es seit Ende Sommer 2023 und ist ein
-                        Skateboardfahrer-Team und eine Skateboard-Firma.
-                    </p>
-
-                    <p class="section-text">
-                        Im Mittelpunkt stehen Skateboarding, besondere
-                        Spots, eigene Projekte und die Freude daran,
-                        mit dem Skateboard unterwegs zu sein.
-                    </p>
-
-                    <p class="section-text">
-                        Die Seite zeigt, was rund um Moi-cy passiert –
-                        von Skateparks und Reisen bis zu Bildern,
-                        Videos und eigenen Produkten.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             ABOUT
-             ================================================= -->
-
-        <section class="about" id="about">
-
-            <div class="container about-grid">
-
-                <div>
-
-                    <div class="eyebrow">
-                        About
-                    </div>
-
-                    <h2 class="section-title">
-                        Mehr als<br>
-                        Skaten<span class="blue">.</span>
-                    </h2>
-
-                    <p class="section-text about-text">
-                        Seit März 2023 gehört Skateboarding zum Alltag.
-                        Besonders das Fahren in Bowls und Pools spielt
-                        dabei eine große Rolle.
-                    </p>
-
-                </div>
-
-
-                <div class="about-facts">
-
-                    <div class="fact">
-
-                        <div class="fact-label">
-                            Style
-                        </div>
-
-                        <p>
-                            Skate Longboard-Rollen und ein Old-School-
-                            inspirierter Skate-Style.
-                        </p>
-
-                    </div>
-
-
-                    <div class="fact">
-
-                        <div class="fact-label">
-                            Passion
-                        </div>
-
-                        <p>
-                            Pools, Bowls und das Fahren mit Flow stehen
-                            im Mittelpunkt.
-                        </p>
-
-                    </div>
-
-
-                    <div class="fact">
-
-                        <div class="fact-label">
-                            Ziel
-                        </div>
-
-                        <p>
-                            Menschen zeigen, wie viel Spaß Skateboarding
-                            machen kann.
-                        </p>
-
-                    </div>
-
-
-                    <div class="fact">
-
-                        <div class="fact-label">
-                            Ursprung
-                        </div>
-
-                        <p>
-                            Der Name Moi-cy entstand aus einem früheren
-                            Spitznamen und wurde anschließend weiterentwickelt.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             BILDER / VIDEOS
-             ================================================= -->
-
-        <section class="current" id="bilder-videos">
-
-            <div class="container">
-
-                <div class="current-head">
-
-                    <div>
-
-                        <div class="eyebrow">
-                            Bilder & Videos
-                        </div>
-
-                        <h2 class="section-title">
-                            Aktuell<span class="blue">.</span>
-                        </h2>
-
-                    </div>
-
-                    <a href="#" class="button">
-                        Alles ansehen
-                    </a>
-
-                </div>
-
-
-                <div class="content-grid">
-
-                    <a href="#" class="content-card">
-
-                        <!--
-                            SPÄTER:
-                            Hier kommt ein starkes Moi-cy Video
-                            oder großes Bild hinein.
-                        -->
-
-                        <div class="card-placeholder">
-                            Moi-cy Video
-                        </div>
-
-                        <div class="card-overlay">
-
-                            <div class="card-label">
-                                Video
-                            </div>
-
-                            <div class="card-title">
-                                Skate. Film. Repeat.
-                            </div>
-
-                        </div>
-
-                    </a>
-
-
-                    <a href="#" class="content-card small">
-
-                        <!--
-                            SPÄTER:
-                            Hier kommt ein ausgewähltes Moi-cy
-                            Foto hinein.
-                        -->
-
-                        <div class="card-placeholder">
-                            Moi-cy Foto
-                        </div>
-
-                        <div class="card-overlay">
-
-                            <div class="card-label">
-                                Bilder
-                            </div>
-
-                            <div class="card-title">
-                                Moments
-                            </div>
-
-                        </div>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             SKATEPLÄTZE
-             ================================================= -->
-
-        <section class="parks" id="skateplaetze">
-
-            <div class="container">
-
-                <div class="parks-intro">
-
-                    <div>
-
-                        <div class="eyebrow">
-                            Skateplätze
-                        </div>
-
-                        <h2 class="section-title">
-                            Spots<span class="blue">.</span>
-                        </h2>
-
-                    </div>
-
-                    <p class="section-text">
-                        Skateplätze, die ausprobiert wurden –
-                        mit persönlicher Einschätzung und Bewertung.
-                    </p>
-
-                </div>
-
-
-                <div class="parks-list">
-
-                    <div class="park">
-
-                        <div class="park-number">
-                            01
-                        </div>
-
-                        <div>
-                            <div class="park-name">
-                                Valence
-                            </div>
-
-                            <div class="park-country">
-                                Frankreich
-                            </div>
-                        </div>
-
-                        <div class="park-rating">
-                            ★★★★☆
-                        </div>
-
-                    </div>
-
-
-                    <div class="park">
-
-                        <div class="park-number">
-                            02
-                        </div>
-
-                        <div>
-                            <div class="park-name">
-                                Karlsruhe
-                            </div>
-
-                            <div class="park-country">
-                                Deutschland
-                            </div>
-                        </div>
-
-                        <div class="park-rating">
-                            ★★★★☆
-                        </div>
-
-                    </div>
-
-
-                    <div class="park">
-
-                        <div class="park-number">
-                            03
-                        </div>
-
-                        <div>
-                            <div class="park-name">
-                                Heidelberg
-                            </div>
-
-                            <div class="park-country">
-                                Deutschland
-                            </div>
-                        </div>
-
-                        <div class="park-rating">
-                            ★★★☆☆
-                        </div>
-
-                    </div>
-
-
-                    <div class="park">
-
-                        <div class="park-number">
-                            04
-                        </div>
-
-                        <div>
-                            <div class="park-name">
-                                Heidelberg Bowl
-                            </div>
-
-                            <div class="park-country">
-                                Deutschland
-                            </div>
-                        </div>
-
-                        <div class="park-rating">
-                            ★★★★★
-                        </div>
-
-                    </div>
-
-
-                    <div class="park">
-
-                        <div class="park-number">
-                            05
-                        </div>
-
-                        <div>
-                            <div class="park-name">
-                                Perpignan
-                            </div>
-
-                            <div class="park-country">
-                                Frankreich
-                            </div>
-                        </div>
-
-                        <div class="park-rating">
-                            ★★★★★
-                        </div>
-
-                    </div>
-
-
-                    <div class="park">
-
-                        <div class="park-number">
-                            06
-                        </div>
-
-                        <div>
-                            <div class="park-name">
-                                München Hirschgarten
-                            </div>
-
-                            <div class="park-country">
-                                Deutschland
-                            </div>
-                        </div>
-
-                        <div class="park-rating">
-                            ★★★★★
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div style="margin-top: 40px;">
-                    <a href="#" class="button">
-                        Alle Skateplätze
-                    </a>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             SHOP
-             ================================================= -->
-
-        <section class="shop" id="shop">
-
-            <div class="container shop-grid">
-
-                <div>
-
-                    <div class="eyebrow">
-                        Moi-cy Shop
-                    </div>
-
-                    <h2 class="shop-title">
-                        NEW<br>
-                        DROP<span>.</span>
-                    </h2>
-
-                    <p class="shop-text">
-                        Skateboards, die von Moi-cy gestaltet und
-                        mit dem eigenen Namen versehen wurden.
-                    </p>
-
-                    <a href="#" class="button">
-                        Zum Shop
-                    </a>
-
-                </div>
-
-
-                <div class="shop-product">
-
-                    <!--
-                        SPÄTER:
-                        Hier kann das echte Moi-cy Skateboard
-                        als Produktbild eingesetzt werden.
-                    -->
-
-                    <div class="shop-product-label">
-                        MOI-CY / SKATEBOARD
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =====================================================
-         FOOTER
-         ===================================================== -->
-
-    <footer id="kontakt">
-
-        <div class="container">
-
-            <div class="footer-top">
-
-                <div class="footer-logo">
-                    Moi<span style="color:#00a8ff;">-cy</span>
-                </div>
-
-                <div class="footer-links">
-
-                    <a href="#home">Home</a>
-                    <a href="#bilder-videos">Bilder</a>
-                    <a href="#bilder-videos">Videos</a>
-                    <a href="#skateplaetze">Skateplätze</a>
-                    <a href="#shop">Shop</a>
-                    <a href="#kontakt">Kontakt</a>
-
-                </div>
-
-            </div>
-
-
-            <div class="footer-bottom">
-
-                <div>
-                    © 2026 Moi-cy
-                </div>
-
-                <div>
-                    Skate. Create. Explore.
-                </div>
-
-            </div>
+          <p class="hero-description">
+            Skateboarding, Kreativität und die Suche nach neuen Spots.
+            Moi-cy steht für Spaß am Skaten und dafür, diesen Lifestyle
+            mit anderen zu teilen.
+          </p>
 
         </div>
 
-    </footer>
+
+        <div class="hero-image">
+          <div class="image-placeholder">
+            DEIN MOI-CY FOTO
+          </div>
+        </div>
+
+      </div>
+
+    </section>
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
+    <!-- =========================
+         INTRO
+    ========================== -->
 
-    <script>
+    <section class="intro">
 
-        const menuButton = document.querySelector(".menu-button");
-        const navLinks = document.querySelector(".nav-links");
+      <div class="intro-inner">
 
-        menuButton.addEventListener("click", () => {
-            navLinks.classList.toggle("active");
-        });
+        <div class="section-label">
+          WHAT IS MOI-CY?
+        </div>
+
+        <h2>
+          Skateboarding ist mehr als nur ein <span>Sport.</span>
+        </h2>
+
+      </div>
+
+    </section>
 
 
-        document.querySelectorAll(".nav-links a").forEach(link => {
+    <!-- =========================
+         ABOUT
+    ========================== -->
 
-            link.addEventListener("click", () => {
-                navLinks.classList.remove("active");
-            });
+    <section class="about" id="about">
 
-        });
+      <div class="about-inner">
 
-    </script>
+        <div>
+          <div class="section-label">
+            ABOUT MOI-CY
+          </div>
+
+          <h2>
+            SKATE.<br>
+            CREATE.<br>
+            EXPLORE.
+          </h2>
+        </div>
+
+
+        <div class="about-text">
+
+          <p>
+            Moi-cy entstand aus der Leidenschaft für Skateboarding
+            und der Idee, diese Leidenschaft mit anderen zu teilen.
+          </p>
+
+          <p>
+            Seit März 2023 geht es darum, Skateboarding so zu zeigen,
+            wie es wirklich ist: kreativ, spontan und vor allem mit
+            viel Spaß.
+          </p>
+
+          <p>
+            Egal ob Street, Pool oder Bowl – im Mittelpunkt stehen
+            die Menschen, die Spots und die Momente, die beim Skaten
+            entstehen.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CURRENT
+    ========================== -->
+
+    <section class="current" id="bilder">
+
+      <div class="current-inner">
+
+        <div class="current-header">
+
+          <div>
+            <div class="section-label">
+              MOI-CY
+            </div>
+
+            <h2>
+              MOMENTS
+            </h2>
+          </div>
+
+          <p>
+            Bilder und Videos aus der Welt von Moi-cy.
+            Echte Sessions, echte Spots und echte Momente.
+          </p>
+
+        </div>
+
+
+        <div class="content-grid">
+
+          <div class="content-card large">
+
+            <div class="image-placeholder">
+              DEIN MOI-CY FOTO
+            </div>
+
+            <div class="card-label">
+              BILDER
+            </div>
+
+          </div>
+
+
+          <div class="content-card" id="videos">
+
+            <div class="image-placeholder">
+              DEIN MOI-CY VIDEO
+            </div>
+
+            <div class="card-label">
+              VIDEOS
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+
+    <section class="contact" id="kontakt">
+
+      <div class="contact-inner">
+
+        <div class="section-label">
+          GET IN TOUCH
+        </div>
+
+        <h2>
+          LET'S <span>CONNECT.</span>
+        </h2>
+
+        <p class="contact-text">
+          Du möchtest mit Moi-cy Kontakt aufnehmen,
+          hast Fragen oder möchtest einfach Hallo sagen?
+        </p>
+
+        <a href="mailto:DEINE-EMAIL@BEISPIEL.DE" class="contact-button">
+          KONTAKT AUFNEHMEN
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer>
+
+    <div class="footer-inner">
+
+      <div class="footer-logo">
+        Moi<span>-cy</span>
+      </div>
+
+      <div class="copyright">
+        © 2026 Moi-cy
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       SCRIPT
+  ========================== -->
+
+  <script>
+
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    menuButton.addEventListener("click", function () {
+      navLinks.classList.toggle("active");
+    });
+
+
+    document.querySelectorAll(".nav-links a").forEach(function(link) {
+
+      link.addEventListener("click", function() {
+        navLinks.classList.remove("active");
+      });
+
+    });
+
+  </script>
 
 </body>
 </html>
