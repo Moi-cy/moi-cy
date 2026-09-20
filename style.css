@@ -443,28 +443,25 @@ button {
 
 /* =========================================================
    SKATEPLÄTZE
-   KLEINER + MINIMALISTISCHER
    ========================================================= */
 
 .feature-section {
-  padding-top: 105px;
-  padding-bottom: 105px;
+  padding-top: 95px;
+  padding-bottom: 95px;
 
   background: var(--dark);
 }
 
 .feature-section .section-label {
-  margin-bottom: 42px;
+  margin-bottom: 38px;
 }
 
 .feature-heading {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
-  gap: 50px;
-
-  margin-bottom: 35px;
+  gap: 30px;
 }
 
 .feature-heading h2 {
@@ -476,8 +473,6 @@ button {
 }
 
 .feature-heading h2 span {
-  display: inline-block;
-
   color: var(--blue);
 
   font-family: "Permanent Marker", cursive;
@@ -487,104 +482,18 @@ button {
   margin-left: 8px;
 
   transform: rotate(-3deg);
-}
 
-.feature-heading p {
-  max-width: 300px;
-
-  color: var(--gray);
-
-  font-size: 13px;
-  line-height: 1.6;
+  display: inline-block;
 }
 
 
-/* KOMPAKTE CARD */
-
-.feature-card {
-  position: relative;
-
-  display: block;
-
-  min-height: 190px;
-
-  overflow: hidden;
-
-  border: 1px solid var(--line);
-
-  background:
-    linear-gradient(
-      120deg,
-      rgba(0,168,255,0.07),
-      transparent 55%
-    ),
-    #080808;
-
-  transition:
-    border-color 0.3s ease,
-    transform 0.3s ease;
-}
-
-.feature-card:hover {
-  border-color: rgba(0, 168, 255, 0.55);
-
-  transform: translateY(-3px);
-}
-
-.feature-card-background {
-  position: absolute;
-  inset: 0;
-
-  background:
-    repeating-linear-gradient(
-      135deg,
-      transparent 0,
-      transparent 40px,
-      rgba(0,168,255,0.025) 40px,
-      rgba(0,168,255,0.025) 41px
-    );
-}
-
-.feature-card-content {
-  position: relative;
-
-  min-height: 190px;
-
-  display: flex;
-  align-items: center;
-
-  padding: 35px 45px;
-}
-
-.feature-card-content span {
-  position: absolute;
-
-  top: 27px;
-  left: 45px;
-
-  color: var(--blue);
-
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 2.5px;
-}
-
-.feature-card-content strong {
-  font-size: clamp(38px, 6vw, 72px);
-
-  line-height: 0.9;
-
-  letter-spacing: -3px;
-}
+/* BUTTON RECHTS NEBEN FIND YOUR SPOT */
 
 .feature-arrow {
-  position: absolute;
+  flex-shrink: 0;
 
-  right: 35px;
-  bottom: 30px;
-
-  width: 48px;
-  height: 48px;
+  width: 58px;
+  height: 58px;
 
   display: flex;
   align-items: center;
@@ -594,16 +503,20 @@ button {
 
   color: var(--blue);
 
-  font-size: 20px;
+  font-size: 24px;
 
   transition:
     background 0.3s ease,
-    color 0.3s ease;
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
-.feature-card:hover .feature-arrow {
+.feature-arrow:hover {
   background: var(--blue);
+
   color: var(--black);
+
+  transform: translateX(5px);
 }
 
 
@@ -869,10 +782,6 @@ button {
     gap: 50px;
   }
 
-  .feature-heading {
-    align-items: flex-start;
-  }
-
 }
 
 
@@ -884,6 +793,7 @@ button {
 
   .header {
     height: 70px;
+
     padding: 0 20px;
   }
 
@@ -941,8 +851,8 @@ button {
   }
 
   .feature-section {
-    padding-top: 75px;
-    padding-bottom: 75px;
+    padding-top: 70px;
+    padding-bottom: 70px;
   }
 
   .media-section {
@@ -970,53 +880,25 @@ button {
 
   /* SKATEPLÄTZE */
 
+  .feature-section .section-label {
+    margin-bottom: 35px;
+  }
+
   .feature-heading {
-    flex-direction: column;
-
-    align-items: flex-start;
-
     gap: 25px;
-
-    margin-bottom: 28px;
   }
 
   .feature-heading h2 {
-    font-size: clamp(50px, 16vw, 75px);
+    font-size: clamp(45px, 14vw, 72px);
 
     letter-spacing: -3px;
   }
 
-  .feature-heading p {
-    max-width: 340px;
-  }
-
-  .feature-card {
-    min-height: 145px;
-  }
-
-  .feature-card-content {
-    min-height: 145px;
-
-    padding: 30px;
-  }
-
-  .feature-card-content span {
-    top: 20px;
-    left: 30px;
-  }
-
-  .feature-card-content strong {
-    font-size: 48px;
-
-    letter-spacing: -2px;
-  }
-
   .feature-arrow {
-    right: 20px;
-    bottom: 20px;
+    width: 48px;
+    height: 48px;
 
-    width: 42px;
-    height: 42px;
+    font-size: 20px;
   }
 
 
