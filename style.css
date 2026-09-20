@@ -10,8 +10,9 @@
   --dark-soft: #0a0a0a;
 
   --white: #f2f2f2;
-  --grey: #8c8c8c;
   --blue: #00a8ff;
+
+  --grey: #8c8c8c;
 
 }
 
@@ -33,6 +34,7 @@ html {
 body {
 
   background: var(--black);
+
   color: var(--white);
 
   font-family: "Inter", sans-serif;
@@ -41,7 +43,9 @@ body {
 }
 
 a {
+
   color: inherit;
+
   text-decoration: none;
 }
 
@@ -67,6 +71,7 @@ button {
   padding: 0 42px;
 
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
@@ -76,7 +81,8 @@ button {
 
   backdrop-filter: blur(12px);
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.06);
 }
 
 
@@ -85,11 +91,13 @@ button {
 .logo {
 
   display: flex;
+
   align-items: center;
 
   gap: 11px;
 
   font-size: 16px;
+
   font-weight: 800;
 
   letter-spacing: -0.5px;
@@ -107,6 +115,7 @@ button {
   height: 30px;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -115,15 +124,17 @@ button {
   color: var(--blue);
 
   font-size: 14px;
+
   font-weight: 800;
 }
 
 
-/* NAV */
+/* NAVIGATION */
 
 .navigation {
 
   display: flex;
+
   align-items: center;
 
   gap: 32px;
@@ -134,6 +145,7 @@ button {
   position: relative;
 
   font-size: 11px;
+
   font-weight: 700;
 
   letter-spacing: 1.5px;
@@ -152,6 +164,7 @@ button {
   position: absolute;
 
   left: 0;
+
   bottom: -7px;
 
   width: 0;
@@ -183,7 +196,8 @@ button {
   width: 42px;
   height: 42px;
 
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border:
+    1px solid rgba(255, 255, 255, 0.15);
 
   background: transparent;
 
@@ -217,6 +231,7 @@ button {
   min-height: 100vh;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -276,21 +291,22 @@ button {
 
   background-size: 80px 80px;
 
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 25%,
-    black 70%,
-    transparent
-  );
-
   opacity: 0.35;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 25%,
+      black 70%,
+      transparent
+    );
 
   z-index: 1;
 }
 
 
-/* GLOW */
+/* BLUE LIGHT */
 
 .hero-glow {
 
@@ -302,13 +318,16 @@ button {
   left: 50%;
   top: 48%;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translate(-50%, -50%);
 
-  background: radial-gradient(
-    circle,
-    rgba(0, 168, 255, 0.07),
-    transparent 68%
-  );
+  background:
+
+    radial-gradient(
+      circle,
+      rgba(0, 168, 255, 0.07),
+      transparent 68%
+    );
 
   filter: blur(20px);
 
@@ -316,7 +335,7 @@ button {
 }
 
 
-/* HERO CONTENT */
+/* CONTENT */
 
 .hero-content {
 
@@ -326,33 +345,38 @@ button {
 
   width: 100%;
 
+  padding:
+    120px 20px
+    100px;
+
   display: flex;
 
   flex-direction: column;
 
   align-items: center;
+
   justify-content: center;
 
   text-align: center;
-
-  padding: 120px 20px 100px;
 }
 
 
-/* SMALL TEXT */
+/* SMALL LABEL */
 
 .hero-small {
 
   display: block;
 
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 
   font-size: 10px;
+
   font-weight: 700;
 
   letter-spacing: 4px;
 
-  color: rgba(242, 242, 242, 0.5);
+  color:
+    rgba(242, 242, 242, 0.5);
 }
 
 
@@ -364,178 +388,226 @@ button {
 
   position: relative;
 
-  width: min(92vw, 900px);
-
-  transform:
-    rotate(-2deg)
-    skewX(-1deg);
-
-  isolation: isolate;
-}
-
-
-/* SVG */
-
-.graffiti-svg {
-
-  position: relative;
-
   display: block;
 
-  width: 100%;
-  height: auto;
+  width: min(900px, 92vw);
 
-  overflow: visible;
+  min-height: 250px;
+
+  transform:
+    rotate(-2deg);
+
 }
 
 
 /* =========================================================
-   GRAFFITI TEXT
-   ========================================================= */
-
-.graffiti-svg text {
-
-  font-family:
-    Impact,
-    Haettenschweiler,
-    "Arial Black",
-    sans-serif;
-
-  font-weight: 900;
-
-  font-size: 190px;
-
-  letter-spacing: -10px;
-
-  paint-order: stroke fill;
-
-}
-
-
-/* DEEP SHADOW */
-
-.graffiti-shadow {
-
-  fill: #000;
-
-  stroke: #000;
-
-  stroke-width: 28px;
-
-  transform:
-    translate(13px, 17px)
-    skewX(-5deg);
-}
-
-
-/* WHITE OUTLINE */
-
-.graffiti-white {
-
-  fill: var(--blue);
-
-  stroke: var(--white);
-
-  stroke-width: 25px;
-
-  stroke-linejoin: round;
-
-  transform:
-    translate(5px, 5px)
-    skewX(-5deg);
-}
-
-
-/* BLUE MAIN */
-
-.graffiti-main {
-
-  fill: var(--blue);
-
-  stroke: var(--black);
-
-  stroke-width: 18px;
-
-  stroke-linejoin: round;
-
-  transform:
-    skewX(-5deg);
-}
-
-
-/* INNER BLACK OUTLINE */
-
-.graffiti-outline {
-
-  fill: transparent;
-
-  stroke: rgba(0, 0, 0, 0.95);
-
-  stroke-width: 5px;
-
-  stroke-linejoin: round;
-
-  transform:
-    translate(-2px, -2px)
-    skewX(-5deg);
-}
-
-
-/* =========================================================
-   SPRAY BEHIND LOGO
+   SPRAY
    ========================================================= */
 
 .graffiti-spray {
 
   position: absolute;
 
-  inset: 4% 3%;
+  left: 5%;
+  right: 5%;
 
-  z-index: -2;
+  top: 15%;
+  bottom: 12%;
+
+  z-index: 0;
 
   background:
 
     radial-gradient(
       ellipse at center,
-      rgba(0, 168, 255, 0.25),
+      rgba(0, 168, 255, 0.28),
       transparent 58%
     ),
 
     radial-gradient(
-      circle at 8% 30%,
+      circle at 5% 25%,
       rgba(0, 168, 255, 0.65) 0 2px,
       transparent 4px
     ),
 
     radial-gradient(
-      circle at 15% 20%,
-      rgba(0, 168, 255, 0.5) 0 3px,
+      circle at 12% 72%,
+      rgba(0, 168, 255, 0.55) 0 3px,
       transparent 5px
     ),
 
     radial-gradient(
-      circle at 88% 25%,
+      circle at 20% 12%,
+      rgba(0, 168, 255, 0.45) 0 2px,
+      transparent 4px
+    ),
+
+    radial-gradient(
+      circle at 82% 15%,
       rgba(0, 168, 255, 0.6) 0 3px,
       transparent 5px
     ),
 
     radial-gradient(
-      circle at 94% 65%,
-      rgba(0, 168, 255, 0.5) 0 2px,
+      circle at 93% 38%,
+      rgba(0, 168, 255, 0.55) 0 2px,
       transparent 4px
     ),
 
     radial-gradient(
-      circle at 28% 90%,
-      rgba(0, 168, 255, 0.55) 0 3px,
+      circle at 88% 80%,
+      rgba(0, 168, 255, 0.5) 0 3px,
       transparent 5px
     );
 
   filter: blur(1px);
 
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   LOGO WORD
+   ========================================================= */
+
+.graffiti-word {
+
+  position: relative;
+
+  width: 100%;
+
+  min-height: 250px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+/* ALL LOGO LAYERS */
+
+.graffiti-shadow,
+.graffiti-white,
+.graffiti-main {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
   transform:
-    rotate(2deg)
-    scale(1.05);
+    translate(-50%, -50%)
+    scaleY(1.05)
+    skewX(-4deg);
+
+  white-space: nowrap;
+
+  font-family:
+    "Rubik Dirt",
+    "Arial Black",
+    Impact,
+    sans-serif;
+
+  font-size:
+    clamp(105px, 17vw, 235px);
+
+  line-height: 0.8;
+
+  letter-spacing: -5px;
+
+  font-weight: 900;
+
+  user-select: none;
+
+}
+
+
+/* =========================================================
+   BLACK SHADOW
+   ========================================================= */
+
+.graffiti-shadow {
+
+  z-index: 1;
+
+  color: #000000;
+
+  -webkit-text-stroke:
+    17px #000000;
+
+  text-shadow:
+
+    10px 12px 0 #000000,
+
+    16px 18px 0 rgba(0, 0, 0, 0.75);
+
+}
+
+
+/* =========================================================
+   WHITE BORDER
+   ========================================================= */
+
+.graffiti-white {
+
+  z-index: 2;
+
+  color: var(--blue);
+
+  -webkit-text-stroke:
+    15px var(--white);
+
+  text-shadow:
+    5px 6px 0 var(--white);
+
+}
+
+
+/* =========================================================
+   BLUE MAIN
+   ========================================================= */
+
+.graffiti-main {
+
+  z-index: 3;
+
+  color: var(--blue);
+
+  -webkit-text-stroke:
+    7px #000000;
+
+  text-shadow:
+
+    3px 3px 0 #000000,
+
+    6px 7px 0 #000000,
+
+    9px 10px 0 var(--blue);
+
+}
+
+
+/* =========================================================
+   SMALL BLUE HIGHLIGHT
+   ========================================================= */
+
+.graffiti-main::after {
+
+  content: "Moi-cy";
+
+  position: absolute;
+
+  left: 2px;
+  top: -2px;
+
+  color: transparent;
+
+  -webkit-text-stroke:
+    2px rgba(242, 242, 242, 0.35);
+
 }
 
 
@@ -547,13 +619,14 @@ button {
 
   position: absolute;
 
+  z-index: 4;
+
   display: block;
 
   border-radius: 50%;
 
   background: var(--blue);
 
-  z-index: -1;
 }
 
 
@@ -561,17 +634,19 @@ button {
 
 .splash-1 {
 
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
 
-  top: 26%;
-  left: 4%;
+  left: 5%;
+  top: 31%;
 
   box-shadow:
 
-    20px 14px 0 -4px var(--blue),
-    -13px 20px 0 -5px var(--blue),
-    28px -17px 0 -6px var(--blue);
+    18px 12px 0 -4px var(--blue),
+
+    -12px 20px 0 -5px var(--blue),
+
+    27px -15px 0 -6px var(--blue);
 }
 
 
@@ -579,17 +654,19 @@ button {
 
 .splash-2 {
 
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 
-  top: 31%;
-  right: 4%;
+  right: 5%;
+  top: 28%;
 
   box-shadow:
 
-    18px -10px 0 -3px var(--blue),
+    17px -8px 0 -3px var(--blue),
+
     28px 14px 0 -5px var(--blue),
-    -15px 21px 0 -5px var(--blue);
+
+    -14px 20px 0 -5px var(--blue);
 }
 
 
@@ -600,76 +677,87 @@ button {
   width: 7px;
   height: 7px;
 
-  top: 4%;
-  left: 42%;
+  top: 8%;
+  left: 43%;
 
   box-shadow:
 
     18px 12px 0 -2px var(--blue),
-    -18px 17px 0 -3px var(--blue);
+
+    -17px 17px 0 -3px var(--blue);
 }
 
 
-/* BOTTOM */
+/* BOTTOM LEFT */
 
 .splash-4 {
 
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
 
-  bottom: 5%;
-  left: 20%;
+  bottom: 7%;
+  left: 17%;
 
   box-shadow:
 
-    -18px 13px 0 -3px var(--blue),
-    25px 10px 0 -4px var(--blue);
+    -16px 13px 0 -3px var(--blue),
+
+    23px 10px 0 -4px var(--blue);
 }
 
 
-/* FAR RIGHT */
+/* BOTTOM RIGHT */
 
 .splash-5 {
 
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 
-  bottom: 13%;
-  right: 16%;
+  bottom: 8%;
+  right: 18%;
 
   box-shadow:
 
-    15px 11px 0 -2px var(--blue),
-    27px -4px 0 -3px var(--blue);
+    18px 11px 0 -4px var(--blue),
+
+    30px -4px 0 -5px var(--blue);
 }
 
 
-/* SVG SPLASH */
+/* TINY */
 
-.blue-splash {
-  fill: var(--blue);
+.splash-6 {
+
+  width: 5px;
+  height: 5px;
+
+  left: 29%;
+  top: 3%;
+
+  box-shadow:
+    13px 8px 0 -1px var(--blue),
+    -15px 14px 0 -2px var(--blue);
 }
 
 
-/* SPRAY LINES */
+/* TINY RIGHT */
 
-.spray-line {
+.splash-7 {
 
-  fill: none;
+  width: 5px;
+  height: 5px;
 
-  stroke: var(--blue);
+  right: 29%;
+  bottom: 3%;
 
-  stroke-width: 5;
-
-  stroke-linecap: round;
-
-  opacity: 0.7;
-
+  box-shadow:
+    14px -7px 0 -1px var(--blue),
+    -16px -12px 0 -2px var(--blue);
 }
 
 
 /* =========================================================
-   HERO SIDE
+   HERO SIDE TEXT
    ========================================================= */
 
 .hero-side-text {
@@ -684,11 +772,13 @@ button {
     rotate(90deg);
 
   font-size: 9px;
+
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  color: rgba(242, 242, 242, 0.28);
+  color:
+    rgba(242, 242, 242, 0.28);
 
   z-index: 5;
 }
@@ -703,9 +793,11 @@ button {
   position: absolute;
 
   bottom: 36px;
+
   left: 50%;
 
-  transform: translateX(-50%);
+  transform:
+    translateX(-50%);
 
   display: flex;
 
@@ -721,33 +813,38 @@ button {
 .hero-bottom span {
 
   font-size: 8px;
+
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  color: rgba(242, 242, 242, 0.4);
+  color:
+    rgba(242, 242, 242, 0.4);
 }
 
 .scroll-line {
 
   width: 1px;
+
   height: 45px;
 
-  background: linear-gradient(
-    to bottom,
-    var(--blue),
-    transparent
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      var(--blue),
+      transparent
+    );
 }
 
 
 /* =========================================================
-   GENERAL
+   GENERAL SECTION
    ========================================================= */
 
 .section-label {
 
   font-size: 9px;
+
   font-weight: 700;
 
   letter-spacing: 3px;
@@ -762,7 +859,9 @@ button {
 
 .intro-section {
 
-  padding: 150px 7vw 155px;
+  padding:
+    150px 7vw
+    155px;
 
   background: var(--dark);
 }
@@ -786,11 +885,8 @@ button {
 
 .intro-title h2 {
 
-  font-size: clamp(
-    52px,
-    7vw,
-    105px
-  );
+  font-size:
+    clamp(52px, 7vw, 105px);
 
   line-height: 0.9;
 
@@ -805,7 +901,9 @@ button {
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-weight: 400;
 
@@ -842,7 +940,9 @@ button {
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-size: 25px;
 
@@ -856,7 +956,8 @@ button {
 
 .feature-section {
 
-  padding: 95px 7vw;
+  padding:
+    95px 7vw;
 
   background: var(--dark);
 }
@@ -870,6 +971,7 @@ button {
   display: flex;
 
   align-items: center;
+
   justify-content: space-between;
 
   gap: 30px;
@@ -877,11 +979,8 @@ button {
 
 .feature-heading h2 {
 
-  font-size: clamp(
-    48px,
-    6vw,
-    82px
-  );
+  font-size:
+    clamp(48px, 6vw, 82px);
 
   line-height: 0.88;
 
@@ -894,7 +993,9 @@ button {
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-weight: 400;
 
@@ -945,7 +1046,9 @@ button {
 
 .media-section {
 
-  padding: 120px 7vw 150px;
+  padding:
+    120px 7vw
+    150px;
 
   background: var(--black);
 }
@@ -958,7 +1061,8 @@ button {
 
   display: grid;
 
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    1fr 1fr;
 
   gap: 18px;
 }
@@ -977,7 +1081,8 @@ button {
 
   background: var(--dark-soft);
 
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
 
   transition:
     border-color 0.3s ease,
@@ -999,7 +1104,8 @@ button {
       transparent 55%
     );
 
-  transition: transform 0.5s ease;
+  transition:
+    transform 0.5s ease;
 }
 
 .media-card::after {
@@ -1020,9 +1126,11 @@ button {
 
 .media-card:hover {
 
-  border-color: rgba(0, 168, 255, 0.5);
+  border-color:
+    rgba(0, 168, 255, 0.5);
 
-  transform: translateY(-4px);
+  transform:
+    translateY(-4px);
 }
 
 .media-card:hover::before {
@@ -1043,22 +1151,21 @@ button {
 .media-card-content > span {
 
   font-size: 9px;
+
   font-weight: 700;
 
   letter-spacing: 3px;
 
-  color: rgba(242, 242, 242, 0.45);
+  color:
+    rgba(242, 242, 242, 0.45);
 }
 
 .media-card h2 {
 
   margin-top: 18px;
 
-  font-size: clamp(
-    55px,
-    7vw,
-    95px
-  );
+  font-size:
+    clamp(55px, 7vw, 95px);
 
   line-height: 0.85;
 
@@ -1071,7 +1178,9 @@ button {
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-weight: 400;
 }
@@ -1100,7 +1209,8 @@ button {
 
   min-height: 65vh;
 
-  padding: 120px 7vw;
+  padding:
+    120px 7vw;
 
   display: flex;
 
@@ -1127,7 +1237,8 @@ button {
 
   border-radius: 50%;
 
-  background: rgba(0, 168, 255, 0.08);
+  background:
+    rgba(0, 168, 255, 0.08);
 
   filter: blur(80px);
 }
@@ -1137,6 +1248,7 @@ button {
   position: relative;
 
   font-size: 9px;
+
   font-weight: 700;
 
   letter-spacing: 4px;
@@ -1150,11 +1262,8 @@ button {
 
   position: relative;
 
-  font-size: clamp(
-    70px,
-    11vw,
-    170px
-  );
+  font-size:
+    clamp(70px, 11vw, 170px);
 
   line-height: 0.82;
 
@@ -1169,7 +1278,9 @@ button {
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-style: normal;
 
@@ -1191,17 +1302,20 @@ button {
 
   min-height: 100px;
 
-  padding: 30px 42px;
+  padding:
+    30px 42px;
 
   display: grid;
 
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns:
+    1fr 1fr 1fr;
 
   align-items: center;
 
   gap: 20px;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top:
+    1px solid rgba(255, 255, 255, 0.08);
 
   background: #000;
 }
@@ -1241,6 +1355,7 @@ button {
   text-align: center;
 
   font-size: 8px;
+
   font-weight: 700;
 
   letter-spacing: 3px;
@@ -1275,17 +1390,23 @@ button {
   }
 
   .navigation a {
+
     font-size: 9px;
+
     letter-spacing: 1px;
   }
 
   .intro-layout {
+
     grid-template-columns: 1fr;
+
     gap: 55px;
   }
 
   .intro-section {
+
     padding-top: 110px;
+
     padding-bottom: 110px;
   }
 
@@ -1327,13 +1448,13 @@ button {
   .hero-content {
 
     padding:
-      100px 10px
+      100px 5px
       100px;
   }
 
   .hero-small {
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 
     font-size: 8px;
 
@@ -1341,46 +1462,55 @@ button {
   }
 
 
-  /* GRAFFITI */
+  /* MOBILE LOGO */
 
   .graffiti-logo {
 
-    width: 105vw;
+    width: 112vw;
 
-    max-width: none;
+    min-height: 190px;
 
-    left: 50%;
-
-    transform:
-      translateX(-50%)
-      rotate(-2deg);
+    margin-left: -6vw;
   }
 
-  .graffiti-svg text {
+  .graffiti-word {
 
-    font-size: 190px;
+    min-height: 190px;
+  }
 
-    letter-spacing: -12px;
+  .graffiti-shadow,
+  .graffiti-white,
+  .graffiti-main {
+
+    font-size:
+      clamp(82px, 21vw, 145px);
+
+    letter-spacing: -4px;
   }
 
   .graffiti-shadow {
 
-    stroke-width: 25px;
+    -webkit-text-stroke:
+      11px #000000;
+
+    text-shadow:
+      7px 9px 0 #000000;
   }
 
   .graffiti-white {
 
-    stroke-width: 21px;
+    -webkit-text-stroke:
+      10px var(--white);
   }
 
   .graffiti-main {
 
-    stroke-width: 16px;
-  }
+    -webkit-text-stroke:
+      5px #000000;
 
-  .graffiti-outline {
-
-    stroke-width: 4px;
+    text-shadow:
+      3px 4px 0 #000000,
+      6px 7px 0 var(--blue);
   }
 
 
@@ -1419,11 +1549,8 @@ button {
 
   .intro-title h2 {
 
-    font-size: clamp(
-      43px,
-      13vw,
-      70px
-    );
+    font-size:
+      clamp(43px, 13vw, 70px);
 
     letter-spacing: -3px;
   }
@@ -1455,11 +1582,8 @@ button {
 
   .feature-heading h2 {
 
-    font-size: clamp(
-      43px,
-      12vw,
-      68px
-    );
+    font-size:
+      clamp(43px, 12vw, 68px);
 
     letter-spacing: -3px;
   }
@@ -1517,11 +1641,8 @@ button {
 
   .final-section h2 {
 
-    font-size: clamp(
-      62px,
-      17vw,
-      105px
-    );
+    font-size:
+      clamp(62px, 17vw, 105px);
 
     letter-spacing: -5px;
   }
@@ -1563,21 +1684,19 @@ button {
 @media (max-width: 390px) {
 
   .graffiti-logo {
-    width: 112vw;
+
+    width: 118vw;
+
+    margin-left: -9vw;
   }
 
-  .graffiti-svg text {
+  .graffiti-shadow,
+  .graffiti-white,
+  .graffiti-main {
 
-    font-size: 190px;
+    font-size: 82px;
 
-    letter-spacing: -14px;
-  }
-
-  .hero-small {
-
-    font-size: 7px;
-
-    letter-spacing: 2px;
+    letter-spacing: -3px;
   }
 
   .feature-heading h2 {
