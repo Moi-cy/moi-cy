@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Kontakt – Moi-cy</title>
+  <title
+    data-i18n-title="contact_page_title"
+  >
+    Kontakt – Moi-cy
+  </title>
 
   <meta
     name="description"
     content="Kontakt zu Moi-cy."
+    data-i18n-description="contact_meta_description"
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +26,7 @@
   >
 
   <link rel="stylesheet" href="style.css?v=kontakt3">
+
 
   <style>
 
@@ -57,6 +64,7 @@
       margin-bottom: 65px;
     }
 
+
     .contact-page-heading span {
       display: block;
 
@@ -69,6 +77,7 @@
 
       letter-spacing: 0.16em;
     }
+
 
     .contact-page-heading h1 {
       margin: 0;
@@ -230,8 +239,74 @@
 
 
     /* =========================================
+       SPRACHUMSCHALTER
+    ========================================= */
+
+    .language-switcher {
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+      margin-left: 20px;
+    }
+
+
+    .language-switcher button {
+      padding: 6px 7px;
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 0.6rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.08em;
+
+      cursor: pointer;
+
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .language-switcher button:hover {
+      color: #f2f2f2;
+
+      border-color: #00a8ff;
+    }
+
+
+    .language-switcher button.active {
+      color: #050505;
+
+      background: #00a8ff;
+
+      border-color: #00a8ff;
+    }
+
+
+    /* =========================================
        MOBILE
     ========================================= */
+
+    @media (max-width: 900px) {
+
+      .language-switcher {
+        margin-left: 12px;
+      }
+
+    }
+
 
     @media (max-width: 700px) {
 
@@ -272,6 +347,20 @@
         width: 100%;
       }
 
+
+      .language-switcher {
+        margin-left: 8px;
+
+        gap: 3px;
+      }
+
+
+      .language-switcher button {
+        padding: 5px 6px;
+
+        font-size: 0.55rem;
+      }
+
     }
 
   </style>
@@ -303,37 +392,89 @@
 
   <nav class="navigation">
 
-    <a href="index.html">
+    <a
+      href="index.html"
+      data-i18n="nav_home"
+    >
       HOME
     </a>
 
-    <a href="bilder.html">
+    <a
+      href="bilder.html"
+      data-i18n="nav_images"
+    >
       BILDER
     </a>
 
-    <a href="videos.html">
+    <a
+      href="videos.html"
+      data-i18n="nav_videos"
+    >
       VIDEOS
     </a>
 
-    <a href="skateplaetze.html">
+    <a
+      href="skateplaetze.html"
+      data-i18n="nav_skateparks"
+    >
       SKATEPLÄTZE
     </a>
 
-    <a href="kontakt.html">
+    <a
+      href="kontakt.html"
+      data-i18n="nav_contact"
+    >
       KONTAKT
     </a>
 
-    <a href="shop.html">
+    <a
+      href="shop.html"
+      data-i18n="nav_shop"
+    >
       SHOP
     </a>
 
   </nav>
 
 
+  <!-- SPRACHE -->
+
+  <div
+    class="language-switcher"
+    aria-label="Sprache"
+    data-i18n-aria="language_switcher"
+  >
+
+    <button
+      type="button"
+      data-lang="de"
+      class="active"
+    >
+      DE
+    </button>
+
+    <button
+      type="button"
+      data-lang="en"
+    >
+      EN
+    </button>
+
+    <button
+      type="button"
+      data-lang="fr"
+    >
+      FR
+    </button>
+
+  </div>
+
+
   <button
     class="menu-button"
     id="menuButton"
     aria-label="Menü öffnen"
+    data-i18n-aria="menu_open"
   >
 
     <span></span>
@@ -361,11 +502,11 @@
 
       <div class="contact-page-heading">
 
-        <span>
+        <span data-i18n="contact_label">
           MOI-CY / KONTAKT
         </span>
 
-        <h1>
+        <h1 data-i18n="contact_title">
           Kontakt
         </h1>
 
@@ -385,6 +526,7 @@
           type="hidden"
           name="_subject"
           value="Neue Nachricht über Moi-cy"
+          data-i18n-value="contact_subject"
         >
 
         <input
@@ -398,7 +540,10 @@
 
         <div class="form-group">
 
-          <label for="name">
+          <label
+            for="name"
+            data-i18n="contact_name_label"
+          >
             NAME
           </label>
 
@@ -407,6 +552,8 @@
             id="name"
             name="name"
             placeholder="Dein Name"
+            data-i18n-placeholder="contact_name_placeholder"
+            autocomplete="name"
             required
           >
 
@@ -417,7 +564,10 @@
 
         <div class="form-group">
 
-          <label for="email">
+          <label
+            for="email"
+            data-i18n="contact_email_label"
+          >
             E-MAIL
           </label>
 
@@ -426,6 +576,8 @@
             id="email"
             name="email"
             placeholder="deine@email.de"
+            data-i18n-placeholder="contact_email_placeholder"
+            autocomplete="email"
             required
           >
 
@@ -436,7 +588,10 @@
 
         <div class="form-group">
 
-          <label for="message">
+          <label
+            for="message"
+            data-i18n="contact_message_label"
+          >
             NACHRICHT
           </label>
 
@@ -444,6 +599,7 @@
             id="message"
             name="message"
             placeholder="Deine Nachricht..."
+            data-i18n-placeholder="contact_message_placeholder"
             required
           ></textarea>
 
@@ -461,7 +617,9 @@
             →
           </span>
 
-          NACHRICHT SENDEN
+          <span data-i18n="contact_submit">
+            NACHRICHT SENDEN
+          </span>
 
         </button>
 
