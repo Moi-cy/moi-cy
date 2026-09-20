@@ -11,23 +11,23 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=skateplaetze1">
+    <link rel="stylesheet" href="style.css?v=skateplaetze2">
 
     <style>
 
         /* =========================================
-           SKATEPLÄTZE
+           SKATEPLÄTZE SEITE
         ========================================= */
 
         .skateparks-page {
             min-height: 100vh;
-            padding: 150px 7% 100px;
+            padding: 145px 7% 80px;
             background: #050505;
         }
 
 
         /* =========================================
-           KOPFZEILE
+           SEITENKOPF
         ========================================= */
 
         .skateparks-header {
@@ -35,50 +35,48 @@
             align-items: center;
             justify-content: space-between;
             gap: 40px;
-            margin-bottom: 65px;
+            margin-bottom: 60px;
         }
 
         .skateparks-header h1 {
             margin: 0;
-            font-family: "Permanent Marker", cursive;
-            font-size: clamp(42px, 5vw, 70px);
-            font-weight: 400;
             color: #F2F2F2;
+            font-family: "Permanent Marker", cursive;
+            font-size: clamp(42px, 5vw, 68px);
+            font-weight: 400;
             line-height: 1;
         }
 
 
         /* =========================================
-           FILTER
+           SUCHFELD + FILTER
         ========================================= */
 
         .skatepark-controls {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .search-box {
-            position: relative;
-        }
-
         .search-box input {
-            width: 250px;
-            height: 46px;
-            padding: 0 18px;
+            width: 245px;
+            height: 44px;
+            padding: 0 16px;
 
-            background: #0c0c0c;
-            border: 1px solid #242424;
-            border-radius: 3px;
+            background: #0b0b0b;
+            border: 1px solid #252525;
+            border-radius: 2px;
 
             color: #F2F2F2;
             font-family: "Inter", sans-serif;
-            font-size: 14px;
+            font-size: 13px;
 
             outline: none;
-            transition: 0.25s ease;
+
+            transition: border-color 0.25s ease,
+                        box-shadow 0.25s ease;
         }
 
         .search-box input::placeholder {
@@ -87,25 +85,25 @@
 
         .search-box input:focus {
             border-color: #00A8FF;
-            box-shadow: 0 0 15px rgba(0, 168, 255, 0.12);
+            box-shadow: 0 0 14px rgba(0, 168, 255, 0.12);
         }
 
         .skatepark-controls select {
-            height: 46px;
-            padding: 0 38px 0 14px;
+            height: 44px;
+            padding: 0 34px 0 13px;
 
-            background: #0c0c0c;
-            border: 1px solid #242424;
-            border-radius: 3px;
+            background: #0b0b0b;
+            border: 1px solid #252525;
+            border-radius: 2px;
 
             color: #F2F2F2;
             font-family: "Inter", sans-serif;
-            font-size: 14px;
+            font-size: 13px;
 
             outline: none;
             cursor: pointer;
 
-            transition: 0.25s ease;
+            transition: border-color 0.25s ease;
         }
 
         .skatepark-controls select:hover,
@@ -121,37 +119,38 @@
         .skatepark-list {
             display: flex;
             flex-direction: column;
-            gap: 35px;
+            gap: 34px;
         }
 
 
         /* =========================================
-           EINZELNER SKATEPARK
+           SKATEPARK EINTRAG
         ========================================= */
 
         .skatepark-card {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            min-height: 360px;
+
+            min-height: 370px;
 
             background: #080808;
             border: 1px solid #181818;
 
             transition:
-                transform 0.3s ease,
                 border-color 0.3s ease,
+                transform 0.3s ease,
                 box-shadow 0.3s ease;
         }
 
         .skatepark-card:hover {
-            transform: translateY(-3px);
             border-color: rgba(0, 168, 255, 0.45);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
         }
 
 
         /* =========================================
-           TEXT
+           TEXTBEREICH
         ========================================= */
 
         .skatepark-info {
@@ -163,37 +162,37 @@
         }
 
         .skatepark-country {
-            margin-bottom: 14px;
+            margin-bottom: 13px;
 
             color: #00A8FF;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         .skatepark-info h2 {
-            margin: 0 0 10px;
+            margin: 0 0 8px;
 
             color: #F2F2F2;
-            font-size: clamp(26px, 3vw, 38px);
+            font-size: clamp(27px, 3vw, 38px);
             font-weight: 600;
             line-height: 1.1;
         }
 
         .skatepark-city {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
 
-            color: #888;
-            font-size: 15px;
+            color: #777;
+            font-size: 14px;
         }
 
         .skatepark-description {
             max-width: 520px;
-            margin-bottom: 28px;
+            margin: 0 0 27px;
 
-            color: #aaa;
-            font-size: 15px;
+            color: #999;
+            font-size: 14px;
             line-height: 1.7;
         }
 
@@ -210,13 +209,13 @@
 
         .stars {
             color: #00A8FF;
-            font-size: 19px;
+            font-size: 18px;
             letter-spacing: 2px;
         }
 
         .rating-number {
             color: #F2F2F2;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
 
@@ -227,7 +226,7 @@
 
         .skatepark-image {
             position: relative;
-            min-height: 360px;
+            min-height: 370px;
             overflow: hidden;
         }
 
@@ -269,17 +268,18 @@
 
             padding: 9px 13px;
 
-            background: rgba(5, 5, 5, 0.85);
+            background: rgba(5, 5, 5, 0.88);
             border: 1px solid rgba(0, 168, 255, 0.5);
 
             color: #F2F2F2;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 1.3px;
 
             opacity: 0;
 
             transition: opacity 0.3s ease;
+
             pointer-events: none;
         }
 
@@ -295,24 +295,27 @@
         .no-results {
             display: none;
 
-            padding: 70px 20px;
+            padding: 65px 20px;
 
             text-align: center;
 
-            border: 1px solid #181818;
             background: #080808;
+            border: 1px solid #181818;
         }
 
         .no-results h2 {
             margin: 0 0 10px;
 
             color: #F2F2F2;
-            font-size: 25px;
+            font-size: 24px;
+            font-weight: 500;
         }
 
         .no-results p {
             margin: 0;
+
             color: #777;
+            font-size: 14px;
         }
 
 
@@ -321,13 +324,13 @@
         ========================================= */
 
         .skateparks-footer {
-            margin-top: 80px;
-            padding-top: 30px;
+            margin-top: 70px;
+            padding-top: 28px;
 
             border-top: 1px solid #181818;
 
             color: #555;
-            font-size: 12px;
+            font-size: 11px;
             text-align: center;
         }
 
@@ -339,13 +342,13 @@
         @media (max-width: 900px) {
 
             .skateparks-page {
-                padding: 130px 5% 80px;
+                padding: 125px 5% 70px;
             }
 
             .skateparks-header {
                 align-items: flex-start;
                 flex-direction: column;
-                gap: 30px;
+                gap: 28px;
             }
 
             .skatepark-controls {
@@ -383,15 +386,15 @@
         @media (max-width: 600px) {
 
             .skateparks-page {
-                padding: 110px 20px 60px;
+                padding: 105px 20px 55px;
             }
 
             .skateparks-header {
-                margin-bottom: 45px;
+                margin-bottom: 42px;
             }
 
             .skateparks-header h1 {
-                font-size: 48px;
+                font-size: 47px;
             }
 
             .skatepark-controls {
@@ -400,10 +403,7 @@
                 width: 100%;
             }
 
-            .search-box {
-                width: 100%;
-            }
-
+            .search-box,
             .search-box input {
                 width: 100%;
             }
@@ -412,16 +412,16 @@
                 width: 100%;
             }
 
+            .skatepark-image {
+                min-height: 245px;
+            }
+
             .skatepark-info {
-                padding: 30px 25px;
+                padding: 30px 24px;
             }
 
             .skatepark-info h2 {
                 font-size: 28px;
-            }
-
-            .skatepark-image {
-                min-height: 250px;
             }
 
             .maps-label {
@@ -467,13 +467,15 @@
 
 
     <!-- =========================================
-         SKATEPLÄTZE
+         HAUPTINHALT
     ========================================= -->
 
     <main class="skateparks-page">
 
 
-        <!-- KOPF + SUCHFELD -->
+        <!-- =====================================
+             ÜBERSCHRIFT + FILTER
+        ===================================== -->
 
         <div class="skateparks-header">
 
@@ -496,20 +498,30 @@
 
                 <select id="countryFilter">
 
-                    <option value="all">Alle Länder</option>
+                    <option value="all">
+                        Alle Länder
+                    </option>
 
                 </select>
 
 
                 <select id="sortSelect">
 
-                    <option value="city-asc">Stadt A–Z</option>
+                    <option value="city-asc">
+                        Stadt A–Z
+                    </option>
 
-                    <option value="city-desc">Stadt Z–A</option>
+                    <option value="city-desc">
+                        Stadt Z–A
+                    </option>
 
-                    <option value="rating-desc">Bewertung hoch → niedrig</option>
+                    <option value="rating-desc">
+                        Bewertung hoch → niedrig
+                    </option>
 
-                    <option value="rating-asc">Bewertung niedrig → hoch</option>
+                    <option value="rating-asc">
+                        Bewertung niedrig → hoch
+                    </option>
 
                 </select>
 
@@ -519,9 +531,9 @@
 
 
 
-        <!-- =========================================
-             SKATEPARK LISTE
-        ========================================= -->
+        <!-- =====================================
+             SKATEPLÄTZE
+        ===================================== -->
 
         <div class="skatepark-list" id="skateparkList">
 
@@ -542,21 +554,25 @@
                         Deutschland
                     </div>
 
-                    <h2>Skatepark Karlsruhe</h2>
+                    <h2>
+                        Skatepark Karlsruhe
+                    </h2>
 
                     <div class="skatepark-city">
                         Karlsruhe
                     </div>
 
                     <p class="skatepark-description">
-                        Platzhalter für die Beschreibung des Skateplatzes.
-                        Hier können später Informationen zum Park,
-                        Untergrund, Obstacles und Besonderheiten stehen.
+                        Platzhalter für die Beschreibung des
+                        Skateplatzes. Hier kommen später die
+                        echten Informationen über den Park hin.
                     </p>
 
                     <div class="skatepark-rating">
 
-                        <span class="stars">★★★★★</span>
+                        <span class="stars">
+                            ★★★★★
+                        </span>
 
                         <span class="rating-number">
                             5 / 5
@@ -608,21 +624,25 @@
                         Deutschland
                     </div>
 
-                    <h2>Skatepark Mannheim</h2>
+                    <h2>
+                        Skatepark Mannheim
+                    </h2>
 
                     <div class="skatepark-city">
                         Mannheim
                     </div>
 
                     <p class="skatepark-description">
-                        Platzhalter für die Beschreibung des Skateplatzes.
-                        Später kommen hier die echten Informationen
-                        über den Skatepark hinein.
+                        Platzhalter für die Beschreibung des
+                        Skateplatzes. Die echten Informationen
+                        ergänzen wir später.
                     </p>
 
                     <div class="skatepark-rating">
 
-                        <span class="stars">★★★★☆</span>
+                        <span class="stars">
+                            ★★★★☆
+                        </span>
 
                         <span class="rating-number">
                             4 / 5
@@ -674,21 +694,25 @@
                         Deutschland
                     </div>
 
-                    <h2>Skatepark Stuttgart</h2>
+                    <h2>
+                        Skatepark Stuttgart
+                    </h2>
 
                     <div class="skatepark-city">
                         Stuttgart
                     </div>
 
                     <p class="skatepark-description">
-                        Platzhalter für die Beschreibung des Skateplatzes.
-                        Dieser Eintrag dient momentan nur dazu,
-                        die Funktionen der Seite zu testen.
+                        Platzhalter für die Beschreibung des
+                        Skateplatzes. Dieser Eintrag dient momentan
+                        zum Testen der Funktionen.
                     </p>
 
                     <div class="skatepark-rating">
 
-                        <span class="stars">★★★☆☆</span>
+                        <span class="stars">
+                            ★★★☆☆
+                        </span>
 
                         <span class="rating-number">
                             3 / 5
@@ -740,21 +764,25 @@
                         Deutschland
                     </div>
 
-                    <h2>Skatepark Freiburg</h2>
+                    <h2>
+                        Skatepark Freiburg
+                    </h2>
 
                     <div class="skatepark-city">
                         Freiburg
                     </div>
 
                     <p class="skatepark-description">
-                        Platzhalter für die Beschreibung des Skateplatzes.
-                        Die echten Daten und Bilder werden später
-                        ergänzt.
+                        Platzhalter für die Beschreibung des
+                        Skateplatzes. Später kommen hier die
+                        echten Daten und Bilder hinein.
                     </p>
 
                     <div class="skatepark-rating">
 
-                        <span class="stars">★★★★½</span>
+                        <span class="stars">
+                            ★★★★½
+                        </span>
 
                         <span class="rating-number">
                             4,5 / 5
@@ -793,21 +821,31 @@
 
 
 
-        <!-- KEINE ERGEBNISSE -->
+        <!-- =====================================
+             KEINE ERGEBNISSE
+        ===================================== -->
 
-        <div class="no-results" id="noResults">
+        <div
+            class="no-results"
+            id="noResults"
+        >
 
-            <h2>Kein Skateplatz gefunden</h2>
+            <h2>
+                Kein Skateplatz gefunden
+            </h2>
 
             <p>
-                Versuch es mit einem anderen Suchbegriff oder Filter.
+                Versuch es mit einem anderen Suchbegriff
+                oder Filter.
             </p>
 
         </div>
 
 
 
-        <!-- FOOTER -->
+        <!-- =====================================
+             FOOTER
+        ===================================== -->
 
         <footer class="skateparks-footer">
 
@@ -826,38 +864,49 @@
 
     <script>
 
-        const searchInput = document.getElementById("searchInput");
+        const searchInput =
+            document.getElementById("searchInput");
 
-        const countryFilter = document.getElementById("countryFilter");
+        const countryFilter =
+            document.getElementById("countryFilter");
 
-        const sortSelect = document.getElementById("sortSelect");
+        const sortSelect =
+            document.getElementById("sortSelect");
 
-        const skateparkList = document.getElementById("skateparkList");
+        const skateparkList =
+            document.getElementById("skateparkList");
 
-        const noResults = document.getElementById("noResults");
+        const noResults =
+            document.getElementById("noResults");
 
-        const skateparks = Array.from(
-            document.querySelectorAll(".skatepark-card")
-        );
+        const skateparks =
+            Array.from(
+                document.querySelectorAll(".skatepark-card")
+            );
 
 
         /* =========================================
-           LÄNDER AUTOMATISCH ERSTELLEN
+           LÄNDER AUS DEN EINTRÄGEN ERMITTELN
         ========================================= */
 
         const countries = [
             ...new Set(
                 skateparks.map(
-                    skatepark => skatepark.dataset.country
+                    skatepark =>
+                        skatepark.dataset.country
                 )
             )
         ];
 
+
         countries
-            .sort((a, b) => a.localeCompare(b, "de"))
+            .sort((a, b) =>
+                a.localeCompare(b, "de")
+            )
             .forEach(country => {
 
-                const option = document.createElement("option");
+                const option =
+                    document.createElement("option");
 
                 option.value = country;
 
@@ -870,7 +919,7 @@
 
 
         /* =========================================
-           FILTER + SORTIERUNG
+           SKATEPLÄTZE AKTUALISIEREN
         ========================================= */
 
         function updateSkateparks() {
@@ -893,24 +942,27 @@
                 skateparks.filter(skatepark => {
 
                     const name =
-                        skatepark.dataset.name.toLowerCase();
+                        skatepark.dataset.name
+                            .toLowerCase();
 
                     const city =
-                        skatepark.dataset.city.toLowerCase();
+                        skatepark.dataset.city
+                            .toLowerCase();
 
                     const country =
-                        skatepark.dataset.country;
+                        skatepark.dataset.country
+                            .toLowerCase();
 
 
                     const matchesSearch =
                         name.includes(searchTerm) ||
                         city.includes(searchTerm) ||
-                        country.toLowerCase().includes(searchTerm);
+                        country.includes(searchTerm);
 
 
                     const matchesCountry =
                         selectedCountry === "all" ||
-                        country === selectedCountry;
+                        skatepark.dataset.country === selectedCountry;
 
 
                     return (
@@ -973,7 +1025,7 @@
 
 
             /* =====================================
-               REIHENFOLGE AKTUALISIEREN
+               LISTE NEU AUFBAUEN
             ===================================== */
 
             visibleSkateparks.forEach(skatepark => {
@@ -987,7 +1039,9 @@
 
             skateparks.forEach(skatepark => {
 
-                if (!visibleSkateparks.includes(skatepark)) {
+                if (
+                    !visibleSkateparks.includes(skatepark)
+                ) {
 
                     skatepark.style.display = "none";
 
@@ -1000,7 +1054,9 @@
                KEINE ERGEBNISSE
             ===================================== */
 
-            if (visibleSkateparks.length === 0) {
+            if (
+                visibleSkateparks.length === 0
+            ) {
 
                 noResults.style.display = "block";
 
