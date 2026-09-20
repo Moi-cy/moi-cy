@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Shop – Moi-cy</title>
+  <title
+    data-i18n-title="shop_page_title"
+  >
+    Shop – Moi-cy
+  </title>
 
   <meta
     name="description"
     content="Der Moi-cy Shop."
+    data-i18n-description="shop_meta_description"
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +26,7 @@
   >
 
   <link rel="stylesheet" href="style.css?v=shop2">
+
 
   <style>
 
@@ -248,8 +255,74 @@
 
 
     /* =========================================
+       SPRACHUMSCHALTER
+    ========================================= */
+
+    .language-switcher {
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+      margin-left: 20px;
+    }
+
+
+    .language-switcher button {
+      padding: 6px 7px;
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 0.6rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.08em;
+
+      cursor: pointer;
+
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .language-switcher button:hover {
+      color: #f2f2f2;
+
+      border-color: #00a8ff;
+    }
+
+
+    .language-switcher button.active {
+      color: #050505;
+
+      background: #00a8ff;
+
+      border-color: #00a8ff;
+    }
+
+
+    /* =========================================
        MOBILE
     ========================================= */
+
+    @media (max-width: 900px) {
+
+      .language-switcher {
+        margin-left: 12px;
+      }
+
+    }
+
 
     @media (max-width: 700px) {
 
@@ -284,6 +357,20 @@
         padding: 16px 18px;
       }
 
+
+      .language-switcher {
+        margin-left: 8px;
+
+        gap: 3px;
+      }
+
+
+      .language-switcher button {
+        padding: 5px 6px;
+
+        font-size: 0.55rem;
+      }
+
     }
 
   </style>
@@ -315,37 +402,89 @@
 
   <nav class="navigation">
 
-    <a href="index.html">
+    <a
+      href="index.html"
+      data-i18n="nav_home"
+    >
       HOME
     </a>
 
-    <a href="bilder.html">
+    <a
+      href="bilder.html"
+      data-i18n="nav_images"
+    >
       BILDER
     </a>
 
-    <a href="videos.html">
+    <a
+      href="videos.html"
+      data-i18n="nav_videos"
+    >
       VIDEOS
     </a>
 
-    <a href="skateplaetze.html">
+    <a
+      href="skateplaetze.html"
+      data-i18n="nav_skateparks"
+    >
       SKATEPLÄTZE
     </a>
 
-    <a href="kontakt.html">
+    <a
+      href="kontakt.html"
+      data-i18n="nav_contact"
+    >
       KONTAKT
     </a>
 
-    <a href="shop.html">
+    <a
+      href="shop.html"
+      data-i18n="nav_shop"
+    >
       SHOP
     </a>
 
   </nav>
 
 
+  <!-- SPRACHE -->
+
+  <div
+    class="language-switcher"
+    aria-label="Sprache"
+    data-i18n-aria="language_switcher"
+  >
+
+    <button
+      type="button"
+      data-lang="de"
+      class="active"
+    >
+      DE
+    </button>
+
+    <button
+      type="button"
+      data-lang="en"
+    >
+      EN
+    </button>
+
+    <button
+      type="button"
+      data-lang="fr"
+    >
+      FR
+    </button>
+
+  </div>
+
+
   <button
     class="menu-button"
     id="menuButton"
     aria-label="Menü öffnen"
+    data-i18n-aria="menu_open"
   >
 
     <span></span>
@@ -371,11 +510,18 @@
 
     <div class="shop-header">
 
-      <span class="shop-label">
+      <span
+        class="shop-label"
+        data-i18n="shop_label"
+      >
         MOI-CY / SHOP
       </span>
 
-      <h1 class="shop-title">
+
+      <h1
+        class="shop-title"
+        data-i18n="shop_title"
+      >
         Shop
       </h1>
 
@@ -404,6 +550,7 @@
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Moi-cy Shop auf Zazzle öffnen"
+          data-i18n-aria="zazzle_shop_open"
         >
 
           <div class="shop-image">
@@ -411,6 +558,7 @@
             <img
               src="https://placehold.co/900x900/111111/00A8FF?text=ZAZZLE"
               alt="Moi-cy Shop auf Zazzle"
+              data-i18n-alt="zazzle_shop_alt"
             >
 
           </div>
@@ -427,7 +575,7 @@
           rel="noopener noreferrer"
         >
 
-          <span>
+          <span data-i18n="zazzle_shop_button">
             ZUM ZAZZLE SHOP
           </span>
 
@@ -457,6 +605,7 @@
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Moi-cy Shop auf TeamShirts öffnen"
+          data-i18n-aria="teamshirts_shop_open"
         >
 
           <div class="shop-image">
@@ -464,6 +613,7 @@
             <img
               src="https://placehold.co/900x900/111111/00A8FF?text=TEAMSHIRTS"
               alt="Moi-cy Shop auf TeamShirts"
+              data-i18n-alt="teamshirts_shop_alt"
             >
 
           </div>
@@ -480,7 +630,7 @@
           rel="noopener noreferrer"
         >
 
-          <span>
+          <span data-i18n="teamshirts_shop_button">
             ZUM TEAMSHIRTS SHOP
           </span>
 
@@ -532,6 +682,7 @@
 
 
 <script src="script.js"></script>
+
 
 </body>
 </html>
