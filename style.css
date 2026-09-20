@@ -1,6 +1,6 @@
 /* =========================================
    MOI-CY
-   DARK STREET × ELECTRIC BLUE
+   DARK STREET × SPRAY PAINT
 ========================================= */
 
 * {
@@ -58,30 +58,23 @@ img {
 
 .small-label {
   display: inline-block;
-
   color: var(--blue);
-
   font-size: 0.68rem;
   font-weight: 700;
-
   letter-spacing: 0.16em;
 }
 
 .section-number {
   color: #444;
-
   font-size: 0.7rem;
   font-weight: 600;
-
   letter-spacing: 0.1em;
 }
 
 .graffiti-word,
 .handwritten {
   font-family: "Permanent Marker", cursive;
-
   color: var(--blue);
-
   line-height: 1;
 }
 
@@ -92,41 +85,28 @@ img {
 
 .header {
   position: fixed;
-
   top: 0;
   left: 0;
-
   width: 100%;
   height: 82px;
-
   padding: 0 5vw;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   background: rgba(5, 5, 5, 0.9);
-
   backdrop-filter: blur(14px);
-
   border-bottom: 1px solid var(--line);
-
   z-index: 1000;
 }
 
 .logo {
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   font-size: 1.4rem;
   font-weight: 900;
-
   letter-spacing: -0.06em;
-
   white-space: nowrap;
-
   transition: color 0.25s ease;
 }
 
@@ -137,18 +117,13 @@ img {
 .logo-mark {
   width: 25px;
   height: 25px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border: 1px solid var(--blue);
-
   color: var(--blue);
-
   font-size: 0.65rem;
   font-weight: 900;
-
   transform: rotate(-8deg);
 }
 
@@ -159,36 +134,26 @@ img {
 
 .navigation {
   display: flex;
-
   align-items: center;
-
   gap: 32px;
 }
 
 .navigation a {
   position: relative;
-
   font-size: 0.68rem;
   font-weight: 700;
-
   letter-spacing: 0.13em;
-
   transition: color 0.25s ease;
 }
 
 .navigation a::after {
   content: "";
-
   position: absolute;
-
   left: 0;
   bottom: -8px;
-
   width: 0;
   height: 1px;
-
   background: var(--blue);
-
   transition: width 0.25s ease;
 }
 
@@ -207,28 +172,20 @@ img {
 
 .menu-button {
   display: none;
-
   width: 42px;
   height: 42px;
-
   border: none;
-
   background: transparent;
-
   cursor: pointer;
-
   flex-direction: column;
   justify-content: center;
-
   gap: 5px;
 }
 
 .menu-button span {
   display: block;
-
   width: 24px;
   height: 2px;
-
   background: var(--white);
 }
 
@@ -239,18 +196,12 @@ img {
 
 .hero {
   position: relative;
-
   min-height: 100vh;
-
-  padding: 120px 5vw 70px;
-
+  padding: 120px 5vw 80px;
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   overflow: hidden;
-
   background: #050505;
 }
 
@@ -261,45 +212,22 @@ img {
 
 .hero-glow {
   position: absolute;
-
   width: 850px;
   height: 850px;
-
   left: 50%;
-  top: 50%;
-
+  top: 47%;
   transform: translate(-50%, -50%);
 
   background:
     radial-gradient(
       circle,
-      rgba(0, 168, 255, 0.16) 0%,
-      rgba(0, 168, 255, 0.07) 27%,
-      rgba(0, 168, 255, 0.025) 48%,
+      rgba(0, 168, 255, 0.14) 0%,
+      rgba(0, 168, 255, 0.06) 28%,
+      rgba(0, 168, 255, 0.02) 50%,
       transparent 72%
     );
 
   pointer-events: none;
-
-  animation:
-    heroGlow 6s ease-in-out infinite;
-}
-
-@keyframes heroGlow {
-
-  0%,
-  100% {
-    transform:
-      translate(-50%, -50%)
-      scale(0.92);
-  }
-
-  50% {
-    transform:
-      translate(-50%, -50%)
-      scale(1.08);
-  }
-
 }
 
 
@@ -309,10 +237,8 @@ img {
 
 .hero-grid {
   position: absolute;
-
   inset: 0;
-
-  opacity: 0.035;
+  opacity: 0.025;
 
   background-image:
     linear-gradient(
@@ -344,15 +270,11 @@ img {
 
 .hero-content {
   position: relative;
-
   z-index: 10;
-
   width: 100%;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
 
@@ -361,126 +283,93 @@ img {
 
 
 /* =========================================
-   MAIN LOGO AREA
+   MAIN LOGO
 ========================================= */
 
 .main-logo {
   position: relative;
 
-  display: flex;
+  width: min(1150px, 94vw);
+  height: 300px;
 
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  width: min(1050px, 92vw);
-
-  min-height: 250px;
-
-  animation:
-    logoEntrance 1.2s
-    cubic-bezier(0.16, 1, 0.3, 1)
-    both;
 
   isolation: isolate;
 }
 
-@keyframes logoEntrance {
-
-  0% {
-    opacity: 0;
-
-    transform:
-      scale(0.72)
-      rotate(-8deg);
-  }
-
-  60% {
-    opacity: 1;
-
-    transform:
-      scale(1.04)
-      rotate(1deg);
-  }
-
-  100% {
-    opacity: 1;
-
-    transform:
-      scale(1)
-      rotate(0);
-  }
-
-}
-
 
 /* =========================================
-   PAINT CLOUD
+   SPRAY CLOUD
 ========================================= */
 
-.paint-cloud {
+.spray-cloud {
   position: absolute;
 
-  width: 76%;
-  height: 120px;
+  width: 82%;
+  height: 150px;
 
-  left: 12%;
+  left: 9%;
   top: 50%;
 
-  transform:
-    translateY(-50%)
-    rotate(-5deg);
+  transform: translateY(-50%) rotate(-3deg);
 
   background:
     radial-gradient(
       ellipse at center,
-      rgba(0, 168, 255, 0.5) 0%,
-      rgba(0, 168, 255, 0.25) 30%,
-      rgba(0, 168, 255, 0.08) 58%,
+      rgba(0, 168, 255, 0.38) 0%,
+      rgba(0, 168, 255, 0.22) 28%,
+      rgba(0, 168, 255, 0.08) 53%,
       transparent 76%
     );
 
-  filter: blur(12px);
+  filter: blur(17px);
 
   opacity: 0;
 
-  z-index: -2;
-
   animation:
-    paintAppear 0.9s ease-out 0.35s
+    sprayCloudIn
+    1.8s
+    ease-out
+    0.15s
     forwards;
+
+  z-index: -3;
 }
 
-@keyframes paintAppear {
+@keyframes sprayCloudIn {
 
-  from {
+  0% {
     opacity: 0;
-
     transform:
       translateY(-50%)
-      rotate(-5deg)
-      scaleX(0.2);
+      rotate(-3deg)
+      scaleX(0.15);
   }
 
-  to {
-    opacity: 1;
+  45% {
+    opacity: 0.85;
+  }
 
+  100% {
+    opacity: 1;
     transform:
       translateY(-50%)
-      rotate(-5deg)
+      rotate(-3deg)
       scaleX(1);
   }
-
 }
 
 
 /* =========================================
-   PAINT LINES
+   SPRAY STREAKS
 ========================================= */
 
-.paint-line {
+.spray-streak {
   position: absolute;
 
-  height: 3px;
+  height: 2px;
 
   background: var(--blue);
 
@@ -495,112 +384,192 @@ img {
 
   opacity: 0;
 
-  z-index: -1;
+  transform-origin: left center;
 
+  z-index: -1;
+}
+
+.streak-1 {
+  width: 170px;
+  left: 5%;
+  top: 42%;
+  transform: rotate(-8deg);
   animation:
-    sprayLine 0.8s
+    streakIn
+    0.8s
     ease-out
+    0.2s
     forwards;
 }
 
-.paint-line-1 {
-  width: 115px;
-
-  left: 9%;
-  top: 35%;
-
-  transform: rotate(-13deg);
-
-  animation-delay: 0.45s;
+.streak-2 {
+  width: 120px;
+  right: 5%;
+  top: 57%;
+  transform: rotate(7deg);
+  animation:
+    streakInRight
+    0.8s
+    ease-out
+    0.4s
+    forwards;
 }
 
-.paint-line-2 {
+.streak-3 {
   width: 80px;
-
-  right: 9%;
-  top: 62%;
-
-  transform: rotate(11deg);
-
-  animation-delay: 0.58s;
+  left: 13%;
+  top: 30%;
+  transform: rotate(-18deg);
+  animation:
+    streakIn
+    0.65s
+    ease-out
+    0.55s
+    forwards;
 }
 
-.paint-line-3 {
-  width: 45px;
-
-  right: 17%;
-  top: 29%;
-
-  transform: rotate(-22deg);
-
-  animation-delay: 0.7s;
+.streak-4 {
+  width: 70px;
+  right: 13%;
+  top: 33%;
+  transform: rotate(15deg);
+  animation:
+    streakInRight
+    0.65s
+    ease-out
+    0.7s
+    forwards;
 }
 
-@keyframes sprayLine {
+@keyframes streakIn {
 
-  from {
+  0% {
     opacity: 0;
-
     transform:
       scaleX(0)
-      rotate(-13deg);
+      rotate(-8deg);
   }
 
-  to {
-    opacity: 0.75;
-
+  100% {
+    opacity: 0.65;
     transform:
       scaleX(1)
-      rotate(-13deg);
+      rotate(-8deg);
+  }
+}
+
+@keyframes streakInRight {
+
+  0% {
+    opacity: 0;
+    transform:
+      scaleX(0)
+      rotate(7deg);
   }
 
+  100% {
+    opacity: 0.65;
+    transform:
+      scaleX(1)
+      rotate(7deg);
+  }
 }
 
 
 /* =========================================
-   THE ACTUAL LOGO
+   PAINT SPLASHES
 ========================================= */
 
-.logo-main {
+.paint-splash {
+  position: absolute;
+
+  border-radius: 50%;
+
+  background: var(--blue);
+
+  opacity: 0;
+
+  filter:
+    blur(1px)
+    drop-shadow(
+      0 0 8px
+      rgba(0, 168, 255, 0.7)
+    );
+
+  z-index: -1;
+}
+
+.splash-1 {
+  width: 12px;
+  height: 12px;
+  left: 18%;
+  top: 35%;
+
+  animation:
+    splashIn
+    0.45s
+    ease-out
+    0.8s
+    forwards;
+}
+
+.splash-2 {
+  width: 6px;
+  height: 6px;
+  right: 20%;
+  top: 43%;
+
+  animation:
+    splashIn
+    0.45s
+    ease-out
+    1s
+    forwards;
+}
+
+.splash-3 {
+  width: 4px;
+  height: 4px;
+  left: 27%;
+  top: 66%;
+
+  animation:
+    splashIn
+    0.45s
+    ease-out
+    1.15s
+    forwards;
+}
+
+@keyframes splashIn {
+
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  70% {
+    opacity: 0.8;
+    transform: scale(1.3);
+  }
+
+  100% {
+    opacity: 0.65;
+    transform: scale(1);
+  }
+}
+
+
+/* =========================================
+   LOGO SPRAY MASK
+========================================= */
+
+.logo-spray-mask {
   position: relative;
 
-  display: block;
+  display: inline-block;
 
-  font-family: "Permanent Marker", cursive;
-
-  font-size: clamp(7rem, 18vw, 15rem);
-
-  font-weight: 400;
-
-  line-height: 0.8;
-
-  letter-spacing: -0.055em;
-
-  white-space: nowrap;
-
-  color: var(--white);
-
-  transform: rotate(-4deg);
-
-  /*
-     kräftige schwarze Graffiti-Kontur
-  */
-
-  -webkit-text-stroke: 4px #050505;
-
-  /*
-     Spray-/Street-Shadow
-  */
-
-  text-shadow:
-    8px 8px 0 #050505,
-    12px 12px 0 rgba(0, 0, 0, 0.45),
-    0 0 12px rgba(0, 168, 255, 0.55),
-    0 0 38px rgba(0, 168, 255, 0.2);
-
-  /*
-     Das "Aufsprühen"
-  */
+  overflow: visible;
 
   clip-path:
     inset(
@@ -608,23 +577,47 @@ img {
     );
 
   animation:
-    sprayReveal 1.15s
-    cubic-bezier(0.77, 0, 0.175, 1)
-    0.15s
+    logoSprayReveal
+    2.2s
+    cubic-bezier(0.65, 0, 0.2, 1)
+    0.25s
     forwards;
-
-  transition:
-    color 0.35s ease,
-    transform 0.35s ease,
-    text-shadow 0.35s ease;
 }
 
-@keyframes sprayReveal {
+@keyframes logoSprayReveal {
 
   0% {
     clip-path:
       inset(
         0 100% 0 0
+      );
+  }
+
+  15% {
+    clip-path:
+      inset(
+        0 88% 0 0
+      );
+  }
+
+  35% {
+    clip-path:
+      inset(
+        0 65% 0 0
+      );
+  }
+
+  55% {
+    clip-path:
+      inset(
+        0 40% 0 0
+      );
+  }
+
+  75% {
+    clip-path:
+      inset(
+        0 18% 0 0
       );
   }
 
@@ -634,47 +627,116 @@ img {
         0 0 0 0
       );
   }
-
 }
 
 
 /* =========================================
-   GRAFFITI EDGE
+   ACTUAL GRAFFITI LOGO
 ========================================= */
 
-.logo-main::before {
+.logo-main {
+  position: relative;
+
+  display: block;
+
+  font-family:
+    "Rubik Wet Paint",
+    "Permanent Marker",
+    cursive;
+
+  font-size:
+    clamp(
+      8rem,
+      19vw,
+      16rem
+    );
+
+  font-weight: 400;
+
+  line-height: 0.75;
+
+  letter-spacing: -0.045em;
+
+  white-space: nowrap;
+
+  color: #f2f2f2;
+
+  transform:
+    rotate(-3deg)
+    skewX(-4deg);
+
+  -webkit-text-stroke:
+    3px
+    #050505;
+
+  text-shadow:
+    6px 6px 0 #050505,
+    10px 10px 0 rgba(0, 0, 0, 0.45),
+    0 0 10px rgba(0, 168, 255, 0.5),
+    0 0 35px rgba(0, 168, 255, 0.2);
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+
+/* =========================================
+   PAINT DRIP UNDER LOGO
+========================================= */
+
+.logo-main::after {
   content: "";
 
   position: absolute;
 
-  left: -5%;
-  right: -5%;
+  left: 10%;
+  bottom: -13px;
 
-  bottom: -13%;
+  width: 65%;
+  height: 8px;
 
-  height: 9px;
+  background: var(--blue);
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(0, 168, 255, 0.8),
-      transparent
-    );
+  border-radius: 50%;
 
   filter:
-    blur(4px)
+    blur(2px)
     drop-shadow(
-      0 0 8px
-      rgba(0, 168, 255, 0.7)
+      0 0 10px
+      rgba(0, 168, 255, 0.65)
     );
 
-  opacity: 0.7;
+  opacity: 0.6;
 
   transform:
-    rotate(-1deg);
+    rotate(-2deg)
+    scaleX(0);
 
-  pointer-events: none;
+  transform-origin: left;
+
+  animation:
+    paintDrip
+    1s
+    ease-out
+    1.9s
+    forwards;
+}
+
+@keyframes paintDrip {
+
+  from {
+    transform:
+      rotate(-2deg)
+      scaleX(0);
+  }
+
+  to {
+    transform:
+      rotate(-2deg)
+      scaleX(1);
+  }
 }
 
 
@@ -686,13 +748,14 @@ img {
   color: var(--blue);
 
   transform:
-    rotate(-2deg)
+    rotate(-1deg)
+    skewX(-4deg)
     scale(1.025);
 
   text-shadow:
-    8px 8px 0 #050505,
-    0 0 22px rgba(0, 168, 255, 0.8),
-    0 0 55px rgba(0, 168, 255, 0.4);
+    7px 7px 0 #050505,
+    0 0 20px rgba(0, 168, 255, 0.8),
+    0 0 50px rgba(0, 168, 255, 0.35);
 }
 
 
@@ -711,7 +774,8 @@ img {
   background: var(--blue);
 
   box-shadow:
-    0 0 10px rgba(0, 168, 255, 0.9);
+    0 0 10px
+    rgba(0, 168, 255, 0.9);
 
   pointer-events: none;
 
@@ -719,134 +783,160 @@ img {
 
   animation:
     particleAppear
-    0.5s
+    0.55s
     ease-out
     forwards;
 }
 
 .spray-1 {
-  left: 20%;
+  left: 18%;
   top: 39%;
-
   width: 7px;
   height: 7px;
-
-  animation-delay: 0.35s;
-}
-
-.spray-2 {
-  left: 24%;
-  top: 52%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 0.5s;
-}
-
-.spray-3 {
-  right: 20%;
-  top: 36%;
-
-  width: 8px;
-  height: 8px;
-
-  animation-delay: 0.45s;
-}
-
-.spray-4 {
-  right: 24%;
-  top: 56%;
-
-  width: 4px;
-  height: 4px;
-
-  animation-delay: 0.65s;
-}
-
-.spray-5 {
-  left: 29%;
-  top: 29%;
-
-  width: 3px;
-  height: 3px;
-
-  animation-delay: 0.7s;
-}
-
-.spray-6 {
-  right: 29%;
-  top: 28%;
-
-  width: 4px;
-  height: 4px;
-
   animation-delay: 0.55s;
 }
 
-.spray-7 {
-  left: 17%;
-  top: 48%;
+.spray-2 {
+  left: 23%;
+  top: 52%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 0.7s;
+}
 
-  width: 2px;
-  height: 2px;
+.spray-3 {
+  right: 18%;
+  top: 36%;
+  width: 8px;
+  height: 8px;
+  animation-delay: 0.65s;
+}
 
+.spray-4 {
+  right: 22%;
+  top: 57%;
+  width: 4px;
+  height: 4px;
   animation-delay: 0.8s;
 }
 
-.spray-8 {
-  right: 18%;
-  top: 45%;
-
+.spray-5 {
+  left: 28%;
+  top: 27%;
   width: 3px;
   height: 3px;
+  animation-delay: 0.9s;
+}
 
-  animation-delay: 0.75s;
+.spray-6 {
+  right: 28%;
+  top: 29%;
+  width: 4px;
+  height: 4px;
+  animation-delay: 0.85s;
+}
+
+.spray-7 {
+  left: 15%;
+  top: 48%;
+  width: 2px;
+  height: 2px;
+  animation-delay: 1s;
+}
+
+.spray-8 {
+  right: 16%;
+  top: 45%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 1.05s;
 }
 
 .spray-9 {
   left: 34%;
-  top: 63%;
-
+  top: 65%;
   width: 3px;
   height: 3px;
-
-  animation-delay: 0.9s;
+  animation-delay: 1.15s;
 }
 
 .spray-10 {
-  right: 34%;
-  top: 62%;
-
+  right: 33%;
+  top: 64%;
   width: 2px;
   height: 2px;
+  animation-delay: 1.2s;
+}
 
-  animation-delay: 1s;
+.spray-11 {
+  left: 11%;
+  top: 55%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 1.3s;
+}
+
+.spray-12 {
+  right: 11%;
+  top: 51%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 1.35s;
+}
+
+.spray-13 {
+  left: 31%;
+  top: 22%;
+  width: 2px;
+  height: 2px;
+  animation-delay: 1.4s;
+}
+
+.spray-14 {
+  right: 31%;
+  top: 24%;
+  width: 3px;
+  height: 3px;
+  animation-delay: 1.45s;
+}
+
+.spray-15 {
+  left: 40%;
+  top: 69%;
+  width: 2px;
+  height: 2px;
+  animation-delay: 1.5s;
+}
+
+.spray-16 {
+  right: 39%;
+  top: 68%;
+  width: 2px;
+  height: 2px;
+  animation-delay: 1.55s;
 }
 
 @keyframes particleAppear {
 
-  from {
+  0% {
     opacity: 0;
-
     transform:
       scale(0)
       translateY(8px);
   }
 
-  to {
-    opacity: 0.75;
-
+  100% {
+    opacity: 0.7;
     transform:
       scale(1)
       translateY(0);
   }
-
 }
 
 
 /* =========================================
    SKATEPARK CTA
+   EXTRA DEEP BELOW LOGO
 ========================================= */
 
 .skatepark-cta {
@@ -854,23 +944,17 @@ img {
 
   z-index: 20;
 
-  /*
-     deutlich mehr Abstand zum Logo
-  */
-
-  margin-top: 85px;
+  margin-top: 145px;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
 
   animation:
     ctaAppear
     0.9s
     ease-out
-    0.9s
+    1.7s
     both;
 }
 
@@ -878,18 +962,15 @@ img {
 
   from {
     opacity: 0;
-
     transform:
-      translateY(35px);
+      translateY(25px);
   }
 
   to {
     opacity: 1;
-
     transform:
       translateY(0);
   }
-
 }
 
 .cta-label {
@@ -976,7 +1057,6 @@ img {
 .skatepark-button span,
 .skatepark-button strong {
   position: relative;
-
   z-index: 2;
 }
 
@@ -1028,7 +1108,10 @@ img {
 
   display: grid;
 
-  grid-template-columns: 0.2fr 1fr 0.7fr;
+  grid-template-columns:
+    0.2fr
+    1fr
+    0.7fr;
 
   gap: 5vw;
 
@@ -1042,7 +1125,12 @@ img {
 .section-heading h2 {
   margin-top: 28px;
 
-  font-size: clamp(3.5rem, 7vw, 8rem);
+  font-size:
+    clamp(
+      3.5rem,
+      7vw,
+      8rem
+    );
 
   line-height: 0.88;
 
@@ -1100,13 +1188,15 @@ img {
   background: var(--blue);
 
   box-shadow:
-    0 0 12px rgba(0, 168, 255, 0.5);
+    0 0 12px
+    rgba(0, 168, 255, 0.5);
 }
 
 .section-top {
   display: flex;
 
   justify-content: space-between;
+
   align-items: center;
 
   margin-bottom: 85px;
@@ -1115,7 +1205,9 @@ img {
 .about-layout {
   display: grid;
 
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns:
+    1.1fr
+    0.9fr;
 
   gap: 10vw;
 }
@@ -1128,13 +1220,19 @@ img {
   color: #444;
 
   font-size: 0.58rem;
+
   font-weight: 800;
 
   letter-spacing: 0.2em;
 }
 
 .about-title h2 {
-  font-size: clamp(3.5rem, 7vw, 8rem);
+  font-size:
+    clamp(
+      3.5rem,
+      7vw,
+      8rem
+    );
 
   line-height: 0.85;
 
@@ -1192,6 +1290,7 @@ img {
   display: flex;
 
   align-items: end;
+
   justify-content: space-between;
 
   gap: 50px;
@@ -1202,7 +1301,12 @@ img {
 .media-heading h2 {
   margin-top: 20px;
 
-  font-size: clamp(4.5rem, 10vw, 11rem);
+  font-size:
+    clamp(
+      4.5rem,
+      10vw,
+      11rem
+    );
 
   line-height: 0.75;
 
@@ -1226,9 +1330,13 @@ img {
 .image-grid {
   display: grid;
 
-  grid-template-columns: 1.3fr 0.7fr;
+  grid-template-columns:
+    1.3fr
+    0.7fr;
 
-  grid-template-rows: 260px 260px;
+  grid-template-rows:
+    260px
+    260px;
 
   gap: 16px;
 }
@@ -1284,6 +1392,7 @@ img {
   display: flex;
 
   align-items: flex-end;
+
   justify-content: space-between;
 
   padding: 25px;
@@ -1351,7 +1460,8 @@ img {
 
   border-color: var(--blue);
 
-  transform: translateX(5px);
+  transform:
+    translateX(5px);
 }
 
 
@@ -1371,6 +1481,7 @@ img {
   display: flex;
 
   justify-content: space-between;
+
   align-items: end;
 
   margin-bottom: 70px;
@@ -1379,7 +1490,12 @@ img {
 .video-heading h2 {
   margin-top: 25px;
 
-  font-size: clamp(4rem, 9vw, 10rem);
+  font-size:
+    clamp(
+      4rem,
+      9vw,
+      10rem
+    );
 
   line-height: 0.78;
 
@@ -1417,6 +1533,7 @@ img {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   flex-direction: column;
@@ -1451,7 +1568,8 @@ img {
     rotateX(55deg)
     scale(1.8);
 
-  transform-origin: center bottom;
+  transform-origin:
+    center bottom;
 
   opacity: 0.35;
 }
@@ -1486,6 +1604,7 @@ img {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   color: var(--blue);
@@ -1505,7 +1624,8 @@ img {
   transform: scale(1.15);
 
   box-shadow:
-    0 0 35px rgba(0, 168, 255, 0.3);
+    0 0 35px
+    rgba(0, 168, 255, 0.3);
 }
 
 .video-watch {
@@ -1586,7 +1706,9 @@ img {
 .current-layout {
   display: grid;
 
-  grid-template-columns: 1fr 0.85fr;
+  grid-template-columns:
+    1fr
+    0.85fr;
 
   gap: 10vw;
 
@@ -1598,7 +1720,12 @@ img {
 }
 
 .current-content h2 {
-  font-size: clamp(4rem, 8vw, 9rem);
+  font-size:
+    clamp(
+      4rem,
+      8vw,
+      9rem
+    );
 
   line-height: 0.78;
 
@@ -1620,9 +1747,15 @@ img {
 .large-handwritten {
   margin-bottom: 25px;
 
-  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-size:
+    clamp(
+      2.5rem,
+      5vw,
+      5rem
+    );
 
-  transform: rotate(-4deg);
+  transform:
+    rotate(-4deg);
 }
 
 
@@ -1641,7 +1774,9 @@ img {
 .contact-content {
   display: grid;
 
-  grid-template-columns: 1fr 0.7fr;
+  grid-template-columns:
+    1fr
+    0.7fr;
 
   gap: 10vw;
 
@@ -1655,7 +1790,8 @@ img {
 
   display: inline-block;
 
-  transform: rotate(-5deg);
+  transform:
+    rotate(-5deg);
 
   text-shadow:
     3px 3px 0 #050505,
@@ -1665,7 +1801,12 @@ img {
 .contact-title h2 {
   margin-top: 25px;
 
-  font-size: clamp(4rem, 9vw, 10rem);
+  font-size:
+    clamp(
+      4rem,
+      9vw,
+      10rem
+    );
 
   line-height: 0.78;
 
@@ -1697,7 +1838,9 @@ img {
 
   font-weight: 600;
 
-  border-bottom: 1px solid var(--blue);
+  border-bottom:
+    1px solid
+    var(--blue);
 
   padding-bottom: 6px;
 }
@@ -1716,7 +1859,10 @@ img {
 
   display: grid;
 
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns:
+    1fr
+    1fr
+    1fr;
 
   align-items: center;
 }
@@ -1744,7 +1890,8 @@ img {
 
   padding: 3px 6px;
 
-  transform: rotate(-7deg);
+  transform:
+    rotate(-7deg);
 }
 
 .footer-center {
@@ -1781,11 +1928,18 @@ img {
   }
 
   .logo-main {
-    font-size: clamp(5rem, 15vw, 9rem);
+    font-size:
+      clamp(
+        6rem,
+        16vw,
+        10rem
+      );
   }
 
   .intro {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+      1fr
+      1fr;
 
     gap: 50px;
   }
@@ -1805,7 +1959,6 @@ img {
 
     gap: 70px;
   }
-
 }
 
 
@@ -1818,7 +1971,8 @@ img {
   .header {
     height: 70px;
 
-    padding: 0 6vw;
+    padding:
+      0 6vw;
   }
 
   .navigation {
@@ -1829,11 +1983,15 @@ img {
 
     width: 100%;
 
-    padding: 28px 6vw 35px;
+    padding:
+      28px 6vw 35px;
 
-    background: rgba(5, 5, 5, 0.98);
+    background:
+      rgba(5, 5, 5, 0.98);
 
-    border-bottom: 1px solid var(--line);
+    border-bottom:
+      1px solid
+      var(--line);
 
     display: none;
 
@@ -1859,9 +2017,7 @@ img {
     min-height: 100svh;
 
     padding:
-      90px
-      6vw
-      45px;
+      90px 6vw 55px;
   }
 
   .hero-glow {
@@ -1876,48 +2032,55 @@ img {
   .main-logo {
     width: 100%;
 
-    min-height: 155px;
+    height: 175px;
   }
 
   .logo-main {
-    font-size: clamp(4.5rem, 20vw, 7rem);
+    font-size:
+      clamp(
+        4.5rem,
+        20vw,
+        7rem
+      );
 
-    -webkit-text-stroke: 2px #050505;
+    -webkit-text-stroke:
+      2px
+      #050505;
 
     text-shadow:
       5px 5px 0 #050505,
-      0 0 15px rgba(0, 168, 255, 0.55),
-      0 0 35px rgba(0, 168, 255, 0.2);
+      0 0 15px
+      rgba(0, 168, 255, 0.55),
+      0 0 35px
+      rgba(0, 168, 255, 0.2);
   }
 
-  .logo-main::before {
-    bottom: -10%;
+  .spray-cloud {
+    width: 105%;
+
+    left: -2.5%;
+
+    height: 90px;
   }
 
-  .paint-cloud {
-    width: 95%;
-
-    left: 2.5%;
-
-    height: 75px;
+  .spray-streak {
+    max-width: 60px;
   }
 
-  .paint-line-1 {
-    width: 55px;
-
-    left: 1%;
+  .streak-1 {
+    left: 0;
   }
 
-  .paint-line-2 {
-    width: 45px;
-
-    right: 1%;
+  .streak-2 {
+    right: 0;
   }
 
-  .paint-line-3 {
-    width: 30px;
+  .streak-3 {
+    left: 5%;
+  }
 
-    right: 8%;
+  .streak-4 {
+    right: 5%;
   }
 
 
@@ -1926,17 +2089,14 @@ img {
   .skatepark-cta {
     width: 100%;
 
-    /*
-       ebenfalls etwas tiefer auf Mobile
-    */
-
-    margin-top: 65px;
+    margin-top: 115px;
   }
 
   .cta-label {
     font-size: 0.58rem;
 
-    letter-spacing: 0.14em;
+    letter-spacing:
+      0.14em;
   }
 
   .skatepark-cta p {
@@ -1952,7 +2112,8 @@ img {
 
     min-width: 0;
 
-    padding: 16px 20px;
+    padding:
+      16px 20px;
 
     gap: 18px;
 
@@ -1963,7 +2124,8 @@ img {
   /* INTRO */
 
   .intro {
-    padding: 120px 6vw;
+    padding:
+      120px 6vw;
 
     display: block;
   }
@@ -1971,7 +2133,12 @@ img {
   .section-heading h2 {
     margin-top: 25px;
 
-    font-size: clamp(3.2rem, 16vw, 6rem);
+    font-size:
+      clamp(
+        3.2rem,
+        16vw,
+        6rem
+      );
   }
 
   .intro-text {
@@ -1982,7 +2149,8 @@ img {
   /* ABOUT */
 
   .about-section {
-    padding: 120px 6vw;
+    padding:
+      120px 6vw;
   }
 
   .section-top {
@@ -1990,14 +2158,20 @@ img {
   }
 
   .about-title h2 {
-    font-size: clamp(3.2rem, 15vw, 6rem);
+    font-size:
+      clamp(
+        3.2rem,
+        15vw,
+        6rem
+      );
   }
 
 
   /* BILDER */
 
   .media-section {
-    padding: 120px 6vw;
+    padding:
+      120px 6vw;
   }
 
   .media-heading {
@@ -2007,7 +2181,12 @@ img {
   }
 
   .media-heading h2 {
-    font-size: clamp(3.8rem, 18vw, 7rem);
+    font-size:
+      clamp(
+        3.8rem,
+        18vw,
+        7rem
+      );
 
     margin-bottom: 35px;
   }
@@ -2036,7 +2215,8 @@ img {
   /* VIDEO */
 
   .video-section {
-    padding: 120px 6vw;
+    padding:
+      120px 6vw;
   }
 
   .video-heading {
@@ -2046,7 +2226,12 @@ img {
   }
 
   .video-heading h2 {
-    font-size: clamp(3.8rem, 18vw, 7rem);
+    font-size:
+      clamp(
+        3.8rem,
+        18vw,
+        7rem
+      );
 
     margin-bottom: 35px;
   }
@@ -2059,29 +2244,42 @@ img {
   /* CURRENT */
 
   .current-section {
-    padding: 120px 6vw;
+    padding:
+      120px 6vw;
   }
 
   .current-content h2 {
-    font-size: clamp(3.8rem, 18vw, 7rem);
+    font-size:
+      clamp(
+        3.8rem,
+        18vw,
+        7rem
+      );
   }
 
 
   /* CONTACT */
 
   .contact-section {
-    padding: 120px 6vw;
+    padding:
+      120px 6vw;
   }
 
   .contact-title h2 {
-    font-size: clamp(3.8rem, 18vw, 7rem);
+    font-size:
+      clamp(
+        3.8rem,
+        18vw,
+        7rem
+      );
   }
 
 
   /* FOOTER */
 
   .footer {
-    padding: 30px 6vw;
+    padding:
+      30px 6vw;
 
     grid-template-columns: 1fr;
 
