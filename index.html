@@ -35,7 +35,7 @@
 
   <link
     rel="stylesheet"
-    href="style.css?v=graffiti7"
+    href="style.css?v=graffiti8"
   >
 
 </head>
@@ -122,25 +122,21 @@
           id="graffitiLogo"
         >
 
-
-          <!-- SPRAY CLOUD -->
+          <!-- SPRAY -->
 
           <div
-            class="spray-cloud"
-            id="sprayCloud"
+            class="spray-head"
+            id="sprayHead"
             aria-hidden="true"
           >
 
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <div class="spray-haze"></div>
+
+            <div class="spray-mist mist-1"></div>
+            <div class="spray-mist mist-2"></div>
+            <div class="spray-mist mist-3"></div>
+            <div class="spray-mist mist-4"></div>
+            <div class="spray-mist mist-5"></div>
 
           </div>
 
@@ -157,13 +153,8 @@
 
             <defs>
 
-              <!--
-                Die weiße Fläche dieser Maske
-                wird durch einzelne Spraypunkte aufgebaut.
-              -->
-
               <mask
-                id="sprayMask"
+                id="letterMask"
                 maskUnits="userSpaceOnUse"
                 x="0"
                 y="0"
@@ -180,7 +171,7 @@
                 />
 
                 <g
-                  id="sprayReveal"
+                  id="maskLetters"
                   fill="white"
                 ></g>
 
@@ -190,11 +181,13 @@
 
 
             <text
+              id="logoText"
               x="500"
               y="205"
               text-anchor="middle"
               class="graffiti-text"
-              mask="url(#sprayMask)"
+              fill="var(--blue)"
+              mask="url(#letterMask)"
             >
               Moi-cy
             </text>
@@ -202,28 +195,18 @@
           </svg>
 
 
-          <!-- SPRAY PARTICLES -->
+          <!-- SMALL PAINT DROPS -->
 
-          <span class="spray-particle p1"></span>
-          <span class="spray-particle p2"></span>
-          <span class="spray-particle p3"></span>
-          <span class="spray-particle p4"></span>
-          <span class="spray-particle p5"></span>
-          <span class="spray-particle p6"></span>
-          <span class="spray-particle p7"></span>
-          <span class="spray-particle p8"></span>
-          <span class="spray-particle p9"></span>
-          <span class="spray-particle p10"></span>
-          <span class="spray-particle p11"></span>
-          <span class="spray-particle p12"></span>
-          <span class="spray-particle p13"></span>
-          <span class="spray-particle p14"></span>
-          <span class="spray-particle p15"></span>
-          <span class="spray-particle p16"></span>
-          <span class="spray-particle p17"></span>
-          <span class="spray-particle p18"></span>
-          <span class="spray-particle p19"></span>
-          <span class="spray-particle p20"></span>
+          <span class="paint-drop drop-1"></span>
+          <span class="paint-drop drop-2"></span>
+          <span class="paint-drop drop-3"></span>
+          <span class="paint-drop drop-4"></span>
+          <span class="paint-drop drop-5"></span>
+          <span class="paint-drop drop-6"></span>
+          <span class="paint-drop drop-7"></span>
+          <span class="paint-drop drop-8"></span>
+          <span class="paint-drop drop-9"></span>
+          <span class="paint-drop drop-10"></span>
 
         </div>
 
@@ -405,7 +388,6 @@
   </main>
 
 
-
   <footer class="footer">
 
     <div class="footer-logo">
@@ -429,7 +411,7 @@
   </footer>
 
 
-  <script src="script.js?v=graffiti7"></script>
+  <script src="script.js?v=graffiti8"></script>
 
 </body>
 
