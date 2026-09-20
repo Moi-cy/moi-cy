@@ -10,6 +10,8 @@
   <meta
     name="description"
     content="Moi-cy – Skateboarding, Skateplätze, Bilder und Videos."
+    data-i18n-attr="content"
+    data-i18n="meta.description"
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +22,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=shop-slider1">
+  <link rel="stylesheet" href="style.css?v=language1">
 </head>
 
 <body>
@@ -35,13 +37,62 @@
     </a>
 
     <nav class="navigation">
-      <a href="index.html">HOME</a>
-      <a href="bilder.html">BILDER</a>
-      <a href="videos.html">VIDEOS</a>
-      <a href="skateplaetze.html">SKATEPLÄTZE</a>
-      <a href="kontakt.html">KONTAKT</a>
-      <a href="shop.html">SHOP</a>
+
+      <a href="index.html" data-i18n="nav.home">HOME</a>
+
+      <a href="bilder.html" data-i18n="nav.images">BILDER</a>
+
+      <a href="videos.html" data-i18n="nav.videos">VIDEOS</a>
+
+      <a href="skateplaetze.html" data-i18n="nav.spots">
+        SKATEPLÄTZE
+      </a>
+
+      <a href="kontakt.html" data-i18n="nav.contact">
+        KONTAKT
+      </a>
+
+      <a href="shop.html" data-i18n="nav.shop">
+        SHOP
+      </a>
+
     </nav>
+
+
+    <!-- LANGUAGE SWITCHER -->
+
+    <div class="language-switcher" aria-label="Sprache auswählen">
+
+      <button
+        class="language-button active"
+        data-language="de"
+        aria-label="Deutsch"
+      >
+        DE
+      </button>
+
+      <span>/</span>
+
+      <button
+        class="language-button"
+        data-language="en"
+        aria-label="English"
+      >
+        EN
+      </button>
+
+      <span>/</span>
+
+      <button
+        class="language-button"
+        data-language="fr"
+        aria-label="Français"
+      >
+        FR
+      </button>
+
+    </div>
+
 
     <button
       class="menu-button"
@@ -61,13 +112,61 @@
 
   <div class="mobile-menu" id="mobileMenu">
 
+    <div class="mobile-language-switcher">
+
+      <button
+        class="language-button active"
+        data-language="de"
+      >
+        DE
+      </button>
+
+      <span>/</span>
+
+      <button
+        class="language-button"
+        data-language="en"
+      >
+        EN
+      </button>
+
+      <span>/</span>
+
+      <button
+        class="language-button"
+        data-language="fr"
+      >
+        FR
+      </button>
+
+    </div>
+
     <nav>
-      <a href="index.html">HOME</a>
-      <a href="bilder.html">BILDER</a>
-      <a href="videos.html">VIDEOS</a>
-      <a href="skateplaetze.html">SKATEPLÄTZE</a>
-      <a href="kontakt.html">KONTAKT</a>
-      <a href="shop.html">SHOP</a>
+
+      <a href="index.html" data-i18n="nav.home">
+        HOME
+      </a>
+
+      <a href="bilder.html" data-i18n="nav.images">
+        BILDER
+      </a>
+
+      <a href="videos.html" data-i18n="nav.videos">
+        VIDEOS
+      </a>
+
+      <a href="skateplaetze.html" data-i18n="nav.spots">
+        SKATEPLÄTZE
+      </a>
+
+      <a href="kontakt.html" data-i18n="nav.contact">
+        KONTAKT
+      </a>
+
+      <a href="shop.html" data-i18n="nav.shop">
+        SHOP
+      </a>
+
     </nav>
 
   </div>
@@ -75,23 +174,38 @@
 
   <main>
 
+
     <!-- HERO -->
 
     <section class="hero">
 
       <div class="hero-background"></div>
+
       <div class="hero-grid"></div>
+
       <div class="hero-glow"></div>
+
 
       <div class="hero-content">
 
-        <span class="hero-small">
+        <span
+          class="hero-small"
+          data-i18n="hero.small"
+        >
           SKATEBOARDING / SINCE 2023
         </span>
 
-        <div class="graffiti-logo" id="graffitiLogo">
 
-          <div class="graffiti-word" id="graffitiWord" aria-label="Moi-cy">
+        <div
+          class="graffiti-logo"
+          id="graffitiLogo"
+        >
+
+          <div
+            class="graffiti-word"
+            id="graffitiWord"
+            aria-label="Moi-cy"
+          >
 
             <span class="graffiti-letter">M</span>
             <span class="graffiti-letter">o</span>
@@ -106,13 +220,20 @@
 
       </div>
 
-      <div class="hero-side-text">
+
+      <div
+        class="hero-side-text"
+        data-i18n="hero.side"
+      >
         SKATE / CREATE / EXPLORE
       </div>
 
+
       <div class="hero-bottom">
 
-        <span>SCROLL TO EXPLORE</span>
+        <span data-i18n="hero.scroll">
+          SCROLL TO EXPLORE
+        </span>
 
         <div class="scroll-line"></div>
 
@@ -125,37 +246,58 @@
 
     <section class="intro-section">
 
-      <div class="section-label">
+      <div
+        class="section-label"
+        data-i18n="about.label"
+      >
         01 / ABOUT MOI-CY
       </div>
 
+
       <div class="intro-layout">
+
 
         <div class="intro-title">
 
           <h2>
-            SKATEBOARDING
-            <span>IS MORE</span>
-            THAN A SPORT.
+
+            <span data-i18n="about.title1">
+              SKATEBOARDING
+            </span>
+
+            <span data-i18n="about.title2">
+              IS MORE
+            </span>
+
+            <span data-i18n="about.title3">
+              THAN A SPORT.
+            </span>
+
           </h2>
 
         </div>
 
+
         <div class="intro-text">
 
-          <p>
+          <p data-i18n="about.text1">
             Moi-cy steht für Skateboarding, Bewegung,
             Kreativität und die Freiheit, neue Orte
             und neue Lines zu entdecken.
           </p>
 
-          <p>
+
+          <p data-i18n="about.text2">
             Von Street über Bowl bis Pool –
             hier geht es vor allem darum,
             rauszugehen und zu skaten.
           </p>
 
-          <span class="handwritten">
+
+          <span
+            class="handwritten"
+            data-i18n="about.handwritten"
+          >
             just skate.
           </span>
 
@@ -170,21 +312,35 @@
 
     <section class="feature-section">
 
-      <div class="section-label">
+      <div
+        class="section-label"
+        data-i18n="spots.label"
+      >
         02 / SKATEPLÄTZE
       </div>
+
 
       <div class="feature-heading">
 
         <h2>
-          FIND YOUR
-          <span>SPOT.</span>
+
+          <span data-i18n="spots.title1">
+            FIND YOUR
+          </span>
+
+          <span data-i18n="spots.title2">
+            SPOT.
+          </span>
+
         </h2>
+
 
         <a
           href="skateplaetze.html"
           class="feature-arrow"
           aria-label="Skateplätze entdecken"
+          data-i18n-attr="aria-label"
+          data-i18n="spots.button"
         >
           →
         </a>
@@ -198,23 +354,35 @@
 
     <section class="media-section">
 
-      <div class="section-label">
+      <div
+        class="section-label"
+        data-i18n="media.label"
+      >
         03 / MEDIA
       </div>
 
+
       <div class="media-grid">
 
-        <a href="bilder.html" class="media-card media-images">
+
+        <a
+          href="bilder.html"
+          class="media-card media-images"
+        >
 
           <div class="media-card-content">
 
-            <span>VISUAL ARCHIVE</span>
+            <span data-i18n="media.images.category">
+              VISUAL ARCHIVE
+            </span>
 
             <h2>
-              BILDER<span>.</span>
+              <span data-i18n="media.images.title">
+                BILDER
+              </span><span>.</span>
             </h2>
 
-            <strong>
+            <strong data-i18n="media.images.button">
               ANSEHEN →
             </strong>
 
@@ -223,17 +391,24 @@
         </a>
 
 
-        <a href="videos.html" class="media-card media-videos">
+        <a
+          href="videos.html"
+          class="media-card media-videos"
+        >
 
           <div class="media-card-content">
 
-            <span>WATCH</span>
+            <span data-i18n="media.videos.category">
+              WATCH
+            </span>
 
             <h2>
-              VIDEOS<span>.</span>
+              <span data-i18n="media.videos.title">
+                VIDEOS
+              </span><span>.</span>
             </h2>
 
-            <strong>
+            <strong data-i18n="media.videos.button">
               ANSEHEN →
             </strong>
 
@@ -246,11 +421,14 @@
     </section>
 
 
-    <!-- SHOP SLIDER -->
+    <!-- SHOP -->
 
     <section class="products-section">
 
-      <div class="section-label">
+      <div
+        class="section-label"
+        data-i18n="shop.label"
+      >
         04 / SHOP
       </div>
 
@@ -258,13 +436,22 @@
       <div class="products-header">
 
         <h2>
-          PICK YOUR
-          <span>GEAR.</span>
+
+          <span data-i18n="shop.title1">
+            PICK YOUR
+          </span>
+
+          <span data-i18n="shop.title2">
+            GEAR.
+          </span>
+
         </h2>
+
 
         <a
           href="shop.html"
           class="products-shop-link"
+          data-i18n="shop.button"
         >
           SHOP →
         </a>
@@ -272,7 +459,11 @@
       </div>
 
 
-      <div class="product-slider" id="productSlider">
+      <div
+        class="product-slider"
+        id="productSlider"
+      >
+
 
         <!-- PRODUCT 1 -->
 
@@ -291,23 +482,31 @@
 
           </div>
 
+
           <div class="product-info">
 
             <div>
-              <span class="product-category">
+
+              <span
+                class="product-category"
+                data-i18n="products.collection"
+              >
                 MOI-CY / COLLECTION
               </span>
 
-              <h3>
+              <h3 data-i18n="products.hoodie">
                 UNISEX HOODIE
               </h3>
+
             </div>
+
 
             <div class="product-price">
               30,39 €
             </div>
 
           </div>
+
 
           <span class="product-arrow">
             →
@@ -333,23 +532,31 @@
 
           </div>
 
+
           <div class="product-info">
 
             <div>
-              <span class="product-category">
+
+              <span
+                class="product-category"
+                data-i18n="products.collection"
+              >
                 MOI-CY / COLLECTION
               </span>
 
-              <h3>
+              <h3 data-i18n="products.shirt">
                 BIO T-SHIRT
               </h3>
+
             </div>
+
 
             <div class="product-price">
               32,79 €
             </div>
 
           </div>
+
 
           <span class="product-arrow">
             →
@@ -375,23 +582,31 @@
 
           </div>
 
+
           <div class="product-info">
 
             <div>
-              <span class="product-category">
+
+              <span
+                class="product-category"
+                data-i18n="products.skate"
+              >
                 MOI-CY / SKATE
               </span>
 
-              <h3>
+              <h3 data-i18n="products.board">
                 SKATEBOARD
               </h3>
+
             </div>
+
 
             <div class="product-price">
               88,95 €
             </div>
 
           </div>
+
 
           <span class="product-arrow">
             →
@@ -433,13 +648,20 @@
 
     <section class="final-section">
 
-      <span>
+      <span data-i18n="final.small">
         KEEP MOVING.
       </span>
 
       <h2>
-        SEE YOU
-        <em>OUT THERE.</em>
+
+        <span data-i18n="final.title">
+          SEE YOU
+        </span>
+
+        <em data-i18n="final.title2">
+          OUT THERE.
+        </em>
+
       </h2>
 
     </section>
@@ -450,6 +672,7 @@
   <!-- FOOTER -->
 
   <footer class="footer">
+
 
     <div class="footer-logo">
 
@@ -462,7 +685,10 @@
     </div>
 
 
-    <div class="footer-center">
+    <div
+      class="footer-center"
+      data-i18n="footer.center"
+    >
       SKATE / CREATE / EXPLORE
     </div>
 
@@ -474,7 +700,7 @@
   </footer>
 
 
-  <script src="script.js?v=shop-slider1"></script>
+  <script src="script.js?v=language1"></script>
 
 </body>
 </html>
