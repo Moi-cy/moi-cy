@@ -3,6 +3,7 @@
 ========================================================= */
 
 :root {
+
   --black: #000000;
   --dark: #050505;
   --dark-soft: #0a0a0a;
@@ -12,6 +13,7 @@
   --blue: #00a8ff;
 
   --grey: #8c8c8c;
+
 }
 
 
@@ -20,31 +22,48 @@
 ========================================================= */
 
 * {
+
   margin: 0;
   padding: 0;
+
   box-sizing: border-box;
+
 }
+
 
 html {
+
   scroll-behavior: smooth;
+
 }
 
+
 body {
+
   background: var(--black);
+
   color: var(--white);
 
   font-family: "Inter", sans-serif;
 
   overflow-x: hidden;
+
 }
+
 
 a {
+
   color: inherit;
+
   text-decoration: none;
+
 }
 
+
 button {
+
   font: inherit;
+
 }
 
 
@@ -53,6 +72,7 @@ button {
 ========================================================= */
 
 .header {
+
   position: absolute;
 
   top: 0;
@@ -63,92 +83,133 @@ button {
   z-index: 100;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   padding: 26px 42px;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
 }
 
+
 .logo {
+
   display: flex;
+
   align-items: center;
 
   gap: 10px;
 
   font-size: 17px;
+
   font-weight: 800;
 
   letter-spacing: -0.5px;
+
 }
 
+
 .logo-mark {
+
   width: 29px;
   height: 29px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
-  border: 1px solid var(--blue);
+  border:
+    1px solid
+    var(--blue);
 
   color: var(--blue);
 
   font-size: 14px;
+
   font-weight: 900;
+
 }
 
+
 .navigation {
+
   display: flex;
+
   align-items: center;
 
   gap: 30px;
+
 }
 
+
 .navigation a {
+
   position: relative;
 
-  color: rgba(242, 242, 242, 0.72);
+  color:
+    rgba(242, 242, 242, 0.72);
 
   font-size: 11px;
+
   font-weight: 700;
 
   letter-spacing: 1.4px;
 
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease;
+
 }
 
+
 .navigation a::after {
+
   content: "";
 
   position: absolute;
 
   left: 0;
+
   bottom: -7px;
 
   width: 0;
+
   height: 1px;
 
   background: var(--blue);
 
-  transition: width 0.25s ease;
+  transition:
+    width 0.25s ease;
+
 }
+
 
 .navigation a:hover {
+
   color: var(--white);
+
 }
 
+
 .navigation a:hover::after {
+
   width: 100%;
+
 }
 
 
 /* =========================================================
-   MENU BUTTON
+   MENU
 ========================================================= */
 
 .menu-button {
+
   display: none;
 
   width: 38px;
@@ -156,12 +217,17 @@ button {
 
   background: transparent;
 
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.2);
 
   cursor: pointer;
+
 }
 
+
 .menu-button span {
+
   display: block;
 
   width: 17px;
@@ -171,9 +237,6 @@ button {
 
   background: var(--white);
 
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
 }
 
 
@@ -182,6 +245,7 @@ button {
 ========================================================= */
 
 .mobile-menu {
+
   position: fixed;
 
   inset: 0;
@@ -191,26 +255,24 @@ button {
   display: none;
 
   align-items: center;
+
   justify-content: center;
 
-  background: rgba(0, 0, 0, 0.97);
+  background:
+    rgba(0, 0, 0, 0.98);
 
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition: opacity 0.3s ease;
 }
+
 
 .mobile-menu.active {
+
   display: flex;
 
-  opacity: 1;
-
-  pointer-events: auto;
 }
 
+
 .mobile-menu nav {
+
   display: flex;
 
   flex-direction: column;
@@ -218,18 +280,25 @@ button {
   align-items: center;
 
   gap: 28px;
+
 }
 
+
 .mobile-menu nav a {
+
   font-size: 25px;
 
   font-weight: 800;
 
   letter-spacing: 1px;
+
 }
 
+
 .mobile-menu nav a:hover {
+
   color: var(--blue);
+
 }
 
 
@@ -238,6 +307,7 @@ button {
 ========================================================= */
 
 .hero {
+
   position: relative;
 
   min-height: 100vh;
@@ -245,14 +315,18 @@ button {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   overflow: hidden;
 
   background: var(--black);
+
 }
 
+
 .hero-background {
+
   position: absolute;
 
   inset: 0;
@@ -260,12 +334,15 @@ button {
   background:
     radial-gradient(
       circle at 50% 45%,
-      rgba(0, 168, 255, 0.09),
-      transparent 36%
+      rgba(0, 168, 255, 0.08),
+      transparent 38%
     );
+
 }
 
+
 .hero-grid {
+
   position: absolute;
 
   inset: 0;
@@ -293,9 +370,12 @@ button {
       black 70%,
       transparent
     );
+
 }
 
+
 .hero-glow {
+
   position: absolute;
 
   width: 520px;
@@ -303,14 +383,18 @@ button {
 
   border-radius: 50%;
 
-  background: rgba(0, 168, 255, 0.055);
+  background:
+    rgba(0, 168, 255, 0.045);
 
   filter: blur(100px);
 
   pointer-events: none;
+
 }
 
+
 .hero-content {
+
   position: relative;
 
   z-index: 3;
@@ -326,26 +410,32 @@ button {
   justify-content: center;
 
   text-align: center;
+
 }
 
-.hero-small {
-  margin-bottom: 30px;
 
-  color: rgba(242, 242, 242, 0.55);
+.hero-small {
+
+  margin-bottom: 20px;
+
+  color:
+    rgba(242, 242, 242, 0.55);
 
   font-size: 10px;
 
   font-weight: 700;
 
   letter-spacing: 4px;
+
 }
 
 
 /* =========================================================
-   GRAFFITI LOGO CONTAINER
+   GRAFFITI LOGO
 ========================================================= */
 
 .graffiti-logo {
+
   position: relative;
 
   width: min(1100px, 96vw);
@@ -355,39 +445,44 @@ button {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   transform: rotate(-2deg);
 
   isolation: isolate;
+
 }
 
 
-/* =========================================================
-   SVG LOGO
-========================================================= */
-
 .graffiti-svg {
+
   position: relative;
 
   z-index: 5;
 
   width: 100%;
+
   height: 100%;
 
   overflow: visible;
+
 }
 
 
 /*
-   EINZIGE SICHTBARE LOGOFARBE:
-   BLAU
+   DAS IST DAS EINZIGE LOGO.
 
-   Kein weißer Rand.
-   Kein zweites farbiges Logo.
+   Blau.
+   Keine weiße Ebene.
+   Keine schwarze Ebene.
+   Kein zweiter Schriftzug.
 */
 
 .graffiti-text {
+
+  fill: var(--blue);
+
   font-family:
     "Rubik Dirt",
     "Arial Black",
@@ -400,40 +495,8 @@ button {
 
   letter-spacing: -8px;
 
-  dominant-baseline: auto;
-}
+  paint-order: fill;
 
-
-/*
-   Schwarzer Schatten.
-   Er ist kein zweites farbiges Logo,
-   sondern nur der Schatten hinter dem blauen Spray.
-*/
-
-.graffiti-shadow {
-  fill: #000000;
-
-  transform:
-    translate(15px, 18px);
-
-  opacity: 0.9;
-}
-
-
-/*
-   DAS EIGENTLICHE LOGO
-*/
-
-.graffiti-outline {
-  fill: var(--blue);
-
-  stroke: var(--blue);
-
-  stroke-width: 4px;
-
-  paint-order: stroke fill;
-
-  stroke-linejoin: round;
 }
 
 
@@ -442,20 +505,22 @@ button {
 ========================================================= */
 
 .spray-cloud {
+
   position: absolute;
 
   z-index: 2;
 
   top: 50%;
 
-  left: 4%;
+  left: 0%;
 
-  width: 150px;
-  height: 190px;
+  width: 170px;
+
+  height: 210px;
 
   transform:
     translate(-50%, -50%)
-    scale(0.15);
+    scale(0.3);
 
   border-radius: 50%;
 
@@ -466,70 +531,60 @@ button {
   background:
     radial-gradient(
       ellipse at center,
-      rgba(0, 168, 255, 0.24) 0%,
-      rgba(0, 168, 255, 0.14) 25%,
-      rgba(0, 168, 255, 0.07) 45%,
-      rgba(0, 168, 255, 0.025) 62%,
-      transparent 76%
+      rgba(0, 168, 255, 0.30) 0%,
+      rgba(0, 168, 255, 0.18) 22%,
+      rgba(0, 168, 255, 0.09) 43%,
+      rgba(0, 168, 255, 0.035) 62%,
+      transparent 78%
     );
 
-  filter: blur(12px);
+  filter: blur(15px);
+
 }
 
 
-/*
-   Diese Klasse wird von JS während des
-   Aufsprühens gesetzt.
-*/
-
 .spray-cloud.spraying {
+
   opacity: 1;
 
   animation:
-    sprayCloudMove 0.8s ease-in-out infinite,
-    sprayCloudPulse 0.42s ease-in-out infinite;
+    sprayPulse 0.38s
+    ease-in-out
+    infinite;
+
 }
 
-@keyframes sprayCloudMove {
+
+@keyframes sprayPulse {
 
   0% {
+
     transform:
       translate(-50%, -50%)
-      scale(0.65);
-
-    opacity: 0.28;
-  }
-
-  50% {
-    transform:
-      translate(-50%, -50%)
-      scale(1.05);
-
-    opacity: 0.55;
-  }
-
-  100% {
-    transform:
-      translate(-50%, -50%)
-      scale(0.78);
+      scale(0.72);
 
     opacity: 0.35;
-  }
 
-}
-
-@keyframes sprayCloudPulse {
-
-  0% {
-    filter: blur(10px);
   }
 
   50% {
-    filter: blur(16px);
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.08);
+
+    opacity: 0.58;
+
   }
 
   100% {
-    filter: blur(11px);
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.82);
+
+    opacity: 0.40;
+
   }
 
 }
@@ -540,6 +595,7 @@ button {
 ========================================================= */
 
 .spray-dot {
+
   position: absolute;
 
   z-index: 4;
@@ -553,171 +609,246 @@ button {
   opacity: 0;
 
   transform: scale(0);
+
+  pointer-events: none;
+
 }
 
-
-/*
-   Während der Animation werden diese
-   nach und nach sichtbar.
-*/
 
 .spray-dot.active {
-  opacity: 0.65;
 
-  animation: dotPop 0.5s ease-out forwards;
+  opacity: 0.55;
+
+  animation:
+    sprayDotAppear
+    0.45s
+    ease-out
+    forwards;
+
 }
 
-@keyframes dotPop {
+
+@keyframes sprayDotAppear {
 
   0% {
+
     transform: scale(0);
+
     opacity: 0;
+
   }
 
   35% {
-    transform: scale(1.2);
-    opacity: 0.75;
+
+    transform: scale(1.25);
+
+    opacity: 0.72;
+
   }
 
   100% {
+
     transform: scale(1);
+
     opacity: 0.45;
+
   }
 
-}
-
-
-/* einzelne Spritzer */
-
-.dot-1 {
-  width: 9px;
-  height: 9px;
-
-  left: 10%;
-  top: 38%;
-}
-
-.dot-2 {
-  width: 4px;
-  height: 4px;
-
-  left: 14%;
-  top: 28%;
-}
-
-.dot-3 {
-  width: 13px;
-  height: 13px;
-
-  left: 21%;
-  top: 67%;
-}
-
-.dot-4 {
-  width: 5px;
-  height: 5px;
-
-  left: 31%;
-  top: 17%;
-}
-
-.dot-5 {
-  width: 7px;
-  height: 7px;
-
-  left: 42%;
-  top: 76%;
-}
-
-.dot-6 {
-  width: 4px;
-  height: 4px;
-
-  left: 53%;
-  top: 13%;
-}
-
-.dot-7 {
-  width: 11px;
-  height: 11px;
-
-  right: 34%;
-  top: 73%;
-}
-
-.dot-8 {
-  width: 5px;
-  height: 5px;
-
-  right: 26%;
-  top: 18%;
-}
-
-.dot-9 {
-  width: 8px;
-  height: 8px;
-
-  right: 18%;
-  top: 64%;
-}
-
-.dot-10 {
-  width: 4px;
-  height: 4px;
-
-  right: 12%;
-  top: 36%;
-}
-
-.dot-11 {
-  width: 6px;
-  height: 6px;
-
-  right: 9%;
-  top: 51%;
-}
-
-.dot-12 {
-  width: 3px;
-  height: 3px;
-
-  right: 22%;
-  bottom: 11%;
 }
 
 
 /* =========================================================
-   HERO SIDE TEXT
+   SPLATTER POSITIONS
+========================================================= */
+
+.dot-1 {
+
+  width: 10px;
+  height: 10px;
+
+  left: 9%;
+  top: 39%;
+
+}
+
+
+.dot-2 {
+
+  width: 4px;
+  height: 4px;
+
+  left: 13%;
+  top: 27%;
+
+}
+
+
+.dot-3 {
+
+  width: 14px;
+  height: 14px;
+
+  left: 20%;
+  top: 69%;
+
+}
+
+
+.dot-4 {
+
+  width: 5px;
+  height: 5px;
+
+  left: 28%;
+  top: 15%;
+
+}
+
+
+.dot-5 {
+
+  width: 7px;
+  height: 7px;
+
+  left: 39%;
+  top: 78%;
+
+}
+
+
+.dot-6 {
+
+  width: 4px;
+  height: 4px;
+
+  left: 48%;
+  top: 11%;
+
+}
+
+
+.dot-7 {
+
+  width: 11px;
+  height: 11px;
+
+  right: 37%;
+  top: 74%;
+
+}
+
+
+.dot-8 {
+
+  width: 5px;
+  height: 5px;
+
+  right: 29%;
+  top: 16%;
+
+}
+
+
+.dot-9 {
+
+  width: 8px;
+  height: 8px;
+
+  right: 19%;
+  top: 67%;
+
+}
+
+
+.dot-10 {
+
+  width: 4px;
+  height: 4px;
+
+  right: 12%;
+  top: 35%;
+
+}
+
+
+.dot-11 {
+
+  width: 6px;
+  height: 6px;
+
+  right: 8%;
+  top: 52%;
+
+}
+
+
+.dot-12 {
+
+  width: 3px;
+  height: 3px;
+
+  right: 24%;
+  bottom: 10%;
+
+}
+
+
+.dot-13 {
+
+  width: 4px;
+  height: 4px;
+
+  left: 16%;
+  bottom: 20%;
+
+}
+
+
+.dot-14 {
+
+  width: 8px;
+  height: 8px;
+
+  right: 14%;
+  top: 25%;
+
+}
+
+
+/* =========================================================
+   HERO SIDE
 ========================================================= */
 
 .hero-side-text {
+
   position: absolute;
 
   right: 32px;
+
   top: 50%;
 
   transform:
     translateY(-50%)
     rotate(90deg);
 
-  color: rgba(242, 242, 242, 0.3);
+  color:
+    rgba(242, 242, 242, 0.3);
 
   font-size: 9px;
 
   font-weight: 700;
 
   letter-spacing: 4px;
+
 }
 
 
-/* =========================================================
-   HERO BOTTOM
-========================================================= */
-
 .hero-bottom {
+
   position: absolute;
 
   left: 42px;
+
   bottom: 35px;
 
   display: flex;
@@ -726,37 +857,47 @@ button {
 
   gap: 18px;
 
-  color: rgba(242, 242, 242, 0.4);
+  color:
+    rgba(242, 242, 242, 0.4);
 
   font-size: 9px;
 
   font-weight: 700;
 
   letter-spacing: 2px;
+
 }
 
+
 .scroll-line {
+
   width: 80px;
+
   height: 1px;
 
-  background: rgba(242, 242, 242, 0.25);
+  background:
+    rgba(242, 242, 242, 0.25);
+
 }
 
 
 /* =========================================================
-   GENERAL SECTIONS
+   SECTIONS
 ========================================================= */
 
 .section-label {
+
   margin-bottom: 55px;
 
-  color: rgba(242, 242, 242, 0.38);
+  color:
+    rgba(242, 242, 242, 0.38);
 
   font-size: 10px;
 
   font-weight: 700;
 
   letter-spacing: 3px;
+
 }
 
 
@@ -765,12 +906,16 @@ button {
 ========================================================= */
 
 .intro-section {
+
   padding: 140px 8vw 150px;
 
   background: var(--dark);
+
 }
 
+
 .intro-layout {
+
   display: grid;
 
   grid-template-columns: 1.3fr 0.7fr;
@@ -778,56 +923,78 @@ button {
   gap: 90px;
 
   align-items: start;
+
 }
 
+
 .intro-title h2 {
+
   max-width: 850px;
 
-  font-size: clamp(48px, 6vw, 88px);
+  font-size:
+    clamp(48px, 6vw, 88px);
 
   line-height: 0.92;
 
   letter-spacing: -5px;
+
 }
 
+
 .intro-title h2 span {
+
   display: inline-block;
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-weight: 400;
 
   transform: rotate(-3deg);
+
 }
 
+
 .intro-text {
+
   padding-top: 8px;
 
-  color: rgba(242, 242, 242, 0.62);
+  color:
+    rgba(242, 242, 242, 0.62);
 
   font-size: 15px;
 
   line-height: 1.8;
+
 }
+
 
 .intro-text p + p {
+
   margin-top: 25px;
+
 }
 
+
 .handwritten {
+
   display: block;
 
   margin-top: 45px;
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-size: 25px;
 
   transform: rotate(-4deg);
+
 }
 
 
@@ -836,16 +1003,23 @@ button {
 ========================================================= */
 
 .feature-section {
+
   padding: 95px 8vw;
 
   background: var(--dark);
+
 }
+
 
 .feature-section .section-label {
+
   margin-bottom: 38px;
+
 }
 
+
 .feature-heading {
+
   display: flex;
 
   align-items: center;
@@ -853,20 +1027,29 @@ button {
   justify-content: space-between;
 
   gap: 30px;
+
 }
 
+
 .feature-heading h2 {
-  font-size: clamp(48px, 6vw, 82px);
+
+  font-size:
+    clamp(48px, 6vw, 82px);
 
   line-height: 0.88;
 
   letter-spacing: -4px;
+
 }
 
+
 .feature-heading h2 span {
+
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-weight: 400;
 
@@ -875,9 +1058,12 @@ button {
   transform: rotate(-3deg);
 
   display: inline-block;
+
 }
 
+
 .feature-arrow {
+
   flex-shrink: 0;
 
   width: 58px;
@@ -889,7 +1075,9 @@ button {
 
   justify-content: center;
 
-  border: 1px solid var(--blue);
+  border:
+    1px solid
+    var(--blue);
 
   color: var(--blue);
 
@@ -899,14 +1087,18 @@ button {
     background 0.3s ease,
     color 0.3s ease,
     transform 0.3s ease;
+
 }
 
+
 .feature-arrow:hover {
+
   background: var(--blue);
 
   color: var(--black);
 
   transform: translateX(5px);
+
 }
 
 
@@ -915,20 +1107,27 @@ button {
 ========================================================= */
 
 .media-section {
+
   padding: 120px 8vw 150px;
 
   background: var(--black);
+
 }
 
+
 .media-grid {
+
   display: grid;
 
   grid-template-columns: 1fr 1fr;
 
   gap: 18px;
+
 }
 
+
 .media-card {
+
   position: relative;
 
   min-height: 430px;
@@ -941,14 +1140,19 @@ button {
 
   background: var(--dark-soft);
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
 
   transition:
     transform 0.35s ease,
     border-color 0.35s ease;
+
 }
 
+
 .media-card::before {
+
   content: "";
 
   position: absolute;
@@ -964,59 +1168,87 @@ button {
 
   opacity: 0.5;
 
-  transition: transform 0.5s ease;
+  transition:
+    transform 0.5s ease;
+
 }
+
 
 .media-card:hover {
+
   transform: translateY(-6px);
 
-  border-color: rgba(0, 168, 255, 0.5);
+  border-color:
+    rgba(0, 168, 255, 0.5);
+
 }
+
 
 .media-card:hover::before {
+
   transform: scale(1.15);
+
 }
 
+
 .media-card-content {
+
   position: relative;
 
   z-index: 2;
 
   padding: 40px;
+
 }
 
+
 .media-card-content > span {
-  color: rgba(242, 242, 242, 0.45);
+
+  color:
+    rgba(242, 242, 242, 0.45);
 
   font-size: 10px;
 
   font-weight: 700;
 
   letter-spacing: 3px;
+
 }
 
+
 .media-card h2 {
+
   margin: 12px 0 35px;
 
-  font-size: clamp(48px, 6vw, 85px);
+  font-size:
+    clamp(48px, 6vw, 85px);
 
   line-height: 0.85;
 
   letter-spacing: -5px;
+
 }
+
 
 .media-card h2 span {
+
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
+
 }
 
+
 .media-card strong {
+
   color: var(--blue);
 
   font-size: 10px;
 
   letter-spacing: 2px;
+
 }
 
 
@@ -1025,6 +1257,7 @@ button {
 ========================================================= */
 
 .final-section {
+
   min-height: 65vh;
 
   padding: 120px 8vw;
@@ -1038,42 +1271,56 @@ button {
   justify-content: center;
 
   background: var(--dark);
+
 }
 
+
 .final-section > span {
+
   margin-bottom: 25px;
 
-  color: rgba(242, 242, 242, 0.4);
+  color:
+    rgba(242, 242, 242, 0.4);
 
   font-size: 10px;
 
   font-weight: 700;
 
   letter-spacing: 4px;
+
 }
 
+
 .final-section h2 {
+
   max-width: 1000px;
 
-  font-size: clamp(58px, 9vw, 140px);
+  font-size:
+    clamp(58px, 9vw, 140px);
 
   line-height: 0.82;
 
   letter-spacing: -8px;
+
 }
 
+
 .final-section em {
+
   display: inline-block;
 
   color: var(--blue);
 
-  font-family: "Permanent Marker", cursive;
+  font-family:
+    "Permanent Marker",
+    cursive;
 
   font-style: normal;
 
   font-weight: 400;
 
   transform: rotate(-3deg);
+
 }
 
 
@@ -1082,6 +1329,7 @@ button {
 ========================================================= */
 
 .footer {
+
   min-height: 110px;
 
   padding: 30px 42px;
@@ -1092,18 +1340,24 @@ button {
 
   align-items: center;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.08);
 
   background: var(--black);
 
-  color: rgba(242, 242, 242, 0.45);
+  color:
+    rgba(242, 242, 242, 0.45);
 
   font-size: 9px;
 
   letter-spacing: 2px;
+
 }
 
+
 .footer-logo {
+
   display: flex;
 
   align-items: center;
@@ -1117,9 +1371,12 @@ button {
   font-weight: 800;
 
   letter-spacing: 0;
+
 }
 
+
 .footer-mark {
+
   width: 25px;
   height: 25px;
 
@@ -1129,19 +1386,28 @@ button {
 
   justify-content: center;
 
-  border: 1px solid var(--blue);
+  border:
+    1px solid
+    var(--blue);
 
   color: var(--blue);
 
   font-size: 12px;
+
 }
+
 
 .footer-center {
+
   text-align: center;
+
 }
 
+
 .footer-copy {
+
   text-align: right;
+
 }
 
 
@@ -1152,29 +1418,46 @@ button {
 @media (max-width: 900px) {
 
   .header {
+
     padding: 22px 25px;
+
   }
+
 
   .navigation {
+
     gap: 18px;
+
   }
+
 
   .navigation a {
+
     font-size: 9px;
+
   }
 
+
   .intro-layout {
+
     grid-template-columns: 1fr;
 
     gap: 55px;
+
   }
+
 
   .graffiti-logo {
-    height: 260px;
+
+    height: 270px;
+
   }
 
+
   .graffiti-text {
+
     font-size: 170px;
+
   }
 
 }
@@ -1187,63 +1470,77 @@ button {
 @media (max-width: 650px) {
 
   .header {
+
     padding: 20px;
+
   }
+
 
   .navigation {
+
     display: none;
+
   }
 
+
   .menu-button {
+
     display: block;
 
-    position: relative;
-
-    z-index: 110;
   }
 
 
   /* HERO */
 
   .hero {
+
     min-height: 90vh;
+
   }
 
+
   .hero-small {
-    margin-bottom: 15px;
+
+    margin-bottom: 10px;
 
     font-size: 8px;
 
     letter-spacing: 2.5px;
+
   }
 
+
   .graffiti-logo {
+
     width: 100vw;
 
     height: 210px;
 
-    transform: rotate(-2deg);
   }
 
+
   .graffiti-text {
+
     font-size: 145px;
 
     letter-spacing: -7px;
+
   }
 
-  .graffiti-shadow {
-    transform:
-      translate(10px, 13px);
-  }
 
   .hero-side-text {
+
     display: none;
+
   }
 
+
   .hero-bottom {
+
     left: 20px;
 
     bottom: 25px;
+
   }
 
 
@@ -1253,93 +1550,136 @@ button {
   .feature-section,
   .media-section,
   .final-section {
+
     padding-left: 20px;
 
     padding-right: 20px;
+
   }
 
+
   .intro-section {
+
     padding-top: 100px;
 
     padding-bottom: 100px;
+
   }
+
 
   .section-label {
+
     margin-bottom: 35px;
+
   }
+
 
   .intro-title h2 {
-    font-size: clamp(43px, 12vw, 65px);
+
+    font-size:
+      clamp(43px, 12vw, 65px);
 
     letter-spacing: -3px;
+
   }
 
+
   .intro-text {
+
     font-size: 14px;
+
   }
 
 
   /* FEATURE */
 
   .feature-section {
+
     padding-top: 80px;
 
     padding-bottom: 80px;
+
   }
+
 
   .feature-heading h2 {
-    font-size: clamp(42px, 12vw, 65px);
+
+    font-size:
+      clamp(42px, 12vw, 65px);
 
     letter-spacing: -3px;
+
   }
 
+
   .feature-arrow {
+
     width: 50px;
+
     height: 50px;
+
   }
 
 
   /* MEDIA */
 
   .media-section {
+
     padding-top: 90px;
 
     padding-bottom: 100px;
+
   }
+
 
   .media-grid {
+
     grid-template-columns: 1fr;
+
   }
+
 
   .media-card {
+
     min-height: 330px;
+
   }
 
+
   .media-card-content {
+
     padding: 28px;
+
   }
 
 
   /* FINAL */
 
   .final-section {
+
     min-height: 55vh;
 
     padding-top: 100px;
 
     padding-bottom: 100px;
+
   }
 
+
   .final-section h2 {
-    font-size: clamp(50px, 14vw, 80px);
+
+    font-size:
+      clamp(50px, 14vw, 80px);
 
     letter-spacing: -4px;
+
   }
 
 
   /* FOOTER */
 
   .footer {
+
     padding: 30px 20px;
 
     grid-template-columns: 1fr;
@@ -1347,14 +1687,18 @@ button {
     gap: 20px;
 
     text-align: center;
+
   }
+
 
   .footer-logo,
   .footer-center,
   .footer-copy {
+
     justify-content: center;
 
     text-align: center;
+
   }
 
 }
