@@ -24,7 +24,7 @@
 
   <link
     rel="preconnect"
-    href="https://fonts.gstatic.com"
+    href="https://fonts.googleapis.com"
     crossorigin
   >
 
@@ -35,18 +35,12 @@
 
   <link
     rel="stylesheet"
-    href="style.css?v=graffiti6"
+    href="style.css?v=graffiti7"
   >
 
 </head>
 
-
 <body>
-
-
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
 
   <header class="header">
 
@@ -54,46 +48,20 @@
       href="index.html"
       class="logo"
     >
-
-      <span class="logo-mark">
-        M
-      </span>
-
-      <span>
-        Moi-cy
-      </span>
-
+      <span class="logo-mark">M</span>
+      <span>Moi-cy</span>
     </a>
-
 
     <nav class="navigation">
 
-      <a href="index.html">
-        HOME
-      </a>
-
-      <a href="bilder.html">
-        BILDER
-      </a>
-
-      <a href="videos.html">
-        VIDEOS
-      </a>
-
-      <a href="skateplaetze.html">
-        SKATEPLÄTZE
-      </a>
-
-      <a href="kontakt.html">
-        KONTAKT
-      </a>
-
-      <a href="shop.html">
-        SHOP
-      </a>
+      <a href="index.html">HOME</a>
+      <a href="bilder.html">BILDER</a>
+      <a href="videos.html">VIDEOS</a>
+      <a href="skateplaetze.html">SKATEPLÄTZE</a>
+      <a href="kontakt.html">KONTAKT</a>
+      <a href="shop.html">SHOP</a>
 
     </nav>
-
 
     <button
       class="menu-button"
@@ -101,19 +69,13 @@
       aria-label="Menü öffnen"
       aria-expanded="false"
     >
-
       <span></span>
       <span></span>
       <span></span>
-
     </button>
 
   </header>
 
-
-  <!-- =====================================================
-       MOBILE MENU
-  ====================================================== -->
 
   <div
     class="mobile-menu"
@@ -122,29 +84,12 @@
 
     <nav>
 
-      <a href="index.html">
-        HOME
-      </a>
-
-      <a href="bilder.html">
-        BILDER
-      </a>
-
-      <a href="videos.html">
-        VIDEOS
-      </a>
-
-      <a href="skateplaetze.html">
-        SKATEPLÄTZE
-      </a>
-
-      <a href="kontakt.html">
-        KONTAKT
-      </a>
-
-      <a href="shop.html">
-        SHOP
-      </a>
+      <a href="index.html">HOME</a>
+      <a href="bilder.html">BILDER</a>
+      <a href="videos.html">VIDEOS</a>
+      <a href="skateplaetze.html">SKATEPLÄTZE</a>
+      <a href="kontakt.html">KONTAKT</a>
+      <a href="shop.html">SHOP</a>
 
     </nav>
 
@@ -154,12 +99,9 @@
   <main>
 
 
-    <!-- ===================================================
-         HERO
-    ==================================================== -->
+    <!-- HERO -->
 
     <section class="hero">
-
 
       <div class="hero-background"></div>
 
@@ -170,15 +112,10 @@
 
       <div class="hero-content">
 
-
         <span class="hero-small">
           SKATEBOARDING / SINCE 2023
         </span>
 
-
-        <!-- =================================================
-             GRAFFITI LOGO
-        ================================================== -->
 
         <div
           class="graffiti-logo"
@@ -186,21 +123,29 @@
         >
 
 
-          <!-- Spraywolke -->
+          <!-- SPRAY CLOUD -->
 
           <div
             class="spray-cloud"
             id="sprayCloud"
             aria-hidden="true"
-          ></div>
+          >
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </div>
 
 
-          <!--
-            EIN EINZIGES LOGO.
-
-            Die ClipPath-Fläche wird durch JavaScript
-            von links nach rechts bewegt.
-          -->
+          <!-- LOGO -->
 
           <svg
             class="graffiti-svg"
@@ -212,34 +157,44 @@
 
             <defs>
 
-              <clipPath
-                id="logoReveal"
-                clipPathUnits="userSpaceOnUse"
+              <!--
+                Die weiße Fläche dieser Maske
+                wird durch einzelne Spraypunkte aufgebaut.
+              -->
+
+              <mask
+                id="sprayMask"
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="1000"
+                height="300"
               >
 
                 <rect
-                  id="logoRevealRect"
                   x="0"
                   y="0"
-                  width="0"
+                  width="1000"
                   height="300"
-                ></rect>
+                  fill="black"
+                />
 
-              </clipPath>
+                <g
+                  id="sprayReveal"
+                  fill="white"
+                ></g>
+
+              </mask>
 
             </defs>
 
-
-            <!--
-              Nur eine blaue Logo-Ebene.
-            -->
 
             <text
               x="500"
               y="205"
               text-anchor="middle"
               class="graffiti-text"
-              clip-path="url(#logoReveal)"
+              mask="url(#sprayMask)"
             >
               Moi-cy
             </text>
@@ -247,24 +202,28 @@
           </svg>
 
 
-          <!-- =================================================
-               SPRAY SPRITZER
-          ================================================== -->
+          <!-- SPRAY PARTICLES -->
 
-          <span class="spray-dot dot-1"></span>
-          <span class="spray-dot dot-2"></span>
-          <span class="spray-dot dot-3"></span>
-          <span class="spray-dot dot-4"></span>
-          <span class="spray-dot dot-5"></span>
-          <span class="spray-dot dot-6"></span>
-          <span class="spray-dot dot-7"></span>
-          <span class="spray-dot dot-8"></span>
-          <span class="spray-dot dot-9"></span>
-          <span class="spray-dot dot-10"></span>
-          <span class="spray-dot dot-11"></span>
-          <span class="spray-dot dot-12"></span>
-          <span class="spray-dot dot-13"></span>
-          <span class="spray-dot dot-14"></span>
+          <span class="spray-particle p1"></span>
+          <span class="spray-particle p2"></span>
+          <span class="spray-particle p3"></span>
+          <span class="spray-particle p4"></span>
+          <span class="spray-particle p5"></span>
+          <span class="spray-particle p6"></span>
+          <span class="spray-particle p7"></span>
+          <span class="spray-particle p8"></span>
+          <span class="spray-particle p9"></span>
+          <span class="spray-particle p10"></span>
+          <span class="spray-particle p11"></span>
+          <span class="spray-particle p12"></span>
+          <span class="spray-particle p13"></span>
+          <span class="spray-particle p14"></span>
+          <span class="spray-particle p15"></span>
+          <span class="spray-particle p16"></span>
+          <span class="spray-particle p17"></span>
+          <span class="spray-particle p18"></span>
+          <span class="spray-particle p19"></span>
+          <span class="spray-particle p20"></span>
 
         </div>
 
@@ -286,13 +245,11 @@
 
       </div>
 
-
     </section>
 
 
-    <!-- ===================================================
-         INTRO
-    ==================================================== -->
+
+    <!-- ABOUT -->
 
     <section class="intro-section">
 
@@ -300,26 +257,17 @@
         01 / ABOUT MOI-CY
       </div>
 
-
       <div class="intro-layout">
-
 
         <div class="intro-title">
 
           <h2>
-
             SKATEBOARDING
-
-            <span>
-              IS MORE
-            </span>
-
+            <span>IS MORE</span>
             THAN A SPORT.
-
           </h2>
 
         </div>
-
 
         <div class="intro-text">
 
@@ -341,15 +289,13 @@
 
         </div>
 
-
       </div>
 
     </section>
 
 
-    <!-- ===================================================
-         SKATEPLÄTZE
-    ==================================================== -->
+
+    <!-- SKATEPLÄTZE -->
 
     <section class="feature-section">
 
@@ -357,19 +303,12 @@
         02 / SKATEPLÄTZE
       </div>
 
-
       <div class="feature-heading">
 
         <h2>
-
           FIND YOUR
-
-          <span>
-            SPOT.
-          </span>
-
+          <span>SPOT.</span>
         </h2>
-
 
         <a
           href="skateplaetze.html"
@@ -384,9 +323,8 @@
     </section>
 
 
-    <!-- ===================================================
-         MEDIA
-    ==================================================== -->
+
+    <!-- MEDIA -->
 
     <section class="media-section">
 
@@ -394,9 +332,7 @@
         03 / MEDIA
       </div>
 
-
       <div class="media-grid">
-
 
         <a
           href="bilder.html"
@@ -410,13 +346,7 @@
             </span>
 
             <h2>
-
-              BILDER
-
-              <span>
-                .
-              </span>
-
+              BILDER<span>.</span>
             </h2>
 
             <strong>
@@ -440,13 +370,7 @@
             </span>
 
             <h2>
-
-              VIDEOS
-
-              <span>
-                .
-              </span>
-
+              VIDEOS<span>.</span>
             </h2>
 
             <strong>
@@ -457,15 +381,13 @@
 
         </a>
 
-
       </div>
 
     </section>
 
 
-    <!-- ===================================================
-         FINAL
-    ==================================================== -->
+
+    <!-- FINAL -->
 
     <section class="final-section">
 
@@ -473,29 +395,18 @@
         KEEP MOVING.
       </span>
 
-
       <h2>
-
         SEE YOU
-
-        <em>
-          OUT THERE.
-        </em>
-
+        <em>OUT THERE.</em>
       </h2>
 
     </section>
 
-
   </main>
 
 
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
 
   <footer class="footer">
-
 
     <div class="footer-logo">
 
@@ -507,21 +418,18 @@
 
     </div>
 
-
     <div class="footer-center">
       SKATE / CREATE / EXPLORE
     </div>
-
 
     <div class="footer-copy">
       © 2026 Moi-cy
     </div>
 
-
   </footer>
 
 
-  <script src="script.js?v=graffiti6"></script>
+  <script src="script.js?v=graffiti7"></script>
 
 </body>
 
