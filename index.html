@@ -35,12 +35,15 @@
 
   <link
     rel="stylesheet"
-    href="style.css?v=graffiti8"
+    href="style.css?v=graffiti9"
   >
 
 </head>
 
 <body>
+
+
+  <!-- HEADER -->
 
   <header class="header">
 
@@ -52,16 +55,23 @@
       <span>Moi-cy</span>
     </a>
 
+
     <nav class="navigation">
 
       <a href="index.html">HOME</a>
+
       <a href="bilder.html">BILDER</a>
+
       <a href="videos.html">VIDEOS</a>
+
       <a href="skateplaetze.html">SKATEPLÄTZE</a>
+
       <a href="kontakt.html">KONTAKT</a>
+
       <a href="shop.html">SHOP</a>
 
     </nav>
+
 
     <button
       class="menu-button"
@@ -69,13 +79,18 @@
       aria-label="Menü öffnen"
       aria-expanded="false"
     >
+
       <span></span>
       <span></span>
       <span></span>
+
     </button>
 
   </header>
 
+
+
+  <!-- MOBILE MENU -->
 
   <div
     class="mobile-menu"
@@ -94,6 +109,7 @@
     </nav>
 
   </div>
+
 
 
   <main>
@@ -122,7 +138,8 @@
           id="graffitiLogo"
         >
 
-          <!-- SPRAY -->
+
+          <!-- SPRAY CLOUD -->
 
           <div
             class="spray-head"
@@ -130,83 +147,46 @@
             aria-hidden="true"
           >
 
-            <div class="spray-haze"></div>
+            <div class="spray-cloud"></div>
 
-            <div class="spray-mist mist-1"></div>
-            <div class="spray-mist mist-2"></div>
-            <div class="spray-mist mist-3"></div>
-            <div class="spray-mist mist-4"></div>
-            <div class="spray-mist mist-5"></div>
+            <i class="spray-particle particle-1"></i>
+            <i class="spray-particle particle-2"></i>
+            <i class="spray-particle particle-3"></i>
+            <i class="spray-particle particle-4"></i>
+            <i class="spray-particle particle-5"></i>
+            <i class="spray-particle particle-6"></i>
+            <i class="spray-particle particle-7"></i>
+            <i class="spray-particle particle-8"></i>
 
           </div>
 
 
           <!-- LOGO -->
 
-          <svg
-            class="graffiti-svg"
-            viewBox="0 0 1000 300"
-            role="img"
+          <div
+            class="graffiti-word"
+            id="graffitiWord"
             aria-label="Moi-cy"
-            preserveAspectRatio="xMidYMid meet"
           >
 
-            <defs>
+            <span class="graffiti-letter">M</span>
+            <span class="graffiti-letter">o</span>
+            <span class="graffiti-letter">i</span>
+            <span class="graffiti-letter">-</span>
+            <span class="graffiti-letter">c</span>
+            <span class="graffiti-letter">y</span>
 
-              <mask
-                id="letterMask"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="1000"
-                height="300"
-              >
-
-                <rect
-                  x="0"
-                  y="0"
-                  width="1000"
-                  height="300"
-                  fill="black"
-                />
-
-                <g
-                  id="maskLetters"
-                  fill="white"
-                ></g>
-
-              </mask>
-
-            </defs>
+          </div>
 
 
-            <text
-              id="logoText"
-              x="500"
-              y="205"
-              text-anchor="middle"
-              class="graffiti-text"
-              fill="var(--blue)"
-              mask="url(#letterMask)"
-            >
-              Moi-cy
-            </text>
+          <!-- SMALL PAINT SPLASHES -->
 
-          </svg>
-
-
-          <!-- SMALL PAINT DROPS -->
-
-          <span class="paint-drop drop-1"></span>
-          <span class="paint-drop drop-2"></span>
-          <span class="paint-drop drop-3"></span>
-          <span class="paint-drop drop-4"></span>
-          <span class="paint-drop drop-5"></span>
-          <span class="paint-drop drop-6"></span>
-          <span class="paint-drop drop-7"></span>
-          <span class="paint-drop drop-8"></span>
-          <span class="paint-drop drop-9"></span>
-          <span class="paint-drop drop-10"></span>
+          <span class="paint-splash splash-1"></span>
+          <span class="paint-splash splash-2"></span>
+          <span class="paint-splash splash-3"></span>
+          <span class="paint-splash splash-4"></span>
+          <span class="paint-splash splash-5"></span>
+          <span class="paint-splash splash-6"></span>
 
         </div>
 
@@ -240,17 +220,25 @@
         01 / ABOUT MOI-CY
       </div>
 
+
       <div class="intro-layout">
 
         <div class="intro-title">
 
           <h2>
+
             SKATEBOARDING
-            <span>IS MORE</span>
+
+            <span>
+              IS MORE
+            </span>
+
             THAN A SPORT.
+
           </h2>
 
         </div>
+
 
         <div class="intro-text">
 
@@ -260,11 +248,13 @@
             und neue Lines zu entdecken.
           </p>
 
+
           <p>
             Von Street über Bowl bis Pool –
             hier geht es vor allem darum,
             rauszugehen und zu skaten.
           </p>
+
 
           <span class="handwritten">
             just skate.
@@ -286,12 +276,19 @@
         02 / SKATEPLÄTZE
       </div>
 
+
       <div class="feature-heading">
 
         <h2>
+
           FIND YOUR
-          <span>SPOT.</span>
+
+          <span>
+            SPOT.
+          </span>
+
         </h2>
+
 
         <a
           href="skateplaetze.html"
@@ -315,7 +312,9 @@
         03 / MEDIA
       </div>
 
+
       <div class="media-grid">
+
 
         <a
           href="bilder.html"
@@ -378,15 +377,24 @@
         KEEP MOVING.
       </span>
 
+
       <h2>
+
         SEE YOU
-        <em>OUT THERE.</em>
+
+        <em>
+          OUT THERE.
+        </em>
+
       </h2>
 
     </section>
 
   </main>
 
+
+
+  <!-- FOOTER -->
 
   <footer class="footer">
 
@@ -400,9 +408,11 @@
 
     </div>
 
+
     <div class="footer-center">
       SKATE / CREATE / EXPLORE
     </div>
+
 
     <div class="footer-copy">
       © 2026 Moi-cy
@@ -411,7 +421,7 @@
   </footer>
 
 
-  <script src="script.js?v=graffiti8"></script>
+  <script src="script.js?v=graffiti9"></script>
 
 </body>
 
