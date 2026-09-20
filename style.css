@@ -62,30 +62,23 @@ img {
 
 .small-label {
   display: inline-block;
-
   color: var(--blue);
-
   font-size: 0.68rem;
   font-weight: 700;
-
   letter-spacing: 0.16em;
 }
 
 .section-number {
   color: #444;
-
   font-size: 0.7rem;
   font-weight: 600;
-
   letter-spacing: 0.1em;
 }
 
 .graffiti-word,
 .handwritten {
   font-family: "Permanent Marker", cursive;
-
   color: var(--blue);
-
   line-height: 1;
 }
 
@@ -96,7 +89,6 @@ img {
 
 .header {
   position: fixed;
-
   top: 0;
   left: 0;
 
@@ -248,8 +240,7 @@ img {
   padding: 105px 5vw 45px;
 
   display: flex;
-  flex-direction: column;
-
+  align-items: center;
   justify-content: center;
 
   overflow: hidden;
@@ -267,7 +258,7 @@ img {
   height: 750px;
 
   left: 50%;
-  top: 48%;
+  top: 50%;
 
   transform: translate(-50%, -50%);
 
@@ -281,8 +272,7 @@ img {
 
   pointer-events: none;
 
-  animation:
-    logoGlow 6s ease-in-out infinite;
+  animation: logoGlow 6s ease-in-out infinite;
 }
 
 @keyframes logoGlow {
@@ -347,21 +337,21 @@ img {
 
   width: 100%;
 
-  min-height: 680px;
+  min-height: 760px;
 
   display: flex;
 
+  flex-direction: column;
+
   align-items: center;
   justify-content: center;
-
-  flex-direction: column;
 
   z-index: 5;
 }
 
 
 /* =========================================
-   MAIN LOGO BOX
+   MAIN LOGO
 ========================================= */
 
 .brand-logo {
@@ -651,7 +641,7 @@ img {
 
 
 /* =========================================
-   GRAFFITI SKATE
+   GRAFFITI
 ========================================= */
 
 .logo-tag {
@@ -693,7 +683,7 @@ img {
 
 
 /* =========================================
-   LOGO BOTTOM LINE
+   LOGO BOTTOM
 ========================================= */
 
 .logo-bottom {
@@ -737,7 +727,7 @@ img {
 
 
 /* =========================================
-   LOGO STAMP
+   ROUND STAMP
 ========================================= */
 
 .logo-stamp {
@@ -921,7 +911,7 @@ img {
 
 
 /* =========================================
-   FLOATING DOTS
+   FLOATING MARKS
 ========================================= */
 
 .floating-mark {
@@ -971,13 +961,11 @@ img {
   0%,
   100% {
     transform: translateY(0);
-
     opacity: 0.35;
   }
 
   50% {
     transform: translateY(-14px);
-
     opacity: 1;
   }
 
@@ -985,42 +973,47 @@ img {
 
 
 /* =========================================
-   SKATEPARK BUTTON
+   SKATEPLÄTZE BUTTON
 ========================================= */
 
 .skatepark-button {
   position: relative;
 
-  z-index: 20;
+  z-index: 50;
 
-  display: flex;
+  display: inline-flex;
 
   align-items: center;
-
   justify-content: center;
 
-  gap: 24px;
+  gap: 22px;
 
-  min-width: 330px;
+  margin-top: 85px;
 
-  margin-top: 75px;
+  padding: 17px 30px;
 
-  padding: 17px 24px;
+  min-width: 260px;
 
-  border: 1px solid rgba(0,168,255,0.5);
+  border: 1px solid var(--blue);
 
-  background:
-    rgba(0,168,255,0.025);
+  background: #050505;
 
-  color: var(--white);
+  color: var(--blue);
 
-  overflow: hidden;
+  font-size: 0.72rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  box-shadow:
+    0 0 20px rgba(0,168,255,0.08);
 
   transition:
-    transform 0.35s ease,
-    border-color 0.35s ease,
-    background 0.35s ease,
-    box-shadow 0.35s ease;
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
 }
 
 .skatepark-button::before {
@@ -1028,69 +1021,42 @@ img {
 
   position: absolute;
 
-  top: 0;
-  left: -120%;
+  inset: 4px;
 
-  width: 80%;
-  height: 100%;
+  border: 1px solid rgba(0,168,255,0.18);
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(0,168,255,0.22),
-      transparent
-    );
-
-  transform: skewX(-20deg);
-
-  transition: left 0.6s ease;
+  pointer-events: none;
 }
 
-.skatepark-button:hover::before {
-  left: 140%;
+.skatepark-button span,
+.skatepark-button strong {
+  position: relative;
+
+  z-index: 2;
 }
 
-.skatepark-button:hover {
-  transform: translateY(-5px);
+.skatepark-button strong {
+  font-size: 1.15rem;
 
-  border-color: var(--blue);
-
-  background:
-    rgba(0,168,255,0.08);
-
-  box-shadow:
-    0 0 35px rgba(0,168,255,0.14);
-}
-
-.skatepark-button-small {
-  color: #555;
-
-  font-size: 0.48rem;
-  font-weight: 800;
-
-  letter-spacing: 0.16em;
-}
-
-.skatepark-button-main {
-  color: var(--blue);
-
-  font-size: 0.75rem;
-  font-weight: 900;
-
-  letter-spacing: 0.16em;
-}
-
-.skatepark-arrow {
-  color: var(--blue);
-
-  font-size: 1.25rem;
+  font-weight: 400;
 
   transition:
     transform 0.3s ease;
 }
 
-.skatepark-button:hover .skatepark-arrow {
+.skatepark-button:hover {
+  transform: translateY(-5px);
+
+  background: var(--blue);
+
+  color: #050505;
+
+  box-shadow:
+    0 0 35px rgba(0,168,255,0.3),
+    0 0 80px rgba(0,168,255,0.08);
+}
+
+.skatepark-button:hover strong {
   transform: translateX(7px);
 }
 
@@ -1147,10 +1113,6 @@ img {
 
 .intro-text .handwritten {
   margin-top: 55px;
-
-  font-size: clamp(2rem,4vw,4rem);
-
-  transform: rotate(-8deg);
 }
 
 
@@ -1406,6 +1368,37 @@ img {
 
 .media-more {
   margin-top: 35px;
+}
+
+.outline-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 15px 22px;
+
+  border: 1px solid rgba(255,255,255,0.18);
+
+  color: #888;
+
+  font-size: 0.62rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.outline-button:hover {
+  color: var(--blue);
+
+  border-color: var(--blue);
+
+  transform: translateX(5px);
 }
 
 
@@ -1836,7 +1829,7 @@ img {
   }
 
   .logo-stage {
-    min-height: 580px;
+    min-height: 650px;
   }
 
   .brand-logo {
@@ -1942,9 +1935,9 @@ img {
     min-height: 100svh;
 
     padding:
-      90px
+      85px
       6vw
-      30px;
+      35px;
   }
 
   .hero-background-glow {
@@ -1953,7 +1946,7 @@ img {
   }
 
   .logo-stage {
-    min-height: 530px;
+    min-height: 600px;
 
     margin-top: 10px;
   }
@@ -1999,7 +1992,7 @@ img {
   .logo-word {
     margin-left: 13px;
 
-    font-size: clamp(2.9rem, 13vw, 5rem);
+    font-size: clamp(2.9rem,13vw,5rem);
   }
 
   .logo-cut {
@@ -2062,32 +2055,24 @@ img {
   ====================================== */
 
   .skatepark-button {
-    min-width: 0;
-
-    width: 90%;
+    min-width: 230px;
 
     margin-top: 65px;
 
-    padding: 15px 16px;
+    padding: 15px 22px;
 
-    gap: 12px;
+    gap: 18px;
+
+    font-size: 0.62rem;
   }
 
-  .skatepark-button-small {
-    font-size: 0.4rem;
-  }
-
-  .skatepark-button-main {
-    font-size: 0.65rem;
-  }
-
-  .skatepark-arrow {
+  .skatepark-button strong {
     font-size: 1rem;
   }
 
 
   /* =====================================
-     INTRO
+     MOBILE INTRO
   ====================================== */
 
   .intro {
@@ -2108,7 +2093,7 @@ img {
 
 
   /* =====================================
-     ABOUT
+     MOBILE ABOUT
   ====================================== */
 
   .about-section {
@@ -2125,7 +2110,7 @@ img {
 
 
   /* =====================================
-     BILDER
+     MOBILE BILDER
   ====================================== */
 
   .media-section {
@@ -2166,7 +2151,7 @@ img {
 
 
   /* =====================================
-     VIDEO
+     MOBILE VIDEO
   ====================================== */
 
   .video-section {
@@ -2191,7 +2176,7 @@ img {
 
 
   /* =====================================
-     CURRENT
+     MOBILE CURRENT
   ====================================== */
 
   .current-section {
@@ -2204,7 +2189,7 @@ img {
 
 
   /* =====================================
-     CONTACT
+     MOBILE CONTACT
   ====================================== */
 
   .contact-section {
@@ -2217,7 +2202,7 @@ img {
 
 
   /* =====================================
-     FOOTER
+     MOBILE FOOTER
   ====================================== */
 
   .footer {
