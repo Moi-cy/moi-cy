@@ -1091,3 +1091,75 @@ button {
   }
 
 }
+
+/* =========================================
+   LANGUAGE SWITCHER
+========================================= */
+
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 18px;
+}
+
+.language-switcher button {
+  padding: 5px 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  background: transparent;
+  color: #777;
+
+  font-family: "Inter", sans-serif;
+  font-size: 0.58rem;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.language-switcher button:hover {
+  color: #f2f2f2;
+  border-color: #00a8ff;
+}
+
+.language-switcher button.active {
+  color: #050505;
+  background: #00a8ff;
+  border-color: #00a8ff;
+}
+
+
+/* =========================================
+   LANGUAGE SWITCHER — MOBILE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .language-switcher {
+    margin-left: 10px;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .language-switcher {
+    gap: 3px;
+    margin-left: 6px;
+  }
+
+  .language-switcher button {
+    padding: 4px 5px;
+    font-size: 0.52rem;
+  }
+
+}
