@@ -210,7 +210,8 @@ button {
 
   background: transparent;
 
-  border: 1px solid rgba(255,255,255,0.2);
+  border:
+    1px solid rgba(255,255,255,0.2);
 
   align-items: center;
 
@@ -343,7 +344,8 @@ button {
 
   z-index: 5;
 
-  width: min(1200px, 90vw);
+  width:
+    min(1200px, 90vw);
 
   display: flex;
 
@@ -358,7 +360,7 @@ button {
 
 .hero-small {
 
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 
   color: #777;
 
@@ -375,13 +377,11 @@ button {
 
   position: relative;
 
-  width: min(1100px, 92vw);
+  width:
+    min(1100px, 94vw);
 
-  height: clamp(
-    190px,
-    28vw,
-    330px
-  );
+  height:
+    clamp(190px, 28vw, 330px);
 
 }
 
@@ -421,79 +421,85 @@ button {
 
 
 /* =========================
-   REALISTIC SPRAY CLOUD
+   SPRAY HEAD
 ========================= */
 
-.spray-cloud {
+.spray-head {
 
   position: absolute;
 
-  z-index: 8;
-
-  left: 10%;
-
+  left: 0;
   top: 50%;
 
-  width: 150px;
-  height: 150px;
+  width: 145px;
+  height: 145px;
 
   transform:
-    translate(-50%, -50%)
-    scale(0.25);
+    translate(-50%, -50%);
+
+  z-index: 20;
 
   pointer-events: none;
 
   opacity: 0;
 
-  border-radius: 50%;
+}
 
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(0,168,255,0.52) 0%,
-      rgba(0,168,255,0.30) 15%,
-      rgba(0,168,255,0.18) 30%,
-      rgba(0,168,255,0.09) 46%,
-      rgba(0,168,255,0.035) 61%,
-      transparent 75%
-    );
 
-  filter:
-    blur(10px);
+.spray-head.active {
+
+  opacity: 1;
 
 }
 
 
-.spray-cloud.active {
+.spray-haze {
 
-  opacity: 1;
+  position: absolute;
+
+  inset: -35px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0,168,255,0.52) 0%,
+      rgba(0,168,255,0.34) 17%,
+      rgba(0,168,255,0.20) 33%,
+      rgba(0,168,255,0.10) 48%,
+      rgba(0,168,255,0.035) 63%,
+      transparent 75%
+    );
+
+  filter:
+    blur(8px);
 
   animation:
-    sprayCloudPulse
+    sprayPulse
     0.22s
+    ease-in-out
     infinite
     alternate;
 
 }
 
 
-@keyframes sprayCloudPulse {
+@keyframes sprayPulse {
 
   from {
 
     transform:
-      translate(-50%, -50%)
-      scale(0.82);
+      scale(0.85);
 
-    opacity: 0.72;
+    opacity: 0.65;
 
   }
 
   to {
 
     transform:
-      translate(-50%, -50%)
-      scale(1.12);
+      scale(1.15);
 
     opacity: 1;
 
@@ -504,112 +510,90 @@ button {
 
 
 /* =========================
-   SPRAY CLOUD PARTICLES
+   SPRAY MIST
 ========================= */
 
-.spray-cloud span {
+.spray-mist {
 
   position: absolute;
 
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 
   border-radius: 50%;
 
   background: var(--blue);
 
-  opacity: 0;
-
   box-shadow:
-    0 0 8px rgba(0,168,255,0.7);
-
-}
-
-
-.spray-cloud span:nth-child(1) {
-  left: 12%;
-  top: 44%;
-}
-
-.spray-cloud span:nth-child(2) {
-  left: 20%;
-  top: 25%;
-}
-
-.spray-cloud span:nth-child(3) {
-  left: 28%;
-  top: 65%;
-}
-
-.spray-cloud span:nth-child(4) {
-  left: 39%;
-  top: 17%;
-}
-
-.spray-cloud span:nth-child(5) {
-  left: 48%;
-  top: 77%;
-}
-
-.spray-cloud span:nth-child(6) {
-  left: 58%;
-  top: 29%;
-}
-
-.spray-cloud span:nth-child(7) {
-  left: 69%;
-  top: 66%;
-}
-
-.spray-cloud span:nth-child(8) {
-  left: 78%;
-  top: 37%;
-}
-
-.spray-cloud span:nth-child(9) {
-  left: 88%;
-  top: 55%;
-}
-
-.spray-cloud span:nth-child(10) {
-  left: 50%;
-  top: 50%;
-}
-
-
-.spray-cloud.active span {
+    0 0 10px rgba(0,168,255,0.7);
 
   animation:
-    spraySpeck
-    0.45s
-    infinite
-    alternate;
+    mistFloat
+    0.5s
+    ease-out
+    infinite;
 
 }
 
 
-@keyframes spraySpeck {
+.mist-1 {
+  left: 18%;
+  top: 45%;
+}
 
-  from {
+.mist-2 {
+  left: 34%;
+  top: 22%;
+  animation-delay: 0.08s;
+}
+
+.mist-3 {
+  left: 52%;
+  top: 68%;
+  animation-delay: 0.15s;
+}
+
+.mist-4 {
+  left: 71%;
+  top: 35%;
+  animation-delay: 0.22s;
+}
+
+.mist-5 {
+  left: 82%;
+  top: 59%;
+  animation-delay: 0.29s;
+}
+
+
+@keyframes mistFloat {
+
+  0% {
+
+    opacity: 0;
 
     transform:
-      scale(0.5)
-      translate(0,0);
-
-    opacity: 0.15;
+      scale(0.3)
+      translate(0, 0);
 
   }
 
-  to {
+  35% {
+
+    opacity: 0.85;
+
+  }
+
+  100% {
+
+    opacity: 0;
 
     transform:
       scale(1.4)
       translate(
-        var(--spray-x, 8px),
-        var(--spray-y, -5px)
+        18px,
+        -8px
       );
-
-    opacity: 0.8;
 
   }
 
@@ -618,14 +602,14 @@ button {
 
 
 /* =========================
-   SPRAY PARTICLES AROUND LOGO
+   PAINT DROPS
 ========================= */
 
-.spray-particle {
+.paint-drop {
 
   position: absolute;
 
-  z-index: 10;
+  z-index: 15;
 
   width: 4px;
   height: 4px;
@@ -636,26 +620,24 @@ button {
 
   opacity: 0;
 
-  transform: scale(0);
-
   box-shadow:
-    0 0 9px rgba(0,168,255,0.65);
+    0 0 8px rgba(0,168,255,0.6);
 
 }
 
 
-.spray-particle.active {
+.paint-drop.active {
 
   animation:
-    particleBurst
-    0.8s
+    paintDrop
+    0.7s
     ease-out
     forwards;
 
 }
 
 
-@keyframes particleBurst {
+@keyframes paintDrop {
 
   0% {
 
@@ -677,10 +659,10 @@ button {
     opacity: 0;
 
     transform:
-      scale(1.4)
+      scale(1.5)
       translate(
-        var(--dx),
-        var(--dy)
+        var(--x),
+        var(--y)
       );
 
   }
@@ -688,31 +670,21 @@ button {
 }
 
 
-.p1  { left: 11%; top: 38%; --dx: -15px; --dy: -22px; }
-.p2  { left: 16%; top: 55%; --dx: -23px; --dy: 8px; }
-.p3  { left: 23%; top: 30%; --dx: 12px; --dy: -27px; }
-.p4  { left: 29%; top: 65%; --dx: -10px; --dy: 20px; }
-.p5  { left: 35%; top: 43%; --dx: 18px; --dy: -18px; }
-.p6  { left: 41%; top: 67%; --dx: 24px; --dy: 17px; }
-.p7  { left: 46%; top: 31%; --dx: -16px; --dy: -20px; }
-.p8  { left: 51%; top: 59%; --dx: 18px; --dy: 25px; }
-.p9  { left: 56%; top: 39%; --dx: 24px; --dy: -14px; }
-.p10 { left: 62%; top: 64%; --dx: -20px; --dy: 18px; }
-.p11 { left: 67%; top: 31%; --dx: 14px; --dy: -22px; }
-.p12 { left: 72%; top: 54%; --dx: 24px; --dy: 5px; }
-.p13 { left: 77%; top: 42%; --dx: -17px; --dy: -25px; }
-.p14 { left: 82%; top: 61%; --dx: 19px; --dy: 19px; }
-.p15 { left: 88%; top: 36%; --dx: 15px; --dy: -21px; }
-.p16 { left: 19%; top: 68%; --dx: -19px; --dy: 14px; }
-.p17 { left: 39%; top: 25%; --dx: 21px; --dy: -18px; }
-.p18 { left: 59%; top: 72%; --dx: 17px; --dy: 18px; }
-.p19 { left: 75%; top: 27%; --dx: -17px; --dy: -20px; }
-.p20 { left: 91%; top: 52%; --dx: 25px; --dy: 6px; }
+.drop-1  { left: 18%; top: 42%; --x: -18px; --y: -17px; }
+.drop-2  { left: 25%; top: 55%; --x: 16px; --y: 20px; }
+.drop-3  { left: 31%; top: 37%; --x: -12px; --y: -24px; }
+.drop-4  { left: 39%; top: 61%; --x: 22px; --y: 15px; }
+.drop-5  { left: 46%; top: 32%; --x: -17px; --y: -20px; }
+.drop-6  { left: 53%; top: 56%; --x: 19px; --y: 18px; }
+.drop-7  { left: 61%; top: 38%; --x: -18px; --y: -18px; }
+.drop-8  { left: 69%; top: 60%; --x: 20px; --y: 15px; }
+.drop-9  { left: 77%; top: 40%; --x: 17px; --y: -21px; }
+.drop-10 { left: 84%; top: 54%; --x: -20px; --y: 10px; }
 
 
 
 /* =========================
-   HERO SIDE TEXT
+   HERO SIDE
 ========================= */
 
 .hero-side-text {
@@ -1452,16 +1424,7 @@ button {
 
 
   .hero-side-text {
-
     display: none;
-
-  }
-
-
-  .hero-bottom {
-
-    bottom: 20px;
-
   }
 
 
@@ -1505,29 +1468,26 @@ button {
 @media (max-width: 550px) {
 
   .header {
-
     height: 68px;
-
   }
 
 
   .mobile-menu {
-
-    inset-top: 68px;
-
+    top: 68px;
+    inset-left: 0;
+    inset-right: 0;
+    inset-bottom: 0;
   }
 
 
   .hero {
-
     min-height: 92vh;
-
   }
 
 
   .graffiti-logo {
 
-    width: 96vw;
+    width: 98vw;
 
     height: 220px;
 
