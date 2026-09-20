@@ -1,1 +1,694 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
+
+/* =========================
+   GRUNDLAGEN
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050505;
+  color: #f2f2f2;
+  font-family: 'Inter', Arial, sans-serif;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  background: rgba(5, 5, 5, 0.88);
+  backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav {
+  max-width: 1400px;
+  margin: 0 auto;
+
+  padding: 20px 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+/* LOGO */
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+
+  white-space: nowrap;
+}
+
+.logo span {
+  color: #00a8ff;
+}
+
+
+/* NAVIGATION */
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #00a8ff;
+}
+
+
+/* MOBILE MENU */
+
+.menu-button {
+  display: none;
+
+  background: none;
+  border: none;
+
+  color: white;
+
+  font-size: 1.5rem;
+
+  cursor: pointer;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  min-height: 100vh;
+
+  padding: 150px 40px 80px;
+
+  display: flex;
+  align-items: center;
+}
+
+.hero-inner {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+
+  gap: 80px;
+
+  align-items: center;
+}
+
+.hero-text {
+  position: relative;
+}
+
+
+/* KLEINE ÜBERSCHRIFT */
+
+.small-label {
+  color: #00a8ff;
+
+  font-size: 0.75rem;
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
+
+  margin-bottom: 25px;
+}
+
+
+/* =========================
+   MOI-CY HERO LOGO
+========================= */
+
+.hero-title {
+  margin: 0 0 35px 0;
+
+  /*
+    Wichtig:
+    Moi-cy darf niemals getrennt werden.
+  */
+
+  white-space: nowrap;
+  display: block;
+
+  font-size: clamp(4rem, 10vw, 11rem);
+
+  line-height: 0.78;
+
+  letter-spacing: -0.09em;
+
+  font-weight: 900;
+}
+
+.hero-title span {
+  color: #f2f2f2;
+
+  white-space: nowrap;
+}
+
+
+/* SLOGAN */
+
+.hero-slogan {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+
+  margin-bottom: 35px;
+}
+
+
+/* BESCHREIBUNG */
+
+.hero-description {
+  max-width: 500px;
+
+  color: #999;
+
+  font-size: 1rem;
+}
+
+
+/* HERO BILD */
+
+.hero-image {
+  aspect-ratio: 4 / 5;
+
+  background: #0c0c0c;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.hero-image::after {
+  content: "Moi-cy";
+
+  white-space: nowrap;
+
+  position: absolute;
+
+  right: -20px;
+  bottom: 10px;
+
+  font-size: 4rem;
+
+  font-weight: 900;
+
+  color: rgba(255, 255, 255, 0.04);
+
+  transform: rotate(-90deg);
+}
+
+.image-placeholder {
+  color: #555;
+
+  font-size: 0.75rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+
+  text-align: center;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro {
+  padding: 180px 40px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.intro-inner {
+  max-width: 1100px;
+
+  margin: 0 auto;
+}
+
+.intro h2 {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+
+  line-height: 0.95;
+
+  letter-spacing: -0.06em;
+
+  font-weight: 800;
+}
+
+.intro h2 span {
+  color: #00a8ff;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about {
+  padding: 160px 40px;
+}
+
+.about-inner {
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 0.7fr 1fr;
+
+  gap: 100px;
+}
+
+.section-label {
+  color: #00a8ff;
+
+  font-size: 0.7rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.2em;
+
+  text-transform: uppercase;
+}
+
+.about h2 {
+  margin-top: 20px;
+
+  font-size: clamp(2rem, 4vw, 4rem);
+
+  line-height: 0.95;
+
+  letter-spacing: -0.05em;
+}
+
+.about-text {
+  color: #aaa;
+
+  font-size: 1.05rem;
+}
+
+.about-text p + p {
+  margin-top: 25px;
+}
+
+
+/* =========================
+   BILDER & VIDEOS
+========================= */
+
+.current {
+  padding: 160px 40px;
+
+  background: #080808;
+}
+
+.current-inner {
+  max-width: 1400px;
+
+  margin: 0 auto;
+}
+
+.current-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  margin-bottom: 60px;
+
+  gap: 30px;
+}
+
+.current-header h2 {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+
+  line-height: 0.9;
+
+  letter-spacing: -0.06em;
+}
+
+.current-header p {
+  max-width: 350px;
+
+  color: #777;
+
+  font-size: 0.9rem;
+}
+
+
+/* CONTENT GRID */
+
+.content-grid {
+  display: grid;
+
+  grid-template-columns: 1.4fr 0.8fr;
+
+  gap: 25px;
+}
+
+.content-card {
+  background: #050505;
+
+  min-height: 450px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+
+  overflow: hidden;
+
+  transition: border-color 0.3s ease;
+}
+
+.content-card:hover {
+  border-color: rgba(0, 168, 255, 0.5);
+}
+
+.content-card.large {
+  min-height: 600px;
+}
+
+.card-label {
+  position: absolute;
+
+  left: 25px;
+  bottom: 20px;
+
+  color: #00a8ff;
+
+  font-size: 0.7rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+}
+
+
+/* =========================
+   KONTAKT
+========================= */
+
+.contact {
+  padding: 180px 40px;
+}
+
+.contact-inner {
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: clamp(3rem, 8vw, 8rem);
+
+  line-height: 0.85;
+
+  letter-spacing: -0.07em;
+
+  margin: 20px 0 40px;
+}
+
+.contact h2 span {
+  color: #00a8ff;
+}
+
+.contact-text {
+  max-width: 550px;
+
+  margin: 0 auto 45px;
+
+  color: #888;
+}
+
+.contact-button {
+  display: inline-block;
+
+  padding: 16px 28px;
+
+  border: 1px solid #00a8ff;
+
+  color: #00a8ff;
+
+  font-size: 0.75rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  transition: all 0.25s ease;
+}
+
+.contact-button:hover {
+  background: #00a8ff;
+
+  color: #050505;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 35px 40px;
+}
+
+.footer-inner {
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.footer-logo {
+  font-weight: 900;
+
+  letter-spacing: -0.05em;
+
+  white-space: nowrap;
+}
+
+.footer-logo span {
+  color: #00a8ff;
+}
+
+.copyright {
+  color: #555;
+
+  font-size: 0.7rem;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================
+   TABLET / MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+  .nav {
+    padding: 18px 25px;
+  }
+
+  .menu-button {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+
+    position: absolute;
+
+    top: 70px;
+    left: 0;
+
+    width: 100%;
+
+    background: #050505;
+
+    padding: 30px 25px;
+
+    flex-direction: column;
+
+    gap: 25px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+
+  /* HERO */
+
+  .hero {
+    padding: 130px 25px 70px;
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+
+    gap: 60px;
+  }
+
+  .hero-image {
+    max-width: 600px;
+  }
+
+
+  /* SECTIONS */
+
+  .intro,
+  .about,
+  .current,
+  .contact {
+    padding-left: 25px;
+
+    padding-right: 25px;
+  }
+
+
+  /* ABOUT */
+
+  .about-inner {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+
+
+  /* BILDER */
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .current-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  /* FOOTER */
+
+  footer {
+    padding: 30px 25px;
+  }
+}
+
+
+/* =========================
+   HANDY
+========================= */
+
+@media (max-width: 600px) {
+
+  /*
+    Das Hero-Logo bleibt eine einzige Zeile.
+    Die Schrift wird kleiner, damit "Moi-cy"
+    nicht umgebrochen wird.
+  */
+
+  .hero-title {
+    font-size: clamp(3.2rem, 18vw, 5rem);
+
+    white-space: nowrap;
+  }
+
+
+  .hero-image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .content-card,
+  .content-card.large {
+    min-height: 350px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+}
