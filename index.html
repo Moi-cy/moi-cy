@@ -11,7 +11,7 @@
     content="Moi-cy – Skateboarding, Kreativität und die Suche nach neuen Spots."
   >
 
-  <!-- Google Fonts -->
+  <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -20,14 +20,16 @@
     rel="stylesheet"
   >
 
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- =========================
+
+  <!-- =====================================
        HEADER
-  ========================== -->
+  ====================================== -->
 
   <header class="header">
 
@@ -38,14 +40,22 @@
     <nav class="navigation">
 
       <a href="index.html">HOME</a>
+
       <a href="bilder.html">BILDER</a>
+
       <a href="videos.html">VIDEOS</a>
+
       <a href="#about">ABOUT</a>
+
       <a href="#kontakt">KONTAKT</a>
 
     </nav>
 
-    <button class="menu-button" id="menuButton" aria-label="Menü öffnen">
+    <button
+      class="menu-button"
+      id="menuButton"
+      aria-label="Menü öffnen"
+    >
       <span></span>
       <span></span>
       <span></span>
@@ -54,16 +64,17 @@
   </header>
 
 
-  <!-- =========================
+
+  <!-- =====================================
        MAIN
-  ========================== -->
+  ====================================== -->
 
   <main>
 
 
-    <!-- =========================
+    <!-- =====================================
          HERO
-    ========================== -->
+    ====================================== -->
 
     <section class="hero" id="home">
 
@@ -85,10 +96,14 @@
         <div class="hero-title-wrapper">
 
           <h1 class="hero-title">
-            <span class="brand-name">Moi-cy</span>
+            <span class="brand-name">
+              Moi-cy
+            </span>
           </h1>
 
-          <div class="graffiti-word">
+          <!-- GRAFFITI -->
+
+          <div class="graffiti-word hero-graffiti">
             skate
           </div>
 
@@ -107,7 +122,10 @@
             und dafür, diesen Lifestyle mit anderen zu teilen.
           </p>
 
-          <a href="#about" class="outline-button">
+          <a
+            href="#about"
+            class="outline-button"
+          >
             MEHR ENTDECKEN
           </a>
 
@@ -116,26 +134,55 @@
       </div>
 
 
-      <!-- Hero Visual -->
+
+      <!-- =====================================
+           HERO BILD
+      ====================================== -->
 
       <div class="hero-visual">
 
-        <div class="hero-image-placeholder">
-          <span>YOUR IMAGE</span>
+        <div class="hero-image-placeholder hero-photo">
+
+          <img
+            src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=1600&q=85"
+            alt="Skateboarder"
+          >
+
         </div>
+
+
+        <!-- BLUE MARK -->
 
         <div class="blue-mark">
+
           <span></span>
           <span></span>
           <span></span>
+
         </div>
 
+
+        <!-- STICKER -->
+
         <div class="hero-sticker">
+
           <span>KEEP</span>
           <span>ROLLING</span>
+
+        </div>
+
+
+        <!-- DEKORATIVER TEXT -->
+
+        <div class="hero-floating-text">
+
+          STREET<br>
+          CULTURE
+
         </div>
 
       </div>
+
 
 
       <div class="hero-bottom">
@@ -154,15 +201,16 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================
          INTRO
-    ========================== -->
+    ====================================== -->
 
     <section class="intro" id="about">
 
       <div class="section-number">
         02
       </div>
+
 
       <div class="section-heading">
 
@@ -173,7 +221,9 @@
         <h2>
           Skateboarding<br>
           ist mehr als<br>
-          <span class="blue-text">nur ein Sport.</span>
+          <span class="blue-text">
+            nur ein Sport.
+          </span>
         </h2>
 
       </div>
@@ -186,6 +236,7 @@
           immer wieder neue Wege zu finden.
         </p>
 
+
         <div class="handwritten">
           just skate.
         </div>
@@ -196,9 +247,9 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================
          ABOUT
-    ========================== -->
+    ====================================== -->
 
     <section class="about-section">
 
@@ -217,9 +268,11 @@
 
       <div class="about-layout">
 
+
         <div class="about-title">
 
           <h2>
+
             FROM THE<br>
 
             <span class="graffiti-word small-graffiti">
@@ -229,9 +282,11 @@
             <br>
 
             TO EVERYWHERE.
+
           </h2>
 
         </div>
+
 
 
         <div class="about-content">
@@ -242,11 +297,13 @@
             diese Begeisterung mit anderen zu teilen.
           </p>
 
+
           <p>
             Seit März 2023 geht es um Skateboarding,
             kreative Projekte, neue Spots und die Menschen
             dahinter.
           </p>
+
 
           <p>
             Street, Pool oder Bowl – am Ende geht es darum,
@@ -261,11 +318,12 @@
 
 
 
-    <!-- =========================
-         BILDER VORSCHAU
-    ========================== -->
+    <!-- =====================================
+         BILDER – HOMEPAGE VORSCHAU
+    ====================================== -->
 
     <section class="media-section" id="bilder">
+
 
       <div class="section-top">
 
@@ -280,6 +338,7 @@
       </div>
 
 
+
       <div class="media-heading">
 
         <div>
@@ -290,6 +349,7 @@
 
         </div>
 
+
         <p>
           Ein kleiner Einblick in die Welt von
           <span class="no-break">Moi-cy</span>.
@@ -298,48 +358,83 @@
       </div>
 
 
+
       <!--
-        DIE GANZE BILDER-FLÄCHE IST KLICKBAR
-        Später kommt hier ein echtes Bild rein.
+        DIE BILDER SIND NUR EINE VORSCHAU.
+        KLICK AUF DIE BILDER → BILDER.HTML
       -->
 
-      <a href="bilder.html" class="homepage-media-link">
+      <a
+        href="bilder.html"
+        class="homepage-media-link"
+      >
 
         <div class="image-grid">
 
+
+          <!-- GROSSES BILD -->
+
           <div class="image-box image-large">
 
-            <span>VORSCHAUBILD</span>
+            <img
+              src="https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?auto=format&fit=crop&w=1400&q=85"
+              alt="Skateboarder auf einem Skateplatz"
+            >
+
 
             <div class="media-overlay">
-              <span>ALLE BILDER ANSEHEN</span>
-              <strong>→</strong>
+
+              <span>
+                ALLE BILDER ANSEHEN
+              </span>
+
+              <strong>
+                →
+              </strong>
+
             </div>
 
           </div>
 
 
+
+          <!-- BILD 2 -->
+
           <div class="image-box">
 
-            <span>IMAGE 02</span>
+            <img
+              src="https://images.unsplash.com/photo-1572776685600-aca48f3fdb8b?auto=format&fit=crop&w=900&q=85"
+              alt="Skateboard"
+            >
 
           </div>
 
 
+
+          <!-- BILD 3 -->
+
           <div class="image-box">
 
-            <span>IMAGE 03</span>
+            <img
+              src="https://images.unsplash.com/photo-1547447134-cd3f5c716030?auto=format&fit=crop&w=900&q=85"
+              alt="Skateboarder"
+            >
 
           </div>
+
 
         </div>
 
       </a>
 
 
+
       <div class="media-more">
 
-        <a href="bilder.html" class="outline-button">
+        <a
+          href="bilder.html"
+          class="outline-button"
+        >
           ZUR BILDERGALERIE →
         </a>
 
@@ -349,11 +444,12 @@
 
 
 
-    <!-- =========================
-         VIDEOS VORSCHAU
-    ========================== -->
+    <!-- =====================================
+         VIDEOS – HOMEPAGE VORSCHAU
+    ====================================== -->
 
     <section class="video-section" id="videos">
+
 
       <div class="section-top">
 
@@ -368,7 +464,9 @@
       </div>
 
 
+
       <div class="video-heading">
+
 
         <div>
 
@@ -376,12 +474,19 @@
             WATCH
           </span>
 
+
           <h2>
+
             ON THE<br>
-            <span class="blue-text">MOVE.</span>
+
+            <span class="blue-text">
+              MOVE.
+            </span>
+
           </h2>
 
         </div>
+
 
         <p>
           Skateclips, Sessions und mehr.
@@ -390,36 +495,60 @@
       </div>
 
 
-      <!--
-        VIDEO VORSCHAU
-        Klick führt später zur kompletten VIDEOS-SEITE.
-      -->
 
-      <a href="videos.html" class="homepage-video-link">
+      <!-- VIDEO VORSCHAU -->
 
-        <div class="video-placeholder">
+      <a
+        href="videos.html"
+        class="homepage-video-link"
+      >
+
+        <div class="video-placeholder video-preview">
+
+
+          <div class="video-dark-overlay"></div>
+
 
           <div class="play-button">
             ▶
           </div>
 
+
           <span>
             VIDEO ANSEHEN
           </span>
 
+
           <div class="video-preview-label">
-            <span>MOI-CY</span>
-            <strong>SKATE SESSION #01</strong>
+
+            <span>
+              MOI-CY
+            </span>
+
+            <strong>
+              SKATE SESSION #01
+            </strong>
+
           </div>
+
+
+          <div class="video-corner">
+            00:42
+          </div>
+
 
         </div>
 
       </a>
 
 
+
       <div class="media-more">
 
-        <a href="videos.html" class="outline-button">
+        <a
+          href="videos.html"
+          class="outline-button"
+        >
           ALLE VIDEOS →
         </a>
 
@@ -429,11 +558,12 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================
          CURRENT
-    ========================== -->
+    ====================================== -->
 
     <section class="current-section">
+
 
       <div class="section-top">
 
@@ -448,28 +578,44 @@
       </div>
 
 
+
       <div class="current-layout">
+
 
         <div class="current-image">
 
           <div class="image-box">
-            <span>CURRENT IMAGE</span>
+
+            <img
+              src="https://images.unsplash.com/photo-1536318431364-5cc7d6c8f6d1?auto=format&fit=crop&w=1200&q=85"
+              alt="Skateboarder"
+            >
+
           </div>
 
         </div>
 
 
+
         <div class="current-content">
+
 
           <div class="handwritten large-handwritten">
             keep moving.
           </div>
 
+
           <h2>
+
             FIND<br>
             YOUR<br>
-            <span class="blue-text">LINE.</span>
+
+            <span class="blue-text">
+              LINE.
+            </span>
+
           </h2>
+
 
           <p>
             <span class="no-break">Moi-cy</span> steht für den Moment,
@@ -485,11 +631,15 @@
 
 
 
-    <!-- =========================
+    <!-- =====================================
          KONTAKT
-    ========================== -->
+    ====================================== -->
 
-    <section class="contact-section" id="kontakt">
+    <section
+      class="contact-section"
+      id="kontakt"
+    >
+
 
       <div class="section-top">
 
@@ -504,20 +654,29 @@
       </div>
 
 
+
       <div class="contact-content">
+
 
         <div class="contact-title">
 
-          <span class="graffiti-word">
+          <span class="graffiti-word contact-graffiti">
             hello
           </span>
 
+
           <h2>
+
             LET'S<br>
-            CONNECT<span class="blue-text">.</span>
+
+            CONNECT<span class="blue-text">
+              .
+            </span>
+
           </h2>
 
         </div>
+
 
 
         <div class="contact-info">
@@ -526,6 +685,7 @@
             Du willst mit <span class="no-break">Moi-cy</span> in Kontakt
             treten oder hast eine Frage?
           </p>
+
 
           <a
             href="mailto:DEINE-EMAIL@BEISPIEL.DE"
@@ -544,26 +704,33 @@
 
 
 
-  <!-- =========================
+  <!-- =====================================
        FOOTER
-  ========================== -->
+  ====================================== -->
 
   <footer class="footer">
+
 
     <div class="footer-logo">
       Moi-cy
     </div>
 
+
     <div class="footer-center">
       SKATE / CREATE / EXPLORE
     </div>
+
 
     <div class="footer-copy">
       © 2026 Moi-cy
     </div>
 
+
   </footer>
 
+
+
+  <!-- JAVASCRIPT -->
 
   <script src="script.js"></script>
 
