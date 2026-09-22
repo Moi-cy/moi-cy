@@ -13,7 +13,6 @@
     >
 
     <link rel="icon" type="image/png" href="favicon.png">
-
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -21,12 +20,12 @@
            HOMEPAGE
            ========================================================= */
 
-        .home-v2-page {
+        .home-page {
             background: #050505;
             color: #f5f5f5;
         }
 
-        .home-v2-page main {
+        .home-page main {
             padding-top: 0;
         }
 
@@ -46,62 +45,91 @@
             padding: 100px 30px 80px;
         }
 
-        .home-hero-logo {
-            width: min(850px, 90vw);
+        /*
+         * Das Logo bleibt bewusst schlicht.
+         * Keine zusätzliche Schrift unter dem Logo.
+         */
+        .home-logo {
+            width: min(900px, 94vw);
             max-width: 100%;
             text-align: center;
-            font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
-            font-size: clamp(90px, 17vw, 250px);
+
+            font-family:
+                Impact,
+                Haettenschweiler,
+                "Arial Black",
+                sans-serif;
+
+            font-size: clamp(90px, 16vw, 230px);
             font-weight: 900;
             line-height: 0.8;
+
             letter-spacing: -0.08em;
-            color: #ffffff;
-            text-transform: lowercase;
             white-space: nowrap;
+
+            color: #ffffff;
+
             transform: rotate(-4deg);
-            animation: graffitiLogo 1.5s cubic-bezier(.2,.8,.2,1) both;
-            text-shadow:
-                5px 5px 0 #168cff,
-                10px 10px 0 rgba(255,255,255,0.08);
+
+            animation:
+                homeLogoReveal 1.5s
+                cubic-bezier(.2,.8,.2,1)
+                both;
         }
 
-        @keyframes graffitiLogo {
+        @keyframes homeLogoReveal {
+
             0% {
                 opacity: 0;
-                transform: translateY(25px) rotate(-4deg) scale(0.94);
+                transform:
+                    translateY(25px)
+                    rotate(-4deg)
+                    scale(0.95);
+
                 filter: blur(8px);
-                clip-path: inset(0 100% 0 0);
             }
 
-            35% {
+            40% {
                 opacity: 1;
             }
 
             100% {
                 opacity: 1;
-                transform: translateY(0) rotate(-4deg) scale(1);
+                transform:
+                    translateY(0)
+                    rotate(-4deg)
+                    scale(1);
+
                 filter: blur(0);
-                clip-path: inset(0 0 0 0);
             }
+
         }
 
         .home-scroll {
             position: absolute;
-            bottom: 35px;
             left: 50%;
+            bottom: 32px;
+
             transform: translateX(-50%);
-            font-size: 10px;
-            letter-spacing: 0.25em;
+
             color: #858585;
+
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.25em;
             text-transform: uppercase;
         }
 
         .home-scroll::after {
             content: "";
+
             display: block;
+
             width: 1px;
             height: 35px;
+
             margin: 12px auto 0;
+
             background: #555555;
         }
 
@@ -110,25 +138,38 @@
            FIND YOUR SPOT
            ========================================================= */
 
-        .home-spot-section {
+        .home-spot {
             max-width: 1400px;
+
             margin: 0 auto;
-            padding: 150px 30px 100px;
+
+            padding:
+                150px
+                30px
+                110px;
         }
 
         .home-spot-header {
             display: flex;
+
             align-items: center;
             justify-content: space-between;
-            gap: 50px;
-            margin-bottom: 65px;
+
+            gap: 40px;
+
+            margin-bottom: 60px;
         }
 
         .home-spot-title {
             margin: 0;
-            font-size: clamp(48px, 8vw, 120px);
-            line-height: 0.9;
+
+            font-size:
+                clamp(50px, 8vw, 120px);
+
+            line-height: 0.88;
+
             letter-spacing: -0.06em;
+
             font-weight: 900;
         }
 
@@ -138,24 +179,38 @@
 
         .home-spot-button {
             flex-shrink: 0;
+
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
+
             min-height: 54px;
+
             padding: 0 30px;
+
             border: 1px solid #ffffff;
+
             color: #ffffff;
+
             text-decoration: none;
-            font-size: 13px;
-            font-weight: 800;
+
+            font-size: 12px;
+            font-weight: 900;
+
             letter-spacing: 0.12em;
-            transition: 0.2s ease;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
         }
 
         .home-spot-button:hover {
             background: #168cff;
+
             border-color: #168cff;
-            color: #ffffff;
+
             transform: translateY(-2px);
         }
 
@@ -164,27 +219,39 @@
            BILDER / VIDEOS
            ========================================================= */
 
-        .home-media-grid {
+        .home-media {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 20px;
         }
 
         .home-media-card {
             position: relative;
+
             display: block;
+
             aspect-ratio: 16 / 10;
+
             overflow: hidden;
+
             background: #101010;
+
             text-decoration: none;
         }
 
         .home-media-card img {
+            display: block;
+
             width: 100%;
             height: 100%;
-            display: block;
+
             object-fit: cover;
-            transition: transform 0.5s ease;
+
+            transition:
+                transform 0.5s ease;
         }
 
         .home-media-card:hover img {
@@ -193,33 +260,51 @@
 
         .home-media-overlay {
             position: absolute;
-            inset: auto 0 0 0;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
             display: flex;
+
             align-items: flex-end;
             justify-content: space-between;
+
             padding: 25px;
-            background: linear-gradient(
-                to top,
-                rgba(0,0,0,0.8),
-                rgba(0,0,0,0)
-            );
+
+            background:
+                linear-gradient(
+                    to top,
+                    rgba(0,0,0,0.82),
+                    rgba(0,0,0,0)
+                );
         }
 
         .home-media-label {
             color: #ffffff;
-            font-size: clamp(25px, 3vw, 45px);
+
+            font-size:
+                clamp(28px, 3vw, 45px);
+
             font-weight: 900;
+
             letter-spacing: -0.04em;
         }
 
         .home-media-arrow {
             width: 42px;
             height: 42px;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255,255,255,0.7);
+
+            border: 1px solid
+                rgba(255,255,255,0.7);
+
             color: #ffffff;
+
             font-size: 20px;
         }
 
@@ -228,32 +313,54 @@
            ABOUT
            ========================================================= */
 
-        .home-about-section {
+        .home-about {
             max-width: 1400px;
+
             margin: 0 auto;
-            padding: 130px 30px 140px;
-            border-top: 1px solid rgba(255,255,255,0.13);
+
+            padding:
+                130px
+                30px
+                140px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.13);
         }
 
         .home-about-grid {
             display: grid;
-            grid-template-columns: 0.8fr 1.5fr;
+
+            grid-template-columns:
+                0.8fr 1.5fr;
+
             gap: 100px;
         }
 
-        .home-section-label {
-            margin: 0 0 25px;
+        .home-label {
+            margin:
+                0
+                0
+                25px;
+
             color: #168cff;
+
             font-size: 11px;
-            font-weight: 800;
+            font-weight: 900;
+
             letter-spacing: 0.2em;
         }
 
         .home-about-title {
             margin: 0;
-            font-size: clamp(45px, 6vw, 90px);
-            line-height: 0.92;
+
+            font-size:
+                clamp(48px, 6vw, 90px);
+
+            line-height: 0.9;
+
             letter-spacing: -0.06em;
+
             font-weight: 900;
         }
 
@@ -262,57 +369,96 @@
         }
 
         .home-about-lead {
-            margin: 0 0 35px;
-            font-size: clamp(22px, 2.5vw, 32px);
+            margin:
+                0
+                0
+                35px;
+
+            color: #ffffff;
+
+            font-size:
+                clamp(22px, 2.5vw, 32px);
+
             line-height: 1.25;
+
             font-weight: 700;
         }
 
         .home-about-content p:not(.home-about-lead) {
-            margin: 0 0 22px;
+            margin:
+                0
+                0
+                22px;
+
             color: #b5b5b5;
+
             font-size: 16px;
+
             line-height: 1.8;
         }
 
         .home-about-highlight {
             margin-top: 45px;
+
             padding-top: 22px;
-            border-top: 1px solid rgba(255,255,255,0.22);
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.22);
+
             color: #ffffff;
+
             font-size: 12px;
-            font-weight: 800;
+            font-weight: 900;
+
             letter-spacing: 0.16em;
         }
 
 
         /* =========================================================
-           CONTACT / END
+           END / CONTACT
            ========================================================= */
 
-        .home-end-section {
+        .home-end {
             min-height: 65vh;
+
             display: flex;
+
             align-items: center;
-            justify-content: center;
-            padding: 100px 30px;
-            border-top: 1px solid rgba(255,255,255,0.13);
+
+            padding:
+                100px
+                30px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.13);
         }
 
         .home-end-inner {
             width: 100%;
             max-width: 1400px;
+
+            margin: 0 auto;
+
             display: flex;
+
             align-items: center;
             justify-content: space-between;
+
             gap: 50px;
         }
 
         .home-end-title {
             margin: 0;
-            font-size: clamp(55px, 10vw, 150px);
+
+            font-size:
+                clamp(55px, 10vw, 150px);
+
             line-height: 0.82;
+
             letter-spacing: -0.07em;
+
             font-weight: 900;
         }
 
@@ -322,23 +468,38 @@
 
         .home-contact-button {
             flex-shrink: 0;
+
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
+
             min-height: 58px;
+
             padding: 0 35px;
+
             background: #168cff;
+
             color: #ffffff;
+
             text-decoration: none;
-            font-size: 13px;
+
+            font-size: 12px;
             font-weight: 900;
+
             letter-spacing: 0.14em;
-            transition: 0.2s ease;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
         }
 
         .home-contact-button:hover {
             background: #ffffff;
+
             color: #050505;
+
             transform: translateY(-2px);
         }
 
@@ -349,17 +510,35 @@
 
         .product-popup {
             position: fixed;
+
             right: 25px;
             bottom: 25px;
+
             z-index: 9999;
-            width: min(390px, calc(100vw - 30px));
+
+            width:
+                min(
+                    390px,
+                    calc(100vw - 30px)
+                );
+
             background: #ffffff;
+
             color: #050505;
-            box-shadow: 0 20px 70px rgba(0,0,0,0.45);
-            transform: translateY(30px);
+
+            box-shadow:
+                0 20px 70px
+                rgba(0,0,0,0.45);
+
             opacity: 0;
-            pointer-events: none;
+
+            transform:
+                translateY(30px);
+
             visibility: hidden;
+
+            pointer-events: none;
+
             transition:
                 opacity 0.35s ease,
                 transform 0.35s ease,
@@ -368,35 +547,53 @@
 
         .product-popup.active {
             opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
+
+            transform:
+                translateY(0);
+
             visibility: visible;
+
+            pointer-events: auto;
         }
 
-        .product-popup-top {
+        .product-popup-header {
             display: flex;
+
             align-items: center;
             justify-content: space-between;
+
             padding: 16px 18px;
-            border-bottom: 1px solid #dddddd;
+
+            border-bottom:
+                1px solid
+                #dddddd;
         }
 
         .product-popup-label {
             margin: 0;
+
             font-size: 10px;
             font-weight: 900;
+
             letter-spacing: 0.18em;
         }
 
         .product-popup-close {
             width: 30px;
             height: 30px;
+
             padding: 0;
+
             border: 0;
+
             background: transparent;
+
             color: #050505;
+
             cursor: pointer;
+
             font-size: 22px;
+
             line-height: 1;
         }
 
@@ -405,33 +602,54 @@
         }
 
         .product-popup-title {
-            margin: 0 0 10px;
+            margin:
+                0
+                0
+                10px;
+
             font-size: 25px;
+
             line-height: 1;
+
             font-weight: 900;
+
             letter-spacing: -0.04em;
         }
 
         .product-popup-text {
-            margin: 0 0 20px;
+            margin:
+                0
+                0
+                20px;
+
             color: #555555;
+
             font-size: 13px;
+
             line-height: 1.5;
         }
 
         .product-popup-link {
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
+
             min-height: 45px;
+
             padding: 0 22px;
+
             background: #168cff;
+
             color: #ffffff;
+
             text-decoration: none;
+
             font-size: 11px;
+
             font-weight: 900;
+
             letter-spacing: 0.12em;
-            transition: 0.2s ease;
         }
 
         .product-popup-link:hover {
@@ -440,28 +658,28 @@
 
 
         /* =========================================================
-           RESPONSIVE
+           MOBILE
            ========================================================= */
 
         @media (max-width: 900px) {
 
-            .home-spot-section {
-                padding-top: 110px;
-            }
-
             .home-spot-header {
                 align-items: flex-start;
+
                 flex-direction: column;
+
                 gap: 30px;
             }
 
             .home-about-grid {
                 grid-template-columns: 1fr;
+
                 gap: 50px;
             }
 
             .home-end-inner {
                 align-items: flex-start;
+
                 flex-direction: column;
             }
 
@@ -471,22 +689,25 @@
         @media (max-width: 600px) {
 
             .home-hero {
-                padding-left: 15px;
-                padding-right: 15px;
+                padding:
+                    100px
+                    15px
+                    80px;
             }
 
-            .home-hero-logo {
+            .home-logo {
                 font-size: 24vw;
             }
 
-            .home-spot-section,
-            .home-about-section {
+            .home-spot,
+            .home-about {
                 padding-left: 20px;
                 padding-right: 20px;
             }
 
-            .home-media-grid {
+            .home-media {
                 grid-template-columns: 1fr;
+
                 gap: 15px;
             }
 
@@ -494,9 +715,10 @@
                 aspect-ratio: 4 / 3;
             }
 
-            .home-end-section {
-                padding-left: 20px;
-                padding-right: 20px;
+            .home-end {
+                padding:
+                    100px
+                    20px;
             }
 
             .home-end-title {
@@ -510,7 +732,9 @@
             .product-popup {
                 right: 15px;
                 bottom: 15px;
-                width: calc(100vw - 30px);
+
+                width:
+                    calc(100vw - 30px);
             }
 
         }
@@ -518,10 +742,15 @@
 </head>
 
 
-<body class="home-v2-page">
+<body class="home-page">
 
-    <!-- Gemeinsamer Header -->
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
     <div id="site-header"></div>
+
 
 
     <main>
@@ -533,7 +762,10 @@
 
         <section class="home-hero">
 
-            <div class="home-hero-logo" aria-label="Moi-cy">
+            <div
+                class="home-logo"
+                aria-label="Moi-cy"
+            >
                 moi-cy
             </div>
 
@@ -549,18 +781,18 @@
              FIND YOUR SPOT
              ===================================================== -->
 
-        <section class="home-spot-section">
+        <section class="home-spot">
 
             <div class="home-spot-header">
 
                 <h1 class="home-spot-title">
-                    FIND YOUR <span>SPOT.</span>
+                    FIND YOUR
+                    <span>SPOT.</span>
                 </h1>
 
                 <a
                     href="skateplaetze.html"
                     class="home-spot-button"
-                    data-i18n="home_spot_button"
                 >
                     SKATEPLÄTZE →
                 </a>
@@ -568,7 +800,10 @@
             </div>
 
 
-            <div class="home-media-grid">
+            <div class="home-media">
+
+
+                <!-- BILDER -->
 
                 <a
                     href="bilder.html"
@@ -582,10 +817,7 @@
 
                     <div class="home-media-overlay">
 
-                        <span
-                            class="home-media-label"
-                            data-i18n="home_images"
-                        >
+                        <span class="home-media-label">
                             BILDER
                         </span>
 
@@ -598,6 +830,9 @@
                 </a>
 
 
+
+                <!-- VIDEOS -->
+
                 <a
                     href="videos.html"
                     class="home-media-card"
@@ -606,15 +841,14 @@
                     <img
                         src="bilder/karlsruhe-2.jpg"
                         alt="Skateboarding Video"
-                        onerror="this.src='bilder/karlsruhe-1.jpg'"
+                        onerror="
+                            this.src='bilder/karlsruhe-1.jpg'
+                        "
                     >
 
                     <div class="home-media-overlay">
 
-                        <span
-                            class="home-media-label"
-                            data-i18n="home_videos"
-                        >
+                        <span class="home-media-label">
                             VIDEOS
                         </span>
 
@@ -636,24 +870,18 @@
              ABOUT MOI-CY
              ===================================================== -->
 
-        <section class="home-about-section">
+        <section class="home-about">
 
             <div class="home-about-grid">
 
 
                 <div>
 
-                    <p
-                        class="home-section-label"
-                        data-i18n="home_about_label"
-                    >
+                    <p class="home-label">
                         ABOUT MOI-CY
                     </p>
 
-                    <h2
-                        class="home-about-title"
-                        data-i18n="home_about_title"
-                    >
+                    <h2 class="home-about-title">
                         SKATE.<br>
                         CREATE.<br>
                         RIDE.
@@ -662,40 +890,59 @@
                 </div>
 
 
+
                 <div class="home-about-content">
 
-                    <p
-                        class="home-about-lead"
-                        data-i18n="home_about_lead"
-                    >
-                        Moi-cy verbindet Skateboarding, Kreativität und die Dokumentation von Skate-Kultur.
+                    <p class="home-about-lead">
+                        Moi-cy verbindet Skateboarding,
+                        Kreativität und die Dokumentation
+                        von Skate-Kultur.
                     </p>
 
 
-                    <p data-i18n="home_about_text_1">
-                        Ich bin 15 Jahre alt und skate seit März 2023. Seitdem ist Skateboarding ein fester Bestandteil meines Alltags. Moi-cy ist Ende Sommer 2023 entstanden und hat sich seitdem zu einem eigenen Skateboard-Projekt entwickelt.
+                    <p>
+                        Ich bin 15 Jahre alt und skate seit
+                        März 2023. Seitdem ist Skateboarding
+                        ein fester Bestandteil meines Alltags.
+                        Moi-cy ist Ende Sommer 2023 entstanden
+                        und hat sich seitdem zu einem eigenen
+                        Skateboard-Projekt entwickelt.
                     </p>
 
 
-                    <p data-i18n="home_about_text_2">
-                        Der Schwerpunkt liegt auf dem Skateboardfahren, der Dokumentation von Skateparks sowie der Erstellung von Bildern und Videos. Bisher wurden unter anderem Skateparks in Deutschland und Frankreich besucht und dokumentiert.
+                    <p>
+                        Der Schwerpunkt liegt auf dem
+                        Skateboardfahren, der Dokumentation
+                        von Skateparks sowie der Erstellung
+                        von Bildern und Videos. Bisher wurden
+                        unter anderem Skateparks in Deutschland
+                        und Frankreich besucht und dokumentiert.
                     </p>
 
 
-                    <p data-i18n="home_about_text_3">
-                        Besonders geprägt ist mein Fahrstil vom Old-School-Skateboarding. Ich fahre mein Skateboard mit Longboard-Rollen und interessiere mich besonders für Pools und Bowls. Dabei steht für mich nicht ausschließlich das Ausführen von Tricks im Mittelpunkt, sondern vor allem ein flüssiger und dynamischer Fahrstil.
+                    <p>
+                        Besonders geprägt ist mein Fahrstil
+                        vom Old-School-Skateboarding. Ich fahre
+                        mein Skateboard mit Longboard-Rollen
+                        und interessiere mich besonders für
+                        Pools und Bowls. Dabei steht für mich
+                        nicht ausschließlich das Ausführen von
+                        Tricks im Mittelpunkt, sondern vor allem
+                        ein flüssiger und dynamischer Fahrstil.
                     </p>
 
 
-                    <p data-i18n="home_about_text_4">
-                        Moi-cy steht für ein Skateboard-Projekt, das eigene Inhalte, Designs und Erlebnisse rund um das Skateboarding zusammenbringt. Das Ziel ist es, die Vielseitigkeit des Sports zu zeigen und andere Menschen für Skateboarding zu begeistern.
+                    <p>
+                        Moi-cy steht für ein Skateboard-Projekt,
+                        das eigene Inhalte, Designs und Erlebnisse
+                        rund um das Skateboarding zusammenbringt.
+                        Das Ziel ist es, die Vielseitigkeit des
+                        Sports zu zeigen und andere Menschen für
+                        Skateboarding zu begeistern.
                     </p>
 
 
-                    <div
-                        class="home-about-highlight"
-                        data-i18n="home_about_highlight"
-                    >
+                    <div class="home-about-highlight">
                         SKATEBOARDING · MEDIA · CREATIVE PROJECT
                     </div>
 
@@ -711,7 +958,7 @@
              CONTACT
              ===================================================== -->
 
-        <section class="home-end-section">
+        <section class="home-end">
 
             <div class="home-end-inner">
 
@@ -724,7 +971,6 @@
                 <a
                     href="kontakt.html"
                     class="home-contact-button"
-                    data-i18n="home_contact_button"
                 >
                     KONTAKT →
                 </a>
@@ -732,6 +978,7 @@
             </div>
 
         </section>
+
 
     </main>
 
@@ -745,16 +992,12 @@
         class="product-popup"
         id="productPopup"
         role="dialog"
-        aria-modal="false"
         aria-label="Moi-cy Shop"
     >
 
-        <div class="product-popup-top">
+        <div class="product-popup-header">
 
-            <p
-                class="product-popup-label"
-                data-i18n="popup_label"
-            >
+            <p class="product-popup-label">
                 MOI-CY SHOP
             </p>
 
@@ -779,10 +1022,7 @@
                 MOI-CY PRODUCT
             </h3>
 
-            <p
-                class="product-popup-text"
-                data-i18n="popup_text"
-            >
+            <p class="product-popup-text">
                 Entdecke ein ausgewähltes Moi-cy Produkt.
             </p>
 
@@ -792,7 +1032,6 @@
                 rel="noopener noreferrer"
                 class="product-popup-link"
                 id="productPopupLink"
-                data-i18n="popup_button"
             >
                 ANSEHEN →
             </a>
@@ -803,414 +1042,202 @@
 
 
 
-    <!-- Gemeinsamer Footer -->
+    <!-- =========================================================
+         FOOTER
+         ========================================================= -->
+
     <div id="site-footer"></div>
 
 
 
     <!-- =========================================================
-         HOMEPAGE JAVASCRIPT
+         SHARED SCRIPT
          ========================================================= -->
 
     <script src="script.js"></script>
 
+
+
+    <!-- =========================================================
+         HOMEPAGE SCRIPT
+         ========================================================= -->
+
     <script>
 
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
 
 
-            /* =====================================================
-               TRANSLATIONS
-               ===================================================== */
+                /* =================================================
+                   PRODUCT POPUP
+                   ================================================= */
 
-            const homeTranslations = {
+                const popup =
+                    document.getElementById(
+                        "productPopup"
+                    );
 
-                de: {
-                    home_spot_button: "SKATEPLÄTZE →",
-                    home_images: "BILDER",
-                    home_videos: "VIDEOS",
+                const closeButton =
+                    document.getElementById(
+                        "productPopupClose"
+                    );
 
-                    home_about_label: "ABOUT MOI-CY",
+                const title =
+                    document.getElementById(
+                        "productPopupTitle"
+                    );
 
-                    home_about_title: "SKATE.<br>CREATE.<br>RIDE.",
-
-                    home_about_lead:
-                        "Moi-cy verbindet Skateboarding, Kreativität und die Dokumentation von Skate-Kultur.",
-
-                    home_about_text_1:
-                        "Ich bin 15 Jahre alt und skate seit März 2023. Seitdem ist Skateboarding ein fester Bestandteil meines Alltags. Moi-cy ist Ende Sommer 2023 entstanden und hat sich seitdem zu einem eigenen Skateboard-Projekt entwickelt.",
-
-                    home_about_text_2:
-                        "Der Schwerpunkt liegt auf dem Skateboardfahren, der Dokumentation von Skateparks sowie der Erstellung von Bildern und Videos. Bisher wurden unter anderem Skateparks in Deutschland und Frankreich besucht und dokumentiert.",
-
-                    home_about_text_3:
-                        "Besonders geprägt ist mein Fahrstil vom Old-School-Skateboarding. Ich fahre mein Skateboard mit Longboard-Rollen und interessiere mich besonders für Pools und Bowls. Dabei steht für mich nicht ausschließlich das Ausführen von Tricks im Mittelpunkt, sondern vor allem ein flüssiger und dynamischer Fahrstil.",
-
-                    home_about_text_4:
-                        "Moi-cy steht für ein Skateboard-Projekt, das eigene Inhalte, Designs und Erlebnisse rund um das Skateboarding zusammenbringt. Das Ziel ist es, die Vielseitigkeit des Sports zu zeigen und andere Menschen für Skateboarding zu begeistern.",
-
-                    home_about_highlight:
-                        "SKATEBOARDING · MEDIA · CREATIVE PROJECT",
-
-                    home_contact_button:
-                        "KONTAKT →",
-
-                    popup_label:
-                        "MOI-CY SHOP",
-
-                    popup_text:
-                        "Entdecke ein ausgewähltes Moi-cy Produkt.",
-
-                    popup_button:
-                        "ANSEHEN →"
-                },
+                const link =
+                    document.getElementById(
+                        "productPopupLink"
+                    );
 
 
-                en: {
-                    home_spot_button: "SKATEPARKS →",
-                    home_images: "IMAGES",
-                    home_videos: "VIDEOS",
+                const products = [
 
-                    home_about_label: "ABOUT MOI-CY",
+                    {
+                        title:
+                            "MOI-CY SKATEBOARD – BLAU",
 
-                    home_about_title: "SKATE.<br>CREATE.<br>RIDE.",
+                        url:
+                            "https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
+                    },
 
-                    home_about_lead:
-                        "Moi-cy combines skateboarding, creativity and the documentation of skate culture.",
+                    {
+                        title:
+                            "MOI-CY SHIRT",
 
-                    home_about_text_1:
-                        "I am 15 years old and have been skateboarding since March 2023. Since then, skateboarding has become a permanent part of my everyday life. Moi-cy was created at the end of summer 2023 and has since developed into an independent skateboarding project.",
+                        url:
+                            "https://shop.teamshirts.de/moi-cy/product/475947/765"
+                    },
 
-                    home_about_text_2:
-                        "The focus is on skateboarding, documenting skateparks and creating photos and videos. So far, skateparks in Germany and France have been visited and documented.",
+                    {
+                        title:
+                            "MOI-CY PRODUCT",
 
-                    home_about_text_3:
-                        "My riding style is strongly influenced by old-school skateboarding. I ride my skateboard with longboard wheels and have a particular interest in pools and bowls. For me, skateboarding is not only about performing tricks, but also about a smooth and dynamic style of riding.",
-
-                    home_about_text_4:
-                        "Moi-cy is a skateboarding project that brings together original content, designs and experiences around skateboarding. The goal is to show the variety of the sport and inspire other people to discover skateboarding.",
-
-                    home_about_highlight:
-                        "SKATEBOARDING · MEDIA · CREATIVE PROJECT",
-
-                    home_contact_button:
-                        "CONTACT →",
-
-                    popup_label:
-                        "MOI-CY SHOP",
-
-                    popup_text:
-                        "Discover a selected Moi-cy product.",
-
-                    popup_button:
-                        "VIEW PRODUCT →"
-                },
-
-
-                fr: {
-                    home_spot_button: "SKATEPARKS →",
-                    home_images: "IMAGES",
-                    home_videos: "VIDÉOS",
-
-                    home_about_label: "À PROPOS DE MOI-CY",
-
-                    home_about_title: "SKATE.<br>CREATE.<br>RIDE.",
-
-                    home_about_lead:
-                        "Moi-cy associe le skateboard, la créativité et la documentation de la culture skate.",
-
-                    home_about_text_1:
-                        "J'ai 15 ans et je pratique le skateboard depuis mars 2023. Depuis, le skateboard fait partie intégrante de mon quotidien. Moi-cy a été créé à la fin de l'été 2023 et s'est depuis développé en un projet de skateboard indépendant.",
-
-                    home_about_text_2:
-                        "Le projet se concentre sur la pratique du skateboard, la documentation des skateparks ainsi que la création de photos et de vidéos. Jusqu'à présent, des skateparks en Allemagne et en France ont notamment été visités et documentés.",
-
-                    home_about_text_3:
-                        "Mon style est fortement influencé par le skateboard old-school. Je roule avec des roues de longboard et je m'intéresse particulièrement aux pools et aux bowls. Pour moi, le skateboard ne consiste pas uniquement à réaliser des tricks, mais aussi à développer un style fluide et dynamique.",
-
-                    home_about_text_4:
-                        "Moi-cy est un projet de skateboard qui rassemble des contenus, des designs et des expériences autour du skateboard. L'objectif est de montrer la diversité de ce sport et de donner envie à d'autres personnes de découvrir le skateboard.",
-
-                    home_about_highlight:
-                        "SKATEBOARDING · MEDIA · CREATIVE PROJECT",
-
-                    home_contact_button:
-                        "CONTACT →",
-
-                    popup_label:
-                        "MOI-CY SHOP",
-
-                    popup_text:
-                        "Découvre un produit Moi-cy sélectionné.",
-
-                    popup_button:
-                        "VOIR LE PRODUIT →"
-                }
-
-            };
-
-
-
-            /* =====================================================
-               HOMEPAGE LANGUAGE
-               ===================================================== */
-
-            function applyHomeLanguage(language) {
-
-                const translation = homeTranslations[language] || homeTranslations.de;
-
-                document.querySelectorAll("[data-i18n]").forEach((element) => {
-
-                    const key = element.getAttribute("data-i18n");
-
-                    if (
-                        Object.prototype.hasOwnProperty.call(
-                            translation,
-                            key
-                        )
-                    ) {
-                        element.innerHTML = translation[key];
+                        url:
+                            "https://shop.teamshirts.de/moi-cy/product/476639/263"
                     }
 
-                });
-
-                document.documentElement.lang = language;
-
-            }
+                ];
 
 
-            /* =====================================================
-               LANGUAGE BUTTONS
-               ===================================================== */
+                let lastProduct = -1;
 
-            document.addEventListener("click", (event) => {
 
-                const button = event.target.closest(
-                    ".language-button[data-language]"
-                );
+                function getRandomProduct() {
 
-                if (!button) return;
+                    let index;
 
-                const language = button.dataset.language;
+                    do {
 
-                if (!homeTranslations[language]) return;
+                        index =
+                            Math.floor(
+                                Math.random() *
+                                products.length
+                            );
 
-                applyHomeLanguage(language);
+                    } while (
+                        index === lastProduct &&
+                        products.length > 1
+                    );
 
-                localStorage.setItem(
-                    "moiCyLanguage",
-                    language
-                );
+                    lastProduct = index;
 
-                document
-                    .querySelectorAll(
-                        ".language-button[data-language]"
-                    )
-                    .forEach((languageButton) => {
+                    return products[index];
 
-                        const active =
-                            languageButton.dataset.language === language;
-
-                        languageButton.classList.toggle(
-                            "active",
-                            active
-                        );
-
-                        languageButton.setAttribute(
-                            "aria-pressed",
-                            String(active)
-                        );
-
-                    });
-
-                if (
-                    window.MoiCy &&
-                    typeof window.MoiCy.setLanguage === "function"
-                ) {
-                    window.MoiCy.setLanguage(language);
                 }
 
-            });
+
+                function showPopup() {
+
+                    if (
+                        !popup ||
+                        !title ||
+                        !link
+                    ) {
+                        return;
+                    }
 
 
-            /* =====================================================
-               INITIAL LANGUAGE
-               ===================================================== */
-
-            const savedLanguage =
-                localStorage.getItem("moiCyLanguage") || "de";
-
-            applyHomeLanguage(savedLanguage);
+                    const product =
+                        getRandomProduct();
 
 
-
-            /* =====================================================
-               PRODUCT POPUP
-               ===================================================== */
-
-            const popup =
-                document.getElementById("productPopup");
-
-            const popupClose =
-                document.getElementById("productPopupClose");
-
-            const popupTitle =
-                document.getElementById("productPopupTitle");
-
-            const popupLink =
-                document.getElementById("productPopupLink");
+                    title.textContent =
+                        product.title;
 
 
-            const products = [
+                    link.href =
+                        product.url;
 
-                {
-                    title: "MOI-CY SKATEBOARD – BLAU",
 
-                    url:
-                        "https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
-                },
+                    popup.classList.add(
+                        "active"
+                    );
 
-                {
-                    title: "MOI-CY SHIRT",
-
-                    url:
-                        "https://shop.teamshirts.de/moi-cy/product/475947/765"
-                },
-
-                {
-                    title: "MOI-CY PRODUCT",
-
-                    url:
-                        "https://shop.teamshirts.de/moi-cy/product/476639/263"
                 }
 
-            ];
+
+                function hidePopup() {
+
+                    if (!popup) {
+                        return;
+                    }
 
 
-            let lastProductIndex = -1;
+                    popup.classList.remove(
+                        "active"
+                    );
 
 
-            function getRandomProduct() {
+                    /*
+                     * Nächstes Popup:
+                     * zufällig zwischen 60 und 120 Sekunden.
+                     */
 
-                if (products.length === 1) {
-                    return products[0];
-                }
-
-                let randomIndex;
-
-                do {
-                    randomIndex =
+                    const delay =
                         Math.floor(
-                            Math.random() * products.length
-                        );
+                            Math.random() *
+                            (120000 - 60000 + 1)
+                        ) + 60000;
+
+
+                    setTimeout(
+                        showPopup,
+                        delay
+                    );
+
                 }
-                while (
-                    randomIndex === lastProductIndex
-                );
 
-                lastProductIndex = randomIndex;
-
-                return products[randomIndex];
-
-            }
-
-
-            function showProductPopup() {
 
                 if (
-                    !popup ||
-                    !popupTitle ||
-                    !popupLink
+                    popup &&
+                    closeButton
                 ) {
-                    return;
+
+                    closeButton.addEventListener(
+                        "click",
+                        hidePopup
+                    );
+
                 }
 
-                const product =
-                    getRandomProduct();
-
-                popupTitle.textContent =
-                    product.title;
-
-                popupLink.href =
-                    product.url;
-
-                popup.classList.add("active");
-
-            }
-
-
-            function hideProductPopup() {
-
-                if (!popup) return;
-
-                popup.classList.remove("active");
 
                 /*
-                 * Erst wenn das aktuelle Popup geschlossen wurde,
-                 * wird das nächste Popup geplant.
+                 * Erstes Popup:
+                 * 10 Sekunden nach dem Laden.
                  */
-                scheduleNextPopup();
 
-            }
-
-
-            function getRandomDelay() {
-
-                /*
-                 * 60 bis 120 Sekunden
-                 */
-                const minimum = 60 * 1000;
-                const maximum = 120 * 1000;
-
-                return Math.floor(
-                    Math.random() *
-                    (maximum - minimum + 1)
-                ) + minimum;
-
-            }
-
-
-            let nextPopupTimer = null;
-
-
-            function scheduleNextPopup() {
-
-                if (nextPopupTimer) {
-                    clearTimeout(nextPopupTimer);
-                }
-
-                nextPopupTimer =
-                    setTimeout(() => {
-
-                        showProductPopup();
-
-                    }, getRandomDelay());
-
-            }
-
-
-            if (popup && popupClose) {
-
-                popupClose.addEventListener(
-                    "click",
-                    hideProductPopup
+                setTimeout(
+                    showPopup,
+                    10000
                 );
 
             }
 
-
-            /*
-             * ERSTES POPUP:
-             * zuverlässig 10 Sekunden nach DOMContentLoaded.
-             */
-            setTimeout(() => {
-
-                showProductPopup();
-
-            }, 10000);
-
-
-        });
+        );
 
     </script>
 
