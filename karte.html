@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Moi-cy – Karte</title>
+    <title>Moi-cy – Skate Map</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -14,42 +14,73 @@
     >
 
     <style>
+        /* =========================================================
+           MOI-CY SKATE MAP
+           ========================================================= */
+
         .map-page {
             min-height: 100vh;
             padding-top: var(--header-height);
-            background: var(--black);
+            background:
+                radial-gradient(
+                    circle at 50% 15%,
+                    rgba(22,140,255,0.08),
+                    transparent 38%
+                ),
+                var(--black);
         }
 
         .map-heading {
             width: min(1400px, calc(100% - 40px));
             margin: 0 auto;
-            padding: 45px 0 25px;
+            padding: 48px 0 25px;
+        }
+
+        .map-heading-top {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
         }
 
         .map-heading h1 {
             margin: 0;
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 7vw, 5.5rem);
+            line-height: 0.9;
             font-weight: 900;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.06em;
             text-transform: uppercase;
         }
 
+        .map-heading h1 span {
+            color: var(--blue);
+        }
+
         .map-heading p {
-            margin: 10px 0 0;
+            max-width: 420px;
+            margin: 0 0 4px;
             color: var(--muted);
-            font-size: 0.8rem;
+            font-size: 0.72rem;
+            line-height: 1.7;
             letter-spacing: 0.12em;
             text-transform: uppercase;
         }
 
+        /* =========================================================
+           MAP CONTAINER
+           ========================================================= */
+
         .map-wrapper {
             position: relative;
             width: min(1400px, calc(100% - 40px));
-            height: 650px;
-            margin: 0 auto 60px;
-            border: 1px solid var(--line);
-            background: #111;
+            height: 680px;
+            margin: 0 auto 30px;
             overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: #0d0d0d;
+            box-shadow:
+                0 25px 70px rgba(0,0,0,0.45),
+                0 0 0 1px rgba(22,140,255,0.03);
         }
 
         #map {
@@ -57,63 +88,85 @@
             height: 100%;
         }
 
+        /* =========================================================
+           SEARCH
+           ========================================================= */
+
         .map-search {
             position: absolute;
             z-index: 1000;
-            top: 18px;
-            left: 18px;
-            width: min(380px, calc(100% - 36px));
+            top: 20px;
+            left: 20px;
+            width: min(430px, calc(100% - 40px));
         }
 
         .map-search-box {
             display: flex;
-            background: rgba(5, 5, 5, 0.94);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            overflow: hidden;
+            background: rgba(5,5,5,0.95);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.45),
+                0 0 30px rgba(22,140,255,0.05);
+            backdrop-filter: blur(12px);
+        }
+
+        .map-search-box:focus-within {
+            border-color: var(--blue);
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.45),
+                0 0 25px rgba(22,140,255,0.14);
         }
 
         .map-search input {
             width: 100%;
-            min-height: 48px;
-            padding: 0 15px;
+            min-height: 54px;
+            padding: 0 17px;
             border: 0;
             outline: none;
             background: transparent;
             color: #fff;
             font-family: inherit;
-            font-size: 0.8rem;
-            letter-spacing: 0.04em;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .map-search input::placeholder {
-            color: #777;
+            color: #666;
         }
 
         .map-search button {
-            width: 52px;
-            min-width: 52px;
+            width: 58px;
+            min-width: 58px;
             border: 0;
-            border-left: 1px solid rgba(255,255,255,0.15);
-            background: #168cff;
+            background: var(--blue);
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
         }
 
         .map-search button:hover {
-            background: #0864bd;
+            background: var(--blue-dark);
+        }
+
+        .map-search button:active {
+            transform: scale(0.96);
         }
 
         .search-message {
             display: none;
-            margin-top: 7px;
-            padding: 10px 13px;
-            background: rgba(5,5,5,0.94);
-            border: 1px solid rgba(255,255,255,0.15);
+            margin-top: 8px;
+            padding: 11px 14px;
+            background: rgba(5,5,5,0.95);
+            border-left: 3px solid var(--blue);
             color: #fff;
-            font-size: 0.68rem;
-            font-weight: 700;
+            font-size: 0.65rem;
+            font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
         }
@@ -122,10 +175,188 @@
             display: block;
         }
 
+        /* =========================================================
+           MAP STATUS
+           ========================================================= */
+
+        .map-status {
+            position: absolute;
+            z-index: 1000;
+            right: 20px;
+            bottom: 20px;
+            max-width: 310px;
+            padding: 13px 16px;
+            background: rgba(5,5,5,0.94);
+            border: 1px solid rgba(255,255,255,0.14);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 800;
+            line-height: 1.5;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .map-status.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           CUSTOM MARKER
+           ========================================================= */
+
+        .moi-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--blue);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            box-shadow:
+                0 0 0 5px rgba(22,140,255,0.18),
+                0 5px 18px rgba(0,0,0,0.4);
+        }
+
+        .moi-marker::after {
+            content: "";
+            position: absolute;
+            bottom: -7px;
+            width: 10px;
+            height: 10px;
+            background: var(--blue);
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+
+        .location-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            background: #111;
+            box-shadow:
+                0 0 0 7px rgba(255,255,255,0.12),
+                0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* =========================================================
+           POPUP
+           ========================================================= */
+
+        .leaflet-popup-content-wrapper {
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 0;
+            background: #0b0b0b;
+            color: #fff;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+        }
+
+        .leaflet-popup-tip {
+            background: #0b0b0b;
+        }
+
+        .leaflet-popup-content {
+            width: 245px !important;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .popup {
+            padding: 17px;
+        }
+
+        .popup-kicker {
+            margin-bottom: 6px;
+            color: var(--blue);
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .popup-title {
+            margin-bottom: 5px;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .popup-location {
+            color: #888;
+            font-size: 11px;
+        }
+
+        .popup-actions {
+            display: grid;
+            gap: 7px;
+            margin-top: 15px;
+        }
+
+        .popup-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0 10px;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: #151515;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .popup-action:hover {
+            border-color: var(--blue);
+            background: var(--blue);
+            color: #fff;
+        }
+
+        .popup-action.route {
+            border-color: var(--blue);
+            background: var(--blue);
+        }
+
+        .popup-action.route:hover {
+            background: var(--blue-dark);
+            border-color: var(--blue-dark);
+        }
+
+        /* =========================================================
+           BACK LINK
+           ========================================================= */
+
         .map-back {
-            display: block;
             width: min(1400px, calc(100% - 40px));
-            margin: 0 auto 60px;
+            margin: 0 auto 70px;
         }
 
         .map-back a {
@@ -136,7 +367,7 @@
             border: 1px solid var(--line-light);
             color: var(--white);
             text-decoration: none;
-            font-size: 0.68rem;
+            font-size: 0.66rem;
             font-weight: 900;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -152,58 +383,35 @@
             border-color: var(--white);
         }
 
-        .leaflet-popup-content-wrapper,
-        .leaflet-popup-tip {
-            background: #111;
-            color: #fff;
-        }
-
-        .leaflet-popup-content {
-            margin: 14px 16px;
-            font-family: Arial, sans-serif;
-        }
-
-        .popup-title {
-            margin-bottom: 5px;
-            font-size: 15px;
-            font-weight: 900;
-        }
-
-        .popup-location {
-            color: #aaa;
-            font-size: 12px;
-        }
-
-        .popup-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: #168cff;
-            font-size: 11px;
-            font-weight: 900;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-
-        .popup-link:hover {
-            color: #fff;
-        }
+        /* =========================================================
+           MOBILE
+           ========================================================= */
 
         @media (max-width: 900px) {
+
             .map-page {
                 padding-top: 68px;
             }
 
             .map-heading {
-                padding-top: 35px;
+                padding-top: 38px;
+            }
+
+            .map-heading-top {
+                display: block;
+            }
+
+            .map-heading p {
+                margin-top: 16px;
             }
 
             .map-wrapper {
-                height: 550px;
+                height: 600px;
             }
         }
 
         @media (max-width: 600px) {
+
             .map-heading,
             .map-wrapper,
             .map-back {
@@ -211,12 +419,17 @@
             }
 
             .map-heading {
-                padding: 28px 0 18px;
+                padding-top: 28px;
+                padding-bottom: 18px;
+            }
+
+            .map-heading h1 {
+                font-size: 3rem;
             }
 
             .map-wrapper {
-                height: 500px;
-                margin-bottom: 35px;
+                height: 570px;
+                margin-bottom: 24px;
             }
 
             .map-search {
@@ -226,11 +439,18 @@
             }
 
             .map-search input {
-                min-height: 46px;
+                min-height: 50px;
+            }
+
+            .map-status {
+                right: 12px;
+                bottom: 12px;
+                left: 12px;
+                max-width: none;
             }
 
             .map-back {
-                margin-bottom: 35px;
+                margin-bottom: 40px;
             }
         }
     </style>
@@ -243,11 +463,27 @@
     <main class="map-page">
 
         <section class="map-heading">
-            <h1>SKATE MAP</h1>
-            <p>Finde deinen Spot.</p>
+
+            <div class="map-heading-top">
+
+                <h1>
+                    SKATE<br>
+                    <span>MAP</span>
+                </h1>
+
+                <p>
+                    Finde Skateparks, Städte und neue Spots.
+                    Suche einen Ort oder wähle einen Spot
+                    direkt auf der Karte.
+                </p>
+
+            </div>
+
         </section>
 
         <section class="map-wrapper">
+
+            <!-- SEARCH -->
 
             <div class="map-search">
 
@@ -256,7 +492,7 @@
                     <input
                         type="search"
                         id="mapSearch"
-                        placeholder="SKATEPARK ODER STADT SUCHEN..."
+                        placeholder="STADT ODER SKATEPARK SUCHEN..."
                         autocomplete="off"
                     >
 
@@ -277,7 +513,14 @@
 
             </div>
 
+            <!-- MAP -->
+
             <div id="map"></div>
+
+            <div
+                class="map-status"
+                id="mapStatus"
+            ></div>
 
         </section>
 
@@ -296,20 +539,36 @@
     <script src="script.js"></script>
 
     <script>
+
+        /* =========================================================
+           MAP
+           ========================================================= */
+
         const map = L.map("map", {
             zoomControl: true
         });
 
         L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 19,
                 attribution:
-                    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+                    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
             }
         ).addTo(map);
 
+        map.setView(
+            [48.5, 10.5],
+            6
+        );
+
+
+        /* =========================================================
+           SKATEPARK DATA
+           ========================================================= */
+
         const skateparks = [
+
             {
                 name: "Skatepark Valence",
                 city: "Valence",
@@ -317,6 +576,7 @@
                 lat: 44.9543094,
                 lng: 4.8978972
             },
+
             {
                 name: "Skatepark Karlsruhe",
                 city: "Karlsruhe",
@@ -324,6 +584,7 @@
                 lat: 49.0029885,
                 lng: 8.4313306
             },
+
             {
                 name: "Skatepark Heidelberg",
                 city: "Heidelberg",
@@ -331,6 +592,7 @@
                 lat: 49.4115646,
                 lng: 8.6767926
             },
+
             {
                 name: "Heidelberg Bowl",
                 city: "Heidelberg",
@@ -338,6 +600,7 @@
                 lat: 49.3919556,
                 lng: 8.6835068
             },
+
             {
                 name: "Skatepark Perpignan",
                 city: "Perpignan",
@@ -345,6 +608,7 @@
                 lat: 42.6778339,
                 lng: 2.9032284
             },
+
             {
                 name: "München Hirschgarten",
                 city: "München",
@@ -352,83 +616,177 @@
                 lat: 48.1455915,
                 lng: 11.5097967
             }
+
         ];
+
+
+        /* =========================================================
+           CUSTOM ICONS
+           ========================================================= */
+
+        const skateIcon = L.divIcon({
+            className: "",
+            html: '<div class="moi-marker">M</div>',
+            iconSize: [34, 42],
+            iconAnchor: [17, 42],
+            popupAnchor: [0, -42]
+        });
+
+        const locationIcon = L.divIcon({
+            className: "",
+            html: '<div class="location-marker"></div>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
+        });
+
+
+        /* =========================================================
+           MARKERS
+           ========================================================= */
 
         const markers = [];
 
         skateparks.forEach((park) => {
 
-            const marker = L.marker([
-                park.lat,
-                park.lng
-            ]).addTo(map);
+            const marker = L.marker(
+                [park.lat, park.lng],
+                {
+                    icon: skateIcon
+                }
+            ).addTo(map);
 
             marker.bindPopup(`
-                <div class="popup-title">
-                    ${park.name}
-                </div>
+                <div class="popup">
 
-                <div class="popup-location">
-                    ${park.city}, ${park.country}
-                </div>
+                    <div class="popup-kicker">
+                        MOI-CY SKATE SPOT
+                    </div>
 
-                <a
-                    class="popup-link"
-                    href="skateplaetze.html"
-                >
-                    Skateplatz ansehen →
-                </a>
+                    <div class="popup-title">
+                        ${park.name}
+                    </div>
+
+                    <div class="popup-location">
+                        ${park.city}, ${park.country}
+                    </div>
+
+                    <div class="popup-actions">
+
+                        <button
+                            type="button"
+                            class="popup-action route"
+                            onclick="routeToSkatepark(${park.lat}, ${park.lng}, '${park.name.replace(/'/g, "\\'")}')"
+                        >
+                            📍 Route von meinem Standort
+                        </button>
+
+                        <a
+                            class="popup-action"
+                            href="skateplaetze.html"
+                        >
+                            Skateplatz ansehen →
+                        </a>
+
+                    </div>
+
+                </div>
             `);
 
             markers.push({
                 park,
                 marker
             });
+
         });
 
-        map.setView([48.5, 10.5], 6);
 
-        const searchInput = document.getElementById("mapSearch");
-        const searchButton = document.getElementById("searchButton");
-        const searchMessage = document.getElementById("searchMessage");
+        /* =========================================================
+           SEARCH
+           ========================================================= */
 
-        function searchSkatepark() {
+        const searchInput =
+            document.getElementById("mapSearch");
 
-            const searchTerm = searchInput.value
-                .trim()
-                .toLowerCase();
+        const searchButton =
+            document.getElementById("searchButton");
 
-            searchMessage.classList.remove("active");
+        const searchMessage =
+            document.getElementById("searchMessage");
+
+
+        function showSearchMessage(message) {
+
+            searchMessage.textContent = message;
+
+            searchMessage.classList.add("active");
+
+        }
+
+
+        function clearSearchMessage() {
+
             searchMessage.textContent = "";
 
+            searchMessage.classList.remove("active");
+
+        }
+
+
+        async function searchPlace() {
+
+            const searchTerm =
+                searchInput.value.trim();
+
+            clearSearchMessage();
+
             if (!searchTerm) {
-                map.setView([48.5, 10.5], 6);
-                return;
-            }
 
-            const matches = markers.filter(({ park }) => {
-
-                return (
-                    park.name.toLowerCase().includes(searchTerm) ||
-                    park.city.toLowerCase().includes(searchTerm) ||
-                    park.country.toLowerCase().includes(searchTerm)
+                map.setView(
+                    [48.5, 10.5],
+                    6
                 );
 
-            });
-
-            if (matches.length === 0) {
-
-                searchMessage.textContent =
-                    "Kein Skatepark gefunden.";
-
-                searchMessage.classList.add("active");
-
                 return;
             }
 
-            if (matches.length === 1) {
 
-                const result = matches[0];
+            /*
+             * First check our own skateparks.
+             */
+
+            const localMatches =
+                markers.filter(({ park }) => {
+
+                    const name =
+                        park.name.toLowerCase();
+
+                    const city =
+                        park.city.toLowerCase();
+
+                    const country =
+                        park.country.toLowerCase();
+
+                    const search =
+                        searchTerm.toLowerCase();
+
+                    return (
+                        name.includes(search) ||
+                        city.includes(search) ||
+                        country.includes(search)
+                    );
+
+                });
+
+
+            /*
+             * If we have skatepark matches,
+             * use them directly.
+             */
+
+            if (localMatches.length === 1) {
+
+                const result =
+                    localMatches[0];
 
                 map.flyTo(
                     [
@@ -446,51 +804,457 @@
                 return;
             }
 
-            const bounds = L.latLngBounds(
-                matches.map(({ park }) => [
-                    park.lat,
-                    park.lng
-                ])
+
+            if (localMatches.length > 1) {
+
+                const bounds =
+                    L.latLngBounds(
+                        localMatches.map(({ park }) => [
+                            park.lat,
+                            park.lng
+                        ])
+                    );
+
+                map.fitBounds(
+                    bounds,
+                    {
+                        padding: [100, 100],
+                        maxZoom: 13
+                    }
+                );
+
+                showSearchMessage(
+                    `${localMatches.length} Skateparks in diesem Gebiet gefunden.`
+                );
+
+                return;
+            }
+
+
+            /*
+             * No skatepark found.
+             * Now search the city/place itself.
+             */
+
+            searchButton.disabled = true;
+            searchButton.style.opacity = "0.5";
+
+            showSearchMessage(
+                "Ort wird gesucht..."
             );
 
-            map.fitBounds(bounds, {
-                padding: [80, 80],
-                maxZoom: 13
-            });
 
-            searchMessage.textContent =
-                `${matches.length} Skateparks gefunden.`;
+            try {
 
-            searchMessage.classList.add("active");
+                const url =
+                    "https://nominatim.openstreetmap.org/search" +
+                    "?format=jsonv2" +
+                    "&limit=1" +
+                    "&q=" +
+                    encodeURIComponent(searchTerm);
+
+
+                const response =
+                    await fetch(url);
+
+
+                if (!response.ok) {
+                    throw new Error("Geocoding fehlgeschlagen");
+                }
+
+
+                const results =
+                    await response.json();
+
+
+                if (!results.length) {
+
+                    showSearchMessage(
+                        "Ort nicht gefunden."
+                    );
+
+                    return;
+                }
+
+
+                const result =
+                    results[0];
+
+                const lat =
+                    Number(result.lat);
+
+                const lon =
+                    Number(result.lon);
+
+
+                map.flyTo(
+                    [lat, lon],
+                    12,
+                    {
+                        duration: 1.2
+                    }
+                );
+
+
+                /*
+                 * Temporary city marker.
+                 */
+
+                if (window.cityMarker) {
+                    map.removeLayer(
+                        window.cityMarker
+                    );
+                }
+
+
+                window.cityMarker =
+                    L.marker(
+                        [lat, lon],
+                        {
+                            icon: locationIcon
+                        }
+                    ).addTo(map);
+
+
+                window.cityMarker.bindPopup(`
+                    <div class="popup">
+
+                        <div class="popup-kicker">
+                            GESUCHTER ORT
+                        </div>
+
+                        <div class="popup-title">
+                            ${escapeHtml(
+                                result.display_name
+                                    .split(",")[0]
+                            )}
+                        </div>
+
+                        <div class="popup-location">
+                            Kein Moi-cy Skatepark
+                            an diesem Ort gespeichert.
+                        </div>
+
+                    </div>
+                `).openPopup();
+
+
+                showSearchMessage(
+                    `Ort gefunden: ${result.display_name.split(",")[0]}`
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Moi-cy Geocoding:",
+                    error
+                );
+
+                showSearchMessage(
+                    "Die Ortssuche ist momentan nicht verfügbar."
+                );
+
+            } finally {
+
+                searchButton.disabled = false;
+                searchButton.style.opacity = "1";
+
+            }
+
         }
+
 
         searchButton.addEventListener(
             "click",
-            searchSkatepark
+            searchPlace
         );
+
 
         searchInput.addEventListener(
             "keydown",
             (event) => {
 
                 if (event.key === "Enter") {
-                    searchSkatepark();
+                    searchPlace();
                 }
 
             }
         );
+
 
         searchInput.addEventListener(
             "input",
             () => {
 
-                if (searchInput.value.trim() === "") {
-                    searchMessage.classList.remove("active");
-                    searchMessage.textContent = "";
+                if (
+                    searchInput.value.trim() === ""
+                ) {
+                    clearSearchMessage();
                 }
 
             }
         );
+
+
+        /* =========================================================
+           ESCAPE HTML
+           ========================================================= */
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================================================
+           ROUTING
+           ========================================================= */
+
+        let routeLayer = null;
+        let currentLocationMarker = null;
+
+
+        async function routeToSkatepark(
+            destinationLat,
+            destinationLng,
+            destinationName
+        ) {
+
+            const status =
+                document.getElementById("mapStatus");
+
+
+            function setStatus(message) {
+
+                status.textContent =
+                    message;
+
+                status.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            setStatus(
+                "Standort wird abgefragt..."
+            );
+
+
+            if (
+                !navigator.geolocation
+            ) {
+
+                setStatus(
+                    "Dein Browser unterstützt keine Standortabfrage."
+                );
+
+                return;
+            }
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                async (position) => {
+
+                    const startLat =
+                        position.coords.latitude;
+
+                    const startLng =
+                        position.coords.longitude;
+
+
+                    if (routeLayer) {
+
+                        map.removeLayer(
+                            routeLayer
+                        );
+
+                        routeLayer = null;
+
+                    }
+
+
+                    if (currentLocationMarker) {
+
+                        map.removeLayer(
+                            currentLocationMarker
+                        );
+
+                    }
+
+
+                    currentLocationMarker =
+                        L.marker(
+                            [
+                                startLat,
+                                startLng
+                            ],
+                            {
+                                icon: locationIcon
+                            }
+                        )
+                        .addTo(map)
+                        .bindPopup(
+                            "<strong>Dein Standort</strong>"
+                        );
+
+
+                    setStatus(
+                        `Route zu ${destinationName} wird berechnet...`
+                    );
+
+
+                    try {
+
+                        /*
+                         * OSRM routing service.
+                         */
+
+                        const routeUrl =
+                            "https://router.project-osrm.org/route/v1/driving/" +
+                            `${startLng},${startLat};` +
+                            `${destinationLng},${destinationLat}` +
+                            "?overview=full&geometries=geojson";
+
+
+                        const response =
+                            await fetch(routeUrl);
+
+
+                        if (!response.ok) {
+                            throw new Error(
+                                "Routing fehlgeschlagen"
+                            );
+                        }
+
+
+                        const data =
+                            await response.json();
+
+
+                        if (
+                            data.code !== "Ok" ||
+                            !data.routes ||
+                            !data.routes.length
+                        ) {
+                            throw new Error(
+                                "Keine Route gefunden"
+                            );
+                        }
+
+
+                        const route =
+                            data.routes[0];
+
+
+                        routeLayer =
+                            L.geoJSON(
+                                route.geometry,
+                                {
+                                    style: {
+                                        color: "#168cff",
+                                        weight: 6,
+                                        opacity: 0.9,
+                                        lineCap: "round",
+                                        lineJoin: "round"
+                                    }
+                                }
+                            ).addTo(map);
+
+
+                        map.fitBounds(
+                            routeLayer.getBounds(),
+                            {
+                                padding: [70, 70]
+                            }
+                        );
+
+
+                        const distanceKm =
+                            (
+                                route.distance / 1000
+                            ).toFixed(1);
+
+
+                        const durationMin =
+                            Math.round(
+                                route.duration / 60
+                            );
+
+
+                        setStatus(
+                            `Route: ${distanceKm} km · ca. ${durationMin} Min. · Ziel: ${destinationName}`
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Moi-cy Routing:",
+                            error
+                        );
+
+                        setStatus(
+                            "Route konnte momentan nicht berechnet werden."
+                        );
+
+                    }
+
+                },
+
+                (error) => {
+
+                    console.error(
+                        "Moi-cy Standort:",
+                        error
+                    );
+
+
+                    if (
+                        error.code ===
+                        error.PERMISSION_DENIED
+                    ) {
+
+                        setStatus(
+                            "Standortzugriff wurde nicht erlaubt."
+                        );
+
+                    } else {
+
+                        setStatus(
+                            "Dein Standort konnte nicht ermittelt werden."
+                        );
+
+                    }
+
+                },
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
+                }
+
+            );
+
+        }
+
+
+        /* =========================================================
+           GLOBAL ROUTE FUNCTION
+           ========================================================= */
+
+        window.routeToSkatepark =
+            routeToSkatepark;
+
     </script>
 
 </body>
