@@ -1,1 +1,372 @@
+<!DOCTYPE html>
+<html lang="de">
 
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Moi-cy – Karte</title>
+
+  <meta
+    name="description"
+    content="Moi-cy – Skatepark Karte."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="style.css?v=karte1"
+  >
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <style>
+
+    /* =========================================
+       KARTE
+    ========================================= */
+
+    .map-page {
+      min-height: 100vh;
+      padding-top: 76px;
+      background: #050505;
+    }
+
+
+    .map-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 55px 7vw 30px;
+    }
+
+
+    .map-heading span {
+      display: block;
+      margin-bottom: 14px;
+      color: #00a8ff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+
+    .map-heading h1 {
+      margin: 0;
+      color: #f2f2f2;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.88;
+      letter-spacing: -0.07em;
+      font-weight: 900;
+    }
+
+
+    .map-intro {
+      max-width: 360px;
+      margin: 0;
+      color: #777;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+
+    /* =========================================
+       MAP CONTAINER
+    ========================================= */
+
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      padding: 0 7vw 80px;
+    }
+
+
+    #map {
+      width: 100%;
+      height: min(70vh, 750px);
+      min-height: 500px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+
+    /* =========================================
+       LEAFLET ANPASSUNG
+    ========================================= */
+
+    .leaflet-control-zoom {
+      border: 1px solid rgba(255,255,255,0.15) !important;
+      box-shadow: none !important;
+    }
+
+
+    .leaflet-control-zoom a {
+      width: 38px !important;
+      height: 38px !important;
+      line-height: 38px !important;
+      border: 0 !important;
+      border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+      background: #080808 !important;
+      color: #f2f2f2 !important;
+    }
+
+
+    .leaflet-control-zoom a:last-child {
+      border-bottom: 0 !important;
+    }
+
+
+    .leaflet-control-zoom a:hover {
+      background: #00a8ff !important;
+      color: #050505 !important;
+    }
+
+
+    .leaflet-control-attribution {
+      background: rgba(5,5,5,0.85) !important;
+      color: #666 !important;
+    }
+
+
+    .leaflet-control-attribution a {
+      color: #00a8ff !important;
+    }
+
+
+    /* =========================================
+       ZURÜCK BUTTON
+    ========================================= */
+
+    .map-back-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      margin-top: 20px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: #0b0b0b;
+      color: #888;
+      text-decoration: none;
+      font-size: 0.64rem;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .map-back-button:hover {
+      border-color: #00a8ff;
+      background: #00a8ff;
+      color: #050505;
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 900px) {
+
+      .map-page {
+        padding-top: 68px;
+      }
+
+
+      .map-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 45px 6vw 25px;
+      }
+
+
+      .map-intro {
+        max-width: 500px;
+      }
+
+
+      .map-wrapper {
+        padding: 0 6vw 60px;
+      }
+
+
+      #map {
+        height: 65vh;
+        min-height: 450px;
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .map-header {
+        padding-top: 35px;
+      }
+
+
+      #map {
+        height: 65vh;
+        min-height: 400px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     SHARED HEADER
+========================================= -->
+
+<div id="site-header"></div>
+
+
+<!-- =========================================
+     KARTE
+========================================= -->
+
+<main class="map-page">
+
+  <section class="map-header">
+
+    <div class="map-heading">
+
+      <span>
+        MOI-CY / SKATEPARKS
+      </span>
+
+      <h1>
+        Karte
+      </h1>
+
+    </div>
+
+
+    <p class="map-intro">
+      Entdecke Skateparks auf der Karte.
+      Die Funktionen für Standort und Routen
+      kommen später Schritt für Schritt dazu.
+    </p>
+
+  </section>
+
+
+  <section class="map-wrapper">
+
+    <div id="map"></div>
+
+
+    <a
+      class="map-back-button"
+      href="skateplaetze.html"
+    >
+      ← ZURÜCK ZU DEN SKATEPLÄTZEN
+    </a>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================
+     SHARED FOOTER
+========================================= -->
+
+<div id="site-footer"></div>
+
+
+<!-- =========================================
+     LEAFLET
+========================================= -->
+
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+
+<script src="script.js"></script>
+
+
+<script>
+
+  /* =========================================
+     KARTE INITIALISIEREN
+  ========================================= */
+
+  const map = L.map("map", {
+    zoomControl: true
+  });
+
+
+  /* =========================================
+     OPENSTREETMAP KARTE
+  ========================================= */
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+    }
+  ).addTo(map);
+
+
+  /* =========================================
+     STARTANSICHT
+     
+     Europa / Deutschland
+  ========================================= */
+
+  map.setView(
+    [48.5, 10.5],
+    6
+  );
+
+
+  /* =========================================
+     ERSTER TEST-MARKER
+     
+     Nur damit wir sehen, dass alles
+     funktioniert.
+  ========================================= */
+
+  L.marker([
+    49.00299,
+    8.43133
+  ])
+    .addTo(map)
+    .bindPopup(`
+      <strong>Karlsruhe</strong><br>
+      Skatepark Karlsruhe
+    `);
+
+
+</script>
+
+
+</body>
+
+</html>
