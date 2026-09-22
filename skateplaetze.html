@@ -19,6 +19,10 @@
             margin-bottom: 35px;
         }
 
+        .add-skatepark-section {
+            width: 100%;
+        }
+
         .skateparks-title-row {
             display: flex;
             align-items: center;
@@ -166,6 +170,11 @@
             font-size: 14px;
         }
 
+        .form-field input::placeholder,
+        .form-field textarea::placeholder {
+            color: #666;
+        }
+
         .form-field input:focus,
         .form-field textarea:focus,
         .form-field select:focus {
@@ -179,6 +188,7 @@
 
         .form-field input[type="file"] {
             padding: 10px;
+            cursor: pointer;
         }
 
         .photo-help {
@@ -246,6 +256,7 @@
             font-weight: 900;
             letter-spacing: 0.08em;
             text-transform: uppercase;
+            transition: 0.2s ease;
         }
 
         .submit-skatepark:hover {
@@ -300,6 +311,10 @@
             font-family: inherit;
             font-size: 13px;
             outline: none;
+        }
+
+        .park-search::placeholder {
+            color: #666;
         }
 
         .park-search:focus,
@@ -589,6 +604,14 @@
                 justify-content: space-between;
             }
 
+            .add-skatepark-toggle-content {
+                min-width: 0;
+            }
+
+            .add-skatepark-toggle-title {
+                white-space: nowrap;
+            }
+
             .park-filters {
                 flex-direction: column;
                 gap: 7px;
@@ -616,6 +639,18 @@
             .submit-skatepark {
                 width: 100%;
             }
+
+            .lightbox {
+                padding: 15px;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
         }
     </style>
 </head>
@@ -628,15 +663,15 @@
 
     <section class="skateparks-header">
 
-        <div class="skateparks-title-row">
+        <section class="add-skatepark-section" id="addSkateparkSection">
 
-            <h1 class="skateparks-title">
-                SKATEPLÄTZE
-            </h1>
+            <div class="skateparks-title-row">
 
-            <div class="add-skatepark-inline">
+                <h1 class="skateparks-title">
+                    SKATEPLÄTZE
+                </h1>
 
-                <section class="add-skatepark-section" id="addSkateparkSection">
+                <div class="add-skatepark-inline">
 
                     <button
                         type="button"
@@ -647,6 +682,7 @@
                     >
                         <span class="add-skatepark-toggle-content">
                             <span class="add-skatepark-toggle-kicker">COMMUNITY</span>
+
                             <span class="add-skatepark-toggle-title">
                                 ＋ SKATEPLATZ HINZUFÜGEN
                             </span>
@@ -661,169 +697,175 @@
                         </span>
                     </button>
 
-                    <div
-                        class="add-skatepark-content"
-                        id="addSkateparkContent"
-                    >
-
-                        <div class="add-skatepark-intro">
-
-                            <h2>Skateplatz hinzufügen</h2>
-
-                            <p>
-                                Du kennst einen Skateplatz, der hier fehlt?
-                                Schick ihn uns – wir prüfen deinen Vorschlag,
-                                bevor er auf Moi-cy erscheint.
-                            </p>
-
-                        </div>
-
-                        <form
-                            class="add-skatepark-form"
-                            id="addSkateparkForm"
-                        >
-
-                            <div class="form-field">
-
-                                <label for="skateparkName">
-                                    Skatepark
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="skateparkName"
-                                    name="name"
-                                    required
-                                    placeholder="Name des Skateparks"
-                                >
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label for="skateparkCity">
-                                    Stadt
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="skateparkCity"
-                                    name="city"
-                                    required
-                                    placeholder="z. B. Karlsruhe"
-                                >
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label for="skateparkCountry">
-                                    Land
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="skateparkCountry"
-                                    name="country"
-                                    required
-                                    placeholder="z. B. Deutschland"
-                                >
-
-                            </div>
-
-                            <div class="form-field">
-
-                                <label for="skateparkAddress">
-                                    Adresse
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="skateparkAddress"
-                                    name="address"
-                                    placeholder="Straße, Platz ..."
-                                >
-
-                            </div>
-
-                            <div class="form-field full">
-
-                                <label for="skateparkDescription">
-                                    Beschreibung
-                                </label>
-
-                                <textarea
-                                    id="skateparkDescription"
-                                    name="description"
-                                    placeholder="Was ist besonders an diesem Skateplatz?"
-                                ></textarea>
-
-                            </div>
-
-                            <div class="form-field full">
-
-                                <label for="skateparkPhotos">
-                                    Fotos
-                                </label>
-
-                                <input
-                                    type="file"
-                                    id="skateparkPhotos"
-                                    name="photos"
-                                    accept="image/jpeg,image/png,image/webp"
-                                    multiple
-                                >
-
-                                <span class="photo-help">
-                                    JPEG, PNG oder WebP · maximal 10 MB pro Bild
-                                </span>
-
-                                <div
-                                    class="photo-preview"
-                                    id="photoPreview"
-                                ></div>
-
-                                <div
-                                    class="upload-progress"
-                                    id="uploadProgress"
-                                >
-                                    <div
-                                        class="upload-progress-bar"
-                                        id="uploadProgressBar"
-                                    ></div>
-                                </div>
-
-                            </div>
-
-                            <div class="form-actions">
-
-                                <button
-                                    type="submit"
-                                    class="submit-skatepark"
-                                    id="submitSkatepark"
-                                >
-                                    SKATEPLATZ SENDEN
-                                </button>
-
-                                <div
-                                    class="form-message"
-                                    id="formMessage"
-                                    aria-live="polite"
-                                ></div>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                </section>
+                </div>
 
             </div>
 
-        </div>
+            <div
+                class="add-skatepark-content"
+                id="addSkateparkContent"
+            >
 
-        <!-- Filter bleiben zusammen in einer Reihe -->
+                <div class="add-skatepark-intro">
+
+                    <h2>Skateplatz hinzufügen</h2>
+
+                    <p>
+                        Du kennst einen Skateplatz, der hier fehlt?
+                        Schick ihn uns – wir prüfen deinen Vorschlag,
+                        bevor er auf Moi-cy erscheint.
+                    </p>
+
+                </div>
+
+                <form
+                    class="add-skatepark-form"
+                    id="addSkateparkForm"
+                >
+
+                    <div class="form-field">
+
+                        <label for="skateparkName">
+                            Skatepark
+                        </label>
+
+                        <input
+                            type="text"
+                            id="skateparkName"
+                            name="name"
+                            required
+                            autocomplete="organization"
+                            placeholder="Name des Skateparks"
+                        >
+
+                    </div>
+
+                    <div class="form-field">
+
+                        <label for="skateparkCity">
+                            Stadt
+                        </label>
+
+                        <input
+                            type="text"
+                            id="skateparkCity"
+                            name="city"
+                            required
+                            autocomplete="address-level2"
+                            placeholder="z. B. Karlsruhe"
+                        >
+
+                    </div>
+
+                    <div class="form-field">
+
+                        <label for="skateparkCountry">
+                            Land
+                        </label>
+
+                        <input
+                            type="text"
+                            id="skateparkCountry"
+                            name="country"
+                            required
+                            autocomplete="country-name"
+                            placeholder="z. B. Deutschland"
+                        >
+
+                    </div>
+
+                    <div class="form-field">
+
+                        <label for="skateparkAddress">
+                            Adresse
+                        </label>
+
+                        <input
+                            type="text"
+                            id="skateparkAddress"
+                            name="address"
+                            autocomplete="street-address"
+                            placeholder="Straße, Platz ..."
+                        >
+
+                    </div>
+
+                    <div class="form-field full">
+
+                        <label for="skateparkDescription">
+                            Beschreibung
+                        </label>
+
+                        <textarea
+                            id="skateparkDescription"
+                            name="description"
+                            placeholder="Was ist besonders an diesem Skateplatz?"
+                        ></textarea>
+
+                    </div>
+
+                    <div class="form-field full">
+
+                        <label for="skateparkPhotos">
+                            Fotos
+                        </label>
+
+                        <input
+                            type="file"
+                            id="skateparkPhotos"
+                            name="photos"
+                            accept="image/jpeg,image/png,image/webp"
+                            multiple
+                        >
+
+                        <span class="photo-help">
+                            JPEG, PNG oder WebP · maximal 10 MB pro Bild
+                        </span>
+
+                        <div
+                            class="photo-preview"
+                            id="photoPreview"
+                        ></div>
+
+                        <div
+                            class="upload-progress"
+                            id="uploadProgress"
+                            aria-hidden="true"
+                        >
+                            <div
+                                class="upload-progress-bar"
+                                id="uploadProgressBar"
+                            ></div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button
+                            type="submit"
+                            class="submit-skatepark"
+                            id="submitSkatepark"
+                        >
+                            SKATEPLATZ SENDEN
+                        </button>
+
+                        <div
+                            class="form-message"
+                            id="formMessage"
+                            aria-live="polite"
+                        ></div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- Filter zusammen in einer Reihe -->
 
         <div class="park-filters">
 
@@ -856,6 +898,7 @@
         </div>
 
     </section>
+
 
     <section
         class="skatepark-list"
@@ -1330,12 +1373,14 @@
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL = "https://lkxvhrcvoizozmddmefh.supabase.co";
+const SUPABASE_URL =
+    "https://lkxvhrcvoizozmddmefh.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_mrwTwHx3Xzc-7hcdvRxPyw_1JomCQvA";
 
-const SUPABASE_BUCKET = "skatepark-photos";
+const SUPABASE_BUCKET =
+    "skatepark-photos";
 
 
 /* =========================================================
@@ -1435,32 +1480,14 @@ photoInput.addEventListener("change", () => {
             document.createElement("img");
 
         img.src = url;
-
         img.alt = file.name;
 
         wrapper.appendChild(img);
-
         photoPreview.appendChild(wrapper);
 
     });
 
 });
-
-
-/* =========================================================
-   HILFSFUNKTION
-========================================================= */
-
-function escapeHtml(value) {
-
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-}
 
 
 /* =========================================================
@@ -1471,7 +1498,11 @@ async function discoverGalleryImages(galleryName) {
 
     const images = [];
 
-    for (let number = 1; number <= 50; number++) {
+    for (
+        let number = 1;
+        number <= 50;
+        number++
+    ) {
 
         const path =
             `bilder/${galleryName}-${number}.jpg`;
@@ -1491,7 +1522,7 @@ async function discoverGalleryImages(galleryName) {
                         () => resolve(false);
 
                     img.src =
-                        `${path}?check=${Date.now()}`;
+                        `${path}?check=${Date.now()}-${number}`;
 
                 });
 
@@ -1526,7 +1557,8 @@ async function listStorageImages(submissionId) {
                     method: "POST",
                     headers: {
                         "apikey": SUPABASE_KEY,
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
                     },
                     body: JSON.stringify({
                         prefix: `${submissionId}/`,
@@ -1562,7 +1594,13 @@ async function listStorageImages(submissionId) {
             .filter((object) => object.name)
             .map((object) => {
 
-                return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_BUCKET}/${submissionId}/${encodeURIComponent(object.name)}`;
+                return (
+                    `${SUPABASE_URL}` +
+                    `/storage/v1/object/public/` +
+                    `${SUPABASE_BUCKET}/` +
+                    `${submissionId}/` +
+                    `${encodeURIComponent(object.name)}`
+                );
 
             });
 
@@ -1653,7 +1691,9 @@ async function setupGallery(
             `Skatepark Foto ${index + 1}`;
 
         img.loading =
-            index === 0 ? "eager" : "lazy";
+            index === 0
+                ? "eager"
+                : "lazy";
 
         slide.appendChild(img);
 
@@ -1709,8 +1749,7 @@ async function setupGallery(
         counter.className =
             "gallery-counter";
 
-        let current =
-            0;
+        let current = 0;
 
         function render() {
 
@@ -1729,8 +1768,12 @@ async function setupGallery(
                 event.stopPropagation();
 
                 current =
-                    (current - 1 + images.length)
-                    % images.length;
+                    (
+                        current -
+                        1 +
+                        images.length
+                    ) %
+                    images.length;
 
                 render();
 
@@ -1744,8 +1787,11 @@ async function setupGallery(
                 event.stopPropagation();
 
                 current =
-                    (current + 1)
-                    % images.length;
+                    (
+                        current +
+                        1
+                    ) %
+                    images.length;
 
                 render();
 
@@ -1789,15 +1835,20 @@ let lightboxIndex = 0;
 function renderLightbox() {
 
     const images =
-        galleries.get(lightboxGallery) || [];
+        galleries.get(
+            lightboxGallery
+        ) || [];
 
     if (!images.length) {
         return;
     }
 
     lightboxIndex =
-        (lightboxIndex + images.length)
-        % images.length;
+        (
+            lightboxIndex +
+            images.length
+        ) %
+        images.length;
 
     lightboxImage.src =
         images[lightboxIndex];
@@ -1814,7 +1865,9 @@ function openLightbox(
 ) {
 
     const images =
-        galleries.get(galleryName) || [];
+        galleries.get(
+            galleryName
+        ) || [];
 
     if (!images.length) {
         return;
@@ -1828,7 +1881,9 @@ function openLightbox(
 
     renderLightbox();
 
-    lightbox.classList.add("active");
+    lightbox.classList.add(
+        "active"
+    );
 
     lightbox.setAttribute(
         "aria-hidden",
@@ -1904,7 +1959,11 @@ document.addEventListener(
     "keydown",
     (event) => {
 
-        if (!lightbox.classList.contains("active")) {
+        if (
+            !lightbox.classList.contains(
+                "active"
+            )
+        ) {
             return;
         }
 
@@ -1927,7 +1986,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   DYNAMISCHE SKATEPARKS
+   DYNAMISCHE SKATEPARKS LADEN
 ========================================================= */
 
 async function loadApprovedSkateparks() {
@@ -1940,7 +1999,8 @@ async function loadApprovedSkateparks() {
                 {
                     method: "GET",
                     headers: {
-                        "apikey": SUPABASE_KEY
+                        "apikey": SUPABASE_KEY,
+                        "Accept": "application/json"
                     }
                 }
             );
@@ -1963,9 +2023,13 @@ async function loadApprovedSkateparks() {
             return;
         }
 
-        for (const park of skateparks) {
+        for (
+            const park of skateparks
+        ) {
 
-            await createApprovedCard(park);
+            await createApprovedCard(
+                park
+            );
 
         }
 
@@ -2063,7 +2127,8 @@ async function createApprovedCard(park) {
         "skatepark-name";
 
     title.textContent =
-        park.name || "Skatepark";
+        park.name ||
+        "Skatepark";
 
     const location =
         document.createElement("div");
@@ -2088,8 +2153,13 @@ async function createApprovedCard(park) {
         <span class="rating-label">Noch keine Bewertung</span>
     `;
 
-    topline.appendChild(titleBox);
-    topline.appendChild(rating);
+    topline.appendChild(
+        titleBox
+    );
+
+    topline.appendChild(
+        rating
+    );
 
     const description =
         document.createElement("p");
@@ -2137,16 +2207,33 @@ async function createApprovedCard(park) {
     mapLink.href =
         `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
 
-    actions.appendChild(mapLink);
+    actions.appendChild(
+        mapLink
+    );
 
-    info.appendChild(topline);
-    info.appendChild(description);
-    info.appendChild(actions);
+    info.appendChild(
+        topline
+    );
 
-    card.appendChild(gallery);
-    card.appendChild(info);
+    info.appendChild(
+        description
+    );
 
-    skateparkList.appendChild(card);
+    info.appendChild(
+        actions
+    );
+
+    card.appendChild(
+        gallery
+    );
+
+    card.appendChild(
+        info
+    );
+
+    skateparkList.appendChild(
+        card
+    );
 
     let images = [];
 
@@ -2168,7 +2255,7 @@ async function createApprovedCard(park) {
 
 
 /* =========================================================
-   FILTERDATEN AKTUALISIEREN
+   FILTERDATEN
 ========================================================= */
 
 let parks = [];
@@ -2302,7 +2389,9 @@ function updateParks() {
     filtered.sort(
         (a, b) => {
 
-            if (sort === "name-asc") {
+            if (
+                sort === "name-asc"
+            ) {
 
                 return a.dataset.name.localeCompare(
                     b.dataset.name,
@@ -2311,7 +2400,9 @@ function updateParks() {
 
             }
 
-            if (sort === "name-desc") {
+            if (
+                sort === "name-desc"
+            ) {
 
                 return b.dataset.name.localeCompare(
                     a.dataset.name,
@@ -2320,16 +2411,24 @@ function updateParks() {
 
             }
 
-            if (sort === "rating-asc") {
+            if (
+                sort === "rating-asc"
+            ) {
 
                 return (
-                    Number(a.dataset.rating || 0) -
-                    Number(b.dataset.rating || 0)
+                    Number(
+                        a.dataset.rating || 0
+                    ) -
+                    Number(
+                        b.dataset.rating || 0
+                    )
                 );
 
             }
 
-            if (sort === "newest") {
+            if (
+                sort === "newest"
+            ) {
 
                 return (
                     new Date(
@@ -2343,8 +2442,12 @@ function updateParks() {
             }
 
             return (
-                Number(b.dataset.rating || 0) -
-                Number(a.dataset.rating || 0)
+                Number(
+                    b.dataset.rating || 0
+                ) -
+                Number(
+                    a.dataset.rating || 0
+                )
             );
 
         }
@@ -2377,7 +2480,9 @@ function updateParks() {
             ".no-results"
         );
 
-    if (!filtered.length) {
+    if (
+        !filtered.length
+    ) {
 
         if (!noResults) {
 
@@ -2455,50 +2560,98 @@ addForm.addEventListener(
         try {
 
             const name =
-                document.getElementById(
-                    "skateparkName"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "skateparkName"
+                    )
+                    .value
+                    .trim();
 
             const city =
-                document.getElementById(
-                    "skateparkCity"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "skateparkCity"
+                    )
+                    .value
+                    .trim();
 
             const country =
-                document.getElementById(
-                    "skateparkCountry"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "skateparkCountry"
+                    )
+                    .value
+                    .trim();
 
             const address =
-                document.getElementById(
-                    "skateparkAddress"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "skateparkAddress"
+                    )
+                    .value
+                    .trim();
 
             const description =
-                document.getElementById(
-                    "skateparkDescription"
-                ).value.trim();
+                document
+                    .getElementById(
+                        "skateparkDescription"
+                    )
+                    .value
+                    .trim();
 
             const files =
                 Array.from(
                     photoInput.files || []
                 );
 
-            for (const file of files) {
 
-                if (file.size > 10 * 1024 * 1024) {
+            /* -----------------------------------------
+               Eingaben prüfen
+            ----------------------------------------- */
+
+            if (!name) {
+                throw new Error(
+                    "Bitte einen Namen für den Skatepark eingeben."
+                );
+            }
+
+            if (!city) {
+                throw new Error(
+                    "Bitte eine Stadt eingeben."
+                );
+            }
+
+            if (!country) {
+                throw new Error(
+                    "Bitte ein Land eingeben."
+                );
+            }
+
+
+            /* -----------------------------------------
+               Fotos prüfen
+            ----------------------------------------- */
+
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            for (
+                const file of files
+            ) {
+
+                if (
+                    file.size >
+                    10 * 1024 * 1024
+                ) {
 
                     throw new Error(
                         `Das Bild "${file.name}" ist größer als 10 MB.`
                     );
 
                 }
-
-                const allowedTypes = [
-                    "image/jpeg",
-                    "image/png",
-                    "image/webp"
-                ];
 
                 if (
                     !allowedTypes.includes(
@@ -2514,16 +2667,26 @@ addForm.addEventListener(
 
             }
 
+
             /* -----------------------------------------
                Eindeutige ID für diese Einsendung
             ----------------------------------------- */
 
             const submissionId =
-                `${Date.now()}-${crypto.randomUUID()}`;
+                (
+                    `${Date.now()}-` +
+                    `${crypto.randomUUID()}`
+                );
 
 
             /* -----------------------------------------
                DB-Eintrag
+               
+               WICHTIG:
+               return=minimal verhindert, dass Supabase
+               den neu eingefügten Datensatz zurückgeben
+               muss. Dadurch benötigen wir hier keine
+               zusätzliche SELECT-RLS-Policy.
             ----------------------------------------- */
 
             const insertResponse =
@@ -2534,19 +2697,27 @@ addForm.addEventListener(
                         headers: {
                             "apikey": SUPABASE_KEY,
                             "Content-Type": "application/json",
-                            "Prefer": "return=representation"
+                            "Accept": "application/json",
+                            "Prefer": "return=minimal"
                         },
                         body: JSON.stringify({
                             name,
                             city,
                             country,
-                            address: address || null,
-                            description: description || null,
-                            status: "pending",
-                            submission_id: submissionId
+                            address:
+                                address ||
+                                null,
+                            description:
+                                description ||
+                                null,
+                            status:
+                                "pending",
+                            submission_id:
+                                submissionId
                         })
                     }
                 );
+
 
             if (!insertResponse.ok) {
 
@@ -2558,14 +2729,6 @@ addForm.addEventListener(
                 );
 
             }
-
-            const insertedRows =
-                await insertResponse.json();
-
-            const insertedRow =
-                Array.isArray(insertedRows)
-                    ? insertedRows[0]
-                    : insertedRows;
 
 
             /* -----------------------------------------
@@ -2591,16 +2754,27 @@ addForm.addEventListener(
                             );
 
                     const filePath =
-                        `${submissionId}/${Date.now()}-${index}-${safeName}`;
+                        (
+                            `${submissionId}/` +
+                            `${Date.now()}-` +
+                            `${index}-` +
+                            `${safeName}`
+                        );
 
                     const uploadResponse =
                         await fetch(
-                            `${SUPABASE_URL}/storage/v1/object/${SUPABASE_BUCKET}/${filePath}`,
+                            (
+                                `${SUPABASE_URL}` +
+                                `/storage/v1/object/` +
+                                `${SUPABASE_BUCKET}/` +
+                                `${filePath}`
+                            ),
                             {
                                 method: "POST",
                                 headers: {
                                     "apikey": SUPABASE_KEY,
                                     "Content-Type": file.type,
+                                    "Accept": "application/json",
                                     "x-upsert": "false"
                                 },
                                 body: file
@@ -2619,7 +2793,10 @@ addForm.addEventListener(
                     }
 
                     const progress =
-                        ((index + 1) / files.length) * 100;
+                        (
+                            (index + 1) /
+                            files.length
+                        ) * 100;
 
                     uploadProgressBar.style.width =
                         `${progress}%`;
@@ -2642,7 +2819,10 @@ addForm.addEventListener(
                 "form-message success";
 
             formMessage.textContent =
-                "Danke! Dein Skateplatz wurde gesendet und wird jetzt geprüft.";
+                (
+                    "Danke! Dein Skateplatz wurde " +
+                    "gesendet und wird jetzt geprüft."
+                );
 
             addForm.reset();
 
