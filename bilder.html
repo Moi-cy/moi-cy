@@ -25,7 +25,7 @@
 
   <link
     rel="stylesheet"
-    href="style.css?v=bilder1"
+    href="style.css?v=bilder2"
   >
 
 
@@ -265,6 +265,26 @@
 
       pointer-events:
         none;
+    }
+
+
+    /* =========================================
+       WENN KEINE BILDER VORHANDEN SIND
+    ========================================= */
+
+    .bilder-loading {
+      max-width: 1200px;
+
+      margin: 0 auto;
+
+      color:
+        rgba(255, 255, 255, 0.45);
+
+      font-size:
+        0.75rem;
+
+      letter-spacing:
+        0.12em;
     }
 
 
@@ -635,132 +655,23 @@
 
     <!-- =====================================
          BILDER GRID
+         WIRD AUTOMATISCH GEFÜLLT
     ====================================== -->
 
-    <section class="bilder-grid">
-
-
-      <!-- BILD 01 -->
-
-      <div
-        class="bild"
-        data-index="0"
-      >
-
-        <img
-          src="bilder/bild-1.jpg"
-          alt="Moi-cy Bild 01"
-          data-i18n-alt="image_01_alt"
-        >
-
-        <span class="bild-number">
-          01
-        </span>
-
-      </div>
-
-
-      <!-- BILD 02 -->
-
-      <div
-        class="bild"
-        data-index="1"
-      >
-
-        <img
-          src="bilder/bild-2.jpg"
-          alt="Moi-cy Bild 02"
-          data-i18n-alt="image_02_alt"
-        >
-
-        <span class="bild-number">
-          02
-        </span>
-
-      </div>
-
-
-      <!-- BILD 03 -->
-
-      <div
-        class="bild"
-        data-index="2"
-      >
-
-        <img
-          src="bilder/bild-3.jpg"
-          alt="Moi-cy Bild 03"
-          data-i18n-alt="image_03_alt"
-        >
-
-        <span class="bild-number">
-          03
-        </span>
-
-      </div>
-
-
-      <!-- BILD 04 -->
-
-      <div
-        class="bild"
-        data-index="3"
-      >
-
-        <img
-          src="bilder/bild-4.jpg"
-          alt="Moi-cy Bild 04"
-          data-i18n-alt="image_04_alt"
-        >
-
-        <span class="bild-number">
-          04
-        </span>
-
-      </div>
-
-
-      <!-- BILD 05 -->
-
-      <div
-        class="bild"
-        data-index="4"
-      >
-
-        <img
-          src="bilder/bild-5.jpg"
-          alt="Moi-cy Bild 05"
-          data-i18n-alt="image_05_alt"
-        >
-
-        <span class="bild-number">
-          05
-        </span>
-
-      </div>
-
-
-      <!-- BILD 06 -->
-
-      <div
-        class="bild"
-        data-index="5"
-      >
-
-        <img
-          src="bilder/bild-6.jpg"
-          alt="Moi-cy Bild 06"
-          data-i18n-alt="image_06_alt"
-        >
-
-        <span class="bild-number">
-          06
-        </span>
-
-      </div>
-
-
+    <section
+      class="bilder-grid"
+      id="bilderGrid"
+    >
     </section>
+
+
+    <div
+      class="bilder-loading"
+      id="bilderLoading"
+    >
+      BILDER WERDEN GELADEN...
+    </div>
+
 
   </section>
 
@@ -782,6 +693,7 @@
   <button
     class="lightbox-close"
     id="lightboxClose"
+    type="button"
     aria-label="Bild schließen"
     data-i18n-aria="lightbox_close"
   >
@@ -792,6 +704,7 @@
   <button
     class="lightbox-arrow lightbox-prev"
     id="lightboxPrev"
+    type="button"
     aria-label="Vorheriges Bild"
     data-i18n-aria="lightbox_previous"
   >
@@ -810,6 +723,7 @@
   <button
     class="lightbox-arrow lightbox-next"
     id="lightboxNext"
+    type="button"
     aria-label="Nächstes Bild"
     data-i18n-aria="lightbox_next"
   >
@@ -821,7 +735,7 @@
     class="lightbox-counter"
     id="lightboxCounter"
   >
-    01 / 06
+    00 / 00
   </div>
 
 
@@ -849,11 +763,26 @@
 <script>
 
   /* =========================================
-     BILDER LIGHTBOX
+     AUTOMATISCHE BILDERERKENNUNG
+     
+     Die Seite sucht automatisch nach:
+     
+     bilder/bild-1.jpg
+     bilder/bild-2.jpg
+     bilder/bild-3.jpg
+     ...
+     
+     Du musst bilder.html danach nicht
+     mehr ändern.
   ========================================= */
 
-  const bildElements =
-    document.querySelectorAll(".bild");
+
+  const bilderGrid =
+    document.getElementById("bilderGrid");
+
+
+  const bilderLoading =
+    document.getElementById("bilderLoading");
 
 
   const lightbox =
@@ -880,25 +809,230 @@
     document.getElementById("lightboxCounter");
 
 
+  let bildElements = [];
+
+
   let currentImage = 0;
 
 
   /* =========================================
-     BILD ÖFFNEN
+     PRÜFEN, OB EIN BILD EXISTIERT
+  ========================================= */
+
+  function imageExists(src) {
+
+    return new Promise((resolve) => {
+
+      const image =
+        new Image();
+
+
+      image.onload = () => {
+
+        resolve(true);
+
+      };
+
+
+      image.onerror = () => {
+
+        resolve(false);
+
+      };
+
+
+      image.src =
+        src + "?check=" + Date.now();
+
+    });
+
+  }
+
+
+  /* =========================================
+     ALLE BILDER SUCHEN
+     
+     Wir prüfen automatisch bild-1.jpg
+     bis bild-100.jpg.
+     
+     Dadurch kannst du später einfach
+     weitere Bilder hinzufügen.
+  ========================================= */
+
+  async function loadImages() {
+
+    const foundImages = [];
+
+
+    for (
+      let number = 1;
+      number <= 100;
+      number++
+    ) {
+
+      const filename =
+        `bilder/bild-${number}.jpg`;
+
+
+      const exists =
+        await imageExists(filename);
+
+
+      if (exists) {
+
+        foundImages.push({
+          number: number,
+          src: filename
+        });
+
+      }
+
+    }
+
+
+    /* =====================================
+       GRID AUFBAUEN
+    ====================================== */
+
+    foundImages.forEach(
+      (imageData, index) => {
+
+        const card =
+          document.createElement("div");
+
+
+        card.className =
+          "bild";
+
+
+        card.dataset.index =
+          index;
+
+
+        const image =
+          document.createElement("img");
+
+
+        image.src =
+          imageData.src;
+
+
+        image.alt =
+          `Moi-cy Bild ${String(imageData.number).padStart(2, "0")}`;
+
+
+        const number =
+          document.createElement("span");
+
+
+        number.className =
+          "bild-number";
+
+
+        number.textContent =
+          String(
+            imageData.number
+          ).padStart(2, "0");
+
+
+        card.appendChild(image);
+
+        card.appendChild(number);
+
+
+        bilderGrid.appendChild(card);
+
+      }
+    );
+
+
+    /* =====================================
+       BILDER ELEMENTE AKTUALISIEREN
+    ====================================== */
+
+    bildElements =
+      document.querySelectorAll(".bild");
+
+
+    /* =====================================
+       LADEN-TEXT VERSTECKEN
+    ====================================== */
+
+    bilderLoading.style.display =
+      "none";
+
+
+    /* =====================================
+       KLICKS AUF BILDER
+    ====================================== */
+
+    bildElements.forEach(
+      (bild, index) => {
+
+        bild.addEventListener(
+          "click",
+          () => {
+
+            openLightbox(index);
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =====================================
+       FALLS KEINE BILDER GEFUNDEN WURDEN
+    ====================================== */
+
+    if (
+      foundImages.length === 0
+    ) {
+
+      bilderLoading.textContent =
+        "KEINE BILDER GEFUNDEN.";
+
+      bilderLoading.style.display =
+        "block";
+
+    }
+
+  }
+
+
+  /* =========================================
+     LIGHTBOX ÖFFNEN
   ========================================= */
 
   function openLightbox(index) {
 
-    currentImage = index;
+    if (
+      bildElements.length === 0
+    ) {
+
+      return;
+
+    }
+
+
+    currentImage =
+      index;
+
 
     updateLightbox();
 
-    lightbox.classList.add("active");
+
+    lightbox.classList.add(
+      "active"
+    );
+
 
     lightbox.setAttribute(
       "aria-hidden",
       "false"
     );
+
 
     document.body.style.overflow =
       "hidden";
@@ -968,10 +1102,21 @@
 
   function previousImage() {
 
+    if (
+      bildElements.length === 0
+    ) {
+
+      return;
+
+    }
+
+
     currentImage--;
 
 
-    if (currentImage < 0) {
+    if (
+      currentImage < 0
+    ) {
 
       currentImage =
         bildElements.length - 1;
@@ -990,6 +1135,15 @@
 
   function nextImage() {
 
+    if (
+      bildElements.length === 0
+    ) {
+
+      return;
+
+    }
+
+
     currentImage++;
 
 
@@ -1006,26 +1160,6 @@
     updateLightbox();
 
   }
-
-
-  /* =========================================
-     BILDER KLICKEN
-  ========================================= */
-
-  bildElements.forEach(
-    (bild, index) => {
-
-      bild.addEventListener(
-        "click",
-        () => {
-
-          openLightbox(index);
-
-        }
-      );
-
-    }
-  );
 
 
   /* =========================================
@@ -1117,6 +1251,13 @@
 
     }
   );
+
+
+  /* =========================================
+     BILDER LADEN
+  ========================================= */
+
+  loadImages();
 
 </script>
 
