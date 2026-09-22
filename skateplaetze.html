@@ -35,7 +35,7 @@
 
 <link
     rel="stylesheet"
-    href="style.css?v=skateplaetze12"
+    href="style.css?v=skateplaetze13"
 >
 
 <style>
@@ -116,33 +116,120 @@ SKATEPLÄTZE
     background: var(--dark-3);
 }
 
+
+/* =========================================
+SKATEPLATZ HINZUFÜGEN
+========================================= */
+
 .add-skatepark-section {
-    margin-bottom: 70px;
-    padding: 35px;
+    margin-bottom: 55px;
     border: 1px solid var(--line);
     background: var(--black-2);
 }
 
-.add-skatepark-section > p {
-    max-width: 700px;
-    margin: 0 0 30px;
-    color: var(--muted);
-    line-height: 1.7;
+
+/* Kompakte geschlossene Zeile */
+
+.add-skatepark-toggle {
+    width: 100%;
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 25px;
+    border: 0;
+    background: transparent;
+    color: var(--white);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        color var(--transition);
 }
 
-.add-skatepark-section h2 {
+.add-skatepark-toggle:hover {
+    background: var(--dark-2);
+}
+
+.add-skatepark-toggle-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.add-skatepark-toggle-kicker {
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.add-skatepark-toggle-title {
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+}
+
+.add-skatepark-toggle-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line-light);
+    color: var(--blue);
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+
+/* Geöffneter Bereich */
+
+.add-skatepark-content {
+    display: none;
+    padding: 0 35px 35px;
+}
+
+.add-skatepark-section.open .add-skatepark-content {
+    display: block;
+}
+
+.add-skatepark-section.open .add-skatepark-toggle {
+    border-bottom: 1px solid var(--line);
+}
+
+.add-skatepark-section.open .add-skatepark-toggle-icon {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+}
+
+
+/* Formular-Kopf */
+
+.add-skatepark-intro {
+    padding-top: 30px;
+    margin-bottom: 30px;
+}
+
+.add-skatepark-intro h2 {
     margin: 0 0 14px;
     font-size: clamp(28px, 4vw, 46px);
     line-height: 1;
 }
 
-.add-skatepark-community {
-    margin-bottom: 8px;
-    color: var(--blue);
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 0.15em;
+.add-skatepark-intro p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
 }
+
+
+/* Formular */
 
 .add-skatepark-grid {
     display: grid;
@@ -263,6 +350,11 @@ SKATEPLÄTZE
     border-color: #d55;
     color: #ff8b8b;
 }
+
+
+/* =========================================
+FILTER
+========================================= */
 
 .skatepark-filters {
     display: grid;
@@ -549,8 +641,20 @@ MOBILE
         padding-top: 55px;
     }
 
-    .add-skatepark-section {
-        padding: 25px;
+    .add-skatepark-content {
+        padding: 0 25px 25px;
+    }
+
+    .add-skatepark-toggle {
+        padding: 18px 20px;
+    }
+
+    .add-skatepark-toggle-content {
+        gap: 12px;
+    }
+
+    .add-skatepark-toggle-title {
+        font-size: 16px;
     }
 
     .skatepark-card {
@@ -575,8 +679,29 @@ MOBILE
         grid-template-columns: 1fr;
     }
 
-    .add-skatepark-section {
-        padding: 20px;
+    .add-skatepark-toggle {
+        min-height: 68px;
+        padding: 16px;
+    }
+
+    .add-skatepark-toggle-kicker {
+        display: none;
+    }
+
+    .add-skatepark-toggle-title {
+        font-size: 15px;
+    }
+
+    .add-skatepark-content {
+        padding: 0 16px 20px;
+    }
+
+    .add-skatepark-intro {
+        padding-top: 25px;
+    }
+
+    .add-skatepark-intro h2 {
+        font-size: 30px;
     }
 
     .add-skatepark-field.full,
@@ -657,11 +782,52 @@ autocomplete="off"
 </header>
 
 
-<section class="add-skatepark-section">
+<!-- =========================================
+SKATEPLATZ HINZUFÜGEN
+========================================= -->
 
-<p class="add-skatepark-community">
+<section
+class="add-skatepark-section"
+id="addSkateparkSection"
+>
+
+<button
+type="button"
+class="add-skatepark-toggle"
+id="addSkateparkToggle"
+aria-expanded="false"
+aria-controls="addSkateparkContent"
+>
+
+<span class="add-skatepark-toggle-content">
+
+<span class="add-skatepark-toggle-kicker">
 COMMUNITY
-</p>
+</span>
+
+<span class="add-skatepark-toggle-title">
+＋ SKATEPLATZ HINZUFÜGEN
+</span>
+
+</span>
+
+<span
+class="add-skatepark-toggle-icon"
+id="addSkateparkToggleIcon"
+aria-hidden="true"
+>
++
+</span>
+
+</button>
+
+
+<div
+class="add-skatepark-content"
+id="addSkateparkContent"
+>
+
+<div class="add-skatepark-intro">
 
 <h2>
 Skateplatz hinzufügen
@@ -672,6 +838,8 @@ Du kennst einen Skateplatz, der hier fehlt?
 Schick ihn uns – wir prüfen deinen Vorschlag,
 bevor er auf Moi-cy erscheint.
 </p>
+
+</div>
 
 
 <form id="addSkateparkForm">
@@ -815,8 +983,14 @@ SKATEPLATZ EINSENDEN →
 
 </form>
 
+</div>
+
 </section>
 
+
+<!-- =========================================
+FILTER
+========================================= -->
 
 <div class="skatepark-filters">
 
@@ -873,6 +1047,10 @@ Bewertung niedrig → hoch
 
 </div>
 
+
+<!-- =========================================
+SKATEPARK LISTE
+========================================= -->
 
 <div class="skatepark-list">
 
@@ -1554,11 +1732,67 @@ data-i18n-aria="next_image"
 <div id="site-footer"></div>
 
 
-<!-- WICHTIG: script.js enthält Top-Level-await -->
 <script type="module" src="script.js"></script>
 
 
 <script>
+
+/* =========================================
+SKATEPLATZ HINZUFÜGEN – AUF / ZU
+========================================= */
+
+const addSkateparkSection =
+    document.getElementById(
+        "addSkateparkSection"
+    );
+
+const addSkateparkToggle =
+    document.getElementById(
+        "addSkateparkToggle"
+    );
+
+const addSkateparkContent =
+    document.getElementById(
+        "addSkateparkContent"
+    );
+
+const addSkateparkToggleIcon =
+    document.getElementById(
+        "addSkateparkToggleIcon"
+    );
+
+
+if (
+    addSkateparkSection &&
+    addSkateparkToggle &&
+    addSkateparkContent &&
+    addSkateparkToggleIcon
+) {
+
+    addSkateparkToggle.addEventListener(
+        "click",
+        () => {
+
+            const isOpen =
+                addSkateparkSection.classList.toggle(
+                    "open"
+                );
+
+            addSkateparkToggle.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
+
+            addSkateparkToggleIcon.textContent =
+                isOpen
+                    ? "−"
+                    : "+";
+
+        }
+    );
+
+}
+
 
 /* =========================================
 SKATEPARK SUCHE / FILTER / SORTIERUNG
