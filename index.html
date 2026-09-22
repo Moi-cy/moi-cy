@@ -1,772 +1,392 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MOI-CY – Skateboarding</title>
-
+    <title>Moi-cy – Skateboarding Project</title>
     <meta
         name="description"
-        content="MOI-CY – Skateboarding, Skateparks, Bilder, Videos und kreative Skateboard-Projekte."
+        content="Moi-cy – Skateboarding, Skateparks, Bilder, Videos und mehr."
     >
 
-    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
 
+    <!-- Graffiti-Schrift -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
-        /* =========================================================
-           HOMEPAGE
-           ========================================================= */
+        /* =========================================
+           MOI-CY HOMEPAGE
+        ========================================= */
 
         .home-page {
             background: #050505;
             color: #f5f5f5;
         }
 
-        .home-page main {
-            padding-top: 0;
-        }
-
-
-        /* =========================================================
+        /* =========================================
            HERO
-           ========================================================= */
+        ========================================= */
 
         .home-hero {
-            min-height: 100vh;
-            min-height: 100svh;
+            min-height: calc(100vh - 76px);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
-            padding: 100px 30px 80px;
+            padding: 80px 24px 100px;
+            text-align: center;
         }
 
         /*
-         * Das Logo bleibt bewusst schlicht.
-         * Keine zusätzliche Schrift unter dem Logo.
+         * Der eigentliche Moi-cy-Schriftzug.
+         * Sedgwick Ave Display ist eine echte handgeschriebene
+         * Graffiti-inspirierte Schrift und keine normale Standardschrift.
          */
         .home-logo {
-            width: min(900px, 94vw);
-            max-width: 100%;
-            text-align: center;
-
-            font-family:
-                Impact,
-                Haettenschweiler,
-                "Arial Black",
-                sans-serif;
-
-            font-size: clamp(90px, 16vw, 230px);
-            font-weight: 900;
-            line-height: 0.8;
-
-            letter-spacing: -0.08em;
-            white-space: nowrap;
-
             color: #ffffff;
-
-            transform: rotate(-4deg);
-
-            animation:
-                homeLogoReveal 1.5s
-                cubic-bezier(.2,.8,.2,1)
-                both;
+            font-family: "Sedgwick Ave Display", cursive;
+            font-size: clamp(58px, 9vw, 125px);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            transform: rotate(-3deg);
+            text-shadow:
+                3px 3px 0 rgba(255, 255, 255, 0.08),
+                -2px 2px 0 rgba(255, 255, 255, 0.04);
+            animation: graffitiIn 1.4s ease-out both;
+            user-select: none;
         }
 
-        @keyframes homeLogoReveal {
-
+        @keyframes graffitiIn {
             0% {
                 opacity: 0;
-                transform:
-                    translateY(25px)
-                    rotate(-4deg)
-                    scale(0.95);
-
-                filter: blur(8px);
+                transform: translateY(18px) rotate(-3deg) scale(0.92);
+                filter: blur(7px);
             }
 
-            40% {
+            55% {
                 opacity: 1;
+                filter: blur(0);
             }
 
             100% {
                 opacity: 1;
-                transform:
-                    translateY(0)
-                    rotate(-4deg)
-                    scale(1);
-
-                filter: blur(0);
+                transform: translateY(0) rotate(-3deg) scale(1);
             }
-
         }
 
         .home-scroll {
             position: absolute;
+            bottom: 28px;
             left: 50%;
-            bottom: 32px;
-
             transform: translateX(-50%);
-
-            color: #858585;
-
             font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #858585;
         }
 
-        .home-scroll::after {
-            content: "";
+        /* =========================================
+           HOME SECTIONS
+        ========================================= */
 
-            display: block;
-
-            width: 1px;
-            height: 35px;
-
-            margin: 12px auto 0;
-
-            background: #555555;
-        }
-
-
-        /* =========================================================
-           FIND YOUR SPOT
-           ========================================================= */
-
-        .home-spot {
-            max-width: 1400px;
-
+        .home-section {
+            width: min(1400px, calc(100% - 48px));
             margin: 0 auto;
-
-            padding:
-                150px
-                30px
-                110px;
+            padding: 110px 0;
         }
 
-        .home-spot-header {
+        .home-heading-row {
             display: flex;
-
             align-items: center;
             justify-content: space-between;
-
-            gap: 40px;
-
-            margin-bottom: 60px;
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
-        .home-spot-title {
+        .home-heading {
             margin: 0;
-
-            font-size:
-                clamp(50px, 8vw, 120px);
-
-            line-height: 0.88;
-
-            letter-spacing: -0.06em;
-
+            font-size: clamp(38px, 6vw, 82px);
+            line-height: 0.95;
             font-weight: 900;
+            letter-spacing: -3px;
         }
 
-        .home-spot-title span {
-            color: #168cff;
-        }
-
-        .home-spot-button {
-            flex-shrink: 0;
-
+        .home-button {
             display: inline-flex;
-
             align-items: center;
             justify-content: center;
-
-            min-height: 54px;
-
-            padding: 0 30px;
-
-            border: 1px solid #ffffff;
-
+            min-height: 50px;
+            padding: 0 26px;
+            background: #168cff;
             color: #ffffff;
-
             text-decoration: none;
-
             font-size: 12px;
             font-weight: 900;
-
-            letter-spacing: 0.12em;
-
-            transition:
-                background 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
+            letter-spacing: 1.5px;
+            transition: transform 0.2s ease, background 0.2s ease;
+            white-space: nowrap;
         }
 
-        .home-spot-button:hover {
-            background: #168cff;
-
-            border-color: #168cff;
-
-            transform: translateY(-2px);
+        .home-button:hover {
+            background: #ffffff;
+            color: #050505;
+            transform: translateY(-3px);
         }
 
+        /* =========================================
+           IMAGE GRID
+        ========================================= */
 
-        /* =========================================================
-           BILDER / VIDEOS
-           ========================================================= */
-
-        .home-media {
+        .home-image-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 20px;
         }
 
-        .home-media-card {
+        .home-image-card {
+            display: block;
             position: relative;
-
-            display: block;
-
-            aspect-ratio: 16 / 10;
-
             overflow: hidden;
-
             background: #101010;
-
             text-decoration: none;
+            color: #ffffff;
         }
 
-        .home-media-card img {
+        .home-image-card img {
             display: block;
-
             width: 100%;
-            height: 100%;
-
+            aspect-ratio: 16 / 10;
             object-fit: cover;
-
-            transition:
-                transform 0.5s ease;
+            transition: transform 0.5s ease;
         }
 
-        .home-media-card:hover img {
+        .home-image-card:hover img {
             transform: scale(1.04);
         }
 
-        .home-media-overlay {
+        .home-image-label {
             position: absolute;
-
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            display: flex;
-
-            align-items: flex-end;
-            justify-content: space-between;
-
-            padding: 25px;
-
-            background:
-                linear-gradient(
-                    to top,
-                    rgba(0,0,0,0.82),
-                    rgba(0,0,0,0)
-                );
-        }
-
-        .home-media-label {
+            left: 20px;
+            bottom: 18px;
+            padding: 8px 12px;
+            background: #050505;
             color: #ffffff;
-
-            font-size:
-                clamp(28px, 3vw, 45px);
-
-            font-weight: 900;
-
-            letter-spacing: -0.04em;
-        }
-
-        .home-media-arrow {
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            border: 1px solid
-                rgba(255,255,255,0.7);
-
-            color: #ffffff;
-
-            font-size: 20px;
-        }
-
-
-        /* =========================================================
-           ABOUT
-           ========================================================= */
-
-        .home-about {
-            max-width: 1400px;
-
-            margin: 0 auto;
-
-            padding:
-                130px
-                30px
-                140px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.13);
-        }
-
-        .home-about-grid {
-            display: grid;
-
-            grid-template-columns:
-                0.8fr 1.5fr;
-
-            gap: 100px;
-        }
-
-        .home-label {
-            margin:
-                0
-                0
-                25px;
-
-            color: #168cff;
-
             font-size: 11px;
             font-weight: 900;
+            letter-spacing: 2px;
+        }
 
-            letter-spacing: 0.2em;
+        /* =========================================
+           ABOUT
+        ========================================= */
+
+        .home-about {
+            display: grid;
+            grid-template-columns: minmax(200px, 0.7fr) minmax(0, 1.3fr);
+            gap: 70px;
+            border-top: 1px solid rgba(255,255,255,0.13);
+            padding-top: 80px;
         }
 
         .home-about-title {
             margin: 0;
-
-            font-size:
-                clamp(48px, 6vw, 90px);
-
-            line-height: 0.9;
-
-            letter-spacing: -0.06em;
-
+            font-size: clamp(32px, 5vw, 68px);
+            line-height: 0.95;
             font-weight: 900;
+            letter-spacing: -2px;
         }
 
-        .home-about-content {
+        .home-about-text {
             max-width: 760px;
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.75;
+            color: #c5c5c5;
         }
 
-        .home-about-lead {
-            margin:
-                0
-                0
-                35px;
-
+        .home-about-text strong {
             color: #ffffff;
-
-            font-size:
-                clamp(22px, 2.5vw, 32px);
-
-            line-height: 1.25;
-
-            font-weight: 700;
         }
 
-        .home-about-content p:not(.home-about-lead) {
-            margin:
-                0
-                0
-                22px;
+        /* =========================================
+           CONTACT CTA
+        ========================================= */
 
-            color: #b5b5b5;
-
-            font-size: 16px;
-
-            line-height: 1.8;
-        }
-
-        .home-about-highlight {
-            margin-top: 45px;
-
-            padding-top: 22px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.22);
-
-            color: #ffffff;
-
-            font-size: 12px;
-            font-weight: 900;
-
-            letter-spacing: 0.16em;
-        }
-
-
-        /* =========================================================
-           END / CONTACT
-           ========================================================= */
-
-        .home-end {
-            min-height: 65vh;
-
+        .home-contact {
             display: flex;
-
             align-items: center;
-
-            padding:
-                100px
-                30px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.13);
+            justify-content: space-between;
+            gap: 30px;
+            border-top: 1px solid rgba(255,255,255,0.13);
+            border-bottom: 1px solid rgba(255,255,255,0.13);
         }
 
-        .home-end-inner {
+        .home-contact-title {
+            margin: 0;
+            font-size: clamp(34px, 5vw, 72px);
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -3px;
+        }
+
+        /* =========================================
+           PRODUKT-STREIFEN
+        ========================================= */
+
+        .product-marquee {
             width: 100%;
-            max-width: 1400px;
+            overflow: hidden;
+            background: #168cff;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
 
-            margin: 0 auto;
-
+        .product-marquee-track {
             display: flex;
+            width: max-content;
+            animation: productMarquee 24s linear infinite;
+        }
 
+        .product-marquee:hover .product-marquee-track {
+            animation-play-state: paused;
+        }
+
+        .product-marquee-group {
+            display: flex;
             align-items: center;
-            justify-content: space-between;
-
-            gap: 50px;
-        }
-
-        .home-end-title {
-            margin: 0;
-
-            font-size:
-                clamp(55px, 10vw, 150px);
-
-            line-height: 0.82;
-
-            letter-spacing: -0.07em;
-
-            font-weight: 900;
-        }
-
-        .home-end-title span {
-            color: #168cff;
-        }
-
-        .home-contact-button {
             flex-shrink: 0;
+        }
 
+        .product-marquee-item {
             display: inline-flex;
-
             align-items: center;
-            justify-content: center;
-
-            min-height: 58px;
-
-            padding: 0 35px;
-
-            background: #168cff;
-
+            gap: 28px;
+            height: 42px;
+            padding: 0 30px;
             color: #ffffff;
-
             text-decoration: none;
-
-            font-size: 12px;
-            font-weight: 900;
-
-            letter-spacing: 0.14em;
-
-            transition:
-                background 0.2s ease,
-                color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .home-contact-button:hover {
-            background: #ffffff;
-
-            color: #050505;
-
-            transform: translateY(-2px);
-        }
-
-
-        /* =========================================================
-           PRODUCT POPUP
-           ========================================================= */
-
-        .product-popup {
-            position: fixed;
-
-            right: 25px;
-            bottom: 25px;
-
-            z-index: 9999;
-
-            width:
-                min(
-                    390px,
-                    calc(100vw - 30px)
-                );
-
-            background: #ffffff;
-
-            color: #050505;
-
-            box-shadow:
-                0 20px 70px
-                rgba(0,0,0,0.45);
-
-            opacity: 0;
-
-            transform:
-                translateY(30px);
-
-            visibility: hidden;
-
-            pointer-events: none;
-
-            transition:
-                opacity 0.35s ease,
-                transform 0.35s ease,
-                visibility 0.35s ease;
-        }
-
-        .product-popup.active {
-            opacity: 1;
-
-            transform:
-                translateY(0);
-
-            visibility: visible;
-
-            pointer-events: auto;
-        }
-
-        .product-popup-header {
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 16px 18px;
-
-            border-bottom:
-                1px solid
-                #dddddd;
-        }
-
-        .product-popup-label {
-            margin: 0;
-
-            font-size: 10px;
-            font-weight: 900;
-
-            letter-spacing: 0.18em;
-        }
-
-        .product-popup-close {
-            width: 30px;
-            height: 30px;
-
-            padding: 0;
-
-            border: 0;
-
-            background: transparent;
-
-            color: #050505;
-
-            cursor: pointer;
-
-            font-size: 22px;
-
-            line-height: 1;
-        }
-
-        .product-popup-content {
-            padding: 22px;
-        }
-
-        .product-popup-title {
-            margin:
-                0
-                0
-                10px;
-
-            font-size: 25px;
-
-            line-height: 1;
-
-            font-weight: 900;
-
-            letter-spacing: -0.04em;
-        }
-
-        .product-popup-text {
-            margin:
-                0
-                0
-                20px;
-
-            color: #555555;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-        }
-
-        .product-popup-link {
-            display: inline-flex;
-
-            align-items: center;
-            justify-content: center;
-
-            min-height: 45px;
-
-            padding: 0 22px;
-
-            background: #168cff;
-
-            color: #ffffff;
-
-            text-decoration: none;
-
             font-size: 11px;
-
             font-weight: 900;
-
-            letter-spacing: 0.12em;
+            letter-spacing: 1.8px;
+            white-space: nowrap;
         }
 
-        .product-popup-link:hover {
-            background: #050505;
+        .product-marquee-dot {
+            width: 5px;
+            height: 5px;
+            background: #ffffff;
+            display: inline-block;
+            transform: rotate(45deg);
         }
 
+        @keyframes productMarquee {
+            from {
+                transform: translateX(0);
+            }
 
-        /* =========================================================
-           MOBILE
-           ========================================================= */
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
 
         @media (max-width: 900px) {
 
-            .home-spot-header {
-                align-items: flex-start;
-
-                flex-direction: column;
-
-                gap: 30px;
+            .home-hero {
+                min-height: calc(100vh - 68px);
+                padding-top: 60px;
             }
 
-            .home-about-grid {
+            .home-section {
+                width: min(100% - 32px, 700px);
+                padding: 80px 0;
+            }
+
+            .home-heading-row {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 22px;
+            }
+
+            .home-image-grid {
                 grid-template-columns: 1fr;
-
-                gap: 50px;
             }
 
-            .home-end-inner {
+            .home-about {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding-top: 60px;
+            }
+
+            .home-contact {
                 align-items: flex-start;
-
                 flex-direction: column;
+                padding-top: 70px;
+                padding-bottom: 70px;
             }
-
         }
-
 
         @media (max-width: 600px) {
 
-            .home-hero {
-                padding:
-                    100px
-                    15px
-                    80px;
-            }
-
             .home-logo {
-                font-size: 24vw;
+                font-size: clamp(52px, 18vw, 82px);
+                letter-spacing: -1px;
             }
 
-            .home-spot,
-            .home-about {
-                padding-left: 20px;
-                padding-right: 20px;
+            .home-section {
+                width: calc(100% - 28px);
+                padding: 65px 0;
             }
 
-            .home-media {
-                grid-template-columns: 1fr;
-
-                gap: 15px;
+            .home-heading {
+                letter-spacing: -2px;
             }
 
-            .home-media-card {
-                aspect-ratio: 4 / 3;
+            .home-about-text {
+                font-size: 16px;
+                line-height: 1.65;
             }
 
-            .home-end {
-                padding:
-                    100px
-                    20px;
+            .home-contact-title {
+                letter-spacing: -2px;
             }
 
-            .home-end-title {
-                font-size: 19vw;
+            .product-marquee-item {
+                height: 38px;
+                padding: 0 22px;
+                font-size: 9px;
             }
-
-            .home-contact-button {
-                width: 100%;
-            }
-
-            .product-popup {
-                right: 15px;
-                bottom: 15px;
-
-                width:
-                    calc(100vw - 30px);
-            }
-
         }
     </style>
 </head>
 
-
 <body class="home-page">
 
-
-    <!-- =========================================================
-         HEADER
-         ========================================================= -->
-
+    <!-- Gemeinsamer Header -->
     <div id="site-header"></div>
-
 
 
     <main>
 
-
-        <!-- =====================================================
+        <!-- =====================================
              HERO
-             ===================================================== -->
+        ====================================== -->
 
         <section class="home-hero">
 
-            <div
-                class="home-logo"
-                aria-label="Moi-cy"
-            >
-                moi-cy
+            <div class="home-logo" aria-label="Moi-cy">
+                Moi-cy
             </div>
 
             <div class="home-scroll">
@@ -776,88 +396,57 @@
         </section>
 
 
-
-        <!-- =====================================================
+        <!-- =====================================
              FIND YOUR SPOT
-             ===================================================== -->
+        ====================================== -->
 
-        <section class="home-spot">
+        <section class="home-section">
 
-            <div class="home-spot-header">
+            <div class="home-heading-row">
 
-                <h1 class="home-spot-title">
-                    FIND YOUR
-                    <span>SPOT.</span>
+                <h1 class="home-heading">
+                    FIND YOUR SPOT
                 </h1>
 
                 <a
+                    class="home-button"
                     href="skateplaetze.html"
-                    class="home-spot-button"
                 >
-                    SKATEPLÄTZE →
+                    SKATEPLÄTZE ENTDECKEN
                 </a>
 
             </div>
 
 
-            <div class="home-media">
-
-
-                <!-- BILDER -->
+            <div class="home-image-grid">
 
                 <a
+                    class="home-image-card"
                     href="bilder.html"
-                    class="home-media-card"
                 >
-
                     <img
                         src="bilder/karlsruhe-1.jpg"
                         alt="Skateboarding in Karlsruhe"
                     >
 
-                    <div class="home-media-overlay">
-
-                        <span class="home-media-label">
-                            BILDER
-                        </span>
-
-                        <span class="home-media-arrow">
-                            →
-                        </span>
-
-                    </div>
-
+                    <span class="home-image-label">
+                        BILDER
+                    </span>
                 </a>
 
 
-
-                <!-- VIDEOS -->
-
                 <a
+                    class="home-image-card"
                     href="videos.html"
-                    class="home-media-card"
                 >
-
                     <img
                         src="bilder/karlsruhe-2.jpg"
-                        alt="Skateboarding Video"
-                        onerror="
-                            this.src='bilder/karlsruhe-1.jpg'
-                        "
+                        alt="Skateboarding"
                     >
 
-                    <div class="home-media-overlay">
-
-                        <span class="home-media-label">
-                            VIDEOS
-                        </span>
-
-                        <span class="home-media-arrow">
-                            →
-                        </span>
-
-                    </div>
-
+                    <span class="home-image-label">
+                        VIDEOS
+                    </span>
                 </a>
 
             </div>
@@ -865,86 +454,39 @@
         </section>
 
 
-
-        <!-- =====================================================
+        <!-- =====================================
              ABOUT MOI-CY
-             ===================================================== -->
+        ====================================== -->
 
-        <section class="home-about">
+        <section class="home-section">
 
-            <div class="home-about-grid">
+            <div class="home-about">
 
+                <div>
+                    <h2 class="home-about-title">
+                        ABOUT<br>
+                        MOI-CY
+                    </h2>
+                </div>
 
                 <div>
 
-                    <p class="home-label">
-                        ABOUT MOI-CY
+                    <p class="home-about-text">
+                        <strong>Moi-cy</strong> ist ein Skateboarding-Projekt,
+                        das aus meiner eigenen Begeisterung für das Skaten entstanden ist.
+                        Ich skate seit März 2023 und habe Moi-cy Ende Sommer 2023 gegründet.
+                        Seitdem ist Skateboarding ein fester Bestandteil meines Alltags.
+                        <br><br>
+                        Mein Fokus liegt besonders auf Old-School-Skateboarding,
+                        Pools und Bowls. Dabei geht es nicht nur um Tricks,
+                        sondern vor allem um das Gefühl, neue Spots zu entdecken,
+                        draußen zu sein und gemeinsam zu skaten.
+                        <br><br>
+                        Auf Moi-cy sammle ich Bilder, Videos und Skateparks
+                        aus verschiedenen Orten in Deutschland und Frankreich.
+                        Das Projekt soll zeigen, wie vielseitig Skateboarding sein kann
+                        und andere Menschen dazu bringen, selbst aufs Board zu steigen.
                     </p>
-
-                    <h2 class="home-about-title">
-                        SKATE.<br>
-                        CREATE.<br>
-                        RIDE.
-                    </h2>
-
-                </div>
-
-
-
-                <div class="home-about-content">
-
-                    <p class="home-about-lead">
-                        Moi-cy verbindet Skateboarding,
-                        Kreativität und die Dokumentation
-                        von Skate-Kultur.
-                    </p>
-
-
-                    <p>
-                        Ich bin 15 Jahre alt und skate seit
-                        März 2023. Seitdem ist Skateboarding
-                        ein fester Bestandteil meines Alltags.
-                        Moi-cy ist Ende Sommer 2023 entstanden
-                        und hat sich seitdem zu einem eigenen
-                        Skateboard-Projekt entwickelt.
-                    </p>
-
-
-                    <p>
-                        Der Schwerpunkt liegt auf dem
-                        Skateboardfahren, der Dokumentation
-                        von Skateparks sowie der Erstellung
-                        von Bildern und Videos. Bisher wurden
-                        unter anderem Skateparks in Deutschland
-                        und Frankreich besucht und dokumentiert.
-                    </p>
-
-
-                    <p>
-                        Besonders geprägt ist mein Fahrstil
-                        vom Old-School-Skateboarding. Ich fahre
-                        mein Skateboard mit Longboard-Rollen
-                        und interessiere mich besonders für
-                        Pools und Bowls. Dabei steht für mich
-                        nicht ausschließlich das Ausführen von
-                        Tricks im Mittelpunkt, sondern vor allem
-                        ein flüssiger und dynamischer Fahrstil.
-                    </p>
-
-
-                    <p>
-                        Moi-cy steht für ein Skateboard-Projekt,
-                        das eigene Inhalte, Designs und Erlebnisse
-                        rund um das Skateboarding zusammenbringt.
-                        Das Ziel ist es, die Vielseitigkeit des
-                        Sports zu zeigen und andere Menschen für
-                        Skateboarding zu begeistern.
-                    </p>
-
-
-                    <div class="home-about-highlight">
-                        SKATEBOARDING · MEDIA · CREATIVE PROJECT
-                    </div>
 
                 </div>
 
@@ -953,294 +495,123 @@
         </section>
 
 
-
-        <!-- =====================================================
+        <!-- =====================================
              CONTACT
-             ===================================================== -->
+        ====================================== -->
 
-        <section class="home-end">
+        <section class="home-section">
 
-            <div class="home-end-inner">
+            <div class="home-contact">
 
-                <h2 class="home-end-title">
-                    SEE YOU<br>
-                    <span>ON THE BOARD.</span>
+                <h2 class="home-contact-title">
+                    SEE YOU ON THE BOARD.
                 </h2>
 
-
                 <a
+                    class="home-button"
                     href="kontakt.html"
-                    class="home-contact-button"
                 >
-                    KONTAKT →
+                    KONTAKT
                 </a>
 
             </div>
 
         </section>
-
 
     </main>
 
 
+    <!-- =========================================
+         PRODUKT-LAUFLEISTE
+         Ganz am Ende der Seite
+    ========================================== -->
 
-    <!-- =========================================================
-         PRODUCT POPUP
-         ========================================================= -->
+    <div class="product-marquee">
 
-    <div
-        class="product-popup"
-        id="productPopup"
-        role="dialog"
-        aria-label="Moi-cy Shop"
-    >
+        <div class="product-marquee-track">
 
-        <div class="product-popup-header">
+            <div class="product-marquee-group">
 
-            <p class="product-popup-label">
-                MOI-CY SHOP
-            </p>
+                <a
+                    class="product-marquee-item"
+                    href="https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    MOI-CY SKATEBOARD – BLAU
+                    <span class="product-marquee-dot"></span>
+                </a>
 
-            <button
-                type="button"
-                class="product-popup-close"
-                id="productPopupClose"
-                aria-label="Popup schließen"
-            >
-                ×
-            </button>
+                <a
+                    class="product-marquee-item"
+                    href="https://shop.teamshirts.de/moi-cy/product/475947/765"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    MOI-CY SHIRT
+                    <span class="product-marquee-dot"></span>
+                </a>
 
-        </div>
+                <a
+                    class="product-marquee-item"
+                    href="https://shop.teamshirts.de/moi-cy/product/476639/263"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    MOI-CY PRODUCT
+                    <span class="product-marquee-dot"></span>
+                </a>
+
+            </div>
 
 
-        <div class="product-popup-content">
+            <!-- Zweite identische Gruppe für nahtlosen Loop -->
 
-            <h3
-                class="product-popup-title"
-                id="productPopupTitle"
-            >
-                MOI-CY PRODUCT
-            </h3>
+            <div class="product-marquee-group">
 
-            <p class="product-popup-text">
-                Entdecke ein ausgewähltes Moi-cy Produkt.
-            </p>
+                <a
+                    class="product-marquee-item"
+                    href="https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    MOI-CY SKATEBOARD – BLAU
+                    <span class="product-marquee-dot"></span>
+                </a>
 
-            <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="product-popup-link"
-                id="productPopupLink"
-            >
-                ANSEHEN →
-            </a>
+                <a
+                    class="product-marquee-item"
+                    href="https://shop.teamshirts.de/moi-cy/product/475947/765"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    MOI-CY SHIRT
+                    <span class="product-marquee-dot"></span>
+                </a>
+
+                <a
+                    class="product-marquee-item"
+                    href="https://shop.teamshirts.de/moi-cy/product/476639/263"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    MOI-CY PRODUCT
+                    <span class="product-marquee-dot"></span>
+                </a>
+
+            </div>
 
         </div>
 
     </div>
 
 
-
-    <!-- =========================================================
-         FOOTER
-         ========================================================= -->
-
+    <!-- Gemeinsamer Footer -->
     <div id="site-footer"></div>
 
 
-
-    <!-- =========================================================
-         SHARED SCRIPT
-         ========================================================= -->
-
+    <!-- Gemeinsames JavaScript -->
     <script src="script.js"></script>
 
-
-
-    <!-- =========================================================
-         HOMEPAGE SCRIPT
-         ========================================================= -->
-
-    <script>
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
-
-
-                /* =================================================
-                   PRODUCT POPUP
-                   ================================================= */
-
-                const popup =
-                    document.getElementById(
-                        "productPopup"
-                    );
-
-                const closeButton =
-                    document.getElementById(
-                        "productPopupClose"
-                    );
-
-                const title =
-                    document.getElementById(
-                        "productPopupTitle"
-                    );
-
-                const link =
-                    document.getElementById(
-                        "productPopupLink"
-                    );
-
-
-                const products = [
-
-                    {
-                        title:
-                            "MOI-CY SKATEBOARD – BLAU",
-
-                        url:
-                            "https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
-                    },
-
-                    {
-                        title:
-                            "MOI-CY SHIRT",
-
-                        url:
-                            "https://shop.teamshirts.de/moi-cy/product/475947/765"
-                    },
-
-                    {
-                        title:
-                            "MOI-CY PRODUCT",
-
-                        url:
-                            "https://shop.teamshirts.de/moi-cy/product/476639/263"
-                    }
-
-                ];
-
-
-                let lastProduct = -1;
-
-
-                function getRandomProduct() {
-
-                    let index;
-
-                    do {
-
-                        index =
-                            Math.floor(
-                                Math.random() *
-                                products.length
-                            );
-
-                    } while (
-                        index === lastProduct &&
-                        products.length > 1
-                    );
-
-                    lastProduct = index;
-
-                    return products[index];
-
-                }
-
-
-                function showPopup() {
-
-                    if (
-                        !popup ||
-                        !title ||
-                        !link
-                    ) {
-                        return;
-                    }
-
-
-                    const product =
-                        getRandomProduct();
-
-
-                    title.textContent =
-                        product.title;
-
-
-                    link.href =
-                        product.url;
-
-
-                    popup.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                function hidePopup() {
-
-                    if (!popup) {
-                        return;
-                    }
-
-
-                    popup.classList.remove(
-                        "active"
-                    );
-
-
-                    /*
-                     * Nächstes Popup:
-                     * zufällig zwischen 60 und 120 Sekunden.
-                     */
-
-                    const delay =
-                        Math.floor(
-                            Math.random() *
-                            (120000 - 60000 + 1)
-                        ) + 60000;
-
-
-                    setTimeout(
-                        showPopup,
-                        delay
-                    );
-
-                }
-
-
-                if (
-                    popup &&
-                    closeButton
-                ) {
-
-                    closeButton.addEventListener(
-                        "click",
-                        hidePopup
-                    );
-
-                }
-
-
-                /*
-                 * Erstes Popup:
-                 * 10 Sekunden nach dem Laden.
-                 */
-
-                setTimeout(
-                    showPopup,
-                    10000
-                );
-
-            }
-
-        );
-
-    </script>
-
 </body>
-
 </html>
