@@ -14,7 +14,7 @@
 
     <meta
         name="description"
-        content="MOI-CY – Skateboarding, Spots, Bilder, Videos und mehr."
+        content="MOI-CY – Skateboarding, Skateparks, Bilder, Videos und mehr."
     >
 
     <link
@@ -124,6 +124,7 @@
             font-size: clamp(70px, 13vw, 190px);
 
             font-weight: 400;
+
             line-height: 0.95;
 
             letter-spacing: -0.035em;
@@ -217,7 +218,7 @@
 
 
         /* =========================================================
-           SPOT SECTION
+           FIND YOUR SPOT
            ========================================================= */
 
         .home-v2-spot {
@@ -324,7 +325,7 @@
 
 
         /* =========================================================
-           MEDIA
+           BILDER / VIDEOS
            ========================================================= */
 
         .home-v2-media {
@@ -434,6 +435,127 @@
 
         .home-v2-media-card:hover .home-v2-media-arrow {
             transform: translateX(6px);
+        }
+
+
+        /* =========================================================
+           ABOUT MOI-CY
+           ========================================================= */
+
+        .home-v2-about {
+            max-width: var(--content-width);
+
+            margin: 0 auto;
+
+            padding: 0 30px 150px;
+
+            box-sizing: border-box;
+        }
+
+
+        .home-v2-about-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(250px, 0.75fr)
+                minmax(0, 1.25fr);
+
+            gap: 80px;
+
+            padding-top: 90px;
+
+            border-top: 1px solid var(--line);
+        }
+
+
+        .home-v2-about-label {
+            margin: 0;
+
+            color: var(--blue);
+
+            font-size: 12px;
+            font-weight: 900;
+
+            letter-spacing: 0.18em;
+
+            text-transform: uppercase;
+        }
+
+
+        .home-v2-about-title {
+            margin: 22px 0 0;
+
+            font-size: clamp(46px, 7vw, 100px);
+
+            line-height: 0.9;
+
+            font-weight: 900;
+
+            letter-spacing: -0.055em;
+
+            text-transform: uppercase;
+        }
+
+
+        .home-v2-about-title span {
+            color: var(--blue);
+        }
+
+
+        .home-v2-about-content {
+            max-width: 780px;
+        }
+
+
+        .home-v2-about-lead {
+            margin: 0 0 35px;
+
+            color: var(--white);
+
+            font-size: clamp(22px, 3vw, 34px);
+
+            line-height: 1.2;
+
+            font-weight: 600;
+
+            letter-spacing: -0.025em;
+        }
+
+
+        .home-v2-about-text {
+            margin: 0 0 22px;
+
+            color: #a4a4a4;
+
+            font-size: 16px;
+
+            line-height: 1.8;
+        }
+
+
+        .home-v2-about-text:last-child {
+            margin-bottom: 0;
+        }
+
+
+        .home-v2-about-highlight {
+            display: inline-block;
+
+            margin-top: 28px;
+
+            padding: 12px 16px;
+
+            border-left: 3px solid var(--blue);
+
+            color: var(--white);
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            letter-spacing: 0.12em;
+
+            text-transform: uppercase;
         }
 
 
@@ -710,6 +832,15 @@
             }
 
 
+            .home-v2-about-grid {
+                grid-template-columns: 1fr;
+
+                gap: 50px;
+
+                padding-top: 70px;
+            }
+
+
             .home-v2-end-inner {
                 align-items: flex-start;
 
@@ -773,6 +904,23 @@
 
             .home-v2-media-overlay {
                 padding: 20px;
+            }
+
+
+            .home-v2-about {
+                padding-bottom: 100px;
+            }
+
+
+            .home-v2-about-grid {
+                gap: 40px;
+            }
+
+
+            .home-v2-about-text {
+                font-size: 15px;
+
+                line-height: 1.7;
             }
 
 
@@ -914,8 +1062,6 @@
             <div class="home-v2-media-grid">
 
 
-                <!-- BILDER -->
-
                 <a
                     href="bilder.html"
                     class="home-v2-media-card"
@@ -950,8 +1096,6 @@
                 </a>
 
 
-
-                <!-- VIDEOS -->
 
                 <a
                     href="videos.html"
@@ -994,7 +1138,96 @@
 
 
         <!-- =====================================================
-             CONTACT / END
+             ABOUT MOI-CY
+             ===================================================== -->
+
+        <section class="home-v2-about">
+
+            <div class="home-v2-about-grid">
+
+
+                <div>
+
+                    <p
+                        class="home-v2-about-label"
+                        data-home-i18n="about_label"
+                    >
+                        ABOUT MOI-CY
+                    </p>
+
+
+                    <h2
+                        class="home-v2-about-title"
+                        data-home-i18n="about_title"
+                    >
+                        SKATE.<br>
+                        <span>CREATE.</span><br>
+                        RIDE.
+                    </h2>
+
+                </div>
+
+
+                <div class="home-v2-about-content">
+
+
+                    <p
+                        class="home-v2-about-lead"
+                        data-home-i18n="about_lead"
+                    >
+                        Moi-cy verbindet Skateboarding, Kreativität und die Dokumentation von Skate-Kultur.
+                    </p>
+
+
+                    <p
+                        class="home-v2-about-text"
+                        data-home-i18n="about_text_1"
+                    >
+                        Ich bin 15 Jahre alt und skate seit März 2023. Seitdem ist Skateboarding ein fester Bestandteil meines Alltags. Moi-cy ist Ende Sommer 2023 entstanden und hat sich seitdem zu einem eigenen Skateboard-Projekt entwickelt.
+                    </p>
+
+
+                    <p
+                        class="home-v2-about-text"
+                        data-home-i18n="about_text_2"
+                    >
+                        Der Schwerpunkt liegt auf dem Skateboardfahren, der Dokumentation von Skateparks sowie der Erstellung von Bildern und Videos. Bisher wurden unter anderem Skateparks in Deutschland und Frankreich besucht und dokumentiert.
+                    </p>
+
+
+                    <p
+                        class="home-v2-about-text"
+                        data-home-i18n="about_text_3"
+                    >
+                        Besonders geprägt ist mein Fahrstil vom Old-School-Skateboarding. Ich fahre mein Skateboard mit Longboard-Rollen und interessiere mich besonders für Pools und Bowls. Dabei steht für mich nicht ausschließlich das Ausführen von Tricks im Mittelpunkt, sondern vor allem ein flüssiger und dynamischer Fahrstil.
+                    </p>
+
+
+                    <p
+                        class="home-v2-about-text"
+                        data-home-i18n="about_text_4"
+                    >
+                        Moi-cy steht für ein Skateboard-Projekt, das eigene Inhalte, Designs und Erlebnisse rund um das Skateboarding zusammenbringt. Das Ziel ist es, die Vielseitigkeit des Sports zu zeigen und andere Menschen für Skateboarding zu begeistern.
+                    </p>
+
+
+                    <div
+                        class="home-v2-about-highlight"
+                        data-home-i18n="about_highlight"
+                    >
+                        SKATEBOARDING · MEDIA · CREATIVE PROJECT
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             END / CONTACT
              ===================================================== -->
 
         <section class="home-v2-end">
@@ -1074,7 +1307,7 @@
                 class="moi-cy-product-popup-text"
                 id="moiCyProductPopupText"
             >
-                CHECK IT OUT.
+                CHECK DAS PRODUKT AUS.
             </p>
 
 
@@ -1102,17 +1335,8 @@
 
 
 
-    <!-- =========================================================
-         SHARED JAVASCRIPT
-         ========================================================= -->
-
     <script src="script.js"></script>
 
-
-
-    <!-- =========================================================
-         HOMEPAGE TRANSLATIONS + RANDOM PRODUCT POPUPS
-         ========================================================= -->
 
     <script>
 
@@ -1120,74 +1344,212 @@
 
 
             /* =====================================================
-               TRANSLATIONS
+               HOMEPAGE TRANSLATIONS
                ===================================================== */
 
             const homeTranslations = {
 
                 de: {
-                    page_title: "MOI-CY – Skateboarding",
-                    page_description: "MOI-CY – Skateboarding, Spots, Bilder, Videos und mehr.",
 
-                    logo: "Moi-cy",
-                    scroll: "SCROLL",
+                    page_title:
+                        "MOI-CY – Skateboarding",
 
-                    find_spot: "FIND YOUR <span>SPOT.</span>",
-                    find_button: "SKATEPLÄTZE",
+                    page_description:
+                        "MOI-CY – Skateboarding, Skateparks, Bilder, Videos und mehr.",
 
-                    images: "BILDER",
-                    videos: "VIDEOS",
+                    logo:
+                        "Moi-cy",
 
-                    see_you: "SEE YOU<br><span>ON THE BOARD.</span>",
-                    contact_button: "KONTAKT",
+                    scroll:
+                        "SCROLL",
 
-                    popup_label: "MOI-CY SHOP",
-                    popup_text: "CHECK DAS PRODUKT AUS.",
-                    popup_button: "SHOP →"
+                    find_spot:
+                        "FIND YOUR <span>SPOT.</span>",
+
+                    find_button:
+                        "SKATEPLÄTZE",
+
+                    images:
+                        "BILDER",
+
+                    videos:
+                        "VIDEOS",
+
+                    about_label:
+                        "ABOUT MOI-CY",
+
+                    about_title:
+                        "SKATE.<br><span>CREATE.</span><br>RIDE.",
+
+                    about_lead:
+                        "Moi-cy verbindet Skateboarding, Kreativität und die Dokumentation von Skate-Kultur.",
+
+                    about_text_1:
+                        "Ich bin 15 Jahre alt und skate seit März 2023. Seitdem ist Skateboarding ein fester Bestandteil meines Alltags. Moi-cy ist Ende Sommer 2023 entstanden und hat sich seitdem zu einem eigenen Skateboard-Projekt entwickelt.",
+
+                    about_text_2:
+                        "Der Schwerpunkt liegt auf dem Skateboardfahren, der Dokumentation von Skateparks sowie der Erstellung von Bildern und Videos. Bisher wurden unter anderem Skateparks in Deutschland und Frankreich besucht und dokumentiert.",
+
+                    about_text_3:
+                        "Besonders geprägt ist mein Fahrstil vom Old-School-Skateboarding. Ich fahre mein Skateboard mit Longboard-Rollen und interessiere mich besonders für Pools und Bowls. Dabei steht für mich nicht ausschließlich das Ausführen von Tricks im Mittelpunkt, sondern vor allem ein flüssiger und dynamischer Fahrstil.",
+
+                    about_text_4:
+                        "Moi-cy steht für ein Skateboard-Projekt, das eigene Inhalte, Designs und Erlebnisse rund um das Skateboarding zusammenbringt. Das Ziel ist es, die Vielseitigkeit des Sports zu zeigen und andere Menschen für Skateboarding zu begeistern.",
+
+                    about_highlight:
+                        "SKATEBOARDING · MEDIA · CREATIVE PROJECT",
+
+                    see_you:
+                        "SEE YOU<br><span>ON THE BOARD.</span>",
+
+                    contact_button:
+                        "KONTAKT",
+
+                    popup_label:
+                        "MOI-CY SHOP",
+
+                    popup_text:
+                        "CHECK DAS PRODUKT AUS.",
+
+                    popup_button:
+                        "SHOP →"
+
                 },
 
 
                 en: {
-                    page_title: "MOI-CY – Skateboarding",
-                    page_description: "MOI-CY – Skateboarding, spots, photos, videos and more.",
 
-                    logo: "Moi-cy",
-                    scroll: "SCROLL",
+                    page_title:
+                        "MOI-CY – Skateboarding",
 
-                    find_spot: "FIND YOUR <span>SPOT.</span>",
-                    find_button: "SKATEPARKS",
+                    page_description:
+                        "MOI-CY – Skateboarding, skateparks, photos, videos and more.",
 
-                    images: "PHOTOS",
-                    videos: "VIDEOS",
+                    logo:
+                        "Moi-cy",
 
-                    see_you: "SEE YOU<br><span>ON THE BOARD.</span>",
-                    contact_button: "CONTACT",
+                    scroll:
+                        "SCROLL",
 
-                    popup_label: "MOI-CY SHOP",
-                    popup_text: "CHECK OUT THIS PRODUCT.",
-                    popup_button: "SHOP →"
+                    find_spot:
+                        "FIND YOUR <span>SPOT.</span>",
+
+                    find_button:
+                        "SKATEPARKS",
+
+                    images:
+                        "PHOTOS",
+
+                    videos:
+                        "VIDEOS",
+
+                    about_label:
+                        "ABOUT MOI-CY",
+
+                    about_title:
+                        "SKATE.<br><span>CREATE.</span><br>RIDE.",
+
+                    about_lead:
+                        "Moi-cy combines skateboarding, creativity and the documentation of skate culture.",
+
+                    about_text_1:
+                        "I am 15 years old and started skateboarding in March 2023. Since then, skateboarding has become a regular part of my everyday life. Moi-cy was founded in late summer 2023 and has since developed into an independent skateboarding project.",
+
+                    about_text_2:
+                        "The project focuses on skateboarding, documenting skateparks and creating photos and videos. So far, skateparks in Germany and France have been visited and documented.",
+
+                    about_text_3:
+                        "My riding style is strongly influenced by old-school skateboarding. I ride my skateboard with longboard wheels and have a particular interest in pools and bowls. For me, skating is not only about performing tricks, but also about flow, movement and enjoying the ride.",
+
+                    about_text_4:
+                        "Moi-cy brings together original content, designs and experiences around skateboarding. The goal is to show the variety of the sport and inspire other people to discover skateboarding for themselves.",
+
+                    about_highlight:
+                        "SKATEBOARDING · MEDIA · CREATIVE PROJECT",
+
+                    see_you:
+                        "SEE YOU<br><span>ON THE BOARD.</span>",
+
+                    contact_button:
+                        "CONTACT",
+
+                    popup_label:
+                        "MOI-CY SHOP",
+
+                    popup_text:
+                        "CHECK OUT THIS PRODUCT.",
+
+                    popup_button:
+                        "SHOP →"
+
                 },
 
 
                 fr: {
-                    page_title: "MOI-CY – Skateboard",
-                    page_description: "MOI-CY – Skateboard, spots, photos, vidéos et plus.",
 
-                    logo: "Moi-cy",
-                    scroll: "DÉFILER",
+                    page_title:
+                        "MOI-CY – Skateboard",
 
-                    find_spot: "TROUVE TON <span>SPOT.</span>",
-                    find_button: "SKATEPARKS",
+                    page_description:
+                        "MOI-CY – Skateboard, skateparks, photos, vidéos et plus.",
 
-                    images: "PHOTOS",
-                    videos: "VIDÉOS",
+                    logo:
+                        "Moi-cy",
 
-                    see_you: "SEE YOU<br><span>ON THE BOARD.</span>",
-                    contact_button: "CONTACT",
+                    scroll:
+                        "DÉFILER",
 
-                    popup_label: "MOI-CY SHOP",
-                    popup_text: "DÉCOUVRE CE PRODUIT.",
-                    popup_button: "SHOP →"
+                    find_spot:
+                        "TROUVE TON <span>SPOT.</span>",
+
+                    find_button:
+                        "SKATEPARKS",
+
+                    images:
+                        "PHOTOS",
+
+                    videos:
+                        "VIDÉOS",
+
+                    about_label:
+                        "À PROPOS DE MOI-CY",
+
+                    about_title:
+                        "SKATE.<br><span>CREATE.</span><br>RIDE.",
+
+                    about_lead:
+                        "Moi-cy réunit skateboard, créativité et documentation de la culture skate.",
+
+                    about_text_1:
+                        "J'ai 15 ans et je fais du skateboard depuis mars 2023. Depuis, le skateboard fait partie intégrante de mon quotidien. Moi-cy a été créé à la fin de l'été 2023 et s'est depuis développé comme un projet indépendant autour du skateboard.",
+
+                    about_text_2:
+                        "Le projet se concentre sur le skateboard, la découverte et la documentation de skateparks ainsi que la création de photos et de vidéos. Jusqu'à présent, des skateparks en Allemagne et en France ont notamment été visités et documentés.",
+
+                    about_text_3:
+                        "Mon style est fortement influencé par le skateboard old-school. Je roule avec des roues de longboard et je m'intéresse particulièrement aux pools et aux bowls. Pour moi, le skateboard ne se résume pas aux tricks, mais aussi au flow, au mouvement et au plaisir de rouler.",
+
+                    about_text_4:
+                        "Moi-cy rassemble des contenus, des designs et des expériences autour du skateboard. L'objectif est de montrer la diversité de ce sport et de donner envie à d'autres personnes de découvrir le skateboard.",
+
+                    about_highlight:
+                        "SKATEBOARDING · MEDIA · CREATIVE PROJECT",
+
+                    see_you:
+                        "SEE YOU<br><span>ON THE BOARD.</span>",
+
+                    contact_button:
+                        "CONTACT",
+
+                    popup_label:
+                        "MOI-CY SHOP",
+
+                    popup_text:
+                        "DÉCOUVRE CE PRODUIT.",
+
+                    popup_button:
+                        "SHOP →"
+
                 }
 
             };
@@ -1205,23 +1567,31 @@
                 }
 
 
-                const translation = homeTranslations[language];
+                const translation =
+                    homeTranslations[language];
 
 
-                document.documentElement.lang = language;
+                document.documentElement.lang =
+                    language;
 
 
-                document.title = translation.page_title;
+                document.title =
+                    translation.page_title;
 
 
                 const description =
-                    document.querySelector('meta[name="description"]');
+                    document.querySelector(
+                        'meta[name="description"]'
+                    );
+
 
                 if (description) {
+
                     description.setAttribute(
                         "content",
                         translation.page_description
                     );
+
                 }
 
 
@@ -1230,29 +1600,39 @@
                     .forEach((element) => {
 
                         const key =
-                            element.getAttribute("data-home-i18n");
+                            element.getAttribute(
+                                "data-home-i18n"
+                            );
+
 
                         if (
                             translation[key] !== undefined
                         ) {
+
                             element.innerHTML =
                                 translation[key];
+
                         }
 
                     });
 
 
                 document
-                    .querySelectorAll(".language-button[data-language]")
+                    .querySelectorAll(
+                        ".language-button[data-language]"
+                    )
                     .forEach((button) => {
 
                         const active =
-                            button.dataset.language === language;
+                            button.dataset.language ===
+                            language;
+
 
                         button.classList.toggle(
                             "active",
                             active
                         );
+
 
                         button.setAttribute(
                             "aria-pressed",
@@ -1263,15 +1643,19 @@
 
 
                 try {
+
                     localStorage.setItem(
                         "moiCyLanguage",
                         language
                     );
+
                 } catch (error) {
+
                     console.warn(
                         "Moi-cy: Sprache konnte nicht gespeichert werden.",
                         error
                     );
+
                 }
 
 
@@ -1285,38 +1669,47 @@
                LANGUAGE BUTTONS
                ===================================================== */
 
-            document.addEventListener("click", (event) => {
+            document.addEventListener(
+                "click",
+                (event) => {
 
-                const button =
-                    event.target.closest(
-                        ".language-button[data-language]"
+                    const button =
+                        event.target.closest(
+                            ".language-button[data-language]"
+                        );
+
+
+                    if (!button) return;
+
+
+                    const language =
+                        button.dataset.language;
+
+
+                    applyHomeLanguage(
+                        language
                     );
 
-                if (!button) return;
 
+                    if (
+                        window.MoiCy &&
+                        typeof window.MoiCy.setLanguage ===
+                            "function"
+                    ) {
 
-                const language =
-                    button.dataset.language;
+                        window.MoiCy.setLanguage(
+                            language
+                        );
 
-
-                applyHomeLanguage(language);
-
-
-                if (
-                    window.MoiCy &&
-                    typeof window.MoiCy.setLanguage === "function"
-                ) {
-
-                    window.MoiCy.setLanguage(language);
+                    }
 
                 }
-
-            });
+            );
 
 
 
             /* =====================================================
-               GET SAVED LANGUAGE
+               SAVED LANGUAGE
                ===================================================== */
 
             let currentLanguage = "de";
@@ -1325,24 +1718,34 @@
             try {
 
                 const savedLanguage =
-                    localStorage.getItem("moiCyLanguage");
+                    localStorage.getItem(
+                        "moiCyLanguage"
+                    );
+
 
                 if (
                     savedLanguage &&
                     homeTranslations[savedLanguage]
                 ) {
-                    currentLanguage = savedLanguage;
+
+                    currentLanguage =
+                        savedLanguage;
+
                 }
 
             } catch (error) {
+
                 console.warn(
                     "Moi-cy: Gespeicherte Sprache konnte nicht gelesen werden.",
                     error
                 );
+
             }
 
 
-            applyHomeLanguage(currentLanguage);
+            applyHomeLanguage(
+                currentLanguage
+            );
 
 
 
@@ -1353,21 +1756,24 @@
             const moiCyProducts = [
 
                 {
-                    title: "MOI-CY SKATEBOARD BLAU",
+                    title:
+                        "MOI-CY SKATEBOARD BLAU",
 
                     url:
                         "https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
                 },
 
                 {
-                    title: "MOI-CY PRODUCT 475947",
+                    title:
+                        "MOI-CY PRODUCT 475947",
 
                     url:
                         "https://shop.teamshirts.de/moi-cy/product/475947/765"
                 },
 
                 {
-                    title: "MOI-CY PRODUCT 476639",
+                    title:
+                        "MOI-CY PRODUCT 476639",
 
                     url:
                         "https://shop.teamshirts.de/moi-cy/product/476639/263"
@@ -1378,7 +1784,7 @@
 
 
             /* =====================================================
-               POPUP ELEMENTS
+               POPUP
                ===================================================== */
 
             const popup =
@@ -1386,20 +1792,24 @@
                     "moiCyProductPopup"
                 );
 
+
             const popupTitle =
                 document.getElementById(
                     "moiCyProductPopupTitle"
                 );
+
 
             const popupText =
                 document.getElementById(
                     "moiCyProductPopupText"
                 );
 
+
             const popupLink =
                 document.getElementById(
                     "moiCyProductPopupLink"
                 );
+
 
             const popupClose =
                 document.getElementById(
@@ -1426,12 +1836,6 @@
                     );
 
 
-                /*
-                 * Zufall bleibt erhalten,
-                 * aber dasselbe Produkt wird möglichst
-                 * nicht direkt zweimal hintereinander gezeigt.
-                 */
-
                 if (
                     moiCyProducts.length > 1 &&
                     index === lastProductIndex
@@ -1444,7 +1848,9 @@
                 }
 
 
-                lastProductIndex = index;
+                lastProductIndex =
+                    index;
+
 
                 return index;
 
@@ -1453,10 +1859,12 @@
 
 
             /* =====================================================
-               UPDATE POPUP TEXT
+               POPUP TEXT
                ===================================================== */
 
-            function updatePopupText(language) {
+            function updatePopupText(
+                language
+            ) {
 
                 const translation =
                     homeTranslations[language] ||
@@ -1464,14 +1872,18 @@
 
 
                 if (popupText) {
+
                     popupText.textContent =
                         translation.popup_text;
+
                 }
 
 
                 if (popupLink) {
+
                     popupLink.textContent =
                         translation.popup_button;
+
                 }
 
             }
@@ -1479,7 +1891,7 @@
 
 
             /* =====================================================
-               SHOW POPUP
+               SHOW RANDOM POPUP
                ===================================================== */
 
             function showRandomPopup() {
@@ -1492,7 +1904,9 @@
 
 
                 const product =
-                    moiCyProducts[productIndex];
+                    moiCyProducts[
+                        productIndex
+                    ];
 
 
                 popupTitle.textContent =
@@ -1503,7 +1917,9 @@
                     product.url;
 
 
-                popup.classList.add("active");
+                popup.classList.add(
+                    "active"
+                );
 
 
                 popup.setAttribute(
@@ -1529,7 +1945,9 @@
                 if (!popup) return;
 
 
-                popup.classList.remove("active");
+                popup.classList.remove(
+                    "active"
+                );
 
 
                 popup.setAttribute(
@@ -1537,11 +1955,6 @@
                     "true"
                 );
 
-
-                /*
-                 * Nach dem Schließen:
-                 * 60–120 Sekunden warten.
-                 */
 
                 scheduleNextPopup(
                     60000,
@@ -1572,7 +1985,11 @@
             ) {
 
                 if (popupTimer) {
-                    clearTimeout(popupTimer);
+
+                    clearTimeout(
+                        popupTimer
+                    );
+
                 }
 
 
@@ -1589,11 +2006,14 @@
 
 
                 popupTimer =
-                    setTimeout(() => {
+                    setTimeout(
+                        () => {
 
-                        showRandomPopup();
+                            showRandomPopup();
 
-                    }, delay);
+                        },
+                        delay
+                    );
 
             }
 
@@ -1601,14 +2021,8 @@
 
             /* =====================================================
                FIRST POPUP
+               20–40 SEKUNDEN
                ===================================================== */
-
-            /*
-             * Kein Popup beim Laden.
-             *
-             * Erstes Popup:
-             * zufällig zwischen 20 und 40 Sekunden.
-             */
 
             scheduleNextPopup(
                 20000,
