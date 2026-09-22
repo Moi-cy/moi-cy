@@ -35,7 +35,7 @@
 
 <link
     rel="stylesheet"
-    href="style.css?v=skateplaetze10"
+    href="style.css?v=skateplaetze11"
 >
 
 <style>
@@ -103,7 +103,9 @@ SKATEPLÄTZE
     padding: 15px 16px;
     font: inherit;
     outline: none;
-    transition: border-color var(--transition), background var(--transition);
+    transition:
+        border-color var(--transition),
+        background var(--transition);
 }
 
 .skatepark-search input:focus,
@@ -229,7 +231,9 @@ SKATEPLÄTZE
     font: inherit;
     font-weight: 900;
     cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
+    transition:
+        background var(--transition),
+        transform var(--transition);
 }
 
 .add-skatepark-submit:hover {
@@ -248,6 +252,7 @@ SKATEPLÄTZE
     border: 1px solid var(--line);
     font-size: 14px;
     line-height: 1.5;
+    word-break: break-word;
 }
 
 .add-skatepark-message.visible {
@@ -619,10 +624,6 @@ MOBILE
 <div class="skateparks-wrapper">
 
 
-<!-- =========================================
-HEADER
-========================================= -->
-
 <header class="skateparks-header">
 
 <p class="skateparks-kicker">
@@ -656,10 +657,6 @@ autocomplete="off"
 </header>
 
 
-<!-- =========================================
-SKATEPARK HINZUFÜGEN
-========================================= -->
-
 <section class="add-skatepark-section">
 
 <p class="add-skatepark-community">
@@ -677,9 +674,7 @@ bevor er auf Moi-cy erscheint.
 </p>
 
 
-<form
-id="addSkateparkForm"
->
+<form id="addSkateparkForm">
 
 <div class="add-skatepark-grid">
 
@@ -823,12 +818,7 @@ SKATEPLATZ EINSENDEN →
 </section>
 
 
-<!-- =========================================
-FILTER
-========================================= -->
-
 <div class="skatepark-filters">
-
 
 <div class="filter-field">
 
@@ -883,10 +873,6 @@ Bewertung niedrig → hoch
 
 </div>
 
-
-<!-- =========================================
-SKATEPARK LISTE
-========================================= -->
 
 <div class="skatepark-list">
 
@@ -2746,6 +2732,49 @@ function safeFileName(fileName) {
 
 
 /* =========================================
+SUPABASE FEHLER AUSLESEN
+========================================= */
+
+async function getSupabaseErrorMessage(response) {
+
+    let errorText = "";
+
+    try {
+        errorText = await response.text();
+    } catch {
+        errorText = "";
+    }
+
+    if (!errorText) {
+        return `HTTP ${response.status} ${response.statusText}`;
+    }
+
+    try {
+
+        const errorJson =
+            JSON.parse(errorText);
+
+        const parts = [
+            errorJson.message,
+            errorJson.error,
+            errorJson.hint,
+            errorJson.details
+        ].filter(Boolean);
+
+        if (parts.length) {
+            return parts.join(" | ");
+        }
+
+    } catch {
+        // Antwort war kein JSON.
+    }
+
+    return errorText;
+
+}
+
+
+/* =========================================
 SKATEPLATZ + FOTOS SENDEN
 ========================================= */
 
@@ -2797,7 +2826,9 @@ if (
                 );
 
 
-            /* FOTO-CHECK */
+            /* =========================================
+            FOTO-CHECK
+            ========================================= */
 
             const maxFileSize =
                 10 * 1024 * 1024;
@@ -2859,33 +2890,38 @@ if (
 
 
             /*
-             * Diese ID dient nur als Ordner für die Fotos.
-             * Die Datenbank-ID wird weiterhin automatisch
-             * von Supabase vergeben.
+             * Nur als Ordnername für Fotos.
+             * Die Datenbank-ID wird von Supabase erzeugt.
              */
 
-            const submissionId =
-                crypto.randomUUID();
-
+            let submissionId = "";
 
             try {
 
+                if (
+                    window.crypto &&
+                    typeof window.crypto.randomUUID === "function"
+                ) {
 
-                /* =========================================
-                SKATEPARK IN DATENBANK SPEICHERN
-                ========================================= */
+                    submissionId =
+                        window.crypto.randomUUID();
 
-                if (addSkateparkUploadProgress) {
+                } else {
 
-                    addSkateparkUploadProgress.textContent =
-                        "SKATEPLATZ WIRD GESPEICHERT...";
-
-                    addSkateparkUploadProgress.classList.add(
-                        "visible"
-                    );
+                    submissionId =
+                        "submission-"
+                        + Date.now()
+                        + "-"
+                        + Math.random()
+                            .toString(36)
+                            .slice(2);
 
                 }
 
+
+                /* =========================================
+                DATEN AUS FORMULAR HOLEN
+                ========================================= */
 
                 const skateparkData = {
 
@@ -2922,6 +2958,39 @@ if (
                 };
 
 
+                /* =========================================
+                ZUSÄTZLICHER CHECK
+                ========================================= */
+
+                if (
+                    !skateparkData.name ||
+                    !skateparkData.city ||
+                    !skateparkData.country
+                ) {
+
+                    throw new Error(
+                        "Bitte Skatepark, Stadt und Land ausfüllen."
+                    );
+
+                }
+
+
+                /* =========================================
+                DATENBANK
+                ========================================= */
+
+                if (addSkateparkUploadProgress) {
+
+                    addSkateparkUploadProgress.textContent =
+                        "SKATEPLATZ WIRD GESPEICHERT...";
+
+                    addSkateparkUploadProgress.classList.add(
+                        "visible"
+                    );
+
+                }
+
+
                 const response =
                     await fetch(
                         `${SUPABASE_URL}/rest/v1/skateparks`,
@@ -2955,11 +3024,13 @@ if (
 
                 if (!response.ok) {
 
-                    const errorText =
-                        await response.text();
+                    const supabaseError =
+                        await getSupabaseErrorMessage(
+                            response
+                        );
 
                     throw new Error(
-                        `Datenbankfehler HTTP ${response.status}: ${errorText}`
+                        `Datenbankfehler: ${supabaseError}`
                     );
 
                 }
@@ -2972,6 +3043,9 @@ if (
                 if (files.length > 0) {
 
                     if (addSkateparkUploadProgress) {
+
+                        addSkateparkUploadProgress.textContent =
+                            "FOTOS WERDEN HOCHGELADEN...";
 
                         addSkateparkUploadProgress.classList.add(
                             "visible"
@@ -3044,10 +3118,12 @@ if (
                         if (!uploadResponse.ok) {
 
                             const uploadError =
-                                await uploadResponse.text();
+                                await getSupabaseErrorMessage(
+                                    uploadResponse
+                                );
 
                             throw new Error(
-                                `Foto-Upload HTTP ${uploadResponse.status}: ${uploadError}`
+                                `Foto-Upload-Fehler: ${uploadError}`
                             );
 
                         }
@@ -3092,8 +3168,20 @@ if (
                 addSkateparkMessage.className =
                     "add-skatepark-message visible error";
 
+
+                /*
+                 * WICHTIG:
+                 * Jetzt wird der echte Fehler angezeigt.
+                 */
+
                 addSkateparkMessage.textContent =
-                    "Die Einsendung konnte leider nicht vollständig gesendet werden. Bitte versuche es später erneut.";
+                    "FEHLER: "
+                    + (
+                        error &&
+                        error.message
+                            ? error.message
+                            : String(error)
+                    );
 
             } finally {
 
