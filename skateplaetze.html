@@ -23,7 +23,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=skateplaetze7">
+  <link rel="stylesheet" href="style.css?v=skateplaetze8">
 
 
   <style>
@@ -142,6 +142,7 @@
       transition:
         border-color 0.25s ease,
         background 0.25s ease;
+      box-sizing: border-box;
     }
 
     .skateparks-search input::placeholder {
@@ -151,6 +152,159 @@
     .skateparks-search input:focus {
       border-color: #00a8ff;
       background: #080808;
+    }
+
+
+    /* =========================================
+       SKATEPLATZ HINZUFÜGEN
+    ========================================= */
+
+    .add-skatepark-section {
+      margin-bottom: 70px;
+      padding: 45px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #080808;
+    }
+
+    .add-skatepark-heading {
+      max-width: 650px;
+      margin-bottom: 35px;
+    }
+
+    .add-skatepark-heading span {
+      display: block;
+      margin-bottom: 12px;
+      color: #00a8ff;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    .add-skatepark-heading h2 {
+      margin: 0 0 15px;
+      color: #f2f2f2;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .add-skatepark-heading p {
+      margin: 0;
+      color: #777;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .add-skatepark-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .add-skatepark-field {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .add-skatepark-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .add-skatepark-field label {
+      color: #777;
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+    }
+
+    .add-skatepark-field input,
+    .add-skatepark-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px;
+      border: 1px solid rgba(255,255,255,0.12);
+      outline: none;
+      background: #050505;
+      color: #f2f2f2;
+      font-family: "Inter", sans-serif;
+      font-size: 0.82rem;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+    .add-skatepark-field input {
+      height: 50px;
+    }
+
+    .add-skatepark-field textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+
+    .add-skatepark-field input::placeholder,
+    .add-skatepark-field textarea::placeholder {
+      color: #3f3f3f;
+    }
+
+    .add-skatepark-field input:focus,
+    .add-skatepark-field textarea:focus {
+      border-color: #00a8ff;
+      background: #080808;
+    }
+
+    .add-skatepark-submit {
+      margin-top: 25px;
+      min-height: 50px;
+      padding: 0 25px;
+      border: 1px solid #00a8ff;
+      background: #00a8ff;
+      color: #050505;
+      font-family: "Inter", sans-serif;
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .add-skatepark-submit:hover {
+      background: transparent;
+      color: #00a8ff;
+      transform: translateY(-2px);
+    }
+
+    .add-skatepark-submit:disabled {
+      opacity: 0.5;
+      cursor: wait;
+      transform: none;
+    }
+
+    .add-skatepark-message {
+      display: none;
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid rgba(0,168,255,0.3);
+      background: rgba(0,168,255,0.06);
+      color: #00a8ff;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .add-skatepark-message.visible {
+      display: block;
+    }
+
+    .add-skatepark-message.error {
+      border-color: rgba(255,80,80,0.35);
+      background: rgba(255,80,80,0.06);
+      color: #ff7070;
     }
 
 
@@ -165,6 +319,12 @@
       margin-bottom: 55px;
       padding-bottom: 25px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .skatepark-control {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .skateparks-control {
@@ -687,6 +847,23 @@
         font-size: 0.58rem;
       }
 
+      .add-skatepark-section {
+        margin-bottom: 50px;
+        padding: 28px 20px;
+      }
+
+      .add-skatepark-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .add-skatepark-field-full {
+        grid-column: auto;
+      }
+
+      .add-skatepark-submit {
+        width: 100%;
+      }
+
       .skateparks-controls {
         grid-template-columns: 1fr;
       }
@@ -807,6 +984,145 @@
         </div>
 
       </div>
+
+
+
+      <!-- =========================================
+           SKATEPLATZ HINZUFÜGEN
+      ========================================= -->
+
+      <section class="add-skatepark-section">
+
+        <div class="add-skatepark-heading">
+
+          <span>
+            COMMUNITY
+          </span>
+
+          <h2>
+            Skateplatz hinzufügen
+          </h2>
+
+          <p>
+            Du kennst einen Skateplatz, der hier fehlt?
+            Schick ihn uns – wir prüfen deinen Vorschlag,
+            bevor er auf Moi-cy erscheint.
+          </p>
+
+        </div>
+
+
+        <form
+          class="add-skatepark-form"
+          id="addSkateparkForm"
+        >
+
+          <div class="add-skatepark-grid">
+
+
+            <div class="add-skatepark-field">
+
+              <label for="addName">
+                SKATEPARK *
+              </label>
+
+              <input
+                type="text"
+                id="addName"
+                name="name"
+                placeholder="Name des Skateparks"
+                required
+              >
+
+            </div>
+
+
+            <div class="add-skatepark-field">
+
+              <label for="addCity">
+                STADT *
+              </label>
+
+              <input
+                type="text"
+                id="addCity"
+                name="city"
+                placeholder="z. B. Karlsruhe"
+                required
+              >
+
+            </div>
+
+
+            <div class="add-skatepark-field">
+
+              <label for="addCountry">
+                LAND *
+              </label>
+
+              <input
+                type="text"
+                id="addCountry"
+                name="country"
+                placeholder="z. B. Deutschland"
+                required
+              >
+
+            </div>
+
+
+            <div class="add-skatepark-field">
+
+              <label for="addAddress">
+                ADRESSE
+              </label>
+
+              <input
+                type="text"
+                id="addAddress"
+                name="address"
+                placeholder="Straße, Ort oder Adresse"
+              >
+
+            </div>
+
+
+            <div class="add-skatepark-field add-skatepark-field-full">
+
+              <label for="addDescription">
+                BESCHREIBUNG
+              </label>
+
+              <textarea
+                id="addDescription"
+                name="description"
+                rows="5"
+                placeholder="Was macht diesen Skateplatz besonders?"
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="add-skatepark-submit"
+            id="addSkateparkSubmit"
+          >
+            SKATEPLATZ EINSENDEN →
+          </button>
+
+
+          <div
+            class="add-skatepark-message"
+            id="addSkateparkMessage"
+            aria-live="polite"
+          ></div>
+
+        </form>
+
+      </section>
 
 
 
@@ -1847,7 +2163,6 @@
      bilder/valence-1.jpg
      bilder/valence-2.jpg
      bilder/valence-3.jpg
-     ...
 
      Es werden automatisch alle vorhandenen
      Bilder von 1 bis 50 gesucht.
@@ -2312,8 +2627,6 @@
           touchStartY - touchEndY;
 
 
-        /* Nur horizontale Wischbewegungen */
-
         if (
           Math.abs(differenceX) < 50
           ||
@@ -2404,8 +2717,6 @@
         );
 
 
-      /* Bei Maus darüber pausieren */
-
       gallery.addEventListener(
         "mouseenter",
         () => {
@@ -2449,7 +2760,7 @@
                         image.classList.contains(
                           "active"
                         )
-                      );
+                    );
 
 
                 showGalleryImage(
@@ -2904,6 +3215,184 @@
     },
     { passive: true }
   );
+
+
+
+  /* =========================================
+     SUPABASE – SKATEPLATZ EINREICHEN
+  ========================================= */
+
+  const SUPABASE_URL =
+    "https://lkxvhrcvoizozmddmefh.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_mrwTwHx3Xzc-7hcdvRxPyw_1JomCQvA";
+
+
+  const addSkateparkForm =
+    document.getElementById(
+      "addSkateparkForm"
+    );
+
+  const addSkateparkSubmit =
+    document.getElementById(
+      "addSkateparkSubmit"
+    );
+
+  const addSkateparkMessage =
+    document.getElementById(
+      "addSkateparkMessage"
+    );
+
+
+  if (
+    addSkateparkForm &&
+    addSkateparkSubmit &&
+    addSkateparkMessage
+  ) {
+
+    addSkateparkForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        addSkateparkSubmit.disabled =
+          true;
+
+        addSkateparkSubmit.textContent =
+          "WIRD GESENDET...";
+
+
+        addSkateparkMessage.className =
+          "add-skatepark-message";
+
+        addSkateparkMessage.textContent =
+          "";
+
+
+        const formData =
+          new FormData(
+            addSkateparkForm
+          );
+
+
+        const skateparkData = {
+
+          name:
+            formData.get("name")
+              .trim(),
+
+          city:
+            formData.get("city")
+              .trim(),
+
+          country:
+            formData.get("country")
+              .trim(),
+
+          address:
+            formData.get("address")
+              .trim()
+            || null,
+
+          description:
+            formData.get("description")
+              .trim()
+            || null,
+
+          status:
+            "pending"
+
+        };
+
+
+        try {
+
+          const response =
+            await fetch(
+              `${SUPABASE_URL}/rest/v1/skateparks`,
+              {
+                method: "POST",
+
+                headers: {
+
+                  "Content-Type":
+                    "application/json",
+
+                  "apikey":
+                    SUPABASE_KEY,
+
+                  "Authorization":
+                    `Bearer ${SUPABASE_KEY}`,
+
+                  "Prefer":
+                    "return=minimal"
+
+                },
+
+                body:
+                  JSON.stringify(
+                    skateparkData
+                  )
+
+              }
+            );
+
+
+          if (!response.ok) {
+
+            const errorText =
+              await response.text();
+
+            throw new Error(
+              errorText
+              ||
+              `HTTP ${response.status}`
+            );
+
+          }
+
+
+          addSkateparkMessage.className =
+            "add-skatepark-message visible";
+
+          addSkateparkMessage.textContent =
+            "Danke! Dein Skateplatz wurde eingesendet und wird von uns geprüft.";
+
+
+          addSkateparkForm.reset();
+
+
+        } catch (error) {
+
+          console.error(
+            "Moi-cy Skateplatz-Einsendung:",
+            error
+          );
+
+
+          addSkateparkMessage.className =
+            "add-skatepark-message visible error";
+
+          addSkateparkMessage.textContent =
+            "Die Einsendung konnte leider nicht gesendet werden. Bitte versuche es später erneut.";
+
+        } finally {
+
+          addSkateparkSubmit.disabled =
+            false;
+
+          addSkateparkSubmit.textContent =
+            "SKATEPLATZ EINSENDEN →";
+
+        }
+
+      }
+    );
+
+  }
 
 </script>
 
