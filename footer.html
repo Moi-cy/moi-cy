@@ -13,44 +13,56 @@
                     <svg
                         viewBox="0 0 100 100"
                         xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
                     >
                         <!-- Skateboard -->
-                        <g
+                        <rect
+                            x="20"
+                            y="42"
+                            width="60"
+                            height="10"
+                            rx="5"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="7"
+                        />
+
+                        <!-- Linkes Rad -->
+                        <circle
+                            cx="30"
+                            cy="65"
+                            r="7"
+                            fill="currentColor"
+                        />
+
+                        <!-- Rechtes Rad -->
+                        <circle
+                            cx="70"
+                            cy="65"
+                            r="7"
+                            fill="currentColor"
+                        />
+
+                        <!-- Linke Achse -->
+                        <line
+                            x1="30"
+                            y1="52"
+                            x2="30"
+                            y2="59"
+                            stroke="currentColor"
+                            stroke-width="5"
                             stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-                            <!-- Deck -->
-                            <path d="M18 47 H82" />
+                        />
 
-                            <!-- Nose / Tail -->
-                            <path d="M18 47 C15 47 13 49 13 52 C13 55 15 57 18 57" />
-                            <path d="M82 47 C85 47 87 49 87 52 C87 55 85 57 82 57" />
-
-                            <!-- Achsen -->
-                            <path d="M30 57 V62" />
-                            <path d="M70 57 V62" />
-
-                            <!-- Wheels -->
-                            <circle
-                                cx="30"
-                                cy="68"
-                                r="6"
-                                fill="currentColor"
-                                stroke="none"
-                            />
-
-                            <circle
-                                cx="70"
-                                cy="68"
-                                r="6"
-                                fill="currentColor"
-                                stroke="none"
-                            />
-                        </g>
+                        <!-- Rechte Achse -->
+                        <line
+                            x1="70"
+                            y1="52"
+                            x2="70"
+                            y2="59"
+                            stroke="currentColor"
+                            stroke-width="5"
+                            stroke-linecap="round"
+                        />
                     </svg>
                 </span>
 
