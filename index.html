@@ -1,796 +1,656 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+    <title>Moi-cy – Skateboarding</title>
 
-  <title>Moi-cy – Skateboarding</title>
+    <meta
+        name="description"
+        content="Moi-cy – Skateboarding, Bilder, Videos, Skateparks und mehr."
+    >
 
-  <meta
-    name="description"
-    content="Moi-cy – Skateboarding, Skateparks, Bilder und Videos."
-  >
+    <link rel="icon" type="image/png" href="favicon.png">
 
-  <link
-    rel="icon"
-    type="image/png"
-    href="favicon.png"
-  >
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
+        rel="stylesheet"
+    >
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body class="home-page">
 
+    <!-- =========================
+         HEADER
+    ========================== -->
 
-  <!-- =========================================
-       HEADER
-       GLEICH WIE AUF DEN UNTERSEITEN
-  ========================================== -->
+    <header class="site-header">
 
-  <header class="header">
+        <a href="index.html" class="site-logo" aria-label="Moi-cy Startseite">
+            <span class="logo-m">M</span>
+            <span class="logo-text">Moi-cy</span>
+        </a>
 
-    <a
-      href="index.html"
-      class="logo"
-      aria-label="Moi-cy Home"
-    >
-      <span class="logo-mark">M</span>
-      <span>Moi-cy</span>
-    </a>
+        <nav class="main-nav" aria-label="Hauptnavigation">
+
+            <a href="index.html" class="active">
+                Home
+            </a>
+
+            <a href="bilder.html">
+                Bilder
+            </a>
+
+            <a href="videos.html">
+                Videos
+            </a>
+
+            <a href="skateplaetze.html">
+                Skateparks
+            </a>
+
+            <a href="kontakt.html">
+                Kontakt
+            </a>
+
+            <a href="shop.html">
+                Shop
+            </a>
+
+        </nav>
+
+        <div class="header-right">
+
+            <div class="language-switcher" aria-label="Sprache auswählen">
+                <button type="button" data-language="de" class="active">
+                    DE
+                </button>
+
+                <button type="button" data-language="en">
+                    EN
+                </button>
+
+                <button type="button" data-language="fr">
+                    FR
+                </button>
+            </div>
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                type="button"
+                aria-label="Menü öffnen"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+
+    </header>
 
 
-    <nav class="navigation">
+    <!-- =========================
+         MOBILE MENU
+    ========================== -->
 
-      <a
-        href="index.html"
-        data-i18n="nav_home"
-      >
-        HOME
-      </a>
+    <div class="mobile-menu" id="mobileMenu">
 
-      <a
-        href="bilder.html"
-        data-i18n="nav_images"
-      >
-        BILDER
-      </a>
+        <nav aria-label="Mobile Navigation">
 
-      <a
-        href="videos.html"
-        data-i18n="nav_videos"
-      >
-        VIDEOS
-      </a>
+            <a href="index.html">
+                Home
+            </a>
 
-      <a
-        href="skateplaetze.html"
-        data-i18n="nav_skateparks"
-      >
-        SKATEPLÄTZE
-      </a>
+            <a href="bilder.html">
+                Bilder
+            </a>
 
-      <a
-        href="kontakt.html"
-        data-i18n="nav_contact"
-      >
-        KONTAKT
-      </a>
+            <a href="videos.html">
+                Videos
+            </a>
 
-      <a
-        href="shop.html"
-        data-i18n="nav_shop"
-      >
-        SHOP
-      </a>
+            <a href="skateplaetze.html">
+                Skateparks
+            </a>
 
-    </nav>
+            <a href="kontakt.html">
+                Kontakt
+            </a>
 
+            <a href="shop.html">
+                Shop
+            </a>
 
-    <div
-      class="language-switcher"
-      aria-label="Language"
-      data-i18n-aria="language_switcher"
-    >
+        </nav>
 
-      <button
-        type="button"
-        data-language="de"
-      >
-        DE
-      </button>
-
-      <button
-        type="button"
-        data-language="en"
-      >
-        EN
-      </button>
-
-      <button
-        type="button"
-        data-language="fr"
-      >
-        FR
-      </button>
+        <div class="mobile-menu-footer">
+            MOI-CY.DE
+        </div>
 
     </div>
 
 
-    <button
-      class="menu-button"
-      id="menuButton"
-      type="button"
-      aria-label="Menü öffnen"
-      aria-expanded="false"
-      data-i18n-aria="menu_open"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <!-- =========================
+         MAIN
+    ========================== -->
 
-  </header>
+    <main>
 
 
-  <!-- =========================================
-       MOBILE MENU
-  ========================================== -->
+        <!-- =========================
+             HERO
+        ========================== -->
 
-  <div
-    class="mobile-menu"
-    id="mobileMenu"
-  >
+        <section class="home-hero">
 
-    <a
-      href="index.html"
-      data-i18n="nav_home"
-    >
-      HOME
-    </a>
+            <div class="home-hero-inner">
 
-    <a
-      href="bilder.html"
-      data-i18n="nav_images"
-    >
-      BILDER
-    </a>
+                <div class="home-hero-top">
 
-    <a
-      href="videos.html"
-      data-i18n="nav_videos"
-    >
-      VIDEOS
-    </a>
+                    <div class="home-label">
+                        SKATEBOARDING / SINCE 2023
+                    </div>
 
-    <a
-      href="skateplaetze.html"
-      data-i18n="nav_skateparks"
-    >
-      SKATEPLÄTZE
-    </a>
+                    <div class="home-number">
+                        01
+                    </div>
 
-    <a
-      href="kontakt.html"
-      data-i18n="nav_contact"
-    >
-      KONTAKT
-    </a>
-
-    <a
-      href="shop.html"
-      data-i18n="nav_shop"
-    >
-      SHOP
-    </a>
-
-  </div>
+                </div>
 
 
-  <!-- =========================================
-       MAIN
-  ========================================== -->
+                <div class="home-hero-center">
 
-  <main>
+                    <div class="home-small-title">
+                        WELCOME TO
+                    </div>
+
+                    <h1 class="home-title">
+                        Moi-cy
+                    </h1>
+
+                    <p class="home-description">
+                        Skateboarding, Spots, Bilder und Videos aus Karlsruhe
+                        und darüber hinaus.
+                    </p>
+
+                    <a href="skateplaetze.html" class="home-main-button">
+                        SKATE WITH US
+                        <span>→</span>
+                    </a>
+
+                </div>
 
 
-    <!-- =========================================
-         HERO
-    ========================================== -->
+                <div class="home-hero-bottom">
 
-    <section class="home-hero">
+                    <div>
+                        SKATE.<br>
+                        CREATE.<br>
+                        EXPLORE.
+                    </div>
 
-      <div class="home-hero-grid"></div>
+                    <div class="hero-scroll">
+                        SCROLL
+                        <span></span>
+                    </div>
 
-      <div class="home-hero-glow"></div>
+                </div>
+
+            </div>
+
+        </section>
 
 
-      <div class="home-hero-content">
+        <!-- =========================
+             INTRO
+        ========================== -->
 
-        <div class="home-hero-kicker">
-          SKATEBOARDING
-          <span>/</span>
-          SINCE 2023
+        <section class="home-intro">
+
+            <div class="home-section-number">
+                02 / ABOUT
+            </div>
+
+            <div class="home-intro-content">
+
+                <div class="home-section-label">
+                    MOI-CY
+                </div>
+
+                <h2>
+                    SKATEBOARDING<br>
+                    IS A WAY OF LIFE.
+                </h2>
+
+                <p>
+                    Moi-cy ist eine Skateboarding-Plattform für alle, die
+                    gerne auf dem Board unterwegs sind, neue Spots entdecken,
+                    Clips anschauen oder einfach Teil der Szene sein wollen.
+                </p>
+
+                <a href="kontakt.html" class="outline-button">
+                    MEHR ÜBER MOI-CY
+                    <span>→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             MEDIA
+        ========================== -->
+
+        <section class="home-media-section">
+
+            <div class="home-section-header">
+
+                <div>
+                    <span class="section-label">
+                        03 / MEDIA
+                    </span>
+
+                    <h2>
+                        SEE THE<br>
+                        <span>ACTION.</span>
+                    </h2>
+                </div>
+
+                <p>
+                    Bilder und Videos aus der Skate-Szene.
+                </p>
+
+            </div>
+
+
+            <div class="home-media-grid">
+
+
+                <!-- Bilder -->
+
+                <a href="bilder.html" class="home-media-card">
+
+                    <div class="home-media-image">
+
+                        <img
+                            src="bilder/karlsruhe-1.jpg"
+                            alt="Skateboarding in Karlsruhe"
+                            loading="lazy"
+                        >
+
+                        <div class="media-overlay"></div>
+
+                        <div class="media-card-top">
+                            <span>01</span>
+                            <span>PHOTOS</span>
+                        </div>
+
+                        <div class="media-card-bottom">
+
+                            <h3>
+                                BILDER
+                            </h3>
+
+                            <span class="media-arrow">
+                                →
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+
+                <!-- Videos -->
+
+                <a href="videos.html" class="home-media-card">
+
+                    <div class="home-media-video">
+
+                        <div class="video-placeholder">
+
+                            <div class="video-lines"></div>
+
+                            <div class="video-word">
+                                MOVE
+                            </div>
+
+                            <div class="play-circle">
+                                ▶
+                            </div>
+
+                        </div>
+
+                        <div class="media-card-top">
+                            <span>02</span>
+                            <span>VIDEOS</span>
+                        </div>
+
+                        <div class="media-card-bottom">
+
+                            <h3>
+                                VIDEOS
+                            </h3>
+
+                            <span class="media-arrow">
+                                →
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SKATEPARKS
+        ========================== -->
+
+        <section class="home-spots-section">
+
+            <div class="spots-background">
+                SPOTS
+            </div>
+
+            <div class="spots-content">
+
+                <div class="home-section-number">
+                    04 / SPOTS
+                </div>
+
+                <div class="spots-main">
+
+                    <div class="home-section-label">
+                        FIND YOUR SPOT
+                    </div>
+
+                    <h2>
+                        WHERE<br>
+                        DO YOU<br>
+                        <span>SKATE?</span>
+                    </h2>
+
+                    <p>
+                        Entdecke Skateparks und Spots in Karlsruhe und
+                        Umgebung.
+                    </p>
+
+                    <a href="skateplaetze.html" class="blue-button">
+                        SKATEPARKS ENTDECKEN
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SHOP
+        ========================== -->
+
+        <section class="home-shop-section">
+
+            <div class="home-section-header">
+
+                <div>
+                    <span class="section-label">
+                        05 / SHOP
+                    </span>
+
+                    <h2>
+                        WEAR THE<br>
+                        <span>MOI-CY.</span>
+                    </h2>
+                </div>
+
+                <p>
+                    Entdecke die offiziellen Moi-cy Produkte.
+                </p>
+
+            </div>
+
+
+            <div class="home-shop-grid">
+
+
+                <!-- Zazzle -->
+
+                <a
+                    href="https://www.zazzle.de/store/moi_cy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="home-shop-card"
+                >
+
+                    <div class="shop-card-image">
+
+                        <div class="shop-card-logo">
+                            MOI-CY
+                        </div>
+
+                        <div class="shop-card-label">
+                            ZAZZLE
+                        </div>
+
+                        <span class="shop-card-arrow">
+                            ↗
+                        </span>
+
+                    </div>
+
+                    <div class="shop-card-info">
+
+                        <span>
+                            OFFICIAL SHOP
+                        </span>
+
+                        <strong>
+                            ZAZZLE
+                        </strong>
+
+                    </div>
+
+                </a>
+
+
+                <!-- TeamShirts -->
+
+                <a
+                    href="https://shop.teamshirts.de/moi-cy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="home-shop-card"
+                >
+
+                    <div class="shop-card-image">
+
+                        <div class="shop-card-logo">
+                            MOI-CY
+                        </div>
+
+                        <div class="shop-card-label">
+                            TEAMSHIRTS
+                        </div>
+
+                        <span class="shop-card-arrow">
+                            ↗
+                        </span>
+
+                    </div>
+
+                    <div class="shop-card-info">
+
+                        <span>
+                            OFFICIAL SHOP
+                        </span>
+
+                        <strong>
+                            TEAMSHIRTS
+                        </strong>
+
+                    </div>
+
+                </a>
+
+
+                <!-- Shop Page -->
+
+                <a
+                    href="shop.html"
+                    class="home-shop-card home-shop-card-blue"
+                >
+
+                    <div class="shop-card-image">
+
+                        <div class="shop-card-logo">
+                            SHOP
+                        </div>
+
+                        <div class="shop-card-label">
+                            MOI-CY.DE
+                        </div>
+
+                        <span class="shop-card-arrow">
+                            →
+                        </span>
+
+                    </div>
+
+                    <div class="shop-card-info">
+
+                        <span>
+                            DISCOVER
+                        </span>
+
+                        <strong>
+                            SHOP PAGE
+                        </strong>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FINAL CTA
+        ========================== -->
+
+        <section class="home-final-section">
+
+            <div class="final-outline">
+                MOI-CY
+            </div>
+
+            <div class="final-content">
+
+                <div class="home-section-label">
+                    KEEP MOVING
+                </div>
+
+                <h2>
+                    SEE YOU<br>
+                    <span>ON THE BOARD.</span>
+                </h2>
+
+                <a href="kontakt.html" class="outline-button">
+                    KONTAKT
+                    <span>→</span>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="site-footer">
+
+        <div class="footer-main">
+
+            <a href="index.html" class="footer-logo">
+                <span class="logo-m">M</span>
+                Moi-cy
+            </a>
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="bilder.html">
+                    Bilder
+                </a>
+
+                <a href="videos.html">
+                    Videos
+                </a>
+
+                <a href="skateplaetze.html">
+                    Skateparks
+                </a>
+
+                <a href="kontakt.html">
+                    Kontakt
+                </a>
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+            </div>
+
+            <div class="footer-side">
+                MOI-CY.DE
+            </div>
+
         </div>
 
-
-        <div class="home-logo-stage">
-
-          <h1 class="home-graffiti-logo">
-            Moi-cy
-          </h1>
-
-          <span class="home-spray home-spray-1"></span>
-          <span class="home-spray home-spray-2"></span>
-          <span class="home-spray home-spray-3"></span>
-          <span class="home-spray home-spray-4"></span>
-
-        </div>
-
-
-        <div class="home-hero-bottom">
-
-          <div class="home-hero-text">
-
-            <p>
-              SKATE. CREATE. EXPLORE.
-            </p>
+        <div class="footer-bottom">
 
             <span>
-              Skateboarding / Skateparks / Images / Videos
+                © 2026 Moi-cy
             </span>
 
-          </div>
-
-
-          <a
-            href="skateplaetze.html"
-            class="home-hero-link"
-          >
-
-            <span data-i18n="discover_skateparks">
-              SKATEPLÄTZE ENTDECKEN
+            <span>
+                SKATE. CREATE. EXPLORE.
             </span>
 
-            <strong>↗</strong>
-
-          </a>
-
         </div>
 
-      </div>
+    </footer>
 
 
-      <div class="home-hero-scroll">
-        <span>SCROLL</span>
-        <i></i>
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         IMAGES + VIDEOS
-    ========================================== -->
-
-    <section class="home-media-section">
-
-      <div class="home-container">
-
-
-        <div class="home-section-heading">
-
-          <div>
-
-            <span class="home-section-label">
-              01 / MEDIA
-            </span>
-
-            <h2>
-              SEE THE
-              <span>ACTION.</span>
-            </h2>
-
-          </div>
-
-        </div>
-
-
-        <div class="home-media-grid">
-
-
-          <!-- IMAGE -->
-
-          <a
-            href="bilder.html"
-            class="home-media-card home-media-image"
-          >
-
-            <div class="home-media-visual">
-
-              <img
-                src="bilder/karlsruhe-1.jpg"
-                alt="Skateboarding in Karlsruhe"
-              >
-
-              <div class="home-media-overlay"></div>
-
-              <div class="home-media-number">
-                01
-              </div>
-
-              <div class="home-media-icon">
-                ↗
-              </div>
-
-            </div>
-
-
-            <div class="home-media-info">
-
-              <div>
-
-                <span>
-                  MOI-CY / IMAGES
-                </span>
-
-                <h3 data-i18n="nav_images">
-                  BILDER
-                </h3>
-
-              </div>
-
-              <strong>
-                →
-              </strong>
-
-            </div>
-
-          </a>
-
-
-          <!-- VIDEO -->
-
-          <a
-            href="videos.html"
-            class="home-media-card home-media-video"
-          >
-
-            <div class="home-media-visual">
-
-              <div class="home-video-background">
-
-                <span class="home-video-lines"></span>
-
-                <span class="home-video-word">
-                  MOVE
-                </span>
-
-              </div>
-
-
-              <div class="home-media-overlay"></div>
-
-
-              <div class="home-video-play">
-                ▶
-              </div>
-
-
-              <div class="home-media-number">
-                02
-              </div>
-
-
-              <div class="home-media-icon">
-                ↗
-              </div>
-
-            </div>
-
-
-            <div class="home-media-info">
-
-              <div>
-
-                <span>
-                  MOI-CY / VIDEO
-                </span>
-
-                <h3 data-i18n="nav_videos">
-                  VIDEOS
-                </h3>
-
-              </div>
-
-              <strong>
-                →
-              </strong>
-
-            </div>
-
-          </a>
-
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         FIND YOUR SPOT
-    ========================================== -->
-
-    <section class="home-spot-section">
-
-      <div class="home-spot-background">
-        <span>SPOT</span>
-      </div>
-
-
-      <div class="home-container home-spot-content">
-
-        <span class="home-section-label">
-          02 / SKATEPARKS
-        </span>
-
-
-        <h2>
-          FIND YOUR
-          <br>
-          <span>SPOT.</span>
-        </h2>
-
-
-        <p data-i18n="skateparks_intro">
-          Entdecke Skateparks, neue Spots und
-          plane deine nächste Session.
-        </p>
-
-
-        <a
-          href="skateplaetze.html"
-          class="home-button"
-        >
-
-          <span data-i18n="discover_skateparks">
-            SKATEPLÄTZE ENTDECKEN
-          </span>
-
-          <strong>↗</strong>
-
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         SHOP
-    ========================================== -->
-
-    <section class="home-shop-section">
-
-      <div class="home-container">
-
-
-        <div class="home-section-heading home-shop-heading">
-
-          <div>
-
-            <span class="home-section-label">
-              03 / SHOP
-            </span>
-
-            <h2>
-              MOI-CY
-              <span>GEAR.</span>
-            </h2>
-
-          </div>
-
-
-          <a
-            href="shop.html"
-            class="home-section-link"
-          >
-            SHOP
-            <strong>→</strong>
-          </a>
-
-        </div>
-
-
-        <div
-          class="home-product-slider"
-          id="productSlider"
-        >
-
-
-          <!-- PRODUCT 01 -->
-
-          <a
-            href="https://shop.teamshirts.de/moi-cy/product/475947/765"
-            class="home-product-slide"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-
-            <div class="home-product-image">
-
-              <span class="home-product-placeholder">
-                MOI-CY
-              </span>
-
-              <small>
-                TEAMSHIRTS / 01
-              </small>
-
-            </div>
-
-
-            <div class="home-product-info">
-
-              <span>
-                01
-              </span>
-
-              <strong>
-                MOI-CY SHIRT
-              </strong>
-
-              <span>
-                ↗
-              </span>
-
-            </div>
-
-          </a>
-
-
-          <!-- PRODUCT 02 -->
-
-          <a
-            href="https://shop.teamshirts.de/moi-cy/product/476639/263"
-            class="home-product-slide"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-
-            <div class="home-product-image">
-
-              <span class="home-product-placeholder">
-                MOI-CY
-              </span>
-
-              <small>
-                TEAMSHIRTS / 02
-              </small>
-
-            </div>
-
-
-            <div class="home-product-info">
-
-              <span>
-                02
-              </span>
-
-              <strong>
-                MOI-CY COLLECTION
-              </strong>
-
-              <span>
-                ↗
-              </span>
-
-            </div>
-
-          </a>
-
-
-          <!-- PRODUCT 03 -->
-
-          <a
-            href="https://www.zazzle.de/moi_cy_skateboard_blau-256723424227831306"
-            class="home-product-slide"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-
-            <div class="home-product-image">
-
-              <span class="home-product-placeholder">
-                MOI-CY
-              </span>
-
-              <small>
-                ZAZZLE / 03
-              </small>
-
-            </div>
-
-
-            <div class="home-product-info">
-
-              <span>
-                03
-              </span>
-
-              <strong>
-                SKATEBOARD BLUE
-              </strong>
-
-              <span>
-                ↗
-              </span>
-
-            </div>
-
-          </a>
-
-
-        </div>
-
-
-        <div class="home-product-dots">
-
-          <button
-            type="button"
-            class="home-product-dot active"
-            data-slide="0"
-            aria-label="Produkt 1"
-          ></button>
-
-          <button
-            type="button"
-            class="home-product-dot"
-            data-slide="1"
-            aria-label="Produkt 2"
-          ></button>
-
-          <button
-            type="button"
-            class="home-product-dot"
-            data-slide="2"
-            aria-label="Produkt 3"
-          ></button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         FINAL
-    ========================================== -->
-
-    <section class="home-final-section">
-
-      <div class="home-final-outline">
-        MOI-CY
-      </div>
-
-
-      <div class="home-final-content">
-
-        <span>
-          CURRENT
-        </span>
-
-        <h2>
-          Moi-cy
-        </h2>
-
-        <p>
-          keep moving.
-        </p>
-
-      </div>
-
-    </section>
-
-
-  </main>
-
-
-  <!-- =========================================
-       FOOTER
-    ========================================== -->
-
-  <footer class="footer">
-
-    <div class="footer-top">
-
-      <div class="footer-logo">
-        <span class="footer-mark">M</span>
-        Moi-cy
-      </div>
-
-
-      <div class="footer-links">
-
-        <a
-          href="bilder.html"
-          data-i18n="nav_images"
-        >
-          BILDER
-        </a>
-
-        <a
-          href="videos.html"
-          data-i18n="nav_videos"
-        >
-          VIDEOS
-        </a>
-
-        <a
-          href="skateplaetze.html"
-          data-i18n="nav_skateparks"
-        >
-          SKATEPLÄTZE
-        </a>
-
-        <a
-          href="kontakt.html"
-          data-i18n="nav_contact"
-        >
-          KONTAKT
-        </a>
-
-        <a
-          href="shop.html"
-          data-i18n="nav_shop"
-        >
-          SHOP
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-      <span>
-        © 2026 Moi-cy
-      </span>
-
-      <span>
-        SKATE / CREATE / EXPLORE
-      </span>
-
-      <span>
-        MOI-CY.DE
-      </span>
-
-    </div>
-
-  </footer>
-
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
-
 </html>
