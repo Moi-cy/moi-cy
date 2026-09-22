@@ -14,6 +14,7 @@
     >
 
     <style>
+
         /* =========================================================
            MOI-CY SKATE MAP
            ========================================================= */
@@ -57,7 +58,7 @@
         }
 
         .map-heading p {
-            max-width: 420px;
+            max-width: 430px;
             margin: 0 0 4px;
             color: var(--muted);
             font-size: 0.72rem;
@@ -67,13 +68,13 @@
         }
 
         /* =========================================================
-           MAP CONTAINER
+           MAP
            ========================================================= */
 
         .map-wrapper {
             position: relative;
             width: min(1400px, calc(100% - 40px));
-            height: 680px;
+            height: 700px;
             margin: 0 auto 30px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.12);
@@ -89,13 +90,65 @@
         }
 
         /* =========================================================
+           ELECTRIC MAP MODE
+           ========================================================= */
+
+        .map-wrapper.electric-mode .leaflet-tile-pane {
+            filter:
+                brightness(0.48)
+                contrast(1.35)
+                saturate(1.8)
+                hue-rotate(145deg);
+        }
+
+        .map-wrapper.electric-mode {
+            box-shadow:
+                0 25px 70px rgba(0,0,0,0.6),
+                inset 0 0 80px rgba(22,140,255,0.08);
+        }
+
+        /* =========================================================
+           ZOOM CONTROLS
+           ========================================================= */
+
+        .leaflet-control-zoom {
+            margin-top: 20px !important;
+            margin-left: 20px !important;
+            border: 1px solid rgba(255,255,255,0.18) !important;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4) !important;
+        }
+
+        .leaflet-control-zoom a {
+            width: 42px !important;
+            height: 42px !important;
+            line-height: 42px !important;
+            border: 0 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.12) !important;
+            background: rgba(5,5,5,0.95) !important;
+            color: #fff !important;
+            font-size: 20px !important;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .leaflet-control-zoom a:last-child {
+            border-bottom: 0 !important;
+        }
+
+        .leaflet-control-zoom a:hover {
+            background: var(--blue) !important;
+            color: #fff !important;
+        }
+
+        /* =========================================================
            SEARCH
            ========================================================= */
 
         .map-search {
             position: absolute;
             z-index: 1000;
-            top: 20px;
+            top: 78px;
             left: 20px;
             width: min(430px, calc(100% - 40px));
         }
@@ -113,14 +166,11 @@
 
         .map-search-box:focus-within {
             border-color: var(--blue);
-            box-shadow:
-                0 15px 40px rgba(0,0,0,0.45),
-                0 0 25px rgba(22,140,255,0.14);
         }
 
         .map-search input {
             width: 100%;
-            min-height: 54px;
+            min-height: 52px;
             padding: 0 17px;
             border: 0;
             outline: none;
@@ -138,45 +188,210 @@
         }
 
         .map-search button {
-            width: 58px;
-            min-width: 58px;
+            width: 56px;
+            min-width: 56px;
             border: 0;
             background: var(--blue);
             color: #fff;
             font-size: 1rem;
             cursor: pointer;
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
+            transition: background 0.2s ease;
         }
 
         .map-search button:hover {
             background: var(--blue-dark);
         }
 
-        .map-search button:active {
-            transform: scale(0.96);
+        /* =========================================================
+           ROUTE PANEL
+           ========================================================= */
+
+        .route-panel {
+            position: absolute;
+            z-index: 1000;
+            top: 20px;
+            right: 20px;
+            width: min(350px, calc(100% - 40px));
+            padding: 18px;
+            background: rgba(5,5,5,0.96);
+            border: 1px solid rgba(255,255,255,0.16);
+            box-shadow:
+                0 18px 45px rgba(0,0,0,0.48),
+                0 0 30px rgba(22,140,255,0.04);
+            backdrop-filter: blur(14px);
         }
 
-        .search-message {
-            display: none;
-            margin-top: 8px;
-            padding: 11px 14px;
-            background: rgba(5,5,5,0.95);
-            border-left: 3px solid var(--blue);
-            color: #fff;
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
+        .route-panel-title {
+            margin-bottom: 14px;
+        }
+
+        .route-panel-kicker {
+            margin-bottom: 4px;
+            color: var(--blue);
+            font-size: 0.58rem;
+            font-weight: 900;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
         }
 
-        .search-message.active {
+        .route-panel-heading {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .route-fields {
+            display: grid;
+            gap: 8px;
+        }
+
+        .route-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .route-dot {
+            width: 9px;
+            height: 9px;
+            min-width: 9px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--blue);
+        }
+
+        .route-dot.destination {
+            background: #fff;
+        }
+
+        .route-input {
+            width: 100%;
+            min-height: 43px;
+            padding: 0 12px;
+            border: 1px solid rgba(255,255,255,0.13);
+            outline: none;
+            background: #111;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .route-input:focus {
+            border-color: var(--blue);
+        }
+
+        .route-input::placeholder {
+            color: #666;
+        }
+
+        .route-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .route-button {
+            min-height: 42px;
+            border: 1px solid var(--blue);
+            background: var(--blue);
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.62rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+        .route-button:hover {
+            background: var(--blue-dark);
+            border-color: var(--blue-dark);
+        }
+
+        .route-button.secondary {
+            border-color: rgba(255,255,255,0.2);
+            background: transparent;
+        }
+
+        .route-button.secondary:hover {
+            border-color: #fff;
+            background: #fff;
+            color: #000;
+        }
+
+        .route-result {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .route-result.active {
             display: block;
         }
 
+        .route-result-main {
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+        }
+
+        .route-result-sub {
+            margin-top: 4px;
+            color: #777;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
         /* =========================================================
-           MAP STATUS
+           MAP STYLE SWITCH
+           ========================================================= */
+
+        .map-style-switch {
+            position: absolute;
+            z-index: 1000;
+            left: 20px;
+            bottom: 20px;
+            display: flex;
+            padding: 4px;
+            background: rgba(5,5,5,0.94);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        .map-style-button {
+            min-height: 36px;
+            padding: 0 13px;
+            border: 0;
+            background: transparent;
+            color: #777;
+            font-family: inherit;
+            font-size: 0.58rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .map-style-button.active {
+            background: var(--blue);
+            color: #fff;
+        }
+
+        /* =========================================================
+           STATUS
            ========================================================= */
 
         .map-status {
@@ -184,18 +399,17 @@
             z-index: 1000;
             right: 20px;
             bottom: 20px;
-            max-width: 310px;
+            max-width: 330px;
             padding: 13px 16px;
             background: rgba(5,5,5,0.94);
-            border: 1px solid rgba(255,255,255,0.14);
+            border-left: 3px solid var(--blue);
             box-shadow: 0 12px 35px rgba(0,0,0,0.4);
             color: #fff;
-            font-size: 0.62rem;
+            font-size: 0.61rem;
             font-weight: 800;
             line-height: 1.5;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            pointer-events: none;
             opacity: 0;
             transform: translateY(8px);
             transition:
@@ -209,10 +423,11 @@
         }
 
         /* =========================================================
-           CUSTOM MARKER
+           MARKERS
            ========================================================= */
 
         .moi-marker {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -244,17 +459,34 @@
         }
 
         .location-marker {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border: 3px solid #fff;
             border-radius: 50%;
             background: #111;
             box-shadow:
                 0 0 0 7px rgba(255,255,255,0.12),
                 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .route-marker-start {
+            width: 22px;
+            height: 22px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow:
+                0 0 0 7px rgba(22,140,255,0.18);
+        }
+
+        .route-marker-end {
+            width: 22px;
+            height: 22px;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            background: #050505;
+            box-shadow:
+                0 0 0 7px rgba(255,255,255,0.12);
         }
 
         /* =========================================================
@@ -328,10 +560,6 @@
             text-decoration: none;
             text-transform: uppercase;
             cursor: pointer;
-            transition:
-                background 0.2s ease,
-                border-color 0.2s ease,
-                color 0.2s ease;
         }
 
         .popup-action:hover {
@@ -345,13 +573,8 @@
             background: var(--blue);
         }
 
-        .popup-action.route:hover {
-            background: var(--blue-dark);
-            border-color: var(--blue-dark);
-        }
-
         /* =========================================================
-           BACK LINK
+           BACK
            ========================================================= */
 
         .map-back {
@@ -373,14 +596,12 @@
             text-transform: uppercase;
             transition:
                 background 0.2s ease,
-                color 0.2s ease,
-                border-color 0.2s ease;
+                color 0.2s ease;
         }
 
         .map-back a:hover {
-            background: var(--white);
-            color: var(--black);
-            border-color: var(--white);
+            background: #fff;
+            color: #000;
         }
 
         /* =========================================================
@@ -406,7 +627,14 @@
             }
 
             .map-wrapper {
-                height: 600px;
+                height: 720px;
+            }
+
+            .route-panel {
+                top: 170px;
+                right: 20px;
+                left: 20px;
+                width: auto;
             }
         }
 
@@ -428,23 +656,35 @@
             }
 
             .map-wrapper {
-                height: 570px;
-                margin-bottom: 24px;
+                height: 760px;
+            }
+
+            .leaflet-control-zoom {
+                margin-top: 12px !important;
+                margin-left: 12px !important;
             }
 
             .map-search {
-                top: 12px;
+                top: 70px;
                 left: 12px;
                 width: calc(100% - 24px);
             }
 
-            .map-search input {
-                min-height: 50px;
+            .route-panel {
+                top: 135px;
+                right: 12px;
+                left: 12px;
+                padding: 14px;
+            }
+
+            .map-style-switch {
+                left: 12px;
+                bottom: 12px;
             }
 
             .map-status {
                 right: 12px;
-                bottom: 12px;
+                bottom: 65px;
                 left: 12px;
                 max-width: none;
             }
@@ -453,6 +693,7 @@
                 margin-bottom: 40px;
             }
         }
+
     </style>
 </head>
 
@@ -473,17 +714,19 @@
 
                 <p>
                     Finde Skateparks, Städte und neue Spots.
-                    Suche einen Ort oder wähle einen Spot
-                    direkt auf der Karte.
+                    Suche Orte oder plane direkt deine Route.
                 </p>
 
             </div>
 
         </section>
 
-        <section class="map-wrapper">
 
-            <!-- SEARCH -->
+        <section class="map-wrapper" id="mapWrapper">
+
+            <!-- =================================================
+                 NORMAL SEARCH
+                 ================================================= -->
 
             <div class="map-search">
 
@@ -506,16 +749,138 @@
 
                 </div>
 
+            </div>
+
+
+            <!-- =================================================
+                 ROUTE PLANNER
+                 ================================================= -->
+
+            <div class="route-panel">
+
+                <div class="route-panel-title">
+
+                    <div class="route-panel-kicker">
+                        MOI-CY ROUTE
+                    </div>
+
+                    <div class="route-panel-heading">
+                        Route planen
+                    </div>
+
+                </div>
+
+
+                <div class="route-fields">
+
+                    <div class="route-input-row">
+
+                        <span class="route-dot"></span>
+
+                        <input
+                            type="text"
+                            id="routeStart"
+                            class="route-input"
+                            placeholder="START – STADT ODER ORT"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="route-input-row">
+
+                        <span class="route-dot destination"></span>
+
+                        <input
+                            type="text"
+                            id="routeDestination"
+                            class="route-input"
+                            placeholder="ZIEL – STADT ODER ORT"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="route-buttons">
+
+                    <button
+                        type="button"
+                        class="route-button"
+                        id="planRouteButton"
+                    >
+                        ROUTE PLANEN
+                    </button>
+
+                    <button
+                        type="button"
+                        class="route-button secondary"
+                        id="myLocationButton"
+                    >
+                        MEIN STANDORT
+                    </button>
+
+                </div>
+
+
                 <div
-                    class="search-message"
-                    id="searchMessage"
-                ></div>
+                    class="route-result"
+                    id="routeResult"
+                >
+
+                    <div
+                        class="route-result-main"
+                        id="routeResultMain"
+                    ></div>
+
+                    <div
+                        class="route-result-sub"
+                        id="routeResultSub"
+                    ></div>
+
+                </div>
 
             </div>
 
-            <!-- MAP -->
+
+            <!-- =================================================
+                 MAP
+                 ================================================= -->
 
             <div id="map"></div>
+
+
+            <!-- =================================================
+                 MAP STYLE
+                 ================================================= -->
+
+            <div class="map-style-switch">
+
+                <button
+                    type="button"
+                    class="map-style-button"
+                    id="normalMapButton"
+                >
+                    NORMAL
+                </button>
+
+                <button
+                    type="button"
+                    class="map-style-button active"
+                    id="electricMapButton"
+                >
+                    ELECTRIC
+                </button>
+
+            </div>
+
+
+            <!-- =================================================
+                 STATUS
+                 ================================================= -->
 
             <div
                 class="map-status"
@@ -524,19 +889,25 @@
 
         </section>
 
+
         <div class="map-back">
+
             <a href="skateplaetze.html">
                 ← ZU DEN SKATEPLÄTZEN
             </a>
+
         </div>
 
     </main>
 
+
     <div id="site-footer"></div>
+
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script src="script.js"></script>
+
 
     <script>
 
@@ -548,18 +919,36 @@
             zoomControl: true
         });
 
-        L.tileLayer(
+
+        const normalTiles = L.tileLayer(
             "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
                 maxZoom: 19,
                 attribution:
                     '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
             }
-        ).addTo(map);
+        );
+
+
+        normalTiles.addTo(map);
+
 
         map.setView(
             [48.5, 10.5],
             6
+        );
+
+
+        const mapWrapper =
+            document.getElementById("mapWrapper");
+
+
+        /*
+         * Electric mode starts active.
+         */
+
+        mapWrapper.classList.add(
+            "electric-mode"
         );
 
 
@@ -621,39 +1010,66 @@
 
 
         /* =========================================================
-           CUSTOM ICONS
+           ICONS
            ========================================================= */
 
         const skateIcon = L.divIcon({
             className: "",
-            html: '<div class="moi-marker">M</div>',
+            html:
+                '<div class="moi-marker">M</div>',
             iconSize: [34, 42],
             iconAnchor: [17, 42],
             popupAnchor: [0, -42]
         });
 
+
+        const startIcon = L.divIcon({
+            className: "",
+            html:
+                '<div class="route-marker-start"></div>',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11]
+        });
+
+
+        const endIcon = L.divIcon({
+            className: "",
+            html:
+                '<div class="route-marker-end"></div>',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11]
+        });
+
+
         const locationIcon = L.divIcon({
             className: "",
-            html: '<div class="location-marker"></div>',
-            iconSize: [24, 24],
-            iconAnchor: [12, 12]
+            html:
+                '<div class="location-marker"></div>',
+            iconSize: [22, 22],
+            iconAnchor: [11, 11]
         });
 
 
         /* =========================================================
-           MARKERS
+           SKATEPARK MARKERS
            ========================================================= */
 
         const markers = [];
 
+
         skateparks.forEach((park) => {
 
-            const marker = L.marker(
-                [park.lat, park.lng],
-                {
-                    icon: skateIcon
-                }
-            ).addTo(map);
+            const marker =
+                L.marker(
+                    [
+                        park.lat,
+                        park.lng
+                    ],
+                    {
+                        icon: skateIcon
+                    }
+                ).addTo(map);
+
 
             marker.bindPopup(`
                 <div class="popup">
@@ -675,7 +1091,11 @@
                         <button
                             type="button"
                             class="popup-action route"
-                            onclick="routeToSkatepark(${park.lat}, ${park.lng}, '${park.name.replace(/'/g, "\\'")}')"
+                            onclick="routeFromCurrentLocation(
+                                ${park.lat},
+                                ${park.lng},
+                                '${park.name.replace(/'/g, "\\'")}'
+                            )"
                         >
                             📍 Route von meinem Standort
                         </button>
@@ -691,6 +1111,7 @@
 
                 </div>
             `);
+
 
             markers.push({
                 park,
@@ -710,26 +1131,8 @@
         const searchButton =
             document.getElementById("searchButton");
 
-        const searchMessage =
-            document.getElementById("searchMessage");
 
-
-        function showSearchMessage(message) {
-
-            searchMessage.textContent = message;
-
-            searchMessage.classList.add("active");
-
-        }
-
-
-        function clearSearchMessage() {
-
-            searchMessage.textContent = "";
-
-            searchMessage.classList.remove("active");
-
-        }
+        let cityMarker = null;
 
 
         async function searchPlace() {
@@ -737,7 +1140,6 @@
             const searchTerm =
                 searchInput.value.trim();
 
-            clearSearchMessage();
 
             if (!searchTerm) {
 
@@ -751,42 +1153,37 @@
 
 
             /*
-             * First check our own skateparks.
+             * Check our own skateparks first.
              */
 
             const localMatches =
                 markers.filter(({ park }) => {
 
-                    const name =
-                        park.name.toLowerCase();
-
-                    const city =
-                        park.city.toLowerCase();
-
-                    const country =
-                        park.country.toLowerCase();
-
                     const search =
                         searchTerm.toLowerCase();
 
                     return (
-                        name.includes(search) ||
-                        city.includes(search) ||
-                        country.includes(search)
+                        park.name
+                            .toLowerCase()
+                            .includes(search) ||
+
+                        park.city
+                            .toLowerCase()
+                            .includes(search) ||
+
+                        park.country
+                            .toLowerCase()
+                            .includes(search)
                     );
 
                 });
 
 
-            /*
-             * If we have skatepark matches,
-             * use them directly.
-             */
-
             if (localMatches.length === 1) {
 
                 const result =
                     localMatches[0];
+
 
                 map.flyTo(
                     [
@@ -799,6 +1196,7 @@
                     }
                 );
 
+
                 result.marker.openPopup();
 
                 return;
@@ -809,11 +1207,14 @@
 
                 const bounds =
                     L.latLngBounds(
-                        localMatches.map(({ park }) => [
-                            park.lat,
-                            park.lng
-                        ])
+                        localMatches.map(
+                            ({ park }) => [
+                                park.lat,
+                                park.lng
+                            ]
+                        )
                     );
+
 
                 map.fitBounds(
                     bounds,
@@ -823,25 +1224,16 @@
                     }
                 );
 
-                showSearchMessage(
-                    `${localMatches.length} Skateparks in diesem Gebiet gefunden.`
-                );
 
                 return;
             }
 
 
             /*
-             * No skatepark found.
-             * Now search the city/place itself.
+             * Search any city/place.
              */
 
             searchButton.disabled = true;
-            searchButton.style.opacity = "0.5";
-
-            showSearchMessage(
-                "Ort wird gesucht..."
-            );
 
 
             try {
@@ -859,7 +1251,9 @@
 
 
                 if (!response.ok) {
-                    throw new Error("Geocoding fehlgeschlagen");
+                    throw new Error(
+                        "Geocoding failed"
+                    );
                 }
 
 
@@ -868,17 +1262,13 @@
 
 
                 if (!results.length) {
-
-                    showSearchMessage(
-                        "Ort nicht gefunden."
-                    );
-
                     return;
                 }
 
 
                 const result =
                     results[0];
+
 
                 const lat =
                     Number(result.lat);
@@ -896,18 +1286,14 @@
                 );
 
 
-                /*
-                 * Temporary city marker.
-                 */
-
-                if (window.cityMarker) {
+                if (cityMarker) {
                     map.removeLayer(
-                        window.cityMarker
+                        cityMarker
                     );
                 }
 
 
-                window.cityMarker =
+                cityMarker =
                     L.marker(
                         [lat, lon],
                         {
@@ -916,49 +1302,40 @@
                     ).addTo(map);
 
 
-                window.cityMarker.bindPopup(`
-                    <div class="popup">
+                cityMarker
+                    .bindPopup(`
+                        <div class="popup">
 
-                        <div class="popup-kicker">
-                            GESUCHTER ORT
+                            <div class="popup-kicker">
+                                GESUCHTER ORT
+                            </div>
+
+                            <div class="popup-title">
+                                ${escapeHtml(
+                                    result.display_name
+                                        .split(",")[0]
+                                )}
+                            </div>
+
+                            <div class="popup-location">
+                                Ort gefunden
+                            </div>
+
                         </div>
-
-                        <div class="popup-title">
-                            ${escapeHtml(
-                                result.display_name
-                                    .split(",")[0]
-                            )}
-                        </div>
-
-                        <div class="popup-location">
-                            Kein Moi-cy Skatepark
-                            an diesem Ort gespeichert.
-                        </div>
-
-                    </div>
-                `).openPopup();
-
-
-                showSearchMessage(
-                    `Ort gefunden: ${result.display_name.split(",")[0]}`
-                );
+                    `)
+                    .openPopup();
 
 
             } catch (error) {
 
                 console.error(
-                    "Moi-cy Geocoding:",
+                    "Moi-cy Suche:",
                     error
-                );
-
-                showSearchMessage(
-                    "Die Ortssuche ist momentan nicht verfügbar."
                 );
 
             } finally {
 
                 searchButton.disabled = false;
-                searchButton.style.opacity = "1";
 
             }
 
@@ -983,232 +1360,582 @@
         );
 
 
-        searchInput.addEventListener(
-            "input",
+        /* =========================================================
+           MAP STYLE SWITCH
+           ========================================================= */
+
+        const normalMapButton =
+            document.getElementById(
+                "normalMapButton"
+            );
+
+
+        const electricMapButton =
+            document.getElementById(
+                "electricMapButton"
+            );
+
+
+        normalMapButton.addEventListener(
+            "click",
             () => {
 
-                if (
-                    searchInput.value.trim() === ""
-                ) {
-                    clearSearchMessage();
-                }
+                mapWrapper.classList.remove(
+                    "electric-mode"
+                );
+
+                normalMapButton.classList.add(
+                    "active"
+                );
+
+                electricMapButton.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        electricMapButton.addEventListener(
+            "click",
+            () => {
+
+                mapWrapper.classList.add(
+                    "electric-mode"
+                );
+
+                electricMapButton.classList.add(
+                    "active"
+                );
+
+                normalMapButton.classList.remove(
+                    "active"
+                );
 
             }
         );
 
 
         /* =========================================================
-           ESCAPE HTML
+           ROUTE VARIABLES
            ========================================================= */
 
-        function escapeHtml(value) {
+        let routeLayer = null;
 
-            return String(value)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+        let routeStartMarker = null;
+
+        let routeEndMarker = null;
+
+        let currentLocationMarker = null;
+
+
+        /* =========================================================
+           STATUS
+           ========================================================= */
+
+        const mapStatus =
+            document.getElementById(
+                "mapStatus"
+            );
+
+
+        const routeResult =
+            document.getElementById(
+                "routeResult"
+            );
+
+
+        const routeResultMain =
+            document.getElementById(
+                "routeResultMain"
+            );
+
+
+        const routeResultSub =
+            document.getElementById(
+                "routeResultSub"
+            );
+
+
+        function setStatus(message) {
+
+            mapStatus.textContent =
+                message;
+
+            mapStatus.classList.add(
+                "active"
+            );
+
+        }
+
+
+        function clearStatus() {
+
+            mapStatus.textContent = "";
+
+            mapStatus.classList.remove(
+                "active"
+            );
 
         }
 
 
         /* =========================================================
-           ROUTING
+           CLEAR ROUTE
            ========================================================= */
 
-        let routeLayer = null;
-        let currentLocationMarker = null;
+        function clearRoute() {
+
+            if (routeLayer) {
+
+                map.removeLayer(
+                    routeLayer
+                );
+
+                routeLayer = null;
+
+            }
 
 
-        async function routeToSkatepark(
-            destinationLat,
-            destinationLng,
-            destinationName
+            if (routeStartMarker) {
+
+                map.removeLayer(
+                    routeStartMarker
+                );
+
+                routeStartMarker = null;
+
+            }
+
+
+            if (routeEndMarker) {
+
+                map.removeLayer(
+                    routeEndMarker
+                );
+
+                routeEndMarker = null;
+
+            }
+
+
+            routeResult.classList.remove(
+                "active"
+            );
+
+        }
+
+
+        /* =========================================================
+           GEOCODING
+           ========================================================= */
+
+        async function geocodePlace(
+            place
         ) {
 
-            const status =
-                document.getElementById("mapStatus");
+            const url =
+                "https://nominatim.openstreetmap.org/search" +
+                "?format=jsonv2" +
+                "&limit=1" +
+                "&q=" +
+                encodeURIComponent(place);
 
 
-            function setStatus(message) {
+            const response =
+                await fetch(url);
 
-                status.textContent =
-                    message;
 
-                status.classList.add(
-                    "active"
+            if (!response.ok) {
+                throw new Error(
+                    "Ort konnte nicht gesucht werden."
+                );
+            }
+
+
+            const results =
+                await response.json();
+
+
+            if (!results.length) {
+
+                throw new Error(
+                    `Ort nicht gefunden: ${place}`
                 );
 
             }
 
 
-            setStatus(
-                "Standort wird abgefragt..."
-            );
+            return {
+
+                lat:
+                    Number(results[0].lat),
+
+                lng:
+                    Number(results[0].lon),
+
+                name:
+                    results[0]
+                        .display_name
+                        .split(",")[0]
+
+            };
+
+        }
+
+
+        /* =========================================================
+           PLAN ROUTE BETWEEN TWO PLACES
+           ========================================================= */
+
+        async function planRoute() {
+
+            const startInput =
+                document.getElementById(
+                    "routeStart"
+                );
+
+
+            const destinationInput =
+                document.getElementById(
+                    "routeDestination"
+                );
+
+
+            const startName =
+                startInput.value.trim();
+
+
+            const destinationName =
+                destinationInput.value.trim();
 
 
             if (
-                !navigator.geolocation
+                !startName ||
+                !destinationName
             ) {
+
+                setStatus(
+                    "Bitte Start und Ziel eingeben."
+                );
+
+                return;
+
+            }
+
+
+            clearRoute();
+
+
+            setStatus(
+                "Start und Ziel werden gesucht..."
+            );
+
+
+            try {
+
+                const start =
+                    await geocodePlace(
+                        startName
+                    );
+
+
+                const destination =
+                    await geocodePlace(
+                        destinationName
+                    );
+
+
+                setStatus(
+                    "Route wird berechnet..."
+                );
+
+
+                const route =
+                    await requestRoute(
+                        start,
+                        destination
+                    );
+
+
+                drawRoute(
+                    start,
+                    destination,
+                    route
+                );
+
+
+                routeResultMain.textContent =
+                    `${formatDistance(route.distance)} · ${formatDuration(route.duration)}`;
+
+
+                routeResultSub.textContent =
+                    `${start.name} → ${destination.name}`;
+
+
+                routeResult.classList.add(
+                    "active"
+                );
+
+
+                setStatus(
+                    `Route gefunden: ${start.name} → ${destination.name}`
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Moi-cy Route:",
+                    error
+                );
+
+
+                setStatus(
+                    error.message ||
+                    "Route konnte nicht berechnet werden."
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           OSRM ROUTE
+           ========================================================= */
+
+        async function requestRoute(
+            start,
+            destination
+        ) {
+
+            const routeUrl =
+                "https://router.project-osrm.org/route/v1/driving/" +
+                `${start.lng},${start.lat};` +
+                `${destination.lng},${destination.lat}` +
+                "?overview=full&geometries=geojson";
+
+
+            const response =
+                await fetch(routeUrl);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Routing-Service ist momentan nicht erreichbar."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                data.code !== "Ok" ||
+                !data.routes ||
+                !data.routes.length
+            ) {
+
+                throw new Error(
+                    "Für diese Orte wurde keine Route gefunden."
+                );
+
+            }
+
+
+            return data.routes[0];
+
+        }
+
+
+        /* =========================================================
+           DRAW ROUTE
+           ========================================================= */
+
+        function drawRoute(
+            start,
+            destination,
+            route
+        ) {
+
+            routeLayer =
+                L.geoJSON(
+                    route.geometry,
+                    {
+                        style: {
+
+                            color: "#168cff",
+
+                            weight: 6,
+
+                            opacity: 0.95,
+
+                            lineCap: "round",
+
+                            lineJoin: "round"
+
+                        }
+                    }
+                ).addTo(map);
+
+
+            routeStartMarker =
+                L.marker(
+                    [
+                        start.lat,
+                        start.lng
+                    ],
+                    {
+                        icon: startIcon
+                    }
+                )
+                .addTo(map)
+                .bindPopup(
+                    `<strong>${escapeHtml(start.name)}</strong><br>Start`
+                );
+
+
+            routeEndMarker =
+                L.marker(
+                    [
+                        destination.lat,
+                        destination.lng
+                    ],
+                    {
+                        icon: endIcon
+                    }
+                )
+                .addTo(map)
+                .bindPopup(
+                    `<strong>${escapeHtml(destination.name)}</strong><br>Ziel`
+                );
+
+
+            map.fitBounds(
+                routeLayer.getBounds(),
+                {
+                    padding: [80, 80]
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           CURRENT LOCATION → DESTINATION
+           ========================================================= */
+
+        async function routeFromCurrentLocation(
+            destinationLat,
+            destinationLng,
+            destinationName
+        ) {
+
+            if (!navigator.geolocation) {
 
                 setStatus(
                     "Dein Browser unterstützt keine Standortabfrage."
                 );
 
                 return;
+
             }
+
+
+            clearRoute();
+
+
+            setStatus(
+                "Dein Standort wird ermittelt..."
+            );
 
 
             navigator.geolocation.getCurrentPosition(
 
                 async (position) => {
 
-                    const startLat =
-                        position.coords.latitude;
+                    const start = {
 
-                    const startLng =
-                        position.coords.longitude;
+                        lat:
+                            position.coords.latitude,
 
+                        lng:
+                            position.coords.longitude,
 
-                    if (routeLayer) {
+                        name:
+                            "Mein Standort"
 
-                        map.removeLayer(
-                            routeLayer
-                        );
-
-                        routeLayer = null;
-
-                    }
+                    };
 
 
-                    if (currentLocationMarker) {
+                    const destination = {
 
-                        map.removeLayer(
-                            currentLocationMarker
-                        );
+                        lat:
+                            destinationLat,
 
-                    }
+                        lng:
+                            destinationLng,
 
+                        name:
+                            destinationName
 
-                    currentLocationMarker =
-                        L.marker(
-                            [
-                                startLat,
-                                startLng
-                            ],
-                            {
-                                icon: locationIcon
-                            }
-                        )
-                        .addTo(map)
-                        .bindPopup(
-                            "<strong>Dein Standort</strong>"
-                        );
-
-
-                    setStatus(
-                        `Route zu ${destinationName} wird berechnet...`
-                    );
+                    };
 
 
                     try {
 
-                        /*
-                         * OSRM routing service.
-                         */
-
-                        const routeUrl =
-                            "https://router.project-osrm.org/route/v1/driving/" +
-                            `${startLng},${startLat};` +
-                            `${destinationLng},${destinationLat}` +
-                            "?overview=full&geometries=geojson";
-
-
-                        const response =
-                            await fetch(routeUrl);
-
-
-                        if (!response.ok) {
-                            throw new Error(
-                                "Routing fehlgeschlagen"
-                            );
-                        }
-
-
-                        const data =
-                            await response.json();
-
-
-                        if (
-                            data.code !== "Ok" ||
-                            !data.routes ||
-                            !data.routes.length
-                        ) {
-                            throw new Error(
-                                "Keine Route gefunden"
-                            );
-                        }
-
-
-                        const route =
-                            data.routes[0];
-
-
-                        routeLayer =
-                            L.geoJSON(
-                                route.geometry,
-                                {
-                                    style: {
-                                        color: "#168cff",
-                                        weight: 6,
-                                        opacity: 0.9,
-                                        lineCap: "round",
-                                        lineJoin: "round"
-                                    }
-                                }
-                            ).addTo(map);
-
-
-                        map.fitBounds(
-                            routeLayer.getBounds(),
-                            {
-                                padding: [70, 70]
-                            }
+                        setStatus(
+                            "Route wird berechnet..."
                         );
 
 
-                        const distanceKm =
-                            (
-                                route.distance / 1000
-                            ).toFixed(1);
-
-
-                        const durationMin =
-                            Math.round(
-                                route.duration / 60
+                        const route =
+                            await requestRoute(
+                                start,
+                                destination
                             );
 
 
+                        drawRoute(
+                            start,
+                            destination,
+                            route
+                        );
+
+
+                        routeResultMain.textContent =
+                            `${formatDistance(route.distance)} · ${formatDuration(route.duration)}`;
+
+
+                        routeResultSub.textContent =
+                            `Mein Standort → ${destinationName}`;
+
+
+                        routeResult.classList.add(
+                            "active"
+                        );
+
+
                         setStatus(
-                            `Route: ${distanceKm} km · ca. ${durationMin} Min. · Ziel: ${destinationName}`
+                            `Route zu ${destinationName} gefunden.`
                         );
 
 
                     } catch (error) {
 
-                        console.error(
-                            "Moi-cy Routing:",
-                            error
-                        );
-
                         setStatus(
-                            "Route konnte momentan nicht berechnet werden."
+                            error.message ||
+                            "Route konnte nicht berechnet werden."
                         );
 
                     }
 
                 },
+
 
                 (error) => {
 
@@ -1237,6 +1964,7 @@
 
                 },
 
+
                 {
                     enableHighAccuracy: true,
                     timeout: 10000,
@@ -1249,11 +1977,280 @@
 
 
         /* =========================================================
-           GLOBAL ROUTE FUNCTION
+           CURRENT LOCATION BUTTON
            ========================================================= */
 
-        window.routeToSkatepark =
-            routeToSkatepark;
+        const myLocationButton =
+            document.getElementById(
+                "myLocationButton"
+            );
+
+
+        myLocationButton.addEventListener(
+            "click",
+            () => {
+
+                if (!navigator.geolocation) {
+
+                    setStatus(
+                        "Dein Browser unterstützt keine Standortabfrage."
+                    );
+
+                    return;
+
+                }
+
+
+                setStatus(
+                    "Standort wird ermittelt..."
+                );
+
+
+                navigator.geolocation.getCurrentPosition(
+
+                    (position) => {
+
+                        const lat =
+                            position.coords.latitude;
+
+                        const lng =
+                            position.coords.longitude;
+
+
+                        if (
+                            currentLocationMarker
+                        ) {
+
+                            map.removeLayer(
+                                currentLocationMarker
+                            );
+
+                        }
+
+
+                        currentLocationMarker =
+                            L.marker(
+                                [lat, lng],
+                                {
+                                    icon:
+                                        locationIcon
+                                }
+                            )
+                            .addTo(map)
+                            .bindPopup(
+                                "<strong>Mein Standort</strong>"
+                            )
+                            .openPopup();
+
+
+                        map.flyTo(
+                            [lat, lng],
+                            14,
+                            {
+                                duration: 1
+                            }
+                        );
+
+
+                        setStatus(
+                            "Dein Standort wurde gefunden."
+                        );
+
+                    },
+
+
+                    () => {
+
+                        setStatus(
+                            "Dein Standort konnte nicht ermittelt werden."
+                        );
+
+                    },
+
+
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    }
+
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           PLAN ROUTE BUTTON
+           ========================================================= */
+
+        document
+            .getElementById(
+                "planRouteButton"
+            )
+            .addEventListener(
+                "click",
+                planRoute
+            );
+
+
+        /* =========================================================
+           ENTER IN ROUTE FIELDS
+           ========================================================= */
+
+        document
+            .getElementById(
+                "routeStart"
+            )
+            .addEventListener(
+                "keydown",
+                (event) => {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        planRoute();
+
+                    }
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "routeDestination"
+            )
+            .addEventListener(
+                "keydown",
+                (event) => {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        planRoute();
+
+                    }
+
+                }
+            );
+
+
+        /* =========================================================
+           FORMATTING
+           ========================================================= */
+
+        function formatDistance(
+            meters
+        ) {
+
+            const kilometers =
+                meters / 1000;
+
+
+            if (
+                kilometers < 1
+            ) {
+
+                return `${Math.round(meters)} m`;
+
+            }
+
+
+            return `${kilometers.toFixed(1)} km`;
+
+        }
+
+
+        function formatDuration(
+            seconds
+        ) {
+
+            const minutes =
+                Math.round(
+                    seconds / 60
+                );
+
+
+            if (
+                minutes < 60
+            ) {
+
+                return `ca. ${minutes} Min.`;
+
+            }
+
+
+            const hours =
+                Math.floor(
+                    minutes / 60
+                );
+
+
+            const remaining =
+                minutes % 60;
+
+
+            if (!remaining) {
+
+                return `ca. ${hours} Std.`;
+
+            }
+
+
+            return `ca. ${hours} Std. ${remaining} Min.`;
+
+        }
+
+
+        /* =========================================================
+           ESCAPE HTML
+           ========================================================= */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =========================================================
+           GLOBAL FUNCTION
+           ========================================================= */
+
+        window.routeFromCurrentLocation =
+            routeFromCurrentLocation;
 
     </script>
 
