@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MOI-CY – Karte</title>
+    <title>MOI-CY – Skate Karte</title>
 
     <link
         rel="stylesheet"
@@ -20,7 +20,6 @@
             --white: #f5f5f5;
             --blue: #168cff;
             --blue-bright: #00a8ff;
-            --blue-light: #48c4ff;
             --line: rgba(255,255,255,0.13);
         }
 
@@ -43,8 +42,15 @@
             overflow: hidden;
         }
 
-        #map {
+        .map-wrapper {
             position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        #map {
+            position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
@@ -53,15 +59,33 @@
 
         /*
         ============================================================
-        NORMALE KARTE
+        ÜBERSCHRIFT
         ============================================================
         */
 
-        .map-wrapper {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            background: #050505;
+        .map-page-title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            z-index: 1300;
+
+            transform: translateX(-50%);
+
+            pointer-events: none;
+
+            color: #fff;
+
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+
+            text-shadow:
+                0 2px 10px rgba(0,0,0,0.85);
+        }
+
+        .map-page-title span {
+            color: var(--blue-bright);
         }
 
         /*
@@ -71,40 +95,41 @@
         */
 
         /*
-        Die normale OSM-Karte wird zuerst fast komplett entsättigt
-        und sehr dunkel gemacht.
-        Danach sorgt der blaue Farbstich dafür, dass Straßen,
-        Grenzen und helle Kartenelemente electric wirken.
+        WICHTIG:
+        Die normale Karte bleibt sichtbar.
+        Wir machen sie nur dunkel und bläulich.
         */
 
         .map-wrapper.electric-mode .leaflet-tile-pane {
             filter:
                 grayscale(1)
-                brightness(0.25)
-                contrast(2.15)
-                sepia(0.28)
-                hue-rotate(170deg)
-                saturate(7);
+                brightness(0.52)
+                contrast(1.45)
+                sepia(0.12)
+                hue-rotate(165deg)
+                saturate(3.5);
         }
 
         /*
-        Dunkler Electric-Layer über den Kartenkacheln.
-        Liegt über den Tiles, aber unter Markern und Controls.
+        Nur ein sehr dezenter blauer Layer.
+        Nicht mehr komplett schwarz.
         */
 
         .electric-map-overlay {
             position: absolute;
             inset: 0;
             z-index: 399;
+
             pointer-events: none;
+
             display: none;
 
             background:
                 radial-gradient(
                     ellipse at center,
-                    rgba(0, 140, 255, 0.10) 0%,
-                    rgba(0, 50, 130, 0.04) 45%,
-                    rgba(0, 0, 0, 0.20) 100%
+                    rgba(0,140,255,0.10) 0%,
+                    rgba(0,80,180,0.04) 55%,
+                    rgba(0,0,0,0.08) 100%
                 );
 
             mix-blend-mode: screen;
@@ -115,15 +140,6 @@
         }
 
         /*
-        Zusätzlich ein leichtes blaues Leuchten an den
-        sichtbaren Kartenflächen.
-        */
-
-        .map-wrapper.electric-mode .leaflet-tile-container {
-            filter: drop-shadow(0 0 3px rgba(0, 150, 255, 0.18));
-        }
-
-        /*
         ============================================================
         SUCHE
         ============================================================
@@ -131,13 +147,14 @@
 
         .map-search-panel {
             position: absolute;
-            top: 24px;
+            top: 62px;
             left: 24px;
             z-index: 1200;
 
             width: min(470px, calc(100% - 48px));
 
             background: rgba(5,5,5,0.96);
+
             border: 1px solid rgba(255,255,255,0.16);
 
             box-shadow:
@@ -167,16 +184,14 @@
             font-size: 0.55rem;
             font-weight: 800;
             letter-spacing: 0.12em;
+
             color: var(--blue-bright);
+
             text-transform: uppercase;
         }
 
         .map-search-content {
             padding: 14px;
-        }
-
-        .search-input-wrap {
-            position: relative;
         }
 
         .search-input {
@@ -206,7 +221,6 @@
 
         .search-input:focus {
             border-color: var(--blue);
-            background: #0c0c0c;
 
             box-shadow:
                 0 0 0 1px rgba(22,140,255,0.18),
@@ -222,6 +236,7 @@
             margin-top: 8px;
 
             border: 1px solid rgba(255,255,255,0.12);
+
             background: #0a0a0a;
         }
 
@@ -246,6 +261,7 @@
             color: #fff;
 
             text-align: left;
+
             cursor: pointer;
 
             transition:
@@ -272,11 +288,12 @@
         .search-result-type {
             flex-shrink: 0;
 
+            color: var(--blue-bright);
+
             font-size: 0.5rem;
             font-weight: 800;
             letter-spacing: 0.1em;
 
-            color: var(--blue-bright);
             text-transform: uppercase;
         }
 
@@ -341,7 +358,6 @@
 
             transition:
                 background 0.2s ease,
-                color 0.2s ease,
                 transform 0.2s ease;
         }
 
@@ -353,18 +369,16 @@
         .route-button.secondary {
             border-color: rgba(255,255,255,0.20);
             background: #111;
-            color: #fff;
         }
 
         .route-button.secondary:hover {
             border-color: var(--blue);
             background: rgba(22,140,255,0.12);
-            color: var(--blue-bright);
         }
 
         /*
         ============================================================
-        ROUTE INFO – ERSCHEINT UNTER DER SUCHE
+        ROUTE INFO
         ============================================================
         */
 
@@ -383,8 +397,7 @@
                 );
 
             box-shadow:
-                0 0 25px rgba(22,140,255,0.12),
-                inset 0 0 25px rgba(22,140,255,0.04);
+                0 0 25px rgba(22,140,255,0.12);
         }
 
         .route-info.active {
@@ -407,7 +420,6 @@
             font-size: 0.53rem;
             font-weight: 900;
             letter-spacing: 0.15em;
-            text-transform: uppercase;
         }
 
         .route-info-close {
@@ -416,6 +428,7 @@
 
             border: 0;
             background: transparent;
+
             color: #777;
 
             cursor: pointer;
@@ -460,7 +473,6 @@
             font-size: 0.5rem;
             font-weight: 800;
             letter-spacing: 0.1em;
-            text-transform: uppercase;
         }
 
         .route-message {
@@ -476,20 +488,23 @@
 
         /*
         ============================================================
-        ELECTRIC MODE BUTTON
+        ELECTRIC BUTTON
         ============================================================
         */
 
         .map-mode-button {
             position: absolute;
+
             right: 24px;
             top: 24px;
+
             z-index: 1200;
 
             min-height: 44px;
             padding: 0 16px;
 
             border: 1px solid rgba(22,140,255,0.75);
+
             background: rgba(5,5,5,0.94);
             color: #fff;
 
@@ -515,6 +530,7 @@
 
         .map-wrapper.electric-mode .map-mode-button {
             background: var(--blue);
+
             color: #fff;
 
             box-shadow:
@@ -523,7 +539,7 @@
 
         /*
         ============================================================
-        LEAFLET ZOOM – UNTEN RECHTS
+        ZOOM UNTEN RECHTS
         ============================================================
         */
 
@@ -532,6 +548,7 @@
 
             right: 20px !important;
             bottom: 20px !important;
+
             left: auto !important;
             top: auto !important;
 
@@ -546,19 +563,20 @@
         .leaflet-control-zoom a {
             width: 44px !important;
             height: 44px !important;
+
             line-height: 44px !important;
 
             border: 0 !important;
-            border-bottom: 1px solid rgba(255,255,255,0.12) !important;
 
-            background: rgba(5,5,5,0.96) !important;
+            border-bottom:
+                1px solid rgba(255,255,255,0.12) !important;
+
+            background:
+                rgba(5,5,5,0.96) !important;
+
             color: #fff !important;
 
             font-size: 21px !important;
-
-            transition:
-                background 0.2s ease,
-                color 0.2s ease;
         }
 
         .leaflet-control-zoom a:last-child {
@@ -566,7 +584,9 @@
         }
 
         .leaflet-control-zoom a:hover {
-            background: var(--blue) !important;
+            background:
+                var(--blue) !important;
+
             color: #fff !important;
         }
 
@@ -592,7 +612,6 @@
 
             color: #fff;
 
-            font-family: Arial, sans-serif;
             font-size: 17px;
             font-weight: 900;
 
@@ -607,10 +626,6 @@
             transform: rotate(-45deg);
         }
 
-        /*
-        Electric Glow für ausgewählte Orte
-        */
-
         .map-wrapper.electric-mode .moi-marker {
             border-color: #00b7ff;
 
@@ -619,10 +634,12 @@
                 0 0 18px #168cff,
                 0 0 38px rgba(0,168,255,0.65);
 
-            animation: electricPulse 1.8s ease-in-out infinite;
+            animation:
+                electricPulse 1.8s ease-in-out infinite;
         }
 
         @keyframes electricPulse {
+
             0%,
             100% {
                 box-shadow:
@@ -637,11 +654,12 @@
                     0 0 28px #168cff,
                     0 0 52px rgba(0,168,255,0.75);
             }
+
         }
 
         /*
         ============================================================
-        LEAFLET POPUPS
+        POPUP
         ============================================================
         */
 
@@ -659,8 +677,11 @@
         }
 
         .leaflet-popup-tip {
-            border-right: 1px solid rgba(22,140,255,0.35);
-            border-bottom: 1px solid rgba(22,140,255,0.35);
+            border-right:
+                1px solid rgba(22,140,255,0.35);
+
+            border-bottom:
+                1px solid rgba(22,140,255,0.35);
         }
 
         .leaflet-popup-close-button {
@@ -678,7 +699,7 @@
 
             font-size: 0.8rem;
             font-weight: 900;
-            letter-spacing: 0.05em;
+
             text-transform: uppercase;
         }
 
@@ -697,15 +718,20 @@
             padding: 10px 12px;
 
             border: 1px solid var(--blue);
-            background: rgba(22,140,255,0.10);
+
+            background:
+                rgba(22,140,255,0.10);
 
             color: var(--blue-bright);
 
             font-size: 0.56rem;
             font-weight: 900;
+
             letter-spacing: 0.08em;
+
             text-align: center;
             text-decoration: none;
+
             text-transform: uppercase;
         }
 
@@ -722,13 +748,17 @@
 
         .electric-route {
             filter:
-                drop-shadow(0 0 4px rgba(0,168,255,0.9))
-                drop-shadow(0 0 12px rgba(0,168,255,0.65));
+                drop-shadow(
+                    0 0 4px rgba(0,168,255,0.9)
+                )
+                drop-shadow(
+                    0 0 12px rgba(0,168,255,0.65)
+                );
         }
 
         /*
         ============================================================
-        LOCATION MARKER
+        LOCATION
         ============================================================
         */
 
@@ -755,11 +785,19 @@
 
         @media (max-width: 700px) {
 
-            .map-search-panel {
+            .map-page-title {
                 top: 12px;
+
+                font-size: 0.78rem;
+                letter-spacing: 0.16em;
+            }
+
+            .map-search-panel {
+                top: 48px;
                 left: 12px;
 
-                width: calc(100% - 24px);
+                width:
+                    calc(100% - 24px);
             }
 
             .map-mode-button {
@@ -780,6 +818,7 @@
             .search-results {
                 max-height: 210px;
             }
+
         }
 
     </style>
@@ -787,14 +826,26 @@
 
 <body>
 
-<div class="map-wrapper electric-mode" id="mapWrapper">
+<div
+    class="map-wrapper"
+    id="mapWrapper"
+>
 
     <div id="map"></div>
 
     <div class="electric-map-overlay"></div>
 
     <!-- ========================================================
-         SUCHFELD
+         ÜBERSCHRIFT
+         ======================================================== -->
+
+    <div class="map-page-title">
+        SKATE <span>KARTE</span>
+    </div>
+
+
+    <!-- ========================================================
+         SUCHE
          ======================================================== -->
 
     <section class="map-search-panel">
@@ -805,30 +856,30 @@
                 MOI-CY MAP
             </div>
 
-            <div class="map-search-status" id="searchStatus">
-                ELECTRIC
+            <div
+                class="map-search-status"
+                id="searchStatus"
+            >
+                NORMAL
             </div>
 
         </div>
 
         <div class="map-search-content">
 
-            <div class="search-input-wrap">
-
-                <input
-                    type="search"
-                    id="placeSearch"
-                    class="search-input"
-                    placeholder="Ort, Stadt, Straße oder Skatepark suchen..."
-                    autocomplete="off"
-                >
-
-            </div>
+            <input
+                type="search"
+                id="placeSearch"
+                class="search-input"
+                placeholder="Ort, Stadt, Straße oder Skatepark suchen..."
+                autocomplete="off"
+            >
 
             <div
                 class="search-results"
                 id="searchResults"
             ></div>
+
 
             <!-- ROUTE -->
 
@@ -872,9 +923,8 @@
 
         </div>
 
-        <!-- ====================================================
-             ROUTE INFO
-             ==================================================== -->
+
+        <!-- ROUTE INFO -->
 
         <div
             class="route-info"
@@ -891,7 +941,6 @@
                     type="button"
                     class="route-info-close"
                     id="closeRouteInfo"
-                    aria-label="Route schließen"
                 >
                     ×
                 </button>
@@ -943,8 +992,9 @@
 
     </section>
 
+
     <!-- ========================================================
-         MAP MODE
+         ELECTRIC MODE
          ======================================================== -->
 
     <button
@@ -952,7 +1002,7 @@
         class="map-mode-button"
         id="mapModeButton"
     >
-        NORMAL MAP
+        ELECTRIC MAP
     </button>
 
 </div>
@@ -968,11 +1018,12 @@
 
     /*
     ================================================================
-    MOI-CY SKATEPARKS
+    SKATEPARKS
     ================================================================
     */
 
     const skateparks = [
+
         {
             name: "Valence",
             city: "Valence",
@@ -1020,6 +1071,7 @@
             lat: 48.1438,
             lng: 11.4813
         }
+
     ];
 
 
@@ -1029,30 +1081,30 @@
     ================================================================
     */
 
-    const map = L.map("map", {
-        zoomControl: true,
-        attributionControl: true,
-        worldCopyJump: true
-    }).setView(
-        [49.0069, 8.4037],
-        6
-    );
+    const map =
+        L.map(
+            "map",
+            {
+                zoomControl: true,
+                attributionControl: true,
+                worldCopyJump: true
+            }
+        ).setView(
+            [49.0069, 8.4037],
+            6
+        );
 
 
-    /*
-    ================================================================
-    OSM
-    ================================================================
-    */
+    const osmLayer =
+        L.tileLayer(
+            "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
 
-    const osmLayer = L.tileLayer(
-        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 19,
-            attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
-        }
-    );
+                attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+            }
+        );
 
     osmLayer.addTo(map);
 
@@ -1065,69 +1117,82 @@
 
     const parkMarkers = [];
 
+
     function createParkIcon() {
 
         return L.divIcon({
+
             className: "",
+
             html: `
                 <div class="moi-marker">
                     <span>M</span>
                 </div>
             `,
-            iconSize: [36, 36],
-            iconAnchor: [18, 18],
-            popupAnchor: [0, -20]
+
+            iconSize: [36,36],
+
+            iconAnchor: [18,18],
+
+            popupAnchor: [0,-20]
+
         });
 
     }
 
 
-    /*
-    ================================================================
-    SKATEPARK MARKER
-    ================================================================
-    */
+    skateparks.forEach(
+        (park) => {
 
-    skateparks.forEach((park) => {
+            const marker =
+                L.marker(
+                    [
+                        park.lat,
+                        park.lng
+                    ],
+                    {
+                        icon:
+                            createParkIcon()
+                    }
+                ).addTo(map);
 
-        const marker = L.marker(
-            [park.lat, park.lng],
-            {
-                icon: createParkIcon()
-            }
-        ).addTo(map);
 
-        const googleMapsSearch =
-            "https://www.google.com/maps/search/?api=1&query=" +
-            encodeURIComponent(
-                `${park.name}, ${park.city}, ${park.country}`
-            );
+            const googleMapsSearch =
+                "https://www.google.com/maps/search/?api=1&query=" +
+                encodeURIComponent(
+                    `${park.name}, ${park.city}, ${park.country}`
+                );
 
-        marker.bindPopup(`
-            <div class="popup-title">
-                ${park.name}
-            </div>
 
-            <div class="popup-location">
-                ${park.city}, ${park.country}
-            </div>
+            marker.bindPopup(`
 
-            <a
-                class="popup-route"
-                href="${googleMapsSearch}"
-                target="_blank"
-                rel="noopener"
-            >
-                IN GOOGLE MAPS ÖFFNEN
-            </a>
-        `);
+                <div class="popup-title">
+                    ${park.name}
+                </div>
 
-        parkMarkers.push({
-            park,
-            marker
-        });
+                <div class="popup-location">
+                    ${park.city}, ${park.country}
+                </div>
 
-    });
+                <a
+                    class="popup-route"
+                    href="${googleMapsSearch}"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    IN GOOGLE MAPS ÖFFNEN
+                </a>
+
+            `);
+
+
+            parkMarkers.push({
+                park,
+                marker
+            });
+
+        }
+    );
 
 
     /*
@@ -1137,13 +1202,19 @@
     */
 
     const placeSearch =
-        document.getElementById("placeSearch");
+        document.getElementById(
+            "placeSearch"
+        );
 
     const searchResults =
-        document.getElementById("searchResults");
+        document.getElementById(
+            "searchResults"
+        );
 
     const searchStatus =
-        document.getElementById("searchStatus");
+        document.getElementById(
+            "searchStatus"
+        );
 
 
     let searchTimeout = null;
@@ -1152,11 +1223,11 @@
     function escapeHtml(value) {
 
         return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;")
+            .replaceAll("'","&#039;");
 
     }
 
@@ -1164,7 +1235,10 @@
     function clearSearchResults() {
 
         searchResults.innerHTML = "";
-        searchResults.classList.remove("active");
+
+        searchResults.classList.remove(
+            "active"
+        );
 
     }
 
@@ -1176,12 +1250,17 @@
     ) {
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         button.type = "button";
-        button.className = "search-result";
+
+        button.className =
+            "search-result";
 
         button.innerHTML = `
+
             <span class="search-result-name">
                 ${escapeHtml(title)}
             </span>
@@ -1189,71 +1268,101 @@
             <span class="search-result-type">
                 ${escapeHtml(type)}
             </span>
+
         `;
+
 
         button.addEventListener(
             "click",
             callback
         );
 
-        searchResults.appendChild(button);
+
+        searchResults.appendChild(
+            button
+        );
+
+        searchResults.classList.add(
+            "active"
+        );
 
     }
 
 
-    function showParkSearchResults(query) {
+    function showParkSearchResults(
+        query
+    ) {
 
         const normalized =
             query
                 .toLowerCase()
                 .trim();
 
+
         const matches =
-            skateparks.filter((park) => {
+            skateparks.filter(
+                (park) => {
 
-                const text =
-                    `${park.name} ${park.city} ${park.country}`
-                        .toLowerCase();
+                    const text =
+                        `${park.name} ${park.city} ${park.country}`
+                            .toLowerCase();
 
-                return text.includes(normalized);
-
-            });
-
-
-        matches.forEach((park) => {
-
-            addSearchResult(
-                `${park.name} – ${park.city}`,
-                "SKATEPARK",
-                () => {
-
-                    map.setView(
-                        [park.lat, park.lng],
-                        16,
-                        {
-                            animate: true
-                        }
+                    return text.includes(
+                        normalized
                     );
-
-                    const found =
-                        parkMarkers.find(
-                            item =>
-                                item.park.name === park.name
-                        );
-
-                    if (found) {
-                        found.marker.openPopup();
-                    }
-
-                    placeSearch.value =
-                        `${park.name}, ${park.city}`;
-
-                    clearSearchResults();
 
                 }
             );
 
-        });
+
+        matches.forEach(
+            (park) => {
+
+                addSearchResult(
+
+                    `${park.name} – ${park.city}`,
+
+                    "SKATEPARK",
+
+                    () => {
+
+                        map.setView(
+                            [
+                                park.lat,
+                                park.lng
+                            ],
+                            16,
+                            {
+                                animate: true
+                            }
+                        );
+
+
+                        const found =
+                            parkMarkers.find(
+                                item =>
+                                    item.park.name ===
+                                    park.name
+                            );
+
+
+                        if (found) {
+                            found.marker.openPopup();
+                        }
+
+
+                        placeSearch.value =
+                            `${park.name}, ${park.city}`;
+
+
+                        clearSearchResults();
+
+                    }
+                );
+
+            }
+        );
+
 
         return matches.length;
 
@@ -1267,24 +1376,33 @@
             searchStatus.textContent =
                 "SUCHE...";
 
+
             const url =
                 "https://nominatim.openstreetmap.org/search?" +
                 new URLSearchParams({
+
                     q: query,
+
                     format: "json",
+
                     limit: "5",
+
                     addressdetails: "1"
+
                 });
+
 
             const response =
                 await fetch(
                     url,
                     {
                         headers: {
-                            "Accept": "application/json"
+                            Accept:
+                                "application/json"
                         }
                     }
                 );
+
 
             if (!response.ok) {
                 throw new Error(
@@ -1292,64 +1410,93 @@
                 );
             }
 
+
             const places =
                 await response.json();
 
 
-            places.forEach((place) => {
+            places.forEach(
+                (place) => {
 
-                addSearchResult(
-                    place.display_name,
-                    "ORT / STRASSE",
-                    () => {
+                    addSearchResult(
 
-                        const lat =
-                            Number(place.lat);
+                        place.display_name,
 
-                        const lng =
-                            Number(place.lon);
+                        "ORT / STRASSE",
 
-                        map.setView(
-                            [lat, lng],
-                            16,
-                            {
-                                animate: true
-                            }
-                        );
+                        () => {
 
-                        const marker =
-                            L.marker(
-                                [lat, lng],
+                            const lat =
+                                Number(
+                                    place.lat
+                                );
+
+                            const lng =
+                                Number(
+                                    place.lon
+                                );
+
+
+                            map.setView(
+                                [
+                                    lat,
+                                    lng
+                                ],
+                                16,
                                 {
-                                    icon: createParkIcon()
+                                    animate: true
                                 }
-                            ).addTo(map);
+                            );
 
-                        marker.bindPopup(`
-                            <div class="popup-title">
-                                AUSGEWÄHLTER ORT
-                            </div>
 
-                            <div class="popup-location">
-                                ${escapeHtml(
-                                    place.display_name
-                                )}
-                            </div>
-                        `).openPopup();
+                            const marker =
+                                L.marker(
+                                    [
+                                        lat,
+                                        lng
+                                    ],
+                                    {
+                                        icon:
+                                            createParkIcon()
+                                    }
+                                ).addTo(map);
 
-                        placeSearch.value =
-                            place.display_name;
 
-                        clearSearchResults();
+                            marker.bindPopup(`
 
-                    }
-                );
+                                <div class="popup-title">
+                                    AUSGEWÄHLTER ORT
+                                </div>
 
-            });
+                                <div class="popup-location">
+                                    ${escapeHtml(
+                                        place.display_name
+                                    )}
+                                </div>
+
+                            `).openPopup();
+
+
+                            placeSearch.value =
+                                place.display_name;
+
+
+                            clearSearchResults();
+
+                        }
+
+                    );
+
+                }
+            );
 
 
             searchStatus.textContent =
-                "ELECTRIC";
+                mapWrapper.classList.contains(
+                    "electric-mode"
+                )
+                    ? "ELECTRIC"
+                    : "NORMAL";
 
 
         } catch (error) {
@@ -1371,7 +1518,10 @@
         "input",
         () => {
 
-            clearTimeout(searchTimeout);
+            clearTimeout(
+                searchTimeout
+            );
+
 
             const query =
                 placeSearch.value.trim();
@@ -1381,13 +1531,6 @@
 
                 clearSearchResults();
 
-                searchStatus.textContent =
-                    mapWrapper.classList.contains(
-                        "electric-mode"
-                    )
-                        ? "ELECTRIC"
-                        : "NORMAL";
-
                 return;
 
             }
@@ -1395,15 +1538,18 @@
 
             clearSearchResults();
 
-            const parkCount =
-                showParkSearchResults(query);
+            showParkSearchResults(
+                query
+            );
 
 
             searchTimeout =
                 setTimeout(
                     () => {
 
-                        searchPlace(query);
+                        searchPlace(
+                            query
+                        );
 
                     },
                     500
@@ -1415,50 +1561,74 @@
 
     /*
     ================================================================
-    ROUTE GEOCODING
+    GEOCODING
     ================================================================
     */
 
-    async function geocodePlace(query) {
+    async function geocodePlace(
+        query
+    ) {
 
         const url =
             "https://nominatim.openstreetmap.org/search?" +
             new URLSearchParams({
+
                 q: query,
+
                 format: "json",
+
                 limit: "1",
+
                 addressdetails: "1"
+
             });
+
 
         const response =
             await fetch(
                 url,
                 {
                     headers: {
-                        "Accept": "application/json"
+                        Accept:
+                            "application/json"
                     }
                 }
             );
 
+
         if (!response.ok) {
+
             throw new Error(
                 `Geocoding HTTP ${response.status}`
             );
+
         }
+
 
         const results =
             await response.json();
 
+
         if (!results.length) {
+
             throw new Error(
                 `Ort nicht gefunden: ${query}`
             );
+
         }
 
+
         return {
-            lat: Number(results[0].lat),
-            lng: Number(results[0].lon),
-            name: results[0].display_name
+
+            lat:
+                Number(results[0].lat),
+
+            lng:
+                Number(results[0].lon),
+
+            name:
+                results[0].display_name
+
         };
 
     }
@@ -1471,12 +1641,16 @@
     */
 
     let routeLayer = null;
+
     let routeStartMarker = null;
+
     let routeEndMarker = null;
 
 
     const routeStart =
-        document.getElementById("routeStart");
+        document.getElementById(
+            "routeStart"
+        );
 
     const routeDestination =
         document.getElementById(
@@ -1513,32 +1687,50 @@
     function removeRoute() {
 
         if (routeLayer) {
-            map.removeLayer(routeLayer);
+
+            map.removeLayer(
+                routeLayer
+            );
+
             routeLayer = null;
+
         }
 
+
         if (routeStartMarker) {
+
             map.removeLayer(
                 routeStartMarker
             );
+
             routeStartMarker = null;
+
         }
 
+
         if (routeEndMarker) {
+
             map.removeLayer(
                 routeEndMarker
             );
+
             routeEndMarker = null;
+
         }
 
     }
 
 
-    function formatDistance(meters) {
+    function formatDistance(
+        meters
+    ) {
 
         if (meters < 1000) {
+
             return `${Math.round(meters)} m`;
+
         }
+
 
         return `${(
             meters / 1000
@@ -1547,28 +1739,39 @@
     }
 
 
-    function formatDuration(seconds) {
+    function formatDuration(
+        seconds
+    ) {
 
         const minutes =
             Math.round(
                 seconds / 60
             );
 
+
         if (minutes < 60) {
+
             return `${minutes} min`;
+
         }
+
 
         const hours =
             Math.floor(
                 minutes / 60
             );
 
+
         const remaining =
             minutes % 60;
 
+
         if (remaining === 0) {
+
             return `${hours} h`;
+
         }
+
 
         return `${hours} h ${remaining} min`;
 
@@ -1578,14 +1781,19 @@
     function createRouteMarkerIcon() {
 
         return L.divIcon({
+
             className: "",
+
             html: `
                 <div class="moi-marker">
                     <span>•</span>
                 </div>
             `,
-            iconSize: [36, 36],
-            iconAnchor: [18, 18]
+
+            iconSize: [36,36],
+
+            iconAnchor: [18,18]
+
         });
 
     }
@@ -1600,8 +1808,10 @@
             routeDestination.value.trim();
 
 
-        if (!startQuery ||
-            !destinationQuery) {
+        if (
+            !startQuery ||
+            !destinationQuery
+        ) {
 
             routeMessage.textContent =
                 "Bitte Start und Ziel eingeben.";
@@ -1615,7 +1825,9 @@
         }
 
 
-        planRouteButton.disabled = true;
+        planRouteButton.disabled =
+            true;
+
         planRouteButton.textContent =
             "ROUTE WIRD BERECHNET...";
 
@@ -1628,10 +1840,18 @@
             const [
                 start,
                 destination
-            ] = await Promise.all([
-                geocodePlace(startQuery),
-                geocodePlace(destinationQuery)
-            ]);
+            ] =
+                await Promise.all([
+
+                    geocodePlace(
+                        startQuery
+                    ),
+
+                    geocodePlace(
+                        destinationQuery
+                    )
+
+                ]);
 
 
             const routeUrl =
@@ -1640,19 +1860,28 @@
                 `${destination.lng},${destination.lat}` +
                 "?" +
                 new URLSearchParams({
-                    overview: "full",
-                    geometries: "geojson"
+
+                    overview:
+                        "full",
+
+                    geometries:
+                        "geojson"
+
                 });
 
 
             const response =
-                await fetch(routeUrl);
+                await fetch(
+                    routeUrl
+                );
 
 
             if (!response.ok) {
+
                 throw new Error(
                     `Routing HTTP ${response.status}`
                 );
+
             }
 
 
@@ -1681,23 +1910,42 @@
                 L.geoJSON(
                     route.geometry,
                     {
+
                         style: {
-                            color: "#168cff",
-                            weight: 7,
-                            opacity: 0.92,
-                            lineCap: "round",
-                            lineJoin: "round",
-                            className: "electric-route"
+
+                            color:
+                                "#168cff",
+
+                            weight:
+                                7,
+
+                            opacity:
+                                0.95,
+
+                            lineCap:
+                                "round",
+
+                            lineJoin:
+                                "round",
+
+                            className:
+                                "electric-route"
+
                         }
+
                     }
                 ).addTo(map);
 
 
             routeStartMarker =
                 L.marker(
-                    [start.lat, start.lng],
+                    [
+                        start.lat,
+                        start.lng
+                    ],
                     {
-                        icon: createRouteMarkerIcon()
+                        icon:
+                            createRouteMarkerIcon()
                     }
                 ).addTo(map);
 
@@ -1709,7 +1957,8 @@
                         destination.lng
                     ],
                     {
-                        icon: createRouteMarkerIcon()
+                        icon:
+                            createRouteMarkerIcon()
                     }
                 ).addTo(map);
 
@@ -1731,9 +1980,7 @@
                 </div>
 
                 <div class="popup-location">
-                    ${escapeHtml(
-                        destination.name
-                    )}
+                    ${escapeHtml(destination.name)}
                 </div>
             `);
 
@@ -1741,8 +1988,15 @@
             map.fitBounds(
                 routeLayer.getBounds(),
                 {
-                    paddingTopLeft: [40, 40],
-                    paddingBottomRight: [40, 40]
+                    paddingTopLeft: [
+                        40,
+                        40
+                    ],
+
+                    paddingBottomRight: [
+                        40,
+                        40
+                    ]
                 }
             );
 
@@ -1775,23 +2029,28 @@
                 error
             );
 
+
             routeDistance.textContent =
                 "–";
 
             routeDuration.textContent =
                 "–";
 
+
             routeMessage.textContent =
                 error.message ||
                 "Route konnte nicht berechnet werden.";
+
 
             routeInfo.classList.add(
                 "active"
             );
 
+
         } finally {
 
-            planRouteButton.disabled = false;
+            planRouteButton.disabled =
+                false;
 
             planRouteButton.textContent =
                 "ROUTE PLANEN";
@@ -1806,12 +2065,6 @@
         planRoute
     );
 
-
-    /*
-    ================================================================
-    ENTER = ROUTE
-    ================================================================
-    */
 
     routeStart.addEventListener(
         "keydown",
@@ -1844,7 +2097,9 @@
     */
 
     document
-        .getElementById("closeRouteInfo")
+        .getElementById(
+            "closeRouteInfo"
+        )
         .addEventListener(
             "click",
             () => {
@@ -1861,7 +2116,7 @@
 
     /*
     ================================================================
-    MEIN STANDORT
+    STANDORT
     ================================================================
     */
 
@@ -1878,7 +2133,9 @@
         "click",
         () => {
 
-            if (!navigator.geolocation) {
+            if (
+                !navigator.geolocation
+            ) {
 
                 alert(
                     "Dein Browser unterstützt keine Standortbestimmung."
@@ -1894,6 +2151,7 @@
 
 
             navigator.geolocation.getCurrentPosition(
+
                 (position) => {
 
                     const lat =
@@ -1904,25 +2162,40 @@
 
 
                     if (locationMarker) {
+
                         map.removeLayer(
                             locationMarker
                         );
+
                     }
 
 
                     locationMarker =
                         L.marker(
-                            [lat, lng],
+                            [
+                                lat,
+                                lng
+                            ],
                             {
+
                                 icon:
                                     L.divIcon({
-                                        className: "",
+
+                                        className:
+                                            "",
+
                                         html: `
                                             <div class="location-marker"></div>
                                         `,
-                                        iconSize: [18, 18],
-                                        iconAnchor: [9, 9]
+
+                                        iconSize:
+                                            [18,18],
+
+                                        iconAnchor:
+                                            [9,9]
+
                                     })
+
                             }
                         ).addTo(map);
 
@@ -1933,7 +2206,10 @@
 
 
                     map.setView(
-                        [lat, lng],
+                        [
+                            lat,
+                            lng
+                        ],
                         14,
                         {
                             animate: true
@@ -1950,6 +2226,7 @@
 
                 },
 
+
                 (error) => {
 
                     console.error(
@@ -1957,8 +2234,10 @@
                         error
                     );
 
+
                     myLocationButton.textContent =
                         "MEIN STANDORT";
+
 
                     alert(
                         "Dein Standort konnte nicht ermittelt werden."
@@ -1966,11 +2245,20 @@
 
                 },
 
+
                 {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 60000
+
+                    enableHighAccuracy:
+                        true,
+
+                    timeout:
+                        10000,
+
+                    maximumAge:
+                        60000
+
                 }
+
             );
 
         }
@@ -1979,7 +2267,7 @@
 
     /*
     ================================================================
-    MAP MODE
+    ELECTRIC MODE
     ================================================================
     */
 
@@ -2030,12 +2318,21 @@
     );
 
 
+    /*
+    WICHTIG:
+    Kein electric-mode beim Start.
+    */
+
+    mapWrapper.classList.remove(
+        "electric-mode"
+    );
+
     updateMapMode();
 
 
     /*
     ================================================================
-    LEAFLET ATTRIBUTION
+    LEAFLET
     ================================================================
     */
 
