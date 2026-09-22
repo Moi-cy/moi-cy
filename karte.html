@@ -1,372 +1,497 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moi-cy – Karte</title>
 
-  <title>Moi-cy – Karte</title>
+    <link rel="stylesheet" href="style.css">
 
-  <meta
-    name="description"
-    content="Moi-cy – Skatepark Karte."
-  >
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        .map-page {
+            min-height: 100vh;
+            padding-top: var(--header-height);
+            background: var(--black);
+        }
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
-    rel="stylesheet"
-  >
+        .map-heading {
+            width: min(1400px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 45px 0 25px;
+        }
 
-  <link
-    rel="stylesheet"
-    href="style.css?v=karte1"
-  >
+        .map-heading h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+        }
 
-  <!-- Leaflet -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  >
+        .map-heading p {
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
 
-  <style>
+        .map-wrapper {
+            position: relative;
+            width: min(1400px, calc(100% - 40px));
+            height: 650px;
+            margin: 0 auto 60px;
+            border: 1px solid var(--line);
+            background: #111;
+            overflow: hidden;
+        }
 
-    /* =========================================
-       KARTE
-    ========================================= */
+        #map {
+            width: 100%;
+            height: 100%;
+        }
 
-    .map-page {
-      min-height: 100vh;
-      padding-top: 76px;
-      background: #050505;
-    }
+        .map-search {
+            position: absolute;
+            z-index: 1000;
+            top: 18px;
+            left: 18px;
+            width: min(380px, calc(100% - 36px));
+        }
 
+        .map-search-box {
+            display: flex;
+            background: rgba(5, 5, 5, 0.94);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        }
 
-    .map-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 40px;
-      padding: 55px 7vw 30px;
-    }
+        .map-search input {
+            width: 100%;
+            min-height: 48px;
+            padding: 0 15px;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+        }
 
+        .map-search input::placeholder {
+            color: #777;
+        }
 
-    .map-heading span {
-      display: block;
-      margin-bottom: 14px;
-      color: #00a8ff;
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.16em;
-    }
+        .map-search button {
+            width: 52px;
+            min-width: 52px;
+            border: 0;
+            border-left: 1px solid rgba(255,255,255,0.15);
+            background: #168cff;
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
 
+        .map-search button:hover {
+            background: #0864bd;
+        }
 
-    .map-heading h1 {
-      margin: 0;
-      color: #f2f2f2;
-      font-size: clamp(3.5rem, 7vw, 6rem);
-      line-height: 0.88;
-      letter-spacing: -0.07em;
-      font-weight: 900;
-    }
+        .search-message {
+            display: none;
+            margin-top: 7px;
+            padding: 10px 13px;
+            background: rgba(5,5,5,0.94);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
 
+        .search-message.active {
+            display: block;
+        }
 
-    .map-intro {
-      max-width: 360px;
-      margin: 0;
-      color: #777;
-      font-size: 0.82rem;
-      line-height: 1.7;
-    }
+        .map-back {
+            display: block;
+            width: min(1400px, calc(100% - 40px));
+            margin: 0 auto 60px;
+        }
 
+        .map-back a {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 0 18px;
+            border: 1px solid var(--line-light);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease;
+        }
 
-    /* =========================================
-       MAP CONTAINER
-    ========================================= */
+        .map-back a:hover {
+            background: var(--white);
+            color: var(--black);
+            border-color: var(--white);
+        }
 
-    .map-wrapper {
-      position: relative;
-      width: 100%;
-      padding: 0 7vw 80px;
-    }
+        .leaflet-popup-content-wrapper,
+        .leaflet-popup-tip {
+            background: #111;
+            color: #fff;
+        }
 
+        .leaflet-popup-content {
+            margin: 14px 16px;
+            font-family: Arial, sans-serif;
+        }
 
-    #map {
-      width: 100%;
-      height: min(70vh, 750px);
-      min-height: 500px;
-      background: #111;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
+        .popup-title {
+            margin-bottom: 5px;
+            font-size: 15px;
+            font-weight: 900;
+        }
 
+        .popup-location {
+            color: #aaa;
+            font-size: 12px;
+        }
 
-    /* =========================================
-       LEAFLET ANPASSUNG
-    ========================================= */
+        .popup-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #168cff;
+            font-size: 11px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
 
-    .leaflet-control-zoom {
-      border: 1px solid rgba(255,255,255,0.15) !important;
-      box-shadow: none !important;
-    }
+        .popup-link:hover {
+            color: #fff;
+        }
 
+        @media (max-width: 900px) {
+            .map-page {
+                padding-top: 68px;
+            }
 
-    .leaflet-control-zoom a {
-      width: 38px !important;
-      height: 38px !important;
-      line-height: 38px !important;
-      border: 0 !important;
-      border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-      background: #080808 !important;
-      color: #f2f2f2 !important;
-    }
+            .map-heading {
+                padding-top: 35px;
+            }
 
+            .map-wrapper {
+                height: 550px;
+            }
+        }
 
-    .leaflet-control-zoom a:last-child {
-      border-bottom: 0 !important;
-    }
+        @media (max-width: 600px) {
+            .map-heading,
+            .map-wrapper,
+            .map-back {
+                width: calc(100% - 24px);
+            }
 
+            .map-heading {
+                padding: 28px 0 18px;
+            }
 
-    .leaflet-control-zoom a:hover {
-      background: #00a8ff !important;
-      color: #050505 !important;
-    }
+            .map-wrapper {
+                height: 500px;
+                margin-bottom: 35px;
+            }
 
+            .map-search {
+                top: 12px;
+                left: 12px;
+                width: calc(100% - 24px);
+            }
 
-    .leaflet-control-attribution {
-      background: rgba(5,5,5,0.85) !important;
-      color: #666 !important;
-    }
+            .map-search input {
+                min-height: 46px;
+            }
 
-
-    .leaflet-control-attribution a {
-      color: #00a8ff !important;
-    }
-
-
-    /* =========================================
-       ZURÜCK BUTTON
-    ========================================= */
-
-    .map-back-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      margin-top: 20px;
-      padding: 0 18px;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: #0b0b0b;
-      color: #888;
-      text-decoration: none;
-      font-size: 0.64rem;
-      font-weight: 900;
-      letter-spacing: 0.13em;
-      transition:
-        color 0.2s ease,
-        border-color 0.2s ease,
-        background 0.2s ease;
-    }
-
-
-    .map-back-button:hover {
-      border-color: #00a8ff;
-      background: #00a8ff;
-      color: #050505;
-    }
-
-
-    /* =========================================
-       MOBILE
-    ========================================= */
-
-    @media (max-width: 900px) {
-
-      .map-page {
-        padding-top: 68px;
-      }
-
-
-      .map-header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 45px 6vw 25px;
-      }
-
-
-      .map-intro {
-        max-width: 500px;
-      }
-
-
-      .map-wrapper {
-        padding: 0 6vw 60px;
-      }
-
-
-      #map {
-        height: 65vh;
-        min-height: 450px;
-      }
-
-    }
-
-
-    @media (max-width: 600px) {
-
-      .map-header {
-        padding-top: 35px;
-      }
-
-
-      #map {
-        height: 65vh;
-        min-height: 400px;
-      }
-
-    }
-
-  </style>
-
+            .map-back {
+                margin-bottom: 35px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+    <div id="site-header"></div>
 
-<!-- =========================================
-     SHARED HEADER
-========================================= -->
+    <main class="map-page">
 
-<div id="site-header"></div>
+        <section class="map-heading">
+            <h1>SKATE MAP</h1>
+            <p>Finde deinen Spot.</p>
+        </section>
 
+        <section class="map-wrapper">
 
-<!-- =========================================
-     KARTE
-========================================= -->
+            <div class="map-search">
 
-<main class="map-page">
+                <div class="map-search-box">
 
-  <section class="map-header">
+                    <input
+                        type="search"
+                        id="mapSearch"
+                        placeholder="SKATEPARK ODER STADT SUCHEN..."
+                        autocomplete="off"
+                    >
 
-    <div class="map-heading">
+                    <button
+                        type="button"
+                        id="searchButton"
+                        aria-label="Suchen"
+                    >
+                        🔎
+                    </button>
 
-      <span>
-        MOI-CY / SKATEPARKS
-      </span>
+                </div>
 
-      <h1>
-        Karte
-      </h1>
+                <div
+                    class="search-message"
+                    id="searchMessage"
+                ></div>
 
-    </div>
+            </div>
 
+            <div id="map"></div>
 
-    <p class="map-intro">
-      Entdecke Skateparks auf der Karte.
-      Die Funktionen für Standort und Routen
-      kommen später Schritt für Schritt dazu.
-    </p>
+        </section>
 
-  </section>
+        <div class="map-back">
+            <a href="skateplaetze.html">
+                ← ZU DEN SKATEPLÄTZEN
+            </a>
+        </div>
 
+    </main>
 
-  <section class="map-wrapper">
+    <div id="site-footer"></div>
 
-    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <script src="script.js"></script>
 
-    <a
-      class="map-back-button"
-      href="skateplaetze.html"
-    >
-      ← ZURÜCK ZU DEN SKATEPLÄTZEN
-    </a>
+    <script>
+        const map = L.map("map", {
+            zoomControl: true
+        });
 
-  </section>
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 19,
+                attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
+            }
+        ).addTo(map);
 
-</main>
+        const skateparks = [
+            {
+                name: "Skatepark Valence",
+                city: "Valence",
+                country: "Frankreich",
+                lat: 44.9543094,
+                lng: 4.8978972
+            },
+            {
+                name: "Skatepark Karlsruhe",
+                city: "Karlsruhe",
+                country: "Deutschland",
+                lat: 49.0029885,
+                lng: 8.4313306
+            },
+            {
+                name: "Skatepark Heidelberg",
+                city: "Heidelberg",
+                country: "Deutschland",
+                lat: 49.4115646,
+                lng: 8.6767926
+            },
+            {
+                name: "Heidelberg Bowl",
+                city: "Heidelberg",
+                country: "Deutschland",
+                lat: 49.3919556,
+                lng: 8.6835068
+            },
+            {
+                name: "Skatepark Perpignan",
+                city: "Perpignan",
+                country: "Frankreich",
+                lat: 42.6778339,
+                lng: 2.9032284
+            },
+            {
+                name: "München Hirschgarten",
+                city: "München",
+                country: "Deutschland",
+                lat: 48.1455915,
+                lng: 11.5097967
+            }
+        ];
 
+        const markers = [];
 
-<!-- =========================================
-     SHARED FOOTER
-========================================= -->
+        skateparks.forEach((park) => {
 
-<div id="site-footer"></div>
+            const marker = L.marker([
+                park.lat,
+                park.lng
+            ]).addTo(map);
 
+            marker.bindPopup(`
+                <div class="popup-title">
+                    ${park.name}
+                </div>
 
-<!-- =========================================
-     LEAFLET
-========================================= -->
+                <div class="popup-location">
+                    ${park.city}, ${park.country}
+                </div>
 
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-></script>
+                <a
+                    class="popup-link"
+                    href="skateplaetze.html"
+                >
+                    Skateplatz ansehen →
+                </a>
+            `);
 
+            markers.push({
+                park,
+                marker
+            });
+        });
 
-<script src="script.js"></script>
+        map.setView([48.5, 10.5], 6);
 
+        const searchInput = document.getElementById("mapSearch");
+        const searchButton = document.getElementById("searchButton");
+        const searchMessage = document.getElementById("searchMessage");
 
-<script>
+        function searchSkatepark() {
 
-  /* =========================================
-     KARTE INITIALISIEREN
-  ========================================= */
+            const searchTerm = searchInput.value
+                .trim()
+                .toLowerCase();
 
-  const map = L.map("map", {
-    zoomControl: true
-  });
+            searchMessage.classList.remove("active");
+            searchMessage.textContent = "";
 
+            if (!searchTerm) {
+                map.setView([48.5, 10.5], 6);
+                return;
+            }
 
-  /* =========================================
-     OPENSTREETMAP KARTE
-  ========================================= */
+            const matches = markers.filter(({ park }) => {
 
-  L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-      maxZoom: 19,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>'
-    }
-  ).addTo(map);
+                return (
+                    park.name.toLowerCase().includes(searchTerm) ||
+                    park.city.toLowerCase().includes(searchTerm) ||
+                    park.country.toLowerCase().includes(searchTerm)
+                );
 
+            });
 
-  /* =========================================
-     STARTANSICHT
-     
-     Europa / Deutschland
-  ========================================= */
+            if (matches.length === 0) {
 
-  map.setView(
-    [48.5, 10.5],
-    6
-  );
+                searchMessage.textContent =
+                    "Kein Skatepark gefunden.";
 
+                searchMessage.classList.add("active");
 
-  /* =========================================
-     ERSTER TEST-MARKER
-     
-     Nur damit wir sehen, dass alles
-     funktioniert.
-  ========================================= */
+                return;
+            }
 
-  L.marker([
-    49.00299,
-    8.43133
-  ])
-    .addTo(map)
-    .bindPopup(`
-      <strong>Karlsruhe</strong><br>
-      Skatepark Karlsruhe
-    `);
+            if (matches.length === 1) {
 
+                const result = matches[0];
 
-</script>
+                map.flyTo(
+                    [
+                        result.park.lat,
+                        result.park.lng
+                    ],
+                    15,
+                    {
+                        duration: 1
+                    }
+                );
 
+                result.marker.openPopup();
+
+                return;
+            }
+
+            const bounds = L.latLngBounds(
+                matches.map(({ park }) => [
+                    park.lat,
+                    park.lng
+                ])
+            );
+
+            map.fitBounds(bounds, {
+                padding: [80, 80],
+                maxZoom: 13
+            });
+
+            searchMessage.textContent =
+                `${matches.length} Skateparks gefunden.`;
+
+            searchMessage.classList.add("active");
+        }
+
+        searchButton.addEventListener(
+            "click",
+            searchSkatepark
+        );
+
+        searchInput.addEventListener(
+            "keydown",
+            (event) => {
+
+                if (event.key === "Enter") {
+                    searchSkatepark();
+                }
+
+            }
+        );
+
+        searchInput.addEventListener(
+            "input",
+            () => {
+
+                if (searchInput.value.trim() === "") {
+                    searchMessage.classList.remove("active");
+                    searchMessage.textContent = "";
+                }
+
+            }
+        );
+    </script>
 
 </body>
-
 </html>
