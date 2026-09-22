@@ -23,7 +23,7 @@
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css?v=skateplaetze6">
+  <link rel="stylesheet" href="style.css?v=skateplaetze7">
 
 
   <style>
@@ -289,6 +289,7 @@
       overflow: hidden;
       background: #0b0b0b;
       cursor: pointer;
+      touch-action: pan-y;
     }
 
     .gallery-image {
@@ -302,6 +303,8 @@
       transition:
         opacity 0.35s ease,
         transform 0.45s ease;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
     .gallery-image.active {
@@ -331,6 +334,7 @@
       font-size: 0.7rem;
       font-weight: 900;
       letter-spacing: 0.2em;
+      transition: opacity 0.3s ease;
     }
 
     .gallery-placeholder::after {
@@ -343,9 +347,33 @@
       transform: rotate(-8deg);
     }
 
+    .gallery-placeholder.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
 
     /* =========================================
-       PUNKTE
+       AUTOMATISCHE BILDERANZAHL
+    ========================================= */
+
+    .gallery-count {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 5;
+      padding: 7px 10px;
+      background: rgba(5,5,5,0.75);
+      color: #f2f2f2;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      backdrop-filter: blur(5px);
+    }
+
+
+    /* =========================================
+       AUTOMATISCHE PUNKTE
     ========================================= */
 
     .gallery-dots {
@@ -424,46 +452,42 @@
 
 
     /* =========================================
-       GALERIE-HINWEIS
-    ========================================= */
-
-    .gallery-count {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      z-index: 5;
-      padding: 7px 10px;
-      background: rgba(5,5,5,0.7);
-      color: #f2f2f2;
-      font-size: 0.58rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-    }
-
-
-    /* =========================================
        GOOGLE MAPS
     ========================================= */
 
     .skatepark-map-link {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
+      justify-content: center;
+      gap: 10px;
+      min-height: 44px;
       margin-top: 13px;
-      color: #777;
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.13em;
+      padding: 0 18px;
+      border: 1px solid #00a8ff;
+      background: rgba(0,168,255,0.08);
+      color: #00a8ff;
+      font-size: 0.66rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
       text-decoration: none;
       transition:
         color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
         transform 0.25s ease;
     }
 
+    .skatepark-map-link::before {
+      content: "📍";
+      font-size: 0.85rem;
+      filter: grayscale(1);
+    }
+
     .skatepark-map-link:hover {
-      color: #00a8ff;
-      transform: translateX(4px);
+      color: #050505;
+      background: #00a8ff;
+      border-color: #00a8ff;
+      transform: translateY(-2px);
     }
 
 
@@ -526,6 +550,8 @@
       max-height: 82vh;
       object-fit: contain;
       background: #080808;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
     .lightbox-close {
@@ -584,6 +610,7 @@
       font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 0.12em;
+      white-space: nowrap;
     }
 
 
@@ -667,9 +694,9 @@
       }
 
       .skatepark-map-link {
-        justify-content: flex-start;
+        justify-content: center;
         margin-top: 10px;
-        color: #00a8ff;
+        min-height: 48px;
       }
 
       .lightbox-arrow {
@@ -687,6 +714,10 @@
 
       .gallery-lightbox {
         padding: 20px;
+      }
+
+      .lightbox-content {
+        width: 100%;
       }
 
     }
@@ -900,8 +931,10 @@
                 class="gallery-count"
                 data-i18n="gallery_count"
               >
-                4 BILDER
+                BILDER
               </div>
+
+              <div class="gallery-dots"></div>
 
 
               <button
@@ -922,39 +955,6 @@
                 →
               </button>
 
-
-              <div class="gallery-dots">
-
-                <button
-                  class="gallery-dot active"
-                  type="button"
-                  aria-label="Bild 1"
-                  data-i18n-aria="image_1"
-                ></button>
-
-                <button
-                  class="gallery-dot"
-                  type="button"
-                  aria-label="Bild 2"
-                  data-i18n-aria="image_2"
-                ></button>
-
-                <button
-                  class="gallery-dot"
-                  type="button"
-                  aria-label="Bild 3"
-                  data-i18n-aria="image_3"
-                ></button>
-
-                <button
-                  class="gallery-dot"
-                  type="button"
-                  aria-label="Bild 4"
-                  data-i18n-aria="image_4"
-                ></button>
-
-              </div>
-
             </div>
 
 
@@ -964,7 +964,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              GOOGLE MAPS ↗
+              GOOGLE MAPS ÖFFNEN ↗
             </a>
 
           </div>
@@ -1037,8 +1037,10 @@
                 class="gallery-count"
                 data-i18n="gallery_count"
               >
-                4 BILDER
+                BILDER
               </div>
+
+              <div class="gallery-dots"></div>
 
 
               <button
@@ -1059,16 +1061,6 @@
                 →
               </button>
 
-
-              <div class="gallery-dots">
-
-                <button class="gallery-dot active" type="button" aria-label="Bild 1" data-i18n-aria="image_1"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 2" data-i18n-aria="image_2"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 3" data-i18n-aria="image_3"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 4" data-i18n-aria="image_4"></button>
-
-              </div>
-
             </div>
 
 
@@ -1078,7 +1070,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              GOOGLE MAPS ↗
+              GOOGLE MAPS ÖFFNEN ↗
             </a>
 
           </div>
@@ -1151,8 +1143,10 @@
                 class="gallery-count"
                 data-i18n="gallery_count"
               >
-                4 BILDER
+                BILDER
               </div>
+
+              <div class="gallery-dots"></div>
 
 
               <button
@@ -1173,16 +1167,6 @@
                 →
               </button>
 
-
-              <div class="gallery-dots">
-
-                <button class="gallery-dot active" type="button" aria-label="Bild 1" data-i18n-aria="image_1"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 2" data-i18n-aria="image_2"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 3" data-i18n-aria="image_3"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 4" data-i18n-aria="image_4"></button>
-
-              </div>
-
             </div>
 
 
@@ -1192,7 +1176,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              GOOGLE MAPS ↗
+              GOOGLE MAPS ÖFFNEN ↗
             </a>
 
           </div>
@@ -1265,8 +1249,10 @@
                 class="gallery-count"
                 data-i18n="gallery_count"
               >
-                4 BILDER
+                BILDER
               </div>
+
+              <div class="gallery-dots"></div>
 
 
               <button
@@ -1287,16 +1273,6 @@
                 →
               </button>
 
-
-              <div class="gallery-dots">
-
-                <button class="gallery-dot active" type="button" aria-label="Bild 1" data-i18n-aria="image_1"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 2" data-i18n-aria="image_2"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 3" data-i18n-aria="image_3"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 4" data-i18n-aria="image_4"></button>
-
-              </div>
-
             </div>
 
 
@@ -1306,7 +1282,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              GOOGLE MAPS ↗
+              GOOGLE MAPS ÖFFNEN ↗
             </a>
 
           </div>
@@ -1379,8 +1355,10 @@
                 class="gallery-count"
                 data-i18n="gallery_count"
               >
-                4 BILDER
+                BILDER
               </div>
+
+              <div class="gallery-dots"></div>
 
 
               <button
@@ -1401,16 +1379,6 @@
                 →
               </button>
 
-
-              <div class="gallery-dots">
-
-                <button class="gallery-dot active" type="button" aria-label="Bild 1" data-i18n-aria="image_1"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 2" data-i18n-aria="image_2"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 3" data-i18n-aria="image_3"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 4" data-i18n-aria="image_4"></button>
-
-              </div>
-
             </div>
 
 
@@ -1420,7 +1388,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              GOOGLE MAPS ↗
+              GOOGLE MAPS ÖFFNEN ↗
             </a>
 
           </div>
@@ -1493,8 +1461,10 @@
                 class="gallery-count"
                 data-i18n="gallery_count"
               >
-                4 BILDER
+                BILDER
               </div>
+
+              <div class="gallery-dots"></div>
 
 
               <button
@@ -1515,16 +1485,6 @@
                 →
               </button>
 
-
-              <div class="gallery-dots">
-
-                <button class="gallery-dot active" type="button" aria-label="Bild 1" data-i18n-aria="image_1"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 2" data-i18n-aria="image_2"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 3" data-i18n-aria="image_3"></button>
-                <button class="gallery-dot" type="button" aria-label="Bild 4" data-i18n-aria="image_4"></button>
-
-              </div>
-
             </div>
 
 
@@ -1534,7 +1494,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-              GOOGLE MAPS ↗
+              GOOGLE MAPS ÖFFNEN ↗
             </a>
 
           </div>
@@ -1606,7 +1566,7 @@
       class="lightbox-counter"
       id="lightboxCounter"
     >
-      1 / 4
+      0 / 0
     </div>
 
   </div>
@@ -1664,7 +1624,9 @@
     );
 
 
-  /* Länder automatisch erstellen */
+  /* =========================================
+     LÄNDER AUTOMATISCH ERSTELLEN
+  ========================================= */
 
   const countries = [
     ...new Set(
@@ -1695,6 +1657,10 @@
 
   });
 
+
+  /* =========================================
+     SUCHE / FILTER / SORTIERUNG
+  ========================================= */
 
   function updateParks() {
 
@@ -1844,118 +1810,637 @@
 
 
   /* =========================================
-     GALERIEN
+     GALERIEN AUTOMATISCH ERKENNEN
+     
+     Beispiel:
+     bilder/valence-1.jpg
+     bilder/valence-2.jpg
+     bilder/valence-3.jpg
+     ...
+     
+     Es werden automatisch alle vorhandenen
+     Bilder von 1 bis 50 gesucht.
   ========================================= */
 
-  const galleries = {
-
-    valence: [
-      "bilder/valence-1.jpg",
-      "bilder/valence-2.jpg",
-      "bilder/valence-3.jpg",
-      "bilder/valence-4.jpg"
-    ],
-
-    karlsruhe: [
-      "bilder/karlsruhe-1.jpg",
-      "bilder/karlsruhe-2.jpg",
-      "bilder/karlsruhe-3.jpg",
-      "bilder/karlsruhe-4.jpg"
-    ],
-
-    heidelberg: [
-      "bilder/heidelberg-1.jpg",
-      "bilder/heidelberg-2.jpg",
-      "bilder/heidelberg-3.jpg",
-      "bilder/heidelberg-4.jpg"
-    ],
-
-    "heidelberg-bowl": [
-      "bilder/heidelberg-bowl-1.jpg",
-      "bilder/heidelberg-bowl-2.jpg",
-      "bilder/heidelberg-bowl-3.jpg",
-      "bilder/heidelberg-bowl-4.jpg"
-    ],
-
-    perpignan: [
-      "bilder/perpignan-1.jpg",
-      "bilder/perpignan-2.jpg",
-      "bilder/perpignan-3.jpg",
-      "bilder/perpignan-4.jpg"
-    ],
-
-    muenchen: [
-      "bilder/muenchen-1.jpg",
-      "bilder/muenchen-2.jpg",
-      "bilder/muenchen-3.jpg",
-      "bilder/muenchen-4.jpg"
-    ]
-
-  };
+  const galleries = {};
 
 
-  document
-    .querySelectorAll(".skatepark-gallery")
-    .forEach(gallery => {
+  function imageExists(src) {
 
-      const galleryName =
-        gallery.dataset.gallery;
+    return new Promise(resolve => {
 
-      const imageList =
-        galleries[galleryName];
+      const image =
+        new Image();
+
+      image.onload =
+        () => resolve(true);
+
+      image.onerror =
+        () => resolve(false);
+
+      image.src =
+        src;
+
+    });
+
+  }
 
 
-      if (!imageList) return;
+  async function discoverGalleryImages(
+    galleryName
+  ) {
+
+    const maxImages = 50;
+
+    const checks =
+      Array.from(
+        { length: maxImages },
+        (_, index) => {
+
+          const number =
+            index + 1;
+
+          const src =
+            `bilder/${galleryName}-${number}.jpg`;
+
+          return imageExists(src)
+            .then(exists => ({
+              number,
+              src,
+              exists
+            }));
+
+        }
+      );
+
+
+    const results =
+      await Promise.all(checks);
+
+
+    return results
+      .filter(
+        result => result.exists
+      )
+      .sort(
+        (a, b) =>
+          a.number - b.number
+      )
+      .map(
+        result => result.src
+      );
+
+  }
+
+
+  async function setupGallery(
+    gallery
+  ) {
+
+    const galleryName =
+      gallery.dataset.gallery;
+
+
+    if (!galleryName) return;
+
+
+    const imageList =
+      await discoverGalleryImages(
+        galleryName
+      );
+
+
+    galleries[galleryName] =
+      imageList;
+
+
+    const placeholder =
+      gallery.querySelector(
+        ".gallery-placeholder"
+      );
+
+
+    const dotsContainer =
+      gallery.querySelector(
+        ".gallery-dots"
+      );
+
+
+    const count =
+      gallery.querySelector(
+        ".gallery-count"
+      );
+
+
+    const prevButton =
+      gallery.querySelector(
+        ".gallery-arrow.prev"
+      );
+
+
+    const nextButton =
+      gallery.querySelector(
+        ".gallery-arrow.next"
+      );
+
+
+    if (!imageList.length) {
+
+      if (count) {
+        count.textContent =
+          "0 BILDER";
+      }
+
+      if (dotsContainer) {
+        dotsContainer.innerHTML =
+          "";
+      }
+
+      if (prevButton) {
+        prevButton.style.display =
+          "none";
+      }
+
+      if (nextButton) {
+        nextButton.style.display =
+          "none";
+      }
+
+      return;
+
+    }
+
+
+    /* =========================================
+       BILDER ERSTELLEN
+    ========================================= */
+
+    imageList.forEach(
+      (imageSrc, index) => {
+
+        const image =
+          document.createElement("img");
+
+        image.className =
+          "gallery-image";
+
+        image.src =
+          imageSrc;
+
+        image.alt =
+          gallery.dataset.title
+          + " – Bild "
+          + (index + 1);
+
+        image.draggable =
+          false;
+
+        if (index === 0) {
+
+          image.classList.add(
+            "active"
+          );
+
+        }
+
+
+        gallery.insertBefore(
+          image,
+          dotsContainer
+        );
+
+      }
+    );
+
+
+    /* =========================================
+       BILDANZAHL
+    ========================================= */
+
+    if (count) {
+
+      count.textContent =
+        imageList.length
+        + " BILDER";
+
+    }
+
+
+    /* =========================================
+       DOTS AUTOMATISCH ERSTELLEN
+    ========================================= */
+
+    if (dotsContainer) {
+
+      dotsContainer.innerHTML =
+        "";
 
 
       imageList.forEach(
-        (imageSrc, index) => {
+        (_, index) => {
 
-          const image =
-            document.createElement("img");
+          const dot =
+            document.createElement(
+              "button"
+            );
 
-          image.className =
-            "gallery-image";
+          dot.className =
+            "gallery-dot";
 
-          image.src =
-            imageSrc;
-
-          image.alt =
-            gallery.dataset.title
-            + " – Bild "
-            + (index + 1);
 
           if (index === 0) {
 
-            image.classList.add(
+            dot.classList.add(
               "active"
             );
 
           }
 
 
-          gallery.insertBefore(
-            image,
-            gallery.querySelector(
-              ".gallery-dots"
-            )
+          dot.type =
+            "button";
+
+          dot.setAttribute(
+            "aria-label",
+            "Bild "
+            + (index + 1)
+          );
+
+
+          dot.addEventListener(
+            "click",
+            event => {
+
+              event.stopPropagation();
+
+              showGalleryImage(
+                gallery,
+                index
+              );
+
+            }
+          );
+
+
+          dotsContainer.appendChild(
+            dot
           );
 
         }
       );
 
-    });
+    }
 
+
+    /* =========================================
+       PLATZHALTER AUSBLENDEN
+    ========================================= */
+
+    if (placeholder) {
+
+      placeholder.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /* =========================================
+       GALERIE-PFEILE
+    ========================================= */
+
+    if (prevButton) {
+
+      prevButton.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+
+          const images =
+            gallery.querySelectorAll(
+              ".gallery-image"
+            );
+
+
+          const current =
+            Array.from(images)
+              .findIndex(
+                image =>
+                  image.classList.contains(
+                    "active"
+                  )
+              );
+
+
+          showGalleryImage(
+            gallery,
+            current - 1
+          );
+
+        }
+      );
+
+    }
+
+
+    if (nextButton) {
+
+      nextButton.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+
+          const images =
+            gallery.querySelectorAll(
+              ".gallery-image"
+            );
+
+
+          const current =
+            Array.from(images)
+              .findIndex(
+                image =>
+                  image.classList.contains(
+                    "active"
+                  )
+              );
+
+
+          showGalleryImage(
+            gallery,
+            current + 1
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       KLICK ÖFFNET LIGHTBOX
+    ========================================= */
+
+    gallery.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target.closest(
+            ".gallery-arrow"
+          )
+        ) return;
+
+
+        if (
+          event.target.closest(
+            ".gallery-dot"
+          )
+        ) return;
+
+
+        const images =
+          gallery.querySelectorAll(
+            ".gallery-image"
+          );
+
+
+        const current =
+          Array.from(images)
+            .findIndex(
+              image =>
+                image.classList.contains(
+                  "active"
+                )
+            );
+
+
+        if (current < 0) return;
+
+
+        openLightbox(
+          gallery,
+          current
+        );
+
+      }
+    );
+
+
+    /* =========================================
+       TOUCH / SWIPE AUF NORMALER GALERIE
+    ========================================= */
+
+    let touchStartX =
+      0;
+
+    let touchStartY =
+      0;
+
+
+    gallery.addEventListener(
+      "touchstart",
+      event => {
+
+        const touch =
+          event.changedTouches[0];
+
+        touchStartX =
+          touch.screenX;
+
+        touchStartY =
+          touch.screenY;
+
+      },
+      { passive: true }
+    );
+
+
+    gallery.addEventListener(
+      "touchend",
+      event => {
+
+        const touch =
+          event.changedTouches[0];
+
+        const touchEndX =
+          touch.screenX;
+
+        const touchEndY =
+          touch.screenY;
+
+
+        const differenceX =
+          touchStartX - touchEndX;
+
+        const differenceY =
+          touchStartY - touchEndY;
+
+
+        /* Nur horizontale Wischbewegungen */
+
+        if (
+          Math.abs(differenceX) < 50
+          ||
+          Math.abs(differenceX)
+            < Math.abs(differenceY)
+        ) {
+
+          return;
+
+        }
+
+
+        const images =
+          gallery.querySelectorAll(
+            ".gallery-image"
+          );
+
+
+        const current =
+          Array.from(images)
+            .findIndex(
+              image =>
+                image.classList.contains(
+                  "active"
+                )
+            );
+
+
+        if (differenceX > 0) {
+
+          showGalleryImage(
+            gallery,
+            current + 1
+          );
+
+        } else {
+
+          showGalleryImage(
+            gallery,
+            current - 1
+          );
+
+        }
+
+      },
+      { passive: true }
+    );
+
+
+    /* =========================================
+       AUTOPLAY
+    ========================================= */
+
+    if (imageList.length > 1) {
+
+      let autoplayTimer =
+        setInterval(
+          () => {
+
+            if (
+              document.hidden
+            ) return;
+
+
+            const images =
+              gallery.querySelectorAll(
+                ".gallery-image"
+              );
+
+
+            const current =
+              Array.from(images)
+                .findIndex(
+                  image =>
+                    image.classList.contains(
+                      "active"
+                    )
+                );
+
+
+            showGalleryImage(
+              gallery,
+              current + 1
+            );
+
+          },
+          5000
+        );
+
+
+      /* Bei Maus darüber pausieren */
+
+      gallery.addEventListener(
+        "mouseenter",
+        () => {
+
+          clearInterval(
+            autoplayTimer
+          );
+
+        }
+      );
+
+
+      gallery.addEventListener(
+        "mouseleave",
+        () => {
+
+          clearInterval(
+            autoplayTimer
+          );
+
+
+          autoplayTimer =
+            setInterval(
+              () => {
+
+                if (
+                  document.hidden
+                ) return;
+
+
+                const images =
+                  gallery.querySelectorAll(
+                    ".gallery-image"
+                  );
+
+
+                const current =
+                  Array.from(images)
+                    .findIndex(
+                      image =>
+                        image.classList.contains(
+                          "active"
+                        )
+                    );
+
+
+                showGalleryImage(
+                  gallery,
+                  current + 1
+                );
+
+              },
+              5000
+            );
+
+        }
+      );
+
+    }
+
+  }
 
 
   /* =========================================
-     GALERIE LOGIK
+     GALERIE-BILD ANZEIGEN
   ========================================= */
-
-  let activeGallery = null;
-
-  let activeIndex = 0;
-
 
   function showGalleryImage(
     gallery,
@@ -1976,8 +2461,11 @@
     if (!images.length) return;
 
 
-    activeIndex =
-      (index + images.length)
+    const safeIndex =
+      (
+        index
+        + images.length
+      )
       % images.length;
 
 
@@ -1986,7 +2474,7 @@
 
         image.classList.toggle(
           "active",
-          i === activeIndex
+          i === safeIndex
         );
 
       }
@@ -1998,7 +2486,7 @@
 
         dot.classList.toggle(
           "active",
-          i === activeIndex
+          i === safeIndex
         );
 
       }
@@ -2007,114 +2495,38 @@
   }
 
 
-  document
-    .querySelectorAll(".skatepark-gallery")
-    .forEach(gallery => {
+  /* =========================================
+     ALLE GALERIEN STARTEN
+  ========================================= */
 
-      const images =
-        gallery.querySelectorAll(
-          ".gallery-image"
-        );
-
-
-      gallery
-        .querySelector(".prev")
-        .addEventListener(
-          "click",
-          event => {
-
-            event.stopPropagation();
-
-            showGalleryImage(
-              gallery,
-              Array.from(images)
-                .findIndex(
-                  image =>
-                    image.classList.contains(
-                      "active"
-                    )
-                ) - 1
-            );
-
-          }
-        );
+  const gallerySetupPromises =
+    Array.from(
+      document.querySelectorAll(
+        ".skatepark-gallery"
+      )
+    )
+    .map(
+      gallery =>
+        setupGallery(gallery)
+    );
 
 
-      gallery
-        .querySelector(".next")
-        .addEventListener(
-          "click",
-          event => {
-
-            event.stopPropagation();
-
-            showGalleryImage(
-              gallery,
-              Array.from(images)
-                .findIndex(
-                  image =>
-                    image.classList.contains(
-                      "active"
-                    )
-                ) + 1
-            );
-
-          }
-        );
-
-
-      gallery
-        .querySelectorAll(".gallery-dot")
-        .forEach(
-          (dot, index) => {
-
-            dot.addEventListener(
-              "click",
-              event => {
-
-                event.stopPropagation();
-
-                showGalleryImage(
-                  gallery,
-                  index
-                );
-
-              }
-            );
-
-          }
-        );
-
-
-      gallery.addEventListener(
-        "click",
-        () => {
-
-          const current =
-            Array.from(images)
-              .findIndex(
-                image =>
-                  image.classList.contains(
-                    "active"
-                  )
-              );
-
-
-          openLightbox(
-            gallery,
-            current
-          );
-
-        }
-      );
-
-    });
+  Promise.all(
+    gallerySetupPromises
+  );
 
 
 
   /* =========================================
      LIGHTBOX
   ========================================= */
+
+  let activeGallery =
+    null;
+
+  let activeIndex =
+    0;
+
 
   const lightbox =
     document.getElementById(
@@ -2137,26 +2549,40 @@
     index
   ) {
 
-    activeGallery =
-      gallery;
-
-    activeIndex =
-      index >= 0
-        ? index
-        : 0;
-
-
     const imageList =
       galleries[
         gallery.dataset.gallery
       ];
 
 
-    if (!imageList) return;
+    if (
+      !imageList
+      ||
+      !imageList.length
+    ) {
+
+      return;
+
+    }
+
+
+    activeGallery =
+      gallery;
+
+
+    activeIndex =
+      Math.max(
+        0,
+        Math.min(
+          index,
+          imageList.length - 1
+        )
+      );
 
 
     lightboxImage.src =
       imageList[activeIndex];
+
 
     lightboxImage.alt =
       gallery.dataset.title
@@ -2173,6 +2599,7 @@
     lightbox.classList.add(
       "open"
     );
+
 
     lightbox.setAttribute(
       "aria-hidden",
@@ -2192,10 +2619,15 @@
       "open"
     );
 
+
     lightbox.setAttribute(
       "aria-hidden",
       "true"
     );
+
+
+    lightboxImage.src =
+      "";
 
 
     document.body.style.overflow =
@@ -2215,6 +2647,17 @@
       galleries[
         activeGallery.dataset.gallery
       ];
+
+
+    if (
+      !imageList
+      ||
+      !imageList.length
+    ) {
+
+      return;
+
+    }
 
 
     activeIndex =
@@ -2304,6 +2747,10 @@
   );
 
 
+  /* =========================================
+     TASTATUR
+  ========================================= */
+
   document.addEventListener(
     "keydown",
     event => {
@@ -2312,24 +2759,34 @@
         !lightbox.classList.contains(
           "open"
         )
-      ) return;
+      ) {
+
+        return;
+
+      }
 
 
-      if (event.key === "Escape") {
+      if (
+        event.key === "Escape"
+      ) {
 
         closeLightbox();
 
       }
 
 
-      if (event.key === "ArrowLeft") {
+      if (
+        event.key === "ArrowLeft"
+      ) {
 
         changeLightboxImage(-1);
 
       }
 
 
-      if (event.key === "ArrowRight") {
+      if (
+        event.key === "ArrowRight"
+      ) {
 
         changeLightboxImage(1);
 
@@ -2340,18 +2797,28 @@
 
 
   /* =========================================
-     TOUCH / SWIPE
+     TOUCH / SWIPE LIGHTBOX
   ========================================= */
 
-  let touchStartX = 0;
+  let lightboxTouchStartX =
+    0;
+
+  let lightboxTouchStartY =
+    0;
 
 
   lightbox.addEventListener(
     "touchstart",
     event => {
 
-      touchStartX =
-        event.changedTouches[0].screenX;
+      const touch =
+        event.changedTouches[0];
+
+      lightboxTouchStartX =
+        touch.screenX;
+
+      lightboxTouchStartY =
+        touch.screenY;
 
     },
     { passive: true }
@@ -2362,19 +2829,38 @@
     "touchend",
     event => {
 
-      const touchEndX =
-        event.changedTouches[0].screenX;
+      const touch =
+        event.changedTouches[0];
 
-      const difference =
-        touchStartX - touchEndX;
+      const touchEndX =
+        touch.screenX;
+
+      const touchEndY =
+        touch.screenY;
+
+
+      const differenceX =
+        lightboxTouchStartX
+        - touchEndX;
+
+      const differenceY =
+        lightboxTouchStartY
+        - touchEndY;
 
 
       if (
-        Math.abs(difference) < 50
-      ) return;
+        Math.abs(differenceX) < 50
+        ||
+        Math.abs(differenceX)
+          < Math.abs(differenceY)
+      ) {
+
+        return;
+
+      }
 
 
-      if (difference > 0) {
+      if (differenceX > 0) {
 
         changeLightboxImage(1);
 
