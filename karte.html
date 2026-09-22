@@ -45,7 +45,7 @@
             left: 0;
 
             overflow: hidden;
-            background: #101010;
+            background: #e8e8e8;
         }
 
         #map {
@@ -58,7 +58,7 @@
             width: 100%;
             height: 100%;
 
-            background: #101010;
+            background: #e8e8e8;
         }
 
         /* =========================================
@@ -68,24 +68,38 @@
         .leaflet-container {
             width: 100%;
             height: 100%;
+
             font-family: Arial, Helvetica, sans-serif;
-            background: #101010;
+
+            background: #e8e8e8;
+
+            overflow: hidden;
+        }
+
+        .leaflet-tile {
+            max-width: none !important;
+            max-height: none !important;
+            filter: none !important;
+        }
+
+        .leaflet-tile-container img {
+            max-width: none !important;
         }
 
         .leaflet-control-attribution {
-            background: rgba(5, 5, 5, 0.85) !important;
-            color: #777 !important;
+            background: rgba(255,255,255,0.92) !important;
+            color: #555 !important;
             font-size: 10px;
             padding: 3px 6px !important;
         }
 
         .leaflet-control-attribution a {
-            color: #999 !important;
+            color: #333 !important;
         }
 
         .leaflet-control-zoom {
-            border: 1px solid rgba(255,255,255,0.15) !important;
-            box-shadow: none !important;
+            border: 1px solid rgba(0,0,0,0.18) !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
         }
 
         .leaflet-control-zoom a {
@@ -93,10 +107,10 @@
             height: 32px !important;
             line-height: 32px !important;
 
-            background: rgba(8,8,8,0.94) !important;
-            color: #fff !important;
+            background: rgba(255,255,255,0.96) !important;
+            color: #111 !important;
 
-            border-bottom-color: rgba(255,255,255,0.1) !important;
+            border-bottom-color: rgba(0,0,0,0.12) !important;
         }
 
         .leaflet-control-zoom a:hover {
@@ -129,7 +143,7 @@
             border: 1px solid rgba(255,255,255,0.13);
 
             box-shadow:
-                0 20px 60px rgba(0,0,0,0.5);
+                0 20px 60px rgba(0,0,0,0.35);
 
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
@@ -477,7 +491,7 @@
 
             box-shadow:
                 0 0 0 5px rgba(22,140,255,0.16),
-                0 4px 14px rgba(0,0,0,0.55);
+                0 4px 14px rgba(0,0,0,0.35);
         }
 
         .moi-route-marker {
@@ -492,7 +506,7 @@
             border-radius: 50%;
 
             box-shadow:
-                0 3px 12px rgba(0,0,0,0.5);
+                0 3px 12px rgba(0,0,0,0.35);
         }
 
         /* =========================================
@@ -637,7 +651,6 @@
 
 <body>
 
-    <!-- Gemeinsame Moi-cy Navigation -->
     <div id="site-header"></div>
 
     <main class="map-page">
@@ -660,8 +673,6 @@
                     Suche eine Stadt, plane eine Route oder zeige alle registrierten Moi-cy-Spots.
                     Die Skateparks erscheinen erst nach deiner Suche.
                 </p>
-
-                <!-- STADT / ORT -->
 
                 <div class="map-search">
 
@@ -691,8 +702,6 @@
 
                 </div>
 
-                <!-- ALLE SKATEPARKS -->
-
                 <button
                     id="allParksButton"
                     class="map-button secondary full"
@@ -700,8 +709,6 @@
                 >
                     ALLE SKATEPLÄTZE
                 </button>
-
-                <!-- ROUTE -->
 
                 <div class="route-box">
 
@@ -751,8 +758,6 @@
 
                 </div>
 
-                <!-- STATUS -->
-
                 <div
                     id="mapStatus"
                     class="map-status"
@@ -766,8 +771,6 @@
 
                 </div>
 
-                <!-- ERGEBNISSE -->
-
                 <div
                     id="results"
                     class="results"
@@ -780,10 +783,9 @@
 
     </main>
 
-    <!-- Gemeinsamer Footer -->
     <div id="site-footer"></div>
 
-    <!-- Leaflet JavaScript -->
+    <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script type="module">
@@ -869,7 +871,8 @@
         const map = L.map("map", {
             zoomControl: false,
             minZoom: 3,
-            maxZoom: 19
+            maxZoom: 19,
+            preferCanvas: false
         }).setView(
             [49.1, 8.4],
             6
@@ -879,18 +882,22 @@
             position: "bottomright"
         }).addTo(map);
 
+        /*
+         * Normale OpenStreetMap-Karte.
+         * Keine dunkle Carto-Karte mehr.
+         */
         L.tileLayer(
-            "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
             {
-                maxZoom: 20,
+                maxZoom: 19,
+                tileSize: 256,
                 attribution:
-                    '&copy; OpenStreetMap-Mitwirkende &copy; CARTO'
+                    '&copy; OpenStreetMap-Mitwirkende'
             }
         ).addTo(map);
 
         /*
-         * Wichtig:
-         * Diese Layergruppe bleibt beim Seitenstart leer.
+         * Beim Start bewusst leer.
          */
         const parkLayer =
             L.layerGroup().addTo(map);
@@ -1015,7 +1022,7 @@
 
             } catch {
 
-                // Karte funktioniert auch ohne Cache.
+                // Cache ist optional.
 
             }
 
@@ -1098,7 +1105,7 @@
         }
 
         /* =====================================================
-           EXAKTE SKATEPARK-POSITIONEN
+           SKATEPARK-POSITIONEN
         ===================================================== */
 
         async function loadParkPosition(
@@ -1110,26 +1117,6 @@
                 Number.isFinite(park.lng)
             ) {
                 return park;
-            }
-
-            const cache =
-                readCache();
-
-            const key =
-                park.query
-                    .trim()
-                    .toLowerCase();
-
-            if (cache[key]) {
-
-                park.lat =
-                    cache[key].lat;
-
-                park.lng =
-                    cache[key].lng;
-
-                return park;
-
             }
 
             const result =
@@ -1150,18 +1137,6 @@
 
             park.lng =
                 result.lng;
-
-            /*
-             * Kleine Pause zwischen
-             * Nominatim-Anfragen.
-             */
-            await new Promise(
-                resolve =>
-                    setTimeout(
-                        resolve,
-                        1100
-                    )
-            );
 
             return park;
 
@@ -1287,9 +1262,7 @@
 
         }
 
-        function showParks(
-            list
-        ) {
+        function showParks(list) {
 
             parkLayer.clearLayers();
 
@@ -1608,7 +1581,7 @@
         }
 
         /* =====================================================
-           STADT / ORT SUCHEN
+           STADT / ORT
         ===================================================== */
 
         async function searchLocation() {
@@ -1675,7 +1648,6 @@
 
                 const nearby =
                     loaded
-
                         .map(
                             park => ({
 
@@ -1691,13 +1663,11 @@
 
                             })
                         )
-
                         .filter(
                             item =>
                                 item.distance <=
                                 35
                         )
-
                         .sort(
                             (a, b) =>
                                 a.distance -
@@ -1750,11 +1720,8 @@
 
                 setStatus(
                     nearby.length
-
                         ? `${nearby.length} Skatepark(s) im Umkreis von 35 km.`
-
                         : `Keine Moi-cy-Spots im Umkreis von 35 km.`,
-
                     nearby.length
                         ? "active"
                         : ""
@@ -1776,7 +1743,7 @@
         }
 
         /* =====================================================
-           ROUTE – PUNKT ZU ROUTE
+           ROUTE DISTANZ
         ===================================================== */
 
         function pointToSegmentKm(
@@ -1936,7 +1903,7 @@
         }
 
         /* =====================================================
-           ROUTE SUCHEN
+           ROUTE
         ===================================================== */
 
         async function searchRoute() {
@@ -2005,11 +1972,8 @@
 
                 const routeUrl =
                     "https://router.project-osrm.org/route/v1/driving/" +
-
                     `${start.lng},${start.lat};` +
-
                     `${end.lng},${end.lat}` +
-
                     "?overview=full&geometries=geojson";
 
                 setStatus(
@@ -2048,8 +2012,6 @@
                 const route =
                     data.routes[0];
 
-                /* Alte Route entfernen */
-
                 if (routeLayer) {
 
                     map.removeLayer(
@@ -2074,13 +2036,10 @@
 
                 }
 
-                /* Route zeichnen */
-
                 routeLayer =
                     L.geoJSON(
                         route.geometry,
                         {
-
                             style: {
 
                                 color:
@@ -2093,13 +2052,10 @@
                                     0.95
 
                             }
-
                         }
                     ).addTo(
                         map
                     );
-
-                /* Start / Ziel Marker */
 
                 const endpointIcon =
                     L.divIcon({
@@ -2149,22 +2105,14 @@
                             `<strong>ZIEL</strong><br>${escapeHtml(end.displayName)}`
                         );
 
-                /* Skateparks laden */
-
                 const loaded =
                     await loadAllParkPositions();
 
                 const routeCoordinates =
                     route.geometry.coordinates;
 
-                /*
-                 * 15 km links/rechts
-                 * entlang der gesamten Route.
-                 */
-
                 const nearby =
                     loaded
-
                         .map(
                             park => ({
 
@@ -2178,13 +2126,11 @@
 
                             })
                         )
-
                         .filter(
                             item =>
                                 item.distance <=
                                 15
                         )
-
                         .sort(
                             (a, b) =>
                                 a.distance -
@@ -2232,17 +2178,12 @@
                     ).toFixed(1);
 
                 setStatus(
-
                     nearby.length
-
                         ? `${nearby.length} Skatepark(s) bis 15 km von der Route. Route: ${distanceKm} km.`
-
                         : `Keine Moi-cy-Spots bis 15 km von der Route. Route: ${distanceKm} km.`,
-
                     nearby.length
                         ? "active"
                         : ""
-
                 );
 
             } catch (error) {
@@ -2331,36 +2272,17 @@
         }
 
         /* =====================================================
-           HTML SICHER AUSGEBEN
+           HTML ESCAPEN
         ===================================================== */
 
-        function escapeHtml(
-            value
-        ) {
+        function escapeHtml(value) {
 
-            return String(
-                value
-            )
-                .replaceAll(
-                    "&",
-                    "&amp;"
-                )
-                .replaceAll(
-                    "<",
-                    "&lt;"
-                )
-                .replaceAll(
-                    ">",
-                    "&gt;"
-                )
-                .replaceAll(
-                    '"',
-                    "&quot;"
-                )
-                .replaceAll(
-                    "'",
-                    "&#039;"
-                );
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
 
         }
 
@@ -2437,19 +2359,27 @@
         );
 
         /*
-         * Leaflet braucht nach dem Einblenden
-         * manchmal einen Größen-Refresh.
+         * Mehrfacher Größen-Refresh verhindert,
+         * dass Leaflet nach dem Laden des Headers
+         * eine falsche Kartengröße berechnet.
          */
         setTimeout(
-            () => {
-                map.invalidateSize();
-            },
-            300
+            () => map.invalidateSize(true),
+            100
+        );
+
+        setTimeout(
+            () => map.invalidateSize(true),
+            500
+        );
+
+        setTimeout(
+            () => map.invalidateSize(true),
+            1000
         );
 
     </script>
 
-    <!-- Gemeinsames Moi-cy Script -->
     <script
         type="module"
         src="script.js"
