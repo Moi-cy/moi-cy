@@ -9,7 +9,6 @@
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIINfQ3R7mT1zW1JjvV2YV4H0x0p5X5H0="
         crossorigin=""
     >
 
@@ -25,7 +24,7 @@
             width: 100%;
             height: 100%;
             background: #050505;
-            color: #ffffff;
+            color: #fff;
             font-family: Arial, Helvetica, sans-serif;
             overflow: hidden;
         }
@@ -34,6 +33,7 @@
             position: relative;
             width: 100%;
             height: 100vh;
+            min-height: 100vh;
             overflow: hidden;
             background: #111;
         }
@@ -41,12 +41,21 @@
         #map {
             position: absolute;
             inset: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
         }
 
-        /* -----------------------------
+        .leaflet-container {
+            width: 100%;
+            height: 100%;
+            background: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =========================================
            TITEL
-        ----------------------------- */
+        ========================================= */
 
         .map-title {
             position: absolute;
@@ -57,27 +66,27 @@
 
             margin: 0;
 
+            color: #fff;
             font-size: clamp(1.3rem, 3vw, 2.4rem);
             font-weight: 900;
-            letter-spacing: 0.12em;
+            letter-spacing: .12em;
             text-transform: uppercase;
 
-            color: #ffffff;
-            text-shadow:
-                0 0 12px rgba(0, 0, 0, 0.9),
-                0 0 24px rgba(0, 0, 0, 0.8);
-
-            pointer-events: none;
             white-space: nowrap;
+            pointer-events: none;
+
+            text-shadow:
+                0 0 12px rgba(0,0,0,.9),
+                0 0 25px rgba(0,0,0,.8);
         }
 
         .map-title span {
             color: #168cff;
         }
 
-        /* -----------------------------
-           SUCH / ROUTE PANEL
-        ----------------------------- */
+        /* =========================================
+           SUCH- UND ROUTENLEISTE
+        ========================================= */
 
         .map-search-panel {
             position: absolute;
@@ -89,12 +98,12 @@
 
             padding: 14px;
 
-            background: rgba(5, 5, 5, 0.92);
-            border: 1px solid rgba(22, 140, 255, 0.65);
+            background: rgba(5,5,5,.94);
+            border: 1px solid rgba(22,140,255,.65);
 
             box-shadow:
-                0 10px 35px rgba(0, 0, 0, 0.45),
-                0 0 20px rgba(22, 140, 255, 0.08);
+                0 10px 35px rgba(0,0,0,.45),
+                0 0 20px rgba(22,140,255,.08);
 
             backdrop-filter: blur(12px);
         }
@@ -102,10 +111,10 @@
         .search-brand {
             margin-bottom: 10px;
 
-            color: #ffffff;
-            font-size: 0.72rem;
+            color: #fff;
+            font-size: .72rem;
             font-weight: 900;
-            letter-spacing: 0.18em;
+            letter-spacing: .18em;
             text-transform: uppercase;
         }
 
@@ -125,13 +134,13 @@
 
             padding: 0 13px;
 
-            border: 1px solid rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,.18);
             outline: none;
 
             background: #111;
-            color: #ffffff;
+            color: #fff;
 
-            font-size: 0.82rem;
+            font-size: .82rem;
             font-weight: 700;
         }
 
@@ -149,34 +158,32 @@
 
             border: 1px solid #168cff;
             background: #168cff;
-            color: #ffffff;
+            color: #fff;
 
             font-size: 1rem;
             font-weight: 900;
 
             cursor: pointer;
-            transition: 0.2s ease;
         }
 
         .search-button:hover {
-            background: #ffffff;
+            background: #fff;
             color: #050505;
         }
 
         .route-divider {
             height: 1px;
             margin: 14px 0;
-
-            background: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,.12);
         }
 
         .route-label {
             margin-bottom: 7px;
 
             color: #777;
-            font-size: 0.62rem;
+            font-size: .62rem;
             font-weight: 900;
-            letter-spacing: 0.16em;
+            letter-spacing: .16em;
             text-transform: uppercase;
         }
 
@@ -187,13 +194,13 @@
             margin-bottom: 7px;
             padding: 0 11px;
 
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,.15);
             outline: none;
 
             background: #101010;
-            color: #ffffff;
+            color: #fff;
 
-            font-size: 0.76rem;
+            font-size: .76rem;
             font-weight: 700;
         }
 
@@ -218,19 +225,18 @@
 
             border: 1px solid #168cff;
             background: #168cff;
-            color: #ffffff;
+            color: #fff;
 
-            font-size: 0.62rem;
+            font-size: .62rem;
             font-weight: 900;
-            letter-spacing: 0.1em;
+            letter-spacing: .1em;
 
             cursor: pointer;
-            transition: 0.2s ease;
         }
 
         .route-plan-button:hover,
         .location-button:hover {
-            background: #ffffff;
+            background: #fff;
             color: #050505;
         }
 
@@ -238,31 +244,83 @@
             padding: 0 13px;
         }
 
-        /* -----------------------------
+        /* =========================================
+           SUCHERGEBNISSE
+        ========================================= */
+
+        .search-results {
+            display: none;
+
+            max-height: 250px;
+            overflow-y: auto;
+
+            margin-top: 7px;
+
+            border: 1px solid rgba(255,255,255,.1);
+            background: #0a0a0a;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result {
+            display: block;
+            width: 100%;
+
+            padding: 10px 12px;
+
+            border: 0;
+            border-bottom: 1px solid rgba(255,255,255,.07);
+
+            background: transparent;
+            color: #fff;
+
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .search-result:hover {
+            background: rgba(22,140,255,.14);
+        }
+
+        .search-result-name {
+            display: block;
+            color: #fff;
+            font-size: .7rem;
+            font-weight: 900;
+        }
+
+        .search-result-location {
+            display: block;
+            margin-top: 3px;
+            color: #777;
+            font-size: .58rem;
+        }
+
+        /* =========================================
            ROUTE INFO
-        ----------------------------- */
+        ========================================= */
 
         .route-info {
             position: absolute;
-            top: 0;
             left: 0;
+            bottom: 0;
             z-index: 1200;
 
             display: none;
 
-            width: min(390px, calc(100vw - 40px));
+            width: 100%;
 
             margin-top: 12px;
             padding: 13px 44px 13px 14px;
 
-            background: rgba(5,5,5,0.95);
+            background: rgba(5,5,5,.96);
             border: 1px solid #168cff;
 
             box-shadow:
-                0 8px 25px rgba(0,0,0,0.45),
-                0 0 20px rgba(22,140,255,0.15);
-
-            transform: translateY(100%);
+                0 8px 25px rgba(0,0,0,.45),
+                0 0 20px rgba(22,140,255,.15);
         }
 
         .route-info.active {
@@ -270,24 +328,25 @@
         }
 
         .route-info-title {
-            color: #168cff;
-            font-size: 0.6rem;
-            font-weight: 900;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
             margin-bottom: 5px;
+
+            color: #168cff;
+            font-size: .6rem;
+            font-weight: 900;
+            letter-spacing: .14em;
+            text-transform: uppercase;
         }
 
         .route-info-main {
-            color: #ffffff;
-            font-size: 0.82rem;
+            color: #fff;
+            font-size: .82rem;
             font-weight: 900;
         }
 
         .route-info-sub {
             margin-top: 4px;
             color: #888;
-            font-size: 0.66rem;
+            font-size: .66rem;
         }
 
         .route-close {
@@ -298,17 +357,14 @@
             width: 27px;
             height: 27px;
 
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,.2);
             background: #111;
-            color: #ffffff;
+            color: #fff;
 
             font-size: 1rem;
             font-weight: 900;
 
-            line-height: 1;
             cursor: pointer;
-
-            transition: 0.2s ease;
         }
 
         .route-close:hover {
@@ -316,22 +372,23 @@
             border-color: #168cff;
         }
 
-        /* -----------------------------
+        /* =========================================
            ELECTRIC MODE
-        ----------------------------- */
+        ========================================= */
 
         .map-wrapper.electric-mode .leaflet-tile-pane {
             filter:
                 grayscale(1)
-                brightness(0.52)
+                brightness(.52)
                 contrast(1.45)
-                sepia(0.12)
+                sepia(.12)
                 hue-rotate(165deg)
                 saturate(3.5);
         }
 
         .map-wrapper.electric-mode::after {
             content: "";
+
             position: absolute;
             inset: 0;
 
@@ -342,51 +399,56 @@
                 radial-gradient(
                     circle at center,
                     transparent 0%,
-                    rgba(0, 110, 255, 0.04) 55%,
-                    rgba(0, 110, 255, 0.12) 100%
+                    rgba(0,110,255,.04) 55%,
+                    rgba(0,110,255,.12) 100%
                 );
         }
 
         .electric-toggle {
             position: absolute;
-            right: 20px;
             top: 20px;
+            right: 20px;
             z-index: 1100;
 
             min-height: 40px;
             padding: 0 14px;
 
             border: 1px solid #168cff;
-            background: rgba(5,5,5,0.9);
+            background: rgba(5,5,5,.92);
             color: #168cff;
 
-            font-size: 0.62rem;
+            font-size: .62rem;
             font-weight: 900;
-            letter-spacing: 0.12em;
+            letter-spacing: .12em;
 
             cursor: pointer;
-            transition: 0.2s ease;
         }
 
         .electric-toggle:hover,
         .map-wrapper.electric-mode .electric-toggle {
             background: #168cff;
-            color: #ffffff;
+            color: #fff;
         }
 
-        /* -----------------------------
-           LEAFLET
-        ----------------------------- */
+        /* =========================================
+           LEAFLET ZOOM
+           
+           NICHT fixed!
+           Leaflet positioniert die Controls selbst.
+        ========================================= */
+
+        .leaflet-bottom.leaflet-right {
+            right: 20px;
+            bottom: 20px;
+        }
 
         .leaflet-control-zoom {
-            position: fixed !important;
-            right: 20px !important;
-            bottom: 20px !important;
-            left: auto !important;
-            top: auto !important;
+            margin: 0 !important;
 
-            border: 1px solid rgba(22,140,255,0.7) !important;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4) !important;
+            border: 1px solid rgba(22,140,255,.7) !important;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.4) !important;
         }
 
         .leaflet-control-zoom a {
@@ -397,19 +459,23 @@
             background: #050505 !important;
             color: #168cff !important;
 
-            border-color: rgba(255,255,255,0.12) !important;
+            border-color: rgba(255,255,255,.12) !important;
         }
 
         .leaflet-control-zoom a:hover {
             background: #168cff !important;
-            color: #ffffff !important;
+            color: #fff !important;
         }
+
+        /* =========================================
+           POPUPS
+        ========================================= */
 
         .leaflet-popup-content-wrapper,
         .leaflet-popup-tip {
             background: #080808;
-            color: #ffffff;
-            border: 1px solid rgba(22,140,255,0.6);
+            color: #fff;
+            border: 1px solid rgba(22,140,255,.6);
         }
 
         .leaflet-popup-content {
@@ -420,68 +486,66 @@
             margin-bottom: 5px;
 
             color: #168cff;
-            font-size: 0.78rem;
+            font-size: .78rem;
             font-weight: 900;
-            letter-spacing: 0.08em;
+            letter-spacing: .08em;
             text-transform: uppercase;
         }
 
         .popup-location {
             margin-bottom: 10px;
-
             color: #999;
-            font-size: 0.68rem;
+            font-size: .68rem;
         }
 
         .popup-route {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
             min-height: 34px;
             padding: 0 11px;
 
             border: 1px solid #168cff;
             background: #168cff;
-            color: #ffffff;
+            color: #fff;
 
-            font-size: 0.58rem;
+            font-size: .58rem;
             font-weight: 900;
-            letter-spacing: 0.08em;
+            letter-spacing: .08em;
 
             cursor: pointer;
         }
 
         .popup-route:hover {
-            background: #ffffff;
+            background: #fff;
             color: #050505;
         }
 
-        .custom-marker {
-            width: 28px;
-            height: 28px;
+        /* =========================================
+           MARKER
+        ========================================= */
 
+        .custom-marker {
             display: flex;
             align-items: center;
             justify-content: center;
 
+            width: 28px;
+            height: 28px;
+
             background: #168cff;
-            border: 2px solid #ffffff;
+            border: 2px solid #fff;
 
-            color: #ffffff;
+            color: #fff;
 
-            font-family: Arial, sans-serif;
             font-size: 14px;
             font-weight: 900;
 
             box-shadow:
-                0 0 0 4px rgba(22,140,255,0.18),
-                0 0 15px rgba(22,140,255,0.55);
+                0 0 0 4px rgba(22,140,255,.18),
+                0 0 15px rgba(22,140,255,.55);
         }
 
         .map-wrapper.electric-mode .custom-marker {
             box-shadow:
-                0 0 0 4px rgba(22,140,255,0.25),
+                0 0 0 4px rgba(22,140,255,.25),
                 0 0 12px #168cff,
                 0 0 28px #168cff;
         }
@@ -492,93 +556,24 @@
             height: 20px;
 
             border-radius: 50%;
-            border: 3px solid #ffffff;
+            border: 3px solid #fff;
 
             background: #168cff;
 
             box-shadow:
                 0 0 10px #168cff,
-                0 0 25px rgba(22,140,255,0.9);
+                0 0 25px rgba(22,140,255,.9);
         }
 
         .route-line {
             filter:
-                drop-shadow(0 0 4px rgba(22,140,255,0.95))
-                drop-shadow(0 0 10px rgba(22,140,255,0.65));
+                drop-shadow(0 0 4px rgba(22,140,255,.95))
+                drop-shadow(0 0 10px rgba(22,140,255,.65));
         }
 
-        /* -----------------------------
-           SUCHERGEBNISSE
-        ----------------------------- */
-
-        .search-results {
-            display: none;
-
-            max-height: 250px;
-            overflow-y: auto;
-
-            margin-top: 7px;
-
-            border: 1px solid rgba(255,255,255,0.1);
-            background: #0a0a0a;
-        }
-
-        .search-results.active {
-            display: block;
-        }
-
-        .search-result {
-            width: 100%;
-
-            padding: 10px 12px;
-
-            border: 0;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-
-            background: transparent;
-            color: #ffffff;
-
-            text-align: left;
-
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .search-result:last-child {
-            border-bottom: 0;
-        }
-
-        .search-result:hover {
-            background: rgba(22,140,255,0.14);
-        }
-
-        .search-result-name {
-            display: block;
-
-            color: #ffffff;
-            font-size: 0.7rem;
-            font-weight: 900;
-        }
-
-        .search-result-location {
-            display: block;
-
-            margin-top: 3px;
-
-            color: #777;
-            font-size: 0.58rem;
-        }
-
-        .search-no-result {
-            padding: 12px;
-
-            color: #777;
-            font-size: 0.65rem;
-        }
-
-        /* -----------------------------
+        /* =========================================
            MOBILE
-        ----------------------------- */
+        ========================================= */
 
         @media (max-width: 700px) {
 
@@ -590,9 +585,7 @@
             .map-search-panel {
                 top: 52px;
                 left: 10px;
-
                 width: calc(100vw - 20px);
-
                 padding: 11px;
             }
 
@@ -602,13 +595,9 @@
                 bottom: 72px;
             }
 
-            .leaflet-control-zoom {
-                right: 10px !important;
-                bottom: 12px !important;
-            }
-
-            .route-info {
-                width: calc(100vw - 20px);
+            .leaflet-bottom.leaflet-right {
+                right: 10px;
+                bottom: 12px;
             }
         }
     </style>
@@ -637,6 +626,7 @@
         </div>
 
         <div class="search-row">
+
             <input
                 type="text"
                 id="searchInput"
@@ -652,6 +642,7 @@
             >
                 ↗
             </button>
+
         </div>
 
         <div
@@ -705,6 +696,7 @@
             class="route-info"
             id="routeInfo"
         >
+
             <button
                 class="route-close"
                 id="routeClose"
@@ -731,6 +723,7 @@
             >
                 –
             </div>
+
         </div>
 
     </div>
@@ -741,14 +734,14 @@
 
 <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
 ></script>
 
 <script>
-    /* =========================================================
-       SKATEPARK-DATEN
-    ========================================================= */
+
+    /* =========================================
+       SKATEPARKS
+    ========================================= */
 
     const skateparks = [
         {
@@ -796,53 +789,114 @@
     ];
 
 
-    /* =========================================================
+    /* =========================================
        KARTE
-    ========================================================= */
+    ========================================= */
 
     const map = L.map("map", {
         zoomControl: true,
         attributionControl: true
-    }).setView([48.9, 8.5], 7);
+    });
+
+    map.setView(
+        [48.9, 8.5],
+        7
+    );
 
     L.tileLayer(
         "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
             maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
+            attribution:
+                "&copy; OpenStreetMap contributors"
         }
     ).addTo(map);
 
 
-    /* =========================================================
+    /*
+     * WICHTIG:
+     * Leaflet bekommt nach dem Laden noch einmal
+     * die tatsächliche Größe des Containers.
+     * Dadurch werden die Kartenkacheln nicht mehr
+     * in falsche Stücke geteilt.
+     */
+
+    function refreshMapSize() {
+
+        setTimeout(() => {
+            map.invalidateSize({
+                animate: false,
+                pan: false
+            });
+        }, 100);
+    }
+
+    window.addEventListener(
+        "load",
+        refreshMapSize
+    );
+
+    window.addEventListener(
+        "resize",
+        refreshMapSize
+    );
+
+    setTimeout(
+        refreshMapSize,
+        500
+    );
+
+
+    /* =========================================
        ELEMENTE
-    ========================================================= */
+    ========================================= */
 
-    const mapWrapper = document.getElementById("mapWrapper");
+    const mapWrapper =
+        document.getElementById("mapWrapper");
 
-    const searchInput = document.getElementById("searchInput");
-    const searchButton = document.getElementById("searchButton");
-    const searchResults = document.getElementById("searchResults");
+    const searchInput =
+        document.getElementById("searchInput");
 
-    const routeStart = document.getElementById("routeStart");
-    const routeDestination = document.getElementById("routeDestination");
-    const routeButton = document.getElementById("routeButton");
-    const locationButton = document.getElementById("locationButton");
+    const searchButton =
+        document.getElementById("searchButton");
 
-    const routeInfo = document.getElementById("routeInfo");
-    const routeInfoMain = document.getElementById("routeInfoMain");
-    const routeInfoSub = document.getElementById("routeInfoSub");
-    const routeClose = document.getElementById("routeClose");
+    const searchResults =
+        document.getElementById("searchResults");
 
-    const electricToggle = document.getElementById("electricToggle");
+    const routeStart =
+        document.getElementById("routeStart");
+
+    const routeDestination =
+        document.getElementById("routeDestination");
+
+    const routeButton =
+        document.getElementById("routeButton");
+
+    const locationButton =
+        document.getElementById("locationButton");
+
+    const routeInfo =
+        document.getElementById("routeInfo");
+
+    const routeInfoMain =
+        document.getElementById("routeInfoMain");
+
+    const routeInfoSub =
+        document.getElementById("routeInfoSub");
+
+    const routeClose =
+        document.getElementById("routeClose");
+
+    const electricToggle =
+        document.getElementById("electricToggle");
 
 
-    /* =========================================================
-       NORMALISIERUNG
-       → macht Umlaute und kleine Schreibfehler robuster
-    ========================================================= */
+    /* =========================================
+       FUZZY SEARCH
+    ========================================= */
 
     function normalizeSearchText(value) {
+
         return String(value || "")
             .toLowerCase()
             .normalize("NFD")
@@ -852,10 +906,6 @@
             .trim();
     }
 
-
-    /* =========================================================
-       LEVENSHTEIN
-    ========================================================= */
 
     function levenshteinDistance(a, b) {
 
@@ -874,30 +924,46 @@
         const matrix = Array.from(
             { length: b.length + 1 },
             (_, i) => {
-                const row = new Array(a.length + 1);
+                const row =
+                    new Array(a.length + 1);
+
                 row[0] = i;
+
                 return row;
             }
         );
 
-        for (let j = 0; j <= a.length; j++) {
+        for (
+            let j = 0;
+            j <= a.length;
+            j++
+        ) {
             matrix[0][j] = j;
         }
 
-        for (let i = 1; i <= b.length; i++) {
+        for (
+            let i = 1;
+            i <= b.length;
+            i++
+        ) {
 
-            for (let j = 1; j <= a.length; j++) {
+            for (
+                let j = 1;
+                j <= a.length;
+                j++
+            ) {
 
                 const cost =
                     a[j - 1] === b[i - 1]
                         ? 0
                         : 1;
 
-                matrix[i][j] = Math.min(
-                    matrix[i - 1][j] + 1,
-                    matrix[i][j - 1] + 1,
-                    matrix[i - 1][j - 1] + cost
-                );
+                matrix[i][j] =
+                    Math.min(
+                        matrix[i - 1][j] + 1,
+                        matrix[i][j - 1] + 1,
+                        matrix[i - 1][j - 1] + cost
+                    );
             }
         }
 
@@ -905,13 +971,15 @@
     }
 
 
-    /* =========================================================
-       FUZZY SEARCH
-    ========================================================= */
+    function tokenSimilarity(
+        queryToken,
+        candidateToken
+    ) {
 
-    function tokenSimilarity(queryToken, candidateToken) {
-
-        if (!queryToken || !candidateToken) {
+        if (
+            !queryToken ||
+            !candidateToken
+        ) {
             return 0;
         }
 
@@ -922,15 +990,17 @@
             return 1;
         }
 
-        const maxLength = Math.max(
-            queryToken.length,
-            candidateToken.length
-        );
+        const maxLength =
+            Math.max(
+                queryToken.length,
+                candidateToken.length
+            );
 
-        const distance = levenshteinDistance(
-            queryToken,
-            candidateToken
-        );
+        const distance =
+            levenshteinDistance(
+                queryToken,
+                candidateToken
+            );
 
         const allowed =
             maxLength <= 4
@@ -940,7 +1010,11 @@
                     : 3;
 
         if (distance <= allowed) {
-            return 1 - distance / maxLength;
+
+            return (
+                1 -
+                distance / maxLength
+            );
         }
 
         return 0;
@@ -949,8 +1023,11 @@
 
     function fuzzyScore(query, text) {
 
-        const q = normalizeSearchText(query);
-        const t = normalizeSearchText(text);
+        const q =
+            normalizeSearchText(query);
+
+        const t =
+            normalizeSearchText(text);
 
         if (!q || !t) {
             return 0;
@@ -960,27 +1037,25 @@
             return 1;
         }
 
-        const qTokens = q
-            .split(/\s+/)
-            .filter(Boolean);
+        const qTokens =
+            q.split(/\s+/)
+                .filter(Boolean);
 
-        const tTokens = t
-            .split(/\s+/)
-            .filter(Boolean);
+        const tTokens =
+            t.split(/\s+/)
+                .filter(Boolean);
 
         let total = 0;
 
-        for (const queryToken of qTokens) {
+        for (const qt of qTokens) {
 
             let best = 0;
 
-            for (const candidateToken of tTokens) {
+            for (const tt of tTokens) {
+
                 best = Math.max(
                     best,
-                    tokenSimilarity(
-                        queryToken,
-                        candidateToken
-                    )
+                    tokenSimilarity(qt, tt)
                 );
             }
 
@@ -991,15 +1066,16 @@
     }
 
 
-    /* =========================================================
-       CUSTOM MARKER
-    ========================================================= */
+    /* =========================================
+       MARKER
+    ========================================= */
 
     function createParkIcon() {
 
         return L.divIcon({
             className: "",
-            html: '<div class="custom-marker">M</div>',
+            html:
+                '<div class="custom-marker">M</div>',
             iconSize: [28, 28],
             iconAnchor: [14, 14],
             popupAnchor: [0, -16]
@@ -1007,20 +1083,18 @@
     }
 
 
-    /* =========================================================
-       SKATEPARK-MARKER
-    ========================================================= */
-
     const parkMarkers = [];
+
 
     skateparks.forEach((park) => {
 
-        const marker = L.marker(
-            [park.lat, park.lng],
-            {
-                icon: createParkIcon()
-            }
-        ).addTo(map);
+        const marker =
+            L.marker(
+                [park.lat, park.lng],
+                {
+                    icon: createParkIcon()
+                }
+            ).addTo(map);
 
         marker.bindPopup(`
             <div class="popup-title">
@@ -1034,7 +1108,11 @@
             <button
                 class="popup-route"
                 type="button"
-                onclick="routeToPark(${park.lat}, ${park.lng}, '${park.name.replace(/'/g, "\\'")}')"
+                onclick="routeToPark(
+                    ${park.lat},
+                    ${park.lng},
+                    '${park.name.replace(/'/g, "\\'")}'
+                )"
             >
                 ROUTE VON MEINEM STANDORT
             </button>
@@ -1047,126 +1125,154 @@
     });
 
 
-    /* =========================================================
-       SUCHE – SKATEPARKS
-    ========================================================= */
+    /* =========================================
+       SUCHERGEBNISSE
+    ========================================= */
 
     function showParkSearchResults(query) {
 
-        const normalizedQuery = normalizeSearchText(query);
+        const normalizedQuery =
+            normalizeSearchText(query);
 
         if (!normalizedQuery) {
 
-            searchResults.classList.remove("active");
+            searchResults.classList.remove(
+                "active"
+            );
+
             searchResults.innerHTML = "";
 
             return;
         }
 
-        const scored = skateparks
-            .map((park) => {
+        const scored =
+            skateparks
+                .map((park) => {
 
-                const text = `
-                    ${park.name}
-                    ${park.city}
-                    ${park.country}
-                `;
+                    const text = `
+                        ${park.name}
+                        ${park.city}
+                        ${park.country}
+                    `;
 
-                return {
-                    park,
-                    score: fuzzyScore(
-                        normalizedQuery,
-                        text
-                    )
-                };
-            })
-            .filter((item) => item.score >= 0.45)
-            .sort((a, b) => b.score - a.score);
+                    return {
+                        park,
+                        score: fuzzyScore(
+                            normalizedQuery,
+                            text
+                        )
+                    };
+                })
+                .filter(
+                    item => item.score >= .45
+                )
+                .sort(
+                    (a, b) =>
+                        b.score - a.score
+                );
 
         if (!scored.length) {
 
-            searchResults.classList.remove("active");
+            searchResults.classList.remove(
+                "active"
+            );
+
             searchResults.innerHTML = "";
 
             return;
         }
 
-        searchResults.innerHTML = scored
-            .slice(0, 6)
-            .map((item) => {
+        searchResults.innerHTML =
+            scored
+                .slice(0, 6)
+                .map((item) => {
 
-                const park = item.park;
+                    const park =
+                        item.park;
 
-                return `
-                    <button
-                        class="search-result"
-                        type="button"
-                        data-lat="${park.lat}"
-                        data-lng="${park.lng}"
-                        data-name="${encodeURIComponent(park.name)}"
-                    >
-                        <span class="search-result-name">
-                            ${park.name}
-                        </span>
+                    return `
+                        <button
+                            class="search-result"
+                            type="button"
+                            data-lat="${park.lat}"
+                            data-lng="${park.lng}"
+                            data-name="${encodeURIComponent(park.name)}"
+                        >
+                            <span class="search-result-name">
+                                ${park.name}
+                            </span>
 
-                        <span class="search-result-location">
-                            ${park.city}, ${park.country}
-                        </span>
-                    </button>
-                `;
-            })
-            .join("");
+                            <span class="search-result-location">
+                                ${park.city}, ${park.country}
+                            </span>
+                        </button>
+                    `;
+                })
+                .join("");
 
-        searchResults.classList.add("active");
+        searchResults.classList.add(
+            "active"
+        );
 
         searchResults
-            .querySelectorAll(".search-result")
+            .querySelectorAll(
+                ".search-result"
+            )
             .forEach((button) => {
 
-                button.addEventListener("click", () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const lat =
-                        Number(button.dataset.lat);
+                        const lat =
+                            Number(
+                                button.dataset.lat
+                            );
 
-                    const lng =
-                        Number(button.dataset.lng);
+                        const lng =
+                            Number(
+                                button.dataset.lng
+                            );
 
-                    const name =
-                        decodeURIComponent(
-                            button.dataset.name
+                        const name =
+                            decodeURIComponent(
+                                button.dataset.name
+                            );
+
+                        map.setView(
+                            [lat, lng],
+                            15,
+                            {
+                                animate: true
+                            }
                         );
 
-                    map.setView(
-                        [lat, lng],
-                        15,
-                        {
-                            animate: true
+                        const found =
+                            parkMarkers.find(
+                                item =>
+                                    item.park.lat === lat &&
+                                    item.park.lng === lng
+                            );
+
+                        if (found) {
+                            found.marker.openPopup();
                         }
-                    );
 
-                    const found = parkMarkers.find(
-                        (item) =>
-                            item.park.lat === lat &&
-                            item.park.lng === lng
-                    );
+                        searchInput.value =
+                            name;
 
-                    if (found) {
-                        found.marker.openPopup();
+                        searchResults.classList.remove(
+                            "active"
+                        );
                     }
-
-                    searchInput.value = name;
-
-                    searchResults.classList.remove(
-                        "active"
-                    );
-                });
+                );
             });
     }
 
 
-    /* =========================================================
+    /* =========================================
        NOMINATIM
-    ========================================================= */
+    ========================================= */
 
     async function searchPlace(query) {
 
@@ -1179,14 +1285,21 @@
                 addressdetails: "1"
             });
 
-        const response = await fetch(url, {
-            headers: {
-                "Accept": "application/json"
-            }
-        });
+        const response =
+            await fetch(
+                url,
+                {
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    }
+                }
+            );
 
         if (!response.ok) {
-            throw new Error("Nominatim Fehler");
+            throw new Error(
+                "Nominatim Fehler"
+            );
         }
 
         return response.json();
@@ -1195,31 +1308,43 @@
 
     async function performSearch() {
 
-        const query = searchInput.value.trim();
+        const query =
+            searchInput.value.trim();
 
         if (!query) {
             return;
         }
 
-        showParkSearchResults(query);
+        showParkSearchResults(
+            query
+        );
 
         const normalizedQuery =
             normalizeSearchText(query);
 
-        const bestPark = skateparks
-            .map((park) => ({
-                park,
-                score: fuzzyScore(
-                    normalizedQuery,
-                    `${park.name} ${park.city} ${park.country}`
-                )
-            }))
-            .sort((a, b) => b.score - a.score)[0];
+        const bestPark =
+            skateparks
+                .map((park) => ({
+                    park,
+                    score: fuzzyScore(
+                        normalizedQuery,
+                        `
+                            ${park.name}
+                            ${park.city}
+                            ${park.country}
+                        `
+                    )
+                }))
+                .sort(
+                    (a, b) =>
+                        b.score - a.score
+                )[0];
 
         if (
             bestPark &&
-            bestPark.score >= 0.78
+            bestPark.score >= .78
         ) {
+
             map.setView(
                 [
                     bestPark.park.lat,
@@ -1231,10 +1356,12 @@
                 }
             );
 
-            const found = parkMarkers.find(
-                (item) =>
-                    item.park.name === bestPark.park.name
-            );
+            const found =
+                parkMarkers.find(
+                    item =>
+                        item.park.name ===
+                        bestPark.park.name
+                );
 
             if (found) {
                 found.marker.openPopup();
@@ -1246,13 +1373,16 @@
         try {
 
             const results =
-                await searchPlace(query);
+                await searchPlace(
+                    query
+                );
 
             if (!results.length) {
                 return;
             }
 
-            const result = results[0];
+            const result =
+                results[0];
 
             const lat =
                 Number(result.lat);
@@ -1277,8 +1407,7 @@
                 .addTo(map)
                 .bindPopup(`
                     <div class="popup-title">
-                        ${result.display_name
-                            .split(",")[0]}
+                        ${result.display_name.split(",")[0]}
                     </div>
 
                     <div class="popup-location">
@@ -1302,26 +1431,35 @@
         performSearch
     );
 
+
     searchInput.addEventListener(
         "keydown",
-        (event) => {
+        event => {
 
             if (event.key === "Enter") {
+
                 event.preventDefault();
+
                 performSearch();
             }
         }
     );
 
+
     searchInput.addEventListener(
         "input",
         () => {
 
-            if (searchInput.value.trim()) {
+            if (
+                searchInput.value.trim()
+            ) {
+
                 showParkSearchResults(
                     searchInput.value
                 );
+
             } else {
+
                 searchResults.classList.remove(
                     "active"
                 );
@@ -1330,54 +1468,69 @@
     );
 
 
-    /* =========================================================
-       ROUTE-VARIABLEN
-    ========================================================= */
+    /* =========================================
+       ROUTE
+    ========================================= */
 
     let routeLayer = null;
     let routeStartMarker = null;
     let routeEndMarker = null;
 
 
-    /* =========================================================
-       ROUTE AUFRÄUMEN
-    ========================================================= */
-
     function clearRoute() {
 
         if (routeLayer) {
-            map.removeLayer(routeLayer);
+
+            map.removeLayer(
+                routeLayer
+            );
+
             routeLayer = null;
         }
 
         if (routeStartMarker) {
-            map.removeLayer(routeStartMarker);
+
+            map.removeLayer(
+                routeStartMarker
+            );
+
             routeStartMarker = null;
         }
 
         if (routeEndMarker) {
-            map.removeLayer(routeEndMarker);
+
+            map.removeLayer(
+                routeEndMarker
+            );
+
             routeEndMarker = null;
         }
 
-        routeInfo.classList.remove("active");
+        routeInfo.classList.remove(
+            "active"
+        );
 
-        routeInfoMain.textContent = "–";
-        routeInfoSub.textContent = "–";
+        routeInfoMain.textContent =
+            "–";
+
+        routeInfoSub.textContent =
+            "–";
     }
 
 
-    /* =========================================================
-       ROUTE INFO
-    ========================================================= */
-
-    function showRouteInfo(distance, duration) {
+    function showRouteInfo(
+        distance,
+        duration
+    ) {
 
         const distanceKm =
-            (distance / 1000).toFixed(1);
+            (distance / 1000)
+                .toFixed(1);
 
         const totalMinutes =
-            Math.round(duration / 60);
+            Math.round(
+                duration / 60
+            );
 
         let durationText;
 
@@ -1389,7 +1542,9 @@
         } else {
 
             const hours =
-                Math.floor(totalMinutes / 60);
+                Math.floor(
+                    totalMinutes / 60
+                );
 
             const minutes =
                 totalMinutes % 60;
@@ -1404,18 +1559,21 @@
         routeInfoSub.textContent =
             "Route wird auf der Karte angezeigt.";
 
-        routeInfo.classList.add("active");
+        routeInfo.classList.add(
+            "active"
+        );
     }
 
 
-    /* =========================================================
+    /* =========================================
        GEOCODING
-    ========================================================= */
+    ========================================= */
 
     async function geocodePlace(query) {
 
         const trimmed =
-            String(query || "").trim();
+            String(query || "")
+                .trim();
 
         if (!trimmed) {
             throw new Error(
@@ -1423,27 +1581,32 @@
             );
         }
 
-        /* Erst bekannte Skateparks fuzzy prüfen */
-
         const normalized =
-            normalizeSearchText(trimmed);
+            normalizeSearchText(
+                trimmed
+            );
 
         const matches =
             skateparks
-                .map((park) => ({
+                .map(park => ({
                     park,
                     score: fuzzyScore(
                         normalized,
-                        `${park.name} ${park.city} ${park.country}`
+                        `
+                            ${park.name}
+                            ${park.city}
+                            ${park.country}
+                        `
                     )
                 }))
                 .sort(
-                    (a, b) => b.score - a.score
+                    (a, b) =>
+                        b.score - a.score
                 );
 
         if (
             matches.length &&
-            matches[0].score >= 0.78
+            matches[0].score >= .78
         ) {
 
             return {
@@ -1454,9 +1617,12 @@
         }
 
         const results =
-            await searchPlace(trimmed);
+            await searchPlace(
+                trimmed
+            );
 
         if (!results.length) {
+
             throw new Error(
                 `Ort nicht gefunden: ${trimmed}`
             );
@@ -1470,9 +1636,9 @@
     }
 
 
-    /* =========================================================
-       OSRM ROUTE
-    ========================================================= */
+    /* =========================================
+       ROUTE BERECHNEN
+    ========================================= */
 
     async function planRoute(
         startQuery,
@@ -1482,10 +1648,14 @@
         clearRoute();
 
         const start =
-            await geocodePlace(startQuery);
+            await geocodePlace(
+                startQuery
+            );
 
         const destination =
-            await geocodePlace(destinationQuery);
+            await geocodePlace(
+                destinationQuery
+            );
 
         const url =
             "https://router.project-osrm.org/route/v1/driving/" +
@@ -1497,6 +1667,7 @@
             await fetch(url);
 
         if (!response.ok) {
+
             throw new Error(
                 "Routenserver nicht erreichbar."
             );
@@ -1510,6 +1681,7 @@
             !data.routes ||
             !data.routes.length
         ) {
+
             throw new Error(
                 "Keine Route gefunden."
             );
@@ -1525,7 +1697,7 @@
                     style: {
                         color: "#168cff",
                         weight: 6,
-                        opacity: 0.95,
+                        opacity: .95,
                         className: "route-line"
                     }
                 }
@@ -1533,7 +1705,10 @@
 
         routeStartMarker =
             L.marker(
-                [start.lat, start.lng],
+                [
+                    start.lat,
+                    start.lng
+                ],
                 {
                     icon: L.divIcon({
                         className: "",
@@ -1547,7 +1722,10 @@
 
         routeEndMarker =
             L.marker(
-                [destination.lat, destination.lng],
+                [
+                    destination.lat,
+                    destination.lng
+                ],
                 {
                     icon: L.divIcon({
                         className: "",
@@ -1559,18 +1737,10 @@
                 }
             ).addTo(map);
 
-        routeStartMarker.bindPopup(
-            `<strong>Start</strong><br>${start.name}`
-        );
-
-        routeEndMarker.bindPopup(
-            `<strong>Ziel</strong><br>${destination.name}`
-        );
-
         map.fitBounds(
             routeLayer.getBounds(),
             {
-                padding: [70, 70]
+                padding: [70,70]
             }
         );
 
@@ -1581,9 +1751,9 @@
     }
 
 
-    /* =========================================================
+    /* =========================================
        ROUTE BUTTON
-    ========================================================= */
+    ========================================= */
 
     routeButton.addEventListener(
         "click",
@@ -1595,7 +1765,10 @@
             const destination =
                 routeDestination.value.trim();
 
-            if (!start || !destination) {
+            if (
+                !start ||
+                !destination
+            ) {
 
                 routeInfoMain.textContent =
                     "Start und Ziel eingeben";
@@ -1603,12 +1776,15 @@
                 routeInfoSub.textContent =
                     "Beide Felder werden benötigt.";
 
-                routeInfo.classList.add("active");
+                routeInfo.classList.add(
+                    "active"
+                );
 
                 return;
             }
 
             routeButton.disabled = true;
+
             routeButton.textContent =
                 "ROUTE WIRD BERECHNET...";
 
@@ -1633,11 +1809,14 @@
                     error.message ||
                     "Bitte Eingaben prüfen.";
 
-                routeInfo.classList.add("active");
+                routeInfo.classList.add(
+                    "active"
+                );
 
             } finally {
 
                 routeButton.disabled = false;
+
                 routeButton.textContent =
                     "ROUTE PLANEN";
             }
@@ -1645,9 +1824,9 @@
     );
 
 
-    /* =========================================================
+    /* =========================================
        ROUTE SCHLIESSEN
-    ========================================================= */
+    ========================================= */
 
     routeClose.addEventListener(
         "click",
@@ -1656,25 +1835,24 @@
             clearRoute();
 
             /*
-             * Wichtig:
              * Die obere Such-/Routenleiste
-             * bleibt komplett sichtbar.
-             *
-             * Nur Route + Route-Info werden entfernt.
+             * bleibt sichtbar.
              */
         }
     );
 
 
-    /* =========================================================
+    /* =========================================
        MEIN STANDORT
-    ========================================================= */
+    ========================================= */
 
     locationButton.addEventListener(
         "click",
         () => {
 
-            if (!navigator.geolocation) {
+            if (
+                !navigator.geolocation
+            ) {
 
                 routeInfoMain.textContent =
                     "Standort nicht verfügbar";
@@ -1682,17 +1860,20 @@
                 routeInfoSub.textContent =
                     "Dein Browser unterstützt keine Standortabfrage.";
 
-                routeInfo.classList.add("active");
+                routeInfo.classList.add(
+                    "active"
+                );
 
                 return;
             }
 
             locationButton.disabled = true;
+
             locationButton.textContent =
                 "STANDORT...";
 
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                position => {
 
                     const lat =
                         position.coords.latitude;
@@ -1706,7 +1887,7 @@
                         "Mein Standort";
 
                     map.setView(
-                        [lat, lng],
+                        [lat,lng],
                         15,
                         {
                             animate: true
@@ -1715,7 +1896,7 @@
 
                     routeStartMarker =
                         L.marker(
-                            [lat, lng],
+                            [lat,lng],
                             {
                                 icon: L.divIcon({
                                     className: "",
@@ -1732,12 +1913,14 @@
                         )
                         .openPopup();
 
-                    locationButton.disabled = false;
+                    locationButton.disabled =
+                        false;
+
                     locationButton.textContent =
                         "MEIN STANDORT";
                 },
 
-                (error) => {
+                error => {
 
                     console.error(
                         "Standort:",
@@ -1750,9 +1933,13 @@
                     routeInfoSub.textContent =
                         "Bitte Standortfreigabe im Browser erlauben.";
 
-                    routeInfo.classList.add("active");
+                    routeInfo.classList.add(
+                        "active"
+                    );
 
-                    locationButton.disabled = false;
+                    locationButton.disabled =
+                        false;
+
                     locationButton.textContent =
                         "MEIN STANDORT";
                 },
@@ -1766,14 +1953,16 @@
     );
 
 
-    /* =========================================================
+    /* =========================================
        ROUTE ZU SKATEPARK
-    ========================================================= */
+    ========================================= */
 
     window.routeToPark =
         function(lat, lng, name) {
 
-            if (!navigator.geolocation) {
+            if (
+                !navigator.geolocation
+            ) {
 
                 routeInfoMain.textContent =
                     "Standort nicht verfügbar";
@@ -1781,13 +1970,15 @@
                 routeInfoSub.textContent =
                     "Bitte gib Start und Ziel manuell ein.";
 
-                routeInfo.classList.add("active");
+                routeInfo.classList.add(
+                    "active"
+                );
 
                 return;
             }
 
             navigator.geolocation.getCurrentPosition(
-                async (position) => {
+                async position => {
 
                     const currentLat =
                         position.coords.latitude;
@@ -1821,6 +2012,7 @@
                             data.code !== "Ok" ||
                             !data.routes.length
                         ) {
+
                             throw new Error(
                                 "Keine Route gefunden."
                             );
@@ -1836,8 +2028,9 @@
                                     style: {
                                         color: "#168cff",
                                         weight: 6,
-                                        opacity: 0.95,
-                                        className: "route-line"
+                                        opacity: .95,
+                                        className:
+                                            "route-line"
                                     }
                                 }
                             ).addTo(map);
@@ -1849,27 +2042,29 @@
                                     currentLng
                                 ],
                                 {
-                                    icon: L.divIcon({
-                                        className: "",
-                                        html:
-                                            '<div class="route-start-marker"></div>',
-                                        iconSize: [20,20],
-                                        iconAnchor: [10,10]
-                                    })
+                                    icon:
+                                        L.divIcon({
+                                            className: "",
+                                            html:
+                                                '<div class="route-start-marker"></div>',
+                                            iconSize: [20,20],
+                                            iconAnchor: [10,10]
+                                        })
                                 }
                             ).addTo(map);
 
                         routeEndMarker =
                             L.marker(
-                                [lat, lng],
+                                [lat,lng],
                                 {
-                                    icon: L.divIcon({
-                                        className: "",
-                                        html:
-                                            '<div class="route-end-marker"></div>',
-                                        iconSize: [20,20],
-                                        iconAnchor: [10,10]
-                                    })
+                                    icon:
+                                        L.divIcon({
+                                            className: "",
+                                            html:
+                                                '<div class="route-end-marker"></div>',
+                                            iconSize: [20,20],
+                                            iconAnchor: [10,10]
+                                        })
                                 }
                             ).addTo(map);
 
@@ -1893,7 +2088,9 @@
                         routeInfoSub.textContent =
                             error.message;
 
-                        routeInfo.classList.add("active");
+                        routeInfo.classList.add(
+                            "active"
+                        );
                     }
                 },
 
@@ -1905,20 +2102,17 @@
                     routeInfoSub.textContent =
                         "Erlaube deinem Browser den Zugriff auf deinen Standort.";
 
-                    routeInfo.classList.add("active");
+                    routeInfo.classList.add(
+                        "active"
+                    );
                 }
             );
         };
 
 
-    /* =========================================================
+    /* =========================================
        ELECTRIC MODE
-    ========================================================= */
-
-    /*
-     * Wichtig:
-     * Beim Laden ist NORMAL MODE aktiv.
-     */
+    ========================================= */
 
     mapWrapper.classList.remove(
         "electric-mode"
@@ -1941,15 +2135,17 @@
     );
 
 
-    /* =========================================================
-       ESC = ROUTE / POPUPS SCHLIESSEN
-    ========================================================= */
+    /* =========================================
+       ESC
+    ========================================= */
 
     document.addEventListener(
         "keydown",
-        (event) => {
+        event => {
 
-            if (event.key === "Escape") {
+            if (
+                event.key === "Escape"
+            ) {
 
                 clearRoute();
 
@@ -1959,9 +2155,9 @@
     );
 
 
-    /* =========================================================
-       KLICK AUF KARTE
-    ========================================================= */
+    /* =========================================
+       KARTENKLICK
+    ========================================= */
 
     map.on(
         "click",
@@ -1972,6 +2168,7 @@
             );
         }
     );
+
 </script>
 
 </body>
