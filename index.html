@@ -43,33 +43,342 @@
             position: relative;
             padding: 80px 24px 100px;
             text-align: center;
+            overflow: hidden;
         }
 
-        /*
-         * Der eigentliche Moi-cy-Schriftzug.
-         * Sedgwick Ave Display ist eine echte handgeschriebene
-         * Graffiti-inspirierte Schrift und keine normale Standardschrift.
-         */
-        .home-logo {
-            color: #ffffff;
-            font-family: "Sedgwick Ave Display", cursive;
-            font-size: clamp(58px, 9vw, 125px);
-            font-weight: 400;
-            line-height: 0.95;
-            letter-spacing: -2px;
-            transform: rotate(-3deg);
-            text-shadow:
-                3px 3px 0 rgba(255, 255, 255, 0.08),
-                -2px 2px 0 rgba(255, 255, 255, 0.04);
+        /* Der komplette Graffiti-Bereich */
+        .home-logo-wrap {
+            position: relative;
+            display: inline-block;
+            padding: 55px 80px 70px;
             animation: graffitiIn 1.4s ease-out both;
-            user-select: none;
         }
+
+        /* MOI-CY SCHRIFTZUG */
+        .home-logo {
+            position: relative;
+            z-index: 3;
+
+            color: #ffffff;
+
+            font-family:
+                "Sedgwick Ave Display",
+                "Brush Script MT",
+                cursive;
+
+            font-size: clamp(90px, 14vw, 190px);
+            font-weight: 400;
+
+            line-height: 0.9;
+            letter-spacing: -4px;
+
+            transform: rotate(-3deg);
+
+            text-shadow:
+                4px 4px 0 rgba(255,255,255,0.08),
+                -3px 2px 0 rgba(255,255,255,0.05);
+
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           FARBE / SPRITZER
+        ========================================= */
+
+        .paint-splash,
+        .paint-splash::before,
+        .paint-splash::after {
+            position: absolute;
+            display: block;
+            content: "";
+            pointer-events: none;
+        }
+
+        .paint-splash {
+            z-index: 1;
+
+            width: 14px;
+            height: 14px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            opacity: 0.75;
+        }
+
+        /* links oben */
+        .splash-1 {
+            left: 5%;
+            top: 27%;
+            width: 14px;
+            height: 14px;
+        }
+
+        .splash-1::before {
+            width: 6px;
+            height: 6px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            left: -25px;
+            top: 21px;
+        }
+
+        .splash-1::after {
+            width: 3px;
+            height: 3px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            left: 34px;
+            top: -21px;
+        }
+
+        /* rechts oben */
+        .splash-2 {
+            right: 4%;
+            top: 17%;
+
+            width: 10px;
+            height: 10px;
+        }
+
+        .splash-2::before {
+            width: 5px;
+            height: 5px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            right: -28px;
+            top: 28px;
+        }
+
+        .splash-2::after {
+            width: 6px;
+            height: 6px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            right: 17px;
+            top: -25px;
+        }
+
+        /* links unten */
+        .splash-3 {
+            left: 19%;
+            bottom: 8%;
+
+            width: 8px;
+            height: 8px;
+        }
+
+        .splash-3::before {
+            width: 3px;
+            height: 3px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            left: -20px;
+            top: 17px;
+        }
+
+        .splash-3::after {
+            width: 5px;
+            height: 5px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            left: 29px;
+            top: 22px;
+        }
+
+        /* rechts unten */
+        .splash-4 {
+            right: 18%;
+            bottom: 5%;
+
+            width: 12px;
+            height: 12px;
+        }
+
+        .splash-4::before {
+            width: 4px;
+            height: 4px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            right: -27px;
+            top: 14px;
+        }
+
+        .splash-4::after {
+            width: 3px;
+            height: 3px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            right: 28px;
+            top: 28px;
+        }
+
+        /* zusätzliche kleine Sprenkel */
+
+        .home-logo-wrap::before {
+            content: "";
+            position: absolute;
+
+            width: 5px;
+            height: 5px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            left: 15%;
+            top: 18%;
+
+            opacity: 0.65;
+
+            box-shadow:
+                38px 48px 0 1px #ffffff,
+                92px -15px 0 -1px #ffffff,
+                165px 72px 0 0 #ffffff,
+                245px 10px 0 -1px #ffffff,
+                315px 62px 0 1px #ffffff,
+                390px -5px 0 -1px #ffffff;
+        }
+
+        .home-logo-wrap::after {
+            content: "";
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            background: #ffffff;
+            border-radius: 50%;
+
+            right: 11%;
+            bottom: 18%;
+
+            opacity: 0.6;
+
+            box-shadow:
+                -45px 32px 0 -1px #ffffff,
+                -100px -20px 0 1px #ffffff,
+                -155px 45px 0 -2px #ffffff,
+                -210px 8px 0 0 #ffffff;
+        }
+
+        /* =========================================
+           VERLAUFENE FARBTROPFEN
+        ========================================= */
+
+        .paint-drip {
+            position: absolute;
+            z-index: 2;
+
+            width: 8px;
+            height: 30px;
+
+            background: #ffffff;
+
+            border-radius:
+                0 0 8px 8px;
+
+            opacity: 0.68;
+
+            pointer-events: none;
+        }
+
+        .paint-drip::after {
+            content: "";
+            position: absolute;
+
+            left: 50%;
+            bottom: -9px;
+
+            width: 5px;
+            height: 10px;
+
+            transform: translateX(-50%);
+
+            background: #ffffff;
+
+            border-radius: 50%;
+
+            opacity: 0.7;
+        }
+
+        .drip-1 {
+            left: 30%;
+            top: 67%;
+
+            height: 42px;
+
+            transform: rotate(4deg);
+        }
+
+        .drip-2 {
+            left: 63%;
+            top: 57%;
+
+            height: 29px;
+
+            transform: rotate(-3deg);
+        }
+
+        .drip-3 {
+            right: 12%;
+            top: 47%;
+
+            width: 5px;
+            height: 20px;
+        }
+
+        .drip-4 {
+            left: 12%;
+            top: 51%;
+
+            width: 5px;
+            height: 23px;
+
+            transform: rotate(-4deg);
+        }
+
+        .drip-5 {
+            right: 28%;
+            bottom: 13%;
+
+            width: 6px;
+            height: 34px;
+
+            transform: rotate(3deg);
+        }
+
+        /* =========================================
+           LOGO ANIMATION
+        ========================================= */
 
         @keyframes graffitiIn {
+
             0% {
                 opacity: 0;
-                transform: translateY(18px) rotate(-3deg) scale(0.92);
-                filter: blur(7px);
+
+                transform:
+                    translateY(22px)
+                    rotate(-3deg)
+                    scale(0.88);
+
+                filter: blur(8px);
             }
 
             55% {
@@ -79,17 +388,25 @@
 
             100% {
                 opacity: 1;
-                transform: translateY(0) rotate(-3deg) scale(1);
+
+                transform:
+                    translateY(0)
+                    rotate(-3deg)
+                    scale(1);
             }
         }
 
         .home-scroll {
             position: absolute;
+
             bottom: 28px;
             left: 50%;
+
             transform: translateX(-50%);
+
             font-size: 10px;
             letter-spacing: 4px;
+
             color: #858585;
         }
 
@@ -100,72 +417,102 @@
         .home-section {
             width: min(1400px, calc(100% - 48px));
             margin: 0 auto;
+
             padding: 110px 0;
         }
 
         .home-heading-row {
             display: flex;
+
             align-items: center;
             justify-content: space-between;
+
             gap: 30px;
+
             margin-bottom: 40px;
         }
 
         .home-heading {
             margin: 0;
+
             font-size: clamp(38px, 6vw, 82px);
             line-height: 0.95;
+
             font-weight: 900;
             letter-spacing: -3px;
         }
 
         .home-button {
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
+
             min-height: 50px;
+
             padding: 0 26px;
+
             background: #168cff;
             color: #ffffff;
+
             text-decoration: none;
+
             font-size: 12px;
             font-weight: 900;
+
             letter-spacing: 1.5px;
-            transition: transform 0.2s ease, background 0.2s ease;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
+
             white-space: nowrap;
         }
 
         .home-button:hover {
             background: #ffffff;
             color: #050505;
+
             transform: translateY(-3px);
         }
 
         /* =========================================
-           IMAGE GRID
+           BILDER
         ========================================= */
 
         .home-image-grid {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
             gap: 20px;
         }
 
         .home-image-card {
             display: block;
+
             position: relative;
+
             overflow: hidden;
+
             background: #101010;
+
             text-decoration: none;
             color: #ffffff;
         }
 
         .home-image-card img {
             display: block;
+
             width: 100%;
+
             aspect-ratio: 16 / 10;
+
             object-fit: cover;
-            transition: transform 0.5s ease;
+
+            transition:
+                transform 0.5s ease;
         }
 
         .home-image-card:hover img {
@@ -174,13 +521,18 @@
 
         .home-image-label {
             position: absolute;
+
             left: 20px;
             bottom: 18px;
+
             padding: 8px 12px;
+
             background: #050505;
             color: #ffffff;
+
             font-size: 11px;
             font-weight: 900;
+
             letter-spacing: 2px;
         }
 
@@ -190,25 +542,40 @@
 
         .home-about {
             display: grid;
-            grid-template-columns: minmax(200px, 0.7fr) minmax(0, 1.3fr);
+
+            grid-template-columns:
+                minmax(200px, 0.7fr)
+                minmax(0, 1.3fr);
+
             gap: 70px;
-            border-top: 1px solid rgba(255,255,255,0.13);
+
+            border-top:
+                1px solid rgba(255,255,255,0.13);
+
             padding-top: 80px;
         }
 
         .home-about-title {
             margin: 0;
+
             font-size: clamp(32px, 5vw, 68px);
+
             line-height: 0.95;
+
             font-weight: 900;
+
             letter-spacing: -2px;
         }
 
         .home-about-text {
             max-width: 760px;
+
             margin: 0;
+
             font-size: 18px;
+
             line-height: 1.75;
+
             color: #c5c5c5;
         }
 
@@ -217,77 +584,113 @@
         }
 
         /* =========================================
-           CONTACT CTA
+           KONTAKT
         ========================================= */
 
         .home-contact {
             display: flex;
+
             align-items: center;
             justify-content: space-between;
+
             gap: 30px;
-            border-top: 1px solid rgba(255,255,255,0.13);
-            border-bottom: 1px solid rgba(255,255,255,0.13);
+
+            border-top:
+                1px solid rgba(255,255,255,0.13);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.13);
         }
 
         .home-contact-title {
             margin: 0;
+
             font-size: clamp(34px, 5vw, 72px);
+
             line-height: 1;
+
             font-weight: 900;
+
             letter-spacing: -3px;
         }
 
         /* =========================================
-           PRODUKT-STREIFEN
+           PRODUKT-LAUFLEISTE
         ========================================= */
 
         .product-marquee {
             width: 100%;
+
             overflow: hidden;
+
             background: #168cff;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+
+            border-top:
+                1px solid rgba(255,255,255,0.2);
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.2);
         }
 
         .product-marquee-track {
             display: flex;
+
             width: max-content;
-            animation: productMarquee 24s linear infinite;
+
+            animation:
+                productMarquee 24s linear infinite;
         }
 
-        .product-marquee:hover .product-marquee-track {
+        .product-marquee:hover
+        .product-marquee-track {
             animation-play-state: paused;
         }
 
         .product-marquee-group {
             display: flex;
+
             align-items: center;
+
             flex-shrink: 0;
         }
 
         .product-marquee-item {
             display: inline-flex;
+
             align-items: center;
+
             gap: 28px;
+
             height: 42px;
+
             padding: 0 30px;
+
             color: #ffffff;
+
             text-decoration: none;
+
             font-size: 11px;
+
             font-weight: 900;
+
             letter-spacing: 1.8px;
+
             white-space: nowrap;
         }
 
         .product-marquee-dot {
             width: 5px;
             height: 5px;
+
             background: #ffffff;
+
             display: inline-block;
+
             transform: rotate(45deg);
         }
 
         @keyframes productMarquee {
+
             from {
                 transform: translateX(0);
             }
@@ -305,17 +708,39 @@
 
             .home-hero {
                 min-height: calc(100vh - 68px);
+
                 padding-top: 60px;
             }
 
+            .home-logo-wrap {
+                padding:
+                    40px
+                    45px
+                    55px;
+            }
+
+            .home-logo {
+                font-size:
+                    clamp(76px, 17vw, 130px);
+
+                letter-spacing: -2px;
+            }
+
             .home-section {
-                width: min(100% - 32px, 700px);
+                width:
+                    min(
+                        100% - 32px,
+                        700px
+                    );
+
                 padding: 80px 0;
             }
 
             .home-heading-row {
                 align-items: flex-start;
+
                 flex-direction: column;
+
                 gap: 22px;
             }
 
@@ -325,13 +750,17 @@
 
             .home-about {
                 grid-template-columns: 1fr;
+
                 gap: 30px;
+
                 padding-top: 60px;
             }
 
             .home-contact {
                 align-items: flex-start;
+
                 flex-direction: column;
+
                 padding-top: 70px;
                 padding-bottom: 70px;
             }
@@ -339,13 +768,24 @@
 
         @media (max-width: 600px) {
 
+            .home-logo-wrap {
+                padding:
+                    30px
+                    25px
+                    45px;
+            }
+
             .home-logo {
-                font-size: clamp(52px, 18vw, 82px);
+                font-size:
+                    clamp(66px, 20vw, 105px);
+
                 letter-spacing: -1px;
             }
 
             .home-section {
-                width: calc(100% - 28px);
+                width:
+                    calc(100% - 28px);
+
                 padding: 65px 0;
             }
 
@@ -355,6 +795,7 @@
 
             .home-about-text {
                 font-size: 16px;
+
                 line-height: 1.65;
             }
 
@@ -364,7 +805,9 @@
 
             .product-marquee-item {
                 height: 38px;
+
                 padding: 0 22px;
+
                 font-size: 9px;
             }
         }
@@ -385,9 +828,31 @@
 
         <section class="home-hero">
 
-            <div class="home-logo" aria-label="Moi-cy">
-                Moi-cy
+            <div
+                class="home-logo-wrap"
+                aria-label="Moi-cy"
+            >
+
+                <!-- Sprenkel -->
+                <span class="paint-splash splash-1"></span>
+                <span class="paint-splash splash-2"></span>
+                <span class="paint-splash splash-3"></span>
+                <span class="paint-splash splash-4"></span>
+
+                <!-- verlaufene Farbe -->
+                <span class="paint-drip drip-1"></span>
+                <span class="paint-drip drip-2"></span>
+                <span class="paint-drip drip-3"></span>
+                <span class="paint-drip drip-4"></span>
+                <span class="paint-drip drip-5"></span>
+
+                <!-- Graffiti-Schriftzug -->
+                <div class="home-logo">
+                    Moi-cy
+                </div>
+
             </div>
+
 
             <div class="home-scroll">
                 SCROLL
@@ -424,6 +889,7 @@
                     class="home-image-card"
                     href="bilder.html"
                 >
+
                     <img
                         src="bilder/karlsruhe-1.jpg"
                         alt="Skateboarding in Karlsruhe"
@@ -432,6 +898,7 @@
                     <span class="home-image-label">
                         BILDER
                     </span>
+
                 </a>
 
 
@@ -439,6 +906,7 @@
                     class="home-image-card"
                     href="videos.html"
                 >
+
                     <img
                         src="bilder/karlsruhe-2.jpg"
                         alt="Skateboarding"
@@ -447,6 +915,7 @@
                     <span class="home-image-label">
                         VIDEOS
                     </span>
+
                 </a>
 
             </div>
@@ -463,29 +932,38 @@
             <div class="home-about">
 
                 <div>
+
                     <h2 class="home-about-title">
                         ABOUT<br>
                         MOI-CY
                     </h2>
+
                 </div>
+
 
                 <div>
 
                     <p class="home-about-text">
+
                         <strong>Moi-cy</strong> ist ein Skateboarding-Projekt,
                         das aus meiner eigenen Begeisterung für das Skaten entstanden ist.
                         Ich skate seit März 2023 und habe Moi-cy Ende Sommer 2023 gegründet.
                         Seitdem ist Skateboarding ein fester Bestandteil meines Alltags.
+
                         <br><br>
+
                         Mein Fokus liegt besonders auf Old-School-Skateboarding,
                         Pools und Bowls. Dabei geht es nicht nur um Tricks,
                         sondern vor allem um das Gefühl, neue Spots zu entdecken,
                         draußen zu sein und gemeinsam zu skaten.
+
                         <br><br>
+
                         Auf Moi-cy sammle ich Bilder, Videos und Skateparks
                         aus verschiedenen Orten in Deutschland und Frankreich.
                         Das Projekt soll zeigen, wie vielseitig Skateboarding sein kann
                         und andere Menschen dazu bringen, selbst aufs Board zu steigen.
+
                     </p>
 
                 </div>
@@ -496,7 +974,7 @@
 
 
         <!-- =====================================
-             CONTACT
+             KONTAKT
         ====================================== -->
 
         <section class="home-section">
@@ -506,6 +984,7 @@
                 <h2 class="home-contact-title">
                     SEE YOU ON THE BOARD.
                 </h2>
+
 
                 <a
                     class="home-button"
@@ -522,14 +1001,16 @@
 
 
     <!-- =========================================
-         PRODUKT-LAUFLEISTE
-         Ganz am Ende der Seite
+         SCHMALER PRODUKT-STREIFEN
     ========================================== -->
 
     <div class="product-marquee">
 
         <div class="product-marquee-track">
 
+
+            <!-- Gruppe 1 -->
+
             <div class="product-marquee-group">
 
                 <a
@@ -539,8 +1020,10 @@
                     rel="noopener noreferrer"
                 >
                     MOI-CY SKATEBOARD – BLAU
+
                     <span class="product-marquee-dot"></span>
                 </a>
+
 
                 <a
                     class="product-marquee-item"
@@ -549,8 +1032,10 @@
                     rel="noopener noreferrer"
                 >
                     MOI-CY SHIRT
+
                     <span class="product-marquee-dot"></span>
                 </a>
+
 
                 <a
                     class="product-marquee-item"
@@ -559,13 +1044,14 @@
                     rel="noopener noreferrer"
                 >
                     MOI-CY PRODUCT
+
                     <span class="product-marquee-dot"></span>
                 </a>
 
             </div>
 
 
-            <!-- Zweite identische Gruppe für nahtlosen Loop -->
+            <!-- Gruppe 2 für nahtlosen Loop -->
 
             <div class="product-marquee-group">
 
@@ -576,8 +1062,10 @@
                     rel="noopener noreferrer"
                 >
                     MOI-CY SKATEBOARD – BLAU
+
                     <span class="product-marquee-dot"></span>
                 </a>
+
 
                 <a
                     class="product-marquee-item"
@@ -586,8 +1074,10 @@
                     rel="noopener noreferrer"
                 >
                     MOI-CY SHIRT
+
                     <span class="product-marquee-dot"></span>
                 </a>
+
 
                 <a
                     class="product-marquee-item"
@@ -596,6 +1086,7 @@
                     rel="noopener noreferrer"
                 >
                     MOI-CY PRODUCT
+
                     <span class="product-marquee-dot"></span>
                 </a>
 
