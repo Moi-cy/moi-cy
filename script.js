@@ -1,9 +1,58 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
   /* =========================================
      MOI-CY — GLOBAL JAVASCRIPT
      DE / EN / FR
   ========================================= */
+
+  /* =========================================
+     SHARED COMPONENTS
+  ========================================= */
+
+  async function loadComponent(id, file) {
+    const container = document.getElementById(id);
+
+    if (!container) {
+      return false;
+    }
+
+    try {
+      const response = await fetch(file, {
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `HTTP ${response.status} beim Laden von ${file}`
+        );
+      }
+
+      container.innerHTML = await response.text();
+
+      return true;
+
+    } catch (error) {
+
+      console.error(
+        `Moi-cy: ${file} konnte nicht geladen werden.`,
+        error
+      );
+
+      return false;
+    }
+  }
+
+
+  /*
+     Header und Footer zuerst laden.
+     Erst danach werden Menü, Sprache usw.
+     eingerichtet.
+  */
+
+  await Promise.all([
+    loadComponent("site-header", "header.html"),
+    loadComponent("site-footer", "footer.html")
+  ]);
 
 
   /* =========================================
@@ -15,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const mobileMenu =
     document.getElementById("mobileMenu");
-
 
   if (menuButton && mobileMenu) {
 
@@ -29,6 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
         String(open)
       );
 
+      document.body.classList.toggle(
+        "menu-open",
+        open
+      );
     });
 
 
@@ -45,6 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "false"
           );
 
+          document.body.classList.remove(
+            "menu-open"
+          );
         });
 
       });
@@ -53,16 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     LANGUAGE SYSTEM
-     
-     DE = Deutsch
-     EN = English
-     FR = Français
+     LANGUAGE
   ========================================= */
 
-  const LANGUAGE_KEY =
-    "moiCyLanguage";
-
+  const LANGUAGE_KEY = "moiCyLanguage";
 
   const supportedLanguages = [
     "de",
@@ -77,53 +126,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const translations = {
 
-
-    /* =======================================
-       DEUTSCH
-    ======================================= */
-
     de: {
 
-      /* ---------- NAVIGATION ---------- */
+      nav_home: "HOME",
+      nav_images: "BILDER",
+      nav_videos: "VIDEOS",
+      nav_skateparks: "SKATEPLÄTZE",
+      nav_contact: "KONTAKT",
+      nav_shop: "SHOP",
 
-      nav_home:
-        "HOME",
+      language_switcher: "Sprache",
+      menu_open: "Menü öffnen",
 
-      nav_images:
-        "BILDER",
+      what_is_moicy: "WHAT IS Moi-cy?",
+      about_moicy: "ABOUT Moi-cy",
 
-      nav_videos:
-        "VIDEOS",
-
-      nav_skateparks:
-        "SKATEPLÄTZE",
-
-      nav_contact:
-        "KONTAKT",
-
-      nav_shop:
-        "SHOP",
-
-
-      /* ---------- LANGUAGE ---------- */
-
-      language_switcher:
-        "Sprache",
-
-      menu_open:
-        "Menü öffnen",
-
-
-      /* ---------- HOMEPAGE ---------- */
-
-      what_is_moicy:
-        "WHAT IS Moi-cy?",
-
-      about_moicy:
-        "ABOUT Moi-cy",
-
-      the_story:
-        "THE STORY",
+      the_story: "THE STORY",
 
       story_text_1:
         "Skateboarding ist mehr als nur ein Sport.",
@@ -143,47 +161,24 @@ document.addEventListener("DOMContentLoaded", () => {
       story_intro:
         "Ein kleiner Einblick in die Welt von Moi-cy.",
 
-      visual_archive:
-        "VISUAL ARCHIVE",
+      visual_archive: "VISUAL ARCHIVE",
+      moments: "MOMENTS.",
+      watch: "WATCH",
+      on_the_move: "ON THE MOVE.",
+      skate_session: "SKATE SESSION #01",
 
-      moments:
-        "MOMENTS.",
+      current: "CURRENT",
+      current_moicy: "Moi-cy",
+      keep_moving: "keep moving.",
 
-      watch:
-        "WATCH",
+      find_your_line: "FIND YOUR LINE.",
 
-      on_the_move:
-        "ON THE MOVE.",
-
-      skate_session:
-        "SKATE SESSION #01",
-
-      current:
-        "CURRENT",
-
-      current_moicy:
-        "Moi-cy",
-
-      keep_moving:
-        "keep moving.",
-
-      find_your_line:
-        "FIND YOUR LINE.",
-
-      skate:
-        "SKATE",
-
-      create:
-        "CREATE",
-
-      explore:
-        "EXPLORE",
+      skate: "SKATE",
+      create: "CREATE",
+      explore: "EXPLORE",
 
       from_streets:
         "FROM THE streets TO EVERYWHERE.",
-
-
-      /* ---------- SKATEPARK ENTRY ---------- */
 
       skatepark_reviews:
         "SKATEPLATZ-BEWERTUNGEN",
@@ -193,9 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       discover_skateparks:
         "SKATEPLÄTZE ENTDECKEN",
-
-
-      /* ---------- IMAGES ---------- */
 
       images_page_title:
         "Bilder – Moi-cy",
@@ -224,9 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
       view_all_images:
         "ALLE BILDER ANSEHEN",
 
-
-      /* ---------- VIDEOS ---------- */
-
       videos_page_title:
         "Videos – Moi-cy",
 
@@ -244,9 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       all_videos:
         "ALLE VIDEOS",
-
-
-      /* ---------- SKATEPARKS ---------- */
 
       skateparks_page_title:
         "Skateplätze – Moi-cy",
@@ -305,17 +291,11 @@ document.addEventListener("DOMContentLoaded", () => {
       image_number:
         "Bild",
 
-
-      /* ---------- SKATEPARK COUNTRIES ---------- */
-
       france:
         "FRANKREICH",
 
       germany:
         "DEUTSCHLAND",
-
-
-      /* ---------- VALENCE ---------- */
 
       valence_location:
         "VALENCE · FRANKREICH",
@@ -323,17 +303,11 @@ document.addEventListener("DOMContentLoaded", () => {
       valence_description:
         "Dieser Skateplatz hat nicht viel zu bieten – im Grunde besteht er nur aus einem Pool. Dafür ist dieser Pool wirklich stark. Man kann richtig gut Schwung holen, und durch seine Größe macht er besonders viel Spaß. Genau mein Ding.",
 
-
-      /* ---------- KARLSRUHE ---------- */
-
       karlsruhe_location:
         "KARLSRUHE · DEUTSCHLAND",
 
       karlsruhe_description:
         "Dieser Skateplatz verfügt über einen Pool und bietet außerdem eine Beleuchtung bis 22:00 Uhr. Dazu kommt ein guter, glatter Boden, der sich sehr angenehm fahren lässt.",
-
-
-      /* ---------- HEIDELBERG ---------- */
 
       heidelberg_location:
         "HEIDELBERG · DEUTSCHLAND",
@@ -341,17 +315,11 @@ document.addEventListener("DOMContentLoaded", () => {
       heidelberg_description:
         "In Heidelberg ist 24 Stunden am Tag Licht vorhanden. Außerdem liegt der Skateplatz unter einer Brücke und ist dadurch überdacht. So kann man dort praktisch jederzeit fahren.",
 
-
-      /* ---------- HEIDELBERG BOWL ---------- */
-
       heidelberg_bowl_location:
         "HEIDELBERG BOWL · DEUTSCHLAND",
 
       heidelberg_bowl_description:
         "Eine sehr tolle Bowl mit einem glatten und gut fahrbaren Untergrund. Man bekommt hier sehr gut Schwung und kann die Bowl richtig gut fahren. Äußerst empfehlenswert.",
-
-
-      /* ---------- PERPIGNAN ---------- */
 
       perpignan_location:
         "PERPIGNAN · FRANKREICH",
@@ -359,17 +327,11 @@ document.addEventListener("DOMContentLoaded", () => {
       perpignan_description:
         "Ein unfassbar großer Park mit Beleuchtung bis 22 Uhr. Neben den riesigen Bowls gibt es dort auch einen großen Pumptrack. Besonders in den Bowls kann man sehr gut das Fahren üben.",
 
-
-      /* ---------- MÜNCHEN ---------- */
-
       muenchen_location:
         "MÜNCHEN HIRSCHGARTEN · DEUTSCHLAND",
 
       muenchen_description:
         "Ein Park, der aus zwei großen Bowls besteht: einer kleineren Anfänger-Bowl und einer größeren Bowl. Zusätzlich gibt es eine 360-Grad-Röhre.",
-
-
-      /* ---------- SHOP ---------- */
 
       shop_page_title:
         "Shop – Moi-cy",
@@ -400,9 +362,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       teamshirts_shop_button:
         "TEAMSHIRTS SHOP ÖFFNEN",
-
-
-      /* ---------- KONTAKT ---------- */
 
       contact_page_title:
         "Kontakt – Moi-cy",
@@ -439,56 +398,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       contact_subject:
         "Neue Nachricht über Moi-cy"
-
     },
 
 
-    /* =======================================
-       ENGLISH
-    ======================================= */
-
     en: {
 
-      /* ---------- NAVIGATION ---------- */
+      nav_home: "HOME",
+      nav_images: "IMAGES",
+      nav_videos: "VIDEOS",
+      nav_skateparks: "SKATEPARKS",
+      nav_contact: "CONTACT",
+      nav_shop: "SHOP",
 
-      nav_home:
-        "HOME",
+      language_switcher: "Language",
+      menu_open: "Open menu",
 
-      nav_images:
-        "IMAGES",
+      what_is_moicy: "WHAT IS Moi-cy?",
+      about_moicy: "ABOUT Moi-cy",
 
-      nav_videos:
-        "VIDEOS",
-
-      nav_skateparks:
-        "SKATEPARKS",
-
-      nav_contact:
-        "CONTACT",
-
-      nav_shop:
-        "SHOP",
-
-
-      /* ---------- LANGUAGE ---------- */
-
-      language_switcher:
-        "Language",
-
-      menu_open:
-        "Open menu",
-
-
-      /* ---------- HOMEPAGE ---------- */
-
-      what_is_moicy:
-        "WHAT IS Moi-cy?",
-
-      about_moicy:
-        "ABOUT Moi-cy",
-
-      the_story:
-        "THE STORY",
+      the_story: "THE STORY",
 
       story_text_1:
         "Skateboarding is more than just a sport.",
@@ -547,9 +475,6 @@ document.addEventListener("DOMContentLoaded", () => {
       from_streets:
         "FROM THE streets TO EVERYWHERE.",
 
-
-      /* ---------- SKATEPARK ENTRY ---------- */
-
       skatepark_reviews:
         "SKATEPARK REVIEWS",
 
@@ -558,9 +483,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       discover_skateparks:
         "DISCOVER SKATEPARKS",
-
-
-      /* ---------- IMAGES ---------- */
 
       images_page_title:
         "Images – Moi-cy",
@@ -589,9 +511,6 @@ document.addEventListener("DOMContentLoaded", () => {
       view_all_images:
         "VIEW ALL IMAGES",
 
-
-      /* ---------- VIDEOS ---------- */
-
       videos_page_title:
         "Videos – Moi-cy",
 
@@ -609,9 +528,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       all_videos:
         "ALL VIDEOS",
-
-
-      /* ---------- SKATEPARKS ---------- */
 
       skateparks_page_title:
         "Skateparks – Moi-cy",
@@ -670,17 +586,11 @@ document.addEventListener("DOMContentLoaded", () => {
       image_number:
         "Image",
 
-
-      /* ---------- COUNTRIES ---------- */
-
       france:
         "FRANCE",
 
       germany:
         "GERMANY",
-
-
-      /* ---------- VALENCE ---------- */
 
       valence_location:
         "VALENCE · FRANCE",
@@ -688,17 +598,11 @@ document.addEventListener("DOMContentLoaded", () => {
       valence_description:
         "This skatepark doesn’t offer much – basically, it consists of a single pool. But that pool is seriously good. You can build up speed really well, and its size makes it especially fun. Exactly my kind of spot.",
 
-
-      /* ---------- KARLSRUHE ---------- */
-
       karlsruhe_location:
         "KARLSRUHE · GERMANY",
 
       karlsruhe_description:
         "This skatepark has a pool and is also lit until 10:00 PM. It also has a good, smooth surface that feels great to ride.",
-
-
-      /* ---------- HEIDELBERG ---------- */
 
       heidelberg_location:
         "HEIDELBERG · GERMANY",
@@ -706,17 +610,11 @@ document.addEventListener("DOMContentLoaded", () => {
       heidelberg_description:
         "In Heidelberg, the lights are on 24 hours a day. The skatepark is also located under a bridge, so it is covered. That means you can ride there practically anytime.",
 
-
-      /* ---------- HEIDELBERG BOWL ---------- */
-
       heidelberg_bowl_location:
         "HEIDELBERG BOWL · GERMANY",
 
       heidelberg_bowl_description:
         "A really great bowl with a smooth, rideable surface. You can build up speed very well here and ride the bowl really well. Highly recommended.",
-
-
-      /* ---------- PERPIGNAN ---------- */
 
       perpignan_location:
         "PERPIGNAN · FRANCE",
@@ -724,17 +622,11 @@ document.addEventListener("DOMContentLoaded", () => {
       perpignan_description:
         "An unbelievably large park with lights until 10:00 PM. Besides the huge bowls, there is also a large pump track. The bowls are especially good for practicing.",
 
-
-      /* ---------- MÜNCHEN ---------- */
-
       muenchen_location:
         "MUNICH HIRSCHGARTEN · GERMANY",
 
       muenchen_description:
         "A park made up of two large bowls: a smaller beginner bowl and a larger bowl. There is also a 360-degree tube.",
-
-
-      /* ---------- SHOP ---------- */
 
       shop_page_title:
         "Shop – Moi-cy",
@@ -765,9 +657,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       teamshirts_shop_button:
         "OPEN TEAMSHIRTS SHOP",
-
-
-      /* ---------- CONTACT ---------- */
 
       contact_page_title:
         "Contact – Moi-cy",
@@ -804,47 +693,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       contact_subject:
         "New message via Moi-cy"
-
     },
 
 
-    /* =======================================
-       FRANÇAIS
-    ======================================= */
-
     fr: {
 
-      /* ---------- NAVIGATION ---------- */
+      nav_home: "ACCUEIL",
+      nav_images: "PHOTOS",
+      nav_videos: "VIDÉOS",
+      nav_skateparks: "SKATEPARKS",
+      nav_contact: "CONTACT",
+      nav_shop: "SHOP",
 
-      nav_home:
-        "ACCUEIL",
-
-      nav_images:
-        "PHOTOS",
-
-      nav_videos:
-        "VIDÉOS",
-
-      nav_skateparks:
-        "SKATEPARKS",
-
-      nav_contact:
-        "CONTACT",
-
-      nav_shop:
-        "SHOP",
-
-
-      /* ---------- LANGUAGE ---------- */
-
-      language_switcher:
-        "Langue",
-
-      menu_open:
-        "Ouvrir le menu",
-
-
-      /* ---------- HOMEPAGE ---------- */
+      language_switcher: "Langue",
+      menu_open: "Ouvrir le menu",
 
       what_is_moicy:
         "WHAT IS Moi-cy?",
@@ -912,9 +774,6 @@ document.addEventListener("DOMContentLoaded", () => {
       from_streets:
         "FROM THE streets TO EVERYWHERE.",
 
-
-      /* ---------- SKATEPARK ENTRY ---------- */
-
       skatepark_reviews:
         "ÉVALUATIONS DES SKATEPARKS",
 
@@ -923,9 +782,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       discover_skateparks:
         "DÉCOUVRIR LES SKATEPARKS",
-
-
-      /* ---------- IMAGES ---------- */
 
       images_page_title:
         "Photos – Moi-cy",
@@ -954,9 +810,6 @@ document.addEventListener("DOMContentLoaded", () => {
       view_all_images:
         "VOIR TOUTES LES PHOTOS",
 
-
-      /* ---------- VIDEOS ---------- */
-
       videos_page_title:
         "Vidéos – Moi-cy",
 
@@ -974,9 +827,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       all_videos:
         "TOUTES LES VIDÉOS",
-
-
-      /* ---------- SKATEPARKS ---------- */
 
       skateparks_page_title:
         "Skateparks – Moi-cy",
@@ -1035,17 +885,11 @@ document.addEventListener("DOMContentLoaded", () => {
       image_number:
         "Image",
 
-
-      /* ---------- COUNTRIES ---------- */
-
       france:
         "FRANCE",
 
       germany:
         "ALLEMAGNE",
-
-
-      /* ---------- VALENCE ---------- */
 
       valence_location:
         "VALENCE · FRANCE",
@@ -1053,17 +897,11 @@ document.addEventListener("DOMContentLoaded", () => {
       valence_description:
         "Ce skatepark n’offre pas grand-chose – il se compose essentiellement d’un seul pool. Mais ce pool est vraiment excellent. On peut très bien prendre de la vitesse et sa taille le rend particulièrement agréable à rider. Exactement le genre de spot que j’aime.",
 
-
-      /* ---------- KARLSRUHE ---------- */
-
       karlsruhe_location:
         "KARLSRUHE · ALLEMAGNE",
 
       karlsruhe_description:
         "Ce skatepark dispose d’un pool et est éclairé jusqu’à 22 h. Il offre également un sol lisse et agréable à rider.",
-
-
-      /* ---------- HEIDELBERG ---------- */
 
       heidelberg_location:
         "HEIDELBERG · ALLEMAGNE",
@@ -1071,17 +909,11 @@ document.addEventListener("DOMContentLoaded", () => {
       heidelberg_description:
         "À Heidelberg, les lumières sont allumées 24 heures sur 24. Le skatepark se trouve également sous un pont, il est donc couvert. On peut ainsi y rider pratiquement à tout moment.",
 
-
-      /* ---------- HEIDELBERG BOWL ---------- */
-
       heidelberg_bowl_location:
         "HEIDELBERG BOWL · ALLEMAGNE",
 
       heidelberg_bowl_description:
         "Un super bowl avec une surface lisse et agréable à rider. On peut très bien prendre de la vitesse et profiter pleinement du bowl. Je le recommande vivement.",
-
-
-      /* ---------- PERPIGNAN ---------- */
 
       perpignan_location:
         "PERPIGNAN · FRANCE",
@@ -1089,17 +921,11 @@ document.addEventListener("DOMContentLoaded", () => {
       perpignan_description:
         "Un skatepark immense avec un éclairage jusqu’à 22 h. En plus des énormes bowls, il y a aussi un grand pumptrack. Les bowls sont particulièrement adaptés pour s’entraîner.",
 
-
-      /* ---------- MÜNCHEN ---------- */
-
       muenchen_location:
         "MUNICH HIRSCHGARTEN · ALLEMAGNE",
 
       muenchen_description:
         "Un park composé de deux grands bowls : un bowl plus petit pour les débutants et un bowl plus grand. Il y a également un tube à 360 degrés.",
-
-
-      /* ---------- SHOP ---------- */
 
       shop_page_title:
         "Shop – Moi-cy",
@@ -1130,9 +956,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       teamshirts_shop_button:
         "OUVRIR LA BOUTIQUE TEAMSHIRTS",
-
-
-      /* ---------- CONTACT ---------- */
 
       contact_page_title:
         "Contact – Moi-cy",
@@ -1169,14 +992,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       contact_subject:
         "Nouveau message via Moi-cy"
-
     }
 
   };
 
 
   /* =========================================
-     GET SAVED LANGUAGE
+     LANGUAGE STORAGE
   ========================================= */
 
   function getSavedLanguage() {
@@ -1184,17 +1006,13 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
 
       const saved =
-        localStorage.getItem(
-          LANGUAGE_KEY
-        );
+        localStorage.getItem(LANGUAGE_KEY);
 
       if (
         saved &&
         supportedLanguages.includes(saved)
       ) {
-
         return saved;
-
       }
 
     } catch (error) {
@@ -1207,13 +1025,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     return "de";
-
   }
 
-
-  /* =========================================
-     SAVE LANGUAGE
-  ========================================= */
 
   function saveLanguage(language) {
 
@@ -1237,381 +1050,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     GET TRANSLATION
+     TRANSLATION HELPERS
   ========================================= */
 
-  function getTranslation(
-    language,
-    key
-  ) {
+  function getTranslation(language, key) {
 
     if (
       translations[language] &&
       translations[language][key]
     ) {
-
       return translations[language][key];
-
     }
 
     return null;
-
   }
 
 
-  /* =========================================
-     TRANSLATE PAGE
-  ========================================= */
-
-  function translatePage(language) {
-
-    const dictionary =
-      translations[language];
-
-    if (!dictionary) {
-      return;
-    }
-
-
-    /* ---------------------------------------
-       NORMAL TEXT
-    --------------------------------------- */
-
-    document
-      .querySelectorAll("[data-i18n]")
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18n;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.textContent =
-            translated;
-
-        }
-
-      });
-
-
-    /* ---------------------------------------
-       PLACEHOLDER
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-i18n-placeholder]"
-      )
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18nPlaceholder;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.placeholder =
-            translated;
-
-        }
-
-      });
-
-
-    /* ---------------------------------------
-       VALUE
-       
-       z.B. hidden form subject
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-i18n-value]"
-      )
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18nValue;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.value =
-            translated;
-
-        }
-
-      });
-
-
-    /* ---------------------------------------
-       TITLE ATTRIBUTE
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-i18n-title-attr]"
-      )
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18nTitleAttr;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.title =
-            translated;
-
-        }
-
-      });
-
-
-    /* ---------------------------------------
-       ARIA LABEL
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-i18n-aria]"
-      )
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18nAria;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.setAttribute(
-            "aria-label",
-            translated
-          );
-
-        }
-
-      });
-
-
-    /* ---------------------------------------
-       ALT ATTRIBUTE
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-i18n-alt]"
-      )
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18nAlt;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.alt =
-            translated;
-
-        }
-
-      });
-
-
-    /* ---------------------------------------
-       PAGE TITLE
-    --------------------------------------- */
-
-    const titleElement =
-      document.querySelector(
-        "[data-i18n-title]"
-      );
-
-    if (titleElement) {
-
-      const key =
-        titleElement.dataset.i18nTitle;
-
-      const translated =
-        getTranslation(
-          language,
-          key
-        );
-
-      if (translated !== null) {
-
-        document.title =
-          translated;
-
-      }
-
-    }
-
-
-    /* ---------------------------------------
-       META DESCRIPTION
-    --------------------------------------- */
-
-    const descriptionElement =
-      document.querySelector(
-        'meta[data-i18n-description]'
-      );
-
-    if (descriptionElement) {
-
-      const key =
-        descriptionElement.dataset.i18nDescription;
-
-      const translated =
-        getTranslation(
-          language,
-          key
-        );
-
-      if (translated !== null) {
-
-        descriptionElement.setAttribute(
-          "content",
-          translated
-        );
-
-      }
-
-    }
-
-
-    /* ---------------------------------------
-       HTML LANG
-    --------------------------------------- */
-
-    document.documentElement.lang =
-      language;
-
-
-    /* ---------------------------------------
-       LANGUAGE BUTTONS
-       
-       Unterstützt:
-       data-lang
-       data-language
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-lang], [data-language]"
-      )
-      .forEach((button) => {
-
-        const buttonLanguage =
-          button.dataset.lang ||
-          button.dataset.language;
-
-        const active =
-          buttonLanguage === language;
-
-
-        button.classList.toggle(
-          "active",
-          active
-        );
-
-
-        button.setAttribute(
-          "aria-pressed",
-          String(active)
-        );
-
-      });
-
-
-    /* ---------------------------------------
-       SKATEPARK COUNTRY OPTIONS
-    --------------------------------------- */
-
-    translateCountryOptions(
-      language
-    );
-
-
-    /* ---------------------------------------
-       SKATEPARK IMAGE COUNTS
-    --------------------------------------- */
-
-    document
-      .querySelectorAll(
-        "[data-i18n-count]"
-      )
-      .forEach((element) => {
-
-        const key =
-          element.dataset.i18nCount;
-
-        const translated =
-          getTranslation(
-            language,
-            key
-          );
-
-        if (translated !== null) {
-
-          element.textContent =
-            translated;
-
-        }
-
-      });
-
-  }
-
-
-  /* =========================================
-     COUNTRY FILTER
-  ========================================= */
-
-  function translateCountryOptions(
-    language
-  ) {
+  function translateCountryOptions(language) {
 
     const countryFilter =
-      document.getElementById(
-        "countryFilter"
-      );
+      document.getElementById("countryFilter");
 
     if (!countryFilter) {
       return;
     }
-
 
     countryFilter
       .querySelectorAll("option")
@@ -1681,6 +1143,290 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
+     TRANSLATE PAGE
+  ========================================= */
+
+  function translatePage(language) {
+
+    const dictionary =
+      translations[language];
+
+    if (!dictionary) {
+      return;
+    }
+
+
+    /* normale Texte */
+
+    document
+      .querySelectorAll("[data-i18n]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18n;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+          element.textContent =
+            translated;
+        }
+
+      });
+
+
+    /* Placeholder */
+
+    document
+      .querySelectorAll("[data-i18n-placeholder]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18nPlaceholder;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+          element.placeholder =
+            translated;
+        }
+
+      });
+
+
+    /* Value */
+
+    document
+      .querySelectorAll("[data-i18n-value]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18nValue;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+          element.value =
+            translated;
+        }
+
+      });
+
+
+    /* Title */
+
+    document
+      .querySelectorAll("[data-i18n-title-attr]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18nTitleAttr;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+          element.title =
+            translated;
+        }
+
+      });
+
+
+    /* ARIA */
+
+    document
+      .querySelectorAll("[data-i18n-aria]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18nAria;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+
+          element.setAttribute(
+            "aria-label",
+            translated
+          );
+
+        }
+
+      });
+
+
+    /* ALT */
+
+    document
+      .querySelectorAll("[data-i18n-alt]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18nAlt;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+          element.alt =
+            translated;
+        }
+
+      });
+
+
+    /* Page Title */
+
+    const titleElement =
+      document.querySelector(
+        "[data-i18n-title]"
+      );
+
+    if (titleElement) {
+
+      const key =
+        titleElement.dataset.i18nTitle;
+
+      const translated =
+        getTranslation(
+          language,
+          key
+        );
+
+      if (translated !== null) {
+
+        document.title =
+          translated;
+
+      }
+
+    }
+
+
+    /* Meta Description */
+
+    const descriptionElement =
+      document.querySelector(
+        'meta[data-i18n-description]'
+      );
+
+    if (descriptionElement) {
+
+      const key =
+        descriptionElement.dataset.i18nDescription;
+
+      const translated =
+        getTranslation(
+          language,
+          key
+        );
+
+      if (translated !== null) {
+
+        descriptionElement.setAttribute(
+          "content",
+          translated
+        );
+
+      }
+
+    }
+
+
+    /* HTML Language */
+
+    document.documentElement.lang =
+      language;
+
+
+    /* Language Buttons */
+
+    document
+      .querySelectorAll(
+        "[data-lang], [data-language]"
+      )
+      .forEach((button) => {
+
+        const buttonLanguage =
+          button.dataset.lang ||
+          button.dataset.language;
+
+        const active =
+          buttonLanguage === language;
+
+
+        button.classList.toggle(
+          "active",
+          active
+        );
+
+
+        button.setAttribute(
+          "aria-pressed",
+          String(active)
+        );
+
+      });
+
+
+    /* Country Filter */
+
+    translateCountryOptions(
+      language
+    );
+
+
+    /* Counts */
+
+    document
+      .querySelectorAll("[data-i18n-count]")
+      .forEach((element) => {
+
+        const key =
+          element.dataset.i18nCount;
+
+        const translated =
+          getTranslation(
+            language,
+            key
+          );
+
+        if (translated !== null) {
+
+          element.textContent =
+            translated;
+
+        }
+
+      });
+
+  }
+
+
+  /* =========================================
      LANGUAGE BUTTONS
   ========================================= */
 
@@ -1704,9 +1450,7 @@ document.addEventListener("DOMContentLoaded", () => {
               language
             )
           ) {
-
             return;
-
           }
 
 
@@ -1719,6 +1463,14 @@ document.addEventListener("DOMContentLoaded", () => {
             language
           );
 
+
+          if (window.MoiCy) {
+
+            window.MoiCy.language =
+              language;
+
+          }
+
         }
       );
 
@@ -1726,7 +1478,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     START LANGUAGE SYSTEM
+     INITIAL LANGUAGE
   ========================================= */
 
   const currentLanguage =
@@ -1739,7 +1491,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     HERO LOGO
+     ACTIVE NAVIGATION
+  ========================================= */
+
+  const currentPage =
+    window.location.pathname
+      .split("/")
+      .pop() || "index.html";
+
+
+  document
+    .querySelectorAll(
+      ".main-nav a, .mobile-menu nav a, .footer-links a"
+    )
+    .forEach((link) => {
+
+      const href =
+        link.getAttribute("href");
+
+      if (!href) {
+        return;
+      }
+
+
+      const linkPage =
+        href.split("#")[0]
+          .split("/")
+          .pop();
+
+
+      if (
+        linkPage === currentPage
+      ) {
+
+        link.classList.add("active");
+
+      }
+
+    });
+
+
+  /* =========================================
+     GRAFFITI ANIMATION
   ========================================= */
 
   const letters =
@@ -1779,21 +1572,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ".product-slide"
     );
 
+
   const dots =
     document.querySelectorAll(
       ".product-dot"
     );
 
-
-  /*
-   * WICHTIG:
-   * Kein "return" mehr, wenn die Seite
-   * keinen Produkt-Slider besitzt.
-   *
-   * Sonst würde das Script auf Bilder,
-   * Videos, Kontakt usw. hier komplett
-   * abbrechen.
-   */
 
   if (slides.length) {
 
@@ -1801,10 +1585,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let sliderTimer;
 
-
-    /* ---------------------------------------
-       SHOW SLIDE
-    --------------------------------------- */
 
     function showSlide(index) {
 
@@ -1838,10 +1618,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ---------------------------------------
-       NEXT SLIDE
-    --------------------------------------- */
-
     function nextSlide() {
 
       const next =
@@ -1854,10 +1630,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ---------------------------------------
-       START SLIDER
-    --------------------------------------- */
 
     function startSlider() {
 
@@ -1875,10 +1647,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ---------------------------------------
-       STOP SLIDER
-    --------------------------------------- */
-
     function stopSlider() {
 
       clearInterval(
@@ -1887,10 +1655,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-
-    /* ---------------------------------------
-       SLIDER DOTS
-    --------------------------------------- */
 
     dots.forEach(
       (dot, index) => {
@@ -1911,10 +1675,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
 
-
-    /* ---------------------------------------
-       SLIDER HOVER
-    --------------------------------------- */
 
     const slider =
       document.getElementById(
@@ -1938,11 +1698,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* ---------------------------------------
-       START PRODUCT SLIDER
-    --------------------------------------- */
+    showSlide(
+      0
+    );
 
-    showSlide(0);
 
     startSlider();
 
@@ -1950,17 +1709,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     GLOBAL ACCESS
-     
-     Kann später für Skatepark-JS oder
-     weitere Funktionen genutzt werden.
+     GLOBAL MOI-CY API
   ========================================= */
 
   window.MoiCy = {
 
-    language: currentLanguage,
+    language:
+      currentLanguage,
 
-    translations: translations,
+    translations:
+      translations,
+
 
     setLanguage(language) {
 
@@ -1969,9 +1728,7 @@ document.addEventListener("DOMContentLoaded", () => {
           language
         )
       ) {
-
         return;
-
       }
 
 
