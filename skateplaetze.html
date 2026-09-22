@@ -492,6 +492,27 @@
 
 
     /* =========================================
+       KARTE-LINK
+    ========================================= */
+
+    .karte-link {
+      display: block;
+      width: fit-content;
+      margin: 45px auto 0;
+      color: #444;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .karte-link:hover {
+      color: #00a8ff;
+    }
+
+
+    /* =========================================
        KEINE ERGEBNISSE
     ========================================= */
 
@@ -1513,6 +1534,16 @@
         KEIN SKATEPLATZ GEFUNDEN.
       </div>
 
+
+      <!-- UNAUFFÄLLIGER LINK ZUR NEUEN KARTE -->
+
+      <a
+        class="karte-link"
+        href="karte.html"
+      >
+        KARTE
+      </a>
+
     </div>
 
   </section>
@@ -1811,13 +1842,13 @@
 
   /* =========================================
      GALERIEN AUTOMATISCH ERKENNEN
-     
+
      Beispiel:
      bilder/valence-1.jpg
      bilder/valence-2.jpg
      bilder/valence-3.jpg
      ...
-     
+
      Es werden automatisch alle vorhandenen
      Bilder von 1 bis 50 gesucht.
   ========================================= */
@@ -2418,7 +2449,7 @@
                         image.classList.contains(
                           "active"
                         )
-                    );
+                      );
 
 
                 showGalleryImage(
