@@ -80,6 +80,21 @@ button {
 
 
 /* =========================================================
+   SHARED COMPONENT CONTAINERS
+========================================================= */
+
+#site-header {
+    position: relative;
+    z-index: 9999;
+}
+
+#site-footer {
+    position: relative;
+    z-index: 10;
+}
+
+
+/* =========================================================
    MAIN
 ========================================================= */
 
@@ -106,23 +121,23 @@ main {
 
     display: grid;
 
-    grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
+    grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
 
     align-items: center;
 
     padding: 0 34px;
 
-    background: rgba(5, 5, 5, 0.96);
+    background: rgba(5, 5, 5, 0.97);
 
     border-bottom: 1px solid var(--line);
 
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 
 /* =========================================================
-   SHARED HEADER LOGO
+   HEADER LOGO
 ========================================================= */
 
 .header-logo {
@@ -137,6 +152,7 @@ main {
 .header-logo a {
     display: inline-flex;
     align-items: center;
+    gap: 9px;
 
     color: var(--white-pure);
 
@@ -147,11 +163,78 @@ main {
 
     letter-spacing: -0.08em;
 
-    transition: color var(--transition);
+    transition:
+        color var(--transition),
+        transform var(--transition);
 }
 
 .header-logo a:hover {
-    color: var(--blue);
+    color: var(--white-pure);
+
+    transform: translateY(-1px);
+}
+
+
+/* grafisches Logo-Zeichen */
+
+.logo-symbol {
+    position: relative;
+
+    width: 28px;
+    height: 28px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: var(--blue);
+
+    transform: skew(-9deg) rotate(-3deg);
+
+    overflow: hidden;
+}
+
+.logo-symbol::before {
+    content: "";
+
+    position: absolute;
+
+    width: 12px;
+    height: 20px;
+
+    left: 7px;
+    top: 4px;
+
+    border-left: 3px solid white;
+    border-right: 3px solid white;
+
+    transform: skew(8deg);
+}
+
+.logo-symbol::after {
+    content: "";
+
+    position: absolute;
+
+    width: 17px;
+    height: 3px;
+
+    left: 5px;
+    top: 13px;
+
+    background: white;
+
+    transform: rotate(-18deg);
+}
+
+.logo-wordmark {
+    display: inline-flex;
+    align-items: center;
+
+    line-height: 1;
 }
 
 .logo-main {
@@ -239,16 +322,22 @@ main {
     align-items: center;
 
     gap: 3px;
+
+    padding: 4px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .header-languages .language-button {
+    min-width: 31px;
+
     border: 0;
 
     background: transparent;
 
     color: #666;
 
-    padding: 5px 7px;
+    padding: 6px 7px;
 
     cursor: pointer;
 
@@ -257,12 +346,19 @@ main {
 
     letter-spacing: 0.08em;
 
-    transition: color var(--transition);
+    transition:
+        color var(--transition),
+        background var(--transition);
 }
 
-.header-languages .language-button:hover,
+.header-languages .language-button:hover {
+    color: white;
+}
+
 .header-languages .language-button.active {
-    color: var(--blue);
+    color: white;
+
+    background: var(--blue);
 }
 
 
@@ -305,6 +401,18 @@ main {
     transition:
         transform 0.25s ease,
         opacity 0.25s ease;
+}
+
+body.menu-open .menu-button span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+body.menu-open .menu-button span:nth-child(2) {
+    opacity: 0;
+}
+
+body.menu-open .menu-button span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
 }
 
 
@@ -1388,12 +1496,15 @@ main {
 ========================================================= */
 
 .site-footer {
+    width: 100%;
+
     background: var(--black);
 
     border-top: 1px solid var(--line);
 }
 
 .footer-inner {
+    width: 100%;
     max-width: var(--content-width);
 
     margin: 0 auto;
@@ -1402,7 +1513,7 @@ main {
 
     display: grid;
 
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr);
 
     align-items: center;
 
@@ -1419,7 +1530,9 @@ main {
 }
 
 .footer-logo {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 
     width: max-content;
 
@@ -1429,6 +1542,38 @@ main {
     font-weight: 900;
 
     letter-spacing: -0.06em;
+
+    transition: color var(--transition);
+}
+
+.footer-logo:hover {
+    color: white;
+}
+
+.footer-logo-symbol {
+    width: 22px;
+    height: 22px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: var(--blue);
+
+    transform: skew(-9deg);
+}
+
+.footer-logo-symbol::before {
+    content: "";
+
+    width: 11px;
+    height: 14px;
+
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+
+    transform: skew(8deg);
 }
 
 .footer-brand p {
@@ -1472,7 +1617,8 @@ main {
     transition: color var(--transition);
 }
 
-.footer-links a:hover {
+.footer-links a:hover,
+.footer-links a.active {
     color: var(--blue);
 }
 
@@ -1741,6 +1887,10 @@ main {
         gap: 25px;
     }
 
+    .footer-brand {
+        justify-self: start;
+    }
+
     .footer-links {
         justify-content: flex-start;
 
@@ -1767,6 +1917,11 @@ main {
 
     .header-logo a {
         font-size: 21px;
+    }
+
+    .logo-symbol {
+        width: 25px;
+        height: 25px;
     }
 
     .menu-button {
