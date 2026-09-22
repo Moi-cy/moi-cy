@@ -35,7 +35,7 @@
 
 <link
     rel="stylesheet"
-    href="style.css?v=skateplaetze11"
+    href="style.css?v=skateplaetze12"
 >
 
 <style>
@@ -1554,7 +1554,8 @@ data-i18n-aria="next_image"
 <div id="site-footer"></div>
 
 
-<script src="script.js"></script>
+<!-- WICHTIG: script.js enthält Top-Level-await -->
+<script type="module" src="script.js"></script>
 
 
 <script>
@@ -2889,14 +2890,14 @@ if (
             }
 
 
-            /*
-             * Nur als Ordnername für Fotos.
-             * Die Datenbank-ID wird von Supabase erzeugt.
-             */
-
             let submissionId = "";
 
+
             try {
+
+                /* =========================================
+                EINDEUTIGE ID FÜR FOTO-ORDNER
+                ========================================= */
 
                 if (
                     window.crypto &&
@@ -3005,9 +3006,6 @@ if (
                                 "apikey":
                                     SUPABASE_KEY,
 
-                                "Authorization":
-                                    `Bearer ${SUPABASE_KEY}`,
-
                                 "Prefer":
                                     "return=minimal"
 
@@ -3097,9 +3095,6 @@ if (
                                         "apikey":
                                             SUPABASE_KEY,
 
-                                        "Authorization":
-                                            `Bearer ${SUPABASE_KEY}`,
-
                                         "Content-Type":
                                             file.type,
 
@@ -3168,11 +3163,6 @@ if (
                 addSkateparkMessage.className =
                     "add-skatepark-message visible error";
 
-
-                /*
-                 * WICHTIG:
-                 * Jetzt wird der echte Fehler angezeigt.
-                 */
 
                 addSkateparkMessage.textContent =
                     "FEHLER: "
