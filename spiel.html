@@ -2,459 +2,460 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Moi-cy Skate Rush</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moi-cy Skate</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    user-select:none;
-    -webkit-user-select:none;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#12062b;
-    font-family:Arial,sans-serif;
-    color:white;
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
+    color: white;
 }
 
-body{
-    touch-action:none;
+body {
+    user-select: none;
 }
 
-canvas{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
+canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
-/* HUD */
+/* =========================
+   START MENU
+========================= */
 
-#hud{
-    position:fixed;
-    top:15px;
-    left:18px;
-    right:18px;
-    z-index:10;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-
-    pointer-events:none;
-}
-
-.logo{
-    font-size:clamp(28px,5vw,48px);
-    font-weight:1000;
-    font-style:italic;
-    transform:rotate(-5deg);
-
-    text-shadow:
-        4px 4px 0 #ff2490,
-        8px 8px 0 #4020ae;
-}
-
-.logo span{
-    color:#fff06a;
-}
-
-.stats{
-    display:flex;
-    gap:7px;
-}
-
-.stat{
-    min-width:85px;
-    padding:8px 12px;
-
-    text-align:center;
-
-    border:2px solid rgba(255,255,255,.8);
-    border-radius:15px;
-
-    background:rgba(20,6,48,.65);
-    backdrop-filter:blur(8px);
-}
-
-.stat small{
-    display:block;
-    font-size:9px;
-    opacity:.7;
-}
-
-.stat strong{
-    display:block;
-    font-size:18px;
-}
-
-/* COMBO */
-
-#combo{
-    position:fixed;
-    top:105px;
-    left:50%;
-
-    transform:translateX(-50%) scale(.6);
-
-    opacity:0;
-
-    z-index:15;
-
-    text-align:center;
-
-    pointer-events:none;
-
-    transition:.2s;
-}
-
-#combo.show{
-    opacity:1;
-    transform:translateX(-50%) scale(1);
-}
-
-#comboText{
-    font-size:clamp(35px,8vw,70px);
-    font-weight:1000;
-    font-style:italic;
-
-    color:white;
-
-    text-shadow:
-        5px 5px 0 #ff2993,
-        9px 9px 0 #4420b5;
-}
-
-#comboPoints{
-    color:#fff16a;
-    font-weight:900;
-}
-
-/* TRICK */
-
-#trick{
-    position:fixed;
-    left:50%;
-    top:45%;
-
-    transform:
-        translate(-50%,-50%)
-        scale(.5)
-        rotate(-6deg);
-
-    opacity:0;
-
-    z-index:20;
-
-    font-size:clamp(30px,7vw,70px);
-    font-weight:1000;
-    font-style:italic;
-
-    color:#fff16a;
-
-    text-shadow:
-        5px 5px 0 #ff2793,
-        9px 9px 0 #4520b8;
-
-    pointer-events:none;
-
-    transition:.3s;
-}
-
-/* PROGRESS */
-
-.progress{
-    position:fixed;
-
-    left:50%;
-    bottom:18px;
-
-    transform:translateX(-50%);
-
-    width:min(430px,45vw);
-    height:8px;
-
-    background:rgba(255,255,255,.2);
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    z-index:10;
-}
-
-.progressBar{
-    height:100%;
-    width:0%;
-
-    background:#fff16a;
-
-    box-shadow:0 0 15px #fff16a;
-}
-
-/* MENU */
-
-#menu{
-    position:fixed;
-    inset:0;
-
-    z-index:50;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding:20px;
-
+#menu {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
     background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(255,255,255,.15),
-            transparent 35%
-        );
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.3), transparent 25%),
+        linear-gradient(135deg, #ff4d9d, #ff7b35 45%, #ffd84d 75%, #37e0d0);
 }
 
-.card{
-    width:min(600px,94vw);
-
-    padding:40px 30px;
-
-    text-align:center;
-
-    background:rgba(20,6,48,.85);
-
-    border:3px solid white;
-    border-radius:32px;
-
-    backdrop-filter:blur(16px);
-
+.menu-card {
+    width: min(520px, 94vw);
+    padding: 34px 28px;
+    border: 4px solid white;
+    border-radius: 30px;
+    background: rgba(20, 10, 45, .82);
     box-shadow:
-        0 25px 70px rgba(0,0,0,.4);
+        0 25px 70px rgba(0,0,0,.4),
+        0 0 50px rgba(255,255,255,.15);
+    text-align: center;
+    backdrop-filter: blur(12px);
 }
 
-.title{
-    font-size:clamp(50px,11vw,90px);
-    line-height:.8;
-
-    font-weight:1000;
-    font-style:italic;
-
-    transform:rotate(-5deg);
-
+.logo {
+    font-size: clamp(52px, 13vw, 90px);
+    line-height: .85;
+    font-weight: 1000;
+    font-style: italic;
+    letter-spacing: -7px;
+    color: white;
     text-shadow:
-        6px 6px 0 #ff2991,
-        11px 11px 0 #4220b5;
+        5px 5px 0 #ff3c91,
+        9px 9px 0 #17122e;
+    transform: skew(-8deg);
 }
 
-.title span{
-    color:#fff16a;
+.logo-sub {
+    margin-top: 14px;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    color: #ffd84d;
 }
 
-.subtitle{
-    margin:20px 0 25px;
-    opacity:.85;
-    font-size:18px;
+.menu-description {
+    margin: 25px 0;
+    line-height: 1.6;
+    color: #eee;
 }
 
-.play{
-    border:0;
-
-    padding:17px 40px;
-
-    border-radius:100px;
-
-    color:white;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff2991,
-            #7138ff
-        );
-
-    font-size:21px;
-    font-weight:1000;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 7px 0 #321468,
-        0 15px 35px rgba(255,30,145,.3);
+.start-btn {
+    width: 100%;
+    padding: 18px;
+    border: 0;
+    border-radius: 17px;
+    background: linear-gradient(135deg, #ff3c91, #ff6b35);
+    color: white;
+    font-size: 21px;
+    font-weight: 1000;
+    cursor: pointer;
+    box-shadow: 0 8px 0 #a81f58;
+    transition: transform .1s;
 }
 
-.play:active{
-    transform:translateY(5px);
-
-    box-shadow:
-        0 2px 0 #321468;
+.start-btn:active {
+    transform: translateY(5px);
+    box-shadow: 0 3px 0 #a81f58;
 }
 
-.controls{
-    display:grid;
-
-    grid-template-columns:repeat(4,1fr);
-
-    gap:8px;
-
-    margin-top:30px;
+.menu-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
 }
 
-.control{
-    padding:10px 5px;
-
-    border-radius:14px;
-
-    background:rgba(255,255,255,.06);
-
-    font-size:11px;
+.menu-small {
+    flex: 1;
+    padding: 13px 8px;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 13px;
+    background: rgba(255,255,255,.08);
+    color: white;
+    font-weight: 800;
+    cursor: pointer;
 }
 
-.control b{
-    display:block;
-
-    color:#fff16a;
-
-    font-size:17px;
-
-    margin-bottom:4px;
+.controls {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    text-align: left;
+    font-size: 13px;
+    color: #ddd;
 }
 
-/* GAME OVER */
-
-#gameOver{
-    position:fixed;
-    inset:0;
-
-    z-index:60;
-
-    display:none;
-
-    justify-content:center;
-    align-items:center;
-
-    background:rgba(15,3,35,.7);
-
-    backdrop-filter:blur(8px);
+.control {
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.07);
 }
 
-.over{
-    width:min(500px,90vw);
-
-    padding:35px;
-
-    text-align:center;
-
-    background:rgba(22,6,48,.92);
-
-    border:3px solid white;
-    border-radius:30px;
+kbd {
+    display: inline-block;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #fff;
+    color: #17122e;
+    font-weight: 1000;
+    margin-right: 4px;
 }
 
-.over h2{
-    font-size:55px;
-    font-style:italic;
+/* =========================
+   SETTINGS
+========================= */
 
-    color:#ff4a9d;
+#settings {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(8,5,25,.75);
+    backdrop-filter: blur(10px);
+}
 
+.settings-card {
+    width: min(440px, 94vw);
+    padding: 28px;
+    border-radius: 25px;
+    background: #19122e;
+    border: 3px solid white;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.settings-card h2 {
+    font-size: 30px;
+    margin-bottom: 22px;
+}
+
+.setting-row {
+    margin-bottom: 20px;
+}
+
+.setting-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-weight: 900;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: #ff3c91;
+}
+
+.toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px;
+    margin-bottom: 9px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.07);
+    font-weight: 800;
+}
+
+.toggle {
+    width: 52px;
+    height: 29px;
+    border-radius: 30px;
+    background: #555;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.toggle::after {
+    content: "";
+    display: block;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background: white;
+    transition: transform .2s;
+}
+
+.toggle.active {
+    background: #ff3c91;
+}
+
+.toggle.active::after {
+    transform: translateX(23px);
+}
+
+.close-settings {
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px;
+    border: 0;
+    border-radius: 12px;
+    background: white;
+    color: #19122e;
+    font-weight: 1000;
+    cursor: pointer;
+}
+
+/* =========================
+   HUD
+========================= */
+
+#hud {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    display: none;
+}
+
+.hud-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px;
+}
+
+.hud-box {
+    min-width: 100px;
+    padding: 10px 15px;
+    border: 2px solid rgba(255,255,255,.7);
+    border-radius: 14px;
+    background: rgba(18,10,40,.65);
+    backdrop-filter: blur(7px);
+    box-shadow: 0 5px 20px rgba(0,0,0,.2);
+}
+
+.hud-label {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    opacity: .7;
+}
+
+.hud-value {
+    font-size: 24px;
+    font-weight: 1000;
+}
+
+#comboBox {
+    position: fixed;
+    top: 105px;
+    left: 50%;
+    transform: translateX(-50%) scale(.7);
+    opacity: 0;
+    font-size: clamp(25px, 7vw, 55px);
+    font-weight: 1000;
+    font-style: italic;
+    color: #ffd84d;
     text-shadow:
-        4px 4px 0 #4320b5;
+        3px 3px 0 #ff3c91,
+        6px 6px 0 #17122e;
+    transition: .2s;
+    white-space: nowrap;
 }
 
-.final{
-    margin:18px 0 25px;
-    font-size:23px;
+#comboBox.show {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
 }
 
-/* MOBILE */
-
-.mobile{
-    position:fixed;
-
-    left:18px;
-    right:18px;
-    bottom:25px;
-
-    z-index:30;
-
-    display:flex;
-    justify-content:space-between;
-
-    pointer-events:none;
+#trickPopup {
+    position: fixed;
+    top: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    font-weight: 1000;
+    color: white;
+    text-shadow: 3px 3px 0 #17122e;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.group{
-    display:flex;
-    gap:9px;
+#trickPopup.show {
+    animation: popup .8s ease-out;
 }
 
-.btn{
-    width:64px;
-    height:64px;
-
-    border:2px solid rgba(255,255,255,.7);
-    border-radius:20px;
-
-    background:rgba(25,7,50,.65);
-
-    color:white;
-
-    font-size:25px;
-    font-weight:1000;
-
-    backdrop-filter:blur(8px);
-
-    pointer-events:auto;
-}
-
-.btn:active{
-    transform:scale(.88);
-    background:#ff2f93;
-}
-
-@media(min-width:800px){
-    .mobile{
-        opacity:.15;
+@keyframes popup {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(25px) scale(.5) rotate(-5deg);
+    }
+    25% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1.2) rotate(3deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-45px) scale(1);
     }
 }
 
-@media(max-width:600px){
+/* =========================
+   GAME OVER
+========================= */
 
-    #hud{
-        top:9px;
-        left:9px;
-        right:9px;
+#gameOver {
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10,5,25,.65);
+    backdrop-filter: blur(8px);
+}
+
+.gameover-card {
+    width: min(430px, 92vw);
+    padding: 32px;
+    text-align: center;
+    border: 3px solid white;
+    border-radius: 25px;
+    background: #19122e;
+}
+
+.gameover-card h2 {
+    font-size: 48px;
+    color: #ff4d9d;
+    font-style: italic;
+}
+
+.final-score {
+    margin: 20px 0;
+    font-size: 30px;
+    font-weight: 1000;
+}
+
+.restart-btn {
+    width: 100%;
+    padding: 15px;
+    border: 0;
+    border-radius: 13px;
+    background: #ffd84d;
+    color: #19122e;
+    font-size: 18px;
+    font-weight: 1000;
+    cursor: pointer;
+}
+
+/* =========================
+   MOBILE CONTROLS
+========================= */
+
+#mobileControls {
+    position: fixed;
+    inset: auto 0 18px 0;
+    z-index: 10;
+    display: none;
+    justify-content: space-between;
+    padding: 0 18px;
+    pointer-events: none;
+}
+
+.mobile-group {
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.mobile-btn {
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    border: 2px solid rgba(255,255,255,.7);
+    background: rgba(20,10,40,.7);
+    color: white;
+    font-size: 24px;
+    font-weight: 1000;
+    backdrop-filter: blur(8px);
+    touch-action: manipulation;
+}
+
+.mobile-btn:active {
+    transform: scale(.9);
+    background: #ff3c91;
+}
+
+@media (max-width: 800px) {
+    #mobileControls {
+        display: flex;
     }
 
-    .logo{
-        font-size:28px;
+    .controls {
+        display: none;
     }
 
-    .stat{
-        min-width:60px;
-        padding:6px;
+    .hud-top {
+        padding: 10px;
     }
 
-    .stat small{
-        font-size:7px;
+    .hud-box {
+        min-width: 80px;
+        padding: 7px 10px;
     }
 
-    .stat strong{
-        font-size:13px;
+    .hud-value {
+        font-size: 18px;
     }
+}
 
-    .controls{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .progress{
-        bottom:105px;
-        width:45vw;
+@media (min-width: 801px) {
+    #mobileControls {
+        display: none !important;
     }
 }
 </style>
@@ -462,912 +463,1168 @@ canvas{
 
 <body>
 
-<canvas id="canvas"></canvas>
+<canvas id="game"></canvas>
 
-<!-- HUD -->
+<!-- =========================
+     MENU
+========================= -->
+
+<div id="menu">
+    <div class="menu-card">
+
+        <div class="logo">Moi-cy</div>
+        <div class="logo-sub">SKATE • RIDE • COMBO</div>
+
+        <div class="menu-description">
+            Spring über Hindernisse, sammle Coins,
+            lande Tricks und baue riesige Combos!
+        </div>
+
+        <button class="start-btn" id="startBtn">
+            🛹 SKATE STARTEN
+        </button>
+
+        <div class="menu-buttons">
+            <button class="menu-small" id="soundBtn">
+                🔊 SOUND
+            </button>
+
+            <button class="menu-small" id="musicBtn">
+                🎵 MUSIK
+            </button>
+
+            <button class="menu-small" id="settingsBtn">
+                ⚙️ AUDIO
+            </button>
+        </div>
+
+        <div class="controls">
+            <div class="control">
+                <kbd>←</kbd><kbd>→</kbd> Spur wechseln
+            </div>
+            <div class="control">
+                <kbd>SPACE</kbd> Springen
+            </div>
+            <div class="control">
+                <kbd>F</kbd> Trick
+            </div>
+            <div class="control">
+                <kbd>R</kbd> Neustart
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- =========================
+     SETTINGS
+========================= -->
+
+<div id="settings">
+    <div class="settings-card">
+
+        <h2>🔊 Audio</h2>
+
+        <div class="setting-row">
+            <div class="setting-title">
+                <span>Sound Effects</span>
+                <span id="sfxValue">80%</span>
+            </div>
+
+            <input
+                id="sfxVolume"
+                type="range"
+                min="0"
+                max="100"
+                value="80"
+            >
+        </div>
+
+        <div class="setting-row">
+            <div class="setting-title">
+                <span>Musik</span>
+                <span id="musicValue">45%</span>
+            </div>
+
+            <input
+                id="musicVolume"
+                type="range"
+                min="0"
+                max="100"
+                value="45"
+            >
+        </div>
+
+        <div class="toggle-row">
+            <span>🔊 Sound Effects</span>
+            <div class="toggle active" id="sfxToggle"></div>
+        </div>
+
+        <div class="toggle-row">
+            <span>🎵 Hintergrundmusik</span>
+            <div class="toggle active" id="musicToggle"></div>
+        </div>
+
+        <button class="close-settings" id="closeSettings">
+            FERTIG
+        </button>
+
+    </div>
+</div>
+
+<!-- =========================
+     HUD
+========================= -->
 
 <div id="hud">
 
-    <div class="logo">
-        Moi-<span>cy</span>
-    </div>
+    <div class="hud-top">
 
-    <div class="stats">
-
-        <div class="stat">
-            <small>SCORE</small>
-            <strong id="score">0</strong>
+        <div class="hud-box">
+            <div class="hud-label">SCORE</div>
+            <div class="hud-value" id="score">0</div>
         </div>
 
-        <div class="stat">
-            <small>COMBO</small>
-            <strong id="comboNumber">x1</strong>
+        <div class="hud-box">
+            <div class="hud-label">COMBO</div>
+            <div class="hud-value" id="combo">x1</div>
         </div>
 
-        <div class="stat">
-            <small>DISTANZ</small>
-            <strong id="distance">0m</strong>
+        <div class="hud-box">
+            <div class="hud-label">DISTANCE</div>
+            <div class="hud-value" id="distance">0m</div>
         </div>
 
     </div>
+
+    <div id="comboBox">COMBO x2</div>
+    <div id="trickPopup">KICKFLIP!</div>
 
 </div>
 
-<!-- COMBO -->
-
-<div id="combo">
-
-    <div id="comboText">
-        COMBO!
-    </div>
-
-    <div id="comboPoints">
-        +0
-    </div>
-
-</div>
-
-<div id="trick"></div>
-
-<!-- PROGRESS -->
-
-<div class="progress">
-    <div
-        class="progressBar"
-        id="progressBar">
-    </div>
-</div>
-
-<!-- MENU -->
-
-<div id="menu">
-
-    <div class="card">
-
-        <div class="title">
-            MOI-<span>CY</span><br>
-            SKATE
-        </div>
-
-        <div class="subtitle">
-            Skate. Trick. Combo. Repeat. 🛹
-        </div>
-
-        <button
-            class="play"
-            onclick="startGame()">
-
-            🛹 START SKATING
-
-        </button>
-
-        <div class="controls">
-
-            <div class="control">
-                <b>← →</b>
-                Spur
-            </div>
-
-            <div class="control">
-                <b>SPACE</b>
-                Springen
-            </div>
-
-            <div class="control">
-                <b>F</b>
-                Trick
-            </div>
-
-            <div class="control">
-                <b>R</b>
-                Neustart
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- GAME OVER -->
+<!-- =========================
+     GAME OVER
+========================= -->
 
 <div id="gameOver">
+    <div class="gameover-card">
 
-    <div class="over">
+        <h2>WIPEOUT!</h2>
 
-        <h2>
-            WIPEOUT! 💥
-        </h2>
-
-        <div class="final">
-            Score:
-            <strong id="finalScore">
-                0
-            </strong>
+        <div class="final-score">
+            <div>Score</div>
+            <span id="finalScore">0</span>
         </div>
 
-        <button
-            class="play"
-            onclick="startGame()">
-
-            🔥 NOCHMAL!
-
+        <button class="restart-btn" id="restartBtn">
+            🛹 NOCHMAL!
         </button>
 
+    </div>
+</div>
+
+<!-- =========================
+     MOBILE
+========================= -->
+
+<div id="mobileControls">
+
+    <div class="mobile-group">
+        <button class="mobile-btn" id="leftBtn">←</button>
+        <button class="mobile-btn" id="rightBtn">→</button>
+    </div>
+
+    <div class="mobile-group">
+        <button class="mobile-btn" id="jumpBtn">↑</button>
+        <button class="mobile-btn" id="trickBtn">★</button>
     </div>
 
 </div>
-
-<!-- MOBILE -->
-
-<div class="mobile">
-
-    <div class="group">
-
-        <button
-            class="btn"
-            id="left">
-            ←
-        </button>
-
-        <button
-            class="btn"
-            id="right">
-            →
-        </button>
-
-    </div>
-
-    <div class="group">
-
-        <button
-            class="btn"
-            id="jump">
-            ⬆
-        </button>
-
-        <button
-            class="btn"
-            id="trickBtn">
-            ★
-        </button>
-
-    </div>
-
-</div>
-
 
 <script>
-
 /* =========================================================
-   CANVAS
+   MOI-CY SKATE
+   Single-file arcade skateboard game
 ========================================================= */
 
-const canvas =
-    document.getElementById("canvas");
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-const ctx =
-    canvas.getContext("2d");
+let W = innerWidth;
+let H = innerHeight;
 
-let W = 0;
-let H = 0;
+function resize() {
+    W = canvas.width = innerWidth * devicePixelRatio;
+    H = canvas.height = innerHeight * devicePixelRatio;
 
-function resize(){
-
-    W = window.innerWidth;
-    H = window.innerHeight;
-
-    const dpr =
-        Math.min(
-            window.devicePixelRatio || 1,
-            2
-        );
-
-    canvas.width =
-        W * dpr;
-
-    canvas.height =
-        H * dpr;
-
-    canvas.style.width =
-        W + "px";
-
-    canvas.style.height =
-        H + "px";
+    canvas.style.width = innerWidth + "px";
+    canvas.style.height = innerHeight + "px";
 
     ctx.setTransform(
-        dpr,
+        devicePixelRatio,
         0,
         0,
-        dpr,
+        devicePixelRatio,
         0,
         0
     );
 }
 
-window.addEventListener(
-    "resize",
-    resize
-);
-
 resize();
 
+addEventListener("resize", resize);
 
 /* =========================================================
-   GAME VARIABLES
+   AUDIO ENGINE
 ========================================================= */
 
-let playing = false;
-let gameOver = false;
+let audioCtx = null;
+let masterGain = null;
+let musicGain = null;
+let sfxGain = null;
+
+let audioStarted = false;
+let musicTimer = null;
+let musicStep = 0;
+
+let audioSettings = {
+    sfxVolume: Number(localStorage.getItem("moiCySfx") ?? 80),
+    musicVolume: Number(localStorage.getItem("moiCyMusic") ?? 45),
+    sfxEnabled: localStorage.getItem("moiCySfxEnabled") !== "false",
+    musicEnabled: localStorage.getItem("moiCyMusicEnabled") !== "false"
+};
+
+function initAudio() {
+
+    if (audioStarted) {
+        if (audioCtx && audioCtx.state === "suspended") {
+            audioCtx.resume();
+        }
+        return;
+    }
+
+    audioCtx = new (
+        window.AudioContext ||
+        window.webkitAudioContext
+    )();
+
+    masterGain = audioCtx.createGain();
+    musicGain = audioCtx.createGain();
+    sfxGain = audioCtx.createGain();
+
+    musicGain.connect(masterGain);
+    sfxGain.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
+
+    audioStarted = true;
+
+    updateAudioVolumes();
+
+    startMusic();
+}
+
+function updateAudioVolumes() {
+
+    if (!audioStarted) return;
+
+    sfxGain.gain.value =
+        audioSettings.sfxEnabled
+            ? audioSettings.sfxVolume / 100
+            : 0;
+
+    musicGain.gain.value =
+        audioSettings.musicEnabled
+            ? audioSettings.musicVolume / 100
+            : 0;
+}
+
+/* ---------- generic tone ---------- */
+
+function tone(
+    frequency,
+    duration = .12,
+    type = "sine",
+    volume = .15,
+    destination = sfxGain,
+    slideTo = null
+) {
+
+    if (!audioStarted) return;
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(
+        frequency,
+        audioCtx.currentTime
+    );
+
+    if (slideTo) {
+        osc.frequency.exponentialRampToValueAtTime(
+            Math.max(20, slideTo),
+            audioCtx.currentTime + duration
+        );
+    }
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        volume,
+        audioCtx.currentTime + .01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        audioCtx.currentTime + duration
+    );
+
+    osc.connect(gain);
+    gain.connect(destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration + .02);
+}
+
+/* ---------- noise ---------- */
+
+function noise(duration = .15, volume = .15) {
+
+    if (!audioStarted) return;
+
+    const bufferSize =
+        audioCtx.sampleRate * duration;
+
+    const buffer =
+        audioCtx.createBuffer(
+            1,
+            bufferSize,
+            audioCtx.sampleRate
+        );
+
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < bufferSize; i++) {
+        data[i] =
+            (Math.random() * 2 - 1) *
+            Math.pow(1 - i / bufferSize, 2);
+    }
+
+    const source =
+        audioCtx.createBufferSource();
+
+    const gain =
+        audioCtx.createGain();
+
+    source.buffer = buffer;
+
+    gain.gain.value = volume;
+
+    source.connect(gain);
+    gain.connect(sfxGain);
+
+    source.start();
+}
+
+/* =========================================================
+   GAME SOUNDS
+========================================================= */
+
+function soundJump() {
+
+    tone(230, .08, "square", .12, sfxGain, 430);
+
+    setTimeout(() => {
+        tone(500, .1, "triangle", .08);
+    }, 45);
+}
+
+function soundLand(perfect = false) {
+
+    if (perfect) {
+        tone(500, .08, "triangle", .13);
+        setTimeout(() => tone(760, .1, "triangle", .13), 70);
+        setTimeout(() => tone(1000, .13, "triangle", .12), 140);
+    } else {
+        tone(130, .08, "square", .1, sfxGain, 90);
+    }
+}
+
+function soundCoin() {
+
+    tone(880, .07, "square", .1);
+    setTimeout(() => {
+        tone(1320, .12, "square", .08);
+    }, 60);
+}
+
+function soundTrick() {
+
+    tone(420, .08, "sawtooth", .08, sfxGain, 800);
+
+    setTimeout(() => {
+        tone(720, .1, "square", .09, sfxGain, 1200);
+    }, 55);
+}
+
+function soundCombo(multiplier) {
+
+    const base = 350 + multiplier * 50;
+
+    tone(base, .1, "triangle", .1);
+
+    setTimeout(() => {
+        tone(base * 1.25, .1, "triangle", .1);
+    }, 70);
+
+    setTimeout(() => {
+        tone(base * 1.5, .14, "triangle", .12);
+    }, 140);
+}
+
+function soundCrash() {
+
+    noise(.35, .35);
+
+    tone(100, .3, "sawtooth", .18, sfxGain, 45);
+
+    setTimeout(() => {
+        tone(55, .2, "square", .12);
+    }, 100);
+}
+
+function soundClick() {
+    tone(500, .06, "square", .07);
+}
+
+function soundStart() {
+
+    tone(440, .08, "triangle", .08);
+
+    setTimeout(() => {
+        tone(660, .08, "triangle", .09);
+    }, 70);
+
+    setTimeout(() => {
+        tone(880, .15, "triangle", .1);
+    }, 140);
+}
+
+/* =========================================================
+   PROCEDURAL MUSIC
+========================================================= */
+
+const melody = [
+    261.63,
+    329.63,
+    392.00,
+    523.25,
+    392.00,
+    329.63,
+    293.66,
+    392.00
+];
+
+const bass = [
+    130.81,
+    130.81,
+    146.83,
+    146.83,
+    164.81,
+    164.81,
+    146.83,
+    130.81
+];
+
+function musicTick() {
+
+    if (!audioStarted) return;
+
+    if (!audioSettings.musicEnabled) return;
+
+    const m = melody[musicStep % melody.length];
+    const b = bass[musicStep % bass.length];
+
+    tone(
+        m,
+        .13,
+        "triangle",
+        .07,
+        musicGain
+    );
+
+    if (musicStep % 2 === 0) {
+        tone(
+            b,
+            .18,
+            "sine",
+            .045,
+            musicGain
+        );
+    }
+
+    musicStep++;
+}
+
+function startMusic() {
+
+    if (musicTimer) {
+        clearInterval(musicTimer);
+    }
+
+    musicTimer = setInterval(
+        musicTick,
+        210
+    );
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const settings = document.getElementById("settings");
+
+const sfxVolume =
+    document.getElementById("sfxVolume");
+
+const musicVolume =
+    document.getElementById("musicVolume");
+
+const sfxValue =
+    document.getElementById("sfxValue");
+
+const musicValue =
+    document.getElementById("musicValue");
+
+const sfxToggle =
+    document.getElementById("sfxToggle");
+
+const musicToggle =
+    document.getElementById("musicToggle");
+
+sfxVolume.value =
+    audioSettings.sfxVolume;
+
+musicVolume.value =
+    audioSettings.musicVolume;
+
+function refreshSettingsUI() {
+
+    sfxVolume.value =
+        audioSettings.sfxVolume;
+
+    musicVolume.value =
+        audioSettings.musicVolume;
+
+    sfxValue.textContent =
+        audioSettings.sfxVolume + "%";
+
+    musicValue.textContent =
+        audioSettings.musicVolume + "%";
+
+    sfxToggle.classList.toggle(
+        "active",
+        audioSettings.sfxEnabled
+    );
+
+    musicToggle.classList.toggle(
+        "active",
+        audioSettings.musicEnabled
+    );
+}
+
+refreshSettingsUI();
+
+sfxVolume.addEventListener("input", () => {
+
+    audioSettings.sfxVolume =
+        Number(sfxVolume.value);
+
+    localStorage.setItem(
+        "moiCySfx",
+        audioSettings.sfxVolume
+    );
+
+    updateAudioVolumes();
+
+    soundClick();
+
+    refreshSettingsUI();
+});
+
+musicVolume.addEventListener("input", () => {
+
+    audioSettings.musicVolume =
+        Number(musicVolume.value);
+
+    localStorage.setItem(
+        "moiCyMusic",
+        audioSettings.musicVolume
+    );
+
+    updateAudioVolumes();
+
+    refreshSettingsUI();
+});
+
+sfxToggle.addEventListener("click", () => {
+
+    initAudio();
+
+    audioSettings.sfxEnabled =
+        !audioSettings.sfxEnabled;
+
+    localStorage.setItem(
+        "moiCySfxEnabled",
+        audioSettings.sfxEnabled
+    );
+
+    updateAudioVolumes();
+
+    refreshSettingsUI();
+
+    if (audioSettings.sfxEnabled) {
+        soundClick();
+    }
+});
+
+musicToggle.addEventListener("click", () => {
+
+    initAudio();
+
+    audioSettings.musicEnabled =
+        !audioSettings.musicEnabled;
+
+    localStorage.setItem(
+        "moiCyMusicEnabled",
+        audioSettings.musicEnabled
+    );
+
+    updateAudioVolumes();
+
+    refreshSettingsUI();
+});
+
+document
+    .getElementById("settingsBtn")
+    .addEventListener("click", () => {
+
+        initAudio();
+        settings.style.display = "flex";
+        soundClick();
+    });
+
+document
+    .getElementById("closeSettings")
+    .addEventListener("click", () => {
+
+        settings.style.display = "none";
+        soundClick();
+    });
+
+document
+    .getElementById("soundBtn")
+    .addEventListener("click", () => {
+
+        initAudio();
+
+        audioSettings.sfxEnabled =
+            !audioSettings.sfxEnabled;
+
+        localStorage.setItem(
+            "moiCySfxEnabled",
+            audioSettings.sfxEnabled
+        );
+
+        updateAudioVolumes();
+        refreshSettingsUI();
+
+        if (audioSettings.sfxEnabled) {
+            soundClick();
+        }
+    });
+
+document
+    .getElementById("musicBtn")
+    .addEventListener("click", () => {
+
+        initAudio();
+
+        audioSettings.musicEnabled =
+            !audioSettings.musicEnabled;
+
+        localStorage.setItem(
+            "moiCyMusicEnabled",
+            audioSettings.musicEnabled
+        );
+
+        updateAudioVolumes();
+        refreshSettingsUI();
+    });
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let running = false;
 
 let score = 0;
-let distance = 0;
-
 let combo = 1;
-let comboTimer = 0;
-
-let speed = 7;
-
-
-/*
-    PLAYER
-
-    lane:
-    0 = links
-    1 = mitte
-    2 = rechts
-
-    jumpHeight:
-    0 = Boden
-
-    Wichtig:
-    Diese Variable ist IMMER positiv,
-    wenn der Spieler in der Luft ist.
-*/
+let distance = 0;
 
 let lane = 1;
 let targetLane = 1;
 
 let jumpHeight = 0;
 let jumpVelocity = 0;
-
 let grounded = true;
 
-let playerRotation = 0;
+let trickTimer = 0;
+let trickRotation = 0;
 
-let trickActive = false;
+let speed = 390;
 
+let spawnTimer = 0;
+let coinTimer = 0;
 
-/* ARRAYS */
+let lastTime = 0;
+
+let shake = 0;
 
 let obstacles = [];
 let coins = [];
 let particles = [];
 
-
-/* TIMERS */
-
-let obstacleTimer = 0;
-let coinTimer = 1;
-
-
 /* =========================================================
-   INPUT
+   PLAYER
 ========================================================= */
 
-window.addEventListener(
-    "keydown",
-    function(e){
+const player = {
+    x: 0,
+    width: 48,
+    height: 74,
+    tilt: 0,
+    wheelRotation: 0
+};
 
-        if(
-            e.code === "Space" ||
-            e.key === "ArrowLeft" ||
-            e.key === "ArrowRight" ||
-            e.key === "ArrowUp"
-        ){
-            e.preventDefault();
-        }
-
-
-        /* LINKS */
-
-        if(
-            e.key === "ArrowLeft" ||
-            e.key.toLowerCase() === "a"
-        ){
-
-            moveLeft();
-        }
-
-
-        /* RECHTS */
-
-        if(
-            e.key === "ArrowRight" ||
-            e.key.toLowerCase() === "d"
-        ){
-
-            moveRight();
-        }
-
-
-        /* SPRUNG */
-
-        if(
-            e.code === "Space" ||
-            e.key === "ArrowUp"
-        ){
-
-            jump();
-        }
-
-
-        /* TRICK */
-
-        if(
-            e.key.toLowerCase() === "f"
-        ){
-
-            trick();
-        }
-
-
-        /* RESTART */
-
-        if(
-            e.key.toLowerCase() === "r"
-        ){
-
-            startGame();
-        }
-
-    }
-);
-
-
-/* =========================================================
-   MOVEMENT
-========================================================= */
-
-function moveLeft(){
-
-    if(!playing)
-        return;
-
-    targetLane =
-        Math.max(
-            0,
-            targetLane - 1
-        );
+function groundY() {
+    return innerHeight * .73;
 }
 
+function laneX(l) {
 
-function moveRight(){
+    const roadWidth =
+        Math.min(innerWidth * .8, 850);
 
-    if(!playing)
-        return;
+    const left =
+        innerWidth / 2 - roadWidth / 2;
 
-    targetLane =
-        Math.min(
-            2,
-            targetLane + 1
-        );
+    return left +
+        roadWidth * ((l + .5) / 3);
 }
 
+function playerY() {
 
-/* =========================================================
-   JUMP
-========================================================= */
-
-function jump(){
-
-    if(
-        !playing ||
-        gameOver
-    ){
-        return;
-    }
-
-
-    /*
-        NICHT nochmal springen,
-        wenn bereits in der Luft.
-    */
-
-    if(!grounded)
-        return;
-
-
-    grounded = false;
-
-    /*
-        Positive Höhe.
-        Negative Velocity bedeutet:
-        Höhe nimmt zuerst zu.
-    */
-
-    jumpHeight = 1;
-
-    jumpVelocity = 720;
-
-    trickActive = false;
-
-
-    createParticles(
-        playerX(),
-        groundY() + 20,
-        14,
-        "#ffffff"
-    );
+    return groundY() -
+        jumpHeight -
+        player.height;
 }
-
-
-/* =========================================================
-   TRICK
-========================================================= */
-
-function trick(){
-
-    if(
-        !playing ||
-        gameOver
-    ){
-        return;
-    }
-
-
-    if(!grounded){
-
-        trickActive = true;
-
-        playerRotation +=
-            Math.PI * 2;
-
-        comboTimer = 3;
-
-
-        const tricks = [
-
-            "KICKFLIP!",
-            "HEELFLIP!",
-            "360!",
-            "BIG AIR!",
-            "INSANE!",
-            "SKATE GOD!"
-
-        ];
-
-
-        const name =
-            tricks[
-                Math.floor(
-                    Math.random() *
-                    tricks.length
-                )
-            ];
-
-
-        showTrick(name);
-
-
-        score +=
-            150 *
-            Math.max(
-                1,
-                Math.floor(combo)
-            );
-
-
-        combo += .5;
-
-
-        createParticles(
-            playerX(),
-            playerY(),
-            22,
-            randomColor()
-        );
-    }
-}
-
-
-/* =========================================================
-   TRICK POPUP
-========================================================= */
-
-function showTrick(text){
-
-    const el =
-        document.getElementById(
-            "trick"
-        );
-
-    el.textContent = text;
-
-    el.style.opacity = "1";
-
-    el.style.transform =
-        "translate(-50%,-50%) scale(1) rotate(-6deg)";
-
-
-    setTimeout(
-        function(){
-
-            el.style.opacity = "0";
-
-            el.style.transform =
-                "translate(-50%,-70%) scale(1.4) rotate(-6deg)";
-
-        },
-        500
-    );
-}
-
-
-/* =========================================================
-   START GAME
-========================================================= */
-
-function startGame(){
-
-    document
-        .getElementById("menu")
-        .style.display =
-        "none";
-
-    document
-        .getElementById("gameOver")
-        .style.display =
-        "none";
-
-
-    playing = true;
-    gameOver = false;
-
-
-    score = 0;
-    distance = 0;
-
-    combo = 1;
-    comboTimer = 0;
-
-    speed = 7;
-
-
-    lane = 1;
-    targetLane = 1;
-
-
-    /*
-        WICHTIG:
-        Beim Start IMMER auf Boden.
-    */
-
-    jumpHeight = 0;
-    jumpVelocity = 0;
-
-    grounded = true;
-
-
-    playerRotation = 0;
-
-    trickActive = false;
-
-
-    obstacles = [];
-    coins = [];
-    particles = [];
-
-
-    obstacleTimer = .7;
-    coinTimer = 1;
-}
-
-
-/* =========================================================
-   GROUND
-========================================================= */
-
-function groundY(){
-
-    return H * .76;
-}
-
-
-/* =========================================================
-   PLAYER X
-========================================================= */
-
-function playerX(){
-
-    /*
-        Der Skater befindet sich
-        immer im unteren Bereich.
-
-        Nur die Spur verändert X.
-    */
-
-    return (
-        W / 2 +
-        (lane - 1) *
-        W * .16
-    );
-}
-
-
-/* =========================================================
-   PLAYER Y
-========================================================= */
-
-function playerY(){
-
-    /*
-        HIER passiert der eigentliche
-        Höhenunterschied.
-
-        Boden:
-            groundY()
-
-        Springen:
-            groundY() - jumpHeight
-    */
-
-    return (
-        groundY() -
-        jumpHeight
-    );
-}
-
-
-/* =========================================================
-   SPAWN OBSTACLE
-========================================================= */
-
-function spawnObstacle(){
-
-    const types = [
-
-        "barrier",
-        "rail",
-        "cone",
-        "ramp",
-        "stairs",
-        "box"
-
-    ];
-
-
-    obstacles.push({
-
-        lane:
-            Math.floor(
-                Math.random() * 3
-            ),
-
-        z: 1,
-
-        type:
-            types[
-                Math.floor(
-                    Math.random() *
-                    types.length
-                )
-            ],
-
-        passed:false,
-
-        color:
-            randomColor()
-    });
-}
-
-
-/* =========================================================
-   SPAWN COINS
-========================================================= */
-
-function spawnCoins(){
-
-    const selectedLane =
-        Math.floor(
-            Math.random() * 3
-        );
-
-
-    for(
-        let i = 0;
-        i < 6;
-        i++
-    ){
-
-        coins.push({
-
-            lane:selectedLane,
-
-            z:
-                1 +
-                i * .075,
-
-            collected:false
-
-        });
-    }
-}
-
-
-/* =========================================================
-   COLOR
-========================================================= */
-
-function randomColor(){
-
-    const colors = [
-
-        "#ff3d9d",
-        "#ffdb4d",
-        "#6b5cff",
-        "#39dfbd",
-        "#ff7147",
-        "#ffffff"
-
-    ];
-
-    return colors[
-        Math.floor(
-            Math.random() *
-            colors.length
-        )
-    ];
-}
-
-
-/* =========================================================
-   ROAD
-========================================================= */
-
-function roadY(z){
-
-    const horizon =
-        H * .48;
-
-    const bottom =
-        H * 1.04;
-
-    return (
-        horizon +
-        Math.pow(
-            1 - z,
-            2
-        ) *
-        (bottom - horizon)
-    );
-}
-
-
-function roadWidth(z){
-
-    return (
-        65 +
-        Math.pow(
-            1 - z,
-            2
-        ) *
-        W *
-        .82
-    );
-}
-
-
-function laneX(
-    selectedLane,
-    z
-){
-
-    return (
-        W / 2 +
-        (selectedLane - 1) *
-        roadWidth(z) /
-        3
-    );
-}
-
 
 /* =========================================================
    PARTICLES
 ========================================================= */
 
-function createParticles(
+function particle(
     x,
     y,
-    amount,
-    color
-){
+    color,
+    amount = 8
+) {
 
-    for(
-        let i = 0;
-        i < amount;
-        i++
-    ){
+    for (let i = 0; i < amount; i++) {
 
         particles.push({
-
-            x:x,
-            y:y,
-
-            vx:
-                (Math.random() - .5) *
-                8,
-
-            vy:
-                (Math.random() - .5) *
-                8,
-
-            life:1,
-
-            size:
-                Math.random() *
-                5 +
-                2,
-
-            color:color
-
+            x,
+            y,
+            vx: (Math.random() - .5) * 250,
+            vy: (Math.random() - .5) * 250,
+            life: .5 + Math.random() * .5,
+            maxLife: 1,
+            size: 2 + Math.random() * 5,
+            color
         });
     }
 }
 
+function updateParticles(dt) {
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+
+        const p = particles[i];
+
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+
+        p.vy += 500 * dt;
+        p.life -= dt;
+
+        if (p.life <= 0) {
+            particles.splice(i, 1);
+        }
+    }
+}
+
+function drawParticles() {
+
+    for (const p of particles) {
+
+        ctx.globalAlpha =
+            Math.max(0, p.life / p.maxLife);
+
+        ctx.fillStyle = p.color;
+
+        ctx.fillRect(
+            p.x,
+            p.y,
+            p.size,
+            p.size
+        );
+    }
+
+    ctx.globalAlpha = 1;
+}
+
+/* =========================================================
+   OBSTACLES
+========================================================= */
+
+const obstacleTypes = [
+    "barrier",
+    "rail",
+    "cone",
+    "ramp",
+    "stairs",
+    "box"
+];
+
+function spawnObstacle() {
+
+    const type =
+        obstacleTypes[
+            Math.floor(
+                Math.random() *
+                obstacleTypes.length
+            )
+        ];
+
+    obstacles.push({
+        lane: Math.floor(Math.random() * 3),
+        y: -100,
+        type,
+        passed: false,
+        width: type === "rail" ? 100 : 65,
+        height: type === "ramp" ? 55 : 55
+    });
+}
+
+function spawnCoin() {
+
+    coins.push({
+        lane: Math.floor(Math.random() * 3),
+        y: -30,
+        collected: false,
+        spin: Math.random() * Math.PI * 2
+    });
+}
+
+/* =========================================================
+   COLLISION
+========================================================= */
+
+function playerRect() {
+
+    return {
+        x: laneX(lane) - 23,
+        y: playerY(),
+        width: 46,
+        height: 72
+    };
+}
+
+function obstacleRect(o) {
+
+    const x =
+        laneX(o.lane);
+
+    return {
+        x: x - o.width / 2,
+        y: o.y,
+        width: o.width,
+        height: o.height
+    };
+}
+
+function intersects(a, b) {
+
+    return (
+        a.x < b.x + b.width &&
+        a.x + a.width > b.x &&
+        a.y < b.y + b.height &&
+        a.y + a.height > b.y
+    );
+}
+
+/* =========================================================
+   TRICKS
+========================================================= */
+
+const tricks = [
+    "KICKFLIP!",
+    "HEELFLIP!",
+    "360!",
+    "POP SHUVIT!",
+    "BIG AIR!",
+    "INSANE!"
+];
+
+function doTrick() {
+
+    if (!running) return;
+
+    if (jumpHeight <= 10) {
+        return;
+    }
+
+    if (trickTimer > 0) {
+        return;
+    }
+
+    trickTimer = .55;
+
+    trickRotation +=
+        Math.PI * 2;
+
+    combo++;
+
+    const trick =
+        tricks[
+            Math.floor(
+                Math.random() *
+                tricks.length
+            )
+        ];
+
+    const points =
+        250 * combo;
+
+    score += points;
+
+    document.getElementById(
+        "trickPopup"
+    ).textContent = trick;
+
+    const popup =
+        document.getElementById(
+            "trickPopup"
+        );
+
+    popup.classList.remove("show");
+
+    void popup.offsetWidth;
+
+    popup.classList.add("show");
+
+    soundTrick();
+    soundCombo(combo);
+
+    particle(
+        laneX(lane),
+        playerY() + 30,
+        "#ffd84d",
+        18
+    );
+
+    updateHUD();
+}
+
+/* =========================================================
+   JUMP
+========================================================= */
+
+function jump() {
+
+    if (!running) return;
+
+    if (!grounded) return;
+
+    grounded = false;
+
+    jumpHeight = 1;
+
+    jumpVelocity = 730;
+
+    soundJump();
+
+    particle(
+        laneX(lane),
+        groundY(),
+        "#ffffff",
+        12
+    );
+}
+
+/* =========================================================
+   MOVE
+========================================================= */
+
+function moveLeft() {
+
+    if (!running) return;
+
+    targetLane =
+        Math.max(0, targetLane - 1);
+}
+
+function moveRight() {
+
+    if (!running) return;
+
+    targetLane =
+        Math.min(2, targetLane + 1);
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetGame() {
+
+    score = 0;
+    combo = 1;
+    distance = 0;
+
+    lane = 1;
+    targetLane = 1;
+
+    jumpHeight = 0;
+    jumpVelocity = 0;
+    grounded = true;
+
+    trickTimer = 0;
+    trickRotation = 0;
+
+    speed = 390;
+
+    spawnTimer = .5;
+    coinTimer = .8;
+
+    obstacles = [];
+    coins = [];
+    particles = [];
+
+    player.tilt = 0;
+
+    updateHUD();
+}
+
+/* =========================================================
+   START
+========================================================= */
+
+function startGame() {
+
+    initAudio();
+    resetGame();
+
+    running = true;
+
+    document.getElementById(
+        "menu"
+    ).style.display = "none";
+
+    document.getElementById(
+        "gameOver"
+    ).style.display = "none";
+
+    document.getElementById(
+        "hud"
+    ).style.display = "block";
+
+    soundStart();
+
+    lastTime = performance.now();
+}
+
+/* =========================================================
+   GAME OVER
+========================================================= */
+
+function gameOver() {
+
+    if (!running) return;
+
+    running = false;
+
+    soundCrash();
+
+    shake = 18;
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        Math.floor(score).toLocaleString("de-DE");
+
+    document.getElementById(
+        "gameOver"
+    ).style.display = "flex";
+}
 
 /* =========================================================
    UPDATE
 ========================================================= */
 
-function update(dt){
+function update(dt) {
 
-    if(!playing)
+    if (!running) {
+        updateParticles(dt);
         return;
+    }
 
+    /* speed */
 
-    /* --------------------------------
-       SPUR
-    -------------------------------- */
+    speed += dt * 5;
+
+    distance += speed * dt * .035;
+
+    score += dt * 12 * combo;
+
+    /* lane movement */
+
+    const laneSpeed = 10;
 
     lane +=
         (targetLane - lane) *
-        Math.min(
-            1,
-            dt * 13
-        );
+        Math.min(1, laneSpeed * dt);
 
+    /* wheel */
 
-    /* --------------------------------
-       SPRUNGPHYSIK
-    -------------------------------- */
+    player.wheelRotation +=
+        speed * dt / 25;
 
-    if(!grounded){
+    /* jump physics */
 
-        /*
-            Geschwindigkeit nach unten
-            reduzieren.
-
-            Dadurch steigt der Spieler
-            zuerst nach oben und fällt
-            anschließend wieder herunter.
-        */
+    if (!grounded) {
 
         jumpVelocity -=
-            1700 * dt;
-
+            1750 * dt;
 
         jumpHeight +=
             jumpVelocity * dt;
 
-
-        /*
-            Boden erreicht.
-        */
-
-        if(
-            jumpHeight <= 0
-        ){
+        if (jumpHeight <= 0) {
 
             jumpHeight = 0;
 
@@ -1375,1719 +1632,1279 @@ function update(dt){
 
             grounded = true;
 
+            soundLand(combo >= 3);
 
-            if(trickActive){
-
-                score +=
-                    250 *
-                    Math.max(
-                        1,
-                        Math.floor(combo)
-                    );
-
-                comboTimer = 3;
-
-
-                showTrick(
-                    "PERFECT LANDING!"
-                );
-
-
-                createParticles(
-                    playerX(),
+            if (combo >= 3) {
+                particle(
+                    laneX(lane),
                     groundY(),
-                    18,
-                    "#fff16a"
+                    "#ffd84d",
+                    16
                 );
             }
 
-
-            trickActive = false;
+            if (combo > 1) {
+                setTimeout(() => {
+                    combo = 1;
+                    updateHUD();
+                }, 1000);
+            }
         }
     }
 
-
-    /* --------------------------------
-       ROTATION
-    -------------------------------- */
-
-    if(!grounded){
-
-        playerRotation +=
-            dt * 8;
+    if (trickTimer > 0) {
+        trickTimer -= dt;
+        trickRotation +=
+            dt * 20;
     }
 
+    /* obstacle spawning */
 
-    /* --------------------------------
-       SPEED
-    -------------------------------- */
+    spawnTimer -= dt;
 
-    speed +=
-        dt * .10;
-
-    distance +=
-        speed *
-        dt *
-        .8;
-
-    score +=
-        speed *
-        dt *
-        .5;
-
-
-    /* --------------------------------
-       COMBO
-    -------------------------------- */
-
-    if(comboTimer > 0){
-
-        comboTimer -= dt;
-
-    }else{
-
-        combo =
-            Math.max(
-                1,
-                combo -
-                dt * .15
-            );
-    }
-
-
-    /* --------------------------------
-       OBSTACLES
-    -------------------------------- */
-
-    obstacleTimer -= dt;
-
-    if(
-        obstacleTimer <= 0
-    ){
+    if (spawnTimer <= 0) {
 
         spawnObstacle();
 
-        obstacleTimer =
+        spawnTimer =
             Math.max(
-                .48,
-                1.2 -
-                speed * .035
-            );
+                .55,
+                1.25 -
+                distance / 1500
+            ) +
+            Math.random() * .35;
     }
 
-
-    /* --------------------------------
-       COINS
-    -------------------------------- */
+    /* coins */
 
     coinTimer -= dt;
 
-    if(
-        coinTimer <= 0
-    ){
+    if (coinTimer <= 0) {
 
-        spawnCoins();
+        spawnCoin();
 
         coinTimer =
-            2 +
-            Math.random() *
-            1.2;
+            .65 +
+            Math.random() * .9;
     }
 
+    /* obstacles */
 
-    /* --------------------------------
-       MOVE OBSTACLES
-    -------------------------------- */
-
-    for(
-        let i =
-            obstacles.length - 1;
-
+    for (
+        let i = obstacles.length - 1;
         i >= 0;
-
         i--
-    ){
+    ) {
 
-        const o =
-            obstacles[i];
+        const o = obstacles[i];
 
+        o.y += speed * dt;
 
-        o.z -=
-            speed *
-            .00085 *
-            dt *
-            60;
-
-
-        /*
-            KOLLISIONSPUNKT
-        */
-
-        if(
+        if (
             !o.passed &&
-            o.z < .16
-        ){
+            o.y > groundY() - 50
+        ) {
 
             o.passed = true;
 
-
-            const sameLane =
+            if (
                 o.lane ===
-                Math.round(lane);
+                Math.round(lane)
+            ) {
 
+                const jumping =
+                    jumpHeight > 55;
 
-            if(sameLane){
+                const isRamp =
+                    o.type === "ramp";
 
-                /*
-                    Rampen sind ungefährlich.
-                */
+                if (
+                    isRamp &&
+                    jumping
+                ) {
 
-                if(
-                    o.type === "ramp"
-                ){
+                    score += 300 * combo;
 
-                    score +=
-                        100 * combo;
+                    combo++;
 
-                    combo += .2;
+                    soundCombo(combo);
 
-                    showTrick(
-                        "RAMP!"
+                    particle(
+                        laneX(o.lane),
+                        o.y,
+                        "#37e0d0",
+                        20
                     );
 
+                } else if (
+                    !jumping &&
+                    o.type !== "ramp"
+                ) {
 
-                    if(grounded){
-
-                        grounded = false;
-
-                        jumpHeight = 1;
-
-                        jumpVelocity = 900;
-                    }
-
-                }else{
-
-                    /*
-                        Hindernis nur
-                        gefährlich, wenn
-                        nicht hoch genug.
-                    */
-
-                    if(
-                        jumpHeight < 55
-                    ){
-
-                        crash();
-
-                        return;
-                    }
-
-
-                    score +=
-                        100 * combo;
-
-                    combo += .25;
-
-                    showTrick(
-                        "CLEAN!"
-                    );
+                    gameOver();
+                    break;
                 }
             }
         }
 
-
-        if(
-            o.z < -.2
-        ){
-
-            obstacles.splice(
-                i,
-                1
-            );
+        if (o.y > innerHeight + 150) {
+            obstacles.splice(i, 1);
         }
     }
 
+    /* coins */
 
-    /* --------------------------------
-       COINS
-    -------------------------------- */
+    const p =
+        playerRect();
 
-    for(
-        let i =
-            coins.length - 1;
-
+    for (
+        let i = coins.length - 1;
         i >= 0;
-
         i--
-    ){
+    ) {
 
-        const c =
-            coins[i];
+        const c = coins[i];
 
+        c.y += speed * dt;
 
-        c.z -=
-            speed *
-            .00085 *
-            dt *
-            60;
+        c.spin += dt * 8;
 
+        const coinRect = {
+            x: laneX(c.lane) - 18,
+            y: c.y - 18,
+            width: 36,
+            height: 36
+        };
 
-        if(
+        if (
             !c.collected &&
-            c.z < .18
-        ){
+            intersects(p, coinRect)
+        ) {
 
-            const sameLane =
-                c.lane ===
-                Math.round(lane);
+            c.collected = true;
 
+            score +=
+                100 * combo;
 
-            if(
-                sameLane &&
-                jumpHeight > 5
-            ){
+            soundCoin();
 
-                c.collected = true;
-
-                score +=
-                    75 *
-                    Math.max(
-                        1,
-                        Math.floor(combo)
-                    );
-
-
-                createParticles(
-                    laneX(
-                        c.lane,
-                        c.z
-                    ),
-                    roadY(c.z) - 20,
-                    8,
-                    "#fff16a"
-                );
-            }
+            particle(
+                laneX(c.lane),
+                c.y,
+                "#ffd84d",
+                14
+            );
         }
 
-
-        if(
-            c.z < -.2 ||
-            c.collected
-        ){
-
-            coins.splice(
-                i,
-                1
-            );
+        if (
+            c.collected ||
+            c.y > innerHeight + 80
+        ) {
+            coins.splice(i, 1);
         }
     }
 
+    updateParticles(dt);
 
-    /* --------------------------------
-       PARTICLES
-    -------------------------------- */
+    /* shake */
 
-    for(
-        let i =
-            particles.length - 1;
-
-        i >= 0;
-
-        i--
-    ){
-
-        const p =
-            particles[i];
-
-
-        p.x +=
-            p.vx;
-
-        p.y +=
-            p.vy;
-
-        p.vy +=
-            .2;
-
-        p.life -=
-            dt * 1.8;
-
-
-        if(
-            p.life <= 0
-        ){
-
-            particles.splice(
-                i,
-                1
-            );
-        }
+    if (shake > 0) {
+        shake -=
+            30 * dt;
     }
-
 
     updateHUD();
 }
-
-
-/* =========================================================
-   CRASH
-========================================================= */
-
-function crash(){
-
-    playing = false;
-
-    gameOver = true;
-
-
-    createParticles(
-        playerX(),
-        playerY(),
-        60,
-        "#ff3194"
-    );
-
-
-    createParticles(
-        playerX(),
-        playerY(),
-        35,
-        "#fff16a"
-    );
-
-
-    document
-        .getElementById(
-            "finalScore"
-        )
-        .textContent =
-        Math.floor(score)
-        .toLocaleString("de-DE");
-
-
-    setTimeout(
-        function(){
-
-            document
-                .getElementById(
-                    "gameOver"
-                )
-                .style.display =
-                "flex";
-
-        },
-        400
-    );
-}
-
 
 /* =========================================================
    HUD
 ========================================================= */
 
-function updateHUD(){
+function updateHUD() {
 
-    document
-        .getElementById(
-            "score"
-        )
-        .textContent =
+    document.getElementById(
+        "score"
+    ).textContent =
         Math.floor(score)
-        .toLocaleString("de-DE");
+            .toLocaleString("de-DE");
 
+    document.getElementById(
+        "combo"
+    ).textContent =
+        "x" + combo;
 
-    document
-        .getElementById(
-            "comboNumber"
-        )
-        .textContent =
-        "x" +
-        Math.max(
-            1,
-            Math.floor(combo)
-        );
+    document.getElementById(
+        "distance"
+    ).textContent =
+        Math.floor(distance) + "m";
 
-
-    document
-        .getElementById(
-            "distance"
-        )
-        .textContent =
-        Math.floor(distance) +
-        "m";
-
-
-    document
-        .getElementById(
-            "progressBar"
-        )
-        .style.width =
-        (distance % 100) +
-        "%";
-
-
-    const comboEl =
+    const comboBox =
         document.getElementById(
-            "combo"
+            "comboBox"
         );
 
+    if (combo >= 2) {
 
-    if(
-        combo > 1.2
-    ){
+        comboBox.textContent =
+            "COMBO x" + combo;
 
-        comboEl.classList.add(
-            "show"
-        );
+        comboBox.classList.add("show");
 
-        document
-            .getElementById(
-                "comboPoints"
-            )
-            .textContent =
-            "+" +
-            Math.floor(
-                combo * 100
-            ) +
-            " POINTS";
+    } else {
 
-    }else{
-
-        comboEl.classList.remove(
-            "show"
-        );
+        comboBox.classList.remove("show");
     }
 }
 
-
 /* =========================================================
-   BACKGROUND
+   DRAW BACKGROUND
 ========================================================= */
 
-function drawBackground(){
+function drawBackground() {
 
-    /* SKY */
+    const h = innerHeight;
 
     const gradient =
         ctx.createLinearGradient(
             0,
             0,
             0,
-            H
+            h
         );
 
     gradient.addColorStop(
         0,
-        "#ff4f9d"
+        "#ff5fa2"
     );
 
     gradient.addColorStop(
-        .35,
-        "#ff9971"
+        .42,
+        "#ff9a55"
     );
 
     gradient.addColorStop(
-        .55,
-        "#ffd86b"
+        .72,
+        "#ffd84d"
     );
 
     gradient.addColorStop(
         1,
-        "#54d5bd"
+        "#38ddd0"
     );
 
-    ctx.fillStyle =
-        gradient;
+    ctx.fillStyle = gradient;
 
     ctx.fillRect(
         0,
         0,
-        W,
-        H
+        innerWidth,
+        h
     );
 
-
-    /* SUN */
-
-    ctx.save();
-
-    ctx.shadowBlur = 60;
-
-    ctx.shadowColor =
-        "#fff0a0";
+    /* sun */
 
     ctx.fillStyle =
-        "#fff2a4";
+        "rgba(255,255,255,.65)";
 
     ctx.beginPath();
 
     ctx.arc(
-        W * .78,
-        H * .25,
-        Math.min(W,H) * .105,
+        innerWidth * .8,
+        innerHeight * .18,
+        70,
         0,
         Math.PI * 2
     );
 
     ctx.fill();
 
-    ctx.restore();
+    /* clouds */
 
-
-    /* CITY */
-
-    drawCity();
-
-
-    /* PALMS */
-
-    drawPalm(
-        W * .09,
-        H * .49,
+    drawCloud(
+        innerWidth * .2,
+        innerHeight * .18,
         1
     );
 
-    drawPalm(
-        W * .9,
-        H * .49,
-        .8
+    drawCloud(
+        innerWidth * .62,
+        innerHeight * .27,
+        .7
     );
-}
 
+    /* skyline */
 
-/* =========================================================
-   CITY
-========================================================= */
+    const skylineY =
+        innerHeight * .56;
 
-function drawCity(){
+    ctx.fillStyle =
+        "rgba(45,30,80,.5)";
 
-    const base =
-        H * .53;
-
-
-    for(
-        let x = 0;
-        x < W;
-        x += 48
-    ){
+    for (
+        let x = -20;
+        x < innerWidth + 50;
+        x += 65
+    ) {
 
         const height =
-            35 +
+            40 +
             Math.abs(
-                Math.sin(
-                    x * .08
-                )
-            ) *
-            85;
-
-
-        ctx.fillStyle =
-            "#34205d";
+                Math.sin(x * .07)
+            ) * 130;
 
         ctx.fillRect(
             x,
-            base - height,
-            38,
+            skylineY - height,
+            52,
             height
         );
 
+        ctx.fillStyle =
+            "rgba(255,255,255,.13)";
+
+        for (
+            let wy = skylineY - height + 12;
+            wy < skylineY - 10;
+            wy += 18
+        ) {
+
+            ctx.fillRect(
+                x + 9,
+                wy,
+                7,
+                7
+            );
+
+            ctx.fillRect(
+                x + 27,
+                wy,
+                7,
+                7
+            );
+        }
 
         ctx.fillStyle =
-            "rgba(255,220,100,.6)";
-
-
-        for(
-            let y =
-                base -
-                height +
-                13;
-
-            y <
-                base - 8;
-
-            y += 17
-        ){
-
-            if(
-                (x + y) % 3 < 1.5
-            ){
-
-                ctx.fillRect(
-                    x + 9,
-                    y,
-                    5,
-                    7
-                );
-            }
-        }
+            "rgba(45,30,80,.5)";
     }
+
+    /* distant ground */
+
+    ctx.fillStyle = "#35c8b8";
+
+    ctx.fillRect(
+        0,
+        skylineY,
+        innerWidth,
+        innerHeight - skylineY
+    );
 }
 
+function drawCloud(x, y, scale) {
 
-/* =========================================================
-   PALM
-========================================================= */
-
-function drawPalm(
-    x,
-    y,
-    scale
-){
-
-    ctx.save();
-
-    ctx.translate(
-        x,
-        y
-    );
-
-    ctx.scale(
-        scale,
-        scale
-    );
-
-
-    ctx.strokeStyle =
-        "#2a1654";
-
-    ctx.lineWidth = 9;
+    ctx.fillStyle =
+        "rgba(255,255,255,.35)";
 
     ctx.beginPath();
 
-    ctx.moveTo(
+    ctx.arc(
+        x,
+        y,
+        25 * scale,
         0,
-        0
+        Math.PI * 2
     );
 
-    ctx.quadraticCurveTo(
-        -10,
-        -80,
-        10,
-        -145
+    ctx.arc(
+        x + 28 * scale,
+        y - 10 * scale,
+        32 * scale,
+        0,
+        Math.PI * 2
     );
 
-    ctx.stroke();
+    ctx.arc(
+        x + 60 * scale,
+        y,
+        24 * scale,
+        0,
+        Math.PI * 2
+    );
 
-
-    ctx.fillStyle =
-        "#2a1654";
-
-
-    for(
-        let i = 0;
-        i < 7;
-        i++
-    ){
-
-        ctx.save();
-
-        ctx.rotate(
-            -1.3 +
-            i * .43
-        );
-
-        ctx.beginPath();
-
-        ctx.ellipse(
-            0,
-            -145,
-            10,
-            55,
-            0,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-
-    ctx.restore();
+    ctx.fill();
 }
-
 
 /* =========================================================
    ROAD
 ========================================================= */
 
-function drawRoad(){
+function drawRoad() {
 
-    const horizon =
-        H * .48;
+    const roadWidth =
+        Math.min(
+            innerWidth * .82,
+            900
+        );
 
+    const left =
+        innerWidth / 2 -
+        roadWidth / 2;
 
-    /* GRASS */
+    const roadY =
+        innerHeight * .59;
+
+    /* grass */
 
     ctx.fillStyle =
-        "#42d1b7";
+        "#27b7a8";
 
     ctx.fillRect(
         0,
-        horizon,
-        W,
-        H - horizon
+        roadY,
+        innerWidth,
+        innerHeight - roadY
     );
 
-
-    /* ROAD */
+    /* road */
 
     ctx.fillStyle =
-        "#27214b";
+        "#362554";
 
     ctx.beginPath();
 
     ctx.moveTo(
-        W/2 - 35,
-        horizon
+        left,
+        roadY
     );
 
     ctx.lineTo(
-        W/2 + 35,
-        horizon
+        left + 55,
+        innerHeight
     );
 
     ctx.lineTo(
-        W * .98,
-        H
+        left + roadWidth - 55,
+        innerHeight
     );
 
     ctx.lineTo(
-        W * .02,
-        H
+        left + roadWidth,
+        roadY
     );
 
     ctx.closePath();
 
     ctx.fill();
 
-
-    /* LEFT EDGE */
+    /* road edge */
 
     ctx.strokeStyle =
-        "#ff3d9c";
+        "#ff4d9d";
 
-    ctx.lineWidth = 11;
+    ctx.lineWidth = 7;
 
     ctx.beginPath();
 
     ctx.moveTo(
-        W/2 - 35,
-        horizon
+        left,
+        roadY
     );
 
     ctx.lineTo(
-        W * .02,
-        H
+        left + 55,
+        innerHeight
     );
-
-    ctx.stroke();
-
-
-    /* RIGHT EDGE */
-
-    ctx.strokeStyle =
-        "#6d5cff";
-
-    ctx.beginPath();
 
     ctx.moveTo(
-        W/2 + 35,
-        horizon
+        left + roadWidth,
+        roadY
     );
 
     ctx.lineTo(
-        W * .98,
-        H
+        left + roadWidth - 55,
+        innerHeight
     );
 
     ctx.stroke();
 
+    /* lane lines */
 
-    /* LANES */
+    ctx.setLineDash([30, 30]);
 
     ctx.strokeStyle =
-        "rgba(255,255,255,.18)";
+        "rgba(255,255,255,.25)";
 
     ctx.lineWidth = 4;
 
-    ctx.setLineDash([
-        22,
-        30
-    ]);
+    for (let i = 1; i < 3; i++) {
 
-
-    for(
-        let l = 1;
-        l < 3;
-        l++
-    ){
+        const x =
+            left +
+            roadWidth * i / 3;
 
         ctx.beginPath();
 
         ctx.moveTo(
-            W/2 +
-            (l - 1.5) *
-            25,
-            horizon
+            x,
+            roadY
         );
 
         ctx.lineTo(
-            W/2 +
-            (l - 1.5) *
-            W *
-            .63,
-            H
+            x,
+            innerHeight
         );
 
         ctx.stroke();
     }
 
-
     ctx.setLineDash([]);
 }
 
-
 /* =========================================================
-   COINS DRAW
+   OBSTACLE DRAWING
 ========================================================= */
 
-function drawCoins(){
+function drawObstacle(o) {
 
-    const time =
-        performance.now() *
-        .006;
+    const x = laneX(o.lane);
+    const y = o.y;
 
+    ctx.save();
 
-    for(
-        const c of coins
-    ){
+    if (o.type === "barrier") {
 
-        if(c.collected)
-            continue;
+        ctx.fillStyle = "#ff3c91";
 
+        ctx.fillRect(
+            x - 35,
+            y,
+            70,
+            25
+        );
 
-        const x =
-            laneX(
-                c.lane,
-                c.z
+        ctx.fillStyle = "#ffd84d";
+
+        for (let i = 0; i < 3; i++) {
+
+            ctx.save();
+
+            ctx.translate(
+                x - 25 + i * 25,
+                y + 12
             );
 
+            ctx.rotate(-.45);
 
-        const y =
-            roadY(c.z) -
-            35 +
-            Math.sin(time) *
-            5;
+            ctx.fillRect(
+                -4,
+                -13,
+                8,
+                26
+            );
 
+            ctx.restore();
+        }
 
-        const scale =
-            .25 +
-            (1 - c.z) *
-            1.5;
+        ctx.fillStyle = "#222";
 
+        ctx.fillRect(
+            x - 30,
+            y + 25,
+            8,
+            28
+        );
+
+        ctx.fillRect(
+            x + 22,
+            y + 25,
+            8,
+            28
+        );
+    }
+
+    else if (o.type === "rail") {
+
+        ctx.strokeStyle = "#d7e8ff";
+        ctx.lineWidth = 7;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x - 48,
+            y + 35
+        );
+
+        ctx.lineTo(
+            x + 48,
+            y + 35
+        );
+
+        ctx.stroke();
+
+        ctx.lineWidth = 5;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x - 35,
+            y + 35
+        );
+
+        ctx.lineTo(
+            x - 25,
+            y + 55
+        );
+
+        ctx.moveTo(
+            x + 35,
+            y + 35
+        );
+
+        ctx.lineTo(
+            x + 25,
+            y + 55
+        );
+
+        ctx.stroke();
+    }
+
+    else if (o.type === "cone") {
+
+        ctx.fillStyle = "#ff6b35";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            y
+        );
+
+        ctx.lineTo(
+            x - 28,
+            y + 55
+        );
+
+        ctx.lineTo(
+            x + 28,
+            y + 55
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+        ctx.fillStyle = "white";
+
+        ctx.fillRect(
+            x - 16,
+            y + 30,
+            32,
+            7
+        );
+    }
+
+    else if (o.type === "ramp") {
+
+        ctx.fillStyle = "#ff3c91";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x - 45,
+            y + 55
+        );
+
+        ctx.lineTo(
+            x + 45,
+            y + 55
+        );
+
+        ctx.lineTo(
+            x + 45,
+            y + 35
+        );
+
+        ctx.quadraticCurveTo(
+            x + 25,
+            y,
+            x - 45,
+            y + 55
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+        ctx.strokeStyle = "#ffd84d";
+        ctx.lineWidth = 4;
+
+        ctx.stroke();
+    }
+
+    else if (o.type === "stairs") {
+
+        ctx.fillStyle = "#ff9b3d";
+
+        for (let i = 0; i < 4; i++) {
+
+            ctx.fillRect(
+                x - 38 + i * 10,
+                y + 15 + i * 10,
+                20 + i * 8,
+                40 - i * 8
+            );
+        }
+    }
+
+    else if (o.type === "box") {
+
+        ctx.fillStyle = "#653b91";
+
+        ctx.fillRect(
+            x - 35,
+            y + 10,
+            70,
+            45
+        );
+
+        ctx.fillStyle = "#ffd84d";
+
+        ctx.fillRect(
+            x - 30,
+            y + 15,
+            60,
+            6
+        );
+    }
+
+    ctx.restore();
+}
+
+/* =========================================================
+   COIN DRAWING
+========================================================= */
+
+function drawCoin(c) {
+
+    const x = laneX(c.lane);
+    const y = c.y;
+
+    const width =
+        Math.abs(
+            Math.cos(c.spin)
+        ) * 16 + 4;
+
+    ctx.save();
+
+    ctx.fillStyle = "#ffd84d";
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        x,
+        y,
+        width,
+        20,
+        0,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.strokeStyle = "#fff4a0";
+    ctx.lineWidth = 3;
+
+    ctx.stroke();
+
+    ctx.fillStyle = "#ff9d25";
+
+    ctx.font =
+        "bold 17px Arial";
+
+    ctx.textAlign = "center";
+
+    ctx.fillText(
+        "$",
+        x,
+        y + 6
+    );
+
+    ctx.restore();
+}
+
+/* =========================================================
+   PLAYER DRAWING
+========================================================= */
+
+function drawPlayer() {
+
+    const x = laneX(
+        Math.round(lane)
+    );
+
+    const y = playerY();
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y + player.height / 2
+    );
+
+    let tilt =
+        (targetLane - lane) * .35;
+
+    if (!grounded) {
+        tilt +=
+            Math.sin(
+                performance.now() / 100
+            ) * .05;
+    }
+
+    ctx.rotate(tilt);
+
+    /* shadow */
+
+    if (grounded) {
+
+        ctx.restore();
+
+        ctx.save();
+
+        ctx.globalAlpha = .2;
+
+        ctx.fillStyle = "#111";
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            x,
+            groundY() + 5,
+            35,
+            8,
+            0,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+        ctx.restore();
 
         ctx.save();
 
         ctx.translate(
             x,
-            y
+            y + player.height / 2
         );
 
-        ctx.scale(
-            scale,
-            scale
-        );
-
-
-        ctx.shadowBlur =
-            20;
-
-        ctx.shadowColor =
-            "#fff16a";
-
-
-        ctx.fillStyle =
-            "#fff16a";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            0,
-            0,
-            13,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-
-        ctx.shadowBlur = 0;
-
-
-        ctx.fillStyle =
-            "#ffb72f";
-
-        ctx.beginPath();
-
-        ctx.arc(
-            0,
-            0,
-            7,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.fill();
-
-
-        ctx.restore();
+        ctx.rotate(tilt);
     }
-}
 
+    /* skateboard */
 
-/* =========================================================
-   OBJECT DRAW
-========================================================= */
+    ctx.strokeStyle = "#ff3c91";
+    ctx.lineWidth = 8;
 
-function drawObstacle(o){
-
-    const z =
-        Math.max(
-            0,
-            o.z
-        );
-
-
-    const x =
-        laneX(
-            o.lane,
-            z
-        );
-
-
-    const y =
-        roadY(z);
-
-
-    const scale =
-        .25 +
-        (1 - z) *
-        1.5;
-
-
-    ctx.save();
-
-    ctx.translate(
-        x,
-        y
-    );
-
-    ctx.scale(
-        scale,
-        scale
-    );
-
-
-    /* SHADOW */
-
-    ctx.fillStyle =
-        "rgba(0,0,0,.25)";
+    ctx.lineCap = "round";
 
     ctx.beginPath();
 
-    ctx.ellipse(
+    ctx.moveTo(
+        -27,
+        27
+    );
+
+    ctx.quadraticCurveTo(
         0,
-        10,
-        50,
-        12,
+        34,
+        27,
+        27
+    );
+
+    ctx.stroke();
+
+    /* wheels */
+
+    ctx.fillStyle = "#111";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        -18,
+        35,
+        6,
         0,
+        Math.PI * 2
+    );
+
+    ctx.arc(
+        18,
+        35,
+        6,
         0,
         Math.PI * 2
     );
 
     ctx.fill();
 
+    /* legs */
 
-    /* BARRIER */
-
-    if(
-        o.type ===
-        "barrier"
-    ){
-
-        ctx.fillStyle =
-            o.color;
-
-        ctx.fillRect(
-            -45,
-            -55,
-            90,
-            55
-        );
-
-
-        ctx.fillStyle =
-            "white";
-
-        ctx.fillRect(
-            -36,
-            -42,
-            72,
-            9
-        );
-
-        ctx.fillRect(
-            -36,
-            -20,
-            72,
-            9
-        );
-    }
-
-
-    /* RAIL */
-
-    else if(
-        o.type ===
-        "rail"
-    ){
-
-        ctx.strokeStyle =
-            o.color;
-
-        ctx.lineWidth = 8;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            -58,
-            0
-        );
-
-        ctx.lineTo(
-            58,
-            0
-        );
-
-        ctx.stroke();
-
-
-        ctx.lineWidth = 6;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            -40,
-            0
-        );
-
-        ctx.lineTo(
-            -40,
-            30
-        );
-
-        ctx.moveTo(
-            40,
-            0
-        );
-
-        ctx.lineTo(
-            40,
-            30
-        );
-
-        ctx.stroke();
-    }
-
-
-    /* CONE */
-
-    else if(
-        o.type ===
-        "cone"
-    ){
-
-        ctx.fillStyle =
-            "#ff7045";
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            0,
-            -55
-        );
-
-        ctx.lineTo(
-            -28,
-            10
-        );
-
-        ctx.lineTo(
-            28,
-            10
-        );
-
-        ctx.closePath();
-
-        ctx.fill();
-
-
-        ctx.fillStyle =
-            "white";
-
-        ctx.fillRect(
-            -22,
-            -10,
-            44,
-            8
-        );
-    }
-
-
-    /* RAMP */
-
-    else if(
-        o.type ===
-        "ramp"
-    ){
-
-        ctx.fillStyle =
-            o.color;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            -55,
-            15
-        );
-
-        ctx.lineTo(
-            55,
-            15
-        );
-
-        ctx.lineTo(
-            55,
-            -50
-        );
-
-        ctx.quadraticCurveTo(
-            10,
-            -72,
-            -55,
-            15
-        );
-
-        ctx.closePath();
-
-        ctx.fill();
-    }
-
-
-    /* STAIRS */
-
-    else if(
-        o.type ===
-        "stairs"
-    ){
-
-        ctx.fillStyle =
-            "#ffda55";
-
-
-        for(
-            let i = 0;
-            i < 5;
-            i++
-        ){
-
-            ctx.fillRect(
-                -55 +
-                i * 22,
-
-                -i * 13,
-
-                22,
-
-                i * 13 +
-                15
-            );
-        }
-    }
-
-
-    /* BOX */
-
-    else {
-
-        ctx.fillStyle =
-            "#7046df";
-
-        ctx.fillRect(
-            -50,
-            -35,
-            100,
-            35
-        );
-
-        ctx.fillStyle =
-            "#ff4ca3";
-
-        ctx.fillRect(
-            -40,
-            -25,
-            80,
-            8
-        );
-    }
-
-
-    ctx.restore();
-}
-
-
-/* =========================================================
-   PLAYER DRAW
-========================================================= */
-
-function drawPlayer(){
-
-    const x =
-        playerX();
-
-    const y =
-        playerY();
-
-
-    ctx.save();
-
-    ctx.translate(
-        x,
-        y
-    );
-
-
-    /*
-        Schatten wird separat auf
-        dem Boden gezeichnet.
-    */
-
-    ctx.save();
-
-    ctx.translate(
-        0,
-        jumpHeight
-    );
-
-    ctx.scale(
-        1,
-        .25
-    );
-
-    ctx.fillStyle =
-        "rgba(0,0,0,.3)";
-
-    ctx.beginPath();
-
-    ctx.ellipse(
-        0,
-        37,
-        50,
-        12,
-        0,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
-
-    ctx.restore();
-
-
-    /*
-        Nur der Spieler dreht sich.
-    */
-
-    if(!grounded){
-
-        ctx.rotate(
-            playerRotation
-        );
-    }
-
-
-    /* BOARD */
-
-    ctx.strokeStyle =
-        "#ff4da4";
-
+    ctx.strokeStyle = "#17122e";
     ctx.lineWidth = 8;
 
     ctx.beginPath();
 
     ctx.moveTo(
-        -43,
-        25
+        -5,
+        5
     );
 
     ctx.lineTo(
-        43,
-        25
+        -14,
+        27
+    );
+
+    ctx.moveTo(
+        7,
+        5
+    );
+
+    ctx.lineTo(
+        15,
+        27
     );
 
     ctx.stroke();
 
+    /* body */
 
-    /* WHEELS */
+    ctx.fillStyle = "#37e0d0";
 
-    ctx.fillStyle =
-        "#fff16a";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        -28,
-        34,
-        7,
-        0,
-        Math.PI * 2
+    ctx.fillRect(
+        -13,
+        -25,
+        26,
+        34
     );
 
-    ctx.arc(
-        28,
-        34,
-        7,
-        0,
-        Math.PI * 2
-    );
+    /* arms */
 
-    ctx.fill();
-
-
-    /* LEGS */
-
-    ctx.strokeStyle =
-        "#24113f";
-
-    ctx.lineWidth = 10;
+    ctx.strokeStyle = "#ffcfad";
+    ctx.lineWidth = 7;
 
     ctx.beginPath();
 
     ctx.moveTo(
         -10,
-        5
+        -18
     );
 
     ctx.lineTo(
-        -20,
-        25
+        -28,
+        -3
     );
 
     ctx.moveTo(
         10,
-        5
+        -18
     );
 
     ctx.lineTo(
-        22,
-        25
+        27,
+        -5
     );
 
     ctx.stroke();
 
+    /* head */
 
-    /* BODY */
-
-    ctx.fillStyle =
-        "#6d42e8";
-
-    ctx.beginPath();
-
-    ctx.roundRect(
-        -20,
-        -65,
-        40,
-        70,
-        12
-    );
-
-    ctx.fill();
-
-
-    /* SHIRT */
-
-    ctx.fillStyle =
-        "#ff4ca3";
-
-    ctx.fillRect(
-        -20,
-        -35,
-        40,
-        10
-    );
-
-
-    /* ARMS */
-
-    ctx.strokeStyle =
-        "#f3a07c";
-
-    ctx.lineWidth = 9;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -17,
-        -52
-    );
-
-    ctx.lineTo(
-        -38,
-        -30
-    );
-
-    ctx.moveTo(
-        17,
-        -52
-    );
-
-    ctx.lineTo(
-        38,
-        -30
-    );
-
-    ctx.stroke();
-
-
-    /* HEAD */
-
-    ctx.fillStyle =
-        "#f3a07c";
+    ctx.fillStyle = "#ffcfad";
 
     ctx.beginPath();
 
     ctx.arc(
         0,
-        -82,
-        23,
+        -39,
+        14,
         0,
         Math.PI * 2
     );
 
     ctx.fill();
 
+    /* hair */
 
-    /* CAP */
-
-    ctx.fillStyle =
-        "#ffdb4d";
+    ctx.fillStyle = "#17122e";
 
     ctx.beginPath();
 
     ctx.arc(
         0,
-        -90,
-        25,
+        -44,
+        14,
         Math.PI,
         Math.PI * 2
     );
 
     ctx.fill();
 
+    /* cap */
 
-    ctx.fillRect(
-        0,
-        -91,
-        30,
-        7
+    ctx.fillStyle = "#ff3c91";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        2,
+        -48,
+        13,
+        Math.PI,
+        Math.PI * 2
     );
 
+    ctx.fill();
+
+    ctx.fillRect(
+        1,
+        -48,
+        19,
+        5
+    );
+
+    /* trick board spin */
+
+    if (trickTimer > 0) {
+
+        ctx.save();
+
+        ctx.rotate(
+            trickRotation
+        );
+
+        ctx.strokeStyle =
+            "#ffd84d";
+
+        ctx.lineWidth = 5;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            -30,
+            25
+        );
+
+        ctx.lineTo(
+            30,
+            25
+        );
+
+        ctx.stroke();
+
+        ctx.restore();
+    }
 
     ctx.restore();
 }
 
-
 /* =========================================================
-   PARTICLES DRAW
+   DRAW
 ========================================================= */
 
-function drawParticles(){
+function draw() {
 
-    for(
-        const p of particles
-    ){
+    ctx.save();
 
-        ctx.globalAlpha =
-            Math.max(
-                0,
-                p.life
-            );
+    if (shake > 0) {
 
-        ctx.fillStyle =
-            p.color;
-
-        ctx.beginPath();
-
-        ctx.arc(
-            p.x,
-            p.y,
-            p.size,
-            0,
-            Math.PI * 2
+        ctx.translate(
+            (Math.random() - .5) *
+                shake,
+            (Math.random() - .5) *
+                shake
         );
-
-        ctx.fill();
     }
-
-    ctx.globalAlpha = 1;
-}
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function render(){
 
     ctx.clearRect(
         0,
         0,
-        W,
-        H
+        innerWidth,
+        innerHeight
     );
 
-
     drawBackground();
-
     drawRoad();
 
+    for (const c of coins) {
+        drawCoin(c);
+    }
 
-    /*
-        Objekte weit hinten zuerst.
-    */
-
-    obstacles
-        .slice()
-        .sort(
-            (a,b) =>
-                b.z - a.z
-        )
-        .forEach(
-            drawObstacle
-        );
-
-
-    drawCoins();
+    for (const o of obstacles) {
+        drawObstacle(o);
+    }
 
     drawPlayer();
 
     drawParticles();
 
-
-    requestAnimationFrame(
-        render
-    );
+    ctx.restore();
 }
-
 
 /* =========================================================
    GAME LOOP
 ========================================================= */
 
-let lastTime =
-    performance.now();
-
-
-function loop(time){
+function loop(time) {
 
     const dt =
         Math.min(
             .035,
-            (time -
-                lastTime) /
-            1000
+            (time - lastTime) / 1000 || 0
         );
 
-
-    lastTime =
-        time;
-
+    lastTime = time;
 
     update(dt);
+    draw();
 
+    requestAnimationFrame(loop);
+}
 
-    requestAnimationFrame(
-        loop
+requestAnimationFrame(loop);
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    e => {
+
+        if (
+            e.code === "Space" ||
+            e.code === "ArrowUp"
+        ) {
+
+            e.preventDefault();
+
+            initAudio();
+            jump();
+        }
+
+        if (
+            e.code === "ArrowLeft" ||
+            e.code === "KeyA"
+        ) {
+
+            e.preventDefault();
+
+            initAudio();
+            moveLeft();
+        }
+
+        if (
+            e.code === "ArrowRight" ||
+            e.code === "KeyD"
+        ) {
+
+            e.preventDefault();
+
+            initAudio();
+            moveRight();
+        }
+
+        if (e.code === "KeyF") {
+
+            e.preventDefault();
+
+            initAudio();
+            doTrick();
+        }
+
+        if (e.code === "KeyR") {
+
+            e.preventDefault();
+
+            if (!running) {
+                startGame();
+            }
+        }
+    }
+);
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+document
+    .getElementById("startBtn")
+    .addEventListener(
+        "click",
+        startGame
+    );
+
+document
+    .getElementById("restartBtn")
+    .addEventListener(
+        "click",
+        startGame
+    );
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+function mobileAction(
+    element,
+    action
+) {
+
+    element.addEventListener(
+        "pointerdown",
+        e => {
+
+            e.preventDefault();
+
+            initAudio();
+
+            action();
+        }
     );
 }
 
+mobileAction(
+    document.getElementById("leftBtn"),
+    moveLeft
+);
+
+mobileAction(
+    document.getElementById("rightBtn"),
+    moveRight
+);
+
+mobileAction(
+    document.getElementById("jumpBtn"),
+    jump
+);
+
+mobileAction(
+    document.getElementById("trickBtn"),
+    doTrick
+);
 
 /* =========================================================
-   MOBILE BUTTONS
+   AUDIO UNLOCK
 ========================================================= */
 
-document
-    .getElementById("left")
-    .addEventListener(
-        "pointerdown",
-        function(e){
-
-            e.preventDefault();
-
-            moveLeft();
+document.addEventListener(
+    "pointerdown",
+    () => {
+        if (!audioStarted) {
+            initAudio();
         }
-    );
-
-
-document
-    .getElementById("right")
-    .addEventListener(
-        "pointerdown",
-        function(e){
-
-            e.preventDefault();
-
-            moveRight();
-        }
-    );
-
-
-document
-    .getElementById("jump")
-    .addEventListener(
-        "pointerdown",
-        function(e){
-
-            e.preventDefault();
-
-            jump();
-        }
-    );
-
-
-document
-    .getElementById("trickBtn")
-    .addEventListener(
-        "pointerdown",
-        function(e){
-
-            e.preventDefault();
-
-            trick();
-        }
-    );
-
-
-/* =========================================================
-   START
-========================================================= */
-
-render();
-
-loop(lastTime);
+    },
+    { once: true }
+);
 
 </script>
 
