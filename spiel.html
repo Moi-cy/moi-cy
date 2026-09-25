@@ -1,1 +1,1215 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Moi-cy Skate</title>
 
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#111;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+#game{
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+}
+
+#hud{
+    position:absolute;
+    z-index:5;
+    top:18px;
+    left:20px;
+    right:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    color:white;
+    pointer-events:none;
+    text-shadow:0 2px 5px rgba(0,0,0,.5);
+}
+
+.logo{
+    font-size:28px;
+    font-weight:900;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat small{
+    display:block;
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.7;
+}
+
+.stat strong{
+    font-size:25px;
+}
+
+#comboText{
+    position:absolute;
+    left:50%;
+    top:25%;
+    transform:translate(-50%,-50%);
+    color:white;
+    font-size:42px;
+    font-weight:900;
+    text-align:center;
+    opacity:0;
+    transition:.15s;
+    pointer-events:none;
+    text-shadow:0 3px 10px rgba(0,0,0,.5);
+}
+
+#comboText.show{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1.15);
+}
+
+#start{
+    position:absolute;
+    z-index:10;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    padding:18px 34px;
+    border:0;
+    border-radius:14px;
+    background:white;
+    color:#111;
+    font-size:18px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+#message{
+    position:absolute;
+    z-index:5;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%);
+    color:white;
+    font-size:14px;
+    text-align:center;
+    text-shadow:0 2px 5px #000;
+    pointer-events:none;
+}
+
+#touch{
+    position:absolute;
+    z-index:8;
+    left:15px;
+    right:15px;
+    bottom:18px;
+    display:flex;
+    justify-content:space-between;
+    pointer-events:none;
+}
+
+.touchGroup{
+    display:flex;
+    gap:10px;
+}
+
+.touch{
+    width:62px;
+    height:62px;
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:16px;
+    background:rgba(0,0,0,.35);
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    backdrop-filter:blur(8px);
+    pointer-events:auto;
+}
+
+@media(min-width:800px){
+    #touch{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+<canvas id="canvas"></canvas>
+
+<div id="hud">
+
+    <div class="logo">Moi-cy</div>
+
+    <div class="stat">
+        <small>SCORE</small>
+        <strong id="score">0</strong>
+    </div>
+
+    <div class="stat">
+        <small>COMBO</small>
+        <strong id="combo">x1</strong>
+    </div>
+
+    <div class="stat">
+        <small>DISTANZ</small>
+        <strong id="distance">0m</strong>
+    </div>
+
+</div>
+
+<div id="comboText"></div>
+
+<button id="start">START SESSION</button>
+
+<div id="message">
+    ← → bewegen · SPACE springen · F Trick
+</div>
+
+<div id="touch">
+
+    <div class="touchGroup">
+        <button class="touch" id="left">←</button>
+        <button class="touch" id="right">→</button>
+    </div>
+
+    <div class="touchGroup">
+        <button class="touch" id="jump">OLLIE</button>
+        <button class="touch" id="trick">FLIP</button>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+let W = 0;
+let H = 0;
+
+function resize(){
+
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+
+}
+
+window.addEventListener("resize",resize);
+resize();
+
+
+// -------------------------
+// GAME STATE
+// -------------------------
+
+let playing = false;
+
+let score = 0;
+let distance = 0;
+let combo = 1;
+
+let speed = 7;
+
+let lane = 1;
+let targetLane = 1;
+
+let objects = [];
+
+let particles = [];
+
+let lastTime = 0;
+
+
+// -------------------------
+// PLAYER
+// -------------------------
+
+const player = {
+
+    x:0,
+    y:0,
+
+    width:45,
+    height:70,
+
+    jumpY:0,
+    velocityY:0,
+
+    jumping:false,
+
+    rotation:0,
+
+    trickCount:0
+
+};
+
+
+// -------------------------
+// INPUT
+// -------------------------
+
+const keys = {};
+
+window.addEventListener("keydown",e=>{
+
+    keys[e.code] = true;
+
+    if(e.code === "ArrowLeft"){
+        moveLeft();
+    }
+
+    if(e.code === "ArrowRight"){
+        moveRight();
+    }
+
+    if(e.code === "Space"){
+        e.preventDefault();
+        jump();
+    }
+
+    if(e.code === "KeyF"){
+        trick();
+    }
+
+});
+
+window.addEventListener("keyup",e=>{
+    keys[e.code] = false;
+});
+
+
+// -------------------------
+// TOUCH
+// -------------------------
+
+function button(id,fn){
+
+    const el = document.getElementById(id);
+
+    el.addEventListener("pointerdown",e=>{
+        e.preventDefault();
+        fn();
+    });
+
+}
+
+button("left",moveLeft);
+button("right",moveRight);
+button("jump",jump);
+button("trick",trick);
+
+
+// -------------------------
+// MOVEMENT
+// -------------------------
+
+function moveLeft(){
+
+    targetLane--;
+
+    if(targetLane < 0){
+        targetLane = 0;
+    }
+
+}
+
+function moveRight(){
+
+    targetLane++;
+
+    if(targetLane > 2){
+        targetLane = 2;
+    }
+
+}
+
+
+// -------------------------
+// JUMP
+// -------------------------
+
+function jump(){
+
+    if(!playing) return;
+
+    if(!player.jumping){
+
+        player.jumping = true;
+
+        player.velocityY = 16;
+
+        player.trickCount = 0;
+
+    }
+
+}
+
+
+// -------------------------
+// TRICK
+// -------------------------
+
+function trick(){
+
+    if(!playing) return;
+
+    if(player.jumping){
+
+        player.rotation += Math.PI * 2;
+
+        player.trickCount++;
+
+        combo++;
+
+        score += 100 * combo;
+
+        showCombo(
+            "KICKFLIP<br><small>+" +
+            (100 * combo) +
+            "</small>"
+        );
+
+        createParticles(
+            player.x,
+            player.y
+        );
+
+    }
+
+}
+
+
+// -------------------------
+// COMBO TEXT
+// -------------------------
+
+let comboTimeout;
+
+function showCombo(text){
+
+    const el =
+        document.getElementById("comboText");
+
+    el.innerHTML = text;
+
+    el.classList.add("show");
+
+    clearTimeout(comboTimeout);
+
+    comboTimeout =
+        setTimeout(()=>{
+            el.classList.remove("show");
+        },500);
+
+}
+
+
+// -------------------------
+// PARTICLES
+// -------------------------
+
+function createParticles(x,y){
+
+    for(let i=0;i<12;i++){
+
+        particles.push({
+
+            x:x,
+            y:y,
+
+            vx:(Math.random()-.5)*8,
+            vy:(Math.random()-.5)*8,
+
+            life:1
+
+        });
+
+    }
+
+}
+
+
+// -------------------------
+// OBSTACLES
+// -------------------------
+
+function createObject(){
+
+    const types = [
+        "barrier",
+        "rail",
+        "ramp",
+        "cone"
+    ];
+
+    const type =
+        types[Math.floor(
+            Math.random()*types.length
+        )];
+
+    objects.push({
+
+        lane:
+            Math.floor(Math.random()*3),
+
+        y:-100,
+
+        type:type,
+
+        passed:false
+
+    });
+
+}
+
+
+// -------------------------
+// DRAW SKY
+// -------------------------
+
+function drawSky(){
+
+    const gradient =
+        ctx.createLinearGradient(
+            0,0,0,H
+        );
+
+    gradient.addColorStop(
+        0,
+        "#b9d4df"
+    );
+
+    gradient.addColorStop(
+        1,
+        "#e5e1d9"
+    );
+
+    ctx.fillStyle=gradient;
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+}
+
+
+// -------------------------
+// DRAW CITY
+// -------------------------
+
+function drawCity(){
+
+    const ground =
+        H*.65;
+
+    ctx.fillStyle="#aeb7b8";
+
+    for(let i=0;i<18;i++){
+
+        const x =
+            i*100;
+
+        const h =
+            80+(i%5)*35;
+
+        ctx.fillRect(
+            x,
+            ground-h,
+            70,
+            h
+        );
+
+    }
+
+}
+
+
+// -------------------------
+// DRAW ROAD
+// -------------------------
+
+function drawRoad(){
+
+    const top = H*.35;
+    const bottom = H;
+
+    ctx.fillStyle="#62696b";
+
+    ctx.beginPath();
+
+    ctx.moveTo(W*.43,top);
+    ctx.lineTo(W*.57,top);
+    ctx.lineTo(W,bottom);
+    ctx.lineTo(0,bottom);
+
+    ctx.closePath();
+
+    ctx.fill();
+
+
+    // lane lines
+
+    ctx.strokeStyle=
+        "rgba(255,255,255,.35)";
+
+    ctx.lineWidth=4;
+
+    for(let i=1;i<3;i++){
+
+        const topX =
+            W*.43 +
+            (W*.14/3)*i;
+
+        const bottomX =
+            (W/3)*i;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            topX,
+            top
+        );
+
+        ctx.lineTo(
+            bottomX,
+            bottom
+        );
+
+        ctx.stroke();
+
+    }
+
+}
+
+
+// -------------------------
+// ROAD OBJECTS
+// -------------------------
+
+function laneX(lane,y){
+
+    const top = H*.35;
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                (y+100)/(H+100)
+            )
+        );
+
+    const roadLeft =
+        W*.43 -
+        W*.43*progress;
+
+    const roadWidth =
+        W*.14 +
+        W*.86*progress;
+
+    return roadLeft +
+        roadWidth *
+        ((lane+.5)/3);
+
+}
+
+
+function drawObject(o){
+
+    const x =
+        laneX(o.lane,o.y);
+
+    const scale =
+        Math.max(
+            .3,
+            (o.y+100)/(H*.8)
+        );
+
+    ctx.save();
+
+    ctx.translate(x,o.y);
+
+    if(o.type==="barrier"){
+
+        ctx.fillStyle="#333";
+
+        ctx.fillRect(
+            -35*scale,
+            -35*scale,
+            70*scale,
+            45*scale
+        );
+
+        ctx.fillStyle="#ddd";
+
+        ctx.fillRect(
+            -30*scale,
+            -28*scale,
+            60*scale,
+            8*scale
+        );
+
+    }
+
+    if(o.type==="rail"){
+
+        ctx.strokeStyle="#222";
+
+        ctx.lineWidth=7*scale;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            -45*scale,
+            0
+        );
+
+        ctx.lineTo(
+            45*scale,
+            0
+        );
+
+        ctx.stroke();
+
+        ctx.lineWidth=4*scale;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            -35*scale,
+            0
+        );
+
+        ctx.lineTo(
+            -35*scale,
+            30*scale
+        );
+
+        ctx.moveTo(
+            35*scale,
+            0
+        );
+
+        ctx.lineTo(
+            35*scale,
+            30*scale
+        );
+
+        ctx.stroke();
+
+    }
+
+    if(o.type==="ramp"){
+
+        ctx.fillStyle="#777";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            -50*scale,
+            30*scale
+        );
+
+        ctx.lineTo(
+            50*scale,
+            30*scale
+        );
+
+        ctx.lineTo(
+            40*scale,
+            -20*scale
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+    }
+
+    if(o.type==="cone"){
+
+        ctx.fillStyle="#444";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            0,
+            -35*scale
+        );
+
+        ctx.lineTo(
+            -20*scale,
+            30*scale
+        );
+
+        ctx.lineTo(
+            20*scale,
+            30*scale
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+
+    }
+
+    ctx.restore();
+
+}
+
+
+// -------------------------
+// PLAYER
+// -------------------------
+
+function drawPlayer(){
+
+    const roadY =
+        H*.72;
+
+    const x =
+        laneX(
+            lane,
+            roadY
+        );
+
+    const y =
+        roadY -
+        player.jumpY;
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y
+    );
+
+    ctx.rotate(
+        player.rotation
+    );
+
+    // shadow
+
+    if(player.jumpY>0){
+
+        ctx.globalAlpha=.25;
+
+        ctx.fillStyle="#111";
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            0,
+            38+player.jumpY,
+            30,
+            8,
+            0,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ctx.globalAlpha=1;
+
+    }
+
+
+    // board
+
+    ctx.strokeStyle="#181818";
+
+    ctx.lineWidth=7;
+
+    ctx.beginPath();
+
+    ctx.moveTo(-25,25);
+    ctx.lineTo(25,25);
+
+    ctx.stroke();
+
+
+    // wheels
+
+    ctx.fillStyle="#111";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        -17,
+        31,
+        5,
+        0,
+        Math.PI*2
+    );
+
+    ctx.arc(
+        17,
+        31,
+        5,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    // body
+
+    ctx.strokeStyle="#222";
+
+    ctx.lineWidth=8;
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,-10);
+    ctx.lineTo(0,15);
+
+    ctx.moveTo(0,-3);
+    ctx.lineTo(-16,8);
+
+    ctx.moveTo(0,-3);
+    ctx.lineTo(16,8);
+
+    ctx.moveTo(0,15);
+    ctx.lineTo(-12,31);
+
+    ctx.moveTo(0,15);
+    ctx.lineTo(12,31);
+
+    ctx.stroke();
+
+
+    // head
+
+    ctx.fillStyle="#333";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,
+        -22,
+        11,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+}
+
+
+// -------------------------
+// PARTICLES DRAW
+// -------------------------
+
+function drawParticles(){
+
+    particles.forEach(p=>{
+
+        ctx.globalAlpha =
+            p.life;
+
+        ctx.fillStyle="#fff";
+
+        ctx.fillRect(
+            p.x,
+            p.y,
+            4,
+            4
+        );
+
+    });
+
+    ctx.globalAlpha=1;
+
+}
+
+
+// -------------------------
+// UPDATE
+// -------------------------
+
+function update(){
+
+    if(!playing) return;
+
+
+    // speed increases
+
+    speed += .001;
+
+    if(speed>15){
+        speed=15;
+    }
+
+
+    // distance
+
+    distance += speed*.02;
+
+
+    // lane movement
+
+    lane +=
+        (targetLane-lane)*.18;
+
+
+    // jump
+
+    if(player.jumping){
+
+        player.jumpY +=
+            player.velocityY;
+
+        player.velocityY -= .8;
+
+
+        if(player.jumpY<=0){
+
+            player.jumpY=0;
+
+            player.velocityY=0;
+
+            player.jumping=false;
+
+            player.rotation=0;
+
+
+            if(player.trickCount>0){
+
+                score +=
+                    player.trickCount *
+                    300 *
+                    combo;
+
+            }
+
+        }
+
+    }
+
+
+    // spawn
+
+    if(
+        objects.length===0 ||
+        objects[objects.length-1].y>180
+    ){
+
+        createObject();
+
+    }
+
+
+    // objects
+
+    objects.forEach(o=>{
+
+        o.y += speed;
+
+
+        if(
+            !o.passed &&
+            o.y > H*.66
+        ){
+
+            const sameLane =
+                Math.abs(
+                    o.lane -
+                    Math.round(lane)
+                )===0;
+
+            if(
+                sameLane &&
+                player.jumpY<55
+            ){
+
+                playing=false;
+
+                showCombo(
+                    "GESTÜRZT!"
+                );
+
+                document.getElementById(
+                    "start"
+                ).textContent =
+                    "NOCHMAL FAHREN";
+
+                document.getElementById(
+                    "start"
+                ).style.display="block";
+
+            }
+
+            o.passed=true;
+
+        }
+
+    });
+
+
+    objects =
+        objects.filter(
+            o=>o.y<H+150
+        );
+
+
+    // particles
+
+    particles.forEach(p=>{
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.life -= .03;
+
+    });
+
+    particles =
+        particles.filter(
+            p=>p.life>0
+        );
+
+
+    // score
+
+    score += .2 * speed;
+
+    document.getElementById(
+        "score"
+    ).textContent =
+        Math.floor(score);
+
+    document.getElementById(
+        "combo"
+    ).textContent =
+        "x"+combo;
+
+    document.getElementById(
+        "distance"
+    ).textContent =
+        Math.floor(distance)+"m";
+
+}
+
+
+// -------------------------
+// DRAW
+// -------------------------
+
+function draw(){
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+    drawSky();
+
+    drawCity();
+
+    drawRoad();
+
+
+    objects.forEach(
+        drawObject
+    );
+
+
+    drawPlayer();
+
+    drawParticles();
+
+}
+
+
+// -------------------------
+// LOOP
+// -------------------------
+
+function loop(time){
+
+    update();
+
+    draw();
+
+    requestAnimationFrame(loop);
+
+}
+
+requestAnimationFrame(loop);
+
+
+// -------------------------
+// START
+// -------------------------
+
+document.getElementById(
+    "start"
+).addEventListener(
+    "click",
+    ()=>{
+
+        score=0;
+        distance=0;
+        combo=1;
+        speed=7;
+
+        objects=[];
+        particles=[];
+
+        lane=1;
+        targetLane=1;
+
+        player.jumpY=0;
+        player.jumping=false;
+        player.rotation=0;
+
+        playing=true;
+
+        document.getElementById(
+            "start"
+        ).style.display="none";
+
+    }
+);
+
+</script>
+
+</body>
+</html>
