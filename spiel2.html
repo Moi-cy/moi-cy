@@ -1,1 +1,3698 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Moi-cy Street Rush</title>
 
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#080714;
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
+    user-select:none;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+}
+
+.screen{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    background:
+        radial-gradient(circle at 20% 15%,rgba(255,255,255,.15),transparent 25%),
+        linear-gradient(135deg,#16102e,#32164d 50%,#091b39);
+    overflow:auto;
+}
+
+.card{
+    width:min(650px,95vw);
+    max-height:94vh;
+    overflow:auto;
+    padding:30px;
+    border:2px solid rgba(255,255,255,.35);
+    border-radius:30px;
+    background:rgba(12,9,28,.91);
+    box-shadow:0 30px 100px rgba(0,0,0,.55);
+    text-align:center;
+}
+
+.logo{
+    font-size:clamp(55px,13vw,100px);
+    line-height:.8;
+    font-weight:1000;
+    font-style:italic;
+    letter-spacing:-7px;
+    transform:skew(-8deg);
+    text-shadow:
+        5px 5px 0 #ff3c91,
+        10px 10px 0 #05030e;
+}
+
+.subtitle{
+    margin-top:18px;
+    color:#ffd84d;
+    font-weight:1000;
+    letter-spacing:5px;
+    font-size:13px;
+}
+
+.menuButtons{
+    display:grid;
+    gap:9px;
+    margin-top:25px;
+}
+
+button{
+    font-family:inherit;
+}
+
+.mainBtn{
+    border:0;
+    border-radius:15px;
+    padding:15px;
+    background:linear-gradient(135deg,#ff3c91,#ff6b35);
+    color:white;
+    font-size:19px;
+    font-weight:1000;
+    cursor:pointer;
+    box-shadow:0 5px 0 #8d1e50;
+}
+
+.mainBtn:active{
+    transform:translateY(4px);
+    box-shadow:0 1px 0 #8d1e50;
+}
+
+.secondaryBtn{
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:13px;
+    padding:12px;
+    background:rgba(255,255,255,.07);
+    color:white;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:7px;
+    margin-top:18px;
+}
+
+.stat{
+    padding:10px 5px;
+    border-radius:10px;
+    background:rgba(255,255,255,.06);
+}
+
+.stat b{
+    display:block;
+    color:#ffd84d;
+    font-size:16px;
+}
+
+.stat span{
+    font-size:8px;
+    opacity:.65;
+    font-weight:900;
+}
+
+.selectionTitle{
+    margin:20px 0 10px;
+    font-size:12px;
+    font-weight:1000;
+    letter-spacing:2px;
+    opacity:.7;
+}
+
+.selectGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.selectItem{
+    min-height:70px;
+    border:2px solid transparent;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    color:white;
+    cursor:pointer;
+    padding:8px;
+    font-weight:900;
+}
+
+.selectItem.selected{
+    border-color:#ffd84d;
+    background:rgba(255,216,77,.12);
+}
+
+.selectItem.locked{
+    opacity:.4;
+}
+
+.modeGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+}
+
+.mode{
+    padding:14px 8px;
+    border:2px solid transparent;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    color:white;
+    cursor:pointer;
+    font-weight:1000;
+}
+
+.mode.selected{
+    border-color:#ff3c91;
+    background:rgba(255,60,145,.13);
+}
+
+.info{
+    margin-top:15px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,216,77,.08);
+    color:#ffd84d;
+    font-size:12px;
+    font-weight:900;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* HUD */
+
+#hud{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    display:none;
+    pointer-events:none;
+}
+
+.topHud{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+}
+
+.hudBox{
+    min-width:80px;
+    padding:7px 10px;
+    border-radius:11px;
+    border:1px solid rgba(255,255,255,.3);
+    background:rgba(8,5,20,.68);
+    backdrop-filter:blur(7px);
+}
+
+.hudLabel{
+    font-size:8px;
+    letter-spacing:2px;
+    opacity:.6;
+    font-weight:1000;
+}
+
+.hudValue{
+    font-size:18px;
+    font-weight:1000;
+}
+
+#pauseButton{
+    position:fixed;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:44px;
+    height:44px;
+    border:1px solid rgba(255,255,255,.5);
+    border-radius:12px;
+    background:rgba(8,5,20,.7);
+    color:white;
+    font-size:18px;
+    pointer-events:auto;
+    cursor:pointer;
+}
+
+#boostWrap{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%);
+    width:min(360px,65vw);
+}
+
+#boostLabel{
+    display:flex;
+    justify-content:space-between;
+    font-size:9px;
+    font-weight:1000;
+    margin-bottom:4px;
+}
+
+#boostBar{
+    height:11px;
+    border-radius:20px;
+    padding:2px;
+    background:rgba(0,0,0,.55);
+}
+
+#boostFill{
+    width:0%;
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#35ddd0,#ffd84d,#ff3c91);
+}
+
+#position{
+    position:fixed;
+    top:75px;
+    right:12px;
+    font-size:23px;
+    font-weight:1000;
+    text-shadow:3px 3px #111;
+}
+
+#trickText{
+    position:fixed;
+    left:50%;
+    top:30%;
+    transform:translate(-50%,-50%) scale(.5);
+    opacity:0;
+    font-size:clamp(28px,7vw,60px);
+    color:#ffd84d;
+    font-weight:1000;
+    font-style:italic;
+    text-shadow:4px 4px #ff3c91,7px 7px #111;
+    pointer-events:none;
+}
+
+#trickText.show{
+    animation:popTrick .8s ease-out;
+}
+
+@keyframes popTrick{
+    0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(.5);
+    }
+    25%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1.15);
+    }
+    100%{
+        opacity:0;
+        transform:translate(-50%,-80%) scale(1);
+    }
+}
+
+/* PAUSE */
+
+#pause{
+    display:none;
+}
+
+.pauseCard{
+    width:min(420px,94vw);
+    padding:28px;
+    border-radius:25px;
+    background:#141027;
+    border:2px solid rgba(255,255,255,.3);
+    text-align:center;
+}
+
+.pauseCard h2{
+    color:#ffd84d;
+    font-size:45px;
+    font-style:italic;
+    margin-bottom:20px;
+}
+
+.pauseCard button,
+#gameOver button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    margin-top:8px;
+    font-weight:1000;
+    cursor:pointer;
+}
+
+/* GAME OVER */
+
+#gameOver{
+    display:none;
+}
+
+.overCard{
+    width:min(440px,94vw);
+    padding:30px;
+    border-radius:25px;
+    background:#141027;
+    border:2px solid rgba(255,255,255,.3);
+    text-align:center;
+}
+
+.overCard h2{
+    font-size:48px;
+    font-style:italic;
+    color:#ff3c91;
+}
+
+.result{
+    margin:15px 0;
+    font-size:24px;
+    font-weight:1000;
+}
+
+.record{
+    color:#ffd84d;
+    font-size:19px;
+    font-weight:1000;
+    margin:10px;
+}
+
+/* AUDIO */
+
+#audio{
+    display:none;
+}
+
+.audioCard{
+    width:min(430px,94vw);
+    padding:28px;
+    border-radius:25px;
+    background:#141027;
+    border:2px solid rgba(255,255,255,.3);
+}
+
+.audioCard h2{
+    margin-bottom:20px;
+}
+
+.slider{
+    margin:18px 0;
+}
+
+.sliderHead{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:7px;
+    font-weight:900;
+}
+
+input[type=range]{
+    width:100%;
+    accent-color:#ff3c91;
+}
+
+.toggleRow{
+    display:flex;
+    justify-content:space-between;
+    padding:12px;
+    border-radius:10px;
+    background:rgba(255,255,255,.06);
+    margin-top:8px;
+    font-weight:900;
+}
+
+.toggle{
+    width:50px;
+    height:27px;
+    padding:2px;
+    border-radius:20px;
+    background:#555;
+}
+
+.toggle:after{
+    content:"";
+    display:block;
+    width:23px;
+    height:23px;
+    background:white;
+    border-radius:50%;
+    transition:.2s;
+}
+
+.toggle.active{
+    background:#ff3c91;
+}
+
+.toggle.active:after{
+    transform:translateX(23px);
+}
+
+/* MOBILE */
+
+#mobile{
+    display:none;
+    position:fixed;
+    bottom:12px;
+    left:0;
+    right:0;
+    z-index:20;
+    justify-content:space-between;
+    padding:0 12px;
+    pointer-events:none;
+}
+
+.mobileGroup{
+    display:flex;
+    gap:8px;
+    pointer-events:auto;
+}
+
+.mobileBtn{
+    width:58px;
+    height:58px;
+    border:1px solid rgba(255,255,255,.5);
+    border-radius:16px;
+    background:rgba(8,5,20,.7);
+    color:white;
+    font-size:22px;
+    font-weight:1000;
+    touch-action:manipulation;
+}
+
+.mobileBtn:active{
+    transform:scale(.9);
+    background:#ff3c91;
+}
+
+@media(max-width:800px){
+
+    #mobile{
+        display:flex;
+    }
+
+    .controlsDesktop{
+        display:none;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .card{
+        padding:22px 16px;
+    }
+
+    #boostWrap{
+        bottom:82px;
+    }
+}
+
+@media(max-height:650px){
+    .card{
+        padding:16px;
+    }
+
+    .logo{
+        font-size:55px;
+    }
+
+    .selectionTitle{
+        margin:10px 0 6px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="game"></canvas>
+
+<!-- =====================================================
+     HAUPTMENÜ
+===================================================== -->
+
+<div id="menu" class="screen">
+
+<div class="card">
+
+    <div class="logo">Moi-cy</div>
+    <div class="subtitle">STREET RUSH</div>
+
+    <div class="menuButtons">
+
+        <button class="mainBtn" id="playBtn">
+            🏁 RENNEN STARTEN
+        </button>
+
+        <button class="secondaryBtn" id="audioBtn">
+            🔊 AUDIO & MUSIK
+        </button>
+
+    </div>
+
+    <div class="selectionTitle">RENNMODUS</div>
+
+    <div class="modeGrid">
+
+        <button class="mode selected" data-mode="race">
+            🏁 RACE
+        </button>
+
+        <button class="mode" data-mode="knockout">
+            💥 KNOCKOUT
+        </button>
+
+        <button class="mode" data-mode="time">
+            ⏱️ TIME ATTACK
+        </button>
+
+        <button class="mode" data-mode="chaos">
+            🔥 CHAOS
+        </button>
+
+        <button class="mode" data-mode="trick">
+            ⭐ TRICK RACE
+        </button>
+
+    </div>
+
+    <div class="selectionTitle">
+        SKATER
+    </div>
+
+    <div class="selectGrid" id="skaterGrid">
+
+        <button class="selectItem selected" data-skater="street">
+            🧢<br>Street
+        </button>
+
+        <button class="selectItem" data-skater="pro">
+            🕶️<br>Pro
+        </button>
+
+        <button class="selectItem" data-skater="trick">
+            🤙<br>Trick
+        </button>
+
+    </div>
+
+    <div class="selectionTitle">
+        BOARD
+    </div>
+
+    <div class="selectGrid" id="boardGrid">
+
+        <button class="selectItem selected" data-board="classic">
+            🛹<br>Classic
+        </button>
+
+        <button class="selectItem" data-board="speed">
+            ⚡<br>Speed
+        </button>
+
+        <button class="selectItem" data-board="control">
+            🎯<br>Control
+        </button>
+
+    </div>
+
+    <div class="stats" id="playerStats">
+
+        <div class="stat">
+            <b id="speedStat">7</b>
+            <span>SPEED</span>
+        </div>
+
+        <div class="stat">
+            <b id="boostStat">7</b>
+            <span>BOOST</span>
+        </div>
+
+        <div class="stat">
+            <b id="controlStat">7</b>
+            <span>CONTROL</span>
+        </div>
+
+        <div class="stat">
+            <b id="bumpStat">7</b>
+            <span>BUMP</span>
+        </div>
+
+    </div>
+
+    <div class="info">
+        🏆 Rekord:
+        <span id="menuRecord">0</span>
+        Punkte
+    </div>
+
+    <div class="controlsDesktop info">
+        ← → Spur &nbsp; • &nbsp;
+        SPACE Springen &nbsp; • &nbsp;
+        F Rempeln/Trick &nbsp; • &nbsp;
+        SHIFT Boost &nbsp; • &nbsp;
+        ESC Pause
+    </div>
+
+</div>
+</div>
+
+<!-- =====================================================
+     AUDIO
+===================================================== -->
+
+<div id="audio" class="screen">
+
+<div class="audioCard">
+
+    <h2>🔊 AUDIO & MUSIK</h2>
+
+    <div class="slider">
+
+        <div class="sliderHead">
+            <span>Sound Effects</span>
+            <span id="sfxText">80%</span>
+        </div>
+
+        <input id="sfxRange"
+               type="range"
+               min="0"
+               max="100">
+    </div>
+
+    <div class="slider">
+
+        <div class="sliderHead">
+            <span>Musik</span>
+            <span id="musicText">45%</span>
+        </div>
+
+        <input id="musicRange"
+               type="range"
+               min="0"
+               max="100">
+    </div>
+
+    <div class="slider">
+
+        <div class="sliderHead">
+            <span>🛞 Roll-Geräusch</span>
+            <span id="rollText">70%</span>
+        </div>
+
+        <input id="rollRange"
+               type="range"
+               min="0"
+               max="100">
+    </div>
+
+    <div class="toggleRow">
+        <span>🔊 Sounds</span>
+        <div class="toggle" id="sfxToggle"></div>
+    </div>
+
+    <div class="toggleRow">
+        <span>🎵 Musik</span>
+        <div class="toggle" id="musicToggle"></div>
+    </div>
+
+    <button class="secondaryBtn"
+            id="closeAudio"
+            style="width:100%;margin-top:15px">
+        FERTIG
+    </button>
+
+</div>
+</div>
+
+<!-- =====================================================
+     HUD
+===================================================== -->
+
+<div id="hud">
+
+    <div class="topHud">
+
+        <div class="hudBox">
+            <div class="hudLabel">SCORE</div>
+            <div class="hudValue" id="scoreHud">0</div>
+        </div>
+
+        <div class="hudBox">
+            <div class="hudLabel">RACE</div>
+            <div class="hudValue" id="raceHud">1/5</div>
+        </div>
+
+        <div class="hudBox">
+            <div class="hudLabel">SPEED</div>
+            <div class="hudValue" id="speedHud">0</div>
+        </div>
+
+    </div>
+
+    <button id="pauseButton">☰</button>
+
+    <div id="position">1.</div>
+
+    <div id="boostWrap">
+
+        <div id="boostLabel">
+            <span>BOOST</span>
+            <span id="boostPercent">0%</span>
+        </div>
+
+        <div id="boostBar">
+            <div id="boostFill"></div>
+        </div>
+
+    </div>
+
+    <div id="trickText"></div>
+
+</div>
+
+<!-- =====================================================
+     PAUSE
+===================================================== -->
+
+<div id="pause" class="screen">
+
+<div class="pauseCard">
+
+    <h2>PAUSE</h2>
+
+    <button class="mainBtn" id="continueBtn">
+        ▶ WEITER
+    </button>
+
+    <button class="secondaryBtn" id="restartRaceBtn">
+        🔄 RENNEN NEUSTARTEN
+    </button>
+
+    <button class="secondaryBtn" id="pauseAudioBtn">
+        🔊 AUDIO
+    </button>
+
+    <button class="secondaryBtn" id="pauseMenuBtn">
+        🏠 HAUPTMENÜ
+    </button>
+
+</div>
+</div>
+
+<!-- =====================================================
+     GAME OVER
+===================================================== -->
+
+<div id="gameOver" class="screen">
+
+<div class="overCard">
+
+    <h2 id="overTitle">FINISH!</h2>
+
+    <div class="result">
+        Platz: <span id="finalPosition">1.</span><br>
+        Score: <span id="finalScore">0</span>
+    </div>
+
+    <div class="record hidden" id="recordText">
+        🏆 NEUER REKORD!
+    </div>
+
+    <button class="mainBtn" id="againBtn">
+        🛹 NOCHMAL
+    </button>
+
+    <button class="secondaryBtn" id="overMenuBtn">
+        🏠 HAUPTMENÜ
+    </button>
+
+</div>
+</div>
+
+<!-- =====================================================
+     MOBILE
+===================================================== -->
+
+<div id="mobile">
+
+    <div class="mobileGroup">
+
+        <button class="mobileBtn" id="left">
+            ←
+        </button>
+
+        <button class="mobileBtn" id="right">
+            →
+        </button>
+
+    </div>
+
+    <div class="mobileGroup">
+
+        <button class="mobileBtn" id="jump">
+            ↑
+        </button>
+
+        <button class="mobileBtn" id="action">
+            💥
+        </button>
+
+        <button class="mobileBtn" id="boost">
+            ⚡
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+let W=innerWidth;
+let H=innerHeight;
+let DPR=devicePixelRatio||1;
+
+function resize(){
+
+    W=innerWidth;
+    H=innerHeight;
+    DPR=devicePixelRatio||1;
+
+    canvas.width=W*DPR;
+    canvas.height=H*DPR;
+
+    canvas.style.width=W+"px";
+    canvas.style.height=H+"px";
+
+    ctx.setTransform(
+        DPR,0,0,DPR,0,0
+    );
+}
+
+resize();
+
+addEventListener("resize",resize);
+
+/* =========================================================
+   SAVED DATA
+========================================================= */
+
+let record=
+    Number(localStorage.getItem("moiCyRushRecord")||0);
+
+let coinsTotal=
+    Number(localStorage.getItem("moiCyRushCoins")||0);
+
+let selectedMode="race";
+let selectedSkater="street";
+let selectedBoard="classic";
+
+/* =========================================================
+   CHARACTER DATA
+========================================================= */
+
+const skaters={
+
+    street:{
+        speed:7,
+        boost:7,
+        control:7,
+        bump:7
+    },
+
+    pro:{
+        speed:9,
+        boost:6,
+        control:8,
+        bump:5
+    },
+
+    trick:{
+        speed:6,
+        boost:9,
+        control:9,
+        bump:6
+    }
+
+};
+
+const boards={
+
+    classic:{
+        speed:7,
+        boost:7,
+        control:7,
+        bump:7
+    },
+
+    speed:{
+        speed:10,
+        boost:8,
+        control:5,
+        bump:5
+    },
+
+    control:{
+        speed:6,
+        boost:7,
+        control:10,
+        bump:8
+    }
+
+};
+
+/* =========================================================
+   AUDIO ENGINE
+========================================================= */
+
+let audioCtx=null;
+let master=null;
+let musicGain=null;
+let sfxGain=null;
+let rollGain=null;
+
+let audioReady=false;
+let musicTimer=null;
+let musicStep=0;
+
+let audioData={
+
+    sfx:Number(localStorage.getItem("moiRushSfx")??80),
+
+    music:Number(localStorage.getItem("moiRushMusic")??45),
+
+    roll:Number(localStorage.getItem("moiRushRoll")??70),
+
+    sfxOn:localStorage.getItem("moiRushSfxOn")!=="false",
+
+    musicOn:localStorage.getItem("moiRushMusicOn")!=="false"
+
+};
+
+function initAudio(){
+
+    if(audioReady){
+
+        if(audioCtx.state==="suspended"){
+            audioCtx.resume();
+        }
+
+        return;
+    }
+
+    audioCtx=new(
+        window.AudioContext||
+        window.webkitAudioContext
+    )();
+
+    master=audioCtx.createGain();
+    musicGain=audioCtx.createGain();
+    sfxGain=audioCtx.createGain();
+    rollGain=audioCtx.createGain();
+
+    musicGain.connect(master);
+    sfxGain.connect(master);
+    rollGain.connect(master);
+
+    master.connect(audioCtx.destination);
+
+    audioReady=true;
+
+    updateAudio();
+
+    startMusic();
+}
+
+function updateAudio(){
+
+    if(!audioReady)return;
+
+    sfxGain.gain.value=
+        audioData.sfxOn
+        ?audioData.sfx/100
+        :0;
+
+    musicGain.gain.value=
+        audioData.musicOn
+        ?audioData.music/100
+        :0;
+
+    rollGain.gain.value=
+        audioData.sfxOn
+        ?audioData.roll/100
+        :0;
+}
+
+function tone(
+    freq,
+    duration,
+    type="sine",
+    volume=.1,
+    destination=sfxGain,
+    slide=null
+){
+
+    if(!audioReady)return;
+
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
+
+    osc.type=type;
+
+    osc.frequency.setValueAtTime(
+        freq,
+        audioCtx.currentTime
+    );
+
+    if(slide){
+
+        osc.frequency.exponentialRampToValueAtTime(
+            Math.max(20,slide),
+            audioCtx.currentTime+duration
+        );
+    }
+
+    gain.gain.setValueAtTime(
+        .0001,
+        audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        volume,
+        audioCtx.currentTime+.015
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioCtx.currentTime+duration
+    );
+
+    osc.connect(gain);
+    gain.connect(destination);
+
+    osc.start();
+
+    osc.stop(
+        audioCtx.currentTime+
+        duration+
+        .03
+    );
+}
+
+function noise(duration=.2,volume=.2){
+
+    if(!audioReady)return;
+
+    const buffer=
+        audioCtx.createBuffer(
+            1,
+            audioCtx.sampleRate*duration,
+            audioCtx.sampleRate
+        );
+
+    const data=
+        buffer.getChannelData(0);
+
+    for(let i=0;i<data.length;i++){
+
+        data[i]=
+            (Math.random()*2-1)*
+            (1-i/data.length);
+    }
+
+    const source=
+        audioCtx.createBufferSource();
+
+    const gain=
+        audioCtx.createGain();
+
+    source.buffer=buffer;
+    gain.gain.value=volume;
+
+    source.connect(gain);
+    gain.connect(sfxGain);
+
+    source.start();
+}
+
+/* =========================================================
+   ROLL SOUND
+========================================================= */
+
+let rollOsc=null;
+let rollOsc2=null;
+let rollRollGain=null;
+
+function startRollSound(){
+
+    if(!audioReady)return;
+
+    if(rollOsc)return;
+
+    rollOsc=
+        audioCtx.createOscillator();
+
+    rollOsc2=
+        audioCtx.createOscillator();
+
+    rollRollGain=
+        audioCtx.createGain();
+
+    rollOsc.type="triangle";
+    rollOsc2.type="sine";
+
+    rollOsc.frequency.value=55;
+    rollOsc2.frequency.value=82;
+
+    rollRollGain.gain.value=0;
+
+    rollOsc.connect(rollRollGain);
+    rollOsc2.connect(rollRollGain);
+
+    rollRollGain.connect(rollGain);
+
+    rollOsc.start();
+    rollOsc2.start();
+}
+
+function updateRollSound(){
+
+    if(!audioReady||!rollRollGain)return;
+
+    const intensity=
+        running&&
+        !paused&&
+        !finished
+        ?Math.min(
+            .18,
+            Math.max(0,currentSpeed/900)*.16
+        )
+        :0;
+
+    rollRollGain.gain.setTargetAtTime(
+        intensity,
+        audioCtx.currentTime,
+        .04
+    );
+
+    if(rollOsc){
+
+        const f=
+            45+
+            currentSpeed*.13;
+
+        rollOsc.frequency.setTargetAtTime(
+            f,
+            audioCtx.currentTime,
+            .03
+        );
+
+        rollOsc2.frequency.setTargetAtTime(
+            f*1.5,
+            audioCtx.currentTime,
+            .03
+        );
+    }
+}
+
+/* =========================================================
+   MUSIC
+========================================================= */
+
+const notes=[
+    261.63,
+    329.63,
+    392,
+    523.25,
+    392,
+    329.63,
+    293.66,
+    392
+];
+
+function musicTick(){
+
+    if(!audioReady||
+       !audioData.musicOn)return;
+
+    const n=
+        notes[musicStep%notes.length];
+
+    tone(
+        n,
+        .14,
+        "triangle",
+        .055,
+        musicGain
+    );
+
+    if(musicStep%2===0){
+
+        tone(
+            n/2,
+            .2,
+            "sine",
+            .035,
+            musicGain
+        );
+    }
+
+    musicStep++;
+}
+
+function startMusic(){
+
+    clearInterval(musicTimer);
+
+    musicTimer=
+        setInterval(
+            musicTick,
+            190
+        );
+}
+
+/* =========================================================
+   SOUND EFFECTS
+========================================================= */
+
+function sJump(){
+
+    tone(
+        240,.1,
+        "square",
+        .1,
+        sfxGain,
+        600
+    );
+}
+
+function sCoin(){
+
+    tone(850,.06,"square",.1);
+
+    setTimeout(()=>{
+        tone(1250,.1,"square",.09);
+    },60);
+}
+
+function sBoost(){
+
+    tone(
+        100,
+        .35,
+        "sawtooth",
+        .15,
+        sfxGain,
+        800
+    );
+}
+
+function sBump(){
+
+    noise(.12,.25);
+
+    tone(
+        150,
+        .16,
+        "square",
+        .15,
+        sfxGain,
+        60
+    );
+}
+
+function sTrick(){
+
+    tone(
+        400,
+        .08,
+        "sawtooth",
+        .08,
+        sfxGain,
+        900
+    );
+
+    setTimeout(()=>{
+        tone(
+            900,
+            .1,
+            "triangle",
+            .08
+        );
+    },60);
+}
+
+function sLand(){
+
+    tone(
+        130,
+        .08,
+        "triangle",
+        .08,
+        sfxGain,
+        80
+    );
+}
+
+function sCrash(){
+
+    noise(.4,.4);
+
+    tone(
+        100,
+        .35,
+        "sawtooth",
+        .18,
+        sfxGain,
+        35
+    );
+}
+
+function sStart(){
+
+    tone(440,.08,"triangle",.1);
+
+    setTimeout(()=>{
+        tone(660,.08,"triangle",.1);
+    },80);
+
+    setTimeout(()=>{
+        tone(880,.15,"triangle",.12);
+    },160);
+}
+
+function sFinish(){
+
+    tone(523,.1,"triangle",.1);
+
+    setTimeout(()=>{
+        tone(659,.1,"triangle",.1);
+    },100);
+
+    setTimeout(()=>{
+        tone(784,.2,"triangle",.12);
+    },200);
+}
+
+/* =========================================================
+   SETTINGS UI
+========================================================= */
+
+const audioScreen=
+    document.getElementById("audio");
+
+function refreshAudioUI(){
+
+    document.getElementById("sfxRange").value=
+        audioData.sfx;
+
+    document.getElementById("musicRange").value=
+        audioData.music;
+
+    document.getElementById("rollRange").value=
+        audioData.roll;
+
+    document.getElementById("sfxText").textContent=
+        audioData.sfx+"%";
+
+    document.getElementById("musicText").textContent=
+        audioData.music+"%";
+
+    document.getElementById("rollText").textContent=
+        audioData.roll+"%";
+
+    document.getElementById("sfxToggle")
+        .classList.toggle(
+            "active",
+            audioData.sfxOn
+        );
+
+    document.getElementById("musicToggle")
+        .classList.toggle(
+            "active",
+            audioData.musicOn
+        );
+}
+
+refreshAudioUI();
+
+document.getElementById("sfxRange").oninput=e=>{
+
+    audioData.sfx=
+        Number(e.target.value);
+
+    localStorage.setItem(
+        "moiRushSfx",
+        audioData.sfx
+    );
+
+    updateAudio();
+    refreshAudioUI();
+};
+
+document.getElementById("musicRange").oninput=e=>{
+
+    audioData.music=
+        Number(e.target.value);
+
+    localStorage.setItem(
+        "moiRushMusic",
+        audioData.music
+    );
+
+    updateAudio();
+    refreshAudioUI();
+};
+
+document.getElementById("rollRange").oninput=e=>{
+
+    audioData.roll=
+        Number(e.target.value);
+
+    localStorage.setItem(
+        "moiRushRoll",
+        audioData.roll
+    );
+
+    updateAudio();
+    refreshAudioUI();
+};
+
+document.getElementById("sfxToggle").onclick=()=>{
+
+    initAudio();
+
+    audioData.sfxOn=
+        !audioData.sfxOn;
+
+    localStorage.setItem(
+        "moiRushSfxOn",
+        audioData.sfxOn
+    );
+
+    updateAudio();
+    refreshAudioUI();
+
+    if(audioData.sfxOn){
+        tone(500,.06);
+    }
+};
+
+document.getElementById("musicToggle").onclick=()=>{
+
+    initAudio();
+
+    audioData.musicOn=
+        !audioData.musicOn;
+
+    localStorage.setItem(
+        "moiRushMusicOn",
+        audioData.musicOn
+    );
+
+    updateAudio();
+    refreshAudioUI();
+};
+
+function openAudio(){
+
+    initAudio();
+
+    audioScreen.style.display="flex";
+}
+
+document.getElementById("audioBtn")
+    .onclick=openAudio;
+
+document.getElementById("pauseAudioBtn")
+    .onclick=openAudio;
+
+document.getElementById("closeAudio")
+    .onclick=()=>{
+
+        audioScreen.style.display="none";
+    };
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let running=false;
+let paused=false;
+let finished=false;
+
+let score=0;
+let distance=0;
+
+let raceLength=2600;
+
+let currentSpeed=0;
+let boost=0;
+
+let lane=1;
+let targetLane=1;
+
+let jumpHeight=0;
+let jumpVelocity=0;
+let grounded=true;
+
+let trickTime=0;
+let trickRotation=0;
+
+let boostActive=false;
+let boostTimer=0;
+
+let bumpCooldown=0;
+
+let spawnTimer=.4;
+let coinTimer=.5;
+
+let roadOffset=0;
+
+let shake=0;
+
+let lastTime=performance.now();
+
+let obstacles=[];
+let coins=[];
+let opponents=[];
+let particles=[];
+
+/* =========================================================
+   PLAYER STATS
+========================================================= */
+
+function getStats(){
+
+    const s=skaters[selectedSkater];
+    const b=boards[selectedBoard];
+
+    return{
+        speed:(s.speed+b.speed)/2,
+        boost:(s.boost+b.boost)/2,
+        control:(s.control+b.control)/2,
+        bump:(s.bump+b.bump)/2
+    };
+}
+
+function updateStatsUI(){
+
+    const s=getStats();
+
+    document.getElementById("speedStat")
+        .textContent=Math.round(s.speed);
+
+    document.getElementById("boostStat")
+        .textContent=Math.round(s.boost);
+
+    document.getElementById("controlStat")
+        .textContent=Math.round(s.control);
+
+    document.getElementById("bumpStat")
+        .textContent=Math.round(s.bump);
+
+    document.getElementById("menuRecord")
+        .textContent=
+        record.toLocaleString("de-DE");
+}
+
+updateStatsUI();
+
+/* =========================================================
+   MENU SELECTION
+========================================================= */
+
+document.querySelectorAll(".mode")
+.forEach(button=>{
+
+    button.onclick=()=>{
+
+        document
+        .querySelectorAll(".mode")
+        .forEach(x=>
+            x.classList.remove("selected")
+        );
+
+        button.classList.add("selected");
+
+        selectedMode=
+            button.dataset.mode;
+    };
+});
+
+document.querySelectorAll("#skaterGrid .selectItem")
+.forEach(button=>{
+
+    button.onclick=()=>{
+
+        document
+        .querySelectorAll("#skaterGrid .selectItem")
+        .forEach(x=>
+            x.classList.remove("selected")
+        );
+
+        button.classList.add("selected");
+
+        selectedSkater=
+            button.dataset.skater;
+
+        updateStatsUI();
+    };
+});
+
+document.querySelectorAll("#boardGrid .selectItem")
+.forEach(button=>{
+
+    button.onclick=()=>{
+
+        document
+        .querySelectorAll("#boardGrid .selectItem")
+        .forEach(x=>
+            x.classList.remove("selected")
+        );
+
+        button.classList.add("selected");
+
+        selectedBoard=
+            button.dataset.board;
+
+        updateStatsUI();
+    };
+});
+
+/* =========================================================
+   ROAD
+========================================================= */
+
+function roadWidth(){
+
+    return Math.min(
+        W*.8,
+        850
+    );
+}
+
+function roadLeft(){
+
+    return W/2-roadWidth()/2;
+}
+
+function laneX(index){
+
+    return roadLeft()+
+        roadWidth()*
+        ((index+.5)/3);
+}
+
+function roadY(){
+
+    return H*.54;
+}
+
+function drawBackground(){
+
+    const gradient=
+        ctx.createLinearGradient(
+            0,0,0,H
+        );
+
+    gradient.addColorStop(0,"#111b4d");
+    gradient.addColorStop(.42,"#513275");
+    gradient.addColorStop(1,"#ff7657");
+
+    ctx.fillStyle=gradient;
+    ctx.fillRect(0,0,W,H);
+
+    /* moon */
+
+    ctx.fillStyle="rgba(255,255,255,.8)";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        W*.78,
+        H*.17,
+        48,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    /* city */
+
+    const base=roadY();
+
+    for(
+        let x=-30;
+        x<W+40;
+        x+=65
+    ){
+
+        const h=
+            50+
+            Math.abs(
+                Math.sin(x*.13)
+            )*130;
+
+        ctx.fillStyle="#16142c";
+
+        ctx.fillRect(
+            x,
+            base-h,
+            53,
+            h
+        );
+
+        ctx.fillStyle=
+            "rgba(255,216,77,.18)";
+
+        for(
+            let yy=base-h+15;
+            yy<base-10;
+            yy+=21
+        ){
+
+            ctx.fillRect(
+                x+10,
+                yy,
+                7,
+                7
+            );
+
+            ctx.fillRect(
+                x+30,
+                yy,
+                7,
+                7
+            );
+        }
+    }
+}
+
+function drawRoad(){
+
+    const rw=roadWidth();
+    const left=roadLeft();
+    const y=roadY();
+
+    ctx.fillStyle="#201d32";
+
+    ctx.fillRect(
+        0,y,
+        W,H-y
+    );
+
+    ctx.fillStyle="#11101d";
+
+    ctx.beginPath();
+
+    ctx.moveTo(left,y);
+    ctx.lineTo(left+60,H);
+    ctx.lineTo(left+rw-60,H);
+    ctx.lineTo(left+rw,y);
+
+    ctx.closePath();
+
+    ctx.fill();
+
+    /* edges */
+
+    ctx.strokeStyle="#ff3c91";
+    ctx.lineWidth=6;
+
+    ctx.beginPath();
+
+    ctx.moveTo(left,y);
+    ctx.lineTo(left+60,H);
+
+    ctx.moveTo(left+rw,y);
+    ctx.lineTo(left+rw-60,H);
+
+    ctx.stroke();
+
+    /* lane markings */
+
+    const perspectiveOffset=
+        (roadOffset%100);
+
+    ctx.setLineDash([35,35]);
+
+    ctx.lineWidth=3;
+    ctx.strokeStyle=
+        "rgba(255,255,255,.2)";
+
+    for(let i=1;i<3;i++){
+
+        const x=
+            left+rw*i/3;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            y
+        );
+
+        ctx.lineTo(
+            x,
+            H
+        );
+
+        ctx.stroke();
+    }
+
+    ctx.setLineDash([]);
+
+    /* moving road stripes */
+
+    ctx.strokeStyle=
+        "rgba(255,255,255,.13)";
+
+    ctx.lineWidth=5;
+
+    for(
+        let yy=y+perspectiveOffset;
+        yy<H;
+        yy+=100
+    ){
+
+        const p=
+            (yy-y)/(H-y);
+
+        const l=
+            left+60*p;
+
+        const r=
+            left+rw-60*p;
+
+        ctx.beginPath();
+
+        ctx.moveTo(l,yy);
+        ctx.lineTo(r,yy);
+
+        ctx.stroke();
+    }
+}
+
+/* =========================================================
+   OPPONENTS
+========================================================= */
+
+const names=[
+    "REX",
+    "MIA",
+    "JAX",
+    "NOVA",
+    "KAI"
+];
+
+function spawnOpponents(){
+
+    opponents=[];
+
+    for(let i=0;i<5;i++){
+
+        opponents.push({
+
+            name:names[i],
+
+            lane:i%3,
+
+            xLane:i%3,
+
+            y:
+                120+
+                Math.floor(i/3)*100,
+
+            speed:
+                320+
+                Math.random()*90,
+
+            color:i,
+
+            bumpTimer:0,
+
+            finished:false,
+
+            rival:
+                i===0
+
+        });
+    }
+}
+
+function drawOpponent(o){
+
+    const x=laneX(o.lane);
+    const y=o.y;
+
+    ctx.save();
+
+    ctx.translate(x,y);
+
+    /* board */
+
+    ctx.strokeStyle=
+        ["#ff3c91","#35ddd0","#ffd84d","#ff7135","#a875ff"]
+        [o.color];
+
+    ctx.lineWidth=7;
+
+    ctx.beginPath();
+
+    ctx.moveTo(-25,26);
+    ctx.lineTo(25,26);
+
+    ctx.stroke();
+
+    /* wheels */
+
+    ctx.fillStyle="#05050a";
+
+    ctx.beginPath();
+
+    ctx.arc(-17,34,5,0,Math.PI*2);
+    ctx.arc(17,34,5,0,Math.PI*2);
+
+    ctx.fill();
+
+    /* body */
+
+    ctx.fillStyle=
+        ["#ff557d","#35ddd0","#ffd84d","#ff7135","#a875ff"]
+        [o.color];
+
+    ctx.fillRect(
+        -12,-25,24,35
+    );
+
+    /* legs */
+
+    ctx.strokeStyle="#15121f";
+    ctx.lineWidth=7;
+
+    ctx.beginPath();
+
+    ctx.moveTo(-5,5);
+    ctx.lineTo(-14,26);
+
+    ctx.moveTo(5,5);
+    ctx.lineTo(14,26);
+
+    ctx.stroke();
+
+    /* head */
+
+    ctx.fillStyle="#e8b28e";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,-38,13,
+        0,Math.PI*2
+    );
+
+    ctx.fill();
+
+    /* hair */
+
+    ctx.fillStyle="#111";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,-43,13,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+
+    /* name */
+
+    ctx.font="bold 10px Arial";
+    ctx.textAlign="center";
+    ctx.fillStyle="white";
+
+    ctx.fillText(
+        o.name,
+        x,
+        y-58
+    );
+}
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+function playerGround(){
+
+    return H*.73;
+}
+
+function playerY(){
+
+    return playerGround()-
+        jumpHeight-
+        75;
+}
+
+function drawPlayer(){
+
+    const x=laneX(Math.round(lane));
+    const y=playerY();
+
+    ctx.save();
+
+    ctx.translate(
+        x,
+        y+37
+    );
+
+    let tilt=
+        (targetLane-lane)*.35;
+
+    if(!grounded){
+        tilt+=
+            Math.sin(
+                performance.now()/70
+            )*.08;
+    }
+
+    ctx.rotate(tilt);
+
+    /* boost flames */
+
+    if(boostActive){
+
+        ctx.fillStyle="#ffd84d";
+
+        ctx.beginPath();
+
+        ctx.moveTo(-13,32);
+        ctx.lineTo(-26,55);
+        ctx.lineTo(-7,39);
+
+        ctx.closePath();
+
+        ctx.fill();
+
+        ctx.fillStyle="#ff3c91";
+
+        ctx.beginPath();
+
+        ctx.moveTo(13,32);
+        ctx.lineTo(27,55);
+        ctx.lineTo(7,39);
+
+        ctx.closePath();
+
+        ctx.fill();
+    }
+
+    /* board */
+
+    ctx.strokeStyle="#ff3c91";
+    ctx.lineWidth=8;
+    ctx.lineCap="round";
+
+    ctx.beginPath();
+
+    ctx.moveTo(-29,29);
+    ctx.quadraticCurveTo(
+        0,37,29,29
+    );
+
+    ctx.stroke();
+
+    /* wheels */
+
+    ctx.fillStyle="#05050a";
+
+    ctx.beginPath();
+
+    ctx.arc(-19,37,6,0,Math.PI*2);
+    ctx.arc(19,37,6,0,Math.PI*2);
+
+    ctx.fill();
+
+    /* legs */
+
+    ctx.strokeStyle="#15121f";
+    ctx.lineWidth=8;
+
+    ctx.beginPath();
+
+    ctx.moveTo(-5,5);
+    ctx.lineTo(-15,28);
+
+    ctx.moveTo(6,5);
+    ctx.lineTo(15,28);
+
+    ctx.stroke();
+
+    /* body */
+
+    ctx.fillStyle="#35ddd0";
+
+    ctx.fillRect(
+        -14,-27,
+        28,36
+    );
+
+    /* arms */
+
+    ctx.strokeStyle="#e8b28e";
+    ctx.lineWidth=7;
+
+    ctx.beginPath();
+
+    ctx.moveTo(-10,-18);
+    ctx.lineTo(-28,-3);
+
+    ctx.moveTo(10,-18);
+    ctx.lineTo(28,-4);
+
+    ctx.stroke();
+
+    /* head */
+
+    ctx.fillStyle="#e8b28e";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,-41,14,
+        0,Math.PI*2
+    );
+
+    ctx.fill();
+
+    /* cap */
+
+    ctx.fillStyle="#ff3c91";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        2,-48,13,
+        Math.PI,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.fillRect(
+        2,-48,
+        19,5
+    );
+
+    /* trick board */
+
+    if(trickTime>0){
+
+        ctx.rotate(trickRotation);
+
+        ctx.strokeStyle="#ffd84d";
+        ctx.lineWidth=5;
+
+        ctx.beginPath();
+
+        ctx.moveTo(-30,26);
+        ctx.lineTo(30,26);
+
+        ctx.stroke();
+    }
+
+    ctx.restore();
+}
+
+/* =========================================================
+   OBSTACLES
+========================================================= */
+
+const obstacleTypes=[
+    "barrier",
+    "cone",
+    "rail",
+    "box",
+    "ramp",
+    "car"
+];
+
+function spawnObstacle(){
+
+    const type=
+        obstacleTypes[
+            Math.floor(
+                Math.random()*
+                obstacleTypes.length
+            )
+        ];
+
+    obstacles.push({
+
+        lane:
+            Math.floor(
+                Math.random()*3
+            ),
+
+        y:-80,
+
+        type,
+
+        hit:false
+    });
+}
+
+function drawObstacle(o){
+
+    const x=laneX(o.lane);
+    const y=o.y;
+
+    ctx.save();
+
+    if(o.type==="barrier"){
+
+        ctx.fillStyle="#ff3c91";
+
+        ctx.fillRect(
+            x-36,y,
+            72,25
+        );
+
+        ctx.fillStyle="#ffd84d";
+
+        ctx.fillRect(
+            x-27,y+6,
+            13,7
+        );
+
+        ctx.fillRect(
+            x-3,y+6,
+            13,7
+        );
+
+        ctx.fillRect(
+            x+21,y+6,
+            13,7
+        );
+    }
+
+    if(o.type==="cone"){
+
+        ctx.fillStyle="#ff6b35";
+
+        ctx.beginPath();
+
+        ctx.moveTo(x,y);
+        ctx.lineTo(x-27,y+55);
+        ctx.lineTo(x+27,y+55);
+
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle="white";
+
+        ctx.fillRect(
+            x-15,y+29,
+            30,7
+        );
+    }
+
+    if(o.type==="rail"){
+
+        ctx.strokeStyle="#ddd";
+        ctx.lineWidth=7;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x-48,y+30
+        );
+
+        ctx.lineTo(
+            x+48,y+30
+        );
+
+        ctx.stroke();
+
+        ctx.lineWidth=5;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x-35,y+30
+        );
+
+        ctx.lineTo(
+            x-25,y+55
+        );
+
+        ctx.moveTo(
+            x+35,y+30
+        );
+
+        ctx.lineTo(
+            x+25,y+55
+        );
+
+        ctx.stroke();
+    }
+
+    if(o.type==="box"){
+
+        ctx.fillStyle="#7745a8";
+
+        ctx.fillRect(
+            x-35,y+10,
+            70,45
+        );
+
+        ctx.fillStyle="#ffd84d";
+
+        ctx.fillRect(
+            x-30,y+16,
+            60,6
+        );
+    }
+
+    if(o.type==="ramp"){
+
+        ctx.fillStyle="#ff3c91";
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x-45,y+55
+        );
+
+        ctx.lineTo(
+            x+45,y+55
+        );
+
+        ctx.lineTo(
+            x+45,y+35
+        );
+
+        ctx.quadraticCurveTo(
+            x+15,y,
+            x-45,y+55
+        );
+
+        ctx.closePath();
+
+        ctx.fill();
+    }
+
+    if(o.type==="car"){
+
+        ctx.fillStyle="#35ddd0";
+
+        ctx.fillRect(
+            x-35,y+8,
+            70,45
+        );
+
+        ctx.fillStyle="#111";
+
+        ctx.fillRect(
+            x-22,y-4,
+            44,22
+        );
+
+        ctx.fillStyle="#ffd84d";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x-24,y+52,
+            7,0,Math.PI*2
+        );
+
+        ctx.arc(
+            x+24,y+52,
+            7,0,Math.PI*2
+        );
+
+        ctx.fill();
+    }
+
+    ctx.restore();
+}
+
+/* =========================================================
+   COINS
+========================================================= */
+
+function spawnCoin(){
+
+    coins.push({
+
+        lane:
+            Math.floor(
+                Math.random()*3
+            ),
+
+        y:-30,
+
+        spin:0,
+
+        collected:false
+    });
+}
+
+function drawCoin(c){
+
+    const x=laneX(c.lane);
+
+    ctx.save();
+
+    ctx.translate(x,c.y);
+
+    ctx.scale(
+        Math.abs(Math.cos(c.spin))*.7+.3,
+        1
+    );
+
+    ctx.fillStyle="#ffd84d";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        0,0,18,
+        0,Math.PI*2
+    );
+
+    ctx.fill();
+
+    ctx.strokeStyle="#fff";
+    ctx.lineWidth=3;
+    ctx.stroke();
+
+    ctx.fillStyle="#8d6112";
+    ctx.font="bold 17px Arial";
+    ctx.textAlign="center";
+
+    ctx.fillText(
+        "$",
+        0,
+        6
+    );
+
+    ctx.restore();
+}
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+function particlesBurst(
+    x,y,
+    amount=12
+){
+
+    for(let i=0;i<amount;i++){
+
+        particles.push({
+
+            x,
+            y,
+
+            vx:
+                (Math.random()-.5)*
+                400,
+
+            vy:
+                (Math.random()-.5)*
+                400,
+
+            life:
+                .3+
+                Math.random()*.5,
+
+            size:
+                2+
+                Math.random()*5
+        });
+    }
+}
+
+function updateParticles(dt){
+
+    for(let i=particles.length-1;i>=0;i--){
+
+        const p=particles[i];
+
+        p.x+=p.vx*dt;
+        p.y+=p.vy*dt;
+
+        p.vy+=500*dt;
+
+        p.life-=dt;
+
+        if(p.life<=0){
+            particles.splice(i,1);
+        }
+    }
+}
+
+function drawParticles(){
+
+    for(const p of particles){
+
+        ctx.globalAlpha=
+            Math.max(0,p.life/.8);
+
+        ctx.fillStyle="#ffd84d";
+
+        ctx.fillRect(
+            p.x,
+            p.y,
+            p.size,
+            p.size
+        );
+    }
+
+    ctx.globalAlpha=1;
+}
+
+/* =========================================================
+   PLAYER COLLISION
+========================================================= */
+
+function playerRect(){
+
+    return{
+
+        x:
+            laneX(Math.round(lane))-22,
+
+        y:playerY(),
+
+        width:44,
+
+        height:73
+    };
+}
+
+function obstacleRect(o){
+
+    return{
+
+        x:
+            laneX(o.lane)-35,
+
+        y:o.y,
+
+        width:70,
+
+        height:60
+    };
+}
+
+function touch(a,b){
+
+    return(
+        a.x<b.x+b.width&&
+        a.x+a.width>b.x&&
+        a.y<b.y+b.height&&
+        a.y+a.height>b.y
+    );
+}
+
+/* =========================================================
+   JUMP
+========================================================= */
+
+function jump(){
+
+    if(!running||paused)return;
+
+    if(!grounded)return;
+
+    grounded=false;
+
+    jumpHeight=1;
+
+    jumpVelocity=720;
+
+    sJump();
+
+    particlesBurst(
+        laneX(Math.round(lane)),
+        playerGround(),
+        8
+    );
+}
+
+/* =========================================================
+   LANE MOVEMENT
+========================================================= */
+
+function left(){
+
+    if(!running||paused)return;
+
+    targetLane=
+        Math.max(
+            0,
+            targetLane-1
+        );
+}
+
+function right(){
+
+    if(!running||paused)return;
+
+    targetLane=
+        Math.min(
+            2,
+            targetLane+1
+        );
+}
+
+/* =========================================================
+   TRICK / BUMP
+========================================================= */
+
+function action(){
+
+    if(!running||paused)return;
+
+    /* first check nearby rival */
+
+    let bumped=false;
+
+    for(const o of opponents){
+
+        if(
+            Math.abs(o.lane-
+                Math.round(lane))<=0&&
+            Math.abs(o.y-playerY())<80&&
+            bumpCooldown<=0
+        ){
+
+            const stats=getStats();
+
+            o.speed-=
+                70+
+                stats.bump*16;
+
+            o.y+=30;
+
+            o.bumpTimer=.45;
+
+            score+=
+                120+
+                stats.bump*15;
+
+            boost=
+                Math.min(
+                    100,
+                    boost+8
+                );
+
+            bumpCooldown=.7;
+
+            bumped=true;
+
+            sBump();
+
+            particlesBurst(
+                laneX(o.lane),
+                o.y+20,
+                18
+            );
+
+            showTrick(
+                "BUMP!"
+            );
+
+            break;
+        }
+    }
+
+    if(bumped)return;
+
+    /* trick */
+
+    if(jumpHeight>30){
+
+        trickTime=.6;
+
+        trickRotation+=
+            Math.PI*2;
+
+        score+=250;
+
+        boost=
+            Math.min(
+                100,
+                boost+7
+            );
+
+        sTrick();
+
+        showTrick(
+            selectedMode==="trick"
+            ?"BIG TRICK!"
+            :"KICKFLIP!"
+        );
+
+        particlesBurst(
+            laneX(Math.round(lane)),
+            playerY()+30,
+            15
+        );
+    }
+}
+
+function showTrick(text){
+
+    const el=
+        document.getElementById("trickText");
+
+    el.textContent=text;
+
+    el.classList.remove("show");
+
+    void el.offsetWidth;
+
+    el.classList.add("show");
+}
+
+/* =========================================================
+   BOOST
+========================================================= */
+
+function useBoost(){
+
+    if(!running||paused)return;
+
+    if(boost<=10)return;
+
+    if(boostActive)return;
+
+    boostActive=true;
+
+    boostTimer=
+        1.2+
+        getStats().boost*.08;
+
+    boost=0;
+
+    sBoost();
+
+    particlesBurst(
+        laneX(Math.round(lane)),
+        playerGround(),
+        25
+    );
+}
+
+/* =========================================================
+   POSITION
+========================================================= */
+
+function getPosition(){
+
+    const racers=[
+        {
+            distance:distance,
+            player:true
+        }
+    ];
+
+    for(const o of opponents){
+
+        racers.push({
+            distance:
+                Math.max(
+                    0,
+                    raceLength-
+                    Math.max(
+                        0,
+                        o.y
+                    )
+                ),
+            player:false
+        });
+    }
+
+    racers.sort(
+        (a,b)=>
+            b.distance-
+            a.distance
+    );
+
+    const index=
+        racers.findIndex(
+            x=>x.player
+        );
+
+    return index+1;
+}
+
+/* =========================================================
+   START RACE
+========================================================= */
+
+function startRace(){
+
+    initAudio();
+
+    running=true;
+    paused=false;
+    finished=false;
+
+    score=0;
+    distance=0;
+
+    boost=30;
+
+    lane=1;
+    targetLane=1;
+
+    jumpHeight=0;
+    jumpVelocity=0;
+    grounded=true;
+
+    trickTime=0;
+    trickRotation=0;
+
+    boostActive=false;
+    boostTimer=0;
+
+    bumpCooldown=0;
+
+    speed=390;
+
+    spawnTimer=.5;
+    coinTimer=.6;
+
+    roadOffset=0;
+
+    obstacles=[];
+    coins=[];
+    particles=[];
+
+    spawnOpponents();
+
+    document.getElementById("menu")
+        .style.display="none";
+
+    document.getElementById("pause")
+        .style.display="none";
+
+    document.getElementById("gameOver")
+        .style.display="none";
+
+    document.getElementById("hud")
+        .style.display="block";
+
+    document.getElementById("mobile")
+        .style.display=
+        innerWidth<800
+        ?"flex":"none";
+
+    sStart();
+
+    startRollSound();
+
+    lastTime=performance.now();
+}
+
+/* =========================================================
+   UPDATE
+========================================================= */
+
+function update(dt){
+
+    updateParticles(dt);
+    updateRollSound();
+
+    if(!running||paused||finished){
+        return;
+    }
+
+    const stats=getStats();
+
+    /* base speed */
+
+    const targetSpeed=
+        330+
+        stats.speed*30+
+        Math.min(
+            160,
+            distance*.025
+        );
+
+    currentSpeed+=
+        (targetSpeed-currentSpeed)*
+        dt*2;
+
+    /* boost */
+
+    if(boostActive){
+
+        boostTimer-=dt;
+
+        currentSpeed+=
+            400*dt;
+
+        if(boostTimer<=0){
+            boostActive=false;
+        }
+
+        particlesBurst(
+            laneX(Math.round(lane)),
+            playerGround()+20,
+            2
+        );
+    }
+
+    distance+=
+        currentSpeed*
+        dt*.11;
+
+    roadOffset+=
+        currentSpeed*
+        dt;
+
+    score+=
+        dt*
+        currentSpeed*
+        .055;
+
+    /* control */
+
+    const controlSpeed=
+        8+
+        stats.control*.35;
+
+    lane+=
+        (targetLane-lane)*
+        Math.min(
+            1,
+            controlSpeed*dt
+        );
+
+    /* jump */
+
+    if(!grounded){
+
+        jumpVelocity-=
+            1750*dt;
+
+        jumpHeight+=
+            jumpVelocity*dt;
+
+        if(jumpHeight<=0){
+
+            jumpHeight=0;
+
+            jumpVelocity=0;
+
+            grounded=true;
+
+            sLand();
+
+            particlesBurst(
+                laneX(Math.round(lane)),
+                playerGround(),
+                7
+            );
+        }
+    }
+
+    if(trickTime>0){
+
+        trickTime-=dt;
+
+        trickRotation+=
+            dt*20;
+    }
+
+    if(bumpCooldown>0){
+        bumpCooldown-=dt;
+    }
+
+    /* spawn obstacles */
+
+    spawnTimer-=dt;
+
+    if(spawnTimer<=0){
+
+        spawnObstacle();
+
+        let interval=
+            selectedMode==="chaos"
+            ?Math.max(.35,1.0-distance/3000)
+            :Math.max(.55,1.25-distance/3000);
+
+        spawnTimer=
+            interval+
+            Math.random()*.3;
+    }
+
+    /* coins */
+
+    coinTimer-=dt;
+
+    if(coinTimer<=0){
+
+        spawnCoin();
+
+        coinTimer=
+            .45+
+            Math.random()*.6;
+    }
+
+    /* obstacles */
+
+    const p=playerRect();
+
+    for(
+        let i=obstacles.length-1;
+        i>=0;
+        i--
+    ){
+
+        const o=obstacles[i];
+
+        o.y+=
+            currentSpeed*
+            dt;
+
+        if(!o.hit){
+
+            const r=
+                obstacleRect(o);
+
+            if(
+                touch(p,r)&&
+                jumpHeight<65
+            ){
+
+                if(
+                    o.type==="ramp"
+                ){
+
+                    jumpHeight=80;
+                    jumpVelocity=650;
+
+                    score+=100;
+                    boost=
+                        Math.min(
+                            100,
+                            boost+10
+                        );
+
+                    sJump();
+
+                    particlesBurst(
+                        laneX(o.lane),
+                        o.y,
+                        15
+                    );
+
+                    o.hit=true;
+
+                }else{
+
+                    currentSpeed*=.45;
+
+                    score=Math.max(
+                        0,
+                        score-150
+                    );
+
+                    shake=12;
+
+                    sCrash();
+
+                    particlesBurst(
+                        laneX(o.lane),
+                        o.y,
+                        25
+                    );
+
+                    o.hit=true;
+                }
+            }
+        }
+
+        if(o.y>H+100){
+            obstacles.splice(i,1);
+        }
+    }
+
+    /* coins */
+
+    for(
+        let i=coins.length-1;
+        i>=0;
+        i--
+    ){
+
+        const c=coins[i];
+
+        c.y+=
+            currentSpeed*
+            dt;
+
+        c.spin+=dt*10;
+
+        const r={
+            x:laneX(c.lane)-20,
+            y:c.y-20,
+            width:40,
+            height:40
+        };
+
+        if(
+            !c.collected&&
+            touch(p,r)
+        ){
+
+            c.collected=true;
+
+            score+=100;
+
+            boost=
+                Math.min(
+                    100,
+                    boost+5
+                );
+
+            coinsTotal++;
+
+            localStorage.setItem(
+                "moiCyRushCoins",
+                coinsTotal
+            );
+
+            sCoin();
+
+            particlesBurst(
+                laneX(c.lane),
+                c.y,
+                12
+            );
+        }
+
+        if(
+            c.collected||
+            c.y>H+70
+        ){
+
+            coins.splice(i,1);
+        }
+    }
+
+    /* opponents */
+
+    for(const o of opponents){
+
+        o.y+=
+            (o.speed-currentSpeed*.7)*
+            dt;
+
+        if(o.y>H+100){
+            o.y=-80;
+            o.lane=
+                Math.floor(
+                    Math.random()*3
+                );
+        }
+
+        if(o.bumpTimer>0){
+            o.bumpTimer-=dt;
+        }
+
+        /* AI lane movement */
+
+        if(
+            Math.random()<dt*.8
+        ){
+
+            o.lane=
+                Math.max(
+                    0,
+                    Math.min(
+                        2,
+                        o.lane+
+                        (Math.random()<.5?-1:1)
+                    )
+                );
+        }
+    }
+
+    /* finish */
+
+    if(distance>=raceLength){
+
+        finishRace();
+    }
+
+    updateHUD();
+}
+
+/* =========================================================
+   HUD
+========================================================= */
+
+function updateHUD(){
+
+    document.getElementById("scoreHud")
+        .textContent=
+        Math.floor(score)
+        .toLocaleString("de-DE");
+
+    document.getElementById("speedHud")
+        .textContent=
+        Math.floor(currentSpeed/4);
+
+    document.getElementById("raceHud")
+        .textContent=
+        Math.min(
+            raceLength,
+            Math.floor(distance)
+        )+
+        "/"+
+        raceLength;
+
+    const pos=getPosition();
+
+    document.getElementById("position")
+        .textContent=
+        pos+".";
+
+    document.getElementById("boostFill")
+        .style.width=
+        Math.round(boost)+"%";
+
+    document.getElementById("boostPercent")
+        .textContent=
+        Math.round(boost)+"%";
+}
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+function finishRace(){
+
+    if(finished)return;
+
+    finished=true;
+    running=false;
+
+    sFinish();
+
+    const position=
+        getPosition();
+
+    const final=
+        Math.floor(score);
+
+    const isRecord=
+        final>record;
+
+    if(isRecord){
+
+        record=final;
+
+        localStorage.setItem(
+            "moiCyRushRecord",
+            record
+        );
+    }
+
+    document.getElementById("finalPosition")
+        .textContent=
+        position+".";
+
+    document.getElementById("finalScore")
+        .textContent=
+        final.toLocaleString("de-DE");
+
+    document.getElementById("recordText")
+        .classList.toggle(
+            "hidden",
+            !isRecord
+        );
+
+    document.getElementById("overTitle")
+        .textContent=
+        position===1
+        ?"🏆 WINNER!"
+        :"FINISH!";
+
+    document.getElementById("gameOver")
+        .style.display="flex";
+
+    document.getElementById("hud")
+        .style.display="none";
+
+    document.getElementById("mobile")
+        .style.display="none";
+}
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+function pauseGame(){
+
+    if(!running||finished)return;
+
+    paused=true;
+
+    document.getElementById("pause")
+        .style.display="flex";
+}
+
+function resumeGame(){
+
+    paused=false;
+
+    document.getElementById("pause")
+        .style.display="none";
+
+    lastTime=performance.now();
+}
+
+function mainMenu(){
+
+    running=false;
+    paused=false;
+    finished=false;
+
+    document.getElementById("menu")
+        .style.display="flex";
+
+    document.getElementById("pause")
+        .style.display="none";
+
+    document.getElementById("gameOver")
+        .style.display="none";
+
+    document.getElementById("hud")
+        .style.display="none";
+
+    document.getElementById("mobile")
+        .style.display="none";
+
+    updateStatsUI();
+}
+
+/* =========================================================
+   DRAW
+========================================================= */
+
+function draw(){
+
+    ctx.save();
+
+    if(shake>0){
+
+        ctx.translate(
+            (Math.random()-.5)*shake,
+            (Math.random()-.5)*shake
+        );
+
+        shake-=.5;
+
+        if(shake<0)shake=0;
+    }
+
+    ctx.clearRect(
+        0,0,W,H
+    );
+
+    drawBackground();
+    drawRoad();
+
+    for(const c of coins){
+        drawCoin(c);
+    }
+
+    for(const o of obstacles){
+        drawObstacle(o);
+    }
+
+    /* opponents */
+
+    for(const o of opponents){
+        drawOpponent(o);
+    }
+
+    drawPlayer();
+    drawParticles();
+
+    ctx.restore();
+}
+
+/* =========================================================
+   GAME LOOP
+========================================================= */
+
+function loop(time){
+
+    const dt=
+        Math.min(
+            .035,
+            (time-lastTime)/1000||0
+        );
+
+    lastTime=time;
+
+    update(dt);
+    draw();
+
+    requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    e=>{
+
+        if(
+            ["Space","ArrowUp","ArrowDown",
+             "ArrowLeft","ArrowRight"].includes(e.code)
+        ){
+            e.preventDefault();
+        }
+
+        initAudio();
+
+        if(e.code==="Escape"){
+
+            if(
+                audioScreen.style.display==="flex"
+            ){
+
+                audioScreen.style.display="none";
+                return;
+            }
+
+            if(
+                document.getElementById("gameOver")
+                .style.display==="flex"
+            ){
+                return;
+            }
+
+            if(running){
+
+                if(paused){
+                    resumeGame();
+                }else{
+                    pauseGame();
+                }
+            }
+
+            return;
+        }
+
+        if(e.code==="ArrowLeft"||
+           e.code==="KeyA"){
+
+            left();
+        }
+
+        if(e.code==="ArrowRight"||
+           e.code==="KeyD"){
+
+            right();
+        }
+
+        if(
+            e.code==="Space"||
+            e.code==="ArrowUp"
+        ){
+
+            jump();
+        }
+
+        if(e.code==="KeyF"){
+
+            action();
+        }
+
+        if(
+            e.code==="ShiftLeft"||
+            e.code==="ShiftRight"
+        ){
+
+            useBoost();
+        }
+
+        if(e.code==="KeyR"){
+
+            if(running||
+               finished||
+               document.getElementById("gameOver")
+               .style.display==="flex"
+            ){
+
+                startRace();
+            }
+        }
+    }
+);
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+document.getElementById("playBtn")
+    .onclick=()=>{
+        startRace();
+    };
+
+document.getElementById("pauseButton")
+    .onclick=()=>{
+        pauseGame();
+    };
+
+document.getElementById("continueBtn")
+    .onclick=()=>{
+        resumeGame();
+    };
+
+document.getElementById("restartRaceBtn")
+    .onclick=()=>{
+        startRace();
+    };
+
+document.getElementById("pauseMenuBtn")
+    .onclick=()=>{
+        mainMenu();
+    };
+
+document.getElementById("againBtn")
+    .onclick=()=>{
+        startRace();
+    };
+
+document.getElementById("overMenuBtn")
+    .onclick=()=>{
+        mainMenu();
+    };
+
+/* =========================================================
+   MOBILE CONTROLS
+========================================================= */
+
+function mobile(id,fn){
+
+    const el=
+        document.getElementById(id);
+
+    el.addEventListener(
+        "pointerdown",
+        e=>{
+
+            e.preventDefault();
+
+            initAudio();
+
+            fn();
+        }
+    );
+}
+
+mobile("left",left);
+mobile("right",right);
+mobile("jump",jump);
+mobile("action",action);
+mobile("boost",useBoost);
+
+/* =========================================================
+   AUDIO UNLOCK
+========================================================= */
+
+document.addEventListener(
+    "pointerdown",
+    ()=>{
+        initAudio();
+    },
+    {once:true}
+);
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+updateStatsUI();
+updateHUD();
+
+</script>
+
+</body>
+</html>
