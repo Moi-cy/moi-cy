@@ -2,460 +2,516 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Moi-cy Skate</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #111;
-    color: white;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:#fff;
+    user-select:none;
 }
 
-body {
-    user-select: none;
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
 }
 
-canvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-}
+/* ================= MENU ================= */
 
-/* =========================
-   START MENU
-========================= */
-
-#menu {
-    position: fixed;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.screen{
+    position:fixed;
+    inset:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
     background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,.3), transparent 25%),
-        linear-gradient(135deg, #ff4d9d, #ff7b35 45%, #ffd84d 75%, #37e0d0);
+        radial-gradient(circle at 15% 20%,rgba(255,255,255,.3),transparent 25%),
+        linear-gradient(135deg,#ff4d9d,#ff783d 45%,#ffd84d 75%,#35ddd0);
+    backdrop-filter:blur(8px);
 }
 
-.menu-card {
-    width: min(520px, 94vw);
-    padding: 34px 28px;
-    border: 4px solid white;
-    border-radius: 30px;
-    background: rgba(20, 10, 45, .82);
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.4),
-        0 0 50px rgba(255,255,255,.15);
-    text-align: center;
-    backdrop-filter: blur(12px);
+.card{
+    width:min(520px,94vw);
+    padding:32px 26px;
+    border:4px solid #fff;
+    border-radius:30px;
+    background:rgba(20,10,45,.86);
+    box-shadow:0 25px 70px rgba(0,0,0,.45);
+    text-align:center;
 }
 
-.logo {
-    font-size: clamp(52px, 13vw, 90px);
-    line-height: .85;
-    font-weight: 1000;
-    font-style: italic;
-    letter-spacing: -7px;
-    color: white;
+.logo{
+    font-size:clamp(55px,14vw,92px);
+    line-height:.85;
+    font-weight:1000;
+    font-style:italic;
+    letter-spacing:-7px;
+    transform:skew(-8deg);
     text-shadow:
         5px 5px 0 #ff3c91,
-        9px 9px 0 #17122e;
-    transform: skew(-8deg);
+        9px 9px 0 #08051b;
 }
 
-.logo-sub {
-    margin-top: 14px;
-    font-size: 15px;
-    font-weight: 900;
-    letter-spacing: 5px;
-    color: #ffd84d;
+.logoSub{
+    margin-top:15px;
+    color:#ffd84d;
+    font-size:14px;
+    font-weight:1000;
+    letter-spacing:5px;
 }
 
-.menu-description {
-    margin: 25px 0;
-    line-height: 1.6;
-    color: #eee;
+.description{
+    margin:24px 0;
+    color:#eee;
+    line-height:1.55;
 }
 
-.start-btn {
-    width: 100%;
-    padding: 18px;
-    border: 0;
-    border-radius: 17px;
-    background: linear-gradient(135deg, #ff3c91, #ff6b35);
-    color: white;
-    font-size: 21px;
-    font-weight: 1000;
-    cursor: pointer;
-    box-shadow: 0 8px 0 #a81f58;
-    transition: transform .1s;
+.bigBtn{
+    width:100%;
+    border:0;
+    border-radius:16px;
+    padding:17px;
+    background:linear-gradient(135deg,#ff3c91,#ff6b35);
+    color:#fff;
+    font-size:20px;
+    font-weight:1000;
+    cursor:pointer;
+    box-shadow:0 7px 0 #9e2055;
 }
 
-.start-btn:active {
-    transform: translateY(5px);
-    box-shadow: 0 3px 0 #a81f58;
+.bigBtn:active{
+    transform:translateY(5px);
+    box-shadow:0 2px 0 #9e2055;
 }
 
-.menu-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
+.buttonRow{
+    display:flex;
+    gap:9px;
+    margin-top:12px;
 }
 
-.menu-small {
-    flex: 1;
-    padding: 13px 8px;
-    border: 2px solid rgba(255,255,255,.3);
-    border-radius: 13px;
-    background: rgba(255,255,255,.08);
-    color: white;
-    font-weight: 800;
-    cursor: pointer;
+.smallBtn{
+    flex:1;
+    padding:13px 7px;
+    border:2px solid rgba(255,255,255,.3);
+    border-radius:13px;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-weight:900;
+    cursor:pointer;
 }
 
-.controls {
-    margin-top: 22px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    text-align: left;
-    font-size: 13px;
-    color: #ddd;
+.highscore{
+    margin-top:18px;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,216,77,.12);
+    color:#ffd84d;
+    font-weight:1000;
 }
 
-.control {
-    padding: 10px;
-    border-radius: 10px;
-    background: rgba(255,255,255,.07);
+.controls{
+    margin-top:17px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    text-align:left;
+    font-size:12px;
+    color:#ddd;
 }
 
-kbd {
-    display: inline-block;
-    padding: 3px 7px;
-    border-radius: 5px;
-    background: #fff;
-    color: #17122e;
-    font-weight: 1000;
-    margin-right: 4px;
+.control{
+    padding:9px;
+    border-radius:9px;
+    background:rgba(255,255,255,.06);
 }
 
-/* =========================
-   SETTINGS
-========================= */
-
-#settings {
-    position: fixed;
-    inset: 0;
-    z-index: 30;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(8,5,25,.75);
-    backdrop-filter: blur(10px);
+kbd{
+    padding:3px 6px;
+    border-radius:5px;
+    background:#fff;
+    color:#17122e;
+    font-weight:1000;
 }
 
-.settings-card {
-    width: min(440px, 94vw);
-    padding: 28px;
-    border-radius: 25px;
-    background: #19122e;
-    border: 3px solid white;
-    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+/* ================= AUDIO ================= */
+
+#settings{
+    display:none;
+    z-index:60;
+    background:rgba(8,5,25,.78);
 }
 
-.settings-card h2 {
-    font-size: 30px;
-    margin-bottom: 22px;
+.settingsCard{
+    width:min(440px,94vw);
+    padding:28px;
+    border:3px solid white;
+    border-radius:25px;
+    background:#19122e;
+    box-shadow:0 25px 70px rgba(0,0,0,.5);
 }
 
-.setting-row {
-    margin-bottom: 20px;
+.settingsCard h2{
+    margin-bottom:22px;
+    font-size:30px;
 }
 
-.setting-title {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-weight: 900;
+.setting{
+    margin-bottom:19px;
 }
 
-input[type="range"] {
-    width: 100%;
-    accent-color: #ff3c91;
+.settingTitle{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-weight:900;
 }
 
-.toggle-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 13px;
-    margin-bottom: 9px;
-    border-radius: 12px;
-    background: rgba(255,255,255,.07);
-    font-weight: 800;
+input[type=range]{
+    width:100%;
+    accent-color:#ff3c91;
 }
 
-.toggle {
-    width: 52px;
-    height: 29px;
-    border-radius: 30px;
-    background: #555;
-    padding: 3px;
-    cursor: pointer;
+.toggleRow{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:11px;
+    background:rgba(255,255,255,.07);
+    font-weight:900;
 }
 
-.toggle::after {
-    content: "";
-    display: block;
-    width: 23px;
-    height: 23px;
-    border-radius: 50%;
-    background: white;
-    transition: transform .2s;
+.toggle{
+    width:52px;
+    height:29px;
+    padding:3px;
+    border-radius:30px;
+    background:#555;
+    cursor:pointer;
 }
 
-.toggle.active {
-    background: #ff3c91;
+.toggle:after{
+    content:"";
+    display:block;
+    width:23px;
+    height:23px;
+    border-radius:50%;
+    background:#fff;
+    transition:.2s;
 }
 
-.toggle.active::after {
-    transform: translateX(23px);
+.toggle.active{
+    background:#ff3c91;
 }
 
-.close-settings {
-    width: 100%;
-    margin-top: 10px;
-    padding: 13px;
-    border: 0;
-    border-radius: 12px;
-    background: white;
-    color: #19122e;
-    font-weight: 1000;
-    cursor: pointer;
+.toggle.active:after{
+    transform:translateX(23px);
 }
 
-/* =========================
-   HUD
-========================= */
-
-#hud {
-    position: fixed;
-    inset: 0;
-    z-index: 5;
-    pointer-events: none;
-    display: none;
+.closeBtn{
+    width:100%;
+    margin-top:8px;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    background:#fff;
+    color:#19122e;
+    font-weight:1000;
+    cursor:pointer;
 }
 
-.hud-top {
-    display: flex;
-    justify-content: space-between;
-    padding: 18px;
+/* ================= HUD ================= */
+
+#hud{
+    position:fixed;
+    inset:0;
+    z-index:10;
+    pointer-events:none;
+    display:none;
 }
 
-.hud-box {
-    min-width: 100px;
-    padding: 10px 15px;
-    border: 2px solid rgba(255,255,255,.7);
-    border-radius: 14px;
-    background: rgba(18,10,40,.65);
-    backdrop-filter: blur(7px);
-    box-shadow: 0 5px 20px rgba(0,0,0,.2);
+.hudTop{
+    display:flex;
+    justify-content:space-between;
+    padding:14px;
 }
 
-.hud-label {
-    font-size: 10px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    opacity: .7;
+.hudBox{
+    min-width:92px;
+    padding:8px 12px;
+    border:2px solid rgba(255,255,255,.65);
+    border-radius:13px;
+    background:rgba(18,10,40,.65);
+    backdrop-filter:blur(7px);
 }
 
-.hud-value {
-    font-size: 24px;
-    font-weight: 1000;
+.hudLabel{
+    font-size:9px;
+    font-weight:1000;
+    letter-spacing:2px;
+    opacity:.7;
 }
 
-#comboBox {
-    position: fixed;
-    top: 105px;
-    left: 50%;
-    transform: translateX(-50%) scale(.7);
-    opacity: 0;
-    font-size: clamp(25px, 7vw, 55px);
-    font-weight: 1000;
-    font-style: italic;
-    color: #ffd84d;
+.hudValue{
+    font-size:21px;
+    font-weight:1000;
+}
+
+#pauseButton{
+    position:fixed;
+    top:14px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:12;
+    pointer-events:auto;
+    width:46px;
+    height:46px;
+    border:2px solid rgba(255,255,255,.7);
+    border-radius:13px;
+    background:rgba(18,10,40,.7);
+    color:#fff;
+    font-size:19px;
+    cursor:pointer;
+}
+
+#comboBox{
+    position:fixed;
+    top:95px;
+    left:50%;
+    transform:translateX(-50%) scale(.7);
+    opacity:0;
+    font-size:clamp(25px,7vw,55px);
+    font-weight:1000;
+    font-style:italic;
+    color:#ffd84d;
+    white-space:nowrap;
     text-shadow:
         3px 3px 0 #ff3c91,
         6px 6px 0 #17122e;
-    transition: .2s;
-    white-space: nowrap;
+    transition:.2s;
 }
 
-#comboBox.show {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
+#comboBox.show{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
 }
 
-#trickPopup {
-    position: fixed;
-    top: 180px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 28px;
-    font-weight: 1000;
-    color: white;
-    text-shadow: 3px 3px 0 #17122e;
-    opacity: 0;
-    pointer-events: none;
+#trickPopup{
+    position:fixed;
+    top:165px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:28px;
+    font-weight:1000;
+    opacity:0;
+    pointer-events:none;
+    text-shadow:3px 3px 0 #17122e;
 }
 
-#trickPopup.show {
-    animation: popup .8s ease-out;
+#trickPopup.show{
+    animation:trick .8s ease-out;
 }
 
-@keyframes popup {
-    0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(25px) scale(.5) rotate(-5deg);
+@keyframes trick{
+    0%{
+        opacity:0;
+        transform:translateX(-50%) translateY(25px) scale(.5);
     }
-    25% {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0) scale(1.2) rotate(3deg);
+    25%{
+        opacity:1;
+        transform:translateX(-50%) translateY(0) scale(1.2);
     }
-    100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-45px) scale(1);
+    100%{
+        opacity:0;
+        transform:translateX(-50%) translateY(-45px) scale(1);
     }
 }
 
-/* =========================
-   GAME OVER
-========================= */
+/* ================= PAUSE ================= */
 
-#gameOver {
-    position: fixed;
-    inset: 0;
-    z-index: 25;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(10,5,25,.65);
-    backdrop-filter: blur(8px);
+#pauseScreen{
+    display:none;
+    z-index:40;
 }
 
-.gameover-card {
-    width: min(430px, 92vw);
-    padding: 32px;
-    text-align: center;
-    border: 3px solid white;
-    border-radius: 25px;
-    background: #19122e;
+.pauseCard{
+    width:min(400px,92vw);
+    padding:30px;
+    border:3px solid white;
+    border-radius:25px;
+    background:#19122e;
+    text-align:center;
 }
 
-.gameover-card h2 {
-    font-size: 48px;
-    color: #ff4d9d;
-    font-style: italic;
+.pauseCard h2{
+    font-size:45px;
+    font-style:italic;
+    color:#ffd84d;
+    margin-bottom:22px;
 }
 
-.final-score {
-    margin: 20px 0;
-    font-size: 30px;
-    font-weight: 1000;
+.pauseCard button{
+    width:100%;
+    margin-top:9px;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    font-weight:1000;
+    cursor:pointer;
 }
 
-.restart-btn {
-    width: 100%;
-    padding: 15px;
-    border: 0;
-    border-radius: 13px;
-    background: #ffd84d;
-    color: #19122e;
-    font-size: 18px;
-    font-weight: 1000;
-    cursor: pointer;
+.resume{
+    background:#ff3c91;
+    color:#fff;
 }
 
-/* =========================
-   MOBILE CONTROLS
-========================= */
-
-#mobileControls {
-    position: fixed;
-    inset: auto 0 18px 0;
-    z-index: 10;
-    display: none;
-    justify-content: space-between;
-    padding: 0 18px;
-    pointer-events: none;
+.restart{
+    background:#ffd84d;
+    color:#19122e;
 }
 
-.mobile-group {
-    display: flex;
-    gap: 10px;
-    pointer-events: auto;
+.pauseMenu{
+    background:#fff;
+    color:#19122e;
 }
 
-.mobile-btn {
-    width: 62px;
-    height: 62px;
-    border-radius: 18px;
-    border: 2px solid rgba(255,255,255,.7);
-    background: rgba(20,10,40,.7);
-    color: white;
-    font-size: 24px;
-    font-weight: 1000;
-    backdrop-filter: blur(8px);
-    touch-action: manipulation;
+/* ================= GAME OVER ================= */
+
+#gameOver{
+    display:none;
+    z-index:50;
+    background:rgba(10,5,25,.68);
 }
 
-.mobile-btn:active {
-    transform: scale(.9);
-    background: #ff3c91;
+.gameOverCard{
+    width:min(430px,92vw);
+    padding:30px;
+    border:3px solid white;
+    border-radius:25px;
+    background:#19122e;
+    text-align:center;
 }
 
-@media (max-width: 800px) {
-    #mobileControls {
-        display: flex;
+.gameOverCard h2{
+    font-size:47px;
+    color:#ff4d9d;
+    font-style:italic;
+}
+
+.finalScore{
+    margin:18px 0;
+    font-size:30px;
+    font-weight:1000;
+}
+
+.newRecord{
+    display:none;
+    margin-bottom:15px;
+    color:#ffd84d;
+    font-size:20px;
+    font-weight:1000;
+}
+
+.gameOverCard button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    margin-top:8px;
+    font-weight:1000;
+    cursor:pointer;
+}
+
+.again{
+    background:#ffd84d;
+    color:#19122e;
+}
+
+.backMenu{
+    background:#fff;
+    color:#19122e;
+}
+
+/* ================= MOBILE ================= */
+
+#mobileControls{
+    position:fixed;
+    bottom:15px;
+    left:0;
+    right:0;
+    z-index:15;
+    display:none;
+    justify-content:space-between;
+    padding:0 15px;
+    pointer-events:none;
+}
+
+.mobileGroup{
+    display:flex;
+    gap:9px;
+    pointer-events:auto;
+}
+
+.mobileBtn{
+    width:60px;
+    height:60px;
+    border:2px solid rgba(255,255,255,.65);
+    border-radius:17px;
+    background:rgba(20,10,40,.7);
+    color:#fff;
+    font-size:24px;
+    font-weight:1000;
+    touch-action:manipulation;
+}
+
+.mobileBtn:active{
+    transform:scale(.9);
+    background:#ff3c91;
+}
+
+@media(max-width:800px){
+    #mobileControls{
+        display:flex;
     }
 
-    .controls {
-        display: none;
+    .controls{
+        display:none;
     }
 
-    .hud-top {
-        padding: 10px;
+    .hudTop{
+        padding:8px;
     }
 
-    .hud-box {
-        min-width: 80px;
-        padding: 7px 10px;
+    .hudBox{
+        min-width:74px;
+        padding:6px 8px;
     }
 
-    .hud-value {
-        font-size: 18px;
+    .hudValue{
+        font-size:17px;
     }
-}
 
-@media (min-width: 801px) {
-    #mobileControls {
-        display: none !important;
+    #pauseButton{
+        top:8px;
     }
 }
 </style>
@@ -465,42 +521,37 @@ input[type="range"] {
 
 <canvas id="game"></canvas>
 
-<!-- =========================
-     MENU
-========================= -->
+<!-- ================= START MENU ================= -->
 
-<div id="menu">
-    <div class="menu-card">
+<div id="menu" class="screen">
+    <div class="card">
 
         <div class="logo">Moi-cy</div>
-        <div class="logo-sub">SKATE • RIDE • COMBO</div>
+        <div class="logoSub">SKATE • RIDE • COMBO</div>
 
-        <div class="menu-description">
-            Spring über Hindernisse, sammle Coins,
-            lande Tricks und baue riesige Combos!
+        <div class="description">
+            Springe über Hindernisse, sammle Coins,
+            lande Tricks und baue deine Combo immer weiter aus.
         </div>
 
-        <button class="start-btn" id="startBtn">
+        <button class="bigBtn" id="startBtn">
             🛹 SKATE STARTEN
         </button>
 
-        <div class="menu-buttons">
-            <button class="menu-small" id="soundBtn">
-                🔊 SOUND
-            </button>
+        <div class="buttonRow">
+            <button class="smallBtn" id="soundBtn">🔊 SOUND</button>
+            <button class="smallBtn" id="musicBtn">🎵 MUSIK</button>
+            <button class="smallBtn" id="settingsBtn">⚙️ AUDIO</button>
+        </div>
 
-            <button class="menu-small" id="musicBtn">
-                🎵 MUSIK
-            </button>
-
-            <button class="menu-small" id="settingsBtn">
-                ⚙️ AUDIO
-            </button>
+        <div class="highscore">
+            🏆 HIGH SCORE:
+            <span id="menuHighscore">0</span>
         </div>
 
         <div class="controls">
             <div class="control">
-                <kbd>←</kbd><kbd>→</kbd> Spur wechseln
+                <kbd>←</kbd><kbd>→</kbd> Spur
             </div>
             <div class="control">
                 <kbd>SPACE</kbd> Springen
@@ -509,134 +560,159 @@ input[type="range"] {
                 <kbd>F</kbd> Trick
             </div>
             <div class="control">
-                <kbd>R</kbd> Neustart
+                <kbd>ESC</kbd> Menü
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- =========================
-     SETTINGS
-========================= -->
+<!-- ================= SETTINGS ================= -->
 
-<div id="settings">
-    <div class="settings-card">
+<div id="settings" class="screen">
+
+    <div class="settingsCard">
 
         <h2>🔊 Audio</h2>
 
-        <div class="setting-row">
-            <div class="setting-title">
+        <div class="setting">
+            <div class="settingTitle">
                 <span>Sound Effects</span>
                 <span id="sfxValue">80%</span>
             </div>
 
-            <input
-                id="sfxVolume"
-                type="range"
-                min="0"
-                max="100"
-                value="80"
-            >
+            <input id="sfxVolume"
+                   type="range"
+                   min="0"
+                   max="100">
         </div>
 
-        <div class="setting-row">
-            <div class="setting-title">
+        <div class="setting">
+            <div class="settingTitle">
                 <span>Musik</span>
                 <span id="musicValue">45%</span>
             </div>
 
-            <input
-                id="musicVolume"
-                type="range"
-                min="0"
-                max="100"
-                value="45"
-            >
+            <input id="musicVolume"
+                   type="range"
+                   min="0"
+                   max="100">
         </div>
 
-        <div class="toggle-row">
+        <div class="toggleRow">
             <span>🔊 Sound Effects</span>
-            <div class="toggle active" id="sfxToggle"></div>
+            <div class="toggle" id="sfxToggle"></div>
         </div>
 
-        <div class="toggle-row">
+        <div class="toggleRow">
             <span>🎵 Hintergrundmusik</span>
-            <div class="toggle active" id="musicToggle"></div>
+            <div class="toggle" id="musicToggle"></div>
         </div>
 
-        <button class="close-settings" id="closeSettings">
+        <button class="closeBtn" id="closeSettings">
             FERTIG
         </button>
 
     </div>
 </div>
 
-<!-- =========================
-     HUD
-========================= -->
+<!-- ================= HUD ================= -->
 
 <div id="hud">
 
-    <div class="hud-top">
+    <div class="hudTop">
 
-        <div class="hud-box">
-            <div class="hud-label">SCORE</div>
-            <div class="hud-value" id="score">0</div>
+        <div class="hudBox">
+            <div class="hudLabel">SCORE</div>
+            <div class="hudValue" id="score">0</div>
         </div>
 
-        <div class="hud-box">
-            <div class="hud-label">COMBO</div>
-            <div class="hud-value" id="combo">x1</div>
+        <div class="hudBox">
+            <div class="hudLabel">COMBO</div>
+            <div class="hudValue" id="combo">x1</div>
         </div>
 
-        <div class="hud-box">
-            <div class="hud-label">DISTANCE</div>
-            <div class="hud-value" id="distance">0m</div>
+        <div class="hudBox">
+            <div class="hudLabel">DISTANCE</div>
+            <div class="hudValue" id="distance">0m</div>
         </div>
 
     </div>
+
+    <button id="pauseButton">☰</button>
 
     <div id="comboBox">COMBO x2</div>
     <div id="trickPopup">KICKFLIP!</div>
 
 </div>
 
-<!-- =========================
-     GAME OVER
-========================= -->
+<!-- ================= PAUSE ================= -->
 
-<div id="gameOver">
-    <div class="gameover-card">
+<div id="pauseScreen" class="screen">
 
-        <h2>WIPEOUT!</h2>
+    <div class="pauseCard">
 
-        <div class="final-score">
-            <div>Score</div>
-            <span id="finalScore">0</span>
-        </div>
+        <h2>PAUSE</h2>
 
-        <button class="restart-btn" id="restartBtn">
-            🛹 NOCHMAL!
+        <button class="resume" id="resumeBtn">
+            ▶ WEITER
+        </button>
+
+        <button class="restart" id="pauseRestart">
+            🔄 NEUSTART
+        </button>
+
+        <button class="pauseMenu" id="pauseMenu">
+            🏠 HAUPTMENÜ
+        </button>
+
+        <button class="pauseMenu" id="pauseAudio">
+            🔊 AUDIO
         </button>
 
     </div>
 </div>
 
-<!-- =========================
-     MOBILE
-========================= -->
+<!-- ================= GAME OVER ================= -->
+
+<div id="gameOver" class="screen">
+
+    <div class="gameOverCard">
+
+        <h2>WIPEOUT!</h2>
+
+        <div class="finalScore">
+            SCORE<br>
+            <span id="finalScore">0</span>
+        </div>
+
+        <div class="newRecord" id="newRecord">
+            🏆 NEUER HIGH SCORE!
+        </div>
+
+        <button class="again" id="restartBtn">
+            🛹 NOCHMAL
+        </button>
+
+        <button class="backMenu" id="gameOverMenu">
+            🏠 HAUPTMENÜ
+        </button>
+
+    </div>
+</div>
+
+<!-- ================= MOBILE ================= -->
 
 <div id="mobileControls">
 
-    <div class="mobile-group">
-        <button class="mobile-btn" id="leftBtn">←</button>
-        <button class="mobile-btn" id="rightBtn">→</button>
+    <div class="mobileGroup">
+        <button class="mobileBtn" id="leftBtn">←</button>
+        <button class="mobileBtn" id="rightBtn">→</button>
     </div>
 
-    <div class="mobile-group">
-        <button class="mobile-btn" id="jumpBtn">↑</button>
-        <button class="mobile-btn" id="trickBtn">★</button>
+    <div class="mobileGroup">
+        <button class="mobileBtn" id="jumpBtn">↑</button>
+        <button class="mobileBtn" id="trickBtn">★</button>
     </div>
 
 </div>
@@ -644,184 +720,186 @@ input[type="range"] {
 <script>
 /* =========================================================
    MOI-CY SKATE
-   Single-file arcade skateboard game
 ========================================================= */
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
 
-let W = innerWidth;
-let H = innerHeight;
+let W=innerWidth;
+let H=innerHeight;
 
-function resize() {
-    W = canvas.width = innerWidth * devicePixelRatio;
-    H = canvas.height = innerHeight * devicePixelRatio;
+function resize(){
+    W=innerWidth;
+    H=innerHeight;
 
-    canvas.style.width = innerWidth + "px";
-    canvas.style.height = innerHeight + "px";
+    const dpr=window.devicePixelRatio||1;
 
-    ctx.setTransform(
-        devicePixelRatio,
-        0,
-        0,
-        devicePixelRatio,
-        0,
-        0
-    );
+    canvas.width=W*dpr;
+    canvas.height=H*dpr;
+
+    canvas.style.width=W+"px";
+    canvas.style.height=H+"px";
+
+    ctx.setTransform(dpr,0,0,dpr,0,0);
 }
 
 resize();
-
-addEventListener("resize", resize);
+addEventListener("resize",resize);
 
 /* =========================================================
-   AUDIO ENGINE
+   HIGH SCORE
 ========================================================= */
 
-let audioCtx = null;
-let masterGain = null;
-let musicGain = null;
-let sfxGain = null;
+let highscore=
+    Number(localStorage.getItem("moiCyHighscore")||0);
 
-let audioStarted = false;
-let musicTimer = null;
-let musicStep = 0;
+document.getElementById("menuHighscore").textContent=
+    highscore.toLocaleString("de-DE");
 
-let audioSettings = {
-    sfxVolume: Number(localStorage.getItem("moiCySfx") ?? 80),
-    musicVolume: Number(localStorage.getItem("moiCyMusic") ?? 45),
-    sfxEnabled: localStorage.getItem("moiCySfxEnabled") !== "false",
-    musicEnabled: localStorage.getItem("moiCyMusicEnabled") !== "false"
+/* =========================================================
+   AUDIO
+========================================================= */
+
+let audioCtx=null;
+let masterGain=null;
+let musicGain=null;
+let sfxGain=null;
+let audioStarted=false;
+let musicTimer=null;
+let musicStep=0;
+
+let audioSettings={
+    sfxVolume:Number(localStorage.getItem("moiCySfx")??80),
+    musicVolume:Number(localStorage.getItem("moiCyMusic")??45),
+    sfxEnabled:localStorage.getItem("moiCySfxEnabled")!=="false",
+    musicEnabled:localStorage.getItem("moiCyMusicEnabled")!=="false"
 };
 
-function initAudio() {
+function initAudio(){
 
-    if (audioStarted) {
-        if (audioCtx && audioCtx.state === "suspended") {
+    if(audioStarted){
+        if(audioCtx.state==="suspended"){
             audioCtx.resume();
         }
         return;
     }
 
-    audioCtx = new (
-        window.AudioContext ||
+    audioCtx=new(
+        window.AudioContext||
         window.webkitAudioContext
     )();
 
-    masterGain = audioCtx.createGain();
-    musicGain = audioCtx.createGain();
-    sfxGain = audioCtx.createGain();
+    masterGain=audioCtx.createGain();
+    musicGain=audioCtx.createGain();
+    sfxGain=audioCtx.createGain();
 
     musicGain.connect(masterGain);
     sfxGain.connect(masterGain);
     masterGain.connect(audioCtx.destination);
 
-    audioStarted = true;
+    audioStarted=true;
 
     updateAudioVolumes();
-
     startMusic();
 }
 
-function updateAudioVolumes() {
+function updateAudioVolumes(){
 
-    if (!audioStarted) return;
+    if(!audioStarted)return;
 
-    sfxGain.gain.value =
+    sfxGain.gain.value=
         audioSettings.sfxEnabled
-            ? audioSettings.sfxVolume / 100
-            : 0;
+        ? audioSettings.sfxVolume/100
+        : 0;
 
-    musicGain.gain.value =
+    musicGain.gain.value=
         audioSettings.musicEnabled
-            ? audioSettings.musicVolume / 100
-            : 0;
+        ? audioSettings.musicVolume/100
+        : 0;
 }
-
-/* ---------- generic tone ---------- */
 
 function tone(
     frequency,
-    duration = .12,
-    type = "sine",
-    volume = .15,
-    destination = sfxGain,
-    slideTo = null
-) {
+    duration=.12,
+    type="sine",
+    volume=.12,
+    destination=sfxGain,
+    slideTo=null
+){
 
-    if (!audioStarted) return;
+    if(!audioStarted)return;
 
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
 
-    osc.type = type;
+    osc.type=type;
+
     osc.frequency.setValueAtTime(
         frequency,
         audioCtx.currentTime
     );
 
-    if (slideTo) {
+    if(slideTo){
         osc.frequency.exponentialRampToValueAtTime(
-            Math.max(20, slideTo),
-            audioCtx.currentTime + duration
+            Math.max(20,slideTo),
+            audioCtx.currentTime+duration
         );
     }
 
     gain.gain.setValueAtTime(
-        0.0001,
+        .0001,
         audioCtx.currentTime
     );
 
     gain.gain.exponentialRampToValueAtTime(
         volume,
-        audioCtx.currentTime + .01
+        audioCtx.currentTime+.01
     );
 
     gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        audioCtx.currentTime + duration
+        .0001,
+        audioCtx.currentTime+duration
     );
 
     osc.connect(gain);
     gain.connect(destination);
 
     osc.start();
-    osc.stop(audioCtx.currentTime + duration + .02);
+    osc.stop(
+        audioCtx.currentTime+duration+.02
+    );
 }
 
-/* ---------- noise ---------- */
+function noise(duration=.2,volume=.2){
 
-function noise(duration = .15, volume = .15) {
+    if(!audioStarted)return;
 
-    if (!audioStarted) return;
+    const length=
+        Math.floor(audioCtx.sampleRate*duration);
 
-    const bufferSize =
-        audioCtx.sampleRate * duration;
-
-    const buffer =
+    const buffer=
         audioCtx.createBuffer(
             1,
-            bufferSize,
+            length,
             audioCtx.sampleRate
         );
 
-    const data = buffer.getChannelData(0);
+    const data=buffer.getChannelData(0);
 
-    for (let i = 0; i < bufferSize; i++) {
-        data[i] =
-            (Math.random() * 2 - 1) *
-            Math.pow(1 - i / bufferSize, 2);
+    for(let i=0;i<length;i++){
+        data[i]=
+            (Math.random()*2-1)*
+            Math.pow(1-i/length,2);
     }
 
-    const source =
+    const source=
         audioCtx.createBufferSource();
 
-    const gain =
+    const gain=
         audioCtx.createGain();
 
-    source.buffer = buffer;
-
-    gain.gain.value = volume;
+    source.buffer=buffer;
+    gain.gain.value=volume;
 
     source.connect(gain);
     gain.connect(sfxGain);
@@ -829,139 +907,150 @@ function noise(duration = .15, volume = .15) {
     source.start();
 }
 
-/* =========================================================
-   GAME SOUNDS
-========================================================= */
+function jumpSound(){
+    tone(230,.08,"square",.12,sfxGain,450);
 
-function soundJump() {
-
-    tone(230, .08, "square", .12, sfxGain, 430);
-
-    setTimeout(() => {
-        tone(500, .1, "triangle", .08);
-    }, 45);
+    setTimeout(()=>{
+        tone(560,.1,"triangle",.08);
+    },50);
 }
 
-function soundLand(perfect = false) {
+function landSound(perfect){
 
-    if (perfect) {
-        tone(500, .08, "triangle", .13);
-        setTimeout(() => tone(760, .1, "triangle", .13), 70);
-        setTimeout(() => tone(1000, .13, "triangle", .12), 140);
-    } else {
-        tone(130, .08, "square", .1, sfxGain, 90);
+    if(perfect){
+
+        tone(500,.07,"triangle",.12);
+
+        setTimeout(()=>{
+            tone(750,.09,"triangle",.12);
+        },65);
+
+        setTimeout(()=>{
+            tone(1000,.12,"triangle",.1);
+        },130);
+
+    }else{
+        tone(130,.08,"square",.1,sfxGain,80);
     }
 }
 
-function soundCoin() {
+function coinSound(){
 
-    tone(880, .07, "square", .1);
-    setTimeout(() => {
-        tone(1320, .12, "square", .08);
-    }, 60);
+    tone(880,.07,"square",.1);
+
+    setTimeout(()=>{
+        tone(1320,.12,"square",.08);
+    },60);
 }
 
-function soundTrick() {
+function trickSound(){
 
-    tone(420, .08, "sawtooth", .08, sfxGain, 800);
+    tone(
+        420,
+        .08,
+        "sawtooth",
+        .08,
+        sfxGain,
+        800
+    );
 
-    setTimeout(() => {
-        tone(720, .1, "square", .09, sfxGain, 1200);
-    }, 55);
+    setTimeout(()=>{
+        tone(
+            720,
+            .1,
+            "square",
+            .09,
+            sfxGain,
+            1200
+        );
+    },55);
 }
 
-function soundCombo(multiplier) {
+function comboSound(mult){
 
-    const base = 350 + multiplier * 50;
+    const base=320+mult*55;
 
-    tone(base, .1, "triangle", .1);
+    tone(base,.09,"triangle",.09);
 
-    setTimeout(() => {
-        tone(base * 1.25, .1, "triangle", .1);
-    }, 70);
+    setTimeout(()=>{
+        tone(base*1.25,.09,"triangle",.09);
+    },65);
 
-    setTimeout(() => {
-        tone(base * 1.5, .14, "triangle", .12);
-    }, 140);
+    setTimeout(()=>{
+        tone(base*1.5,.13,"triangle",.11);
+    },130);
 }
 
-function soundCrash() {
+function crashSound(){
 
-    noise(.35, .35);
+    noise(.35,.35);
 
-    tone(100, .3, "sawtooth", .18, sfxGain, 45);
-
-    setTimeout(() => {
-        tone(55, .2, "square", .12);
-    }, 100);
+    tone(
+        100,
+        .3,
+        "sawtooth",
+        .18,
+        sfxGain,
+        40
+    );
 }
 
-function soundClick() {
-    tone(500, .06, "square", .07);
+function clickSound(){
+    tone(520,.05,"square",.06);
 }
 
-function soundStart() {
+function startSound(){
 
-    tone(440, .08, "triangle", .08);
+    tone(440,.08,"triangle",.08);
 
-    setTimeout(() => {
-        tone(660, .08, "triangle", .09);
-    }, 70);
+    setTimeout(()=>{
+        tone(660,.08,"triangle",.09);
+    },70);
 
-    setTimeout(() => {
-        tone(880, .15, "triangle", .1);
-    }, 140);
+    setTimeout(()=>{
+        tone(880,.15,"triangle",.1);
+    },140);
 }
 
 /* =========================================================
-   PROCEDURAL MUSIC
+   MUSIC
 ========================================================= */
 
-const melody = [
-    261.63,
-    329.63,
-    392.00,
-    523.25,
-    392.00,
-    329.63,
-    293.66,
-    392.00
+const melody=[
+    261.63,329.63,392,523.25,
+    392,329.63,293.66,392
 ];
 
-const bass = [
-    130.81,
-    130.81,
-    146.83,
-    146.83,
-    164.81,
-    164.81,
-    146.83,
-    130.81
+const bass=[
+    130.81,130.81,146.83,146.83,
+    164.81,164.81,146.83,130.81
 ];
 
-function musicTick() {
+function musicTick(){
 
-    if (!audioStarted) return;
+    if(!audioStarted||
+       !audioSettings.musicEnabled)return;
 
-    if (!audioSettings.musicEnabled) return;
+    const m=
+        melody[musicStep%melody.length];
 
-    const m = melody[musicStep % melody.length];
-    const b = bass[musicStep % bass.length];
+    const b=
+        bass[musicStep%bass.length];
 
     tone(
         m,
         .13,
         "triangle",
-        .07,
+        .06,
         musicGain
     );
 
-    if (musicStep % 2 === 0) {
+    if(musicStep%2===0){
         tone(
             b,
             .18,
             "sine",
-            .045,
+            .04,
             musicGain
         );
     }
@@ -969,61 +1058,41 @@ function musicTick() {
     musicStep++;
 }
 
-function startMusic() {
+function startMusic(){
 
-    if (musicTimer) {
+    if(musicTimer){
         clearInterval(musicTimer);
     }
 
-    musicTimer = setInterval(
-        musicTick,
-        210
-    );
+    musicTimer=
+        setInterval(musicTick,210);
 }
 
 /* =========================================================
-   SETTINGS
+   SETTINGS UI
 ========================================================= */
 
-const settings = document.getElementById("settings");
+const settings=document.getElementById("settings");
 
-const sfxVolume =
-    document.getElementById("sfxVolume");
+const sfxVolume=document.getElementById("sfxVolume");
+const musicVolume=document.getElementById("musicVolume");
 
-const musicVolume =
-    document.getElementById("musicVolume");
+const sfxValue=document.getElementById("sfxValue");
+const musicValue=document.getElementById("musicValue");
 
-const sfxValue =
-    document.getElementById("sfxValue");
+const sfxToggle=document.getElementById("sfxToggle");
+const musicToggle=document.getElementById("musicToggle");
 
-const musicValue =
-    document.getElementById("musicValue");
+function refreshAudioUI(){
 
-const sfxToggle =
-    document.getElementById("sfxToggle");
+    sfxVolume.value=audioSettings.sfxVolume;
+    musicVolume.value=audioSettings.musicVolume;
 
-const musicToggle =
-    document.getElementById("musicToggle");
+    sfxValue.textContent=
+        audioSettings.sfxVolume+"%";
 
-sfxVolume.value =
-    audioSettings.sfxVolume;
-
-musicVolume.value =
-    audioSettings.musicVolume;
-
-function refreshSettingsUI() {
-
-    sfxVolume.value =
-        audioSettings.sfxVolume;
-
-    musicVolume.value =
-        audioSettings.musicVolume;
-
-    sfxValue.textContent =
-        audioSettings.sfxVolume + "%";
-
-    musicValue.textContent =
-        audioSettings.musicVolume + "%";
+    musicValue.textContent=
+        audioSettings.musicVolume+"%";
 
     sfxToggle.classList.toggle(
         "active",
@@ -1034,13 +1103,22 @@ function refreshSettingsUI() {
         "active",
         audioSettings.musicEnabled
     );
+
+    document.getElementById("soundBtn").textContent=
+        audioSettings.sfxEnabled
+        ?"🔊 SOUND"
+        :"🔇 SOUND";
+
+    document.getElementById("musicBtn").textContent=
+        audioSettings.musicEnabled
+        ?"🎵 MUSIK"
+        :"🔇 MUSIK";
 }
 
-refreshSettingsUI();
+refreshAudioUI();
 
-sfxVolume.addEventListener("input", () => {
-
-    audioSettings.sfxVolume =
+sfxVolume.oninput=()=>{
+    audioSettings.sfxVolume=
         Number(sfxVolume.value);
 
     localStorage.setItem(
@@ -1049,15 +1127,11 @@ sfxVolume.addEventListener("input", () => {
     );
 
     updateAudioVolumes();
+    refreshAudioUI();
+};
 
-    soundClick();
-
-    refreshSettingsUI();
-});
-
-musicVolume.addEventListener("input", () => {
-
-    audioSettings.musicVolume =
+musicVolume.oninput=()=>{
+    audioSettings.musicVolume=
         Number(musicVolume.value);
 
     localStorage.setItem(
@@ -1066,15 +1140,13 @@ musicVolume.addEventListener("input", () => {
     );
 
     updateAudioVolumes();
+    refreshAudioUI();
+};
 
-    refreshSettingsUI();
-});
-
-sfxToggle.addEventListener("click", () => {
-
+sfxToggle.onclick=()=>{
     initAudio();
 
-    audioSettings.sfxEnabled =
+    audioSettings.sfxEnabled=
         !audioSettings.sfxEnabled;
 
     localStorage.setItem(
@@ -1083,19 +1155,15 @@ sfxToggle.addEventListener("click", () => {
     );
 
     updateAudioVolumes();
+    refreshAudioUI();
 
-    refreshSettingsUI();
+    if(audioSettings.sfxEnabled)clickSound();
+};
 
-    if (audioSettings.sfxEnabled) {
-        soundClick();
-    }
-});
-
-musicToggle.addEventListener("click", () => {
-
+musicToggle.onclick=()=>{
     initAudio();
 
-    audioSettings.musicEnabled =
+    audioSettings.musicEnabled=
         !audioSettings.musicEnabled;
 
     localStorage.setItem(
@@ -1104,132 +1172,72 @@ musicToggle.addEventListener("click", () => {
     );
 
     updateAudioVolumes();
-
-    refreshSettingsUI();
-});
-
-document
-    .getElementById("settingsBtn")
-    .addEventListener("click", () => {
-
-        initAudio();
-        settings.style.display = "flex";
-        soundClick();
-    });
-
-document
-    .getElementById("closeSettings")
-    .addEventListener("click", () => {
-
-        settings.style.display = "none";
-        soundClick();
-    });
-
-document
-    .getElementById("soundBtn")
-    .addEventListener("click", () => {
-
-        initAudio();
-
-        audioSettings.sfxEnabled =
-            !audioSettings.sfxEnabled;
-
-        localStorage.setItem(
-            "moiCySfxEnabled",
-            audioSettings.sfxEnabled
-        );
-
-        updateAudioVolumes();
-        refreshSettingsUI();
-
-        if (audioSettings.sfxEnabled) {
-            soundClick();
-        }
-    });
-
-document
-    .getElementById("musicBtn")
-    .addEventListener("click", () => {
-
-        initAudio();
-
-        audioSettings.musicEnabled =
-            !audioSettings.musicEnabled;
-
-        localStorage.setItem(
-            "moiCyMusicEnabled",
-            audioSettings.musicEnabled
-        );
-
-        updateAudioVolumes();
-        refreshSettingsUI();
-    });
+    refreshAudioUI();
+};
 
 /* =========================================================
    GAME STATE
 ========================================================= */
 
-let running = false;
+let running=false;
+let paused=false;
 
-let score = 0;
-let combo = 1;
-let distance = 0;
+let score=0;
+let combo=1;
+let distance=0;
 
-let lane = 1;
-let targetLane = 1;
+let lane=1;
+let targetLane=1;
 
-let jumpHeight = 0;
-let jumpVelocity = 0;
-let grounded = true;
+let jumpHeight=0;
+let jumpVelocity=0;
+let grounded=true;
 
-let trickTimer = 0;
-let trickRotation = 0;
+let trickTimer=0;
+let trickRotation=0;
 
-let speed = 390;
+let speed=390;
 
-let spawnTimer = 0;
-let coinTimer = 0;
+let spawnTimer=.5;
+let coinTimer=.8;
 
-let lastTime = 0;
+let shake=0;
 
-let shake = 0;
+let obstacles=[];
+let coins=[];
+let particles=[];
 
-let obstacles = [];
-let coins = [];
-let particles = [];
+let lastTime=performance.now();
 
 /* =========================================================
    PLAYER
 ========================================================= */
 
-const player = {
-    x: 0,
-    width: 48,
-    height: 74,
-    tilt: 0,
-    wheelRotation: 0
+const player={
+    width:48,
+    height:74,
+    wheelRotation:0
 };
 
-function groundY() {
-    return innerHeight * .73;
+function groundY(){
+    return H*.73;
 }
 
-function laneX(l) {
+function laneX(l){
 
-    const roadWidth =
-        Math.min(innerWidth * .8, 850);
+    const roadWidth=
+        Math.min(W*.8,850);
 
-    const left =
-        innerWidth / 2 - roadWidth / 2;
+    const left=
+        W/2-roadWidth/2;
 
-    return left +
-        roadWidth * ((l + .5) / 3);
+    return left+
+        roadWidth*((l+.5)/3);
 }
 
-function playerY() {
-
-    return groundY() -
-        jumpHeight -
+function playerY(){
+    return groundY()-
+        jumpHeight-
         player.height;
 }
 
@@ -1237,54 +1245,59 @@ function playerY() {
    PARTICLES
 ========================================================= */
 
-function particle(
+function makeParticles(
     x,
     y,
-    color,
-    amount = 8
-) {
+    amount=10,
+    type="normal"
+){
 
-    for (let i = 0; i < amount; i++) {
+    for(let i=0;i<amount;i++){
 
         particles.push({
             x,
             y,
-            vx: (Math.random() - .5) * 250,
-            vy: (Math.random() - .5) * 250,
-            life: .5 + Math.random() * .5,
-            maxLife: 1,
-            size: 2 + Math.random() * 5,
-            color
+            vx:(Math.random()-.5)*
+                (type==="burst"?500:250),
+            vy:(Math.random()-.5)*
+                (type==="burst"?500:250),
+            life:.4+Math.random()*.6,
+            maxLife:1,
+            size:2+Math.random()*5,
+            type
         });
     }
 }
 
-function updateParticles(dt) {
+function updateParticles(dt){
 
-    for (let i = particles.length - 1; i >= 0; i--) {
+    for(let i=particles.length-1;i>=0;i--){
 
-        const p = particles[i];
+        const p=particles[i];
 
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
+        p.x+=p.vx*dt;
+        p.y+=p.vy*dt;
 
-        p.vy += 500 * dt;
-        p.life -= dt;
+        p.vy+=500*dt;
+        p.life-=dt;
 
-        if (p.life <= 0) {
-            particles.splice(i, 1);
+        if(p.life<=0){
+            particles.splice(i,1);
         }
     }
 }
 
-function drawParticles() {
+function drawParticles(){
 
-    for (const p of particles) {
+    for(const p of particles){
 
-        ctx.globalAlpha =
-            Math.max(0, p.life / p.maxLife);
+        ctx.globalAlpha=
+            Math.max(0,p.life/p.maxLife);
 
-        ctx.fillStyle = p.color;
+        ctx.fillStyle=
+            p.type==="burst"
+            ?"rgba(255,216,77,.9)"
+            :"rgba(255,255,255,.8)";
 
         ctx.fillRect(
             p.x,
@@ -1294,14 +1307,14 @@ function drawParticles() {
         );
     }
 
-    ctx.globalAlpha = 1;
+    ctx.globalAlpha=1;
 }
 
 /* =========================================================
    OBSTACLES
 ========================================================= */
 
-const obstacleTypes = [
+const obstacleTypes=[
     "barrier",
     "rail",
     "cone",
@@ -1310,33 +1323,33 @@ const obstacleTypes = [
     "box"
 ];
 
-function spawnObstacle() {
+function spawnObstacle(){
 
-    const type =
+    const type=
         obstacleTypes[
             Math.floor(
-                Math.random() *
+                Math.random()*
                 obstacleTypes.length
             )
         ];
 
     obstacles.push({
-        lane: Math.floor(Math.random() * 3),
-        y: -100,
+        lane:Math.floor(Math.random()*3),
+        y:-100,
         type,
-        passed: false,
-        width: type === "rail" ? 100 : 65,
-        height: type === "ramp" ? 55 : 55
+        passed:false,
+        width:type==="rail"?100:65,
+        height:type==="ramp"?55:55
     });
 }
 
-function spawnCoin() {
+function spawnCoin(){
 
     coins.push({
-        lane: Math.floor(Math.random() * 3),
-        y: -30,
-        collected: false,
-        spin: Math.random() * Math.PI * 2
+        lane:Math.floor(Math.random()*3),
+        y:-35,
+        spin:Math.random()*Math.PI*2,
+        collected:false
     });
 }
 
@@ -1344,44 +1357,75 @@ function spawnCoin() {
    COLLISION
 ========================================================= */
 
-function playerRect() {
+function rectsTouch(a,b){
 
-    return {
-        x: laneX(lane) - 23,
-        y: playerY(),
-        width: 46,
-        height: 72
-    };
-}
-
-function obstacleRect(o) {
-
-    const x =
-        laneX(o.lane);
-
-    return {
-        x: x - o.width / 2,
-        y: o.y,
-        width: o.width,
-        height: o.height
-    };
-}
-
-function intersects(a, b) {
-
-    return (
-        a.x < b.x + b.width &&
-        a.x + a.width > b.x &&
-        a.y < b.y + b.height &&
-        a.y + a.height > b.y
+    return(
+        a.x<b.x+b.width&&
+        a.x+a.width>b.x&&
+        a.y<b.y+b.height&&
+        a.y+a.height>b.y
     );
 }
 
+function playerRect(){
+
+    return{
+        x:laneX(Math.round(lane))-23,
+        y:playerY(),
+        width:46,
+        height:72
+    };
+}
+
+function obstacleRect(o){
+
+    return{
+        x:laneX(o.lane)-o.width/2,
+        y:o.y,
+        width:o.width,
+        height:o.height
+    };
+}
+
 /* =========================================================
-   TRICKS
+   GAME ACTIONS
 ========================================================= */
 
-const tricks = [
+function jump(){
+
+    if(!running||paused)return;
+    if(!grounded)return;
+
+    grounded=false;
+    jumpHeight=1;
+    jumpVelocity=730;
+
+    jumpSound();
+
+    makeParticles(
+        laneX(Math.round(lane)),
+        groundY(),
+        10
+    );
+}
+
+function moveLeft(){
+
+    if(!running||paused)return;
+
+    targetLane=
+        Math.max(0,targetLane-1);
+}
+
+function moveRight(){
+
+    if(!running||paused)return;
+
+    targetLane=
+        Math.min(2,targetLane+1);
+}
+
+const tricks=[
     "KICKFLIP!",
     "HEELFLIP!",
     "360!",
@@ -1390,142 +1434,81 @@ const tricks = [
     "INSANE!"
 ];
 
-function doTrick() {
+function doTrick(){
 
-    if (!running) return;
+    if(!running||paused)return;
+    if(jumpHeight<20)return;
+    if(trickTimer>0)return;
 
-    if (jumpHeight <= 10) {
-        return;
-    }
-
-    if (trickTimer > 0) {
-        return;
-    }
-
-    trickTimer = .55;
-
-    trickRotation +=
-        Math.PI * 2;
+    trickTimer=.55;
+    trickRotation+=Math.PI*2;
 
     combo++;
 
-    const trick =
+    score+=250*combo;
+
+    const trick=
         tricks[
             Math.floor(
-                Math.random() *
-                tricks.length
+                Math.random()*tricks.length
             )
         ];
 
-    const points =
-        250 * combo;
+    const popup=
+        document.getElementById("trickPopup");
 
-    score += points;
-
-    document.getElementById(
-        "trickPopup"
-    ).textContent = trick;
-
-    const popup =
-        document.getElementById(
-            "trickPopup"
-        );
-
+    popup.textContent=trick;
     popup.classList.remove("show");
 
     void popup.offsetWidth;
 
     popup.classList.add("show");
 
-    soundTrick();
-    soundCombo(combo);
+    trickSound();
+    comboSound(combo);
 
-    particle(
-        laneX(lane),
-        playerY() + 30,
-        "#ffd84d",
-        18
+    makeParticles(
+        laneX(Math.round(lane)),
+        playerY()+30,
+        18,
+        "burst"
     );
 
     updateHUD();
 }
 
 /* =========================================================
-   JUMP
-========================================================= */
-
-function jump() {
-
-    if (!running) return;
-
-    if (!grounded) return;
-
-    grounded = false;
-
-    jumpHeight = 1;
-
-    jumpVelocity = 730;
-
-    soundJump();
-
-    particle(
-        laneX(lane),
-        groundY(),
-        "#ffffff",
-        12
-    );
-}
-
-/* =========================================================
-   MOVE
-========================================================= */
-
-function moveLeft() {
-
-    if (!running) return;
-
-    targetLane =
-        Math.max(0, targetLane - 1);
-}
-
-function moveRight() {
-
-    if (!running) return;
-
-    targetLane =
-        Math.min(2, targetLane + 1);
-}
-
-/* =========================================================
    RESET
 ========================================================= */
 
-function resetGame() {
+function resetGame(){
 
-    score = 0;
-    combo = 1;
-    distance = 0;
+    score=0;
+    combo=1;
+    distance=0;
 
-    lane = 1;
-    targetLane = 1;
+    lane=1;
+    targetLane=1;
 
-    jumpHeight = 0;
-    jumpVelocity = 0;
-    grounded = true;
+    jumpHeight=0;
+    jumpVelocity=0;
+    grounded=true;
 
-    trickTimer = 0;
-    trickRotation = 0;
+    trickTimer=0;
+    trickRotation=0;
 
-    speed = 390;
+    speed=390;
 
-    spawnTimer = .5;
-    coinTimer = .8;
+    spawnTimer=.6;
+    coinTimer=.8;
 
-    obstacles = [];
-    coins = [];
-    particles = [];
+    shake=0;
 
-    player.tilt = 0;
+    obstacles=[];
+    coins=[];
+    particles=[];
+
+    paused=false;
 
     updateHUD();
 }
@@ -1534,212 +1517,247 @@ function resetGame() {
    START
 ========================================================= */
 
-function startGame() {
+function startGame(){
 
     initAudio();
     resetGame();
 
-    running = true;
+    running=true;
 
-    document.getElementById(
-        "menu"
-    ).style.display = "none";
+    document.getElementById("menu").style.display="none";
+    document.getElementById("pauseScreen").style.display="none";
+    document.getElementById("gameOver").style.display="none";
+    document.getElementById("hud").style.display="block";
 
-    document.getElementById(
-        "gameOver"
-    ).style.display = "none";
+    startSound();
 
-    document.getElementById(
-        "hud"
-    ).style.display = "block";
+    lastTime=performance.now();
+}
 
-    soundStart();
+/* =========================================================
+   MAIN MENU
+========================================================= */
 
-    lastTime = performance.now();
+function openMainMenu(){
+
+    running=false;
+    paused=false;
+
+    document.getElementById("hud").style.display="none";
+    document.getElementById("pauseScreen").style.display="none";
+    document.getElementById("gameOver").style.display="none";
+    document.getElementById("settings").style.display="none";
+
+    document.getElementById("menu").style.display="flex";
+
+    document.getElementById("menuHighscore").textContent=
+        highscore.toLocaleString("de-DE");
+
+    clickSound();
+}
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+function pauseGame(){
+
+    if(!running)return;
+
+    paused=true;
+
+    document.getElementById("pauseScreen")
+        .style.display="flex";
+
+    clickSound();
+}
+
+function resumeGame(){
+
+    if(!running)return;
+
+    paused=false;
+
+    document.getElementById("pauseScreen")
+        .style.display="none";
+
+    lastTime=performance.now();
+
+    clickSound();
 }
 
 /* =========================================================
    GAME OVER
 ========================================================= */
 
-function gameOver() {
+function gameOver(){
 
-    if (!running) return;
+    if(!running)return;
 
-    running = false;
+    running=false;
 
-    soundCrash();
+    crashSound();
 
-    shake = 18;
+    shake=18;
 
-    document.getElementById(
-        "finalScore"
-    ).textContent =
-        Math.floor(score).toLocaleString("de-DE");
+    const final=
+        Math.floor(score);
 
-    document.getElementById(
-        "gameOver"
-    ).style.display = "flex";
+    const record=
+        final>highscore;
+
+    if(record){
+
+        highscore=final;
+
+        localStorage.setItem(
+            "moiCyHighscore",
+            highscore
+        );
+    }
+
+    document.getElementById("finalScore")
+        .textContent=
+        final.toLocaleString("de-DE");
+
+    document.getElementById("newRecord")
+        .style.display=
+        record?"block":"none";
+
+    document.getElementById("gameOver")
+        .style.display="flex";
+
+    document.getElementById("hud")
+        .style.display="none";
 }
 
 /* =========================================================
    UPDATE
 ========================================================= */
 
-function update(dt) {
+function update(dt){
 
-    if (!running) {
+    if(!running||paused){
         updateParticles(dt);
         return;
     }
 
-    /* speed */
+    speed+=dt*5;
 
-    speed += dt * 5;
+    distance+=speed*dt*.035;
 
-    distance += speed * dt * .035;
+    score+=dt*12*combo;
 
-    score += dt * 12 * combo;
+    lane+=
+        (targetLane-lane)*
+        Math.min(1,10*dt);
 
-    /* lane movement */
+    player.wheelRotation+=
+        speed*dt/25;
 
-    const laneSpeed = 10;
+    /* jump */
 
-    lane +=
-        (targetLane - lane) *
-        Math.min(1, laneSpeed * dt);
+    if(!grounded){
 
-    /* wheel */
+        jumpVelocity-=1750*dt;
+        jumpHeight+=jumpVelocity*dt;
 
-    player.wheelRotation +=
-        speed * dt / 25;
+        if(jumpHeight<=0){
 
-    /* jump physics */
+            jumpHeight=0;
+            jumpVelocity=0;
+            grounded=true;
 
-    if (!grounded) {
+            const perfect=combo>=3;
 
-        jumpVelocity -=
-            1750 * dt;
+            landSound(perfect);
 
-        jumpHeight +=
-            jumpVelocity * dt;
-
-        if (jumpHeight <= 0) {
-
-            jumpHeight = 0;
-
-            jumpVelocity = 0;
-
-            grounded = true;
-
-            soundLand(combo >= 3);
-
-            if (combo >= 3) {
-                particle(
-                    laneX(lane),
+            if(perfect){
+                makeParticles(
+                    laneX(Math.round(lane)),
                     groundY(),
-                    "#ffd84d",
-                    16
+                    18,
+                    "burst"
                 );
-            }
-
-            if (combo > 1) {
-                setTimeout(() => {
-                    combo = 1;
-                    updateHUD();
-                }, 1000);
             }
         }
     }
 
-    if (trickTimer > 0) {
-        trickTimer -= dt;
-        trickRotation +=
-            dt * 20;
+    if(trickTimer>0){
+        trickTimer-=dt;
+        trickRotation+=dt*20;
     }
 
-    /* obstacle spawning */
+    /* spawn */
 
-    spawnTimer -= dt;
+    spawnTimer-=dt;
 
-    if (spawnTimer <= 0) {
+    if(spawnTimer<=0){
 
         spawnObstacle();
 
-        spawnTimer =
+        spawnTimer=
             Math.max(
-                .55,
-                1.25 -
-                distance / 1500
-            ) +
-            Math.random() * .35;
+                .52,
+                1.2-distance/1800
+            )+
+            Math.random()*.35;
     }
 
-    /* coins */
+    coinTimer-=dt;
 
-    coinTimer -= dt;
-
-    if (coinTimer <= 0) {
+    if(coinTimer<=0){
 
         spawnCoin();
 
-        coinTimer =
-            .65 +
-            Math.random() * .9;
+        coinTimer=
+            .55+
+            Math.random()*.8;
     }
 
     /* obstacles */
 
-    for (
-        let i = obstacles.length - 1;
-        i >= 0;
-        i--
-    ) {
+    for(let i=obstacles.length-1;i>=0;i--){
 
-        const o = obstacles[i];
+        const o=obstacles[i];
 
-        o.y += speed * dt;
+        o.y+=speed*dt;
 
-        if (
-            !o.passed &&
-            o.y > groundY() - 50
-        ) {
+        if(
+            !o.passed&&
+            o.y>groundY()-55
+        ){
 
-            o.passed = true;
+            o.passed=true;
 
-            if (
-                o.lane ===
-                Math.round(lane)
-            ) {
+            if(
+                o.lane===Math.round(lane)
+            ){
 
-                const jumping =
-                    jumpHeight > 55;
+                const jumping=
+                    jumpHeight>55;
 
-                const isRamp =
-                    o.type === "ramp";
-
-                if (
-                    isRamp &&
+                if(
+                    o.type==="ramp"&&
                     jumping
-                ) {
+                ){
 
-                    score += 300 * combo;
-
+                    score+=300*combo;
                     combo++;
 
-                    soundCombo(combo);
+                    comboSound(combo);
 
-                    particle(
+                    makeParticles(
                         laneX(o.lane),
                         o.y,
-                        "#37e0d0",
-                        20
+                        18,
+                        "burst"
                     );
 
-                } else if (
-                    !jumping &&
-                    o.type !== "ramp"
-                ) {
+                }else if(
+                    !jumping&&
+                    o.type!=="ramp"
+                ){
 
                     gameOver();
                     break;
@@ -1747,70 +1765,60 @@ function update(dt) {
             }
         }
 
-        if (o.y > innerHeight + 150) {
-            obstacles.splice(i, 1);
+        if(o.y>H+150){
+            obstacles.splice(i,1);
         }
     }
 
     /* coins */
 
-    const p =
-        playerRect();
+    const p=playerRect();
 
-    for (
-        let i = coins.length - 1;
-        i >= 0;
-        i--
-    ) {
+    for(let i=coins.length-1;i>=0;i--){
 
-        const c = coins[i];
+        const c=coins[i];
 
-        c.y += speed * dt;
+        c.y+=speed*dt;
+        c.spin+=dt*8;
 
-        c.spin += dt * 8;
-
-        const coinRect = {
-            x: laneX(c.lane) - 18,
-            y: c.y - 18,
-            width: 36,
-            height: 36
+        const r={
+            x:laneX(c.lane)-18,
+            y:c.y-18,
+            width:36,
+            height:36
         };
 
-        if (
-            !c.collected &&
-            intersects(p, coinRect)
-        ) {
+        if(
+            !c.collected&&
+            rectsTouch(p,r)
+        ){
 
-            c.collected = true;
+            c.collected=true;
 
-            score +=
-                100 * combo;
+            score+=100*combo;
 
-            soundCoin();
+            coinSound();
 
-            particle(
+            makeParticles(
                 laneX(c.lane),
                 c.y,
-                "#ffd84d",
-                14
+                14,
+                "burst"
             );
         }
 
-        if (
-            c.collected ||
-            c.y > innerHeight + 80
-        ) {
-            coins.splice(i, 1);
+        if(
+            c.collected||
+            c.y>H+80
+        ){
+            coins.splice(i,1);
         }
     }
 
     updateParticles(dt);
 
-    /* shake */
-
-    if (shake > 0) {
-        shake -=
-            30 * dt;
+    if(shake>0){
+        shake-=35*dt;
     }
 
     updateHUD();
@@ -1820,339 +1828,190 @@ function update(dt) {
    HUD
 ========================================================= */
 
-function updateHUD() {
+function updateHUD(){
 
-    document.getElementById(
-        "score"
-    ).textContent =
+    document.getElementById("score")
+        .textContent=
         Math.floor(score)
-            .toLocaleString("de-DE");
+        .toLocaleString("de-DE");
 
-    document.getElementById(
-        "combo"
-    ).textContent =
-        "x" + combo;
+    document.getElementById("combo")
+        .textContent="x"+combo;
 
-    document.getElementById(
-        "distance"
-    ).textContent =
-        Math.floor(distance) + "m";
+    document.getElementById("distance")
+        .textContent=
+        Math.floor(distance)+"m";
 
-    const comboBox =
-        document.getElementById(
-            "comboBox"
-        );
+    const box=
+        document.getElementById("comboBox");
 
-    if (combo >= 2) {
+    if(combo>=2){
 
-        comboBox.textContent =
-            "COMBO x" + combo;
+        box.textContent=
+            "COMBO x"+combo;
 
-        comboBox.classList.add("show");
+        box.classList.add("show");
 
-    } else {
-
-        comboBox.classList.remove("show");
+    }else{
+        box.classList.remove("show");
     }
 }
 
 /* =========================================================
-   DRAW BACKGROUND
+   BACKGROUND
 ========================================================= */
 
-function drawBackground() {
+function drawCloud(x,y,s){
 
-    const h = innerHeight;
+    ctx.fillStyle="rgba(255,255,255,.35)";
 
-    const gradient =
+    ctx.beginPath();
+
+    ctx.arc(x,y,25*s,0,Math.PI*2);
+    ctx.arc(x+28*s,y-10*s,32*s,0,Math.PI*2);
+    ctx.arc(x+60*s,y,24*s,0,Math.PI*2);
+
+    ctx.fill();
+}
+
+function drawBackground(){
+
+    const gradient=
         ctx.createLinearGradient(
-            0,
-            0,
-            0,
-            h
+            0,0,0,H
         );
 
-    gradient.addColorStop(
-        0,
-        "#ff5fa2"
-    );
+    gradient.addColorStop(0,"#ff5fa2");
+    gradient.addColorStop(.42,"#ff9a55");
+    gradient.addColorStop(.72,"#ffd84d");
+    gradient.addColorStop(1,"#38ddd0");
 
-    gradient.addColorStop(
-        .42,
-        "#ff9a55"
-    );
-
-    gradient.addColorStop(
-        .72,
-        "#ffd84d"
-    );
-
-    gradient.addColorStop(
-        1,
-        "#38ddd0"
-    );
-
-    ctx.fillStyle = gradient;
-
-    ctx.fillRect(
-        0,
-        0,
-        innerWidth,
-        h
-    );
+    ctx.fillStyle=gradient;
+    ctx.fillRect(0,0,W,H);
 
     /* sun */
 
-    ctx.fillStyle =
-        "rgba(255,255,255,.65)";
+    ctx.fillStyle="rgba(255,255,255,.6)";
 
     ctx.beginPath();
 
     ctx.arc(
-        innerWidth * .8,
-        innerHeight * .18,
+        W*.8,
+        H*.18,
         70,
         0,
-        Math.PI * 2
+        Math.PI*2
     );
 
     ctx.fill();
 
-    /* clouds */
-
-    drawCloud(
-        innerWidth * .2,
-        innerHeight * .18,
-        1
-    );
-
-    drawCloud(
-        innerWidth * .62,
-        innerHeight * .27,
-        .7
-    );
+    drawCloud(W*.18,H*.18,1);
+    drawCloud(W*.6,H*.26,.7);
 
     /* skyline */
 
-    const skylineY =
-        innerHeight * .56;
+    const skylineY=H*.56;
 
-    ctx.fillStyle =
-        "rgba(45,30,80,.5)";
+    for(
+        let x=-20;
+        x<W+50;
+        x+=65
+    ){
 
-    for (
-        let x = -20;
-        x < innerWidth + 50;
-        x += 65
-    ) {
+        const bh=
+            40+
+            Math.abs(Math.sin(x*.07))*130;
 
-        const height =
-            40 +
-            Math.abs(
-                Math.sin(x * .07)
-            ) * 130;
+        ctx.fillStyle="rgba(45,30,80,.5)";
 
         ctx.fillRect(
             x,
-            skylineY - height,
+            skylineY-bh,
             52,
-            height
+            bh
         );
 
-        ctx.fillStyle =
-            "rgba(255,255,255,.13)";
+        ctx.fillStyle="rgba(255,255,255,.12)";
 
-        for (
-            let wy = skylineY - height + 12;
-            wy < skylineY - 10;
-            wy += 18
-        ) {
+        for(
+            let wy=skylineY-bh+12;
+            wy<skylineY-10;
+            wy+=18
+        ){
 
             ctx.fillRect(
-                x + 9,
-                wy,
-                7,
-                7
+                x+9,wy,7,7
             );
 
             ctx.fillRect(
-                x + 27,
-                wy,
-                7,
-                7
+                x+27,wy,7,7
             );
         }
-
-        ctx.fillStyle =
-            "rgba(45,30,80,.5)";
     }
-
-    /* distant ground */
-
-    ctx.fillStyle = "#35c8b8";
-
-    ctx.fillRect(
-        0,
-        skylineY,
-        innerWidth,
-        innerHeight - skylineY
-    );
-}
-
-function drawCloud(x, y, scale) {
-
-    ctx.fillStyle =
-        "rgba(255,255,255,.35)";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        x,
-        y,
-        25 * scale,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.arc(
-        x + 28 * scale,
-        y - 10 * scale,
-        32 * scale,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.arc(
-        x + 60 * scale,
-        y,
-        24 * scale,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
 }
 
 /* =========================================================
    ROAD
 ========================================================= */
 
-function drawRoad() {
+function drawRoad(){
 
-    const roadWidth =
-        Math.min(
-            innerWidth * .82,
-            900
-        );
+    const roadWidth=
+        Math.min(W*.82,900);
 
-    const left =
-        innerWidth / 2 -
-        roadWidth / 2;
+    const left=
+        W/2-roadWidth/2;
 
-    const roadY =
-        innerHeight * .59;
+    const roadY=H*.59;
 
-    /* grass */
-
-    ctx.fillStyle =
-        "#27b7a8";
+    ctx.fillStyle="#27b7a8";
 
     ctx.fillRect(
         0,
         roadY,
-        innerWidth,
-        innerHeight - roadY
+        W,
+        H-roadY
     );
 
-    /* road */
-
-    ctx.fillStyle =
-        "#362554";
+    ctx.fillStyle="#362554";
 
     ctx.beginPath();
 
-    ctx.moveTo(
-        left,
-        roadY
-    );
-
-    ctx.lineTo(
-        left + 55,
-        innerHeight
-    );
-
-    ctx.lineTo(
-        left + roadWidth - 55,
-        innerHeight
-    );
-
-    ctx.lineTo(
-        left + roadWidth,
-        roadY
-    );
+    ctx.moveTo(left,roadY);
+    ctx.lineTo(left+55,H);
+    ctx.lineTo(left+roadWidth-55,H);
+    ctx.lineTo(left+roadWidth,roadY);
 
     ctx.closePath();
-
     ctx.fill();
 
-    /* road edge */
-
-    ctx.strokeStyle =
-        "#ff4d9d";
-
-    ctx.lineWidth = 7;
+    ctx.strokeStyle="#ff4d9d";
+    ctx.lineWidth=7;
 
     ctx.beginPath();
 
-    ctx.moveTo(
-        left,
-        roadY
-    );
+    ctx.moveTo(left,roadY);
+    ctx.lineTo(left+55,H);
 
-    ctx.lineTo(
-        left + 55,
-        innerHeight
-    );
-
-    ctx.moveTo(
-        left + roadWidth,
-        roadY
-    );
-
-    ctx.lineTo(
-        left + roadWidth - 55,
-        innerHeight
-    );
+    ctx.moveTo(left+roadWidth,roadY);
+    ctx.lineTo(left+roadWidth-55,H);
 
     ctx.stroke();
 
-    /* lane lines */
+    ctx.setLineDash([30,30]);
 
-    ctx.setLineDash([30, 30]);
+    ctx.strokeStyle="rgba(255,255,255,.25)";
+    ctx.lineWidth=4;
 
-    ctx.strokeStyle =
-        "rgba(255,255,255,.25)";
+    for(let i=1;i<3;i++){
 
-    ctx.lineWidth = 4;
-
-    for (let i = 1; i < 3; i++) {
-
-        const x =
-            left +
-            roadWidth * i / 3;
+        const x=
+            left+
+            roadWidth*i/3;
 
         ctx.beginPath();
-
-        ctx.moveTo(
-            x,
-            roadY
-        );
-
-        ctx.lineTo(
-            x,
-            innerHeight
-        );
-
+        ctx.moveTo(x,roadY);
+        ctx.lineTo(x,H);
         ctx.stroke();
     }
 
@@ -2160,219 +2019,150 @@ function drawRoad() {
 }
 
 /* =========================================================
-   OBSTACLE DRAWING
+   OBSTACLES
 ========================================================= */
 
-function drawObstacle(o) {
+function drawObstacle(o){
 
-    const x = laneX(o.lane);
-    const y = o.y;
+    const x=laneX(o.lane);
+    const y=o.y;
 
     ctx.save();
 
-    if (o.type === "barrier") {
+    if(o.type==="barrier"){
 
-        ctx.fillStyle = "#ff3c91";
+        ctx.fillStyle="#ff3c91";
 
         ctx.fillRect(
-            x - 35,
-            y,
-            70,
-            25
+            x-35,y,70,25
         );
 
-        ctx.fillStyle = "#ffd84d";
+        ctx.fillStyle="#ffd84d";
 
-        for (let i = 0; i < 3; i++) {
+        for(let i=0;i<3;i++){
 
             ctx.save();
 
             ctx.translate(
-                x - 25 + i * 25,
-                y + 12
+                x-25+i*25,
+                y+12
             );
 
             ctx.rotate(-.45);
 
             ctx.fillRect(
-                -4,
-                -13,
-                8,
-                26
+                -4,-13,8,26
             );
 
             ctx.restore();
         }
 
-        ctx.fillStyle = "#222";
+        ctx.fillStyle="#222";
 
         ctx.fillRect(
-            x - 30,
-            y + 25,
-            8,
-            28
+            x-30,y+25,8,28
         );
 
         ctx.fillRect(
-            x + 22,
-            y + 25,
-            8,
-            28
+            x+22,y+25,8,28
         );
     }
 
-    else if (o.type === "rail") {
+    else if(o.type==="rail"){
 
-        ctx.strokeStyle = "#d7e8ff";
-        ctx.lineWidth = 7;
+        ctx.strokeStyle="#d7e8ff";
+        ctx.lineWidth=7;
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            x - 48,
-            y + 35
-        );
-
-        ctx.lineTo(
-            x + 48,
-            y + 35
-        );
+        ctx.moveTo(x-48,y+35);
+        ctx.lineTo(x+48,y+35);
 
         ctx.stroke();
 
-        ctx.lineWidth = 5;
+        ctx.lineWidth=5;
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            x - 35,
-            y + 35
-        );
+        ctx.moveTo(x-35,y+35);
+        ctx.lineTo(x-25,y+55);
 
-        ctx.lineTo(
-            x - 25,
-            y + 55
-        );
-
-        ctx.moveTo(
-            x + 35,
-            y + 35
-        );
-
-        ctx.lineTo(
-            x + 25,
-            y + 55
-        );
+        ctx.moveTo(x+35,y+35);
+        ctx.lineTo(x+25,y+55);
 
         ctx.stroke();
     }
 
-    else if (o.type === "cone") {
+    else if(o.type==="cone"){
 
-        ctx.fillStyle = "#ff6b35";
+        ctx.fillStyle="#ff6b35";
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            x,
-            y
-        );
-
-        ctx.lineTo(
-            x - 28,
-            y + 55
-        );
-
-        ctx.lineTo(
-            x + 28,
-            y + 55
-        );
+        ctx.moveTo(x,y);
+        ctx.lineTo(x-28,y+55);
+        ctx.lineTo(x+28,y+55);
 
         ctx.closePath();
-
         ctx.fill();
 
-        ctx.fillStyle = "white";
+        ctx.fillStyle="#fff";
 
         ctx.fillRect(
-            x - 16,
-            y + 30,
-            32,
-            7
+            x-16,y+30,32,7
         );
     }
 
-    else if (o.type === "ramp") {
+    else if(o.type==="ramp"){
 
-        ctx.fillStyle = "#ff3c91";
+        ctx.fillStyle="#ff3c91";
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            x - 45,
-            y + 55
-        );
-
-        ctx.lineTo(
-            x + 45,
-            y + 55
-        );
-
-        ctx.lineTo(
-            x + 45,
-            y + 35
-        );
+        ctx.moveTo(x-45,y+55);
+        ctx.lineTo(x+45,y+55);
+        ctx.lineTo(x+45,y+35);
 
         ctx.quadraticCurveTo(
-            x + 25,
-            y,
-            x - 45,
-            y + 55
+            x+25,y,
+            x-45,y+55
         );
 
         ctx.closePath();
-
         ctx.fill();
 
-        ctx.strokeStyle = "#ffd84d";
-        ctx.lineWidth = 4;
-
+        ctx.strokeStyle="#ffd84d";
+        ctx.lineWidth=4;
         ctx.stroke();
     }
 
-    else if (o.type === "stairs") {
+    else if(o.type==="stairs"){
 
-        ctx.fillStyle = "#ff9b3d";
+        ctx.fillStyle="#ff9b3d";
 
-        for (let i = 0; i < 4; i++) {
+        for(let i=0;i<4;i++){
 
             ctx.fillRect(
-                x - 38 + i * 10,
-                y + 15 + i * 10,
-                20 + i * 8,
-                40 - i * 8
+                x-38+i*10,
+                y+15+i*10,
+                20+i*8,
+                40-i*8
             );
         }
     }
 
-    else if (o.type === "box") {
+    else{
 
-        ctx.fillStyle = "#653b91";
+        ctx.fillStyle="#653b91";
 
         ctx.fillRect(
-            x - 35,
-            y + 10,
-            70,
-            45
+            x-35,y+10,70,45
         );
 
-        ctx.fillStyle = "#ffd84d";
+        ctx.fillStyle="#ffd84d";
 
         ctx.fillRect(
-            x - 30,
-            y + 15,
-            60,
-            6
+            x-30,y+15,60,6
         );
     }
 
@@ -2380,324 +2170,220 @@ function drawObstacle(o) {
 }
 
 /* =========================================================
-   COIN DRAWING
+   COINS
 ========================================================= */
 
-function drawCoin(c) {
+function drawCoin(c){
 
-    const x = laneX(c.lane);
-    const y = c.y;
+    const x=laneX(c.lane);
+    const y=c.y;
 
-    const width =
-        Math.abs(
-            Math.cos(c.spin)
-        ) * 16 + 4;
+    const width=
+        Math.abs(Math.cos(c.spin))*16+4;
 
     ctx.save();
 
-    ctx.fillStyle = "#ffd84d";
+    ctx.fillStyle="#ffd84d";
 
     ctx.beginPath();
 
     ctx.ellipse(
-        x,
-        y,
-        width,
-        20,
-        0,
-        0,
-        Math.PI * 2
+        x,y,width,20,
+        0,0,Math.PI*2
     );
 
     ctx.fill();
 
-    ctx.strokeStyle = "#fff4a0";
-    ctx.lineWidth = 3;
-
+    ctx.strokeStyle="#fff4a0";
+    ctx.lineWidth=3;
     ctx.stroke();
 
-    ctx.fillStyle = "#ff9d25";
+    ctx.fillStyle="#ff9d25";
+    ctx.font="bold 17px Arial";
+    ctx.textAlign="center";
 
-    ctx.font =
-        "bold 17px Arial";
-
-    ctx.textAlign = "center";
-
-    ctx.fillText(
-        "$",
-        x,
-        y + 6
-    );
+    ctx.fillText("$",x,y+6);
 
     ctx.restore();
 }
 
 /* =========================================================
-   PLAYER DRAWING
+   PLAYER
 ========================================================= */
 
-function drawPlayer() {
+function drawPlayer(){
 
-    const x = laneX(
-        Math.round(lane)
-    );
-
-    const y = playerY();
+    const x=laneX(Math.round(lane));
+    const y=playerY();
 
     ctx.save();
 
-    ctx.translate(
-        x,
-        y + player.height / 2
-    );
-
-    let tilt =
-        (targetLane - lane) * .35;
-
-    if (!grounded) {
-        tilt +=
-            Math.sin(
-                performance.now() / 100
-            ) * .05;
-    }
-
-    ctx.rotate(tilt);
-
     /* shadow */
 
-    if (grounded) {
+    if(grounded){
 
-        ctx.restore();
-
-        ctx.save();
-
-        ctx.globalAlpha = .2;
-
-        ctx.fillStyle = "#111";
+        ctx.globalAlpha=.2;
+        ctx.fillStyle="#111";
 
         ctx.beginPath();
 
         ctx.ellipse(
             x,
-            groundY() + 5,
+            groundY()+5,
             35,
             8,
             0,
             0,
-            Math.PI * 2
+            Math.PI*2
         );
 
         ctx.fill();
 
-        ctx.restore();
-
-        ctx.save();
-
-        ctx.translate(
-            x,
-            y + player.height / 2
-        );
-
-        ctx.rotate(tilt);
+        ctx.globalAlpha=1;
     }
 
-    /* skateboard */
+    ctx.translate(
+        x,
+        y+player.height/2
+    );
 
-    ctx.strokeStyle = "#ff3c91";
-    ctx.lineWidth = 8;
+    let tilt=
+        (targetLane-lane)*.35;
 
-    ctx.lineCap = "round";
+    if(!grounded){
+        tilt+=
+            Math.sin(
+                performance.now()/100
+            )*.05;
+    }
+
+    ctx.rotate(tilt);
+
+    /* board */
+
+    ctx.strokeStyle="#ff3c91";
+    ctx.lineWidth=8;
+    ctx.lineCap="round";
 
     ctx.beginPath();
 
-    ctx.moveTo(
-        -27,
-        27
-    );
+    ctx.moveTo(-27,27);
 
     ctx.quadraticCurveTo(
-        0,
-        34,
-        27,
-        27
+        0,34,27,27
     );
 
     ctx.stroke();
 
     /* wheels */
 
-    ctx.fillStyle = "#111";
+    ctx.fillStyle="#111";
 
     ctx.beginPath();
 
-    ctx.arc(
-        -18,
-        35,
-        6,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.arc(
-        18,
-        35,
-        6,
-        0,
-        Math.PI * 2
-    );
+    ctx.arc(-18,35,6,0,Math.PI*2);
+    ctx.arc(18,35,6,0,Math.PI*2);
 
     ctx.fill();
 
     /* legs */
 
-    ctx.strokeStyle = "#17122e";
-    ctx.lineWidth = 8;
+    ctx.strokeStyle="#17122e";
+    ctx.lineWidth=8;
 
     ctx.beginPath();
 
-    ctx.moveTo(
-        -5,
-        5
-    );
+    ctx.moveTo(-5,5);
+    ctx.lineTo(-14,27);
 
-    ctx.lineTo(
-        -14,
-        27
-    );
-
-    ctx.moveTo(
-        7,
-        5
-    );
-
-    ctx.lineTo(
-        15,
-        27
-    );
+    ctx.moveTo(7,5);
+    ctx.lineTo(15,27);
 
     ctx.stroke();
 
     /* body */
 
-    ctx.fillStyle = "#37e0d0";
+    ctx.fillStyle="#37e0d0";
 
     ctx.fillRect(
-        -13,
-        -25,
-        26,
-        34
+        -13,-25,26,34
     );
 
     /* arms */
 
-    ctx.strokeStyle = "#ffcfad";
-    ctx.lineWidth = 7;
+    ctx.strokeStyle="#ffcfad";
+    ctx.lineWidth=7;
 
     ctx.beginPath();
 
-    ctx.moveTo(
-        -10,
-        -18
-    );
+    ctx.moveTo(-10,-18);
+    ctx.lineTo(-28,-3);
 
-    ctx.lineTo(
-        -28,
-        -3
-    );
-
-    ctx.moveTo(
-        10,
-        -18
-    );
-
-    ctx.lineTo(
-        27,
-        -5
-    );
+    ctx.moveTo(10,-18);
+    ctx.lineTo(27,-5);
 
     ctx.stroke();
 
     /* head */
 
-    ctx.fillStyle = "#ffcfad";
+    ctx.fillStyle="#ffcfad";
 
     ctx.beginPath();
 
     ctx.arc(
-        0,
-        -39,
-        14,
-        0,
-        Math.PI * 2
+        0,-39,14,
+        0,Math.PI*2
     );
 
     ctx.fill();
 
     /* hair */
 
-    ctx.fillStyle = "#17122e";
+    ctx.fillStyle="#17122e";
 
     ctx.beginPath();
 
     ctx.arc(
-        0,
-        -44,
-        14,
+        0,-44,14,
         Math.PI,
-        Math.PI * 2
+        Math.PI*2
     );
 
     ctx.fill();
 
     /* cap */
 
-    ctx.fillStyle = "#ff3c91";
+    ctx.fillStyle="#ff3c91";
 
     ctx.beginPath();
 
     ctx.arc(
-        2,
-        -48,
-        13,
+        2,-48,13,
         Math.PI,
-        Math.PI * 2
+        Math.PI*2
     );
 
     ctx.fill();
 
     ctx.fillRect(
-        1,
-        -48,
-        19,
-        5
+        1,-48,19,5
     );
 
-    /* trick board spin */
+    /* spinning board */
 
-    if (trickTimer > 0) {
+    if(trickTimer>0){
 
         ctx.save();
 
-        ctx.rotate(
-            trickRotation
-        );
+        ctx.rotate(trickRotation);
 
-        ctx.strokeStyle =
-            "#ffd84d";
-
-        ctx.lineWidth = 5;
+        ctx.strokeStyle="#ffd84d";
+        ctx.lineWidth=5;
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            -30,
-            25
-        );
-
-        ctx.lineTo(
-            30,
-            25
-        );
+        ctx.moveTo(-30,25);
+        ctx.lineTo(30,25);
 
         ctx.stroke();
 
@@ -2711,58 +2397,50 @@ function drawPlayer() {
    DRAW
 ========================================================= */
 
-function draw() {
+function draw(){
 
     ctx.save();
 
-    if (shake > 0) {
+    if(shake>0){
 
         ctx.translate(
-            (Math.random() - .5) *
-                shake,
-            (Math.random() - .5) *
-                shake
+            (Math.random()-.5)*shake,
+            (Math.random()-.5)*shake
         );
     }
 
-    ctx.clearRect(
-        0,
-        0,
-        innerWidth,
-        innerHeight
-    );
+    ctx.clearRect(0,0,W,H);
 
     drawBackground();
     drawRoad();
 
-    for (const c of coins) {
+    for(const c of coins){
         drawCoin(c);
     }
 
-    for (const o of obstacles) {
+    for(const o of obstacles){
         drawObstacle(o);
     }
 
     drawPlayer();
-
     drawParticles();
 
     ctx.restore();
 }
 
 /* =========================================================
-   GAME LOOP
+   LOOP
 ========================================================= */
 
-function loop(time) {
+function loop(time){
 
-    const dt =
+    const dt=
         Math.min(
             .035,
-            (time - lastTime) / 1000 || 0
+            (time-lastTime)/1000||0
         );
 
-    lastTime = time;
+    lastTime=time;
 
     update(dt);
     draw();
@@ -2776,121 +2454,199 @@ requestAnimationFrame(loop);
    KEYBOARD
 ========================================================= */
 
-document.addEventListener(
-    "keydown",
-    e => {
+document.addEventListener("keydown",e=>{
 
-        if (
-            e.code === "Space" ||
-            e.code === "ArrowUp"
-        ) {
+    if(e.code==="Escape"){
 
-            e.preventDefault();
+        e.preventDefault();
 
-            initAudio();
-            jump();
+        if(settings.style.display==="flex"){
+
+            settings.style.display="none";
+
+            if(running&&!paused){
+                resumeGame();
+            }
+
+            return;
         }
 
-        if (
-            e.code === "ArrowLeft" ||
-            e.code === "KeyA"
-        ) {
-
-            e.preventDefault();
-
-            initAudio();
-            moveLeft();
+        if(document.getElementById("gameOver").style.display==="flex"){
+            return;
         }
 
-        if (
-            e.code === "ArrowRight" ||
-            e.code === "KeyD"
-        ) {
+        if(running){
 
-            e.preventDefault();
+            if(paused){
+                resumeGame();
+            }else{
+                pauseGame();
+            }
 
-            initAudio();
-            moveRight();
-        }
+        }else{
 
-        if (e.code === "KeyF") {
-
-            e.preventDefault();
-
-            initAudio();
-            doTrick();
-        }
-
-        if (e.code === "KeyR") {
-
-            e.preventDefault();
-
-            if (!running) {
-                startGame();
+            if(document.getElementById("menu").style.display==="none"){
+                openMainMenu();
             }
         }
+
+        return;
     }
-);
+
+    if(e.code==="Space"||e.code==="ArrowUp"){
+
+        e.preventDefault();
+
+        initAudio();
+        jump();
+    }
+
+    if(e.code==="ArrowLeft"||e.code==="KeyA"){
+
+        e.preventDefault();
+
+        initAudio();
+        moveLeft();
+    }
+
+    if(e.code==="ArrowRight"||e.code==="KeyD"){
+
+        e.preventDefault();
+
+        initAudio();
+        moveRight();
+    }
+
+    if(e.code==="KeyF"){
+
+        e.preventDefault();
+
+        initAudio();
+        doTrick();
+    }
+
+    if(e.code==="KeyR"){
+
+        e.preventDefault();
+
+        if(running){
+            startGame();
+        }else{
+            startGame();
+        }
+    }
+});
 
 /* =========================================================
-   BUTTONS
+   MENU BUTTONS
 ========================================================= */
 
-document
-    .getElementById("startBtn")
-    .addEventListener(
-        "click",
-        startGame
+document.getElementById("startBtn").onclick=()=>{
+    startGame();
+};
+
+document.getElementById("restartBtn").onclick=()=>{
+    startGame();
+};
+
+document.getElementById("gameOverMenu").onclick=()=>{
+    openMainMenu();
+};
+
+document.getElementById("pauseButton").onclick=()=>{
+    pauseGame();
+};
+
+document.getElementById("resumeBtn").onclick=()=>{
+    resumeGame();
+};
+
+document.getElementById("pauseRestart").onclick=()=>{
+    startGame();
+};
+
+document.getElementById("pauseMenu").onclick=()=>{
+    openMainMenu();
+};
+
+document.getElementById("pauseAudio").onclick=()=>{
+
+    settings.style.display="flex";
+    clickSound();
+};
+
+document.getElementById("settingsBtn").onclick=()=>{
+
+    initAudio();
+
+    settings.style.display="flex";
+    clickSound();
+};
+
+document.getElementById("closeSettings").onclick=()=>{
+
+    settings.style.display="none";
+    clickSound();
+};
+
+document.getElementById("soundBtn").onclick=()=>{
+
+    initAudio();
+
+    audioSettings.sfxEnabled=
+        !audioSettings.sfxEnabled;
+
+    localStorage.setItem(
+        "moiCySfxEnabled",
+        audioSettings.sfxEnabled
     );
 
-document
-    .getElementById("restartBtn")
-    .addEventListener(
-        "click",
-        startGame
+    updateAudioVolumes();
+    refreshAudioUI();
+
+    if(audioSettings.sfxEnabled){
+        clickSound();
+    }
+};
+
+document.getElementById("musicBtn").onclick=()=>{
+
+    initAudio();
+
+    audioSettings.musicEnabled=
+        !audioSettings.musicEnabled;
+
+    localStorage.setItem(
+        "moiCyMusicEnabled",
+        audioSettings.musicEnabled
     );
+
+    updateAudioVolumes();
+    refreshAudioUI();
+};
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-function mobileAction(
-    element,
-    action
-) {
+function mobileAction(id,action){
 
-    element.addEventListener(
+    const el=document.getElementById(id);
+
+    el.addEventListener(
         "pointerdown",
-        e => {
-
+        e=>{
             e.preventDefault();
-
             initAudio();
-
             action();
         }
     );
 }
 
-mobileAction(
-    document.getElementById("leftBtn"),
-    moveLeft
-);
-
-mobileAction(
-    document.getElementById("rightBtn"),
-    moveRight
-);
-
-mobileAction(
-    document.getElementById("jumpBtn"),
-    jump
-);
-
-mobileAction(
-    document.getElementById("trickBtn"),
-    doTrick
-);
+mobileAction("leftBtn",moveLeft);
+mobileAction("rightBtn",moveRight);
+mobileAction("jumpBtn",jump);
+mobileAction("trickBtn",doTrick);
 
 /* =========================================================
    AUDIO UNLOCK
@@ -2898,15 +2654,21 @@ mobileAction(
 
 document.addEventListener(
     "pointerdown",
-    () => {
-        if (!audioStarted) {
+    ()=>{
+        if(!audioStarted){
             initAudio();
         }
     },
-    { once: true }
+    {once:true}
 );
 
-</script>
+/* =========================================================
+   INITIAL UI
+========================================================= */
 
+refreshAudioUI();
+updateHUD();
+
+</script>
 </body>
 </html>
