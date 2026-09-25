@@ -1,441 +1,441 @@
-<!DOCTYPE html>  
-<html lang="de">  
-<head>  
-  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  
+<!DOCTYPE html>
+<html lang="de">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title
     data-i18n-title="shop_page_title"
   >
-    Shop – Moi-cy  
-  </title>  
-  
+    Shop – Moi-cy
+  </title>
+
   <meta
     name="description"
     content="Der Moi-cy Shop."
     data-i18n-description="shop_meta_description"
   >
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">  
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
-  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&display=swap"
     rel="stylesheet"
-  >  
-  
-  <link rel="stylesheet" href="style.css?v=shop2">  
-  
-  
-  <style>  
-  
-    /* =========================================  
-       MOI-CY SHOP  
-       SCHLICHT × DARK STREET  
-    ========================================= */  
-  
-    .shop-page {  
-      min-height: 100vh;  
-      padding: 150px 7vw 100px;  
-      background: #050505;  
-    }  
-  
-  
-    .shop-header {  
-      max-width: 1100px;  
-      margin: 0 auto 70px;  
-    }  
-  
-  
-    .shop-label {  
-      display: block;  
-      margin-bottom: 18px;  
-  
-      color: #00a8ff;  
-  
-      font-size: 0.65rem;  
-      font-weight: 800;  
-  
-      letter-spacing: 0.18em;  
-    }  
-  
-  
-    .shop-title {  
-      margin: 0;  
-  
-      color: #f2f2f2;  
-  
-      font-size: clamp(3.5rem, 8vw, 7rem);  
-  
-      line-height: 0.9;  
-  
-      letter-spacing: -0.07em;  
-  
-      font-weight: 900;  
-    }  
-  
-  
-    /* =========================================  
-       SHOP GRID  
-    ========================================= */  
-  
-    .shop-grid {  
-      max-width: 1100px;  
-      margin: 0 auto;  
-  
-      display: grid;  
-      grid-template-columns: 1fr 1fr;  
-  
-      gap: 28px;  
-    }  
-  
-  
-    .shop-item {  
-      min-width: 0;  
-    }  
-  
-  
-    /* =========================================  
-       SHOP BILD  
-    ========================================= */  
-  
-    .shop-image-link {  
-      display: block;  
-  
-      width: 100%;  
-  
-      text-decoration: none;  
-  
-      overflow: hidden;  
-    }  
-  
-  
-    .shop-image {  
-      width: 100%;  
-  
-      aspect-ratio: 1 / 1;  
-  
-      background: #0d0d0d;  
-  
-      border: 1px solid rgba(255, 255, 255, 0.09);  
-  
-      overflow: hidden;  
-  
-      transition:  
-        border-color 0.3s ease,  
-        transform 0.3s ease;  
-    }  
-  
-  
-    .shop-image img {  
-      width: 100%;  
-      height: 100%;  
-  
-      display: block;  
-  
-      object-fit: cover;  
-  
-      transition:  
-        transform 0.6s ease,  
-        filter 0.6s ease;  
-    }  
-  
-  
-    .shop-image-link:hover .shop-image {  
-      border-color: #00a8ff;  
-  
-      transform: translateY(-3px);  
-    }  
-  
-  
-    .shop-image-link:hover .shop-image img {  
-      transform: scale(1.04);  
-    }  
-  
-  
-    /* =========================================  
-       SHOP BUTTON  
-    ========================================= */  
-  
-    .shop-button {  
-      position: relative;  
-  
-      display: flex;  
-  
-      align-items: center;  
-      justify-content: space-between;  
-  
-      width: 100%;  
-  
-      margin-top: 14px;  
-  
-      padding: 17px 20px;  
-  
-      border: 1px solid rgba(255, 255, 255, 0.18);  
-  
-      background: transparent;  
-  
-      color: #f2f2f2;  
-  
-      font-size: 0.65rem;  
-  
-      font-weight: 800;  
-  
-      letter-spacing: 0.15em;  
-  
-      text-decoration: none;  
-  
-      overflow: hidden;  
-  
-      transition:  
-        color 0.3s ease,  
-        border-color 0.3s ease,  
-        transform 0.3s ease;  
-    }  
-  
-  
-    .shop-button::before {  
-      content: "";  
-  
-      position: absolute;  
-  
-      inset: 0;  
-  
-      width: 0;  
-  
-      background: #00a8ff;  
-  
-      transition: width 0.35s ease;  
-  
-      z-index: 0;  
-    }  
-  
-  
-    .shop-button span,  
-    .shop-button strong {  
-      position: relative;  
-  
-      z-index: 2;  
-    }  
-  
-  
-    .shop-button strong {  
-      color: #00a8ff;  
-  
-      font-size: 1.1rem;  
-  
-      font-weight: 400;  
-  
-      transition:  
-        color 0.3s ease,  
-        transform 0.3s ease;  
-    }  
-  
-  
-    .shop-button:hover {  
-      color: #050505;  
-  
-      border-color: #00a8ff;  
-  
-      transform: translateY(-3px);  
-    }  
-  
-  
-    .shop-button:hover::before {  
-      width: 100%;  
-    }  
-  
-  
-    .shop-button:hover strong {  
-      color: #050505;  
-  
-      transform: translateX(6px);  
-    }  
-  
-  
-    /* =========================================  
-       SPRACHUMSCHALTER  
-    ========================================= */  
-  
-    .language-switcher {  
-      display: flex;  
-  
-      align-items: center;  
-  
-      gap: 6px;  
-  
-      margin-left: 20px;  
-    }  
-  
-  
-    .language-switcher button {  
-      padding: 6px 7px;  
-  
-      border: 1px solid rgba(255,255,255,0.12);  
-  
-      background: transparent;  
-  
-      color: #777;  
-  
-      font-family: "Inter", sans-serif;  
-  
-      font-size: 0.6rem;  
-  
-      font-weight: 800;  
-  
-      letter-spacing: 0.08em;  
-  
-      cursor: pointer;  
-  
-      transition:  
-        color 0.2s ease,  
-        border-color 0.2s ease,  
-        background 0.2s ease;  
-    }  
-  
-  
-    .language-switcher button:hover {  
-      color: #f2f2f2;  
-  
-      border-color: #00a8ff;  
-    }  
-  
-  
-    .language-switcher button.active {  
-      color: #050505;  
-  
-      background: #00a8ff;  
-  
-      border-color: #00a8ff;  
-    }  
-  
-  
-    /* =========================================  
-       MOBILE  
-    ========================================= */  
-  
-    @media (max-width: 900px) {  
-  
-      .language-switcher {  
-        margin-left: 12px;  
-      }  
-  
-    }  
-  
-  
-    @media (max-width: 700px) {  
-  
-      .shop-page {  
-        padding: 120px 6vw 70px;  
-      }  
-  
-  
-      .shop-header {  
-        margin-bottom: 45px;  
-      }  
-  
-  
-      .shop-title {  
-        font-size: clamp(3.5rem, 17vw, 6rem);  
-      }  
-  
-  
-      .shop-grid {  
-        grid-template-columns: 1fr;  
-  
-        gap: 45px;  
-      }  
-  
-  
-      .shop-image {  
-        aspect-ratio: 1 / 1;  
-      }  
-  
-  
-      .shop-button {  
-        padding: 16px 18px;  
-      }  
-  
-  
-      .language-switcher {  
-        margin-left: 8px;  
-  
-        gap: 3px;  
-      }  
-  
-  
-      .language-switcher button {  
-        padding: 5px 6px;  
-  
-        font-size: 0.55rem;  
-      }  
-  
-    }  
-  
-  </style>  
-  
-</head>  
-  
-  
-<body>  
-  
-  
-<!-- =========================================  
-     SHARED HEADER  
-========================================= -->  
-  
-<div id="site-header"></div>  
-  
-  
-  
-<!-- =========================================  
-     SHOP  
-========================================= -->  
-  
-<main>  
-  
-  <section class="shop-page">  
-  
-  
-    <!-- ÜBERSCHRIFT -->  
-  
-    <div class="shop-header">  
-  
+  >
+
+  <link rel="stylesheet" href="style.css?v=shop2">
+
+
+  <style>
+
+    /* =========================================
+       MOI-CY SHOP
+       SCHLICHT × DARK STREET
+    ========================================= */
+
+    .shop-page {
+      min-height: 100vh;
+      padding: 150px 7vw 100px;
+      background: #050505;
+    }
+
+
+    .shop-header {
+      max-width: 1100px;
+      margin: 0 auto 70px;
+    }
+
+
+    .shop-label {
+      display: block;
+      margin-bottom: 18px;
+
+      color: #00a8ff;
+
+      font-size: 0.65rem;
+      font-weight: 800;
+
+      letter-spacing: 0.18em;
+    }
+
+
+    .shop-title {
+      margin: 0;
+
+      color: #f2f2f2;
+
+      font-size: clamp(3.5rem, 8vw, 7rem);
+
+      line-height: 0.9;
+
+      letter-spacing: -0.07em;
+
+      font-weight: 900;
+    }
+
+
+    /* =========================================
+       SHOP GRID
+    ========================================= */
+
+    .shop-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 28px;
+    }
+
+
+    .shop-item {
+      min-width: 0;
+    }
+
+
+    /* =========================================
+       SHOP BILD
+    ========================================= */
+
+    .shop-image-link {
+      display: block;
+
+      width: 100%;
+
+      text-decoration: none;
+
+      overflow: hidden;
+    }
+
+
+    .shop-image {
+      width: 100%;
+
+      aspect-ratio: 1 / 1;
+
+      background: #0d0d0d;
+
+      border: 1px solid rgba(255, 255, 255, 0.09);
+
+      overflow: hidden;
+
+      transition:
+        border-color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .shop-image img {
+      width: 100%;
+      height: 100%;
+
+      display: block;
+
+      object-fit: cover;
+
+      transition:
+        transform 0.6s ease,
+        filter 0.6s ease;
+    }
+
+
+    .shop-image-link:hover .shop-image {
+      border-color: #00a8ff;
+
+      transform: translateY(-3px);
+    }
+
+
+    .shop-image-link:hover .shop-image img {
+      transform: scale(1.04);
+    }
+
+
+    /* =========================================
+       SHOP BUTTON
+    ========================================= */
+
+    .shop-button {
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+
+      margin-top: 14px;
+
+      padding: 17px 20px;
+
+      border: 1px solid rgba(255, 255, 255, 0.18);
+
+      background: transparent;
+
+      color: #f2f2f2;
+
+      font-size: 0.65rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.15em;
+
+      text-decoration: none;
+
+      overflow: hidden;
+
+      transition:
+        color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+
+      box-sizing: border-box;
+    }
+
+
+    .shop-button::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 0;
+
+      background: #00a8ff;
+
+      transition: width 0.35s ease;
+
+      z-index: 0;
+    }
+
+
+    .shop-button span,
+    .shop-button strong {
+      position: relative;
+
+      z-index: 2;
+    }
+
+
+    .shop-button strong {
+      color: #00a8ff;
+
+      font-size: 1.1rem;
+
+      font-weight: 400;
+
+      transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+
+    .shop-button:hover {
+      color: #050505;
+
+      border-color: #00a8ff;
+
+      transform: translateY(-3px);
+    }
+
+
+    .shop-button:hover::before {
+      width: 100%;
+    }
+
+
+    .shop-button:hover strong {
+      color: #050505;
+
+      transform: translateX(6px);
+    }
+
+
+    /* =========================================
+       SPRACHUMSCHALTER
+    ========================================= */
+
+    .language-switcher {
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+      margin-left: 20px;
+    }
+
+
+    .language-switcher button {
+      padding: 6px 7px;
+
+      border: 1px solid rgba(255,255,255,0.12);
+
+      background: transparent;
+
+      color: #777;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 0.6rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.08em;
+
+      cursor: pointer;
+
+      transition:
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .language-switcher button:hover {
+      color: #f2f2f2;
+
+      border-color: #00a8ff;
+    }
+
+
+    .language-switcher button.active {
+      color: #050505;
+
+      background: #00a8ff;
+
+      border-color: #00a8ff;
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 900px) {
+
+      .language-switcher {
+        margin-left: 12px;
+      }
+
+    }
+
+
+    @media (max-width: 700px) {
+
+      .shop-page {
+        padding: 120px 6vw 70px;
+      }
+
+
+      .shop-header {
+        margin-bottom: 45px;
+      }
+
+
+      .shop-title {
+        font-size: clamp(3.5rem, 17vw, 6rem);
+      }
+
+
+      .shop-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+      }
+
+
+      .shop-image {
+        aspect-ratio: 1 / 1;
+      }
+
+
+      .shop-button {
+        padding: 16px 18px;
+      }
+
+
+      .language-switcher {
+        margin-left: 8px;
+
+        gap: 3px;
+      }
+
+
+      .language-switcher button {
+        padding: 5px 6px;
+
+        font-size: 0.55rem;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     SHARED HEADER
+========================================= -->
+
+<div id="site-header"></div>
+
+
+
+<!-- =========================================
+     SHOP
+========================================= -->
+
+<main>
+
+  <section class="shop-page">
+
+
+    <!-- ÜBERSCHRIFT -->
+
+    <div class="shop-header">
+
       <span
         class="shop-label"
         data-i18n="shop_label"
       >
         MOI-CY / SHOP
-      </span>  
-  
-  
+      </span>
+
+
       <h1
         class="shop-title"
         data-i18n="shop_title"
       >
         Shop
-      </h1>  
-  
-    </div>  
-  
-  
-  
-    <!-- SHOP PRODUKTE -->  
-  
-    <section class="shop-grid">  
-  
-  
-      <!-- =====================================  
-           LINKER SHOP  
-           ZAZZLE  
-      ====================================== -->  
-  
-      <article class="shop-item">  
-  
-  
-        <!-- BILD IST KLICKBAR -->  
-  
+      </h1>
+
+    </div>
+
+
+
+    <!-- SHOP PRODUKTE -->
+
+    <section class="shop-grid">
+            <!-- =====================================
+           LINKER SHOP
+           ZAZZLE
+      ====================================== -->
+
+      <article class="shop-item">
+
+
+        <!-- BILD IST KLICKBAR -->
+
         <a
           href="https://www.zazzle.de/store/moi_cy"
           class="shop-image-link"
@@ -443,54 +443,54 @@
           rel="noopener noreferrer"
           aria-label="Moi-cy Shop auf Zazzle öffnen"
           data-i18n-aria="zazzle_shop_open"
-        >  
-  
-          <div class="shop-image">  
-  
+        >
+
+          <div class="shop-image">
+
             <img
-              src="bilder/zazzle-1.jpg"
+              src="./bilder/zazzle-1.png"
               alt="Moi-cy Shop auf Zazzle"
               data-i18n-alt="zazzle_shop_alt"
-            >  
-  
-          </div>  
-  
-        </a>  
-  
-  
-        <!-- BUTTON IST KLICKBAR -->  
-  
+            >
+
+          </div>
+
+        </a>
+
+
+        <!-- BUTTON IST KLICKBAR -->
+
         <a
           href="https://www.zazzle.de/store/moi_cy"
           class="shop-button"
           target="_blank"
           rel="noopener noreferrer"
-        >  
-  
+        >
+
           <span data-i18n="zazzle_shop_button">
             ZUM ZAZZLE SHOP
-          </span>  
-  
+          </span>
+
           <strong>
             →
-          </strong>  
-  
-        </a>  
-  
-      </article>  
-  
-  
-  
-      <!-- =====================================  
-           RECHTER SHOP  
-           TEAMSHIRTS  
-      ====================================== -->  
-  
-      <article class="shop-item">  
-  
-  
-        <!-- BILD IST KLICKBAR -->  
-  
+          </strong>
+
+        </a>
+
+      </article>
+
+
+
+      <!-- =====================================
+           RECHTER SHOP
+           TEAMSHIRTS
+      ====================================== -->
+
+      <article class="shop-item">
+
+
+        <!-- BILD IST KLICKBAR -->
+
         <a
           href="https://shop.teamshirts.de/moi-cy"
           class="shop-image-link"
@@ -498,64 +498,61 @@
           rel="noopener noreferrer"
           aria-label="Moi-cy Shop auf TeamShirts öffnen"
           data-i18n-aria="teamshirts_shop_open"
-        >  
-  
-          <div class="shop-image">  
-  
+        >
+
+          <div class="shop-image">
+
             <img
-              src="bilder/teamshirt-1.jpg"
+              src="./bilder/teamshirt-1.png"
               alt="Moi-cy Shop auf TeamShirts"
               data-i18n-alt="teamshirts_shop_alt"
-            >  
-  
-          </div>  
-  
-        </a>  
-  
-  
-        <!-- BUTTON IST KLICKBAR -->  
-  
+            >
+
+          </div>
+
+        </a>
+
+
+        <!-- BUTTON IST KLICKBAR -->
+
         <a
           href="https://shop.teamshirts.de/moi-cy"
           class="shop-button"
           target="_blank"
           rel="noopener noreferrer"
-        >  
-  
+        >
+
           <span data-i18n="teamshirts_shop_button">
             ZUM TEAMSHIRTS SHOP
-          </span>  
-  
+          </span>
+
           <strong>
             →
-          </strong>  
-  
-        </a>  
-  
-      </article>  
-  
-  
-    </section>  
-  
-  </section>  
-  
-</main>  
-  
-  
-  
-<!-- =========================================  
-     SHARED FOOTER  
-========================================= -->  
-  
-<div id="site-footer"></div>  
-  
-  
-  
+          </strong>
+
+        </a>
+
+      </article>
+
+
+    </section>
+
+  </section>
+
+</main>
+<!-- =========================================
+     SHARED FOOTER
+========================================= -->
+
+<div id="site-footer"></div>
+
+
+
 <script
   type="module"
   src="script.js"
-></script>  
-  
-  
-</body>  
+></script>
+
+
+</body>
 </html>
