@@ -2,531 +2,459 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Moi-cy Skate Rush</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+    -webkit-user-select:none;
 }
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #12072b;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#12062b;
+    font-family:Arial,sans-serif;
+    color:white;
 }
 
-body {
-    touch-action: none;
+body{
+    touch-action:none;
 }
 
-canvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
 }
 
-/* =========================
-   HUD
-========================= */
+/* HUD */
 
-#hud {
-    position: fixed;
-    top: 16px;
-    left: 18px;
-    right: 18px;
-    z-index: 20;
+#hud{
+    position:fixed;
+    top:15px;
+    left:18px;
+    right:18px;
+    z-index:10;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
 
-    pointer-events: none;
+    pointer-events:none;
 }
 
-.logo {
-    font-size: clamp(28px, 5vw, 46px);
-    font-weight: 1000;
-    font-style: italic;
-    letter-spacing: -3px;
-
-    transform: rotate(-5deg);
+.logo{
+    font-size:clamp(28px,5vw,48px);
+    font-weight:1000;
+    font-style:italic;
+    transform:rotate(-5deg);
 
     text-shadow:
-        4px 4px 0 #ff2991,
-        8px 8px 0 #4021ad;
+        4px 4px 0 #ff2490,
+        8px 8px 0 #4020ae;
 }
 
-.logo span {
-    color: #fff06a;
+.logo span{
+    color:#fff06a;
 }
 
-.stats {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+.stats{
+    display:flex;
+    gap:7px;
 }
 
-.stat {
-    min-width: 90px;
+.stat{
+    min-width:85px;
+    padding:8px 12px;
 
-    padding: 8px 13px;
+    text-align:center;
 
-    border: 2px solid rgba(255,255,255,.85);
-    border-radius: 16px;
+    border:2px solid rgba(255,255,255,.8);
+    border-radius:15px;
 
-    background: rgba(24, 8, 52, .65);
-    backdrop-filter: blur(10px);
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.18);
+    background:rgba(20,6,48,.65);
+    backdrop-filter:blur(8px);
 }
 
-.stat small {
-    display: block;
-    font-size: 9px;
-    opacity: .7;
-    letter-spacing: 1px;
+.stat small{
+    display:block;
+    font-size:9px;
+    opacity:.7;
 }
 
-.stat strong {
-    display: block;
-    margin-top: 2px;
-    font-size: 18px;
+.stat strong{
+    display:block;
+    font-size:18px;
 }
 
-/* =========================
-   COMBO
-========================= */
+/* COMBO */
 
-#comboBox {
-    position: fixed;
-    top: 115px;
-    left: 50%;
+#combo{
+    position:fixed;
+    top:105px;
+    left:50%;
 
-    transform:
-        translateX(-50%)
-        scale(.7);
+    transform:translateX(-50%) scale(.6);
 
-    opacity: 0;
+    opacity:0;
 
-    z-index: 25;
-    pointer-events: none;
+    z-index:15;
 
-    text-align: center;
+    text-align:center;
 
-    transition:
-        transform .18s ease,
-        opacity .18s ease;
+    pointer-events:none;
+
+    transition:.2s;
 }
 
-#comboBox.show {
-    opacity: 1;
-
-    transform:
-        translateX(-50%)
-        scale(1);
+#combo.show{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
 }
 
-#comboText {
-    font-size: clamp(35px, 8vw, 75px);
-    font-weight: 1000;
-    font-style: italic;
+#comboText{
+    font-size:clamp(35px,8vw,70px);
+    font-weight:1000;
+    font-style:italic;
+
+    color:white;
 
     text-shadow:
-        5px 5px 0 #ff2390,
-        9px 9px 0 #4421b9;
+        5px 5px 0 #ff2993,
+        9px 9px 0 #4420b5;
 }
 
-#comboPoints {
-    color: #fff16b;
-    font-size: 20px;
-    font-weight: 900;
+#comboPoints{
+    color:#fff16a;
+    font-weight:900;
 }
 
-/* =========================
-   TRICK POPUP
-========================= */
+/* TRICK */
 
-#trickPopup {
-    position: fixed;
-
-    left: 50%;
-    top: 43%;
+#trick{
+    position:fixed;
+    left:50%;
+    top:45%;
 
     transform:
-        translate(-50%, -50%)
+        translate(-50%,-50%)
         scale(.5)
         rotate(-6deg);
 
-    opacity: 0;
+    opacity:0;
 
-    z-index: 30;
+    z-index:20;
 
-    pointer-events: none;
+    font-size:clamp(30px,7vw,70px);
+    font-weight:1000;
+    font-style:italic;
 
-    font-size: clamp(28px, 7vw, 70px);
-    font-weight: 1000;
-    font-style: italic;
-
-    color: #fff36b;
+    color:#fff16a;
 
     text-shadow:
-        4px 4px 0 #ff268e,
-        8px 8px 0 #4220b8;
+        5px 5px 0 #ff2793,
+        9px 9px 0 #4520b8;
 
-    transition:
-        opacity .15s,
-        transform .4s;
+    pointer-events:none;
+
+    transition:.3s;
 }
 
-/* =========================
-   PROGRESS
-========================= */
+/* PROGRESS */
 
-.progressWrap {
-    position: fixed;
+.progress{
+    position:fixed;
 
-    left: 50%;
-    bottom: 17px;
+    left:50%;
+    bottom:18px;
 
-    transform: translateX(-50%);
+    transform:translateX(-50%);
 
-    width: min(430px, 48vw);
-    height: 8px;
+    width:min(430px,45vw);
+    height:8px;
 
-    border-radius: 999px;
+    background:rgba(255,255,255,.2);
 
-    background: rgba(255,255,255,.2);
+    border-radius:20px;
 
-    overflow: hidden;
+    overflow:hidden;
 
-    z-index: 20;
-
-    pointer-events: none;
+    z-index:10;
 }
 
-.progressBar {
-    height: 100%;
-    width: 0%;
+.progressBar{
+    height:100%;
+    width:0%;
 
-    background: #fff36b;
+    background:#fff16a;
 
-    box-shadow:
-        0 0 15px #fff36b;
+    box-shadow:0 0 15px #fff16a;
 }
 
-/* =========================
-   MENU
-========================= */
+/* MENU */
 
-#menu {
-    position: fixed;
-    inset: 0;
+#menu{
+    position:fixed;
+    inset:0;
 
-    z-index: 100;
+    z-index:50;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    padding: 20px;
+    padding:20px;
 
     background:
         radial-gradient(
             circle at 50% 20%,
-            rgba(255,255,255,.16),
-            transparent 32%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(25,5,55,.25),
-            rgba(255,45,140,.18)
+            rgba(255,255,255,.15),
+            transparent 35%
         );
 }
 
-.menuCard {
-    width: min(600px, 94vw);
+.card{
+    width:min(600px,94vw);
 
-    padding: 38px 30px;
+    padding:40px 30px;
 
-    text-align: center;
+    text-align:center;
 
-    border: 3px solid rgba(255,255,255,.9);
-    border-radius: 32px;
+    background:rgba(20,6,48,.85);
 
-    background: rgba(20, 6, 47, .82);
+    border:3px solid white;
+    border-radius:32px;
 
-    backdrop-filter: blur(18px);
+    backdrop-filter:blur(16px);
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.35),
-        0 0 50px rgba(255,45,150,.2);
+        0 25px 70px rgba(0,0,0,.4);
 }
 
-.menuTitle {
-    font-size: clamp(50px, 11vw, 90px);
-    line-height: .82;
+.title{
+    font-size:clamp(50px,11vw,90px);
+    line-height:.8;
 
-    font-weight: 1000;
-    font-style: italic;
+    font-weight:1000;
+    font-style:italic;
 
-    transform: rotate(-5deg);
-
-    margin-bottom: 18px;
+    transform:rotate(-5deg);
 
     text-shadow:
-        6px 6px 0 #ff2d91,
-        11px 11px 0 #4422b7;
+        6px 6px 0 #ff2991,
+        11px 11px 0 #4220b5;
 }
 
-.menuTitle span {
-    color: #fff36b;
+.title span{
+    color:#fff16a;
 }
 
-.subtitle {
-    margin-bottom: 26px;
-
-    font-size: 18px;
-    opacity: .85;
+.subtitle{
+    margin:20px 0 25px;
+    opacity:.85;
+    font-size:18px;
 }
 
-.playButton {
-    border: 0;
+.play{
+    border:0;
 
-    padding: 17px 38px;
+    padding:17px 40px;
 
-    border-radius: 999px;
+    border-radius:100px;
+
+    color:white;
 
     background:
         linear-gradient(
             135deg,
-            #ff2d91,
-            #7136ff
+            #ff2991,
+            #7138ff
         );
 
-    color: white;
+    font-size:21px;
+    font-weight:1000;
 
-    font-size: 21px;
-    font-weight: 1000;
-
-    cursor: pointer;
+    cursor:pointer;
 
     box-shadow:
-        0 7px 0 #311565,
-        0 15px 35px rgba(255,40,150,.3);
-
-    transition: .15s;
+        0 7px 0 #321468,
+        0 15px 35px rgba(255,30,145,.3);
 }
 
-.playButton:hover {
-    transform: translateY(-3px) scale(1.03);
-}
-
-.playButton:active {
-    transform: translateY(5px);
+.play:active{
+    transform:translateY(5px);
 
     box-shadow:
-        0 2px 0 #311565;
+        0 2px 0 #321468;
 }
 
-.controls {
-    display: grid;
+.controls{
+    display:grid;
 
-    grid-template-columns:
-        repeat(4, 1fr);
+    grid-template-columns:repeat(4,1fr);
 
-    gap: 8px;
+    gap:8px;
 
-    margin-top: 30px;
+    margin-top:30px;
 }
 
-.control {
-    padding: 11px 5px;
+.control{
+    padding:10px 5px;
 
-    border-radius: 15px;
+    border-radius:14px;
 
-    background: rgba(255,255,255,.06);
+    background:rgba(255,255,255,.06);
 
-    border:
-        1px solid rgba(255,255,255,.12);
-
-    font-size: 11px;
+    font-size:11px;
 }
 
-.control b {
-    display: block;
+.control b{
+    display:block;
 
-    margin-bottom: 4px;
+    color:#fff16a;
 
-    color: #fff36b;
+    font-size:17px;
 
-    font-size: 17px;
+    margin-bottom:4px;
 }
 
-/* =========================
-   GAME OVER
-========================= */
+/* GAME OVER */
 
-#gameOver {
-    position: fixed;
-    inset: 0;
+#gameOver{
+    position:fixed;
+    inset:0;
 
-    z-index: 110;
+    z-index:60;
 
-    display: none;
+    display:none;
 
-    justify-content: center;
-    align-items: center;
+    justify-content:center;
+    align-items:center;
 
-    background: rgba(17,4,38,.7);
+    background:rgba(15,3,35,.7);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(8px);
 }
 
-.overCard {
-    width: min(500px, 90vw);
+.over{
+    width:min(500px,90vw);
 
-    padding: 36px;
+    padding:35px;
 
-    text-align: center;
+    text-align:center;
 
-    border: 3px solid white;
-    border-radius: 30px;
+    background:rgba(22,6,48,.92);
 
-    background:
-        rgba(23,7,50,.92);
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,.45);
+    border:3px solid white;
+    border-radius:30px;
 }
 
-.overCard h2 {
-    font-size: clamp(40px, 10vw, 62px);
+.over h2{
+    font-size:55px;
+    font-style:italic;
 
-    font-style: italic;
-
-    color: #ff4b9f;
+    color:#ff4a9d;
 
     text-shadow:
-        4px 4px 0 #4220b4;
+        4px 4px 0 #4320b5;
 }
 
-.finalScore {
-    margin: 18px 0 25px;
-
-    font-size: 23px;
+.final{
+    margin:18px 0 25px;
+    font-size:23px;
 }
 
-/* =========================
-   MOBILE BUTTONS
-========================= */
+/* MOBILE */
 
-.mobileControls {
-    position: fixed;
+.mobile{
+    position:fixed;
 
-    left: 18px;
-    right: 18px;
-    bottom: 25px;
+    left:18px;
+    right:18px;
+    bottom:25px;
 
-    z-index: 50;
+    z-index:30;
 
-    display: flex;
-    justify-content: space-between;
+    display:flex;
+    justify-content:space-between;
 
-    pointer-events: none;
+    pointer-events:none;
 }
 
-.mobileGroup {
-    display: flex;
-    gap: 9px;
+.group{
+    display:flex;
+    gap:9px;
 }
 
-.touchBtn {
-    width: 64px;
-    height: 64px;
+.btn{
+    width:64px;
+    height:64px;
 
-    border: 2px solid rgba(255,255,255,.7);
-    border-radius: 20px;
+    border:2px solid rgba(255,255,255,.7);
+    border-radius:20px;
 
-    background:
-        rgba(25,8,52,.65);
+    background:rgba(25,7,50,.65);
 
-    color: white;
+    color:white;
 
-    font-size: 24px;
-    font-weight: 1000;
+    font-size:25px;
+    font-weight:1000;
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(8px);
 
-    pointer-events: auto;
+    pointer-events:auto;
 }
 
-.touchBtn:active {
-    transform: scale(.88);
-
-    background: #ff3193;
+.btn:active{
+    transform:scale(.88);
+    background:#ff2f93;
 }
 
-@media (min-width: 850px) {
-    .mobileControls {
-        opacity: .22;
+@media(min-width:800px){
+    .mobile{
+        opacity:.15;
     }
 }
 
-/* =========================
-   SMALL SCREENS
-========================= */
+@media(max-width:600px){
 
-@media (max-width: 600px) {
-
-    #hud {
-        top: 10px;
-        left: 10px;
-        right: 10px;
+    #hud{
+        top:9px;
+        left:9px;
+        right:9px;
     }
 
-    .stats {
-        gap: 5px;
+    .logo{
+        font-size:28px;
     }
 
-    .stat {
-        min-width: 66px;
-        padding: 6px 8px;
+    .stat{
+        min-width:60px;
+        padding:6px;
     }
 
-    .stat small {
-        font-size: 7px;
+    .stat small{
+        font-size:7px;
     }
 
-    .stat strong {
-        font-size: 14px;
+    .stat strong{
+        font-size:13px;
     }
 
-    .logo {
-        font-size: 28px;
+    .controls{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .controls {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-    .progressWrap {
-        width: 42vw;
-        bottom: 105px;
+    .progress{
+        bottom:105px;
+        width:45vw;
     }
 }
 </style>
@@ -534,9 +462,9 @@ canvas {
 
 <body>
 
-<canvas id="game"></canvas>
+<canvas id="canvas"></canvas>
 
-<!-- ================= HUD ================= -->
+<!-- HUD -->
 
 <div id="hud">
 
@@ -553,7 +481,7 @@ canvas {
 
         <div class="stat">
             <small>COMBO</small>
-            <strong id="combo">x1</strong>
+            <strong id="comboNumber">x1</strong>
         </div>
 
         <div class="stat">
@@ -565,9 +493,9 @@ canvas {
 
 </div>
 
-<!-- ================= COMBO ================= -->
+<!-- COMBO -->
 
-<div id="comboBox">
+<div id="combo">
 
     <div id="comboText">
         COMBO!
@@ -579,24 +507,24 @@ canvas {
 
 </div>
 
-<div id="trickPopup"></div>
+<div id="trick"></div>
 
-<!-- ================= PROGRESS ================= -->
+<!-- PROGRESS -->
 
-<div class="progressWrap">
+<div class="progress">
     <div
         class="progressBar"
         id="progressBar">
     </div>
 </div>
 
-<!-- ================= MENU ================= -->
+<!-- MENU -->
 
 <div id="menu">
 
-    <div class="menuCard">
+    <div class="card">
 
-        <div class="menuTitle">
+        <div class="title">
             MOI-<span>CY</span><br>
             SKATE
         </div>
@@ -606,7 +534,7 @@ canvas {
         </div>
 
         <button
-            class="playButton"
+            class="play"
             onclick="startGame()">
 
             🛹 START SKATING
@@ -617,7 +545,7 @@ canvas {
 
             <div class="control">
                 <b>← →</b>
-                Spur wechseln
+                Spur
             </div>
 
             <div class="control">
@@ -641,17 +569,17 @@ canvas {
 
 </div>
 
-<!-- ================= GAME OVER ================= -->
+<!-- GAME OVER -->
 
 <div id="gameOver">
 
-    <div class="overCard">
+    <div class="over">
 
         <h2>
             WIPEOUT! 💥
         </h2>
 
-        <div class="finalScore">
+        <div class="final">
             Score:
             <strong id="finalScore">
                 0
@@ -659,8 +587,8 @@ canvas {
         </div>
 
         <button
-            class="playButton"
-            onclick="restartGame()">
+            class="play"
+            onclick="startGame()">
 
             🔥 NOCHMAL!
 
@@ -670,36 +598,36 @@ canvas {
 
 </div>
 
-<!-- ================= MOBILE ================= -->
+<!-- MOBILE -->
 
-<div class="mobileControls">
+<div class="mobile">
 
-    <div class="mobileGroup">
+    <div class="group">
 
         <button
-            class="touchBtn"
-            id="leftBtn">
+            class="btn"
+            id="left">
             ←
         </button>
 
         <button
-            class="touchBtn"
-            id="rightBtn">
+            class="btn"
+            id="right">
             →
         </button>
 
     </div>
 
-    <div class="mobileGroup">
+    <div class="group">
 
         <button
-            class="touchBtn"
-            id="jumpBtn">
+            class="btn"
+            id="jump">
             ⬆
         </button>
 
         <button
-            class="touchBtn"
+            class="btn"
             id="trickBtn">
             ★
         </button>
@@ -708,6 +636,7 @@ canvas {
 
 </div>
 
+
 <script>
 
 /* =========================================================
@@ -715,18 +644,18 @@ canvas {
 ========================================================= */
 
 const canvas =
-    document.getElementById("game");
+    document.getElementById("canvas");
 
 const ctx =
     canvas.getContext("2d");
 
-let W;
-let H;
+let W = 0;
+let H = 0;
 
-function resize() {
+function resize(){
 
-    W = innerWidth;
-    H = innerHeight;
+    W = window.innerWidth;
+    H = window.innerHeight;
 
     const dpr =
         Math.min(
@@ -765,7 +694,7 @@ resize();
 
 
 /* =========================================================
-   GAME STATE
+   GAME VARIABLES
 ========================================================= */
 
 let playing = false;
@@ -779,238 +708,150 @@ let comboTimer = 0;
 
 let speed = 7;
 
+
+/*
+    PLAYER
+
+    lane:
+    0 = links
+    1 = mitte
+    2 = rechts
+
+    jumpHeight:
+    0 = Boden
+
+    Wichtig:
+    Diese Variable ist IMMER positiv,
+    wenn der Spieler in der Luft ist.
+*/
+
 let lane = 1;
 let targetLane = 1;
 
-/*
-    WICHTIG:
-
-    playerHeight = echte Höhe des Skaters
-    0 = Boden
-    100 = hoch in der Luft
-
-    Dadurch bewegt sich der Skater beim Springen
-    eindeutig NACH OBEN.
-*/
-
-let playerHeight = 0;
-let verticalVelocity = 0;
+let jumpHeight = 0;
+let jumpVelocity = 0;
 
 let grounded = true;
 
-let rotation = 0;
+let playerRotation = 0;
+
 let trickActive = false;
 
-let objects = [];
+
+/* ARRAYS */
+
+let obstacles = [];
 let coins = [];
 let particles = [];
 
-let spawnTimer = 0;
-let coinTimer = 0;
 
+/* TIMERS */
 
-/* =========================================================
-   COLORS
-========================================================= */
-
-const colors = [
-    "#ff3c9d",
-    "#ffdb4d",
-    "#6b5cff",
-    "#35e0bd",
-    "#ff7048",
-    "#ffffff"
-];
+let obstacleTimer = 0;
+let coinTimer = 1;
 
 
 /* =========================================================
    INPUT
 ========================================================= */
 
-const keys = {};
-
 window.addEventListener(
     "keydown",
-    e => {
+    function(e){
 
-        if (
+        if(
             e.code === "Space" ||
-            e.key === "ArrowUp" ||
-            e.key === "ArrowDown"
-        ) {
+            e.key === "ArrowLeft" ||
+            e.key === "ArrowRight" ||
+            e.key === "ArrowUp"
+        ){
             e.preventDefault();
         }
 
-        keys[e.key.toLowerCase()] = true;
 
-        if (e.key === "ArrowLeft") {
+        /* LINKS */
 
-            targetLane =
-                Math.max(
-                    0,
-                    targetLane - 1
-                );
+        if(
+            e.key === "ArrowLeft" ||
+            e.key.toLowerCase() === "a"
+        ){
+
+            moveLeft();
         }
 
-        if (e.key === "ArrowRight") {
 
-            targetLane =
-                Math.min(
-                    2,
-                    targetLane + 1
-                );
+        /* RECHTS */
+
+        if(
+            e.key === "ArrowRight" ||
+            e.key.toLowerCase() === "d"
+        ){
+
+            moveRight();
         }
 
-        if (
+
+        /* SPRUNG */
+
+        if(
             e.code === "Space" ||
             e.key === "ArrowUp"
-        ) {
+        ){
 
             jump();
         }
 
-        if (
+
+        /* TRICK */
+
+        if(
             e.key.toLowerCase() === "f"
-        ) {
+        ){
 
             trick();
         }
 
-        if (
+
+        /* RESTART */
+
+        if(
             e.key.toLowerCase() === "r"
-        ) {
+        ){
 
-            restartGame();
+            startGame();
         }
 
     }
 );
 
-window.addEventListener(
-    "keyup",
-    e => {
-
-        keys[e.key.toLowerCase()] =
-            false;
-
-    }
-);
-
 
 /* =========================================================
-   TOUCH
+   MOVEMENT
 ========================================================= */
 
-function button(
-    id,
-    action
-) {
+function moveLeft(){
 
-    const el =
-        document.getElementById(id);
+    if(!playing)
+        return;
 
-    el.addEventListener(
-        "pointerdown",
-        e => {
-
-            e.preventDefault();
-
-            action();
-
-        }
-    );
-}
-
-button(
-    "leftBtn",
-    () => {
-
-        targetLane =
-            Math.max(
-                0,
-                targetLane - 1
-            );
-
-    }
-);
-
-button(
-    "rightBtn",
-    () => {
-
-        targetLane =
-            Math.min(
-                2,
-                targetLane + 1
-            );
-
-    }
-);
-
-button(
-    "jumpBtn",
-    jump
-);
-
-button(
-    "trickBtn",
-    trick
-);
-
-
-/* =========================================================
-   START
-========================================================= */
-
-function startGame() {
-
-    document
-        .getElementById("menu")
-        .style.display = "none";
-
-    document
-        .getElementById("gameOver")
-        .style.display = "none";
-
-    playing = true;
-    gameOver = false;
-
-    score = 0;
-    distance = 0;
-
-    combo = 1;
-    comboTimer = 0;
-
-    speed = 7;
-
-    lane = 1;
-    targetLane = 1;
-
-    playerHeight = 0;
-    verticalVelocity = 0;
-
-    grounded = true;
-
-    rotation = 0;
-    trickActive = false;
-
-    objects = [];
-    coins = [];
-    particles = [];
-
-    spawnTimer = .5;
-    coinTimer = 1;
+    targetLane =
+        Math.max(
+            0,
+            targetLane - 1
+        );
 }
 
 
-/* =========================================================
-   RESTART
-========================================================= */
+function moveRight(){
 
-function restartGame() {
+    if(!playing)
+        return;
 
-    startGame();
-
+    targetLane =
+        Math.min(
+            2,
+            targetLane + 1
+        );
 }
 
 
@@ -1018,35 +859,46 @@ function restartGame() {
    JUMP
 ========================================================= */
 
-function jump() {
+function jump(){
 
-    if (!playing || gameOver)
+    if(
+        !playing ||
+        gameOver
+    ){
         return;
+    }
+
 
     /*
-        Nur springen, wenn wir auf dem Boden sind.
+        NICHT nochmal springen,
+        wenn bereits in der Luft.
     */
 
-    if (grounded) {
+    if(!grounded)
+        return;
 
-        grounded = false;
 
-        /*
-            NEGATIV = nach oben.
+    grounded = false;
 
-            Die Höhe selbst wird anschließend
-            mit verticalVelocity verändert.
-        */
+    /*
+        Positive Höhe.
+        Negative Velocity bedeutet:
+        Höhe nimmt zuerst zu.
+    */
 
-        verticalVelocity = -17;
+    jumpHeight = 1;
 
-        createParticles(
-            playerScreenX(),
-            playerScreenY() + 32,
-            14,
-            "#ffffff"
-        );
-    }
+    jumpVelocity = 720;
+
+    trickActive = false;
+
+
+    createParticles(
+        playerX(),
+        groundY() + 20,
+        14,
+        "#ffffff"
+    );
 }
 
 
@@ -1054,27 +906,37 @@ function jump() {
    TRICK
 ========================================================= */
 
-function trick() {
+function trick(){
 
-    if (!playing || gameOver)
+    if(
+        !playing ||
+        gameOver
+    ){
         return;
+    }
 
-    if (!grounded) {
+
+    if(!grounded){
 
         trickActive = true;
 
-        rotation += Math.PI * 2;
+        playerRotation +=
+            Math.PI * 2;
 
         comboTimer = 3;
 
+
         const tricks = [
+
             "KICKFLIP!",
             "HEELFLIP!",
             "360!",
             "BIG AIR!",
-            "SKATE GOD!",
-            "INSANE!"
+            "INSANE!",
+            "SKATE GOD!"
+
         ];
+
 
         const name =
             tricks[
@@ -1084,7 +946,9 @@ function trick() {
                 )
             ];
 
+
         showTrick(name);
+
 
         score +=
             150 *
@@ -1093,51 +957,164 @@ function trick() {
                 Math.floor(combo)
             );
 
+
         combo += .5;
 
+
         createParticles(
-            playerScreenX(),
-            playerScreenY(),
+            playerX(),
+            playerY(),
             22,
-            colors[
-                Math.floor(
-                    Math.random() *
-                    colors.length
-                )
-            ]
+            randomColor()
         );
     }
 }
 
 
 /* =========================================================
-   TRICK TEXT
+   TRICK POPUP
 ========================================================= */
 
-function showTrick(text) {
+function showTrick(text){
 
-    const popup =
+    const el =
         document.getElementById(
-            "trickPopup"
+            "trick"
         );
 
-    popup.textContent = text;
+    el.textContent = text;
 
-    popup.style.opacity = "1";
+    el.style.opacity = "1";
 
-    popup.style.transform =
+    el.style.transform =
         "translate(-50%,-50%) scale(1) rotate(-6deg)";
 
+
     setTimeout(
-        () => {
+        function(){
 
-            popup.style.opacity = "0";
+            el.style.opacity = "0";
 
-            popup.style.transform =
-                "translate(-50%,-70%) scale(1.35) rotate(-6deg)";
+            el.style.transform =
+                "translate(-50%,-70%) scale(1.4) rotate(-6deg)";
 
         },
-        550
+        500
+    );
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
+function startGame(){
+
+    document
+        .getElementById("menu")
+        .style.display =
+        "none";
+
+    document
+        .getElementById("gameOver")
+        .style.display =
+        "none";
+
+
+    playing = true;
+    gameOver = false;
+
+
+    score = 0;
+    distance = 0;
+
+    combo = 1;
+    comboTimer = 0;
+
+    speed = 7;
+
+
+    lane = 1;
+    targetLane = 1;
+
+
+    /*
+        WICHTIG:
+        Beim Start IMMER auf Boden.
+    */
+
+    jumpHeight = 0;
+    jumpVelocity = 0;
+
+    grounded = true;
+
+
+    playerRotation = 0;
+
+    trickActive = false;
+
+
+    obstacles = [];
+    coins = [];
+    particles = [];
+
+
+    obstacleTimer = .7;
+    coinTimer = 1;
+}
+
+
+/* =========================================================
+   GROUND
+========================================================= */
+
+function groundY(){
+
+    return H * .76;
+}
+
+
+/* =========================================================
+   PLAYER X
+========================================================= */
+
+function playerX(){
+
+    /*
+        Der Skater befindet sich
+        immer im unteren Bereich.
+
+        Nur die Spur verändert X.
+    */
+
+    return (
+        W / 2 +
+        (lane - 1) *
+        W * .16
+    );
+}
+
+
+/* =========================================================
+   PLAYER Y
+========================================================= */
+
+function playerY(){
+
+    /*
+        HIER passiert der eigentliche
+        Höhenunterschied.
+
+        Boden:
+            groundY()
+
+        Springen:
+            groundY() - jumpHeight
+    */
+
+    return (
+        groundY() -
+        jumpHeight
     );
 }
 
@@ -1146,26 +1123,21 @@ function showTrick(text) {
    SPAWN OBSTACLE
 ========================================================= */
 
-function spawnObject() {
+function spawnObstacle(){
 
     const types = [
+
         "barrier",
         "rail",
         "cone",
         "ramp",
         "stairs",
         "box"
+
     ];
 
-    const type =
-        types[
-            Math.floor(
-                Math.random() *
-                types.length
-            )
-        ];
 
-    objects.push({
+    obstacles.push({
 
         lane:
             Math.floor(
@@ -1174,93 +1146,49 @@ function spawnObject() {
 
         z: 1,
 
-        type,
-
-        passed: false,
-
-        color:
-            colors[
+        type:
+            types[
                 Math.floor(
                     Math.random() *
-                    colors.length
+                    types.length
                 )
-            ]
+            ],
 
+        passed:false,
+
+        color:
+            randomColor()
     });
 }
 
 
 /* =========================================================
-   COINS
+   SPAWN COINS
 ========================================================= */
 
-function spawnCoinLine() {
+function spawnCoins(){
 
     const selectedLane =
         Math.floor(
             Math.random() * 3
         );
 
-    for (
+
+    for(
         let i = 0;
-        i < 5;
+        i < 6;
         i++
-    ) {
+    ){
 
         coins.push({
 
-            lane: selectedLane,
+            lane:selectedLane,
 
             z:
                 1 +
-                i * .08,
+                i * .075,
 
-            collected: false
-
-        });
-    }
-}
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-function createParticles(
-    x,
-    y,
-    amount,
-    color
-) {
-
-    for (
-        let i = 0;
-        i < amount;
-        i++
-    ) {
-
-        particles.push({
-
-            x,
-
-            y,
-
-            vx:
-                (Math.random() - .5) *
-                8,
-
-            vy:
-                (Math.random() - .5) *
-                8,
-
-            life: 1,
-
-            size:
-                Math.random() *
-                5 +
-                2,
-
-            color
+            collected:false
 
         });
     }
@@ -1268,13 +1196,39 @@ function createParticles(
 
 
 /* =========================================================
-   ROAD MATH
+   COLOR
 ========================================================= */
 
-function roadY(z) {
+function randomColor(){
+
+    const colors = [
+
+        "#ff3d9d",
+        "#ffdb4d",
+        "#6b5cff",
+        "#39dfbd",
+        "#ff7147",
+        "#ffffff"
+
+    ];
+
+    return colors[
+        Math.floor(
+            Math.random() *
+            colors.length
+        )
+    ];
+}
+
+
+/* =========================================================
+   ROAD
+========================================================= */
+
+function roadY(z){
 
     const horizon =
-        H * .47;
+        H * .48;
 
     const bottom =
         H * 1.04;
@@ -1290,10 +1244,10 @@ function roadY(z) {
 }
 
 
-function roadWidth(z) {
+function roadWidth(z){
 
     return (
-        70 +
+        65 +
         Math.pow(
             1 - z,
             2
@@ -1307,56 +1261,58 @@ function roadWidth(z) {
 function laneX(
     selectedLane,
     z
-) {
-
-    const center =
-        W / 2;
-
-    const width =
-        roadWidth(z);
+){
 
     return (
-        center +
+        W / 2 +
         (selectedLane - 1) *
-        width /
+        roadWidth(z) /
         3
     );
 }
 
 
 /* =========================================================
-   PLAYER POSITION
+   PARTICLES
 ========================================================= */
 
-function playerScreenX() {
+function createParticles(
+    x,
+    y,
+    amount,
+    color
+){
 
-    return (
-        W / 2 +
-        (lane - 1) *
-        W *
-        .15
-    );
-}
+    for(
+        let i = 0;
+        i < amount;
+        i++
+    ){
 
+        particles.push({
 
-/*
-    HIER IST DER WICHTIGE FIX.
+            x:x,
+            y:y,
 
-    Je höher playerHeight ist,
-    desto kleiner wird Y.
+            vx:
+                (Math.random() - .5) *
+                8,
 
-    Kleineres Canvas-Y = weiter OBEN.
-*/
+            vy:
+                (Math.random() - .5) *
+                8,
 
-function playerScreenY() {
+            life:1,
 
-    const groundY =
-        H * .76;
+            size:
+                Math.random() *
+                5 +
+                2,
 
-    return (
-        groundY -
-        playerHeight
-    );
+            color:color
+
+        });
+    }
 }
 
 
@@ -1364,46 +1320,63 @@ function playerScreenY() {
    UPDATE
 ========================================================= */
 
-function update(dt) {
+function update(dt){
 
-    if (!playing || gameOver)
+    if(!playing)
         return;
 
 
-    /* -------------------------
+    /* --------------------------------
        SPUR
-    ------------------------- */
+    -------------------------------- */
 
     lane +=
         (targetLane - lane) *
         Math.min(
             1,
-            dt * 14
+            dt * 13
         );
 
 
-    /* -------------------------
-       SPRUNG
-    ------------------------- */
+    /* --------------------------------
+       SPRUNGPHYSIK
+    -------------------------------- */
 
-    verticalVelocity +=
-        42 * dt;
+    if(!grounded){
 
-    playerHeight +=
-        verticalVelocity *
-        dt;
+        /*
+            Geschwindigkeit nach unten
+            reduzieren.
+
+            Dadurch steigt der Spieler
+            zuerst nach oben und fällt
+            anschließend wieder herunter.
+        */
+
+        jumpVelocity -=
+            1700 * dt;
 
 
-    /*
-        Sobald der Skater wieder
-        am Boden ist.
-    */
+        jumpHeight +=
+            jumpVelocity * dt;
 
-    if (playerHeight <= 0) {
 
-        if (!grounded) {
+        /*
+            Boden erreicht.
+        */
 
-            if (trickActive) {
+        if(
+            jumpHeight <= 0
+        ){
+
+            jumpHeight = 0;
+
+            jumpVelocity = 0;
+
+            grounded = true;
+
+
+            if(trickActive){
 
                 score +=
                     250 *
@@ -1414,48 +1387,43 @@ function update(dt) {
 
                 comboTimer = 3;
 
+
                 showTrick(
                     "PERFECT LANDING!"
                 );
 
+
                 createParticles(
-                    playerScreenX(),
-                    H * .76,
+                    playerX(),
+                    groundY(),
                     18,
-                    "#fff36b"
+                    "#fff16a"
                 );
             }
 
+
             trickActive = false;
         }
-
-        playerHeight = 0;
-
-        verticalVelocity = 0;
-
-        grounded = true;
     }
 
 
-    /* -------------------------
+    /* --------------------------------
        ROTATION
-    ------------------------- */
+    -------------------------------- */
 
-    if (!grounded) {
+    if(!grounded){
 
-        rotation +=
-            dt *
-            7;
+        playerRotation +=
+            dt * 8;
     }
 
 
-    /* -------------------------
+    /* --------------------------------
        SPEED
-    ------------------------- */
+    -------------------------------- */
 
     speed +=
-        dt *
-        .12;
+        dt * .10;
 
     distance +=
         speed *
@@ -1468,15 +1436,15 @@ function update(dt) {
         .5;
 
 
-    /* -------------------------
+    /* --------------------------------
        COMBO
-    ------------------------- */
+    -------------------------------- */
 
-    if (comboTimer > 0) {
+    if(comboTimer > 0){
 
         comboTimer -= dt;
 
-    } else {
+    }else{
 
         combo =
             Math.max(
@@ -1487,56 +1455,62 @@ function update(dt) {
     }
 
 
-    /* -------------------------
+    /* --------------------------------
        OBSTACLES
-    ------------------------- */
+    -------------------------------- */
 
-    spawnTimer -= dt;
+    obstacleTimer -= dt;
 
-    if (spawnTimer <= 0) {
+    if(
+        obstacleTimer <= 0
+    ){
 
-        spawnObject();
+        spawnObstacle();
 
-        spawnTimer =
+        obstacleTimer =
             Math.max(
-                .42,
-                1.15 -
-                speed *
-                .035
+                .48,
+                1.2 -
+                speed * .035
             );
     }
 
 
-    /* -------------------------
+    /* --------------------------------
        COINS
-    ------------------------- */
+    -------------------------------- */
 
     coinTimer -= dt;
 
-    if (coinTimer <= 0) {
+    if(
+        coinTimer <= 0
+    ){
 
-        spawnCoinLine();
+        spawnCoins();
 
         coinTimer =
-            1.8 +
+            2 +
             Math.random() *
             1.2;
     }
 
 
-    /* -------------------------
-       OBJECT MOVEMENT
-    ------------------------- */
+    /* --------------------------------
+       MOVE OBSTACLES
+    -------------------------------- */
 
-    for (
+    for(
         let i =
-            objects.length - 1;
+            obstacles.length - 1;
+
         i >= 0;
+
         i--
-    ) {
+    ){
 
         const o =
-            objects[i];
+            obstacles[i];
+
 
         o.z -=
             speed *
@@ -1546,41 +1520,34 @@ function update(dt) {
 
 
         /*
-            Kollision genau am Spieler.
+            KOLLISIONSPUNKT
         */
 
-        if (
+        if(
             !o.passed &&
             o.z < .16
-        ) {
+        ){
 
             o.passed = true;
+
 
             const sameLane =
                 o.lane ===
                 Math.round(lane);
 
-            if (sameLane) {
+
+            if(sameLane){
 
                 /*
-                    Rampen dürfen
-                    überfahren werden.
+                    Rampen sind ungefährlich.
                 */
 
-                if (
+                if(
                     o.type === "ramp"
-                ) {
-
-                    if (
-                        grounded
-                    ) {
-
-                        jump();
-                    }
+                ){
 
                     score +=
-                        100 *
-                        combo;
+                        100 * combo;
 
                     combo += .2;
 
@@ -1588,27 +1555,36 @@ function update(dt) {
                         "RAMP!"
                     );
 
-                } else {
+
+                    if(grounded){
+
+                        grounded = false;
+
+                        jumpHeight = 1;
+
+                        jumpVelocity = 900;
+                    }
+
+                }else{
 
                     /*
-                        Hoher Sprung =
-                        Hindernis übersprungen.
+                        Hindernis nur
+                        gefährlich, wenn
+                        nicht hoch genug.
                     */
 
-                    const highEnough =
-                        playerHeight >
-                        55;
-
-                    if (!highEnough) {
+                    if(
+                        jumpHeight < 55
+                    ){
 
                         crash();
 
                         return;
                     }
 
+
                     score +=
-                        100 *
-                        combo;
+                        100 * combo;
 
                     combo += .25;
 
@@ -1616,36 +1592,38 @@ function update(dt) {
                         "CLEAN!"
                     );
                 }
-
-            } else {
-
-                score +=
-                    25 *
-                    combo;
             }
         }
 
 
-        if (o.z < -.2) {
+        if(
+            o.z < -.2
+        ){
 
-            objects.splice(i,1);
+            obstacles.splice(
+                i,
+                1
+            );
         }
     }
 
 
-    /* -------------------------
-       COINS UPDATE
-    ------------------------- */
+    /* --------------------------------
+       COINS
+    -------------------------------- */
 
-    for (
+    for(
         let i =
             coins.length - 1;
+
         i >= 0;
+
         i--
-    ) {
+    ){
 
         const c =
             coins[i];
+
 
         c.z -=
             speed *
@@ -1653,65 +1631,74 @@ function update(dt) {
             dt *
             60;
 
-        if (
+
+        if(
             !c.collected &&
-            c.z < .19
-        ) {
+            c.z < .18
+        ){
 
             const sameLane =
                 c.lane ===
                 Math.round(lane);
 
-            const closeEnough =
-                playerHeight >
-                20;
 
-            if (
+            if(
                 sameLane &&
-                closeEnough
-            ) {
+                jumpHeight > 5
+            ){
 
                 c.collected = true;
 
                 score +=
                     75 *
-                    combo;
+                    Math.max(
+                        1,
+                        Math.floor(combo)
+                    );
+
 
                 createParticles(
                     laneX(
                         c.lane,
                         c.z
                     ),
-                    roadY(c.z) - 25,
+                    roadY(c.z) - 20,
                     8,
-                    "#fff36b"
+                    "#fff16a"
                 );
             }
         }
 
-        if (
+
+        if(
             c.z < -.2 ||
             c.collected
-        ) {
+        ){
 
-            coins.splice(i,1);
+            coins.splice(
+                i,
+                1
+            );
         }
     }
 
 
-    /* -------------------------
+    /* --------------------------------
        PARTICLES
-    ------------------------- */
+    -------------------------------- */
 
-    for (
+    for(
         let i =
             particles.length - 1;
+
         i >= 0;
+
         i--
-    ) {
+    ){
 
         const p =
             particles[i];
+
 
         p.x +=
             p.vx;
@@ -1720,16 +1707,20 @@ function update(dt) {
             p.vy;
 
         p.vy +=
-            .25;
+            .2;
 
         p.life -=
             dt * 1.8;
 
-        if (
-            p.life <= 0
-        ) {
 
-            particles.splice(i,1);
+        if(
+            p.life <= 0
+        ){
+
+            particles.splice(
+                i,
+                1
+            );
         }
     }
 
@@ -1742,25 +1733,28 @@ function update(dt) {
    CRASH
 ========================================================= */
 
-function crash() {
+function crash(){
 
     playing = false;
 
     gameOver = true;
 
-    createParticles(
-        playerScreenX(),
-        playerScreenY(),
-        55,
-        "#ff3294"
-    );
 
     createParticles(
-        playerScreenX(),
-        playerScreenY(),
-        35,
-        "#fff36b"
+        playerX(),
+        playerY(),
+        60,
+        "#ff3194"
     );
+
+
+    createParticles(
+        playerX(),
+        playerY(),
+        35,
+        "#fff16a"
+    );
+
 
     document
         .getElementById(
@@ -1768,10 +1762,11 @@ function crash() {
         )
         .textContent =
         Math.floor(score)
-            .toLocaleString("de-DE");
+        .toLocaleString("de-DE");
+
 
     setTimeout(
-        () => {
+        function(){
 
             document
                 .getElementById(
@@ -1781,7 +1776,7 @@ function crash() {
                 "flex";
 
         },
-        450
+        400
     );
 }
 
@@ -1790,7 +1785,7 @@ function crash() {
    HUD
 ========================================================= */
 
-function updateHUD() {
+function updateHUD(){
 
     document
         .getElementById(
@@ -1798,12 +1793,12 @@ function updateHUD() {
         )
         .textContent =
         Math.floor(score)
-            .toLocaleString("de-DE");
+        .toLocaleString("de-DE");
 
 
     document
         .getElementById(
-            "combo"
+            "comboNumber"
         )
         .textContent =
         "x" +
@@ -1831,15 +1826,17 @@ function updateHUD() {
         "%";
 
 
-    const box =
+    const comboEl =
         document.getElementById(
-            "comboBox"
+            "combo"
         );
 
 
-    if (combo > 1.2) {
+    if(
+        combo > 1.2
+    ){
 
-        box.classList.add(
+        comboEl.classList.add(
             "show"
         );
 
@@ -1854,9 +1851,9 @@ function updateHUD() {
             ) +
             " POINTS";
 
-    } else {
+    }else{
 
-        box.classList.remove(
+        comboEl.classList.remove(
             "show"
         );
     }
@@ -1867,11 +1864,11 @@ function updateHUD() {
    BACKGROUND
 ========================================================= */
 
-function drawBackground() {
+function drawBackground(){
 
     /* SKY */
 
-    const sky =
+    const gradient =
         ctx.createLinearGradient(
             0,
             0,
@@ -1879,28 +1876,28 @@ function drawBackground() {
             H
         );
 
-    sky.addColorStop(
+    gradient.addColorStop(
         0,
         "#ff4f9d"
     );
 
-    sky.addColorStop(
+    gradient.addColorStop(
         .35,
-        "#ff986f"
+        "#ff9971"
     );
 
-    sky.addColorStop(
+    gradient.addColorStop(
         .55,
-        "#ffd56a"
+        "#ffd86b"
     );
 
-    sky.addColorStop(
+    gradient.addColorStop(
         1,
-        "#53d6bc"
+        "#54d5bd"
     );
 
     ctx.fillStyle =
-        sky;
+        gradient;
 
     ctx.fillRect(
         0,
@@ -1915,11 +1912,12 @@ function drawBackground() {
     ctx.save();
 
     ctx.shadowBlur = 60;
+
     ctx.shadowColor =
         "#fff0a0";
 
     ctx.fillStyle =
-        "#fff2a3";
+        "#fff2a4";
 
     ctx.beginPath();
 
@@ -1936,21 +1934,6 @@ function drawBackground() {
     ctx.restore();
 
 
-    /* CLOUDS */
-
-    drawCloud(
-        W * .17,
-        H * .2,
-        1
-    );
-
-    drawCloud(
-        W * .58,
-        H * .14,
-        .7
-    );
-
-
     /* CITY */
 
     drawCity();
@@ -1959,7 +1942,7 @@ function drawBackground() {
     /* PALMS */
 
     drawPalm(
-        W * .1,
+        W * .09,
         H * .49,
         1
     );
@@ -1967,72 +1950,8 @@ function drawBackground() {
     drawPalm(
         W * .9,
         H * .49,
-        .85
+        .8
     );
-}
-
-
-/* =========================================================
-   CLOUD
-========================================================= */
-
-function drawCloud(
-    x,
-    y,
-    scale
-) {
-
-    ctx.save();
-
-    ctx.translate(
-        x,
-        y
-    );
-
-    ctx.scale(
-        scale,
-        scale
-    );
-
-    ctx.fillStyle =
-        "rgba(255,255,255,.2)";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        10,
-        28,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.arc(
-        28,
-        0,
-        38,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.arc(
-        65,
-        12,
-        25,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fillRect(
-        -5,
-        10,
-        75,
-        25
-    );
-
-    ctx.fill();
-
-    ctx.restore();
 }
 
 
@@ -2040,16 +1959,17 @@ function drawCloud(
    CITY
 ========================================================= */
 
-function drawCity() {
+function drawCity(){
 
     const base =
         H * .53;
 
-    for (
+
+    for(
         let x = 0;
         x < W;
         x += 48
-    ) {
+    ){
 
         const height =
             35 +
@@ -2060,8 +1980,9 @@ function drawCity() {
             ) *
             85;
 
+
         ctx.fillStyle =
-            "#34215d";
+            "#34205d";
 
         ctx.fillRect(
             x,
@@ -2071,28 +1992,25 @@ function drawCity() {
         );
 
 
-        /* windows */
-
         ctx.fillStyle =
-            "rgba(255,222,100,.65)";
+            "rgba(255,220,100,.6)";
 
-        for (
+
+        for(
             let y =
                 base -
                 height +
                 13;
 
             y <
-                base -
-                8;
+                base - 8;
 
             y += 17
-        ) {
+        ){
 
-            if (
-                (x + y) % 3 <
-                1.5
-            ) {
+            if(
+                (x + y) % 3 < 1.5
+            ){
 
                 ctx.fillRect(
                     x + 9,
@@ -2114,7 +2032,7 @@ function drawPalm(
     x,
     y,
     scale
-) {
+){
 
     ctx.save();
 
@@ -2128,11 +2046,11 @@ function drawPalm(
         scale
     );
 
-    ctx.strokeStyle =
-        "#2b1754";
 
-    ctx.lineWidth =
-        9;
+    ctx.strokeStyle =
+        "#2a1654";
+
+    ctx.lineWidth = 9;
 
     ctx.beginPath();
 
@@ -2152,13 +2070,14 @@ function drawPalm(
 
 
     ctx.fillStyle =
-        "#2b1754";
+        "#2a1654";
 
-    for (
+
+    for(
         let i = 0;
         i < 7;
         i++
-    ) {
+    ){
 
         ctx.save();
 
@@ -2184,6 +2103,7 @@ function drawPalm(
         ctx.restore();
     }
 
+
     ctx.restore();
 }
 
@@ -2192,16 +2112,16 @@ function drawPalm(
    ROAD
 ========================================================= */
 
-function drawRoad() {
+function drawRoad(){
 
     const horizon =
-        H * .47;
+        H * .48;
 
 
     /* GRASS */
 
     ctx.fillStyle =
-        "#42d0b6";
+        "#42d1b7";
 
     ctx.fillRect(
         0,
@@ -2214,7 +2134,7 @@ function drawRoad() {
     /* ROAD */
 
     ctx.fillStyle =
-        "#27224a";
+        "#27214b";
 
     ctx.beginPath();
 
@@ -2246,10 +2166,9 @@ function drawRoad() {
     /* LEFT EDGE */
 
     ctx.strokeStyle =
-        "#ff3d9b";
+        "#ff3d9c";
 
-    ctx.lineWidth =
-        11;
+    ctx.lineWidth = 11;
 
     ctx.beginPath();
 
@@ -2269,7 +2188,7 @@ function drawRoad() {
     /* RIGHT EDGE */
 
     ctx.strokeStyle =
-        "#6e5cff";
+        "#6d5cff";
 
     ctx.beginPath();
 
@@ -2286,24 +2205,24 @@ function drawRoad() {
     ctx.stroke();
 
 
-    /* LANE MARKINGS */
+    /* LANES */
 
-    for (
+    ctx.strokeStyle =
+        "rgba(255,255,255,.18)";
+
+    ctx.lineWidth = 4;
+
+    ctx.setLineDash([
+        22,
+        30
+    ]);
+
+
+    for(
         let l = 1;
         l < 3;
         l++
-    ) {
-
-        ctx.strokeStyle =
-            "rgba(255,255,255,.2)";
-
-        ctx.lineWidth =
-            4;
-
-        ctx.setLineDash([
-            22,
-            30
-        ]);
+    ){
 
         ctx.beginPath();
 
@@ -2325,22 +2244,29 @@ function drawRoad() {
         ctx.stroke();
     }
 
+
     ctx.setLineDash([]);
 }
 
 
 /* =========================================================
-   DRAW COINS
+   COINS DRAW
 ========================================================= */
 
-function drawCoins() {
+function drawCoins(){
 
-    for (
+    const time =
+        performance.now() *
+        .006;
+
+
+    for(
         const c of coins
-    ) {
+    ){
 
-        if (c.collected)
+        if(c.collected)
             continue;
+
 
         const x =
             laneX(
@@ -2348,19 +2274,19 @@ function drawCoins() {
                 c.z
             );
 
+
         const y =
             roadY(c.z) -
-            25 -
-            Math.sin(
-                performance.now() *
-                .006
-            ) *
+            35 +
+            Math.sin(time) *
             5;
+
 
         const scale =
             .25 +
             (1 - c.z) *
             1.5;
+
 
         ctx.save();
 
@@ -2374,14 +2300,16 @@ function drawCoins() {
             scale
         );
 
+
         ctx.shadowBlur =
             20;
 
         ctx.shadowColor =
-            "#fff36b";
+            "#fff16a";
+
 
         ctx.fillStyle =
-            "#fff36b";
+            "#fff16a";
 
         ctx.beginPath();
 
@@ -2395,11 +2323,12 @@ function drawCoins() {
 
         ctx.fill();
 
-        ctx.shadowBlur =
-            0;
+
+        ctx.shadowBlur = 0;
+
 
         ctx.fillStyle =
-            "#ffb92e";
+            "#ffb72f";
 
         ctx.beginPath();
 
@@ -2413,16 +2342,17 @@ function drawCoins() {
 
         ctx.fill();
 
+
         ctx.restore();
     }
 }
 
 
 /* =========================================================
-   DRAW OBJECT
+   OBJECT DRAW
 ========================================================= */
 
-function drawObject(o) {
+function drawObstacle(o){
 
     const z =
         Math.max(
@@ -2430,8 +2360,6 @@ function drawObject(o) {
             o.z
         );
 
-    const y =
-        roadY(z);
 
     const x =
         laneX(
@@ -2439,10 +2367,16 @@ function drawObject(o) {
             z
         );
 
+
+    const y =
+        roadY(z);
+
+
     const scale =
         .25 +
         (1 - z) *
         1.5;
+
 
     ctx.save();
 
@@ -2466,9 +2400,9 @@ function drawObject(o) {
 
     ctx.ellipse(
         0,
-        9,
-        52,
-        13,
+        10,
+        50,
+        12,
         0,
         0,
         Math.PI * 2
@@ -2479,27 +2413,28 @@ function drawObject(o) {
 
     /* BARRIER */
 
-    if (
+    if(
         o.type ===
         "barrier"
-    ) {
+    ){
 
         ctx.fillStyle =
             o.color;
 
         ctx.fillRect(
-            -44,
-            -56,
-            88,
-            56
+            -45,
+            -55,
+            90,
+            55
         );
 
+
         ctx.fillStyle =
-            "#fff";
+            "white";
 
         ctx.fillRect(
             -36,
-            -43,
+            -42,
             72,
             9
         );
@@ -2515,16 +2450,15 @@ function drawObject(o) {
 
     /* RAIL */
 
-    else if (
+    else if(
         o.type ===
         "rail"
-    ) {
+    ){
 
         ctx.strokeStyle =
             o.color;
 
-        ctx.lineWidth =
-            8;
+        ctx.lineWidth = 8;
 
         ctx.beginPath();
 
@@ -2540,8 +2474,8 @@ function drawObject(o) {
 
         ctx.stroke();
 
-        ctx.lineWidth =
-            6;
+
+        ctx.lineWidth = 6;
 
         ctx.beginPath();
 
@@ -2571,10 +2505,10 @@ function drawObject(o) {
 
     /* CONE */
 
-    else if (
+    else if(
         o.type ===
         "cone"
-    ) {
+    ){
 
         ctx.fillStyle =
             "#ff7045";
@@ -2600,8 +2534,9 @@ function drawObject(o) {
 
         ctx.fill();
 
+
         ctx.fillStyle =
-            "#fff";
+            "white";
 
         ctx.fillRect(
             -22,
@@ -2614,10 +2549,10 @@ function drawObject(o) {
 
     /* RAMP */
 
-    else if (
+    else if(
         o.type ===
         "ramp"
-    ) {
+    ){
 
         ctx.fillStyle =
             o.color;
@@ -2654,19 +2589,20 @@ function drawObject(o) {
 
     /* STAIRS */
 
-    else if (
+    else if(
         o.type ===
         "stairs"
-    ) {
+    ){
 
         ctx.fillStyle =
             "#ffda55";
 
-        for (
+
+        for(
             let i = 0;
             i < 5;
             i++
-        ) {
+        ){
 
             ctx.fillRect(
                 -55 +
@@ -2698,7 +2634,7 @@ function drawObject(o) {
         );
 
         ctx.fillStyle =
-            "#ff4da3";
+            "#ff4ca3";
 
         ctx.fillRect(
             -40,
@@ -2708,21 +2644,22 @@ function drawObject(o) {
         );
     }
 
+
     ctx.restore();
 }
 
 
 /* =========================================================
-   DRAW PLAYER
+   PLAYER DRAW
 ========================================================= */
 
-function drawPlayer() {
+function drawPlayer(){
 
     const x =
-        playerScreenX();
+        playerX();
 
     const y =
-        playerScreenY();
+        playerY();
 
 
     ctx.save();
@@ -2734,28 +2671,15 @@ function drawPlayer() {
 
 
     /*
-        Nur in der Luft drehen.
+        Schatten wird separat auf
+        dem Boden gezeichnet.
     */
-
-    if (!grounded) {
-
-        ctx.rotate(
-            rotation
-        );
-    }
-
-
-    /* SHADOW */
 
     ctx.save();
 
-    /*
-        Der Schatten bleibt am Boden.
-    */
-
     ctx.translate(
         0,
-        playerHeight
+        jumpHeight
     );
 
     ctx.scale(
@@ -2764,14 +2688,14 @@ function drawPlayer() {
     );
 
     ctx.fillStyle =
-        "rgba(0,0,0,.32)";
+        "rgba(0,0,0,.3)";
 
     ctx.beginPath();
 
     ctx.ellipse(
         0,
-        36,
-        48,
+        37,
+        50,
         12,
         0,
         0,
@@ -2783,23 +2707,34 @@ function drawPlayer() {
     ctx.restore();
 
 
+    /*
+        Nur der Spieler dreht sich.
+    */
+
+    if(!grounded){
+
+        ctx.rotate(
+            playerRotation
+        );
+    }
+
+
     /* BOARD */
 
     ctx.strokeStyle =
         "#ff4da4";
 
-    ctx.lineWidth =
-        8;
+    ctx.lineWidth = 8;
 
     ctx.beginPath();
 
     ctx.moveTo(
-        -42,
+        -43,
         25
     );
 
     ctx.lineTo(
-        42,
+        43,
         25
     );
 
@@ -2809,13 +2744,13 @@ function drawPlayer() {
     /* WHEELS */
 
     ctx.fillStyle =
-        "#fff36b";
+        "#fff16a";
 
     ctx.beginPath();
 
     ctx.arc(
         -28,
-        33,
+        34,
         7,
         0,
         Math.PI * 2
@@ -2823,7 +2758,7 @@ function drawPlayer() {
 
     ctx.arc(
         28,
-        33,
+        34,
         7,
         0,
         Math.PI * 2
@@ -2837,8 +2772,7 @@ function drawPlayer() {
     ctx.strokeStyle =
         "#24113f";
 
-    ctx.lineWidth =
-        10;
+    ctx.lineWidth = 10;
 
     ctx.beginPath();
 
@@ -2901,8 +2835,7 @@ function drawPlayer() {
     ctx.strokeStyle =
         "#f3a07c";
 
-    ctx.lineWidth =
-        9;
+    ctx.lineWidth = 9;
 
     ctx.beginPath();
 
@@ -2964,6 +2897,7 @@ function drawPlayer() {
 
     ctx.fill();
 
+
     ctx.fillRect(
         0,
         -91,
@@ -2980,11 +2914,11 @@ function drawPlayer() {
    PARTICLES DRAW
 ========================================================= */
 
-function drawParticles() {
+function drawParticles(){
 
-    for (
+    for(
         const p of particles
-    ) {
+    ){
 
         ctx.globalAlpha =
             Math.max(
@@ -3016,7 +2950,7 @@ function drawParticles() {
    RENDER
 ========================================================= */
 
-function render() {
+function render(){
 
     ctx.clearRect(
         0,
@@ -3025,24 +2959,24 @@ function render() {
         H
     );
 
+
     drawBackground();
 
     drawRoad();
 
 
     /*
-        Erst weit entfernte
-        Objekte.
+        Objekte weit hinten zuerst.
     */
 
-    objects
+    obstacles
         .slice()
         .sort(
             (a,b) =>
                 b.z - a.z
         )
         .forEach(
-            drawObject
+            drawObstacle
         );
 
 
@@ -3051,6 +2985,7 @@ function render() {
     drawPlayer();
 
     drawParticles();
+
 
     requestAnimationFrame(
         render
@@ -3065,7 +3000,8 @@ function render() {
 let lastTime =
     performance.now();
 
-function gameLoop(time) {
+
+function loop(time){
 
     const dt =
         Math.min(
@@ -3075,24 +3011,83 @@ function gameLoop(time) {
             1000
         );
 
+
     lastTime =
         time;
 
+
     update(dt);
 
+
     requestAnimationFrame(
-        gameLoop
+        loop
     );
 }
 
 
-/* START */
+/* =========================================================
+   MOBILE BUTTONS
+========================================================= */
+
+document
+    .getElementById("left")
+    .addEventListener(
+        "pointerdown",
+        function(e){
+
+            e.preventDefault();
+
+            moveLeft();
+        }
+    );
+
+
+document
+    .getElementById("right")
+    .addEventListener(
+        "pointerdown",
+        function(e){
+
+            e.preventDefault();
+
+            moveRight();
+        }
+    );
+
+
+document
+    .getElementById("jump")
+    .addEventListener(
+        "pointerdown",
+        function(e){
+
+            e.preventDefault();
+
+            jump();
+        }
+    );
+
+
+document
+    .getElementById("trickBtn")
+    .addEventListener(
+        "pointerdown",
+        function(e){
+
+            e.preventDefault();
+
+            trick();
+        }
+    );
+
+
+/* =========================================================
+   START
+========================================================= */
 
 render();
 
-gameLoop(
-    lastTime
-);
+loop(lastTime);
 
 </script>
 
