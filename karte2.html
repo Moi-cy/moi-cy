@@ -2,7 +2,10 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
 
   <title>MOI-CY – Karte</title>
 
@@ -13,6 +16,18 @@
   >
 
   <style>
+    :root {
+      --bg: #090b10;
+      --panel: #11151d;
+      --panel-2: #171c25;
+      --border: #2b3340;
+      --text: #f4f6f8;
+      --muted: #9ba5b3;
+      --accent: #ffffff;
+      --danger: #e53935;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .38);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -22,9 +37,16 @@
       width: 100%;
       height: 100%;
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
       overflow: hidden;
-      background: #111;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
     }
 
     #map {
@@ -32,67 +54,46 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      background: #dce4ec;
       z-index: 1;
     }
 
-    /* ---------------------------------------------------------
+    /* -----------------------------
        PANEL
-    --------------------------------------------------------- */
+    ----------------------------- */
 
-    #searchPanel {
+    .map-panel {
       position: fixed;
       top: 18px;
       left: 18px;
-      width: min(430px, calc(100vw - 36px));
+      z-index: 1000;
+      width: min(420px, calc(100vw - 36px));
       max-height: calc(100vh - 36px);
       overflow-y: auto;
-      z-index: 1000;
 
-      background: rgba(15, 15, 15, 0.96);
-      color: #fff;
+      background: rgba(17, 21, 29, .96);
+      border: 1px solid rgba(255, 255, 255, .10);
       border-radius: 18px;
-      padding: 16px;
-
-      box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.35);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
 
       transition:
-        transform 0.25s ease,
-        opacity 0.25s ease;
+        transform .25s ease,
+        opacity .25s ease,
+        width .25s ease;
     }
 
-    #searchPanel.collapsed {
-      transform: translateX(calc(-100% - 25px));
+    .map-panel.collapsed {
+      transform: translateX(calc(-100% - 24px));
       opacity: 0;
       pointer-events: none;
     }
 
-    #openPanelButton {
-      position: fixed;
-      left: 16px;
-      top: 16px;
-      z-index: 1100;
-
-      display: none;
-
-      border: 0;
-      border-radius: 12px;
-      padding: 10px 14px;
-
-      background: #111;
-      color: #fff;
-
-      font-weight: 700;
-      cursor: pointer;
-
-      box-shadow: 0 8px 25px rgba(0,0,0,.25);
+    .panel-inner {
+      padding: 18px;
     }
 
-    #openPanelButton.visible {
-      display: block;
-    }
-
-    .panelHeader {
+    .panel-title-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -100,365 +101,337 @@
       margin-bottom: 14px;
     }
 
-    .panelTitle {
+    .panel-title {
       font-size: 20px;
       font-weight: 800;
-      letter-spacing: .2px;
+      letter-spacing: -.02em;
     }
 
-    .panelSubtitle {
+    .panel-subtitle {
       margin-top: 3px;
-      color: #aaa;
+      color: var(--muted);
       font-size: 12px;
     }
 
-    .iconButton {
+    .icon-btn {
       width: 36px;
       height: 36px;
-
-      border: 0;
+      border: 1px solid var(--border);
       border-radius: 10px;
-
-      background: #262626;
-      color: #fff;
-
-      font-size: 18px;
+      background: var(--panel-2);
+      color: var(--text);
       cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
     }
 
-    /* ---------------------------------------------------------
-       SEARCH
-    --------------------------------------------------------- */
+    .icon-btn:hover {
+      background: #202733;
+    }
 
-    .searchBox {
+    #openPanelBtn {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 1001;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 12px;
+      background: rgba(17,21,29,.96);
+      color: white;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    #openPanelBtn.visible {
+      display: flex;
+    }
+
+    /* -----------------------------
+       SEARCH
+    ----------------------------- */
+
+    .search-box {
       display: flex;
       gap: 8px;
+      margin-bottom: 10px;
     }
 
-    #mainSearch {
+    .search-box input {
       min-width: 0;
       flex: 1;
+    }
 
-      border: 1px solid #444;
-      border-radius: 12px;
+    input,
+    select,
+    button {
+      font: inherit;
+    }
 
-      background: #202020;
-      color: #fff;
+    input,
+    select {
+      width: 100%;
+      height: 44px;
+      padding: 0 13px;
 
-      padding: 12px 13px;
-
+      color: var(--text);
+      background: #0c1016;
+      border: 1px solid var(--border);
+      border-radius: 11px;
       outline: none;
-      font-size: 14px;
     }
 
-    #mainSearch:focus {
-      border-color: #888;
+    input:focus,
+    select:focus {
+      border-color: #657386;
     }
 
-    #searchButton {
-      flex: 0 0 auto;
-
+    button {
       border: 0;
-      border-radius: 12px;
-
-      padding: 0 15px;
-
-      background: #fff;
-      color: #111;
-
-      font-weight: 800;
       cursor: pointer;
     }
 
-    .searchHint {
-      margin: 8px 2px 0;
-
-      color: #929292;
-      font-size: 11px;
-      line-height: 1.4;
+    .primary-btn {
+      height: 44px;
+      padding: 0 16px;
+      border-radius: 11px;
+      background: white;
+      color: #080a0d;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    /* ---------------------------------------------------------
-       SECTIONS
-    --------------------------------------------------------- */
+    .primary-btn:hover {
+      background: #e8ebee;
+    }
+
+    .secondary-btn {
+      min-height: 42px;
+      padding: 0 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel-2);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .secondary-btn:hover {
+      background: #202733;
+    }
+
+    .danger-btn {
+      min-height: 42px;
+      padding: 0 13px;
+      border: 1px solid rgba(229,57,53,.35);
+      border-radius: 10px;
+      background: rgba(229,57,53,.08);
+      color: #ff8a87;
+      font-weight: 700;
+    }
+
+    .hint {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    /* -----------------------------
+       ROUTE
+    ----------------------------- */
 
     .section {
       margin-top: 15px;
-      padding-top: 14px;
-      border-top: 1px solid #303030;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255,255,255,.08);
     }
 
-    .sectionTitle {
+    .section-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-
+      justify-content: space-between;
+      gap: 8px;
       margin-bottom: 10px;
-
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: #bbb;
     }
 
-    /* ---------------------------------------------------------
-       ROUTE
-    --------------------------------------------------------- */
+    .section-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
 
-    #routeFields {
+    .route-fields {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    .routeRow {
+    .route-row {
       display: flex;
       gap: 7px;
       align-items: center;
     }
 
-    .routeRow input {
+    .route-row input {
       flex: 1;
-      min-width: 0;
+    }
 
-      border: 1px solid #3d3d3d;
+    .remove-stop {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 42px;
+      border: 1px solid var(--border);
       border-radius: 10px;
-
-      background: #1d1d1d;
-      color: #fff;
-
-      padding: 10px 11px;
-
-      outline: none;
-      font-size: 13px;
-    }
-
-    .routeRow input:focus {
-      border-color: #777;
-    }
-
-    .removeStop {
-      width: 32px;
-      height: 32px;
-
-      flex: 0 0 32px;
-
-      border: 0;
-      border-radius: 9px;
-
-      background: #2b2b2b;
-      color: #bbb;
-
+      background: #0c1016;
+      color: #aeb7c2;
       cursor: pointer;
     }
 
-    .routeButtons {
-      display: flex;
+    .remove-stop:hover {
+      color: white;
+      background: #202733;
+    }
+
+    .route-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
       margin-top: 9px;
     }
 
-    .secondaryButton,
-    .primaryButton {
-      border: 0;
-      border-radius: 10px;
-
-      padding: 10px 12px;
-
-      font-size: 12px;
-      font-weight: 800;
-
-      cursor: pointer;
-    }
-
-    .secondaryButton {
-      background: #292929;
-      color: #fff;
-    }
-
-    .primaryButton {
-      background: #fff;
-      color: #111;
-    }
-
-    /* ---------------------------------------------------------
+    /* -----------------------------
        SKATEPARK
-    --------------------------------------------------------- */
+    ----------------------------- */
 
-    .radiusButtons {
+    .park-controls {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
-    .radiusButton {
-      border: 1px solid #3a3a3a;
-      border-radius: 9px;
-
-      background: #1e1e1e;
-      color: #bbb;
-
-      padding: 8px 4px;
-
-      font-size: 12px;
-      font-weight: 800;
-
-      cursor: pointer;
+    .park-controls .full {
+      grid-column: 1 / -1;
     }
 
-    .radiusButton.active {
-      background: #fff;
-      color: #111;
-      border-color: #fff;
-    }
-
-    #findParksButton,
-    #routeParksButton {
-      width: 100%;
-      margin-top: 9px;
-
-      border: 0;
-      border-radius: 11px;
-
-      padding: 11px;
-
-      background: #e92727;
-      color: #fff;
-
-      font-weight: 900;
-      font-size: 12px;
-
-      cursor: pointer;
-    }
-
-    #routeParksButton {
-      background: #b51d1d;
-      display: none;
-    }
-
-    #findParksButton:disabled,
-    #routeParksButton:disabled,
-    #searchButton:disabled,
-    #routeSearchButton:disabled {
-      opacity: .55;
-      cursor: wait;
-    }
-
-    /* ---------------------------------------------------------
-       STATUS
-    --------------------------------------------------------- */
-
-    #status {
-      min-height: 18px;
-      margin-top: 12px;
-
-      color: #aaa;
+    .status {
+      min-height: 19px;
+      margin-top: 11px;
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.4;
     }
 
-    #status.error {
-      color: #ff8585;
+    .status.loading {
+      color: #d7dde5;
     }
 
-    #status.success {
-      color: #8ee59a;
+    .status.error {
+      color: #ff8a87;
     }
 
-    #status.loading {
-      color: #ddd;
+    .status.success {
+      color: #b8e5c0;
     }
 
-    /* ---------------------------------------------------------
+    /* -----------------------------
        LEAFLET
-    --------------------------------------------------------- */
+    ----------------------------- */
 
     .leaflet-control-zoom {
-      margin-right: 12px !important;
-      margin-bottom: 12px !important;
+      margin-bottom: 18px !important;
+      margin-right: 18px !important;
+    }
+
+    .leaflet-control-zoom a {
+      background: rgba(17,21,29,.95) !important;
+      color: white !important;
+      border-color: #303845 !important;
     }
 
     .leaflet-control-layers {
       border-radius: 10px !important;
       overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,.25);
     }
 
-    .leaflet-popup-content-wrapper,
-    .leaflet-popup-tip {
-      background: #111;
-      color: #fff;
+    .route-line {
+      color: #111;
+      weight: 8;
+      opacity: .9;
+    }
+
+    .skatepark-marker {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #e53935;
+      border: 3px solid white;
+      box-shadow:
+        0 2px 7px rgba(0,0,0,.5),
+        0 0 0 1px rgba(0,0,0,.15);
+    }
+
+    .skatepark-marker.route {
+      background: #e53935;
     }
 
     .leaflet-popup-content {
       margin: 13px 15px;
+      min-width: 180px;
     }
 
-    .parkPopup {
-      min-width: 190px;
-    }
-
-    .parkPopupName {
-      font-weight: 900;
+    .popup-title {
+      margin-bottom: 6px;
       font-size: 15px;
-      margin-bottom: 8px;
+      font-weight: 800;
     }
 
-    .parkPopupLine {
+    .popup-line {
+      color: #4f5966;
       font-size: 12px;
-      color: #bbb;
-      margin-top: 4px;
+      line-height: 1.5;
     }
 
-    .parkPopupLine strong {
-      color: #fff;
+    .popup-label {
+      font-weight: 700;
     }
 
-    /* ---------------------------------------------------------
-       RED SKATEPARK MARKER
-    --------------------------------------------------------- */
-
-    .skatepark-marker {
-      width: 17px;
-      height: 17px;
-
-      border-radius: 50%;
-
-      background: #e92727;
-
-      border: 3px solid #fff;
-
-      box-shadow:
-        0 2px 8px rgba(0, 0, 0, .5);
-    }
-
-    .route-marker {
-      width: 15px;
-      height: 15px;
-
-      border-radius: 50%;
-
-      background: #fff;
-      border: 3px solid #111;
-
-      box-shadow: 0 2px 7px rgba(0,0,0,.45);
-    }
-
-    /* ---------------------------------------------------------
+    /* -----------------------------
        MOBILE
-    --------------------------------------------------------- */
+    ----------------------------- */
 
-    @media (max-width: 600px) {
-      #searchPanel {
+    @media (max-width: 650px) {
+      .map-panel {
         top: 10px;
         left: 10px;
         width: calc(100vw - 20px);
         max-height: calc(100vh - 20px);
+        border-radius: 15px;
       }
 
-      #openPanelButton {
-        left: 10px;
+      .panel-inner {
+        padding: 14px;
+      }
+
+      #openPanelBtn {
         top: 10px;
+        left: 10px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .primary-btn {
+        width: 100%;
       }
     }
   </style>
@@ -466,2946 +439,2996 @@
 
 <body>
 
-<div id="map"></div>
+  <div id="map"></div>
 
-<button id="openPanelButton" type="button">
-  ☰ Suche
-</button>
+  <button
+    id="openPanelBtn"
+    aria-label="Suchpanel öffnen"
+    title="Suchpanel öffnen"
+  >☰</button>
 
-<aside id="searchPanel">
+  <aside id="mapPanel" class="map-panel">
+    <div class="panel-inner">
 
-  <div class="panelHeader">
-    <div>
-      <div class="panelTitle">MOI-CY Karte</div>
-      <div class="panelSubtitle">
-        Orte, Routen & Skateparks
-      </div>
-    </div>
+      <div class="panel-title-row">
+        <div>
+          <div class="panel-title">MOI-CY Karte</div>
+          <div class="panel-subtitle">
+            Orte, Routen & Skateparks
+          </div>
+        </div>
 
-    <button
-      id="closePanelButton"
-      class="iconButton"
-      type="button"
-      aria-label="Suche schließen"
-    >
-      ×
-    </button>
-  </div>
-
-  <!-- =======================================================
-       UNIFIED SEARCH
-  ======================================================== -->
-
-  <div class="searchBox">
-    <input
-      id="mainSearch"
-      type="text"
-      autocomplete="off"
-      placeholder="Ort oder Route, z. B. Karlsruhe"
-    >
-
-    <button id="searchButton" type="button">
-      Suchen
-    </button>
-  </div>
-
-  <div class="searchHint">
-    Route z. B. „Karlsruhe → Stuttgart → München“
-  </div>
-
-  <!-- =======================================================
-       ROUTE
-  ======================================================== -->
-
-  <div class="section">
-
-    <div class="sectionTitle">
-      <span>Route</span>
-    </div>
-
-    <div id="routeFields">
-
-      <div class="routeRow">
-        <input
-          class="routeInput"
-          type="text"
-          placeholder="Start"
-        >
-      </div>
-
-      <div class="routeRow">
-        <input
-          class="routeInput"
-          type="text"
-          placeholder="Ziel"
-        >
         <button
-          class="removeStop"
-          type="button"
-          title="Ziel entfernen"
-          style="visibility:hidden"
-        >
-          ×
-        </button>
+          id="closePanelBtn"
+          class="icon-btn"
+          aria-label="Panel schließen"
+          title="Panel schließen"
+        >×</button>
       </div>
 
+      <!-- EINHEITLICHE SUCHE -->
+      <div class="search-box">
+        <input
+          id="mainSearch"
+          type="text"
+          autocomplete="off"
+          placeholder="Ort oder Route, z. B. Karlsruhe → Stuttgart → München"
+        >
+
+        <button
+          id="mainSearchBtn"
+          class="primary-btn"
+          type="button"
+        >Suchen</button>
+      </div>
+
+      <p class="hint">
+        Einen Ort suchen = Karte zentrieren.
+        Mehrere Orte mit „→“ = Route berechnen.
+        Skateparks werden dabei nicht automatisch geladen.
+      </p>
+
+      <!-- ROUTE -->
+      <section class="section">
+
+        <div class="section-header">
+          <div class="section-title">Route</div>
+        </div>
+
+        <div id="routeFields" class="route-fields"></div>
+
+        <div class="route-actions">
+          <button
+            id="addStopBtn"
+            class="secondary-btn"
+            type="button"
+          >+ Zwischenstopp hinzufügen</button>
+
+          <button
+            id="calculateRouteBtn"
+            class="primary-btn"
+            type="button"
+          >Route berechnen</button>
+        </div>
+
+      </section>
+
+      <!-- SKATEPARKS -->
+      <section class="section">
+
+        <div class="section-header">
+          <div class="section-title">Skateparks</div>
+        </div>
+
+        <div class="park-controls">
+
+          <select id="radiusSelect">
+            <option value="5">5 km</option>
+            <option value="10" selected>10 km</option>
+            <option value="25">25 km</option>
+            <option value="50">50 km</option>
+          </select>
+
+          <button
+            id="localParksBtn"
+            class="secondary-btn"
+            type="button"
+          >Um aktuellen Ort suchen</button>
+
+          <button
+            id="routeParksBtn"
+            class="primary-btn full"
+            type="button"
+          >SKATEPARKS ENTLANG DER ROUTE</button>
+
+          <button
+            id="clearParksBtn"
+            class="danger-btn full"
+            type="button"
+          >Skateparks entfernen</button>
+
+        </div>
+
+      </section>
+
+      <div id="status" class="status"></div>
+
     </div>
-
-    <div class="routeButtons">
-
-      <button
-        id="addStopButton"
-        class="secondaryButton"
-        type="button"
-      >
-        + Zwischenstopp hinzufügen
-      </button>
-
-      <button
-        id="routeSearchButton"
-        class="primaryButton"
-        type="button"
-      >
-        Route suchen
-      </button>
-
-    </div>
-
-    <button
-      id="routeParksButton"
-      type="button"
-    >
-      🛹 SKATEPARKS ENTLANG DER ROUTE
-    </button>
-
-  </div>
-
-  <!-- =======================================================
-       SKATEPARKS
-  ======================================================== -->
-
-  <div class="section">
-
-    <div class="sectionTitle">
-      <span>Skateparks</span>
-      <span id="parkCount"></span>
-    </div>
-
-    <div class="radiusButtons">
-
-      <button
-        class="radiusButton active"
-        data-radius="5"
-        type="button"
-      >
-        5 km
-      </button>
-
-      <button
-        class="radiusButton"
-        data-radius="10"
-        type="button"
-      >
-        10 km
-      </button>
-
-      <button
-        class="radiusButton"
-        data-radius="25"
-        type="button"
-      >
-        25 km
-      </button>
-
-      <button
-        class="radiusButton"
-        data-radius="50"
-        type="button"
-      >
-        50 km
-      </button>
-
-    </div>
-
-    <button
-      id="findParksButton"
-      type="button"
-    >
-      🛹 SKATEPARKS HIER SUCHEN
-    </button>
-
-  </div>
-
-  <div id="status"></div>
-
-</aside>
-
-
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-  crossorigin=""
-></script>
-
-<script>
-"use strict";
-
-/* ============================================================
-   CONFIG
-============================================================ */
-
-const DEFAULT_CENTER = [48.7758, 9.1829];
-const DEFAULT_ZOOM = 6;
-
-const MAP_BOUNDS = L.latLngBounds(
-  [-85.05112878, -180],
-  [85.05112878, 180]
-);
-
-const NOMINATIM_URL =
-  "https://nominatim.openstreetmap.org/search";
-
-const PHOTON_URL =
-  "https://photon.komoot.io/api/";
-
-const OSRM_URL =
-  "https://router.project-osrm.org/route/v1/driving/";
-
-const OVERPASS_ENDPOINTS = [
-  "https://overpass-api.de/api/interpreter",
-  "https://overpass.kumi.systems/api/interpreter"
-];
-
-/*
- * Harte Zeitgrenze:
- * Skateparks dürfen insgesamt höchstens 10 Sekunden suchen.
- */
-const PARK_SEARCH_TIMEOUT = 10000;
-
-/*
- * Andere Netzwerkanfragen
- */
-const GEOCODE_TIMEOUT = 8000;
-const ROUTE_TIMEOUT = 10000;
-const OVERPASS_TIMEOUT = 9000;
-
-/* ============================================================
-   MAP
-============================================================ */
-
-const map = L.map("map", {
-  center: DEFAULT_CENTER,
-  zoom: DEFAULT_ZOOM,
-
-  minZoom: 2,
-  maxZoom: 18,
-
-  maxBounds: MAP_BOUNDS,
-  maxBoundsViscosity: 1.0,
-
-  worldCopyJump: false,
-
-  zoomControl: true,
-  preferCanvas: true
-});
-
-
-const standardLayer = L.tileLayer(
-  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }
-).addTo(map);
-
-
-const satelliteLayer = L.tileLayer(
-  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-  {
-    maxZoom: 19,
-    attribution:
-      "Tiles &copy; Esri"
-  }
-);
-
-
-L.control.layers(
-  {
-    "Karte": standardLayer,
-    "Satellit": satelliteLayer
-  },
-  null,
-  {
-    position: "topright"
-  }
-).addTo(map);
-
-
-/* ============================================================
-   UI
-============================================================ */
-
-const searchPanel =
-  document.getElementById("searchPanel");
-
-const openPanelButton =
-  document.getElementById("openPanelButton");
-
-const closePanelButton =
-  document.getElementById("closePanelButton");
-
-const mainSearch =
-  document.getElementById("mainSearch");
-
-const searchButton =
-  document.getElementById("searchButton");
-
-const routeFields =
-  document.getElementById("routeFields");
-
-const addStopButton =
-  document.getElementById("addStopButton");
-
-const routeSearchButton =
-  document.getElementById("routeSearchButton");
-
-const findParksButton =
-  document.getElementById("findParksButton");
-
-const routeParksButton =
-  document.getElementById("routeParksButton");
-
-const statusElement =
-  document.getElementById("status");
-
-const parkCountElement =
-  document.getElementById("parkCount");
-
-
-/* ============================================================
-   STATE
-============================================================ */
-
-let selectedRadiusKm = 5;
-
-let currentRoute = null;
-
-let routeLayer = null;
-
-let parkLayer = L.layerGroup().addTo(map);
-
-let routeMarkerLayer = L.layerGroup().addTo(map);
-
-let lastParkSearchKey = null;
-
-let parkSearchCache = new Map();
-
-let geocodeCache = new Map();
-
-let currentSearchController = null;
-
-
-/* ============================================================
-   HELPERS
-============================================================ */
-
-function setStatus(message, type = "") {
-  statusElement.textContent = message;
-  statusElement.className = type;
-}
-
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-
-function normalizeText(value) {
-  return String(value ?? "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/ß/g, "ss")
-    .trim();
-}
-
-
-function transliterations(value) {
-  const original = String(value || "").trim();
-
-  const variants = new Set([
-    original
-  ]);
-
-  variants.add(
-    original
-      .replaceAll("ä", "ae")
-      .replaceAll("ö", "oe")
-      .replaceAll("ü", "ue")
-      .replaceAll("Ä", "Ae")
-      .replaceAll("Ö", "Oe")
-      .replaceAll("Ü", "Ue")
-      .replaceAll("ß", "ss")
-  );
-
-  variants.add(
-    original
-      .replaceAll("ä", "a")
-      .replaceAll("ö", "o")
-      .replaceAll("ü", "u")
-      .replaceAll("Ä", "A")
-      .replaceAll("Ö", "O")
-      .replaceAll("Ü", "U")
-      .replaceAll("ß", "ss")
-  );
-
-  return [...variants].filter(Boolean);
-}
-
-
-/* ============================================================
-   ABORTABLE FETCH
-============================================================ */
-
-async function fetchWithTimeout(
-  url,
-  options = {},
-  timeoutMs = 8000,
-  externalSignal = null
-) {
-  const controller = new AbortController();
-
-  const timer = setTimeout(() => {
-    controller.abort();
-  }, timeoutMs);
-
-  let externalAbortHandler = null;
-
-  if (externalSignal) {
-    externalAbortHandler = () => {
-      controller.abort();
-    };
-
-    if (externalSignal.aborted) {
-      controller.abort();
-    } else {
-      externalSignal.addEventListener(
-        "abort",
-        externalAbortHandler,
-        { once: true }
-      );
+  </aside>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""
+  ></script>
+
+  <script>
+    "use strict";
+
+    /* =========================================================
+       KONFIGURATION
+    ========================================================= */
+
+    const DEFAULT_CENTER = [49.0069, 8.4037];
+    const DEFAULT_ZOOM = 12;
+
+    const MAP_BOUNDS = L.latLngBounds(
+      [-85.05112878, -180],
+      [85.05112878, 180]
+    );
+
+    const NOMINATIM_URL =
+      "https://nominatim.openstreetmap.org/search";
+
+    const PHOTON_URL =
+      "https://photon.komoot.io/api/";
+
+    const OSRM_URLS = [
+      "https://router.project-osrm.org/route/v1/driving/"
+    ];
+
+    const OVERPASS_URLS = [
+      "https://overpass-api.de/api/interpreter",
+      "https://overpass.kumi.systems/api/interpreter"
+    ];
+
+    const NOMINATIM_TIMEOUT = 8000;
+    const PHOTON_TIMEOUT = 8000;
+    const OSRM_TIMEOUT = 9000;
+
+    /*
+      WICHTIG:
+
+      Für Skateparks gilt ab jetzt ein globales Limit
+      von ungefähr 10 Sekunden.
+
+      Einzelne Teilabfragen dürfen früher abbrechen,
+      damit eine kaputte Overpass-Teilabfrage nicht
+      die komplette Routensuche blockiert.
+    */
+    const PARK_GLOBAL_TIMEOUT = 10000;
+    const PARK_REQUEST_TIMEOUT = 6500;
+
+    const MAX_PARKS = 15;
+
+    /*
+      Route wird nicht mehr als eine riesige BBox abgefragt.
+
+      Kleine Routen -> eine kompakte BBox.
+      Lange Routen -> mehrere Abschnitte.
+    */
+    const ROUTE_CHUNK_KM = 90;
+    const ROUTE_MAX_CHUNKS = 12;
+    const ROUTE_QUERY_CONCURRENCY = 4;
+
+    const CACHE_PREFIX = "moi_cy_map_v4_";
+    const CACHE_TTL = 1000 * 60 * 60 * 24 * 7;
+
+    /* =========================================================
+       MAP
+    ========================================================= */
+
+    const map = L.map("map", {
+      center: DEFAULT_CENTER,
+      zoom: DEFAULT_ZOOM,
+      minZoom: 2,
+      maxZoom: 18,
+      maxBounds: MAP_BOUNDS,
+      maxBoundsViscosity: 1.0,
+      worldCopyJump: false,
+      zoomControl: true,
+      preferCanvas: true
+    });
+
+    const streetLayer = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap-Mitwirkende"
+      }
+    ).addTo(map);
+
+    const satelliteLayer = L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      {
+        maxZoom: 19,
+        attribution:
+          "Tiles &copy; Esri"
+      }
+    );
+
+    L.control.layers(
+      {
+        "Karte": streetLayer,
+        "Satellit": satelliteLayer
+      },
+      null,
+      {
+        position: "topright"
+      }
+    ).addTo(map);
+
+    /* =========================================================
+       LAYER
+    ========================================================= */
+
+    const parkLayer = L.layerGroup().addTo(map);
+
+    let routeLayer = null;
+    let currentRoute = null;
+    let currentRouteStops = [];
+    let currentRouteDistanceKm = 0;
+
+    /* =========================================================
+       DOM
+    ========================================================= */
+
+    const panel = document.getElementById("mapPanel");
+    const openPanelBtn = document.getElementById("openPanelBtn");
+    const closePanelBtn = document.getElementById("closePanelBtn");
+
+    const mainSearch = document.getElementById("mainSearch");
+    const mainSearchBtn = document.getElementById("mainSearchBtn");
+
+    const routeFields = document.getElementById("routeFields");
+    const addStopBtn = document.getElementById("addStopBtn");
+    const calculateRouteBtn = document.getElementById("calculateRouteBtn");
+
+    const radiusSelect = document.getElementById("radiusSelect");
+    const localParksBtn = document.getElementById("localParksBtn");
+    const routeParksBtn = document.getElementById("routeParksBtn");
+    const clearParksBtn = document.getElementById("clearParksBtn");
+
+    const statusBox = document.getElementById("status");
+
+    /* =========================================================
+       STATUS
+    ========================================================= */
+
+    function setStatus(message, type = "") {
+      statusBox.textContent = message;
+      statusBox.className = "status" + (type ? " " + type : "");
     }
-  }
 
-  try {
-    const response = await fetch(
+    /* =========================================================
+       PANEL
+    ========================================================= */
+
+    closePanelBtn.addEventListener("click", () => {
+      panel.classList.add("collapsed");
+      openPanelBtn.classList.add("visible");
+    });
+
+    openPanelBtn.addEventListener("click", () => {
+      panel.classList.remove("collapsed");
+      openPanelBtn.classList.remove("visible");
+    });
+
+    /* =========================================================
+       CACHE
+    ========================================================= */
+
+    function cacheGet(key) {
+      try {
+        const raw = localStorage.getItem(CACHE_PREFIX + key);
+
+        if (!raw) {
+          return null;
+        }
+
+        const parsed = JSON.parse(raw);
+
+        if (!parsed || !parsed.time) {
+          return null;
+        }
+
+        if (Date.now() - parsed.time > CACHE_TTL) {
+          localStorage.removeItem(CACHE_PREFIX + key);
+          return null;
+        }
+
+        return parsed.data;
+      } catch {
+        return null;
+      }
+    }
+
+    function cacheSet(key, data) {
+      try {
+        localStorage.setItem(
+          CACHE_PREFIX + key,
+          JSON.stringify({
+            time: Date.now(),
+            data
+          })
+        );
+      } catch {
+        /* Cache ist nur Zusatzfunktion. */
+      }
+    }
+
+    /* =========================================================
+       ABORT / FETCH
+    ========================================================= */
+
+    async function fetchWithTimeout(
       url,
-      {
-        ...options,
-        signal: controller.signal
-      }
-    );
+      options = {},
+      timeoutMs = 8000,
+      externalSignal = null
+    ) {
+      const controller = new AbortController();
 
-    if (!response.ok) {
-      throw new Error(
-        `HTTP ${response.status}`
+      const timeout = setTimeout(() => {
+        controller.abort();
+      }, timeoutMs);
+
+      let externalAbortHandler = null;
+
+      if (externalSignal) {
+        if (externalSignal.aborted) {
+          controller.abort();
+        } else {
+          externalAbortHandler = () => controller.abort();
+          externalSignal.addEventListener(
+            "abort",
+            externalAbortHandler,
+            { once: true }
+          );
+        }
+      }
+
+      try {
+        const response = await fetch(url, {
+          ...options,
+          signal: controller.signal
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "HTTP " + response.status
+          );
+        }
+
+        return response;
+      } finally {
+        clearTimeout(timeout);
+
+        if (
+          externalSignal &&
+          externalAbortHandler
+        ) {
+          externalSignal.removeEventListener(
+            "abort",
+            externalAbortHandler
+          );
+        }
+      }
+    }
+
+    /* =========================================================
+       NORMALIZE
+    ========================================================= */
+
+    function normalizeText(value) {
+      return String(value || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ß/g, "ss")
+        .replace(/[^a-z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function transliterateGerman(value) {
+      return String(value || "")
+        .replace(/ä/gi, "ae")
+        .replace(/ö/gi, "oe")
+        .replace(/ü/gi, "ue")
+        .replace(/ß/gi, "ss");
+    }
+
+    /* =========================================================
+       DISTANZ
+    ========================================================= */
+
+    function haversineKm(a, b) {
+      const R = 6371;
+
+      const lat1 = a[0] * Math.PI / 180;
+      const lat2 = b[0] * Math.PI / 180;
+
+      const dLat =
+        (b[0] - a[0]) * Math.PI / 180;
+
+      const dLon =
+        (b[1] - a[1]) * Math.PI / 180;
+
+      const x =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1) *
+        Math.cos(lat2) *
+        Math.sin(dLon / 2) ** 2;
+
+      return (
+        2 *
+        R *
+        Math.atan2(
+          Math.sqrt(x),
+          Math.sqrt(1 - x)
+        )
       );
     }
 
-    return response;
-
-  } finally {
-    clearTimeout(timer);
-
-    if (
-      externalSignal &&
-      externalAbortHandler
+    function pointSegmentDistanceKm(
+      point,
+      a,
+      b
     ) {
-      externalSignal.removeEventListener(
-        "abort",
-        externalAbortHandler
-      );
-    }
-  }
-}
-
-
-/* ============================================================
-   GEOCODING
-============================================================ */
-
-/*
- * Nominatim und Photon laufen parallel.
- * Dadurch wartet die Suche nicht unnötig auf einen einzelnen
- * Geocoder.
- */
-
-async function geocodeOne(query) {
-
-  const cacheKey =
-    normalizeText(query);
-
-  if (geocodeCache.has(cacheKey)) {
-    return geocodeCache.get(cacheKey);
-  }
-
-  const variants =
-    transliterations(query);
-
-  const nominatimPromises =
-    variants.slice(0, 2).map(async variant => {
-
-      const params =
-        new URLSearchParams({
-          q: variant,
-          format: "jsonv2",
-          addressdetails: "1",
-          limit: "5",
-          dedupe: "1",
-          "accept-language": "de"
-        });
-
-      const response =
-        await fetchWithTimeout(
-          NOMINATIM_URL +
-          "?" +
-          params.toString(),
-          {
-            headers: {
-              "Accept": "application/json"
-            }
-          },
-          GEOCODE_TIMEOUT
-        );
-
-      return response.json();
-    });
-
-
-  const photonPromises =
-    variants.slice(0, 2).map(async variant => {
-
-      const params =
-        new URLSearchParams({
-          q: variant,
-          limit: "5",
-          lang: "de"
-        });
-
-      const response =
-        await fetchWithTimeout(
-          PHOTON_URL +
-          "?" +
-          params.toString(),
-          {
-            headers: {
-              "Accept": "application/json"
-            }
-          },
-          GEOCODE_TIMEOUT
-        );
-
-      return response.json();
-    });
-
-
-  const results = [];
-
-  const settled =
-    await Promise.allSettled([
-      ...nominatimPromises,
-      ...photonPromises
-    ]);
-
-
-  for (const item of settled) {
-
-    if (
-      item.status !== "fulfilled" ||
-      !item.value
-    ) {
-      continue;
-    }
-
-    const value = item.value;
-
-    if (Array.isArray(value)) {
-      for (const result of value) {
-
-        const lat =
-          Number(result.lat);
-
-        const lon =
-          Number(result.lon);
-
-        if (
-          Number.isFinite(lat) &&
-          Number.isFinite(lon)
-        ) {
-          results.push({
-            lat,
-            lon,
-            displayName:
-              result.display_name || query,
-
-            source: "nominatim"
-          });
-        }
-      }
-
-      continue;
-    }
-
-
-    if (
-      Array.isArray(value.features)
-    ) {
-      for (const feature of value.features) {
-
-        const coords =
-          feature?.geometry?.coordinates;
-
-        if (
-          !Array.isArray(coords) ||
-          coords.length < 2
-        ) {
-          continue;
-        }
-
-        const lon =
-          Number(coords[0]);
-
-        const lat =
-          Number(coords[1]);
-
-        if (
-          Number.isFinite(lat) &&
-          Number.isFinite(lon)
-        ) {
-          results.push({
-            lat,
-            lon,
-            displayName:
-              feature?.properties?.name ||
-              query,
-
-            source: "photon"
-          });
-        }
-      }
-    }
-  }
-
-
-  if (!results.length) {
-    throw new Error(
-      "Ort wurde nicht gefunden."
-    );
-  }
-
-
-  /*
-   * Nominatim bekommt leicht Vorrang.
-   * Wir nehmen das erste brauchbare Ergebnis.
-   */
-  const best =
-    results.find(
-      r => r.source === "nominatim"
-    ) || results[0];
-
-
-  geocodeCache.set(
-    cacheKey,
-    best
-  );
-
-  return best;
-}
-
-
-/* ============================================================
-   SEARCH TYPE
-============================================================ */
-
-function looksLikeRoute(query) {
-
-  return /(?:->|→|➜|>|↦)/.test(query);
-}
-
-
-function parseUnifiedRoute(query) {
-
-  return query
-    .split(/(?:->|→|➜|>|↦)/)
-    .map(part => part.trim())
-    .filter(Boolean);
-}
-
-
-/* ============================================================
-   NORMAL PLACE SEARCH
-============================================================ */
-
-async function searchPlace(query) {
-
-  setStatus(
-    "Ort wird gesucht …",
-    "loading"
-  );
-
-  searchButton.disabled = true;
-
-  try {
-
-    const result =
-      await geocodeOne(query);
-
-    map.setView(
-      [result.lat, result.lon],
-      13,
-      {
-        animate: true
-      }
-    );
-
-    /*
-     * WICHTIG:
-     * Bei normaler Ortssuche KEINE automatische
-     * Skatepark-Suche.
-     */
-
-    setStatus(
-      result.displayName,
-      "success"
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    setStatus(
-      "Ort konnte nicht gefunden werden.",
-      "error"
-    );
-
-  } finally {
-    searchButton.disabled = false;
-  }
-}
-
-
-/* ============================================================
-   ROUTE INPUTS
-============================================================ */
-
-function getRouteInputs() {
-  return [
-    ...document.querySelectorAll(".routeInput")
-  ];
-}
-
-
-function getRouteValues() {
-
-  return getRouteInputs()
-    .map(input => input.value.trim())
-    .filter(Boolean);
-}
-
-
-function createRouteInput(
-  placeholder = "Zwischenstopp"
-) {
-
-  const row =
-    document.createElement("div");
-
-  row.className = "routeRow";
-
-  const input =
-    document.createElement("input");
-
-  input.className = "routeInput";
-  input.type = "text";
-  input.placeholder = placeholder;
-
-  const remove =
-    document.createElement("button");
-
-  remove.className = "removeStop";
-  remove.type = "button";
-  remove.textContent = "×";
-  remove.title = "Zwischenstopp entfernen";
-
-  remove.addEventListener(
-    "click",
-    () => {
-      row.remove();
-      updateRemoveButtons();
-    }
-  );
-
-  row.appendChild(input);
-  row.appendChild(remove);
-
-  routeFields.appendChild(row);
-
-  updateRemoveButtons();
-
-  input.focus();
-}
-
-
-function updateRemoveButtons() {
-
-  const rows =
-    [...routeFields.children];
-
-  rows.forEach(
-    (row, index) => {
-
-      const button =
-        row.querySelector(".removeStop");
-
-      if (!button) {
-        return;
-      }
-
       /*
-       * Start und Ziel bleiben erhalten.
-       * Zusätzliche Zwischenstopps können gelöscht werden.
-       */
-      if (
-        index === 0 ||
-        index === rows.length - 1
-      ) {
-        button.style.visibility =
-          "hidden";
-      } else {
-        button.style.visibility =
-          "visible";
+        Lokale equirectangular Projektion.
+        Für kurze Segmente völlig ausreichend.
+      */
+
+      const latRad =
+        point[0] * Math.PI / 180;
+
+      const kx =
+        111.320 * Math.cos(latRad);
+
+      const ky = 110.574;
+
+      const px = point[1] * kx;
+      const py = point[0] * ky;
+
+      const ax = a[1] * kx;
+      const ay = a[0] * ky;
+
+      const bx = b[1] * kx;
+      const by = b[0] * ky;
+
+      const dx = bx - ax;
+      const dy = by - ay;
+
+      if (dx === 0 && dy === 0) {
+        return Math.hypot(
+          px - ax,
+          py - ay
+        );
       }
-    }
-  );
-}
 
-
-/* ============================================================
-   ROUTE
-============================================================ */
-
-async function searchRoute(
-  routeNames
-) {
-
-  if (routeNames.length < 2) {
-    setStatus(
-      "Bitte mindestens Start und Ziel eingeben.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  routeSearchButton.disabled = true;
-  searchButton.disabled = true;
-
-  setStatus(
-    "Route wird berechnet …",
-    "loading"
-  );
-
-
-  try {
-
-    /*
-     * Alle Geocoding-Anfragen parallel.
-     */
-    const coordinates =
-      await Promise.all(
-        routeNames.map(
-          name => geocodeOne(name)
+      const t = Math.max(
+        0,
+        Math.min(
+          1,
+          (
+            (px - ax) * dx +
+            (py - ay) * dy
+          ) /
+          (dx * dx + dy * dy)
         )
       );
 
+      const cx = ax + t * dx;
+      const cy = ay + t * dy;
 
-    /*
-     * EIN OSRM-Request für die komplette Route.
-     */
-    const coordinateString =
-      coordinates
-        .map(
-          p => `${p.lon},${p.lat}`
-        )
-        .join(";");
+      return Math.hypot(
+        px - cx,
+        py - cy
+      );
+    }
 
+    function distanceToPolylineKm(
+      point,
+      polyline
+    ) {
+      let best = Infinity;
 
-    const url =
-      OSRM_URL +
-      coordinateString +
-      "?" +
-      new URLSearchParams({
-        overview: "full",
-        geometries: "geojson",
-        steps: "false",
-        alternatives: "false"
-      }).toString();
+      for (
+        let i = 0;
+        i < polyline.length - 1;
+        i++
+      ) {
+        const d = pointSegmentDistanceKm(
+          point,
+          polyline[i],
+          polyline[i + 1]
+        );
 
+        if (d < best) {
+          best = d;
+        }
+      }
 
-    const response =
-      await fetchWithTimeout(
-        url,
+      return best;
+    }
+
+    /* =========================================================
+       BBOX
+    ========================================================= */
+
+    function bboxFromCenter(
+      lat,
+      lon,
+      radiusKm
+    ) {
+      const latDelta =
+        radiusKm / 110.574;
+
+      const lonDelta =
+        radiusKm /
+        (
+          111.320 *
+          Math.cos(lat * Math.PI / 180)
+        );
+
+      return {
+        south: lat - latDelta,
+        west: lon - lonDelta,
+        north: lat + latDelta,
+        east: lon + lonDelta
+      };
+    }
+
+    function bboxFromPoints(
+      points,
+      paddingKm
+    ) {
+      let south = Infinity;
+      let west = Infinity;
+      let north = -Infinity;
+      let east = -Infinity;
+
+      for (const p of points) {
+        south = Math.min(south, p[0]);
+        west = Math.min(west, p[1]);
+        north = Math.max(north, p[0]);
+        east = Math.max(east, p[1]);
+      }
+
+      const centerLat =
+        (south + north) / 2;
+
+      const latPad =
+        paddingKm / 110.574;
+
+      const lonPad =
+        paddingKm /
+        (
+          111.320 *
+          Math.cos(centerLat * Math.PI / 180)
+        );
+
+      return {
+        south: south - latPad,
+        west: west - lonPad,
+        north: north + latPad,
+        east: east + lonPad
+      };
+    }
+
+    function bboxKey(bbox) {
+      return [
+        bbox.south.toFixed(3),
+        bbox.west.toFixed(3),
+        bbox.north.toFixed(3),
+        bbox.east.toFixed(3)
+      ].join("_");
+    }
+
+    /* =========================================================
+       GEOCODING
+    ========================================================= */
+
+    async function geocodeNominatim(query) {
+      const params = new URLSearchParams({
+        q: query,
+        format: "jsonv2",
+        addressdetails: "1",
+        limit: "5",
+        dedupe: "1",
+        "accept-language": "de"
+      });
+
+      const response = await fetchWithTimeout(
+        NOMINATIM_URL + "?" + params.toString(),
         {
           headers: {
             "Accept": "application/json"
           }
         },
-        ROUTE_TIMEOUT
+        NOMINATIM_TIMEOUT
       );
 
-
-    const data =
-      await response.json();
-
-
-    if (
-      data.code !== "Ok" ||
-      !data.routes ||
-      !data.routes.length
-    ) {
-      throw new Error(
-        "Keine Route gefunden."
-      );
+      return response.json();
     }
 
+    async function geocodePhoton(query) {
+      const params = new URLSearchParams({
+        q: query,
+        limit: "5",
+        lang: "de"
+      });
 
-    const route =
-      data.routes[0];
-
-
-    currentRoute = {
-      geometry:
-        route.geometry,
-
-      distance:
-        route.distance,
-
-      duration:
-        route.duration,
-
-      stops:
-        coordinates
-    };
-
-
-    /*
-     * Alte Route entfernen.
-     */
-    if (routeLayer) {
-      map.removeLayer(routeLayer);
-    }
-
-
-    routeLayer =
-      L.geoJSON(
-        route.geometry,
+      const response = await fetchWithTimeout(
+        PHOTON_URL + "?" + params.toString(),
         {
-          style: {
-            weight: 5,
-            opacity: .9
+          headers: {
+            "Accept": "application/json"
           }
-        }
-      ).addTo(map);
-
-
-    routeMarkerLayer.clearLayers();
-
-
-    coordinates.forEach(
-      (point, index) => {
-
-        const marker =
-          L.marker(
-            [point.lat, point.lon],
-            {
-              icon:
-                L.divIcon({
-                  className: "",
-                  html:
-                    '<div class="route-marker"></div>',
-                  iconSize: [15, 15],
-                  iconAnchor: [7.5, 7.5]
-                })
-            }
-          );
-
-
-        marker.bindTooltip(
-          routeNames[index],
-          {
-            direction: "top"
-          }
-        );
-
-
-        marker.addTo(
-          routeMarkerLayer
-        );
-      }
-    );
-
-
-    map.fitBounds(
-      routeLayer.getBounds(),
-      {
-        padding: [35, 35]
-      }
-    );
-
-
-    routeParksButton.style.display =
-      "block";
-
-
-    const km =
-      route.distance / 1000;
-
-    const minutes =
-      route.duration / 60;
-
-
-    setStatus(
-      `Route: ${km.toFixed(0)} km · ` +
-      `${Math.round(minutes)} min`,
-      "success"
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    setStatus(
-      "Route konnte nicht berechnet werden.",
-      "error"
-    );
-
-  } finally {
-
-    routeSearchButton.disabled =
-      false;
-
-    searchButton.disabled =
-      false;
-  }
-}
-
-
-/* ============================================================
-   DISTANCE MATH
-============================================================ */
-
-const EARTH_RADIUS =
-  6371008.8;
-
-
-function toRad(degrees) {
-  return degrees * Math.PI / 180;
-}
-
-
-function haversineDistance(
-  lat1,
-  lon1,
-  lat2,
-  lon2
-) {
-
-  const p1 =
-    toRad(lat1);
-
-  const p2 =
-    toRad(lat2);
-
-  const dLat =
-    toRad(lat2 - lat1);
-
-  const dLon =
-    toRad(lon2 - lon1);
-
-
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(p1) *
-    Math.cos(p2) *
-    Math.sin(dLon / 2) ** 2;
-
-
-  return (
-    EARTH_RADIUS *
-    2 *
-    Math.atan2(
-      Math.sqrt(a),
-      Math.sqrt(1 - a)
-    )
-  );
-}
-
-
-/*
- * Distanz Punkt -> Liniensegment.
- *
- * Für lokale Bereiche reicht eine lokale
- * equirectangular Projektion sehr gut.
- */
-function pointToSegmentDistance(
-  point,
-  a,
-  b
-) {
-
-  const lat0 =
-    toRad(
-      (point.lat + a.lat + b.lat) / 3
-    );
-
-
-  const cosLat =
-    Math.cos(lat0);
-
-
-  const x =
-    toRad(point.lon) *
-    cosLat *
-    EARTH_RADIUS;
-
-
-  const y =
-    toRad(point.lat) *
-    EARTH_RADIUS;
-
-
-  const ax =
-    toRad(a.lon) *
-    cosLat *
-    EARTH_RADIUS;
-
-
-  const ay =
-    toRad(a.lat) *
-    EARTH_RADIUS;
-
-
-  const bx =
-    toRad(b.lon) *
-    cosLat *
-    EARTH_RADIUS;
-
-
-  const by =
-    toRad(b.lat) *
-    EARTH_RADIUS;
-
-
-  const dx =
-    bx - ax;
-
-  const dy =
-    by - ay;
-
-
-  if (
-    dx === 0 &&
-    dy === 0
-  ) {
-    return Math.hypot(
-      x - ax,
-      y - ay
-    );
-  }
-
-
-  const t =
-    Math.max(
-      0,
-      Math.min(
-        1,
-        (
-          (x - ax) * dx +
-          (y - ay) * dy
-        ) /
-        (dx * dx + dy * dy)
-      )
-    );
-
-
-  const px =
-    ax + t * dx;
-
-  const py =
-    ay + t * dy;
-
-
-  return Math.hypot(
-    x - px,
-    y - py
-  );
-}
-
-
-function distanceToRoute(
-  point,
-  coordinates
-) {
-
-  let minimum =
-    Infinity;
-
-  let bestSegment = 0;
-
-  for (
-    let i = 0;
-    i < coordinates.length - 1;
-    i++
-  ) {
-
-    const distance =
-      pointToSegmentDistance(
-        point,
-        coordinates[i],
-        coordinates[i + 1]
+        },
+        PHOTON_TIMEOUT
       );
 
-    if (
-      distance < minimum
-    ) {
-      minimum = distance;
-      bestSegment = i;
-    }
-  }
-
-
-  return {
-    distance: minimum,
-    segment: bestSegment
-  };
-}
-
-
-/* ============================================================
-   ROUTE PROGRESS
-============================================================ */
-
-function calculateRouteProgress(
-  point,
-  coordinates
-) {
-
-  let bestDistance =
-    Infinity;
-
-  let progress =
-    0;
-
-
-  for (
-    let i = 0;
-    i < coordinates.length - 1;
-    i++
-  ) {
-
-    const a =
-      coordinates[i];
-
-    const b =
-      coordinates[i + 1];
-
-
-    const distance =
-      pointToSegmentDistance(
-        point,
-        a,
-        b
-      );
-
-
-    if (
-      distance < bestDistance
-    ) {
-
-      bestDistance =
-        distance;
-
-      const segmentLength =
-        haversineDistance(
-          a.lat,
-          a.lon,
-          b.lat,
-          b.lon
-        );
-
-
-      progress =
-        i + 0.5;
-
-      /*
-       * Kleine Approximation reicht zur
-       * Sortierung entlang der Route.
-       */
-      if (segmentLength > 0) {
-
-        const localA =
-          haversineDistance(
-            a.lat,
-            a.lon,
-            point.lat,
-            point.lon
-          );
-
-        const localB =
-          haversineDistance(
-            point.lat,
-            point.lon,
-            b.lat,
-            b.lon
-          );
-
-        const ratio =
-          localA /
-          (
-            localA +
-            localB
-          );
-
-        progress =
-          i + ratio;
-      }
-    }
-  }
-
-
-  return progress;
-}
-
-
-/* ============================================================
-   BOUNDING BOX
-============================================================ */
-
-function getRouteBoundingBox(
-  geometry,
-  paddingKm
-) {
-
-  const coordinates =
-    geometry.coordinates;
-
-
-  let minLat = Infinity;
-  let minLon = Infinity;
-
-  let maxLat = -Infinity;
-  let maxLon = -Infinity;
-
-
-  for (
-    const coordinate of coordinates
-  ) {
-
-    const lon =
-      Number(coordinate[0]);
-
-    const lat =
-      Number(coordinate[1]);
-
-
-    minLat =
-      Math.min(minLat, lat);
-
-    maxLat =
-      Math.max(maxLat, lat);
-
-    minLon =
-      Math.min(minLon, lon);
-
-    maxLon =
-      Math.max(maxLon, lon);
-  }
-
-
-  const centerLat =
-    (minLat + maxLat) / 2;
-
-
-  const latPadding =
-    paddingKm / 111;
-
-
-  const lonPadding =
-    paddingKm /
-    (
-      111 *
-      Math.cos(
-        toRad(centerLat)
-      )
-    );
-
-
-  return {
-    south:
-      minLat - latPadding,
-
-    west:
-      minLon - lonPadding,
-
-    north:
-      maxLat + latPadding,
-
-    east:
-      maxLon + lonPadding
-  };
-}
-
-
-/* ============================================================
-   SKATEPARK FILTER
-============================================================ */
-
-const BAD_WORDS = [
-  "spielplatz",
-  "playground",
-  "kinderspielplatz",
-  "pumptrack",
-  "bmx",
-  "minigolf",
-  "bolzplatz",
-  "fussball",
-  "fußball",
-  "soccer",
-  "basketball",
-  "volleyball",
-  "fitness",
-  "parcours"
-];
-
-
-const SKATE_WORDS = [
-  "skate",
-  "skater",
-  "skatepark",
-  "skateplatz",
-  "skateanlage",
-  "skatehalle",
-  "skatepark",
-  "skating"
-];
-
-
-function isBadPark(tags) {
-
-  const text =
-    normalizeText([
-      tags?.name,
-      tags?.description,
-      tags?.sport
-    ].join(" "));
-
-
-  return BAD_WORDS.some(
-    word =>
-      text.includes(
-        normalizeText(word)
-      )
-  );
-}
-
-
-function isLikelySkatepark(tags) {
-
-  if (!tags) {
-    return false;
-  }
-
-
-  if (isBadPark(tags)) {
-    return false;
-  }
-
-
-  /*
-   * Der wichtigste Fall.
-   */
-  if (
-    tags.leisure === "skatepark"
-  ) {
-    return true;
-  }
-
-
-  const text =
-    normalizeText([
-      tags.name,
-      tags.description,
-      tags.note
-    ].join(" "));
-
-
-  /*
-   * sport=skateboard alleine reicht NICHT.
-   */
-  if (
-    tags.sport === "skateboard"
-  ) {
-
-    return SKATE_WORDS.some(
-      word =>
-        text.includes(
-          normalizeText(word)
-        )
-    );
-  }
-
-
-  return SKATE_WORDS.some(
-    word =>
-      text.includes(
-        normalizeText(word)
-      )
-  );
-}
-
-
-/* ============================================================
-   OSM ELEMENT -> PARK
-============================================================ */
-
-function osmElementToPark(
-  element
-) {
-
-  const tags =
-    element.tags || {};
-
-
-  let lat =
-    Number(element.lat);
-
-  let lon =
-    Number(element.lon);
-
-
-  /*
-   * Ways/Relations können Geometrie statt
-   * lat/lon besitzen.
-   */
-  if (
-    (!Number.isFinite(lat) ||
-     !Number.isFinite(lon)) &&
-    Array.isArray(element.geometry) &&
-    element.geometry.length
-  ) {
-
-    let sumLat = 0;
-    let sumLon = 0;
-    let count = 0;
-
-
-    for (
-      const point of element.geometry
-    ) {
-
-      if (
-        Number.isFinite(point.lat) &&
-        Number.isFinite(point.lon)
-      ) {
-
-        sumLat += point.lat;
-        sumLon += point.lon;
-        count++;
-      }
-    }
-
-
-    if (count) {
-      lat = sumLat / count;
-      lon = sumLon / count;
-    }
-  }
-
-
-  if (
-    !Number.isFinite(lat) ||
-    !Number.isFinite(lon)
-  ) {
-    return null;
-  }
-
-
-  if (
-    !isLikelySkatepark(tags)
-  ) {
-    return null;
-  }
-
-
-  return {
-    id:
-      `osm-${element.type}-${element.id}`,
-
-    osmId:
-      element.id,
-
-    type:
-      element.type,
-
-    name:
-      tags.name ||
-      "Skatepark",
-
-    lat,
-    lon,
-
-    tags,
-
-    area:
-      estimateArea(element),
-
-    lighting:
-      tags.lit === "yes"
-        ? "Ja"
-        : tags.lit === "no"
-          ? "Nein"
-          : "unbekannt",
-
-    surface:
-      tags.surface ||
-      "unbekannt"
-  };
-}
-
-
-/* ============================================================
-   AREA ESTIMATION
-============================================================ */
-
-function estimateArea(
-  element
-) {
-
-  if (
-    element.type !== "way" ||
-    !Array.isArray(element.geometry) ||
-    element.geometry.length < 4
-  ) {
-    return null;
-  }
-
-
-  const first =
-    element.geometry[0];
-
-  const last =
-    element.geometry[
-      element.geometry.length - 1
-    ];
-
-
-  if (
-    !first ||
-    !last ||
-    first.lat !== last.lat ||
-    first.lon !== last.lon
-  ) {
-    return null;
-  }
-
-
-  const lat0 =
-    toRad(first.lat);
-
-
-  const cosLat =
-    Math.cos(lat0);
-
-
-  const points =
-    element.geometry.map(
-      point => ({
-        x:
-          toRad(point.lon) *
-          EARTH_RADIUS *
-          cosLat,
-
-        y:
-          toRad(point.lat) *
-          EARTH_RADIUS
-      })
-    );
-
-
-  let area = 0;
-
-
-  for (
-    let i = 0;
-    i < points.length - 1;
-    i++
-  ) {
-
-    area +=
-      points[i].x *
-      points[i + 1].y -
-      points[i + 1].x *
-      points[i].y;
-  }
-
-
-  area =
-    Math.abs(area) / 2;
-
-
-  if (
-    !Number.isFinite(area) ||
-    area < 5
-  ) {
-    return null;
-  }
-
-
-  return area;
-}
-
-
-/* ============================================================
-   OVERPASS QUERY
-============================================================ */
-
-function buildOverpassQuery(
-  south,
-  west,
-  north,
-  east
-) {
-
-  /*
-   * Nur die wichtigsten Tags + Geometrie.
-   *
-   * Kein riesiger Kreis-Multipolygon-Query.
-   * Eine einzige Bounding Box ist deutlich einfacher
-   * und schneller.
-   */
-
-  return `
-[out:json][timeout:8];
-
-(
-  nwr["leisure"="skatepark"](
-    ${south},
-    ${west},
-    ${north},
-    ${east}
-  );
-
-  nwr["sport"="skateboard"](
-    ${south},
-    ${west},
-    ${north},
-    ${east}
-  );
-);
-
-out geom tags;
-`;
-}
-
-
-/* ============================================================
-   OVERPASS PARALLEL
-============================================================ */
-
-async function queryOverpassFast(
-  query,
-  totalSignal
-) {
-
-  /*
-   * Beide Server starten parallel.
-   *
-   * Sobald einer erfolgreich ist,
-   * verwenden wir dessen Antwort.
-   */
-
-  const requests =
-    OVERPASS_ENDPOINTS.map(
-      endpoint =>
-        fetchWithTimeout(
-          endpoint,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/x-www-form-urlencoded"
-            },
-
-            body:
-              "data=" +
-              encodeURIComponent(query)
-          },
-
-          OVERPASS_TIMEOUT,
-
-          totalSignal
-        )
-        .then(
-          response =>
-            response.json()
-        )
-    );
-
-
-  /*
-   * Der erste erfolgreiche Server gewinnt.
-   */
-  return Promise.any(
-    requests
-  );
-}
-
-
-/* ============================================================
-   PARK SEARCH AROUND MAP
-============================================================ */
-
-async function searchLocalParks() {
-
-  if (
-    currentSearchController
-  ) {
-    currentSearchController.abort();
-  }
-
-
-  currentSearchController =
-    new AbortController();
-
-
-  const totalTimer =
-    setTimeout(
-      () =>
-        currentSearchController.abort(),
-      PARK_SEARCH_TIMEOUT
-    );
-
-
-  findParksButton.disabled =
-    true;
-
-
-  setStatus(
-    `Skateparks im Radius von ${selectedRadiusKm} km werden gesucht …`,
-    "loading"
-  );
-
-
-  try {
-
-    const center =
-      map.getCenter();
-
-
-    const radius =
-      selectedRadiusKm;
-
-
-    const latPadding =
-      radius / 111;
-
-
-    const lonPadding =
-      radius /
-      (
-        111 *
-        Math.cos(
-          toRad(center.lat)
-        )
-      );
-
-
-    const south =
-      Math.max(
-        -85,
-        center.lat - latPadding
-      );
-
-    const north =
-      Math.min(
-        85,
-        center.lat + latPadding
-      );
-
-    const west =
-      center.lng - lonPadding;
-
-    const east =
-      center.lng + lonPadding;
-
-
-    /*
-     * Cache-Key auf ca. 1 km Raster.
-     */
-    const cacheLat =
-      Math.round(center.lat * 100) / 100;
-
-    const cacheLon =
-      Math.round(center.lng * 100) / 100;
-
-
-    const cacheKey =
-      `local:${cacheLat}:${cacheLon}:${radius}`;
-
-
-    if (
-      parkSearchCache.has(cacheKey)
-    ) {
-
-      const cached =
-        parkSearchCache.get(cacheKey);
-
-      displayParks(
-        cached,
-        center
-      );
-
-      setStatus(
-        `${cached.length} Skateparks gefunden.`,
-        "success"
-      );
-
-      return;
-    }
-
-
-    const query =
-      buildOverpassQuery(
-        south,
-        west,
-        north,
-        east
-      );
-
-
-    const data =
-      await queryOverpassFast(
-        query,
-        currentSearchController.signal
-      );
-
-
-    const parks =
-      dedupeParks(
-        (data.elements || [])
-          .map(osmElementToPark)
-          .filter(Boolean)
-      );
-
-
-    /*
-     * Exakte Distanz zum Kartenzentrum.
-     */
-    const enriched =
-      parks
-        .map(park => ({
-          ...park,
-
-          distance:
-            haversineDistance(
-              center.lat,
-              center.lng,
-              park.lat,
-              park.lon
-            )
-        }))
-        .filter(
-          park =>
-            park.distance <=
-            selectedRadiusKm * 1000
-        );
-
-
-    /*
-     * Größere Parks zuerst.
-     * Parks ohne Fläche kommen danach.
-     */
-    enriched.sort(
-      (a, b) => {
-
-        const areaA =
-          a.area ?? -1;
-
-        const areaB =
-          b.area ?? -1;
-
-        if (
-          areaA !== areaB
-        ) {
-          return areaB - areaA;
-        }
-
-        return (
-          a.distance -
-          b.distance
-        );
-      }
-    );
-
-
-    const limited =
-      enriched.slice(0, 15);
-
-
-    parkSearchCache.set(
-      cacheKey,
-      limited
-    );
-
-
-    displayParks(
-      limited,
-      center
-    );
-
-
-    const total =
-      enriched.length;
-
-
-    if (
-      total > 15
-    ) {
-
-      setStatus(
-        `15 von ${total} Skateparks angezeigt.`,
-        "success"
-      );
-
-    } else {
-
-      setStatus(
-        `${total} Skateparks gefunden.`,
-        "success"
-      );
-    }
-
-
-  } catch (error) {
-
-    if (
-      error.name === "AbortError"
-    ) {
-
-      setStatus(
-        "Skatepark-Suche nach 10 Sekunden abgebrochen. Bitte erneut versuchen.",
-        "error"
-      );
-
-    } else {
-
-      console.error(error);
-
-      setStatus(
-        "Skateparks konnten gerade nicht geladen werden. Bitte erneut versuchen.",
-        "error"
-      );
-    }
-
-  } finally {
-
-    clearTimeout(
-      totalTimer
-    );
-
-    findParksButton.disabled =
-      false;
-
-    currentSearchController =
-      null;
-  }
-}
-
-
-/* ============================================================
-   PARK DEDUPLICATION
-============================================================ */
-
-function dedupeParks(
-  parks
-) {
-
-  const byId =
-    new Map();
-
-
-  for (
-    const park of parks
-  ) {
-
-    const existing =
-      byId.get(park.id);
-
-
-    if (!existing) {
-
-      byId.set(
-        park.id,
-        park
-      );
-
-      continue;
-    }
-
-
-    /*
-     * Wenn einmal ein Objekt mit Name
-     * vorhanden ist, behalten wir es.
-     */
-    if (
-      existing.name === "Skatepark" &&
-      park.name !== "Skatepark"
-    ) {
-      byId.set(
-        park.id,
-        park
-      );
-    }
-  }
-
-
-  /*
-   * Zusätzliche geografische Duplikate.
-   */
-  const result = [];
-
-
-  for (
-    const park of byId.values()
-  ) {
-
-    const duplicate =
-      result.some(
-        existing =>
-          haversineDistance(
-            park.lat,
-            park.lon,
-            existing.lat,
-            existing.lon
-          ) < 25 &&
-          normalizeText(park.name) ===
-          normalizeText(existing.name)
-      );
-
-
-    if (!duplicate) {
-      result.push(park);
-    }
-  }
-
-
-  return result;
-}
-
-
-/* ============================================================
-   PARK POPUP
-============================================================ */
-
-function parkPopup(
-  park
-) {
-
-  const distance =
-    park.distance != null
-      ? `${(
-          park.distance / 1000
-        ).toFixed(1)} km`
-      : "–";
-
-
-  const size =
-    park.area != null
-      ? `${Math.round(
-          park.area
-        ).toLocaleString("de-DE")} m² geschätzt`
-      : "nicht angegeben";
-
-
-  return `
-    <div class="parkPopup">
-
-      <div class="parkPopupName">
-        ${escapeHtml(park.name)}
-      </div>
-
-      <div class="parkPopupLine">
-        <strong>Entfernung:</strong>
-        ${escapeHtml(distance)}
-      </div>
-
-      <div class="parkPopupLine">
-        <strong>Größe:</strong>
-        ${escapeHtml(size)}
-      </div>
-
-      <div class="parkPopupLine">
-        <strong>Beleuchtung:</strong>
-        ${escapeHtml(park.lighting)}
-      </div>
-
-      <div class="parkPopupLine">
-        <strong>Belag:</strong>
-        ${escapeHtml(park.surface)}
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* ============================================================
-   DISPLAY PARKS
-============================================================ */
-
-function displayParks(
-  parks,
-  referencePoint = null
-) {
-
-  parkLayer.clearLayers();
-
-
-  if (
-    referencePoint
-  ) {
-
-    parks.forEach(
-      park => {
-
-        if (
-          park.distance == null
-        ) {
-
-          park.distance =
-            haversineDistance(
-              referencePoint.lat,
-              referencePoint.lng,
-              park.lat,
-              park.lon
-            );
-        }
-      }
-    );
-  }
-
-
-  for (
-    const park of parks
-  ) {
-
-    const marker =
-      L.marker(
-        [park.lat, park.lon],
-        {
-          icon:
-            L.divIcon({
-              className: "",
-              html:
-                '<div class="skatepark-marker"></div>',
-              iconSize: [17, 17],
-              iconAnchor: [8.5, 8.5]
-            })
-        }
-      );
-
-
-    marker.bindPopup(
-      parkPopup(park),
-      {
-        maxWidth: 280
-      }
-    );
-
-
-    marker.addTo(
-      parkLayer
-    );
-  }
-
-
-  parkCountElement.textContent =
-    parks.length
-      ? `${parks.length}`
-      : "";
-}
-
-
-/* ============================================================
-   SKATEPARKS ALONG ROUTE
-============================================================ */
-
-async function searchRouteParks() {
-
-  if (
-    !currentRoute ||
-    !currentRoute.geometry
-  ) {
-
-    setStatus(
-      "Bitte zuerst eine Route suchen.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if (
-    currentSearchController
-  ) {
-    currentSearchController.abort();
-  }
-
-
-  currentSearchController =
-    new AbortController();
-
-
-  const totalTimer =
-    setTimeout(
-      () =>
-        currentSearchController.abort(),
-      PARK_SEARCH_TIMEOUT
-    );
-
-
-  routeParksButton.disabled =
-    true;
-
-
-  setStatus(
-    "Skateparks entlang der Route werden gesucht …",
-    "loading"
-  );
-
-
-  try {
-
-    /*
-     * Route komplett als Linie betrachten.
-     */
-    const geometry =
-      currentRoute.geometry;
-
-
-    const bbox =
-      getRouteBoundingBox(
-        geometry,
-        selectedRadiusKm
-      );
-
-
-    const query =
-      buildOverpassQuery(
-        bbox.south,
-        bbox.west,
-        bbox.north,
-        bbox.east
-      );
-
-
-    const data =
-      await queryOverpassFast(
-        query,
-        currentSearchController.signal
-      );
-
-
-    const parks =
-      dedupeParks(
-        (data.elements || [])
-          .map(osmElementToPark)
-          .filter(Boolean)
-      );
-
-
-    /*
-     * GeoJSON-Koordinaten:
-     * [lon, lat]
-     */
-    const routeCoordinates =
-      geometry.coordinates.map(
-        coordinate => ({
-          lon:
-            Number(coordinate[0]),
-
-          lat:
-            Number(coordinate[1])
-        })
-      );
-
-
-    const enriched =
-      [];
-
-
-    for (
-      const park of parks
-    ) {
-
-      const nearest =
-        distanceToRoute(
-          park,
-          routeCoordinates
-        );
-
-
-      if (
-        nearest.distance >
-        selectedRadiusKm * 1000
-      ) {
-        continue;
-      }
-
-
-      enriched.push({
-        ...park,
-
-        distanceToRoute:
-          nearest.distance,
-
-        routeProgress:
-          calculateRouteProgress(
-            park,
-            routeCoordinates
-          )
+      const data = await response.json();
+
+      return (data.features || []).map(feature => {
+        const coords =
+          feature.geometry?.coordinates || [];
+
+        const props =
+          feature.properties || {};
+
+        return {
+          lat: Number(coords[1]),
+          lon: Number(coords[0]),
+          display_name:
+            [
+              props.name,
+              props.city,
+              props.state,
+              props.country
+            ]
+              .filter(Boolean)
+              .join(", ")
+        };
       });
     }
 
-
-    /*
-     * Entlang der Route sortieren.
-     */
-    enriched.sort(
-      (a, b) =>
-        a.routeProgress -
-        b.routeProgress
-    );
-
-
-    /*
-     * Verteilung entlang der Route:
-     * Wir vermeiden, dass alle 15 Parks nur
-     * aus einem einzigen Stadtgebiet kommen.
-     */
-    const selected =
-      selectDistributedParks(
-        enriched,
-        15
-      );
-
-
-    displayRouteParks(
-      selected
-    );
-
-
-    if (
-      enriched.length > 15
+    function scoreGeocodeResult(
+      query,
+      result
     ) {
+      const q =
+        normalizeText(query);
 
-      setStatus(
-        `15 von ${enriched.length} Skateparks entlang der Route angezeigt.`,
-        "success"
-      );
-
-    } else {
-
-      setStatus(
-        `${enriched.length} Skateparks entlang der Route gefunden.`,
-        "success"
-      );
-    }
-
-
-  } catch (error) {
-
-    if (
-      error.name === "AbortError"
-    ) {
-
-      setStatus(
-        "Skatepark-Suche nach 10 Sekunden abgebrochen. Bitte erneut versuchen.",
-        "error"
-      );
-
-    } else {
-
-      console.error(error);
-
-      setStatus(
-        "Skateparks entlang der Route konnten nicht geladen werden.",
-        "error"
-      );
-    }
-
-  } finally {
-
-    clearTimeout(
-      totalTimer
-    );
-
-    routeParksButton.disabled =
-      false;
-
-    currentSearchController =
-      null;
-  }
-}
-
-
-/* ============================================================
-   DISTRIBUTE PARKS ALONG ROUTE
-============================================================ */
-
-function selectDistributedParks(
-  parks,
-  maximum
-) {
-
-  if (
-    parks.length <= maximum
-  ) {
-    return parks;
-  }
-
-
-  const result = [];
-
-  const used =
-    new Set();
-
-
-  /*
-   * 15 Fortschrittsbereiche.
-   */
-  for (
-    let i = 0;
-    i < maximum;
-    i++
-  ) {
-
-    const target =
-      i /
-      (maximum - 1);
-
-
-    let best = null;
-    let bestScore = Infinity;
-
-
-    for (
-      const park of parks
-    ) {
-
-      if (
-        used.has(park.id)
-      ) {
-        continue;
-      }
-
-
-      const normalized =
-        parks.length > 1
-          ? park.routeProgress /
-            (
-              parks[
-                parks.length - 1
-              ].routeProgress || 1
-            )
-          : 0;
-
-
-      const score =
-        Math.abs(
-          normalized - target
+      const text =
+        normalizeText(
+          result.display_name || ""
         );
 
+      if (!q || !text) {
+        return 0;
+      }
+
+      const words =
+        q.split(" ").filter(Boolean);
+
+      let score = 0;
+
+      for (const word of words) {
+        if (text.includes(word)) {
+          score += 10;
+        }
+      }
 
       if (
-        score < bestScore
+        text.startsWith(q) ||
+        text.includes(q)
       ) {
-        bestScore = score;
-        best = park;
+        score += 20;
       }
+
+      return score;
     }
 
+    async function geocode(query) {
+      const clean =
+        String(query || "").trim();
 
-    if (best) {
-      result.push(best);
-      used.add(best.id);
-    }
-  }
+      if (!clean) {
+        throw new Error(
+          "Leerer Ort."
+        );
+      }
 
+      const cacheKey =
+        "geo_" +
+        normalizeText(clean);
 
-  return result;
-}
+      const cached =
+        cacheGet(cacheKey);
 
+      if (cached) {
+        return cached;
+      }
 
-/* ============================================================
-   DISPLAY ROUTE PARKS
-============================================================ */
+      const queries = [
+        clean,
+        transliterateGerman(clean)
+      ];
 
-function displayRouteParks(
-  parks
-) {
+      const uniqueQueries =
+        [...new Set(
+          queries.filter(Boolean)
+        )];
 
-  parkLayer.clearLayers();
+      let results = [];
 
+      for (const q of uniqueQueries) {
+        try {
+          const data =
+            await geocodeNominatim(q);
 
-  for (
-    const park of parks
-  ) {
+          results.push(
+            ...(data || [])
+          );
 
-    park.distance =
-      park.distanceToRoute;
-
-
-    const marker =
-      L.marker(
-        [park.lat, park.lon],
-        {
-          icon:
-            L.divIcon({
-              className: "",
-              html:
-                '<div class="skatepark-marker"></div>',
-              iconSize: [17, 17],
-              iconAnchor: [8.5, 8.5]
-            })
+          if (results.length >= 5) {
+            break;
+          }
+        } catch {
+          /* nächster Fallback */
         }
+      }
+
+      if (!results.length) {
+        for (const q of uniqueQueries) {
+          try {
+            const data =
+              await geocodePhoton(q);
+
+            results.push(
+              ...(data || [])
+            );
+
+            if (results.length) {
+              break;
+            }
+          } catch {
+            /* nächster Versuch */
+          }
+        }
+      }
+
+      if (!results.length) {
+        throw new Error(
+          "Ort konnte nicht gefunden werden."
+        );
+      }
+
+      results.sort(
+        (a, b) =>
+          scoreGeocodeResult(clean, b) -
+          scoreGeocodeResult(clean, a)
       );
 
+      const best = {
+        lat: Number(results[0].lat),
+        lon: Number(results[0].lon),
+        displayName:
+          results[0].display_name || clean
+      };
 
-    marker.bindPopup(
-      parkPopup(park),
-      {
-        maxWidth: 280
+      if (
+        !Number.isFinite(best.lat) ||
+        !Number.isFinite(best.lon)
+      ) {
+        throw new Error(
+          "Ungültige Ortskoordinaten."
+        );
       }
-    );
 
+      cacheSet(
+        cacheKey,
+        best
+      );
 
-    marker.addTo(
-      parkLayer
-    );
-  }
+      return best;
+    }
 
+    /* =========================================================
+       ROUTE FELDER
+    ========================================================= */
 
-  parkCountElement.textContent =
-    parks.length
-      ? `${parks.length}`
-      : "";
-}
+    function createRouteField(
+      value = "",
+      removable = true
+    ) {
+      const row =
+        document.createElement("div");
 
+      row.className = "route-row";
 
-/* ============================================================
-   MAIN SEARCH
-============================================================ */
+      const input =
+        document.createElement("input");
 
-async function runMainSearch() {
+      input.type = "text";
+      input.placeholder = "Ort";
+      input.value = value;
+      input.autocomplete = "off";
 
-  const query =
-    mainSearch.value.trim();
+      row.appendChild(input);
 
-
-  if (!query) {
-    return;
-  }
-
-
-  if (
-    looksLikeRoute(query)
-  ) {
-
-    const stops =
-      parseUnifiedRoute(query);
-
-
-    /*
-     * Route-Felder synchronisieren.
-     */
-    routeFields.innerHTML = "";
-
-
-    stops.forEach(
-      (stop, index) => {
-
-        const row =
-          document.createElement("div");
-
-        row.className =
-          "routeRow";
-
-
-        const input =
-          document.createElement("input");
-
-        input.className =
-          "routeInput";
-
-        input.type =
-          "text";
-
-        input.value =
-          stop;
-
-        input.placeholder =
-          index === 0
-            ? "Start"
-            : index === stops.length - 1
-              ? "Ziel"
-              : "Zwischenstopp";
-
-
+      if (removable) {
         const remove =
           document.createElement("button");
 
-        remove.className =
-          "removeStop";
-
-        remove.type =
-          "button";
-
-        remove.textContent =
-          "×";
-
+        remove.type = "button";
+        remove.className = "remove-stop";
+        remove.textContent = "×";
+        remove.title =
+          "Zwischenstopp entfernen";
 
         remove.addEventListener(
           "click",
           () => {
-
             row.remove();
-
-            updateRemoveButtons();
           }
         );
 
-
-        row.appendChild(input);
-
         row.appendChild(remove);
-
-        routeFields.appendChild(row);
       }
-    );
 
+      routeFields.appendChild(row);
 
-    updateRemoveButtons();
-
-    await searchRoute(stops);
-
-    return;
-  }
-
-
-  await searchPlace(query);
-}
-
-
-/* ============================================================
-   EVENTS
-============================================================ */
-
-searchButton.addEventListener(
-  "click",
-  runMainSearch
-);
-
-
-mainSearch.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Enter"
-    ) {
-
-      event.preventDefault();
-
-      runMainSearch();
+      return input;
     }
-  }
-);
 
+    function initializeRouteFields() {
+      routeFields.innerHTML = "";
 
-addStopButton.addEventListener(
-  "click",
-  () => {
+      createRouteField("", false);
+      createRouteField("", true);
+    }
 
-    const count =
-      getRouteInputs().length;
+    function getRouteInputs() {
+      return [
+        ...routeFields.querySelectorAll(
+          "input"
+        )
+      ];
+    }
 
+    function setRouteFromMainSearch(
+      query
+    ) {
+      const parts =
+        query
+          .split(/→|->|—|–/)
+          .map(s => s.trim())
+          .filter(Boolean);
 
-    createRouteInput(
-      `Zwischenstopp ${count}`
-    );
-  }
-);
+      if (parts.length < 2) {
+        return false;
+      }
 
+      routeFields.innerHTML = "";
 
-routeSearchButton.addEventListener(
-  "click",
-  () => {
+      parts.forEach(
+        (part, index) => {
+          createRouteField(
+            part,
+            index > 0
+          );
+        }
+      );
 
-    searchRoute(
-      getRouteValues()
-    );
-  }
-);
+      return true;
+    }
 
+    /* =========================================================
+       OSRM ROUTING
+    ========================================================= */
 
-findParksButton.addEventListener(
-  "click",
-  searchLocalParks
-);
-
-
-routeParksButton.addEventListener(
-  "click",
-  searchRouteParks
-);
-
-
-/* ============================================================
-   RADIUS
-============================================================ */
-
-document
-  .querySelectorAll(".radiusButton")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        document
-          .querySelectorAll(
-            ".radiusButton"
+    async function requestRoute(
+      locations
+    ) {
+      const coords =
+        locations
+          .map(
+            p =>
+              `${p.lon},${p.lat}`
           )
-          .forEach(
-            other =>
-              other.classList.remove(
-                "active"
+          .join(";");
+
+      let lastError = null;
+
+      for (const base of OSRM_URLS) {
+        try {
+          const url =
+            base +
+            coords +
+            "?overview=full" +
+            "&geometries=geojson" +
+            "&steps=false";
+
+          const response =
+            await fetchWithTimeout(
+              url,
+              {
+                headers: {
+                  "Accept":
+                    "application/json"
+                }
+              },
+              OSRM_TIMEOUT
+            );
+
+          const data =
+            await response.json();
+
+          if (
+            data.code !== "Ok" ||
+            !data.routes?.length
+          ) {
+            throw new Error(
+              data.message ||
+              "Keine Route gefunden."
+            );
+          }
+
+          return data.routes[0];
+
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw (
+        lastError ||
+        new Error(
+          "Routenserver nicht erreichbar."
+        )
+      );
+    }
+
+    function geometryToLatLngs(
+      geometry
+    ) {
+      return geometry.coordinates.map(
+        coord => [
+          coord[1],
+          coord[0]
+        ]
+      );
+    }
+
+    /* =========================================================
+       ROUTE SEGMENTE
+    ========================================================= */
+
+    function buildRouteChunks(
+      polyline,
+      radiusKm
+    ) {
+      if (polyline.length < 2) {
+        return [];
+      }
+
+      const cumulative = [0];
+
+      for (
+        let i = 1;
+        i < polyline.length;
+        i++
+      ) {
+        cumulative[i] =
+          cumulative[i - 1] +
+          haversineKm(
+            polyline[i - 1],
+            polyline[i]
+          );
+      }
+
+      const total =
+        cumulative[
+          cumulative.length - 1
+        ];
+
+      /*
+        Kurze Route:
+        Eine einzige, relativ kompakte BBox.
+      */
+      const wholeBox =
+        bboxFromPoints(
+          polyline,
+          radiusKm
+        );
+
+      const widthKm =
+        haversineKm(
+          [
+            wholeBox.south,
+            wholeBox.west
+          ],
+          [
+            wholeBox.south,
+            wholeBox.east
+          ]
+        );
+
+      const heightKm =
+        haversineKm(
+          [
+            wholeBox.south,
+            wholeBox.west
+          ],
+          [
+            wholeBox.north,
+            wholeBox.west
+          ]
+        );
+
+      if (
+        total <= 180 &&
+        widthKm <= 300 &&
+        heightKm <= 300
+      ) {
+        return [
+          {
+            startKm: 0,
+            endKm: total,
+            points: polyline,
+            bbox: wholeBox
+          }
+        ];
+      }
+
+      /*
+        Lange Route:
+        Abschnitte.
+      */
+
+      let chunkKm =
+        Math.max(
+          60,
+          Math.min(
+            ROUTE_CHUNK_KM,
+            total / ROUTE_MAX_CHUNKS
+          )
+        );
+
+      /*
+        Für mittlere Routen nicht unnötig
+        viele Abfragen erzeugen.
+      */
+      const count =
+        Math.ceil(total / chunkKm);
+
+      if (count > ROUTE_MAX_CHUNKS) {
+        chunkKm =
+          total / ROUTE_MAX_CHUNKS;
+      }
+
+      const chunks = [];
+
+      for (
+        let start = 0;
+        start < total;
+        start += chunkKm
+      ) {
+        const end =
+          Math.min(
+            total,
+            start + chunkKm
+          );
+
+        const points = [];
+
+        for (
+          let i = 0;
+          i < polyline.length;
+          i++
+        ) {
+          if (
+            cumulative[i] >= start &&
+            cumulative[i] <= end
+          ) {
+            points.push(
+              polyline[i]
+            );
+          }
+        }
+
+        /*
+          Randpunkte ergänzen, damit die
+          Geometrie nicht durch Punkt-Sampling
+          Löcher bekommt.
+        */
+        let nearestStart = 0;
+        let nearestEnd =
+          polyline.length - 1;
+
+        for (
+          let i = 0;
+          i < cumulative.length;
+          i++
+        ) {
+          if (
+            cumulative[i] < start
+          ) {
+            nearestStart = i;
+          }
+
+          if (
+            cumulative[i] >= end
+          ) {
+            nearestEnd = i;
+            break;
+          }
+        }
+
+        if (
+          polyline[nearestStart] &&
+          !points.includes(
+            polyline[nearestStart]
+          )
+        ) {
+          points.unshift(
+            polyline[nearestStart]
+          );
+        }
+
+        if (
+          polyline[nearestEnd] &&
+          !points.includes(
+            polyline[nearestEnd]
+          )
+        ) {
+          points.push(
+            polyline[nearestEnd]
+          );
+        }
+
+        if (points.length < 2) {
+          continue;
+        }
+
+        chunks.push({
+          startKm: start,
+          endKm: end,
+          points,
+          bbox:
+            bboxFromPoints(
+              points,
+              radiusKm
+            )
+        });
+      }
+
+      return chunks;
+    }
+
+    /* =========================================================
+       OVERPASS QUERY
+    ========================================================= */
+
+    function overpassQueryForBbox(
+      bbox
+    ) {
+      const b =
+        [
+          bbox.south,
+          bbox.west,
+          bbox.north,
+          bbox.east
+        ].join(",");
+
+      /*
+        WICHTIG:
+
+        1. leisure=skatepark
+        2. sport=skateboard
+        3. Name mit skate/skater
+
+        Damit finden wir auch Anlagen wie
+        Daxlanden, die nicht zwingend
+        leisure=skatepark tragen.
+      */
+
+      return `
+[out:json][timeout:8];
+
+(
+  nwr["leisure"="skatepark"](${b});
+  nwr["sport"="skateboard"](${b});
+  nwr["name"~"skate|skater",i](${b});
+);
+
+out center tags;
+      `.trim();
+    }
+
+    async function queryOverpass(
+      bbox,
+      signal
+    ) {
+      const key =
+        "parks_" +
+        bboxKey(bbox);
+
+      const cached =
+        cacheGet(key);
+
+      if (cached) {
+        return cached;
+      }
+
+      const query =
+        overpassQueryForBbox(bbox);
+
+      let lastError = null;
+
+      /*
+        Primärserver zuerst.
+        Wenn er fehlschlägt, wird der zweite
+        Server versucht.
+      */
+
+      for (
+        const endpoint of OVERPASS_URLS
+      ) {
+        try {
+          const response =
+            await fetchWithTimeout(
+              endpoint,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body:
+                  "data=" +
+                  encodeURIComponent(query)
+              },
+              PARK_REQUEST_TIMEOUT,
+              signal
+            );
+
+          const data =
+            await response.json();
+
+          if (
+            !Array.isArray(
+              data.elements
+            )
+          ) {
+            throw new Error(
+              "Ungültige Overpass-Antwort."
+            );
+          }
+
+          cacheSet(
+            key,
+            data.elements
+          );
+
+          return data.elements;
+
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw (
+        lastError ||
+        new Error(
+          "Overpass nicht erreichbar."
+        )
+      );
+    }
+
+    /* =========================================================
+       SKATEPARK FILTER
+    ========================================================= */
+
+    const HARD_BAD_WORDS = [
+      "spielplatz",
+      "kinderspielplatz",
+      "minigolf",
+      "bolzplatz",
+      "fussballplatz",
+      "fußballplatz",
+      "soccerplatz",
+      "basketballplatz",
+      "volleyballplatz",
+      "fitnessparcours",
+      "fitness parcourt",
+      "fitness",
+      "kletterpark",
+      "waldspielplatz"
+    ];
+
+    const SOFT_BAD_WORDS = [
+      "pumptrack",
+      "bmx"
+    ];
+
+    const SKATE_WORDS = [
+      "skatepark",
+      "skate park",
+      "skaterpark",
+      "skater park",
+      "skateanlage",
+      "skate anlage",
+      "skateplatz",
+      "skate platz",
+      "skaterplatz",
+      "skaterplatz",
+      "skatehalle",
+      "skate halle",
+      "skate",
+      "skater",
+      "rollbrett"
+    ];
+
+    function parkText(tags) {
+      return normalizeText(
+        [
+          tags.name,
+          tags.description,
+          tags.note,
+          tags.operator,
+          tags["sport:name"]
+        ]
+          .filter(Boolean)
+          .join(" ")
+      );
+    }
+
+    function isLikelySkatepark(
+      tags
+    ) {
+      tags = tags || {};
+
+      const leisure =
+        normalizeText(
+          tags.leisure
+        );
+
+      const sport =
+        normalizeText(
+          tags.sport
+        );
+
+      const text =
+        parkText(tags);
+
+      const explicitLeisure =
+        leisure === "skatepark";
+
+      const explicitSport =
+        sport
+          .split(";")
+          .map(s => s.trim())
+          .includes("skateboard");
+
+      const explicitName =
+        SKATE_WORDS.some(
+          word =>
+            text.includes(
+              normalizeText(word)
+            )
+        );
+
+      /*
+        HARTE Ausschlüsse.
+
+        ABER:
+        Wenn OSM explizit sport=skateboard
+        oder leisure=skatepark sagt, behalten
+        wir die Anlage.
+
+        Dadurch werden echte Skateparks mit
+        "BMX", "Spielplatz" etc. in der
+        Beschreibung nicht versehentlich gelöscht.
+      */
+      const hardBad =
+        HARD_BAD_WORDS.some(
+          word =>
+            text.includes(
+              normalizeText(word)
+            )
+        );
+
+      if (
+        hardBad &&
+        !explicitLeisure &&
+        !explicitSport &&
+        !explicitName
+      ) {
+        return false;
+      }
+
+      if (explicitLeisure) {
+        return true;
+      }
+
+      /*
+        Das ist die entscheidende Änderung:
+        sport=skateboard zählt jetzt direkt.
+      */
+      if (explicitSport) {
+        return true;
+      }
+
+      if (explicitName) {
+        /*
+          Ein reiner "Pumptrack"-Name wird
+          nicht automatisch als Skatepark
+          akzeptiert.
+        */
+        const onlySoftBad =
+          SOFT_BAD_WORDS.some(
+            word =>
+              text.includes(
+                normalizeText(word)
               )
           );
 
+        if (
+          onlySoftBad &&
+          !text.includes("skate")
+        ) {
+          return false;
+        }
 
-        button.classList.add(
-          "active"
+        return true;
+      }
+
+      return false;
+    }
+
+    /* =========================================================
+       PARK NORMALISIEREN
+    ========================================================= */
+
+    function getElementCenter(
+      element
+    ) {
+      if (
+        element.center &&
+        Number.isFinite(
+          Number(element.center.lat)
+        ) &&
+        Number.isFinite(
+          Number(element.center.lon)
+        )
+      ) {
+        return [
+          Number(element.center.lat),
+          Number(element.center.lon)
+        ];
+      }
+
+      if (
+        Number.isFinite(
+          Number(element.lat)
+        ) &&
+        Number.isFinite(
+          Number(element.lon)
+        )
+      ) {
+        return [
+          Number(element.lat),
+          Number(element.lon)
+        ];
+      }
+
+      return null;
+    }
+
+    function normalizePark(
+      element
+    ) {
+      const tags =
+        element.tags || {};
+
+      const center =
+        getElementCenter(element);
+
+      if (!center) {
+        return null;
+      }
+
+      if (
+        !isLikelySkatepark(tags)
+      ) {
+        return null;
+      }
+
+      return {
+        key:
+          element.type +
+          "/" +
+          element.id,
+
+        osmType:
+          element.type,
+
+        osmId:
+          element.id,
+
+        lat:
+          center[0],
+
+        lon:
+          center[1],
+
+        name:
+          tags.name ||
+          tags["name:de"] ||
+          "Skatepark",
+
+        tags,
+
+        areaM2:
+          null,
+
+        distanceKm:
+          null,
+
+        routeDistanceKm:
+          null,
+
+        routeProgressKm:
+          null
+      };
+    }
+
+    /* =========================================================
+       DEDUP
+    ========================================================= */
+
+    function dedupeParks(
+      parks
+    ) {
+      const byId =
+        new Map();
+
+      for (const park of parks) {
+        if (!byId.has(park.key)) {
+          byId.set(
+            park.key,
+            park
+          );
+        }
+      }
+
+      /*
+        Zusätzlich nahe Dubletten entfernen,
+        wenn OSM dasselbe Objekt über Name/Quelle
+        mehrfach geliefert hat.
+      */
+      const result = [];
+
+      for (const park of byId.values()) {
+        const same =
+          result.find(existing => {
+            if (
+              normalizeText(
+                existing.name
+              ) !==
+              normalizeText(
+                park.name
+              )
+            ) {
+              return false;
+            }
+
+            return (
+              haversineKm(
+                [existing.lat, existing.lon],
+                [park.lat, park.lon]
+              ) < 0.05
+            );
+          });
+
+        if (!same) {
+          result.push(park);
+        }
+      }
+
+      return result;
+    }
+
+    /* =========================================================
+       POPUP
+    ========================================================= */
+
+    function formatKm(
+      km
+    ) {
+      if (
+        !Number.isFinite(km)
+      ) {
+        return "—";
+      }
+
+      if (km < 1) {
+        return (
+          Math.round(km * 1000) +
+          " m"
+        );
+      }
+
+      return (
+        km.toFixed(1) +
+        " km"
+      );
+    }
+
+    function formatArea(
+      m2
+    ) {
+      if (
+        !Number.isFinite(m2) ||
+        m2 <= 0
+      ) {
+        return "nicht angegeben";
+      }
+
+      if (m2 >= 10000) {
+        return (
+          (m2 / 10000).toFixed(2) +
+          " ha geschätzt"
+        );
+      }
+
+      return (
+        Math.round(m2).toLocaleString(
+          "de-DE"
+        ) +
+        " m² geschätzt"
+      );
+    }
+
+    function lightingText(
+      tags
+    ) {
+      const lit =
+        normalizeText(
+          tags?.lit
         );
 
+      if (
+        lit === "yes" ||
+        lit === "true"
+      ) {
+        return "vorhanden";
+      }
 
-        selectedRadiusKm =
-          Number(
-            button.dataset.radius
+      if (
+        lit === "no" ||
+        lit === "false"
+      ) {
+        return "nein";
+      }
+
+      return "nicht angegeben";
+    }
+
+    function surfaceText(
+      tags
+    ) {
+      if (!tags?.surface) {
+        return "nicht angegeben";
+      }
+
+      return String(
+        tags.surface
+      )
+        .replace(/_/g, " ");
+    }
+
+    function popupHtml(
+      park
+    ) {
+      return `
+        <div class="popup-title">
+          ${escapeHtml(park.name)}
+        </div>
+
+        <div class="popup-line">
+          <span class="popup-label">Entfernung:</span>
+          ${formatKm(
+            park.distanceKm ??
+            park.routeDistanceKm
+          )}
+        </div>
+
+        <div class="popup-line">
+          <span class="popup-label">Größe:</span>
+          ${formatArea(
+            park.areaM2
+          )}
+        </div>
+
+        <div class="popup-line">
+          <span class="popup-label">Beleuchtung:</span>
+          ${escapeHtml(
+            lightingText(
+              park.tags
+            )
+          )}
+        </div>
+
+        <div class="popup-line">
+          <span class="popup-label">Belag:</span>
+          ${escapeHtml(
+            surfaceText(
+              park.tags
+            )
+          )}
+        </div>
+      `;
+    }
+
+    function escapeHtml(
+      value
+    ) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /* =========================================================
+       PARK MARKER
+    ========================================================= */
+
+    function parkIcon(
+      route = false
+    ) {
+      return L.divIcon({
+        className: "",
+        html:
+          `<div class="skatepark-marker${route ? " route" : ""}"></div>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+        popupAnchor: [0, -9]
+      });
+    }
+
+    function renderParks(
+      parks,
+      route = false
+    ) {
+      parkLayer.clearLayers();
+
+      for (const park of parks) {
+        const marker =
+          L.marker(
+            [park.lat, park.lon],
+            {
+              icon:
+                parkIcon(route),
+              riseOnHover: true
+            }
           );
+
+        marker.bindPopup(
+          popupHtml(park)
+        );
+
+        marker.addTo(
+          parkLayer
+        );
+      }
+    }
+
+    /* =========================================================
+       GEOMETRIE / FLÄCHE
+    ========================================================= */
+
+    function projectPoint(
+      lat,
+      lon,
+      refLat
+    ) {
+      const x =
+        lon *
+        111320 *
+        Math.cos(
+          refLat *
+          Math.PI /
+          180
+        );
+
+      const y =
+        lat *
+        110574;
+
+      return [x, y];
+    }
+
+    function polygonArea(
+      coords
+    ) {
+      if (
+        !Array.isArray(coords) ||
+        coords.length < 3
+      ) {
+        return 0;
+      }
+
+      const refLat =
+        coords.reduce(
+          (sum, p) =>
+            sum + p[0],
+          0
+        ) /
+        coords.length;
+
+      const points =
+        coords.map(
+          p =>
+            projectPoint(
+              p[0],
+              p[1],
+              refLat
+            )
+        );
+
+      let area = 0;
+
+      for (
+        let i = 0;
+        i < points.length;
+        i++
+      ) {
+        const j =
+          (i + 1) %
+          points.length;
+
+        area +=
+          points[i][0] *
+          points[j][1] -
+          points[j][0] *
+          points[i][1];
+      }
+
+      return Math.abs(
+        area / 2
+      );
+    }
+
+    function estimateAreaFromGeometry(
+      element
+    ) {
+      if (
+        element.type !== "way" ||
+        !Array.isArray(
+          element.geometry
+        ) ||
+        element.geometry.length < 3
+      ) {
+        return null;
+      }
+
+      const coords =
+        element.geometry
+          .map(
+            p => [
+              Number(p.lat),
+              Number(p.lon)
+            ]
+          )
+          .filter(
+            p =>
+              Number.isFinite(p[0]) &&
+              Number.isFinite(p[1])
+          );
+
+      if (
+        coords.length < 3
+      ) {
+        return null;
+      }
+
+      /*
+        Nur geschlossene Flächen.
+      */
+      const first =
+        coords[0];
+
+      const last =
+        coords[
+          coords.length - 1
+        ];
+
+      if (
+        haversineKm(
+          first,
+          last
+        ) > 0.02
+      ) {
+        return null;
+      }
+
+      const area =
+        polygonArea(coords);
+
+      if (
+        area < 10 ||
+        area > 500000
+      ) {
+        return null;
+      }
+
+      return area;
+    }
+
+    async function enrichParkGeometry(
+      parks
+    ) {
+      const ways =
+        parks.filter(
+          park =>
+            park.osmType === "way"
+        );
+
+      if (!ways.length) {
+        return;
+      }
+
+      const ids =
+        ways
+          .slice(0, MAX_PARKS)
+          .map(
+            park =>
+              park.osmId
+          );
+
+      const query = `
+[out:json][timeout:5];
+way(id:${ids.join(",")});
+out geom tags;
+      `.trim();
+
+      let data = null;
+
+      for (
+        const endpoint of OVERPASS_URLS
+      ) {
+        try {
+          const response =
+            await fetchWithTimeout(
+              endpoint,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8"
+                },
+                body:
+                  "data=" +
+                  encodeURIComponent(query)
+              },
+              4500
+            );
+
+          data =
+            await response.json();
+
+          break;
+        } catch {
+          /* nächster Server */
+        }
+      }
+
+      if (!data) {
+        return;
+      }
+
+      const byId =
+        new Map(
+          (data.elements || [])
+            .map(
+              element =>
+                [
+                  element.id,
+                  element
+                ]
+            )
+        );
+
+      for (const park of parks) {
+        const element =
+          byId.get(
+            park.osmId
+          );
+
+        if (!element) {
+          continue;
+        }
+
+        const area =
+          estimateAreaFromGeometry(
+            element
+          );
+
+        if (
+          Number.isFinite(area)
+        ) {
+          park.areaM2 = area;
+        }
+      }
+    }
+
+    /* =========================================================
+       LOKALE PARKSUCHE
+    ========================================================= */
+
+    async function searchLocalParks() {
+      const center =
+        map.getCenter();
+
+      const radiusKm =
+        Number(
+          radiusSelect.value
+        );
+
+      const bbox =
+        bboxFromCenter(
+          center.lat,
+          center.lng,
+          radiusKm
+        );
+
+      setStatus(
+        `Suche Skateparks im Umkreis von ${radiusKm} km …`,
+        "loading"
+      );
+
+      const controller =
+        new AbortController();
+
+      const timer =
+        setTimeout(
+          () =>
+            controller.abort(),
+          PARK_GLOBAL_TIMEOUT
+        );
+
+      try {
+        const elements =
+          await queryOverpass(
+            bbox,
+            controller.signal
+          );
+
+        let parks =
+          elements
+            .map(normalizePark)
+            .filter(Boolean);
+
+        parks =
+          dedupeParks(parks);
+
+        parks =
+          parks.filter(
+            park =>
+              haversineKm(
+                [
+                  center.lat,
+                  center.lng
+                ],
+                [
+                  park.lat,
+                  park.lon
+                ]
+              ) <= radiusKm
+          );
+
+        for (const park of parks) {
+          park.distanceKm =
+            haversineKm(
+              [
+                center.lat,
+                center.lng
+              ],
+              [
+                park.lat,
+                park.lon
+              ]
+            );
+        }
+
+        /*
+          Primär nach Entfernung.
+          Größe wird als zweites Kriterium
+          verwendet, sobald sie bekannt ist.
+        */
+        parks.sort(
+          (a, b) => {
+            const distanceDiff =
+              a.distanceKm -
+              b.distanceKm;
+
+            if (
+              Math.abs(distanceDiff) > 0.5
+            ) {
+              return distanceDiff;
+            }
+
+            return (
+              (b.areaM2 || 0) -
+              (a.areaM2 || 0)
+            );
+          }
+        );
+
+        const total =
+          parks.length;
+
+        parks =
+          parks.slice(
+            0,
+            MAX_PARKS
+          );
+
+        renderParks(
+          parks,
+          false
+        );
+
+        if (parks.length) {
+          setStatus(
+            `${parks.length}${total > MAX_PARKS ? " von " + total : ""} Skateparks gefunden.`,
+            "success"
+          );
+        } else {
+          setStatus(
+            "Keine Skateparks im gewählten Radius gefunden.",
+            "error"
+          );
+        }
+
+        /*
+          Geometrie erst NACH der schnellen
+          Ergebnisausgabe nachladen.
+        */
+        enrichParkGeometry(
+          parks
+        ).then(() => {
+          renderParks(
+            parks,
+            false
+          );
+        });
+
+      } catch (error) {
+        if (
+          error?.name === "AbortError"
+        ) {
+          setStatus(
+            "Die Skatepark-Suche hat länger als 10 Sekunden gedauert. Bitte erneut versuchen.",
+            "error"
+          );
+        } else {
+          setStatus(
+            "Skateparks konnten nicht geladen werden. Bitte erneut versuchen.",
+            "error"
+          );
+        }
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    /* =========================================================
+       ROUTE PARKS
+    ========================================================= */
+
+    async function searchRouteParks() {
+      if (
+        !currentRoute ||
+        !currentRoute.geometry
+      ) {
+        setStatus(
+          "Bitte zuerst eine Route berechnen.",
+          "error"
+        );
+
+        return;
+      }
+
+      const radiusKm =
+        Number(
+          radiusSelect.value
+        );
+
+      const polyline =
+        geometryToLatLngs(
+          currentRoute.geometry
+        );
+
+      if (
+        polyline.length < 2
+      ) {
+        setStatus(
+          "Die Route enthält keine verwertbare Geometrie.",
+          "error"
+        );
+
+        return;
+      }
+
+      setStatus(
+        "Suche Skateparks entlang der Route …",
+        "loading"
+      );
+
+      const globalController =
+        new AbortController();
+
+      const globalTimer =
+        setTimeout(
+          () =>
+            globalController.abort(),
+          PARK_GLOBAL_TIMEOUT
+        );
+
+      try {
+        const chunks =
+          buildRouteChunks(
+            polyline,
+            radiusKm
+          );
+
+        if (!chunks.length) {
+          throw new Error(
+            "Keine Routensegmente."
+          );
+        }
+
+        let completed = 0;
+
+        const allElements = [];
+
+        /*
+          Kleine parallele Warteschlange.
+          Dadurch werden nicht 20 Overpass-
+          Anfragen gleichzeitig rausgehauen.
+        */
+        let nextIndex = 0;
+
+        async function worker() {
+          while (
+            nextIndex < chunks.length
+          ) {
+            if (
+              globalController.signal.aborted
+            ) {
+              return;
+            }
+
+            const index =
+              nextIndex++;
+
+            const chunk =
+              chunks[index];
+
+            try {
+              const elements =
+                await queryOverpass(
+                  chunk.bbox,
+                  globalController.signal
+                );
+
+              allElements.push(
+                ...elements
+              );
+            } catch {
+              /*
+                EIN kaputter Abschnitt darf
+                die gesamte Route NICHT zerstören.
+              */
+            }
+
+            completed++;
+
+            if (
+              !globalController.signal.aborted
+            ) {
+              setStatus(
+                `Skateparks entlang der Route … ${completed}/${chunks.length} Bereiche geprüft`,
+                "loading"
+              );
+            }
+          }
+        }
+
+        const workerCount =
+          Math.min(
+            ROUTE_QUERY_CONCURRENCY,
+            chunks.length
+          );
+
+        await Promise.all(
+          Array.from(
+            {
+              length:
+                workerCount
+            },
+            () => worker()
+          )
+        );
+
+        /*
+          Wenn wenigstens ein Teil erfolgreich
+          war, arbeiten wir mit den Ergebnissen.
+        */
+        let parks =
+          allElements
+            .map(normalizePark)
+            .filter(Boolean);
+
+        parks =
+          dedupeParks(parks);
+
+        if (!parks.length) {
+          if (
+            globalController.signal.aborted
+          ) {
+            throw new Error(
+              "timeout"
+            );
+          }
+
+          setStatus(
+            "Entlang der Route wurden keine Skateparks gefunden.",
+            "error"
+          );
+
+          return;
+        }
+
+        /*
+          Exakte Distanz zur tatsächlichen
+          Routengeometrie.
+        */
+        for (const park of parks) {
+          const point = [
+            park.lat,
+            park.lon
+          ];
+
+          park.routeDistanceKm =
+            distanceToPolylineKm(
+              point,
+              polyline
+            );
+
+          /*
+            Nur Parks innerhalb des gewünschten
+            Radius bleiben übrig.
+          */
+          if (
+            park.routeDistanceKm <=
+            radiusKm
+          ) {
+            park.routeProgressKm =
+              approximateRouteProgress(
+                point,
+                polyline,
+                currentRouteDistanceKm
+              );
+          }
+        }
+
+        parks =
+          parks.filter(
+            park =>
+              park.routeDistanceKm <=
+              radiusKm
+          );
+
+        /*
+          Nach Fortschritt auf der Route sortieren.
+        */
+        parks.sort(
+          (a, b) =>
+            a.routeProgressKm -
+            b.routeProgressKm
+        );
+
+        /*
+          Nicht alle 15 aus demselben
+          Streckenabschnitt nehmen.
+
+          Dafür Route in bis zu 15 Bins
+          teilen und zunächst einen Park
+          je Bin wählen.
+        */
+        const selected =
+          selectDistributedRouteParks(
+            parks,
+            MAX_PARKS,
+            currentRouteDistanceKm
+          );
+
+        renderParks(
+          selected,
+          true
+        );
+
+        const failed =
+          chunks.length -
+          completed;
+
+        let message =
+          `${selected.length} Skateparks entlang der Route gefunden.`;
+
+        if (
+          failed > 0
+        ) {
+          message +=
+            ` ${failed} Teilbereich(e) konnten nicht geladen werden.`;
+        }
+
+        setStatus(
+          message,
+          "success"
+        );
+
+        /*
+          Größe nachladen, ohne die
+          eigentliche Routensuche zu blockieren.
+        */
+        enrichParkGeometry(
+          selected
+        ).then(() => {
+          renderParks(
+            selected,
+            true
+          );
+        });
+
+      } catch (error) {
+        setStatus(
+          "Die Skateparks entlang der Route konnten nicht geladen werden. Bitte erneut versuchen.",
+          "error"
+        );
+      } finally {
+        clearTimeout(
+          globalTimer
+        );
+      }
+    }
+
+    /* =========================================================
+       ROUTENPOSITION
+    ========================================================= */
+
+    function approximateRouteProgress(
+      point,
+      polyline,
+      totalRouteKm
+    ) {
+      let bestDistance =
+        Infinity;
+
+      let bestProgress =
+        0;
+
+      let progress =
+        0;
+
+      for (
+        let i = 0;
+        i < polyline.length - 1;
+        i++
+      ) {
+        const a =
+          polyline[i];
+
+        const b =
+          polyline[i + 1];
+
+        const segmentKm =
+          haversineKm(a, b);
+
+        const d =
+          pointSegmentDistanceKm(
+            point,
+            a,
+            b
+          );
+
+        if (
+          d < bestDistance
+        ) {
+          bestDistance = d;
+
+          const latRad =
+            point[0] *
+            Math.PI /
+            180;
+
+          const kx =
+            111.320 *
+            Math.cos(
+              latRad
+            );
+
+          const ky =
+            110.574;
+
+          const px =
+            point[1] * kx;
+
+          const py =
+            point[0] * ky;
+
+          const ax =
+            a[1] * kx;
+
+          const ay =
+            a[0] * ky;
+
+          const bx =
+            b[1] * kx;
+
+          const by =
+            b[0] * ky;
+
+          const dx =
+            bx - ax;
+
+          const dy =
+            by - ay;
+
+          let t = 0;
+
+          if (
+            dx !== 0 ||
+            dy !== 0
+          ) {
+            t =
+              Math.max(
+                0,
+                Math.min(
+                  1,
+                  (
+                    (px - ax) * dx +
+                    (py - ay) * dy
+                  ) /
+                  (
+                    dx * dx +
+                    dy * dy
+                  )
+                )
+              );
+          }
+
+          bestProgress =
+            progress +
+            segmentKm * t;
+        }
+
+        progress +=
+          segmentKm;
+      }
+
+      return Math.min(
+        totalRouteKm,
+        bestProgress
+      );
+    }
+
+    /* =========================================================
+       ROUTE PARK AUSWAHL
+    ========================================================= */
+
+    function selectDistributedRouteParks(
+      parks,
+      max,
+      totalKm
+    ) {
+      if (
+        parks.length <= max
+      ) {
+        return parks;
+      }
+
+      const selected =
+        [];
+
+      const used =
+        new Set();
+
+      const bins =
+        Math.min(
+          max,
+          Math.max(
+            1,
+            Math.ceil(
+              totalKm / 40
+            )
+          )
+        );
+
+      /*
+        Erst einen Park pro Bereich.
+      */
+      for (
+        let bin = 0;
+        bin < bins &&
+        selected.length < max;
+        bin++
+      ) {
+        const start =
+          (bin / bins) *
+          totalKm;
+
+        const end =
+          ((bin + 1) / bins) *
+          totalKm;
+
+        const candidate =
+          parks.find(
+            park =>
+              !used.has(
+                park.key
+              ) &&
+              park.routeProgressKm >=
+                start &&
+              park.routeProgressKm <=
+                end
+          );
+
+        if (candidate) {
+          selected.push(
+            candidate
+          );
+
+          used.add(
+            candidate.key
+          );
+        }
+      }
+
+      /*
+        Danach auffüllen.
+      */
+      for (
+        const park of parks
+      ) {
+        if (
+          selected.length >= max
+        ) {
+          break;
+        }
+
+        if (
+          used.has(
+            park.key
+          )
+        ) {
+          continue;
+        }
+
+        selected.push(
+          park
+        );
+
+        used.add(
+          park.key
+        );
+      }
+
+      selected.sort(
+        (a, b) =>
+          a.routeProgressKm -
+          b.routeProgressKm
+      );
+
+      return selected;
+    }
+
+    /* =========================================================
+       ROUTE BERECHNEN
+    ========================================================= */
+
+    async function calculateRoute() {
+      const inputs =
+        getRouteInputs();
+
+      const names =
+        inputs
+          .map(
+            input =>
+              input.value.trim()
+          )
+          .filter(Boolean);
+
+      if (
+        names.length < 2
+      ) {
+        setStatus(
+          "Bitte mindestens Start und Ziel eingeben.",
+          "error"
+        );
+
+        return;
+      }
+
+      setStatus(
+        "Orte werden gesucht …",
+        "loading"
+      );
+
+      calculateRouteBtn.disabled =
+        true;
+
+      mainSearchBtn.disabled =
+        true;
+
+      try {
+        const locations = [];
+
+        for (
+          let i = 0;
+          i < names.length;
+          i++
+        ) {
+          setStatus(
+            `Ort ${i + 1} von ${names.length} wird gesucht …`,
+            "loading"
+          );
+
+          const location =
+            await geocode(
+              names[i]
+            );
+
+          locations.push(
+            location
+          );
+        }
+
+        setStatus(
+          "Route wird berechnet …",
+          "loading"
+        );
+
+        const route =
+          await requestRoute(
+            locations
+          );
+
+        currentRoute =
+          route;
+
+        currentRouteStops =
+          locations;
+
+        currentRouteDistanceKm =
+          Number(
+            route.distance || 0
+          ) / 1000;
+
+        if (
+          routeLayer
+        ) {
+          map.removeLayer(
+            routeLayer
+          );
+        }
+
+        routeLayer =
+          L.geoJSON(
+            route.geometry,
+            {
+              style: {
+                color: "#111111",
+                weight: 8,
+                opacity: .88
+              }
+            }
+          ).addTo(map);
+
+        const bounds =
+          routeLayer.getBounds();
+
+        if (
+          bounds.isValid()
+        ) {
+          map.fitBounds(
+            bounds.pad(0.08)
+          );
+        }
+
+        setStatus(
+          `Route gefunden: ${currentRouteDistanceKm.toFixed(1)} km.`,
+          "success"
+        );
+
+      } catch (error) {
+        currentRoute = null;
+        currentRouteStops = [];
+        currentRouteDistanceKm = 0;
+
+        setStatus(
+          "Die Route konnte nicht berechnet werden. Bitte Orte prüfen oder erneut versuchen.",
+          "error"
+        );
+
+      } finally {
+        calculateRouteBtn.disabled =
+          false;
+
+        mainSearchBtn.disabled =
+          false;
+      }
+    }
+
+    /* =========================================================
+       HAUPTSUCHE
+    ========================================================= */
+
+    async function mainSearchAction() {
+      const query =
+        mainSearch.value.trim();
+
+      if (!query) {
+        return;
+      }
+
+      /*
+        Route erkennen.
+      */
+      if (
+        /→|->|—|–/.test(query)
+      ) {
+        const success =
+          setRouteFromMainSearch(
+            query
+          );
+
+        if (success) {
+          await calculateRoute();
+          return;
+        }
+      }
+
+      /*
+        Normale Ortssuche:
+        Nur zentrieren.
+        KEINE Skateparks automatisch suchen.
+      */
+      setStatus(
+        "Ort wird gesucht …",
+        "loading"
+      );
+
+      mainSearchBtn.disabled =
+        true;
+
+      try {
+        const location =
+          await geocode(
+            query
+          );
+
+        map.setView(
+          [
+            location.lat,
+            location.lon
+          ],
+          13
+        );
+
+        setStatus(
+          location.displayName ||
+          "Ort gefunden.",
+          "success"
+        );
+
+      } catch {
+        setStatus(
+          "Ort konnte nicht gefunden werden.",
+          "error"
+        );
+      } finally {
+        mainSearchBtn.disabled =
+          false;
+      }
+    }
+
+    /* =========================================================
+       EVENTS
+    ========================================================= */
+
+    mainSearchBtn.addEventListener(
+      "click",
+      mainSearchAction
+    );
+
+    mainSearch.addEventListener(
+      "keydown",
+      event => {
+        if (
+          event.key === "Enter"
+        ) {
+          event.preventDefault();
+          mainSearchAction();
+        }
       }
     );
-  });
 
-
-/* ============================================================
-   PANEL
-============================================================ */
-
-closePanelButton.addEventListener(
-  "click",
-  () => {
-
-    searchPanel.classList.add(
-      "collapsed"
+    addStopBtn.addEventListener(
+      "click",
+      () => {
+        createRouteField(
+          "",
+          true
+        );
+      }
     );
 
-    openPanelButton.classList.add(
-      "visible"
-    );
-  }
-);
-
-
-openPanelButton.addEventListener(
-  "click",
-  () => {
-
-    searchPanel.classList.remove(
-      "collapsed"
+    calculateRouteBtn.addEventListener(
+      "click",
+      calculateRoute
     );
 
-    openPanelButton.classList.remove(
-      "visible"
+    localParksBtn.addEventListener(
+      "click",
+      searchLocalParks
     );
-  }
-);
 
+    routeParksBtn.addEventListener(
+      "click",
+      searchRouteParks
+    );
 
-/* ============================================================
-   MAP INTERACTION
-============================================================ */
+    clearParksBtn.addEventListener(
+      "click",
+      () => {
+        parkLayer.clearLayers();
 
-/*
- * Bei einer normalen Kartenbewegung NICHT automatisch
- * nach Skateparks suchen.
- *
- * Das ist absichtlich so:
- *
- * Karte bewegen ≠ Skateparks suchen
- */
+        setStatus(
+          "Skatepark-Marker entfernt."
+        );
+      }
+    );
 
-map.on(
-  "move",
-  () => {
-    /*
-     * absichtlich leer
-     */
-  }
-);
+    /* =========================================================
+       START
+    ========================================================= */
 
+    initializeRouteFields();
 
-/* ============================================================
-   INITIAL STATE
-============================================================ */
-
-updateRemoveButtons();
-
-setStatus(
-  "Bereit."
-);
-
-
-/*
- * KEINE Netzwerkanfrage beim Seitenstart.
- *
- * Dadurch erscheint die Karte sofort.
- */
-</script>
+    setStatus(
+      "Bereit. Suche einen Ort oder eine Route."
+    );
+  </script>
 
 </body>
 </html>
