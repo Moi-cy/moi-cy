@@ -40,6 +40,7 @@
 
         }
 
+
         body {
 
             overflow: hidden;
@@ -47,6 +48,7 @@
             background: #050505;
 
         }
+
 
         main.map-page {
 
@@ -59,6 +61,7 @@
             margin: 0;
 
         }
+
 
         .map-wrapper {
 
@@ -75,14 +78,12 @@
 
         }
 
+
         #map {
 
             position: absolute;
 
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            inset: 0;
 
             width: 100%;
             height: 100%;
@@ -90,6 +91,7 @@
             background: #e8e8e8;
 
         }
+
 
         /* =====================================================
            LEAFLET
@@ -111,6 +113,7 @@
 
         }
 
+
         .leaflet-tile {
 
             max-width: none !important;
@@ -120,11 +123,13 @@
 
         }
 
+
         .leaflet-tile-container img {
 
             max-width: none !important;
 
         }
+
 
         .leaflet-control-attribution {
 
@@ -144,11 +149,13 @@
 
         }
 
+
         .leaflet-control-attribution a {
 
             color: #333 !important;
 
         }
+
 
         .leaflet-control-zoom {
 
@@ -171,6 +178,7 @@
                 ) !important;
 
         }
+
 
         .leaflet-control-zoom a {
 
@@ -199,6 +207,7 @@
 
         }
 
+
         .leaflet-control-zoom a:hover {
 
             background: #168cff !important;
@@ -206,6 +215,7 @@
             color: #fff !important;
 
         }
+
 
         /* =====================================================
            PANEL
@@ -272,11 +282,13 @@
 
         }
 
+
         .map-panel::-webkit-scrollbar {
 
             width: 5px;
 
         }
+
 
         .map-panel::-webkit-scrollbar-track {
 
@@ -284,11 +296,13 @@
 
         }
 
+
         .map-panel::-webkit-scrollbar-thumb {
 
             background: #333;
 
         }
+
 
         .map-kicker {
 
@@ -308,6 +322,7 @@
                 uppercase;
 
         }
+
 
         .map-title {
 
@@ -329,6 +344,7 @@
 
         }
 
+
         .map-intro {
 
             margin:
@@ -342,18 +358,12 @@
 
         }
 
+
         /* =====================================================
-           SEARCH
+           SUCHLEISTE
         ===================================================== */
 
-        .map-search {
-
-            margin-bottom: 9px;
-
-        }
-
-        .map-search label,
-        .route-label {
+        .search-label {
 
             display: block;
 
@@ -373,6 +383,7 @@
 
         }
 
+
         .map-search-row {
 
             display: grid;
@@ -384,6 +395,7 @@
             gap: 7px;
 
         }
+
 
         .map-input,
         .route-input {
@@ -432,6 +444,7 @@
 
         }
 
+
         .map-input:focus,
         .route-input:focus {
 
@@ -442,12 +455,14 @@
 
         }
 
+
         .map-input::placeholder,
         .route-input::placeholder {
 
             color: #555;
 
         }
+
 
         /* =====================================================
            BUTTONS
@@ -502,6 +517,7 @@
 
         }
 
+
         .map-button:hover {
 
             background: #2d9aff;
@@ -510,6 +526,7 @@
                 translateY(-1px);
 
         }
+
 
         .map-button.secondary {
 
@@ -526,11 +543,13 @@
 
         }
 
+
         .map-button.secondary:hover {
 
             background: #252525;
 
         }
+
 
         .map-button.full {
 
@@ -540,11 +559,106 @@
 
         }
 
+
+        .map-button:disabled {
+
+            opacity: 0.45;
+
+            cursor: wait;
+
+            transform: none;
+
+        }
+
+
         /* =====================================================
-           ROUTE
+           MODUS BUTTONS
         ===================================================== */
 
-        .route-box {
+        .mode-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 7px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .mode-button {
+
+            min-height: 42px;
+
+        }
+
+
+        /* =====================================================
+           LOCATION INFO
+        ===================================================== */
+
+        .location-card {
+
+            margin-top: 12px;
+
+            padding:
+                10px 12px;
+
+            background: #0d0d0d;
+
+            border-left:
+                2px solid
+                #168cff;
+
+        }
+
+
+        .location-card[hidden] {
+
+            display: none;
+
+        }
+
+
+        .location-card-label {
+
+            margin-bottom: 4px;
+
+            color: #666;
+
+            font-size: 8px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                0.14em;
+
+            text-transform:
+                uppercase;
+
+        }
+
+
+        .location-card-name {
+
+            color: #eee;
+
+            font-size: 11px;
+
+            line-height: 1.45;
+
+        }
+
+
+        /* =====================================================
+           SKATEPARK OPTIONS
+        ===================================================== */
+
+        .skate-options {
 
             margin-top: 17px;
 
@@ -561,6 +675,171 @@
 
         }
 
+
+        .skate-options[hidden] {
+
+            display: none;
+
+        }
+
+
+        .section-label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #999;
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                0.14em;
+
+            text-transform:
+                uppercase;
+
+        }
+
+
+        .radius-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    5,
+                    1fr
+                );
+
+            gap: 5px;
+
+        }
+
+
+        .radius-option {
+
+            position: relative;
+
+        }
+
+
+        .radius-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        .radius-option span {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 34px;
+
+            box-sizing: border-box;
+
+            background: #111;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
+
+            color: #777;
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            transition:
+                0.15s ease;
+
+        }
+
+
+        .radius-option span:hover {
+
+            color: #fff;
+
+            border-color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.25
+                );
+
+        }
+
+
+        .radius-option input:checked + span {
+
+            background: #168cff;
+
+            border-color: #168cff;
+
+            color: #fff;
+
+        }
+
+
+        .skate-search-button {
+
+            width: 100%;
+
+            margin-top: 8px;
+
+        }
+
+
+        /* =====================================================
+           ROUTE
+        ===================================================== */
+
+        .route-box {
+
+            display: none;
+
+            margin-top: 17px;
+
+            padding-top: 17px;
+
+            border-top:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.09
+                );
+
+        }
+
+
+        .route-box.active {
+
+            display: block;
+
+        }
+
+
         .route-fields {
 
             display: grid;
@@ -568,6 +847,28 @@
             gap: 7px;
 
         }
+
+
+        .route-label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #999;
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                0.14em;
+
+            text-transform:
+                uppercase;
+
+        }
+
 
         .route-actions {
 
@@ -582,6 +883,7 @@
             margin-top: 7px;
 
         }
+
 
         /* =====================================================
            STATUS
@@ -616,6 +918,7 @@
 
         }
 
+
         .map-status.active {
 
             border-left-color:
@@ -625,6 +928,7 @@
 
         }
 
+
         .map-status.error {
 
             border-left-color:
@@ -633,6 +937,7 @@
             color: #ff8585;
 
         }
+
 
         .status-dot {
 
@@ -647,8 +952,8 @@
 
         }
 
-        .map-status.active
-        .status-dot {
+
+        .map-status.active .status-dot {
 
             background: #168cff;
 
@@ -663,12 +968,13 @@
 
         }
 
-        .map-status.error
-        .status-dot {
+
+        .map-status.error .status-dot {
 
             background: #ff4d4d;
 
         }
+
 
         /* =====================================================
            RESULTS
@@ -679,6 +985,14 @@
             margin-top: 16px;
 
         }
+
+
+        .results[hidden] {
+
+            display: none;
+
+        }
+
 
         .results-heading {
 
@@ -705,11 +1019,13 @@
 
         }
 
+
         .results-count {
 
             color: #168cff;
 
         }
+
 
         .park-result {
 
@@ -741,12 +1057,14 @@
 
         }
 
+
         .park-result:hover
         .park-result-name {
 
             color: #168cff;
 
         }
+
 
         .park-result-name {
 
@@ -769,6 +1087,7 @@
 
         }
 
+
         .park-result-meta {
 
             display: block;
@@ -781,11 +1100,20 @@
 
         }
 
+
         .park-distance {
 
             color: #168cff;
 
         }
+
+
+        .park-size {
+
+            color: #999;
+
+        }
+
 
         .empty-results {
 
@@ -799,6 +1127,7 @@
             line-height: 1.5;
 
         }
+
 
         /* =====================================================
            MARKER
@@ -839,6 +1168,7 @@
 
         }
 
+
         .moi-route-marker {
 
             width: 12px;
@@ -865,6 +1195,7 @@
 
         }
 
+
         /* =====================================================
            POPUP
         ===================================================== */
@@ -878,6 +1209,7 @@
 
         }
 
+
         .leaflet-popup-content {
 
             margin: 15px;
@@ -885,6 +1217,7 @@
             min-width: 215px;
 
         }
+
 
         .popup-kicker {
 
@@ -904,6 +1237,7 @@
 
         }
 
+
         .popup-title {
 
             margin-bottom: 5px;
@@ -919,6 +1253,7 @@
 
         }
 
+
         .popup-address {
 
             color: #999;
@@ -928,6 +1263,7 @@
             line-height: 1.45;
 
         }
+
 
         .popup-route {
 
@@ -956,11 +1292,13 @@
 
         }
 
+
         .popup-route:hover {
 
             background: #2d9aff;
 
         }
+
 
         /* =====================================================
            MOBILE
@@ -976,6 +1314,7 @@
 
         }
 
+
         @media (max-width: 700px) {
 
             .map-wrapper {
@@ -983,6 +1322,7 @@
                 top: 68px;
 
             }
+
 
             .map-panel {
 
@@ -1005,11 +1345,13 @@
 
             }
 
+
             .map-title {
 
                 font-size: 30px;
 
             }
+
 
             .map-intro {
 
@@ -1023,6 +1365,7 @@
 
         }
 
+
         @media (max-width: 430px) {
 
             .map-panel {
@@ -1031,11 +1374,13 @@
 
             }
 
+
             .map-title {
 
                 font-size: 27px;
 
             }
+
 
             .map-input,
             .route-input {
@@ -1046,12 +1391,24 @@
 
             }
 
+
             .map-button {
 
                 padding:
                     9px 10px;
 
                 font-size: 8px;
+
+            }
+
+
+            .radius-grid {
+
+                grid-template-columns:
+                    repeat(
+                        3,
+                        1fr
+                    );
 
             }
 
@@ -1088,64 +1445,212 @@
 
                 <p class="map-intro">
 
-                    Suche eine Stadt, einen Ort
-                    oder plane eine Route.
-                    MOI-CY sucht anschließend
-                    nach echten Skatepark-Einträgen
-                    aus OpenStreetMap.
+                    Suche zuerst einen Ort.
+                    Danach kannst du unabhängig
+                    davon eine Route planen oder
+                    Skateparks in einem frei
+                    wählbaren Radius suchen.
 
                 </p>
 
 
                 <!-- =========================================
-                     ORT SUCHEN
+                     EINE ZENTRALE SUCHLEISTE
                 ========================================== -->
 
-                <div class="map-search">
-
-                    <label for="locationSearch">
-                        Stadt oder Ort
-                    </label>
-
-
-                    <div class="map-search-row">
-
-                        <input
-                            id="locationSearch"
-                            class="map-input"
-                            type="search"
-                            placeholder="z. B. Karlsruhe, Heidelberg..."
-                            autocomplete="off"
-                        >
+                <label
+                    class="search-label"
+                    for="locationSearch"
+                >
+                    Ort oder Adresse
+                </label>
 
 
-                        <button
-                            id="searchButton"
-                            class="map-button"
-                            type="button"
-                        >
-                            SUCHEN
-                        </button>
+                <div class="map-search-row">
 
-                    </div>
+                    <input
+                        id="locationSearch"
+                        class="map-input"
+                        type="search"
+                        placeholder="z. B. Karlsruhe, Heidelberg..."
+                        autocomplete="off"
+                    >
+
+
+                    <button
+                        id="searchButton"
+                        class="map-button"
+                        type="button"
+                    >
+                        SUCHEN
+                    </button>
 
                 </div>
 
 
-                <button
-                    id="allParksButton"
-                    class="map-button secondary full"
-                    type="button"
+                <!-- =========================================
+                     GEFUNDENER ORT
+                ========================================== -->
+
+                <div
+                    id="locationCard"
+                    class="location-card"
+                    hidden
                 >
-                    SKATEPARKS HIER SUCHEN
-                </button>
+
+                    <div class="location-card-label">
+                        AKTUELLER ORT
+                    </div>
+
+
+                    <div
+                        id="locationCardName"
+                        class="location-card-name"
+                    ></div>
+
+                </div>
+
+
+                <!-- =========================================
+                     MODI
+                ========================================== -->
+
+                <div class="mode-actions">
+
+                    <button
+                        id="routeModeButton"
+                        class="map-button secondary mode-button"
+                        type="button"
+                    >
+                        ROUTE
+                    </button>
+
+
+                    <button
+                        id="skateModeButton"
+                        class="map-button mode-button"
+                        type="button"
+                    >
+                        SKATEPARKS
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     SKATEPARK OPTIONEN
+                ========================================== -->
+
+                <div
+                    id="skateOptions"
+                    class="skate-options"
+                    hidden
+                >
+
+                    <label class="section-label">
+                        Suchradius
+                    </label>
+
+
+                    <div class="radius-grid">
+
+                        <label class="radius-option">
+
+                            <input
+                                type="radio"
+                                name="radius"
+                                value="2000"
+                            >
+
+                            <span>
+                                2 KM
+                            </span>
+
+                        </label>
+
+
+                        <label class="radius-option">
+
+                            <input
+                                type="radio"
+                                name="radius"
+                                value="5000"
+                                checked
+                            >
+
+                            <span>
+                                5 KM
+                            </span>
+
+                        </label>
+
+
+                        <label class="radius-option">
+
+                            <input
+                                type="radio"
+                                name="radius"
+                                value="10000"
+                            >
+
+                            <span>
+                                10 KM
+                            </span>
+
+                        </label>
+
+
+                        <label class="radius-option">
+
+                            <input
+                                type="radio"
+                                name="radius"
+                                value="25000"
+                            >
+
+                            <span>
+                                25 KM
+                            </span>
+
+                        </label>
+
+
+                        <label class="radius-option">
+
+                            <input
+                                type="radio"
+                                name="radius"
+                                value="50000"
+                            >
+
+                            <span>
+                                50 KM
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <button
+                        id="skateSearchButton"
+                        class="map-button skate-search-button"
+                        type="button"
+                    >
+                        SKATEPARKS SUCHEN
+                    </button>
+
+                </div>
 
 
                 <!-- =========================================
                      ROUTE
                 ========================================== -->
 
-                <div class="route-box">
+                <div
+                    id="routeBox"
+                    class="route-box"
+                >
 
                     <label class="route-label">
                         Route planen
@@ -1181,7 +1686,7 @@
                             class="map-button"
                             type="button"
                         >
-                            ROUTE SUCHEN
+                            ROUTE BERECHNEN
                         </button>
 
 
@@ -1212,8 +1717,8 @@
 
                     <span id="mapStatusText">
 
-                        Suche nach einer Stadt
-                        oder starte eine Route.
+                        Suche einen Ort, plane eine
+                        Route oder suche Skateparks.
 
                     </span>
 
@@ -1262,6 +1767,7 @@
         const NOMINATIM_URL =
             "https://nominatim.openstreetmap.org/search";
 
+
         const OVERPASS_URLS = [
 
             "https://overpass-api.de/api/interpreter",
@@ -1274,31 +1780,27 @@
 
 
         /*
-         * Suchradius für Skateparks um einen gefundenen Ort.
+         * Es werden maximal diese Skateparks
+         * standardmäßig angezeigt.
          *
-         * WICHTIG:
-         * Das ist KEINE Begrenzung der Anzahl.
-         *
-         * Es bedeutet nur:
-         * Wie weit um die gesuchte Stadt herum
-         * nach Skateparks gesucht wird.
+         * Wichtig:
+         * Die Datenbankabfrage selbst wird NICHT
+         * auf diese Anzahl begrenzt.
          */
 
-        const SEARCH_RADIUS_METERS =
-            50000;
+        const MAX_VISIBLE_PARKS =
+            15;
 
 
         /*
-         * Bei einer Route wird nicht die Anzahl
-         * der Skateparks begrenzt.
+         * Anzahl der Geocoding-Treffer.
          *
-         * Dieser Wert bestimmt nur,
-         * wie weit ein Skatepark von der Route
-         * entfernt sein darf.
+         * Dadurch können wir bei Schreibfehlern
+         * mehrere Kandidaten vergleichen.
          */
 
-        const ROUTE_RADIUS_METERS =
-            15000;
+        const GEOCODE_LIMIT =
+            5;
 
 
         /* =====================================================
@@ -1402,9 +1904,45 @@
             );
 
 
-        const allParksButton =
+        const locationCard =
             document.getElementById(
-                "allParksButton"
+                "locationCard"
+            );
+
+
+        const locationCardName =
+            document.getElementById(
+                "locationCardName"
+            );
+
+
+        const routeModeButton =
+            document.getElementById(
+                "routeModeButton"
+            );
+
+
+        const skateModeButton =
+            document.getElementById(
+                "skateModeButton"
+            );
+
+
+        const skateOptions =
+            document.getElementById(
+                "skateOptions"
+            );
+
+
+        const skateSearchButton =
+            document.getElementById(
+                "skateSearchButton"
+            );
+
+
+        const routeBox =
+            document.getElementById(
+                "routeBox"
             );
 
 
@@ -1451,6 +1989,22 @@
 
 
         /* =====================================================
+           ZUSTAND
+        ===================================================== */
+
+        let currentLocation =
+            null;
+
+
+        let currentParks =
+            [];
+
+
+        let activeMode =
+            null;
+
+
+        /* =====================================================
            STATUS
         ===================================================== */
 
@@ -1481,11 +2035,11 @@
 
 
         /* =====================================================
-           CACHE FÜR ORTSSUCHE
+           CACHE
         ===================================================== */
 
         const cacheKey =
-            "moiCyGeocodeCacheV2";
+            "moiCyGeocodeCacheV3";
 
 
         function readCache() {
@@ -1532,6 +2086,206 @@
 
 
         /* =====================================================
+           TEXT NORMALISIERUNG
+        ===================================================== */
+
+        function normalizeText(
+            value
+        ) {
+
+            return String(
+                value || ""
+            )
+            .toLowerCase()
+            .normalize(
+                "NFD"
+            )
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
+            .replace(
+                /ß/g,
+                "ss"
+            )
+            .replace(
+                /[^a-z0-9\s]/g,
+                " "
+            )
+            .replace(
+                /\s+/g,
+                " "
+            )
+            .trim();
+
+        }
+
+
+        /* =====================================================
+           STRING ÄHNLICHKEIT
+        ===================================================== */
+
+        function levenshtein(
+            a,
+            b
+        ) {
+
+            a =
+                normalizeText(a);
+
+            b =
+                normalizeText(b);
+
+
+            if (a === b) {
+
+                return 0;
+
+            }
+
+
+            if (!a.length) {
+
+                return b.length;
+
+            }
+
+
+            if (!b.length) {
+
+                return a.length;
+
+            }
+
+
+            const matrix =
+                Array.from(
+                    {
+                        length:
+                            a.length + 1
+                    },
+                    () =>
+                        new Array(
+                            b.length + 1
+                        )
+                        .fill(0)
+                );
+
+
+            for (
+                let i = 0;
+                i <= a.length;
+                i++
+            ) {
+
+                matrix[i][0] =
+                    i;
+
+            }
+
+
+            for (
+                let j = 0;
+                j <= b.length;
+                j++
+            ) {
+
+                matrix[0][j] =
+                    j;
+
+            }
+
+
+            for (
+                let i = 1;
+                i <= a.length;
+                i++
+            ) {
+
+                for (
+                    let j = 1;
+                    j <= b.length;
+                    j++
+                ) {
+
+                    const cost =
+                        a[i - 1] ===
+                        b[j - 1]
+                            ? 0
+                            : 1;
+
+
+                    matrix[i][j] =
+                        Math.min(
+
+                            matrix[i - 1][j] + 1,
+
+                            matrix[i][j - 1] + 1,
+
+                            matrix[i - 1][j - 1] +
+                                cost
+
+                        );
+
+                }
+
+            }
+
+
+            return matrix
+                [a.length]
+                [b.length];
+
+        }
+
+
+        function similarity(
+            a,
+            b
+        ) {
+
+            const aa =
+                normalizeText(a);
+
+
+            const bb =
+                normalizeText(b);
+
+
+            if (
+                !aa ||
+                !bb
+            ) {
+
+                return 0;
+
+            }
+
+
+            const distance =
+                levenshtein(
+                    aa,
+                    bb
+                );
+
+
+            return Math.max(
+
+                0,
+
+                1 -
+                    distance /
+                    Math.max(
+                        aa.length,
+                        bb.length
+                    )
+
+            );
+
+        }
+
+
+        /* =====================================================
            NOMINATIM
         ===================================================== */
 
@@ -1555,8 +2309,9 @@
 
 
             const key =
-                cleanQuery
-                    .toLowerCase();
+                normalizeText(
+                    cleanQuery
+                );
 
 
             if (cache[key]) {
@@ -1571,9 +2326,13 @@
 
                 "?format=jsonv2" +
 
-                "&limit=1" +
+                `&limit=${GEOCODE_LIMIT}` +
 
                 "&addressdetails=1" +
+
+                "&countrycodes=de" +
+
+                "&accept-language=de" +
 
                 "&q=" +
 
@@ -1588,15 +2347,6 @@
                     {
 
                         headers: {
-
-                            /*
-                             * Der Referer deiner Website
-                             * wird vom Browser automatisch
-                             * übertragen.
-                             *
-                             * Nominatim verlangt eine
-                             * identifizierbare Anwendung.
-                             */
 
                             "Accept":
                                 "application/json"
@@ -1630,20 +2380,164 @@
             }
 
 
+            /*
+             * Kandidaten bewerten.
+             *
+             * Ein exakter Name bekommt einen hohen Score.
+             * Zusätzlich werden Adresse und Displayname
+             * berücksichtigt.
+             */
+
+            const scored =
+                data
+                    .map(
+                        item => {
+
+                            const display =
+                                item.display_name ||
+                                "";
+
+
+                            const name =
+                                item.name ||
+                                "";
+
+
+                            const address =
+                                [
+                                    item.address?.city,
+                                    item.address?.town,
+                                    item.address?.village,
+                                    item.address?.municipality,
+                                    item.address?.state
+                                ]
+                                .filter(Boolean)
+                                .join(" ");
+
+
+                            const nameSimilarity =
+                                similarity(
+                                    cleanQuery,
+                                    name
+                                );
+
+
+                            const displaySimilarity =
+                                similarity(
+                                    cleanQuery,
+                                    display
+                                );
+
+
+                            const addressSimilarity =
+                                similarity(
+                                    cleanQuery,
+                                    address
+                                );
+
+
+                            let score =
+
+                                nameSimilarity *
+                                0.55
+
+                                +
+
+                                displaySimilarity *
+                                0.30
+
+                                +
+
+                                addressSimilarity *
+                                0.15;
+
+
+                            if (
+                                normalizeText(
+                                    name
+                                ) === key
+                            ) {
+
+                                score +=
+                                    0.35;
+
+                            }
+
+
+                            /*
+                             * Orte bevorzugen.
+                             */
+
+                            const type =
+                                item.type ||
+                                "";
+
+
+                            if (
+                                [
+                                    "city",
+                                    "town",
+                                    "village",
+                                    "municipality",
+                                    "suburb"
+                                ]
+                                .includes(type)
+                            ) {
+
+                                score +=
+                                    0.12;
+
+                            }
+
+
+                            return {
+
+                                item,
+                                score
+
+                            };
+
+                        }
+                    )
+                    .sort(
+                        (
+                            a,
+                            b
+                        ) =>
+                            b.score -
+                            a.score
+                    );
+
+
+            const best =
+                scored[0]?.item;
+
+
+            if (!best) {
+
+                return null;
+
+            }
+
+
             const result = {
 
                 lat:
                     Number(
-                        data[0].lat
+                        best.lat
                     ),
 
                 lng:
                     Number(
-                        data[0].lon
+                        best.lon
                     ),
 
                 displayName:
-                    data[0].display_name ||
+                    best.display_name ||
+                    cleanQuery,
+
+                name:
+                    best.name ||
                     cleanQuery
 
             };
@@ -1664,7 +2558,7 @@
 
 
         /* =====================================================
-           OVERPASS QUERY
+           OVERPASS
         ===================================================== */
 
         async function queryOverpass(
@@ -1716,11 +2610,7 @@
                     }
 
 
-                    const data =
-                        await response.json();
-
-
-                    return data;
+                    return await response.json();
 
                 } catch (error) {
 
@@ -1750,27 +2640,14 @@
 
 
         /* =====================================================
-           SKATEPARK-ABFRAGE
+           SKATEPARK ABFRAGE
         ===================================================== */
 
         async function findSkateparksAround(
             lat,
             lng,
-            radius =
-                SEARCH_RADIUS_METERS
+            radius
         ) {
-
-            /*
-             * Wir fragen bewusst nach:
-             *
-             * leisure=skatepark
-             *
-             * und nicht einfach nach
-             * irgendwelchen Suchergebnissen.
-             *
-             * Dadurch fallen viele falsche Treffer
-             * bereits auf Datenebene weg.
-             */
 
             const query = `
 
@@ -1789,6 +2666,12 @@
                         ${lat},
                         ${lng}
                     )["sport"="skateboard"];
+
+                    nwr(
+                        around:${radius},
+                        ${lat},
+                        ${lng}
+                    )["skateboard"="yes"];
 
                 );
 
@@ -1811,52 +2694,32 @@
 
 
         /* =====================================================
-           FILTER
+           SKATEPARK FILTER
         ===================================================== */
 
         const EXCLUDED_WORDS = [
 
             "playground",
             "spielplatz",
-
             "kinderspielplatz",
-
             "basketball",
-
             "streetball",
-
             "football",
-
             "soccer",
-
-            "fußball",
-
+            "fussball",
             "tennis",
-
             "volleyball",
-
             "golf",
-
             "parking",
-
             "parkplatz",
-
             "parkhaus",
-
             "schule",
-
             "school",
-
             "kindergarten",
-
             "kita",
-
             "pumptrack",
-
             "pump track",
-
             "bmx only",
-
             "bmx-only"
 
         ];
@@ -1865,49 +2728,19 @@
         const POSITIVE_WORDS = [
 
             "skatepark",
-
             "skate park",
-
             "skate plaza",
-
             "skateanlage",
-
-            "skate-anlage",
-
+            "skate anlage",
             "skateplatz",
-
             "skate platz",
-
             "skate bowl",
-
             "skatebowl",
-
             "bowl",
-
             "skateboard",
-
             "skateboarding"
 
         ];
-
-
-        function normalizeText(
-            value
-        ) {
-
-            return String(
-                value || ""
-            )
-            .toLowerCase()
-            .normalize(
-                "NFD"
-            )
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            );
-
-        }
 
 
         function shouldKeepSkatepark(
@@ -1917,12 +2750,6 @@
             const tags =
                 element.tags || {};
 
-
-            /*
-             * Ein echtes leisure=skatepark
-             * bekommt grundsätzlich einen starken
-             * Vertrauensbonus.
-             */
 
             const isOfficialSkateparkTag =
                 tags.leisure ===
@@ -1957,25 +2784,19 @@
                 .join(" ");
 
 
-            /*
-             * Ausschlussbegriffe.
-             *
-             * Bei einem echten leisure=skatepark
-             * sind wir etwas vorsichtiger:
-             * "BMX / Skatepark" soll bleiben.
-             */
-
-            const hasHardExcludedWord =
+            const hasExcludedWord =
                 EXCLUDED_WORDS.some(
                     word =>
                         combined.includes(
-                            normalizeText(word)
+                            normalizeText(
+                                word
+                            )
                         )
                 );
 
 
             if (
-                hasHardExcludedWord &&
+                hasExcludedWord &&
                 !isOfficialSkateparkTag
             ) {
 
@@ -1984,18 +2805,14 @@
             }
 
 
-            /*
-             * Wenn es kein leisure=skatepark ist,
-             * muss zumindest ein klarer Skateboard-Begriff
-             * vorhanden sein.
-             */
-
             if (
                 !isOfficialSkateparkTag &&
                 !POSITIVE_WORDS.some(
                     word =>
                         combined.includes(
-                            normalizeText(word)
+                            normalizeText(
+                                word
+                            )
                         )
                 )
             ) {
@@ -2004,10 +2821,6 @@
 
             }
 
-
-            /*
-             * Reine BMX-Treffer raus.
-             */
 
             const isOnlyBmx =
                 sport === "bmx" &&
@@ -2029,7 +2842,7 @@
 
 
         /* =====================================================
-           OSM ELEMENT -> PARK
+           KOORDINATEN
         ===================================================== */
 
         function elementCoordinates(
@@ -2102,6 +2915,10 @@
         }
 
 
+        /* =====================================================
+           ADRESSE
+        ===================================================== */
+
         function createParkAddress(
             tags
         ) {
@@ -2123,6 +2940,8 @@
 
             const city =
                 tags["addr:city"] ||
+                tags["addr:town"] ||
+                tags["addr:village"] ||
                 "";
 
 
@@ -2145,14 +2964,325 @@
 
 
             return [
+
                 streetLine,
                 cityLine
+
             ]
             .filter(Boolean)
             .join(", ");
 
         }
 
+
+        /* =====================================================
+           PARK-GRÖSSE / RELEVANZ
+        ===================================================== */
+
+        function getNumericArea(
+            tags
+        ) {
+
+            const possibleValues = [
+
+                tags.area,
+                tags["area:m2"],
+                tags["surface:area"]
+
+            ];
+
+
+            for (
+                const value
+                of possibleValues
+            ) {
+
+                if (!value) {
+
+                    continue;
+
+                }
+
+
+                const match =
+                    String(value)
+                        .replace(
+                            ",",
+                            "."
+                        )
+                        .match(
+                            /[\d.]+/
+                        );
+
+
+                if (!match) {
+
+                    continue;
+
+                }
+
+
+                const number =
+                    Number(
+                        match[0]
+                    );
+
+
+                if (
+                    Number.isFinite(
+                        number
+                    )
+                ) {
+
+                    return number;
+
+                }
+
+            }
+
+
+            return null;
+
+        }
+
+
+        function getParkScore(
+            tags
+        ) {
+
+            let score =
+                0;
+
+
+            /*
+             * Offizielles OSM-Tag
+             * ist der wichtigste Faktor.
+             */
+
+            if (
+                tags.leisure ===
+                "skatepark"
+            ) {
+
+                score +=
+                    100;
+
+            }
+
+
+            const name =
+                normalizeText(
+                    tags.name
+                );
+
+
+            const description =
+                normalizeText(
+                    tags.description
+                );
+
+
+            const sport =
+                normalizeText(
+                    tags.sport
+                );
+
+
+            const combined =
+                [
+                    name,
+                    description,
+                    sport
+                ]
+                .join(" ");
+
+
+            /*
+             * Skateboard-Bezug.
+             */
+
+            if (
+                sport.includes(
+                    "skateboard"
+                )
+            ) {
+
+                score +=
+                    25;
+
+            }
+
+
+            if (
+                name.includes(
+                    "skatepark"
+                )
+            ) {
+
+                score +=
+                    20;
+
+            }
+
+
+            if (
+                name.includes(
+                    "skateanlage"
+                ) ||
+                name.includes(
+                    "skate plaza"
+                )
+            ) {
+
+                score +=
+                    15;
+
+            }
+
+
+            /*
+             * Mehrere Skate-Elemente können
+             * auf eine größere Anlage hindeuten.
+             */
+
+            const featureWords = [
+
+                "bowl",
+                "ramp",
+                "quarter",
+                "miniramp",
+                "funbox",
+                "ledge",
+                "rail",
+                "curb",
+                "bank",
+                "spine"
+
+            ];
+
+
+            let featureCount =
+                0;
+
+
+            for (
+                const word
+                of featureWords
+            ) {
+
+                if (
+                    combined.includes(
+                        word
+                    )
+                ) {
+
+                    featureCount++;
+
+                }
+
+            }
+
+
+            score +=
+                Math.min(
+                    featureCount * 4,
+                    24
+                );
+
+
+            /*
+             * Flächenangabe.
+             */
+
+            const area =
+                getNumericArea(
+                    tags
+                );
+
+
+            if (
+                Number.isFinite(
+                    area
+                )
+            ) {
+
+                score +=
+                    Math.min(
+                        area / 100,
+                        50
+                    );
+
+            }
+
+
+            /*
+             * Website / Social / Kontakt
+             * macht einen Eintrag nicht größer,
+             * aber etwas vollständiger.
+             */
+
+            if (
+                tags.website ||
+                tags["contact:website"]
+            ) {
+
+                score +=
+                    5;
+
+            }
+
+
+            return score;
+
+        }
+
+
+        function formatArea(
+            area
+        ) {
+
+            if (
+                !Number.isFinite(
+                    area
+                )
+            ) {
+
+                return "";
+
+            }
+
+
+            if (
+                area >= 10000
+            ) {
+
+                return (
+                    area /
+                    10000
+                )
+                .toFixed(1)
+                .replace(
+                    ".0",
+                    ""
+                )
+                + " ha";
+
+            }
+
+
+            return (
+                Math.round(
+                    area
+                )
+            )
+            + " m²";
+
+        }
+
+
+        /* =====================================================
+           NORMALISIEREN
+        ===================================================== */
 
         function normalizeSkateparks(
             elements
@@ -2203,17 +3333,11 @@
                     (
                         tags.name ||
                         tags["name:de"] ||
-                        tags["name:fr"] ||
                         tags["name:en"] ||
                         "Skatepark"
                     )
                     .trim();
 
-
-                /*
-                 * Dubletten über OSM-ID,
-                 * Koordinaten und Namen entfernen.
-                 */
 
                 const roundedLat =
                     coordinates.lat
@@ -2226,11 +3350,18 @@
 
 
                 const duplicateKey =
+
                     [
-                        normalizeText(name),
+                        normalizeText(
+                            name
+                        ),
+
                         roundedLat,
+
                         roundedLng
-                    ].join("|");
+
+                    ]
+                    .join("|");
 
 
                 if (
@@ -2255,17 +3386,29 @@
                     );
 
 
+                const city =
+                    tags["addr:city"] ||
+                    tags["addr:town"] ||
+                    tags["addr:village"] ||
+                    "";
+
+
                 const website =
                     tags.website ||
                     tags["contact:website"] ||
                     "";
 
 
-                const city =
-                    tags["addr:city"] ||
-                    tags["addr:town"] ||
-                    tags["addr:village"] ||
-                    "";
+                const area =
+                    getNumericArea(
+                        tags
+                    );
+
+
+                const score =
+                    getParkScore(
+                        tags
+                    );
 
 
                 parks.push({
@@ -2296,6 +3439,10 @@
 
                     website,
 
+                    area,
+
+                    score,
+
                     tags
 
                 });
@@ -2305,10 +3452,7 @@
 
             /*
              * Zweiter Dublettencheck:
-             *
-             * Wenn zwei unterschiedliche OSM-Objekte
-             * praktisch am gleichen Ort liegen,
-             * behalten wir nur eines.
+             * gleiche Anlage mit verschiedenen OSM-Objekten.
              */
 
             const finalParks =
@@ -2325,10 +3469,13 @@
                         existing =>
 
                             haversineKm(
+
                                 park.lat,
                                 park.lng,
+
                                 existing.lat,
                                 existing.lng
+
                             ) < 0.08
 
                             &&
@@ -2352,6 +3499,40 @@
                 }
 
             }
+
+
+            /*
+             * Größere/relevantere Anlagen zuerst.
+             */
+
+            finalParks.sort(
+                (
+                    a,
+                    b
+                ) => {
+
+                    if (
+                        b.score !==
+                        a.score
+                    ) {
+
+                        return (
+                            b.score -
+                            a.score
+                        );
+
+                    }
+
+
+                    return (
+                        a.name.localeCompare(
+                            b.name,
+                            "de"
+                        )
+                    );
+
+                }
+            );
 
 
             return finalParks;
@@ -2434,6 +3615,25 @@
                     : "";
 
 
+            const areaHtml =
+                Number.isFinite(
+                    park.area
+                )
+
+                    ? `
+
+                        <br>
+                        Größe: ${escapeHtml(
+                            formatArea(
+                                park.area
+                            )
+                        )}
+
+                    `
+
+                    : "";
+
+
             marker.bindPopup(`
 
                 <div class="popup-kicker">
@@ -2453,6 +3653,8 @@
                     ${escapeHtml(
                         park.address
                     )}
+
+                    ${areaHtml}
 
                     ${websiteHtml}
 
@@ -2598,12 +3800,13 @@
 
 
         /* =====================================================
-           ERGEBNISLISTE
+           ERGEBNISSE
         ===================================================== */
 
         function showResults(
             list,
-            title
+            title,
+            totalFound = list.length
         ) {
 
             results.hidden =
@@ -2655,6 +3858,14 @@
 
                     <span class="results-count">
                         ${list.length}
+                        ${
+                            totalFound >
+                            list.length
+
+                                ? ` / ${totalFound}`
+
+                                : ""
+                        }
                     </span>
 
                 </div>
@@ -2668,6 +3879,18 @@
 
                         const distance =
                             item.distance;
+
+
+                        const area =
+                            Number.isFinite(
+                                park.area
+                            )
+
+                                ? formatArea(
+                                    park.area
+                                )
+
+                                : "";
 
 
                         return `
@@ -2696,6 +3919,28 @@
                                     ${escapeHtml(
                                         park.address
                                     )}
+
+
+                                    ${
+                                        area
+
+                                            ? `
+
+                                                <br>
+
+                                                <span
+                                                    class="park-size"
+                                                >
+                                                    ${escapeHtml(
+                                                        area
+                                                    )}
+                                                </span>
+
+                                            `
+
+                                            : ""
+
+                                    }
 
 
                                     ${
@@ -2797,16 +4042,8 @@
         }
 
 
-        /*
-         * Enthält die aktuell dargestellten Skateparks.
-         */
-
-        let currentParks =
-            [];
-
-
         /* =====================================================
-           SKATEPARKS BEI STADT
+           ORT SUCHEN
         ===================================================== */
 
         async function searchLocation() {
@@ -2818,7 +4055,7 @@
             if (!query) {
 
                 setStatus(
-                    "Bitte eine Stadt oder einen Ort eingeben.",
+                    "Bitte einen Ort oder eine Adresse eingeben.",
                     "error"
                 );
 
@@ -2827,14 +4064,14 @@
             }
 
 
+            searchButton.disabled =
+                true;
+
+
             setStatus(
                 "Ort wird gesucht …",
                 "active"
             );
-
-
-            results.hidden =
-                true;
 
 
             try {
@@ -2848,13 +4085,17 @@
                 if (!location) {
 
                     setStatus(
-                        "Der Ort wurde nicht gefunden.",
+                        "Der Ort wurde nicht gefunden. Versuche einen anderen Suchbegriff.",
                         "error"
                     );
 
                     return;
 
                 }
+
+
+                currentLocation =
+                    location;
 
 
                 map.setView(
@@ -2864,7 +4105,7 @@
                         location.lng
                     ],
 
-                    12,
+                    13,
 
                     {
                         animate:
@@ -2874,126 +4115,54 @@
                 );
 
 
-                setStatus(
-                    "OpenStreetMap wird nach Skateparks durchsucht …",
-                    "active"
-                );
+                locationCard.hidden =
+                    false;
 
 
-                const parks =
-                    await findSkateparksAround(
+                locationCardName.textContent =
+                    location.displayName;
 
-                        location.lat,
-                        location.lng,
 
-                        SEARCH_RADIUS_METERS
+                /*
+                 * WICHTIG:
+                 *
+                 * Eine normale Ortssuche
+                 * sucht KEINE Skateparks.
+                 */
 
-                    );
-
+                clearParks();
 
                 currentParks =
-                    parks;
+                    [];
+
+                results.innerHTML =
+                    "";
+
+                results.hidden =
+                    true;
 
 
-                showParks(
-                    parks
-                );
+                removeRoute();
 
 
-                if (parks.length) {
+                /*
+                 * Falls Route-Felder vorher gefüllt waren,
+                 * wird der gefundene Ort als Start angeboten.
+                 */
 
-                    const bounds =
-                        L.latLngBounds(
-                            parks.map(
-                                park => [
-                                    park.lat,
-                                    park.lng
-                                ]
-                            )
-                        );
+                if (
+                    !routeStartInput.value.trim()
+                ) {
 
-
-                    /*
-                     * Stadt selbst mit einbeziehen.
-                     */
-
-                    bounds.extend(
-                        [
-                            location.lat,
-                            location.lng
-                        ]
-                    );
-
-
-                    map.fitBounds(
-
-                        bounds,
-
-                        {
-                            padding:
-                                [90, 90],
-
-                            maxZoom:
-                                14
-
-                        }
-
-                    );
+                    routeStartInput.value =
+                        location.name;
 
                 }
 
 
-                const resultItems =
-                    parks
-                        .map(
-                            park => ({
-
-                                park,
-
-                                distance:
-                                    haversineKm(
-
-                                        location.lat,
-                                        location.lng,
-
-                                        park.lat,
-                                        park.lng
-
-                                    )
-
-                            })
-                        )
-                        .sort(
-                            (
-                                a,
-                                b
-                            ) =>
-                                a.distance -
-                                b.distance
-                        );
-
-
-                showResults(
-
-                    resultItems,
-
-                    `SKATEPARKS BEI ${query.toUpperCase()}`
-
-                );
-
-
                 setStatus(
-
-                    parks.length
-
-                        ? `${parks.length} Skatepark(s) gefunden.`
-
-                        : "Keine passenden Skateparks gefunden.",
-
-                    parks.length
-                        ? "active"
-                        : ""
-
+                    `${location.name || query} gefunden.`,
+                    "active"
                 );
 
             } catch (error) {
@@ -3004,9 +4173,14 @@
 
 
                 setStatus(
-                    "Die Skatepark-Suche konnte nicht durchgeführt werden.",
+                    "Die Ortssuche konnte nicht durchgeführt werden.",
                     "error"
                 );
+
+            } finally {
+
+                searchButton.disabled =
+                    false;
 
             }
 
@@ -3014,49 +4188,225 @@
 
 
         /* =====================================================
-           SKATEPARKS IM KARTENZENTRUM
+           MODUS ROUTE
         ===================================================== */
 
-        async function showParksHere() {
+        function activateRouteMode() {
 
-            setStatus(
-                "Skateparks werden für den aktuellen Kartenausschnitt gesucht …",
+            activeMode =
+                "route";
+
+
+            routeBox.classList.add(
                 "active"
             );
 
+
+            skateOptions.hidden =
+                true;
+
+
+            routeModeButton.classList.remove(
+                "secondary"
+            );
+
+
+            skateModeButton.classList.add(
+                "secondary"
+            );
+
+
+            /*
+             * Keine Skateparks beim Wechsel
+             * in den Routenmodus.
+             */
+
+            clearParks();
+
+            currentParks =
+                [];
+
+
+            results.innerHTML =
+                "";
 
             results.hidden =
                 true;
 
 
+            setStatus(
+                "Route planen – Start und Ziel eingeben.",
+                "active"
+            );
+
+
+            if (
+                currentLocation &&
+                !routeStartInput.value.trim()
+            ) {
+
+                routeStartInput.value =
+                    currentLocation.name;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MODUS SKATEPARKS
+        ===================================================== */
+
+        function activateSkateMode() {
+
+            activeMode =
+                "skate";
+
+
+            routeBox.classList.remove(
+                "active"
+            );
+
+
+            skateOptions.hidden =
+                false;
+
+
+            skateModeButton.classList.remove(
+                "secondary"
+            );
+
+
+            routeModeButton.classList.add(
+                "secondary"
+            );
+
+
+            /*
+             * Eine alte Route nicht automatisch
+             * mit den Skateparks vermischen.
+             */
+
+            removeRoute();
+
+
+            setStatus(
+                currentLocation
+
+                    ? "Radius auswählen und Skateparks suchen."
+
+                    : "Erst einen Ort suchen, danach Skateparks auswählen.",
+
+                currentLocation
+                    ? "active"
+                    : ""
+            );
+
+        }
+
+
+        /* =====================================================
+           SKATEPARKS SUCHEN
+        ===================================================== */
+
+        async function searchSkateparks() {
+
+            if (!currentLocation) {
+
+                setStatus(
+                    "Bitte zuerst einen Ort suchen.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const radiusInput =
+                document.querySelector(
+                    'input[name="radius"]:checked'
+                );
+
+
+            const radius =
+                Number(
+                    radiusInput?.value ||
+                    5000
+                );
+
+
+            const radiusKm =
+                radius /
+                1000;
+
+
+            skateSearchButton.disabled =
+                true;
+
+
+            setStatus(
+                `Skateparks im Umkreis von ${radiusKm} km werden gesucht …`,
+                "active"
+            );
+
+
             try {
-
-                const center =
-                    map.getCenter();
-
 
                 const parks =
                     await findSkateparksAround(
 
-                        center.lat,
-                        center.lng,
+                        currentLocation.lat,
+                        currentLocation.lng,
 
-                        SEARCH_RADIUS_METERS
+                        radius
 
                     );
+
+
+                /*
+                 * Nach Relevanz / Größe sortiert.
+                 */
+
+                parks.sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        b.score -
+                        a.score
+                );
 
 
                 currentParks =
                     parks;
 
 
+                /*
+                 * Nur Top-Parks darstellen.
+                 */
+
+                const visibleParks =
+                    parks.slice(
+                        0,
+                        MAX_VISIBLE_PARKS
+                    );
+
+
                 showParks(
-                    parks
+                    visibleParks
                 );
 
 
+                /*
+                 * Ergebnisliste nach Entfernung.
+                 *
+                 * Wenn zwei Parks ähnlich weit entfernt
+                 * sind, gewinnt der größere/relevantere.
+                 */
+
                 const resultItems =
-                    parks
+                    visibleParks
                         .map(
                             park => ({
 
@@ -3065,8 +4415,8 @@
                                 distance:
                                     haversineKm(
 
-                                        center.lat,
-                                        center.lng,
+                                        currentLocation.lat,
+                                        currentLocation.lng,
 
                                         park.lat,
                                         park.lng
@@ -3079,31 +4429,151 @@
                             (
                                 a,
                                 b
-                            ) =>
-                                a.distance -
-                                b.distance
+                            ) => {
+
+                                const distanceDifference =
+                                    a.distance -
+                                    b.distance;
+
+
+                                /*
+                                 * Entfernung ist primär.
+                                 * Bei nahezu gleicher Entfernung
+                                 * gewinnt der Score.
+                                 */
+
+                                if (
+                                    Math.abs(
+                                        distanceDifference
+                                    ) < 2
+                                ) {
+
+                                    return (
+                                        b.park.score -
+                                        a.park.score
+                                    );
+
+                                }
+
+
+                                return distanceDifference;
+
+                            }
                         );
 
 
                 showResults(
+
                     resultItems,
-                    "SKATEPARKS IN DER UMGEBUNG"
-                );
 
-
-                setStatus(
+                    `SKATEPARKS IM RADIUS ${radiusKm} KM`,
 
                     parks.length
 
-                        ? `${parks.length} Skatepark(s) gefunden.`
-
-                        : "Keine passenden Skateparks gefunden.",
-
-                    parks.length
-                        ? "active"
-                        : ""
-
                 );
+
+
+                /*
+                 * Karte auf Suchradius + Ort.
+                 */
+
+                const circle =
+                    L.circle(
+
+                        [
+                            currentLocation.lat,
+                            currentLocation.lng
+                        ],
+
+                        {
+
+                            radius,
+
+                            color:
+                                "#168cff",
+
+                            weight:
+                                1,
+
+                            opacity:
+                                0.35,
+
+                            fillOpacity:
+                                0.04,
+
+                            interactive:
+                                false
+
+                        }
+
+                    );
+
+
+                /*
+                 * Alten Suchkreis entfernen.
+                 */
+
+                if (
+                    window.moiCySearchCircle
+                ) {
+
+                    map.removeLayer(
+                        window.moiCySearchCircle
+                    );
+
+                }
+
+
+                window.moiCySearchCircle =
+                    circle;
+
+
+                circle.addTo(
+                    map
+                );
+
+
+                /*
+                 * Kreis in die Karte einpassen,
+                 * aber nicht zu weit herauszoomen.
+                 */
+
+                map.fitBounds(
+                    circle.getBounds(),
+                    {
+
+                        padding:
+                            [80, 80],
+
+                        maxZoom:
+                            13
+
+                    }
+                );
+
+
+                if (parks.length) {
+
+                    setStatus(
+
+                        parks.length >
+                        MAX_VISIBLE_PARKS
+
+                            ? `${parks.length} Skateparks gefunden. Die ${MAX_VISIBLE_PARKS} relevantesten werden angezeigt.`
+
+                            : `${parks.length} Skatepark(s) gefunden.`,
+
+                        "active"
+
+                    );
+
+                } else {
+
+                    setStatus(
+                        "Keine passenden Skateparks in diesem Radius gefunden."
+                    );
+
+                }
 
             } catch (error) {
 
@@ -3116,6 +4586,11 @@
                     "Die Skatepark-Suche konnte nicht durchgeführt werden.",
                     "error"
                 );
+
+            } finally {
+
+                skateSearchButton.disabled =
+                    false;
 
             }
 
@@ -3151,14 +4626,14 @@
             }
 
 
+            routeButton.disabled =
+                true;
+
+
             setStatus(
                 "Start und Ziel werden gesucht …",
                 "active"
             );
-
-
-            results.hidden =
-                true;
 
 
             try {
@@ -3182,9 +4657,8 @@
 
 
                 /*
-                 * Nominatim ist öffentlich und limitiert.
-                 * Deshalb mindestens eine Sekunde Abstand
-                 * zwischen zwei nicht gecachten Anfragen.
+                 * Nominatim nicht direkt zweimal hintereinander
+                 * bombardieren.
                  */
 
                 await wait(
@@ -3263,8 +4737,29 @@
                     data.routes[0];
 
 
+                /*
+                 * Skateparks bewusst entfernen.
+                 */
+
+                clearParks();
+
+                currentParks =
+                    [];
+
+
+                results.innerHTML =
+                    "";
+
+                results.hidden =
+                    true;
+
+
                 removeRoute();
 
+
+                /*
+                 * Route zeichnen.
+                 */
 
                 routeLayer =
                     L.geoJSON(
@@ -3357,109 +4852,17 @@
                     );
 
 
-                setStatus(
-                    "Skateparks entlang der Route werden gesucht …",
-                    "active"
-                );
-
-
-                /*
-                 * Skateparks rund um Start und Ziel
-                 * plus entlang der Route.
-                 *
-                 * Wir suchen mehrere Punkte entlang der Route,
-                 * damit nicht nur die Gegend um Start/Ziel
-                 * berücksichtigt wird.
-                 */
-
-                const routeCoordinates =
-                    route.geometry.coordinates;
-
-
-                const routeSearchPoints =
-                    createRouteSearchPoints(
-                        routeCoordinates
-                    );
-
-
-                const routeParks =
-                    await findParksAlongRoute(
-                        routeSearchPoints
-                    );
-
-
-                currentParks =
-                    routeParks;
-
-
-                showParks(
-                    routeParks
-                );
-
-
-                const routeBounds =
-                    routeLayer.getBounds();
-
-
-                routeParks.forEach(
-                    park => {
-
-                        routeBounds.extend(
-
-                            [
-                                park.lat,
-                                park.lng
-                            ]
-
-                        );
-
-                    }
-                );
-
-
                 map.fitBounds(
 
-                    routeBounds,
+                    routeLayer.getBounds(),
 
                     {
+
                         padding:
                             [80, 80]
+
                     }
 
-                );
-
-
-                const resultItems =
-                    routeParks
-                        .map(
-                            park => ({
-
-                                park,
-
-                                distance:
-                                    parkDistanceToRouteKm(
-
-                                        park,
-
-                                        routeCoordinates
-
-                                    )
-
-                            })
-                        )
-                        .sort(
-                            (
-                                a,
-                                b
-                            ) =>
-                                a.distance -
-                                b.distance
-                        );
-
-
-                showResults(
-                    resultItems,
-                    "SKATEPARKS AN DER ROUTE"
                 );
 
 
@@ -3471,17 +4874,28 @@
                     .toFixed(1);
 
 
+                const durationMinutes =
+                    Math.round(
+                        route.duration /
+                        60
+                    );
+
+
+                const durationText =
+                    durationMinutes >= 60
+
+                        ? `${Math.floor(
+                            durationMinutes / 60
+                        )} h ${durationMinutes % 60} min`
+
+                        : `${durationMinutes} min`;
+
+
                 setStatus(
 
-                    routeParks.length
+                    `Route: ${distanceKm} km · ca. ${durationText}`,
 
-                        ? `${routeParks.length} Skatepark(s) an der Route gefunden. Route: ${distanceKm} km.`
-
-                        : `Keine passenden Skateparks an der Route gefunden. Route: ${distanceKm} km.`,
-
-                    routeParks.length
-                        ? "active"
-                        : ""
+                    "active"
 
                 );
 
@@ -3497,446 +4911,12 @@
                     "error"
                 );
 
-            }
+            } finally {
 
-        }
-
-
-        /* =====================================================
-           ROUTEN-SUCHPUNKTE
-        ===================================================== */
-
-        function createRouteSearchPoints(
-            coordinates
-        ) {
-
-            const points =
-                [];
-
-
-            if (
-                !coordinates ||
-                coordinates.length < 2
-            ) {
-
-                return points;
+                routeButton.disabled =
+                    false;
 
             }
-
-
-            /*
-             * Wir nehmen Start und Ende
-             * und verteilen weitere Suchpunkte
-             * entlang der Route.
-             *
-             * Keine Begrenzung der Anzahl
-             * gefundener Skateparks.
-             */
-
-            const step =
-                Math.max(
-                    1,
-                    Math.floor(
-                        coordinates.length /
-                        12
-                    )
-                );
-
-
-            for (
-                let i = 0;
-                i < coordinates.length;
-                i += step
-            ) {
-
-                const point =
-                    coordinates[i];
-
-
-                points.push({
-
-                    lat:
-                        point[1],
-
-                    lng:
-                        point[0]
-
-                });
-
-            }
-
-
-            const last =
-                coordinates[
-                    coordinates.length - 1
-                ];
-
-
-            points.push({
-
-                lat:
-                    last[1],
-
-                lng:
-                    last[0]
-
-            });
-
-
-            /*
-             * Dubletten der Suchpunkte entfernen.
-             */
-
-            const unique =
-                [];
-
-
-            const seen =
-                new Set();
-
-
-            for (
-                const point
-                of points
-            ) {
-
-                const key =
-                    `${point.lat.toFixed(3)}|${point.lng.toFixed(3)}`;
-
-
-                if (
-                    seen.has(key)
-                ) {
-
-                    continue;
-
-                }
-
-
-                seen.add(key);
-
-                unique.push(
-                    point
-                );
-
-            }
-
-
-            return unique;
-
-        }
-
-
-        /* =====================================================
-           SKATEPARKS ENTLANG ROUTE
-        ===================================================== */
-
-        async function findParksAlongRoute(
-            searchPoints
-        ) {
-
-            const allParks =
-                [];
-
-
-            /*
-             * Wir machen die Anfragen bewusst
-             * nacheinander.
-             *
-             * Dadurch vermeiden wir eine riesige
-             * parallele Belastung des Overpass-Dienstes.
-             */
-
-            for (
-                const point
-                of searchPoints
-            ) {
-
-                try {
-
-                    const parks =
-                        await findSkateparksAround(
-
-                            point.lat,
-                            point.lng,
-
-                            ROUTE_RADIUS_METERS
-
-                        );
-
-
-                    allParks.push(
-                        ...parks
-                    );
-
-
-                    /*
-                     * Kleine Pause zwischen Overpass-Anfragen.
-                     */
-
-                    await wait(
-                        250
-                    );
-
-                } catch (error) {
-
-                    console.warn(
-                        "Route-Skateparks konnten an einem Punkt nicht geladen werden.",
-                        error
-                    );
-
-                }
-
-            }
-
-
-            /*
-             * Alle gefundenen Parks zusammenführen.
-             */
-
-            const unique =
-                [];
-
-
-            const seen =
-                new Set();
-
-
-            for (
-                const park
-                of allParks
-            ) {
-
-                const key =
-                    `${park.lat.toFixed(5)}|${park.lng.toFixed(5)}`;
-
-
-                if (
-                    seen.has(key)
-                ) {
-
-                    continue;
-
-                }
-
-
-                seen.add(key);
-
-
-                unique.push(
-                    park
-                );
-
-            }
-
-
-            return unique;
-
-        }
-
-
-        /* =====================================================
-           DISTANZ ZUR ROUTE
-        ===================================================== */
-
-        function pointToSegmentKm(
-            point,
-            start,
-            end
-        ) {
-
-            const latRad =
-                point.lat *
-                Math.PI /
-                180;
-
-
-            const factor =
-                Math.cos(
-                    latRad
-                );
-
-
-            const px =
-                point.lng *
-                factor;
-
-
-            const py =
-                point.lat;
-
-
-            const ax =
-                start.lng *
-                factor;
-
-
-            const ay =
-                start.lat;
-
-
-            const bx =
-                end.lng *
-                factor;
-
-
-            const by =
-                end.lat;
-
-
-            const dx =
-                bx - ax;
-
-
-            const dy =
-                by - ay;
-
-
-            if (
-                dx === 0 &&
-                dy === 0
-            ) {
-
-                return haversineKm(
-
-                    point.lat,
-                    point.lng,
-
-                    start.lat,
-                    start.lng
-
-                );
-
-            }
-
-
-            const t =
-
-                Math.max(
-
-                    0,
-
-                    Math.min(
-
-                        1,
-
-                        (
-
-                            (px - ax) *
-                            dx
-
-                            +
-
-                            (py - ay) *
-                            dy
-
-                        )
-
-                        /
-
-                        (
-
-                            dx * dx +
-                            dy * dy
-
-                        )
-
-                    )
-
-                );
-
-
-            const closestLat =
-                ay +
-                t * dy;
-
-
-            const closestLng =
-                (
-                    ax +
-                    t * dx
-                ) /
-                factor;
-
-
-            return haversineKm(
-
-                point.lat,
-                point.lng,
-
-                closestLat,
-                closestLng
-
-            );
-
-        }
-
-
-        function parkDistanceToRouteKm(
-            park,
-            coordinates
-        ) {
-
-            let minimum =
-                Infinity;
-
-
-            for (
-                let i = 0;
-                i <
-                coordinates.length - 1;
-                i++
-            ) {
-
-                const start = {
-
-                    lat:
-                        coordinates[i][1],
-
-                    lng:
-                        coordinates[i][0]
-
-                };
-
-
-                const end = {
-
-                    lat:
-                        coordinates[i + 1][1],
-
-                    lng:
-                        coordinates[i + 1][0]
-
-                };
-
-
-                const distance =
-                    pointToSegmentKm(
-
-                        {
-                            lat:
-                                park.lat,
-
-                            lng:
-                                park.lng
-                        },
-
-                        start,
-                        end
-
-                    );
-
-
-                minimum =
-                    Math.min(
-                        minimum,
-                        distance
-                    );
-
-            }
-
-
-            return minimum;
 
         }
 
@@ -3986,6 +4966,28 @@
 
 
         /* =====================================================
+           SUCHKREIS ENTFERNEN
+        ===================================================== */
+
+        function removeSearchCircle() {
+
+            if (
+                window.moiCySearchCircle
+            ) {
+
+                map.removeLayer(
+                    window.moiCySearchCircle
+                );
+
+                window.moiCySearchCircle =
+                    null;
+
+            }
+
+        }
+
+
+        /* =====================================================
            ZURÜCKSETZEN
         ===================================================== */
 
@@ -3995,9 +4997,18 @@
 
             removeRoute();
 
+            removeSearchCircle();
+
 
             currentParks =
                 [];
+
+            currentLocation =
+                null;
+
+
+            activeMode =
+                null;
 
 
             searchInput.value =
@@ -4012,12 +5023,34 @@
                 "";
 
 
+            locationCard.hidden =
+                true;
+
+
             results.innerHTML =
                 "";
 
-
             results.hidden =
                 true;
+
+
+            routeBox.classList.remove(
+                "active"
+            );
+
+
+            skateOptions.hidden =
+                true;
+
+
+            routeModeButton.classList.add(
+                "secondary"
+            );
+
+
+            skateModeButton.classList.remove(
+                "secondary"
+            );
 
 
             map.setView(
@@ -4033,7 +5066,7 @@
 
 
             setStatus(
-                "Suche nach einer Stadt oder starte eine Route."
+                "Suche einen Ort, plane eine Route oder suche Skateparks."
             );
 
         }
@@ -4120,9 +5153,21 @@
         );
 
 
-        allParksButton.addEventListener(
+        routeModeButton.addEventListener(
             "click",
-            showParksHere
+            activateRouteMode
+        );
+
+
+        skateModeButton.addEventListener(
+            "click",
+            activateSkateMode
+        );
+
+
+        skateSearchButton.addEventListener(
+            "click",
+            searchSkateparks
         );
 
 
@@ -4201,7 +5246,7 @@
 
     <!-- =====================================================
          DEIN BESTEHENDES SCRIPT
-    ===================================================== -->
+    ====================================================== -->
 
     <script
         type="module"
