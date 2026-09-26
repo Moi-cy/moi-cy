@@ -2,16 +2,9 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>MOI-CY – Karte</title>
-
-  <!-- =========================================================
-       LEAFLET
-  ========================================================== -->
 
   <link
     rel="stylesheet"
@@ -19,11 +12,17 @@
     crossorigin=""
   >
 
-  <!-- =========================================================
-       STYLES
-  ========================================================== -->
-
   <style>
+    :root {
+      --bg: #111;
+      --panel: rgba(15, 15, 15, 0.96);
+      --panel-soft: #1c1c1c;
+      --line: #333;
+      --text: #fff;
+      --muted: #aaa;
+      --accent: #fff;
+      --danger: #ff5c5c;
+    }
 
     * {
       box-sizing: border-box;
@@ -35,5770 +34,3202 @@
       height: 100%;
       margin: 0;
       padding: 0;
-
       overflow: hidden;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
       background: #111;
+      font-family: Arial, Helvetica, sans-serif;
     }
-
-
-    /* =========================================================
-       HEADER
-    ========================================================== */
-
-    .site-header {
-
-      height: 58px;
-
-      display: flex;
-      align-items: center;
-
-      padding: 0 20px;
-
-      background: #111;
-      color: #fff;
-
-      position: relative;
-
-      z-index: 5000;
-    }
-
-
-    .site-header a {
-
-      color: #fff;
-
-      text-decoration: none;
-
-      font-size: 21px;
-      font-weight: 800;
-
-      letter-spacing: 1px;
-    }
-
-
-    /* =========================================================
-       MAP WRAPPER
-    ========================================================== */
-
-    #map-wrapper {
-
-      position: relative;
-
-      width: 100%;
-      height: calc(100vh - 58px);
-
-      overflow: hidden;
-
-      background: #111;
-    }
-
 
     #map {
-
-      position: absolute;
-
+      position: fixed;
       inset: 0;
-
-      width: 100%;
-      height: 100%;
-
       z-index: 1;
-    }
-
-
-    /* =========================================================
-       3D GLOBUS
-    ========================================================== */
-
-    #globe {
-
-      position: absolute;
-
-      inset: 0;
-
-      width: 100%;
-      height: 100%;
-
-      background: #000;
-
-      z-index: 2;
-
-      display: none;
-    }
-
-
-    #globe.active {
-      display: block;
-    }
-
-
-    /* =========================================================
-       MAP TYPE SWITCH
-    ========================================================== */
-
-    .map-type-control {
-
-      position: absolute;
-
-      top: 15px;
-      right: 15px;
-
-      display: flex;
-
-      padding: 4px;
-
-      background:
-        rgba(255, 255, 255, 0.96);
-
-      border-radius: 11px;
-
-      box-shadow:
-        0 4px 18px rgba(0, 0, 0, 0.22);
-
-      z-index: 4000;
-    }
-
-
-    .map-type-button {
-
-      height: 36px;
-
-      padding: 0 12px;
-
-      border: 0;
-
-      border-radius: 8px;
-
-      background: transparent;
-
-      color: #222;
-
-      font-size: 11px;
-      font-weight: 800;
-
-      cursor: pointer;
-    }
-
-
-    .map-type-button.active {
-
-      background: #111;
-
-      color: #fff;
-    }
-
-
-    /* =========================================================
-       GLOBUS HINWEIS
-    ========================================================== */
-
-    .globe-hint {
-
-      position: absolute;
-
-      left: 50%;
-
-      bottom: 18px;
-
-      transform:
-        translateX(-50%);
-
-      padding: 8px 12px;
-
-      border-radius: 20px;
-
-      background:
-        rgba(0, 0, 0, 0.65);
-
-      color: #fff;
-
-      font-size: 11px;
-
-      pointer-events: none;
-
-      z-index: 3000;
-
-      display: none;
-    }
-
-
-    .globe-hint.visible {
-      display: block;
-    }
-
-
-    /* =========================================================
-       PANEL
-    ========================================================== */
-
-    .map-panel {
-
-      position: absolute;
-
-      top: 15px;
-      left: 15px;
-
-      width:
-        min(
-          430px,
-          calc(100vw - 30px)
-        );
-
-      max-height:
-        calc(100% - 30px);
-
-      overflow-y: auto;
-
-      padding: 17px;
-
-      background:
-        rgba(255, 255, 255, 0.97);
-
-      border-radius: 15px;
-
-      box-shadow:
-        0 8px 30px
-        rgba(0, 0, 0, 0.20);
-
-      z-index: 4000;
-    }
-
-
-    .map-panel::-webkit-scrollbar {
-      width: 6px;
-    }
-
-
-    .map-panel::-webkit-scrollbar-thumb {
-
-      background: #bbb;
-
-      border-radius: 10px;
-    }
-
-
-    .panel-title {
-
-      margin: 0 0 4px;
-
-      font-size: 23px;
-
-      line-height: 1.1;
-
-      font-weight: 800;
-    }
-
-
-    .panel-description {
-
-      margin: 0 0 15px;
-
-      color: #666;
-
-      font-size: 13px;
-
-      line-height: 1.4;
-    }
-
-
-    /* =========================================================
-       SEARCH
-    ========================================================== */
-
-    .search-row {
-
-      display: flex;
-
-      gap: 7px;
-
-      flex-wrap: wrap;
-    }
-
-
-    .search-input {
-
-      min-width: 0;
-
-      flex: 1;
-
-      height: 43px;
-
-      padding:
-        0 12px;
-
-      border:
-        1px solid #ccc;
-
-      border-radius: 10px;
-
-      background: #fff;
-
-      outline: none;
-
-      font-size: 14px;
-    }
-
-
-    .search-input:focus {
-
-      border-color: #111;
-    }
-
-
-    .button {
-
-      height: 43px;
-
-      padding:
-        0 14px;
-
-      border: 0;
-
-      border-radius: 10px;
-
-      background: #111;
-
-      color: #fff;
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      cursor: pointer;
-
-      white-space: nowrap;
-    }
-
-
-    .button:hover {
-
-      background: #333;
-    }
-
-
-    .button:disabled {
-
-      opacity: 0.45;
-
-      cursor: not-allowed;
-    }
-
-
-    .button-light {
-
-      width: 100%;
-
-      height: 40px;
-
-      padding:
-        0 10px;
-
-      border:
-        1px solid #ccc;
-
-      border-radius: 9px;
-
-      background: #fff;
-
-      color: #111;
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      cursor: pointer;
-    }
-
-
-    .button-light:hover {
-
-      background: #f2f2f2;
-    }
-
-
-    .search-hint {
-
-      margin:
-        7px 2px 0;
-
-      color: #777;
-
-      font-size: 11px;
-
-      line-height: 1.4;
-    }
-
-
-    /* =========================================================
-       SECTION
-    ========================================================== */
-
-    .section {
-
-      margin-top: 16px;
-
-      padding-top: 15px;
-
-      border-top:
-        1px solid #e5e5e5;
-    }
-
-
-    .section-title {
-
-      margin:
-        0 0 5px;
-
-      font-size: 15px;
-
-      font-weight: 800;
-    }
-
-
-    .section-description {
-
-      margin:
-        0 0 10px;
-
-      color: #666;
-
-      font-size: 12px;
-
-      line-height: 1.4;
-    }
-
-
-    /* =========================================================
-       ROUTE
-    ========================================================== */
-
-    .route-stops {
-
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 7px;
-
-      margin-bottom: 8px;
-    }
-
-
-    .route-stop {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 7px;
-    }
-
-
-    .stop-number {
-
-      width: 25px;
-      height: 25px;
-
-      flex:
-        0 0 25px;
-
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 50%;
-
-      background: #111;
-
-      color: #fff;
-
-      font-size: 11px;
-
-      font-weight: 800;
-    }
-
-
-    .route-stop input {
-
-      min-width: 0;
-
-      width: 100%;
-
-      height: 37px;
-
-      padding:
-        0 10px;
-
-      border:
-        1px solid #ccc;
-
-      border-radius: 9px;
-
-      outline: none;
-
-      font-size: 12px;
-    }
-
-
-    .route-stop input:focus {
-
-      border-color: #111;
-    }
-
-
-    .remove-stop {
-
-      width: 28px;
-      height: 28px;
-
-      flex:
-        0 0 28px;
-
-      border: 0;
-
-      border-radius: 7px;
-
-      background: #eee;
-
-      color: #444;
-
-      cursor: pointer;
-    }
-
-
-    .remove-stop:hover {
-
       background: #ddd;
     }
 
+    #globe {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      background: #05070a;
+    }
 
-    .add-stop {
+    #globe canvas {
+      display: block;
+    }
 
-      margin:
-        0 0 9px;
+    /* -----------------------------------------
+       SEARCH PANEL
+    ----------------------------------------- */
 
-      padding: 0;
+    #controlPanel {
+      position: fixed;
+      z-index: 1000;
+      top: 18px;
+      left: 18px;
+      width: min(390px, calc(100vw - 36px));
+      max-height: calc(100vh - 36px);
+      overflow-y: auto;
 
-      border: 0;
+      padding: 16px;
+      border-radius: 16px;
 
-      background: transparent;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 
-      color: #111;
+      transition:
+        transform 0.25s ease,
+        opacity 0.25s ease;
+    }
 
-      font-size: 12px;
+    #controlPanel.hidden {
+      transform: translateX(calc(-100% - 30px));
+      opacity: 0;
+      pointer-events: none;
+    }
 
+    .panelHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .panelTitle {
+      font-size: 18px;
       font-weight: 800;
+      letter-spacing: 0.05em;
+    }
 
+    .closePanel {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 9px;
+      background: #292929;
+      color: #fff;
+      font-size: 20px;
       cursor: pointer;
     }
 
-
-    .add-stop:hover {
-
-      text-decoration: underline;
+    .closePanel:hover {
+      background: #3a3a3a;
     }
 
+    .section {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
 
-    .route-buttons {
+    .sectionTitle {
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: #ddd;
+      text-transform: uppercase;
+    }
 
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid #3a3a3a;
+      border-radius: 10px;
+      background: #202020;
+      color: #fff;
+      outline: none;
+      padding: 0 12px;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #777;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      min-height: 42px;
+      padding: 0 13px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .primaryButton {
+      width: 100%;
+      margin-top: 8px;
+      background: #fff;
+      color: #111;
+    }
+
+    .secondaryButton {
+      width: 100%;
+      margin-top: 8px;
+      background: #2b2b2b;
+      color: #fff;
+    }
+
+    .secondaryButton:hover {
+      background: #3a3a3a;
+    }
+
+    .dangerButton {
+      background: #342020;
+      color: #ffb0b0;
+    }
+
+    .searchRow {
       display: flex;
-
       gap: 7px;
     }
 
+    .searchRow input {
+      flex: 1;
+      min-width: 0;
+    }
 
-    .route-buttons button {
+    .searchRow button {
+      flex: 0 0 auto;
+      width: 48px;
+      background: #fff;
+      color: #111;
+      font-size: 18px;
+    }
 
+    /* -----------------------------------------
+       ROUTE
+    ----------------------------------------- */
+
+    #routeStops {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .routeStop {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .routeStop input {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .removeStop {
+      width: 38px;
+      min-height: 42px;
+      padding: 0;
+      background: #292929;
+      color: #aaa;
+    }
+
+    .removeStop:hover {
+      background: #3a3a3a;
+      color: #fff;
+    }
+
+    #addStopButton {
+      width: 100%;
+      margin-top: 8px;
+      background: #242424;
+      color: #fff;
+      border: 1px dashed #555;
+    }
+
+    #addStopButton:hover {
+      background: #303030;
+    }
+
+    .routeButtons {
+      display: flex;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .routeButtons button {
       flex: 1;
     }
 
+    /* -----------------------------------------
+       SKATEPARKS
+    ----------------------------------------- */
 
-    /* =========================================================
-       PARKS
-    ========================================================== */
-
-    .park-controls {
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 7px;
+    .radiusRow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
+    .radiusRow select {
+      flex: 1;
+    }
 
-    .radius-select {
-
-      width: 100%;
-
-      height: 40px;
-
-      padding:
-        0 9px;
-
-      border:
-        1px solid #ccc;
-
-      border-radius: 9px;
-
+    .parkSearchButton {
+      flex: 1;
       background: #fff;
-
-      font-size: 12px;
+      color: #111;
     }
 
-
-    /* =========================================================
-       STATUS
-    ========================================================== */
-
-    .status {
-
-      display: none;
-
+    #status {
       margin-top: 12px;
-
-      padding:
-        9px 11px;
-
-      border-radius: 9px;
-
-      background: #f3f3f3;
-
-      color: #555;
-
-      font-size: 12px;
-
+      padding: 10px 11px;
+      border-radius: 10px;
+      background: #1b1b1b;
+      color: var(--muted);
+      font-size: 13px;
       line-height: 1.4;
     }
 
-
-    .status.visible {
-      display: block;
+    #status.error {
+      color: #ffadad;
+      background: #2c1717;
     }
 
-
-    .status.success {
-
-      background: #eef8ef;
-
-      color: #245d28;
+    #status.success {
+      color: #c9ffc9;
+      background: #172817;
     }
 
-
-    .status.error {
-
-      background: #fff0f0;
-
-      color: #a00000;
+    #results {
+      margin-top: 10px;
     }
 
-
-    .spinner {
-
-      display: inline-block;
-
-      width: 12px;
-      height: 12px;
-
-      margin-right: 5px;
-
-      vertical-align: -2px;
-
-      border:
-        2px solid #ccc;
-
-      border-top-color:
-        #111;
-
-      border-radius: 50%;
-
-      animation:
-        spin 0.7s linear infinite;
-    }
-
-
-    @keyframes spin {
-
-      to {
-        transform:
-          rotate(360deg);
-      }
-
-    }
-
-
-    /* =========================================================
-       RESULTS
-    ========================================================== */
-
-    .results {
-
-      display: none;
-
-      margin-top: 15px;
-    }
-
-
-    .results.visible {
-      display: block;
-    }
-
-
-    .results-header {
-
+    .resultsHeader {
       display: flex;
-
-      align-items: center;
-
       justify-content: space-between;
-
-      margin-bottom: 8px;
+      align-items: center;
+      margin-bottom: 7px;
+      font-size: 12px;
+      color: #aaa;
     }
 
-
-    .results-title {
-
-      font-size: 14px;
-
-      font-weight: 800;
-    }
-
-
-    .results-count {
-
-      color: #777;
-
-      font-size: 11px;
-    }
-
-
-    .result-list {
-
-      display: flex;
-
-      flex-direction: column;
-
-      gap: 6px;
-    }
-
-
-    .result-item {
-
-      padding: 10px;
-
-      border:
-        1px solid #e1e1e1;
-
-      border-radius: 9px;
-
-      background: #fff;
-
+    .parkResult {
+      padding: 11px;
+      margin-bottom: 7px;
+      border: 1px solid #303030;
+      border-radius: 10px;
+      background: #1b1b1b;
       cursor: pointer;
     }
 
-
-    .result-item:hover {
-
-      background: #f7f7f7;
-
-      border-color: #bbb;
+    .parkResult:hover {
+      background: #252525;
     }
 
-
-    .result-name {
-
-      margin-bottom: 3px;
-
-      font-size: 13px;
-
+    .parkName {
       font-weight: 800;
+      margin-bottom: 5px;
     }
 
-
-    .result-meta {
-
-      color: #666;
-
-      font-size: 11px;
-
-      line-height: 1.4;
-    }
-
-
-    /* =========================================================
-       POPUP
-    ========================================================== */
-
-    .park-popup {
-
-      min-width: 205px;
-    }
-
-
-    .park-popup-title {
-
-      margin-bottom: 7px;
-
-      font-size: 15px;
-
-      font-weight: 800;
-    }
-
-
-    .park-popup-row {
-
-      margin:
-        3px 0;
-
-      color: #555;
-
+    .parkMeta {
+      color: #aaa;
       font-size: 12px;
+      line-height: 1.5;
     }
 
-
-    .park-popup-label {
-
-      color: #222;
-
-      font-weight: 700;
+    .emptyResults {
+      color: #888;
+      font-size: 13px;
+      padding: 8px 2px;
     }
 
+    /* -----------------------------------------
+       PANEL OPEN BUTTON
+    ----------------------------------------- */
 
-    /* =========================================================
-       MOBILE
-    ========================================================== */
+    #openPanelButton {
+      position: fixed;
+      z-index: 1100;
+      top: 18px;
+      left: 18px;
 
-    @media (max-width: 700px) {
+      width: 44px;
+      height: 44px;
 
-      .site-header {
+      border-radius: 12px;
+      background: rgba(15, 15, 15, 0.95);
+      color: #fff;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 
-        height: 54px;
-      }
+      display: none;
+      align-items: center;
+      justify-content: center;
 
+      font-size: 20px;
+    }
 
-      #map-wrapper {
+    #openPanelButton.visible {
+      display: flex;
+    }
 
-        height:
-          calc(100vh - 54px);
-      }
+    /* -----------------------------------------
+       MAP VIEW SWITCH
+    ----------------------------------------- */
 
+    #mapModeControl {
+      position: fixed;
+      z-index: 1000;
+      right: 18px;
+      top: 18px;
 
-      .map-panel {
+      display: flex;
+      gap: 5px;
 
+      padding: 5px;
+      border-radius: 12px;
+      background: rgba(15, 15, 15, 0.94);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    #mapModeControl button {
+      min-height: 36px;
+      padding: 0 11px;
+      border-radius: 8px;
+      background: transparent;
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    #mapModeControl button.active {
+      background: #fff;
+      color: #111;
+    }
+
+    /* -----------------------------------------
+       LEAFLET ZOOM
+       Traditional: bottom right
+    ----------------------------------------- */
+
+    .leaflet-top.leaflet-left {
+      display: none;
+    }
+
+    .leaflet-bottom.leaflet-right {
+      z-index: 1000;
+    }
+
+    .leaflet-control-zoom {
+      margin-right: 18px !important;
+      margin-bottom: 18px !important;
+      border: 0 !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .leaflet-control-zoom a {
+      width: 42px !important;
+      height: 42px !important;
+      line-height: 42px !important;
+      background: rgba(15, 15, 15, 0.95) !important;
+      color: #fff !important;
+      border: 0 !important;
+    }
+
+    .leaflet-control-zoom a:first-child {
+      border-radius: 10px 10px 0 0 !important;
+      border-bottom: 1px solid #333 !important;
+    }
+
+    .leaflet-control-zoom a:last-child {
+      border-radius: 0 0 10px 10px !important;
+    }
+
+    /* -----------------------------------------
+       LEAFLET POPUPS
+    ----------------------------------------- */
+
+    .leaflet-popup-content-wrapper,
+    .leaflet-popup-tip {
+      background: #171717;
+      color: #fff;
+    }
+
+    .leaflet-popup-content {
+      margin: 12px 14px;
+      line-height: 1.45;
+    }
+
+    .popupTitle {
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .popupMeta {
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    /* -----------------------------------------
+       RESPONSIVE
+    ----------------------------------------- */
+
+    @media (max-width: 600px) {
+      #controlPanel {
         top: 10px;
-        left: 9px;
-
-        width:
-          calc(100vw - 18px);
-
-        max-height:
-          calc(100% - 19px);
-
-        padding: 14px;
+        left: 10px;
+        width: calc(100vw - 20px);
+        max-height: calc(100vh - 20px);
       }
 
-
-      .panel-title {
-
-        font-size: 20px;
-      }
-
-
-      .search-input {
-
-        flex-basis: 100%;
-      }
-
-
-      .search-row .button {
-
-        flex: 1;
-      }
-
-
-      .park-controls {
-
-        grid-template-columns:
-          1fr;
-      }
-
-
-      .map-type-control {
-
+      #mapModeControl {
         top: 10px;
         right: 10px;
       }
 
-    }
+      #openPanelButton {
+        top: 10px;
+        left: 10px;
+      }
 
+      .leaflet-control-zoom {
+        margin-right: 10px !important;
+        margin-bottom: 10px !important;
+      }
+    }
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- =========================================================
-       HEADER
-  ========================================================== -->
-
-  <header class="site-header">
-
-    <a href="index.html">
-      MOI-CY
-    </a>
-
-  </header>
-
-
-  <!-- =========================================================
-       MAP WRAPPER
-  ========================================================== -->
-
-  <div id="map-wrapper">
-
-    <!-- FLACHE KARTE -->
-    <div id="map"></div>
-
-    <!-- 3D GLOBUS -->
-    <div id="globe"></div>
-
-
-    <!-- =======================================================
-         MAP TYPE SWITCH
-    ======================================================== -->
-
-    <div class="map-type-control">
-
-      <button
-        id="mapModeButton"
-        class="map-type-button active"
-        type="button"
-      >
-        🗺 Karte
-      </button>
-
-      <button
-        id="satelliteModeButton"
-        class="map-type-button"
-        type="button"
-      >
-        🛰 Satellit
-      </button>
-
-    </div>
-
-
-    <div
-      id="globeHint"
-      class="globe-hint"
-    >
-      🌍 3D-Erde · Ziehen zum Drehen · Scrollen zum Zoomen
-    </div>
-
-
-    <!-- =======================================================
-         CONTROL PANEL
-    ======================================================== -->
-
-    <aside class="map-panel">
-
-      <h1 class="panel-title">
-        Karte
-      </h1>
-
-      <p class="panel-description">
-        Suche Orte, plane Routen und finde Skateparks.
-        Skateparks werden nur geladen, wenn du danach suchst.
-      </p>
-
-
-      <!-- =====================================================
-           HAUPTSUCHE
-      ====================================================== -->
-
-      <div class="search-row">
-
-        <input
-          id="mainSearch"
-          class="search-input"
-          type="text"
-          autocomplete="off"
-          placeholder="Ort oder Route suchen..."
-        >
-
-        <button
-          id="searchButton"
-          class="button"
-          type="button"
-        >
-          SUCHEN
-        </button>
-
-        <button
-          id="routeSearchButton"
-          class="button"
-          type="button"
-        >
-          ROUTE
-        </button>
-
-      </div>
-
-
-      <div class="search-hint">
-        Ort:
-        <strong>Karlsruhe</strong>
-        · Route:
-        <strong>Karlsruhe → Stuttgart → München</strong>
-      </div>
-
-
-      <!-- =====================================================
-           ROUTE
-      ====================================================== -->
-
-      <section class="section">
-
-        <h2 class="section-title">
-          Route
-        </h2>
-
-        <p class="section-description">
-          Start, Ziel und beliebig viele Zwischenstopps.
-        </p>
-
-
-        <div
-          id="routeStops"
-          class="route-stops"
-        ></div>
-
-
-        <button
-          id="addStopButton"
-          class="add-stop"
-          type="button"
-        >
-          + Zwischenstopp hinzufügen
-        </button>
-
-
-        <div class="route-buttons">
-
-          <button
-            id="calculateRouteButton"
-            class="button-light"
-            type="button"
-          >
-            ROUTE BERECHNEN
-          </button>
-
-          <button
-            id="resetButton"
-            class="button-light"
-            type="button"
-          >
-            ZURÜCKSETZEN
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <!-- =====================================================
-           SKATEPARKS
-      ====================================================== -->
-
-      <section class="section">
-
-        <h2 class="section-title">
-          Skateparks
-        </h2>
-
-        <p class="section-description">
-          Nur gezielt suchen. Größere Parks werden bevorzugt
-          angezeigt und normale Spielplätze herausgefiltert.
-        </p>
-
-
-        <div class="park-controls">
-
-          <select
-            id="parkRadius"
-            class="radius-select"
-          >
-
-            <option value="5">
-              Radius: 5 km
-            </option>
-
-            <option
-              value="10"
-              selected
-            >
-              Radius: 10 km
-            </option>
-
-            <option value="25">
-              Radius: 25 km
-            </option>
-
-            <option value="50">
-              Radius: 50 km
-            </option>
-
-          </select>
-
-
-          <button
-            id="searchNearbyParksButton"
-            class="button-light"
-            type="button"
-          >
-            HIER SUCHEN
-          </button>
-
-        </div>
-
-
-        <div style="height:7px"></div>
-
-
-        <button
-          id="searchRouteParksButton"
-          class="button-light"
-          type="button"
-          disabled
-        >
-          SKATEPARKS ENTLANG DER ROUTE
-        </button>
-
-      </section>
-
-
-      <!-- =====================================================
-           STATUS
-      ====================================================== -->
-
-      <div
-        id="status"
-        class="status"
-      ></div>
-
-
-      <!-- =====================================================
-           ERGEBNISSE
-      ====================================================== -->
-
-      <section
-        id="results"
-        class="results"
-      >
-
-        <div class="results-header">
-
-          <div class="results-title">
-            Skateparks
-          </div>
-
-          <div
-            id="resultsCount"
-            class="results-count"
-          ></div>
-
-        </div>
-
-
-        <div
-          id="resultList"
-          class="result-list"
-        ></div>
-
-      </section>
-
-    </aside>
-
+  <!-- 2D MAP -->
+  <div id="map"></div>
+
+  <!-- 3D GLOBE -->
+  <div id="globe"></div>
+
+  <!-- MAP TYPE / GLOBE -->
+  <div id="mapModeControl">
+    <button id="mapModeButton" class="active" type="button">KARTE</button>
+    <button id="satelliteModeButton" type="button">SATELLIT</button>
+    <button id="globeModeButton" type="button">GLOBUS</button>
   </div>
 
+  <!-- OPEN PANEL -->
+  <button
+    id="openPanelButton"
+    type="button"
+    title="Suchfeld öffnen"
+    aria-label="Suchfeld öffnen"
+  >
+    ☰
+  </button>
 
-  <!-- =========================================================
-       LEAFLET
-  ========================================================== -->
+  <!-- CONTROL PANEL -->
+  <aside id="controlPanel">
 
+    <div class="panelHeader">
+      <div class="panelTitle">MOI-CY MAP</div>
+
+      <button
+        id="closePanelButton"
+        class="closePanel"
+        type="button"
+        title="Suchfeld einklappen"
+        aria-label="Suchfeld einklappen"
+      >
+        ×
+      </button>
+    </div>
+
+    <!-- SEARCH -->
+    <section>
+      <div class="sectionTitle">Ort oder Route</div>
+
+      <div class="searchRow">
+        <input
+          id="mainSearch"
+          type="text"
+          autocomplete="off"
+          placeholder="Ort oder z. B. Karlsruhe → Stuttgart"
+        >
+
+        <button
+          id="mainSearchButton"
+          type="button"
+          title="Suchen"
+        >
+          →
+        </button>
+      </div>
+    </section>
+
+    <!-- ROUTE -->
+    <section class="section">
+
+      <div class="sectionTitle">Route</div>
+
+      <div id="routeStops"></div>
+
+      <button
+        id="addStopButton"
+        type="button"
+      >
+        + Zwischenstopp hinzufügen
+      </button>
+
+      <div class="routeButtons">
+        <button
+          id="calculateRouteButton"
+          class="primaryButton"
+          type="button"
+        >
+          ROUTE BERECHNEN
+        </button>
+      </div>
+
+      <button
+        id="routeParksButton"
+        class="secondaryButton"
+        type="button"
+        disabled
+      >
+        SKATEPARKS ENTLANG DER ROUTE
+      </button>
+
+    </section>
+
+    <!-- SKATEPARKS -->
+    <section class="section">
+
+      <div class="sectionTitle">Skateparks</div>
+
+      <div class="radiusRow">
+
+        <select id="parkRadius">
+          <option value="5000">5 km</option>
+          <option value="10000" selected>10 km</option>
+          <option value="25000">25 km</option>
+          <option value="50000">50 km</option>
+        </select>
+
+        <button
+          id="searchParksButton"
+          class="parkSearchButton"
+          type="button"
+        >
+          HIER SUCHEN
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- STATUS -->
+    <div id="status">
+      Bereit.
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results"></div>
+
+  </aside>
+
+
+  <!-- LEAFLET -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     crossorigin=""
   ></script>
 
 
-  <!-- =========================================================
-       THREE.JS + GLOBE.GL
-  ========================================================== -->
+  <script>
+    (() => {
+      "use strict";
 
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+      /* =========================================================
+         CONFIG
+      ========================================================= */
 
-  <script src="https://unpkg.com/globe.gl"></script>
+      const DEFAULT_CENTER = [49.1, 8.4];
+      const DEFAULT_ZOOM = 6;
 
-
-  <!-- =========================================================
-       APPLICATION
-  ========================================================== -->
-
-  <script type="module">
-
-    /* =========================================================
-       KONFIGURATION
-    ========================================================== */
-
-    const DEFAULT_CENTER = [
-      49.1,
-      8.4
-    ];
-
-    const DEFAULT_ZOOM = 6;
-
-    const WORLD_BOUNDS =
-      L.latLngBounds(
-        [
-          -85.05112878,
-          -180
-        ],
-        [
-          85.05112878,
-          180
-        ]
+      const MAP_BOUNDS = L.latLngBounds(
+        [-85.05112878, -180],
+        [85.05112878, 180]
       );
 
-    const MAX_PARKS = 15;
+      const NOMINATIM_URL =
+        "https://nominatim.openstreetmap.org/search";
+
+      const PHOTON_URL =
+        "https://photon.komoot.io/api/";
+
+      const OSRM_URL =
+        "https://router.project-osrm.org/route/v1/driving/";
+
+      const OVERPASS_SERVERS = [
+        "https://overpass-api.de/api/interpreter",
+        "https://overpass.kumi.systems/api/interpreter"
+      ];
+
+      const SEARCH_TIMEOUT = 8000;
+      const ROUTE_TIMEOUT = 10000;
+
+      /*
+       * WICHTIG:
+       * Der komplette Skatepark-Vorgang darf niemals länger
+       * als diese Zeit laufen.
+       */
+      const PARK_TOTAL_TIMEOUT = 10000;
+
+      /* =========================================================
+         DOM
+      ========================================================= */
+
+      const mapElement =
+        document.getElementById("map");
+
+      const globeElement =
+        document.getElementById("globe");
+
+      const controlPanel =
+        document.getElementById("controlPanel");
+
+      const openPanelButton =
+        document.getElementById("openPanelButton");
+
+      const closePanelButton =
+        document.getElementById("closePanelButton");
+
+      const mainSearch =
+        document.getElementById("mainSearch");
+
+      const mainSearchButton =
+        document.getElementById("mainSearchButton");
+
+      const routeStopsElement =
+        document.getElementById("routeStops");
+
+      const addStopButton =
+        document.getElementById("addStopButton");
+
+      const calculateRouteButton =
+        document.getElementById("calculateRouteButton");
+
+      const routeParksButton =
+        document.getElementById("routeParksButton");
+
+      const parkRadius =
+        document.getElementById("parkRadius");
+
+      const searchParksButton =
+        document.getElementById("searchParksButton");
+
+      const statusElement =
+        document.getElementById("status");
+
+      const resultsElement =
+        document.getElementById("results");
+
+      const mapModeButton =
+        document.getElementById("mapModeButton");
+
+      const satelliteModeButton =
+        document.getElementById("satelliteModeButton");
+
+      const globeModeButton =
+        document.getElementById("globeModeButton");
 
 
-    /*
-     * Ab diesem Leaflet-Zoom wird automatisch der Globus
-     * eingeblendet.
-     *
-     * Bei Zoom 2 oder kleiner ist die Welt komplett sichtbar.
-     */
-    const GLOBE_ENTER_ZOOM = 2.15;
+      /* =========================================================
+         MAP
+      ========================================================= */
 
-    const GLOBE_EXIT_ZOOM = 2.75;
+      const map = L.map("map", {
+        center: DEFAULT_CENTER,
+        zoom: DEFAULT_ZOOM,
 
+        minZoom: 2,
+        maxZoom: 18,
 
-    /* =========================================================
-       MAP
-    ========================================================== */
+        maxBounds: MAP_BOUNDS,
+        maxBoundsViscosity: 1.0,
 
-    const map =
-      L.map(
-        "map",
-        {
+        worldCopyJump: false,
+        zoomControl: true,
+        preferCanvas: true
+      });
 
-          center:
-            DEFAULT_CENTER,
-
-          zoom:
-            DEFAULT_ZOOM,
-
-          minZoom:
-            2,
-
-          maxZoom:
-            18,
-
-          maxBounds:
-            WORLD_BOUNDS,
-
-          maxBoundsViscosity:
-            1.0,
-
-          worldCopyJump:
-            false,
-
-          zoomControl:
-            true,
-
-          preferCanvas:
-            true
-
-        }
-      );
+      /*
+       * Zoom traditionell unten rechts.
+       */
+      L.control.zoom({
+        position: "bottomright"
+      }).addTo(map);
 
 
-    /* =========================================================
-       NORMALE KARTE
-    ========================================================== */
-
-    const streetLayer =
-      L.tileLayer(
+      const streetLayer = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
-
-          maxZoom:
-            19,
-
-          attribution:
-            "&copy; OpenStreetMap-Mitwirkende",
-
-          crossOrigin:
-            true
-
+          maxZoom: 19,
+          attribution: "© OpenStreetMap contributors"
         }
       );
 
-
-    /* =========================================================
-       SATELLITENKARTE
-    ========================================================== */
-
-    /*
-     * Esri World Imagery.
-     *
-     * Das sind echte Satelliten-/Luftbild-Kacheln,
-     * keine künstlich gefärbte Kartenansicht.
-     */
-    const satelliteLayer =
-      L.tileLayer(
+      const satelliteLayer = L.tileLayer(
         "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         {
-
-          maxZoom:
-            19,
-
-          attribution:
-            "Tiles &copy; Esri",
-
-          crossOrigin:
-            true
-
+          maxZoom: 19,
+          attribution: "Tiles © Esri"
         }
       );
 
+      streetLayer.addTo(map);
 
-    streetLayer.addTo(
-      map
-    );
 
+      /* =========================================================
+         STATE
+      ========================================================= */
 
-    /* =========================================================
-       LAYER
-    ========================================================== */
+      let currentMapLayer = streetLayer;
 
-    const parkLayer =
-      L.layerGroup()
-        .addTo(map);
+      let viewMode = "map";
 
+      let globeInstance = null;
+      let globeLoadPromise = null;
 
-    let routeLayer =
-      null;
+      let routeLayer = null;
+      let routeMarkers = [];
 
+      let routeLatLngs = [];
+      let routeStopsData = [];
 
-    let routeMarkers =
-      [];
+      let parkMarkers = [];
+      let currentParks = [];
 
+      const geocodeCache = new Map();
+      const parkCache = new Map();
 
-    let currentRouteCoordinates =
-      [];
 
+      /* =========================================================
+         HELPERS
+      ========================================================= */
 
-    let currentRouteLocations =
-      [];
+      function setStatus(message, type = "") {
+        statusElement.textContent = message;
 
-
-    let currentParks =
-      [];
-
-
-    let lastSearchLocation =
-      null;
-
-
-    /* =========================================================
-       GLOBUS
-    ========================================================== */
-
-    const globeContainer =
-      document.getElementById(
-        "globe"
-      );
-
-
-    const globeHint =
-      document.getElementById(
-        "globeHint"
-      );
-
-
-    let globe =
-      null;
-
-
-    let globeReady =
-      false;
-
-
-    let globeMode =
-      false;
-
-
-    let selectedMapMode =
-      "street";
-
-
-    /*
-     * Daten für den Globus.
-     */
-    let globeParks = [];
-
-    let globeRoute = [];
-
-    let globeStops = [];
-
-
-    /* =========================================================
-       GLOBUS ERST BEI BEDARF ERZEUGEN
-    ========================================================== */
-
-    function initializeGlobe() {
-
-      if (
-        globeReady
-      ) {
-
-        return;
-
-      }
-
-
-      if (
-        typeof Globe !==
-        "function"
-      ) {
-
-        console.warn(
-          "Globe.gl konnte nicht geladen werden."
-        );
-
-        return;
-
-      }
-
-
-      globe =
-        Globe()(globeContainer)
-
-          /*
-           * Globale Satelliten-/Erdtextur.
-           */
-          .globeImageUrl(
-            "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-          )
-
-          .bumpImageUrl(
-            "https://unpkg.com/three-globe/example/img/earth-topology.png"
-          )
-
-          .backgroundImageUrl(
-            "https://unpkg.com/three-globe/example/img/night-sky.png"
-          )
-
-          .showAtmosphere(
-            true
-          )
-
-          .atmosphereAltitude(
-            0.18
-          )
-
-          .pointLat(
-            "lat"
-          )
-
-          .pointLng(
-            "lng"
-          )
-
-          .pointAltitude(
-            "altitude"
-          )
-
-          .pointRadius(
-            "radius"
-          )
-
-          .pointColor(
-            "color"
-          )
-
-          .pointsData(
-            []
-          )
-
-          .labelsData(
-            []
-          )
-
-          .labelLat(
-            "lat"
-          )
-
-          .labelLng(
-            "lng"
-          )
-
-          .labelText(
-            "text"
-          )
-
-          .labelSize(
-            0.6
-          )
-
-          .labelDotRadius(
-            0.25
-          )
-
-          .labelColor(
-            () =>
-              "#ffffff"
-          )
-
-          .labelResolution(
-            2
-          )
-
-          .pathsData(
-            []
-          )
-
-          .pathPoints(
-            "points"
-          )
-
-          .pathPointLat(
-            point =>
-              point[0]
-          )
-
-          .pathPointLng(
-            point =>
-              point[1]
-          )
-
-          .pathColor(
-            () =>
-              ["#ff3b30"]
-          )
-
-          .pathStroke(
-            1.5
-          );
-
-
-      /*
-       * Globus leicht schräg starten.
-       */
-      globe.pointOfView(
-        {
-          lat:
-            DEFAULT_CENTER[0],
-
-          lng:
-            DEFAULT_CENTER[1],
-
-          altitude:
-            2.2
-
-        },
-        0
-      );
-
-
-      globe.controls()
-        .autoRotate =
-        false;
-
-
-      globeReady =
-        true;
-
-
-      updateGlobeData();
-
-    }
-
-
-    /* =========================================================
-       GLOBUS DATEN
-    ========================================================== */
-
-    function updateGlobeData() {
-
-      if (
-        !globeReady ||
-        !globe
-      ) {
-
-        return;
-
-      }
-
-
-      const points =
-        globeParks.map(
-          park => ({
-
-            lat:
-              park.lat,
-
-            lng:
-              park.lng,
-
-            altitude:
-              0.015,
-
-            radius:
-              0.45,
-
-            color:
-              "#ff3b30"
-
-          })
-        );
-
-
-      globe.pointsData(
-        points
-      );
-
-
-      const labels =
-        globeStops.map(
-          (location, index) => ({
-
-            lat:
-              location.lat,
-
-            lng:
-              location.lng,
-
-            text:
-              index === 0
-                ? "Start"
-                : index ===
-                    globeStops.length - 1
-                  ? "Ziel"
-                  : `Stopp ${index}`
-
-          })
-        );
-
-
-      globe.labelsData(
-        labels
-      );
-
-
-      if (
-        globeRoute.length > 1
-      ) {
-
-        globe.pathsData(
-          [
-            {
-              points:
-                globeRoute
-            }
-          ]
-        );
-
-      } else {
-
-        globe.pathsData(
-          []
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       GLOBUS EINBLENDEN
-    ========================================================== */
-
-    function showGlobe() {
-
-      if (
-        globeMode
-      ) {
-
-        return;
-
-      }
-
-
-      initializeGlobe();
-
-
-      if (
-        !globeReady
-      ) {
-
-        return;
-
-      }
-
-
-      globeMode =
-        true;
-
-
-      globeContainer.classList.add(
-        "active"
-      );
-
-
-      globeHint.classList.add(
-        "visible"
-      );
-
-
-      /*
-       * Aktuelle Leaflet-Mitte auf den Globus übertragen.
-       */
-      const center =
-        map.getCenter();
-
-
-      globe.pointOfView(
-        {
-
-          lat:
-            center.lat,
-
-          lng:
-            center.lng,
-
-          altitude:
-            2.2
-
-        },
-        600
-      );
-
-
-      updateGlobeData();
-
-    }
-
-
-    /* =========================================================
-       GLOBUS AUSBLENDEN
-    ========================================================== */
-
-    function hideGlobe() {
-
-      if (
-        !globeMode
-      ) {
-
-        return;
-
-      }
-
-
-      globeMode =
-        false;
-
-
-      globeContainer.classList.remove(
-        "active"
-      );
-
-
-      globeHint.classList.remove(
-        "visible"
-      );
-
-
-      /*
-       * Karte auf aktuelle Globusposition setzen.
-       */
-      if (
-        globe
-      ) {
-
-        const pov =
-          globe.pointOfView();
-
-
-        if (
-          pov
-        ) {
-
-          map.setView(
-            [
-              pov.lat,
-              pov.lng
-            ],
-            3,
-            {
-              animate:
-                false
-            }
-          );
-
-        }
-
-      }
-
-
-      setTimeout(
-        () => {
-
-          map.invalidateSize(
-            false
-          );
-
-        },
-        50
-      );
-
-    }
-
-
-    /* =========================================================
-       AUTOMATISCHER GLOBUSWECHSEL
-    ========================================================== */
-
-    map.on(
-      "zoomend",
-      () => {
-
-        if (
-          selectedMapMode !==
-          "street" &&
-          selectedMapMode !==
-          "satellite"
-        ) {
-
-          return;
-
-        }
-
-
-        const zoom =
-          map.getZoom();
-
-
-        if (
-          !globeMode &&
-          zoom <=
-            GLOBE_ENTER_ZOOM
-        ) {
-
-          showGlobe();
-
-        }
-
-
-        if (
-          globeMode &&
-          zoom >=
-            GLOBE_EXIT_ZOOM
-        ) {
-
-          hideGlobe();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       MAP TYPE BUTTONS
-    ========================================================== */
-
-    const mapModeButton =
-      document.getElementById(
-        "mapModeButton"
-      );
-
-
-    const satelliteModeButton =
-      document.getElementById(
-        "satelliteModeButton"
-      );
-
-
-    function activateStreetMap() {
-
-      selectedMapMode =
-        "street";
-
-
-      satelliteModeButton.classList.remove(
-        "active"
-      );
-
-
-      mapModeButton.classList.add(
-        "active"
-      );
-
-
-      if (
-        map.hasLayer(
-          satelliteLayer
-        )
-      ) {
-
-        map.removeLayer(
-          satelliteLayer
-        );
-
-      }
-
-
-      if (
-        !map.hasLayer(
-          streetLayer
-        )
-      ) {
-
-        streetLayer.addTo(
-          map
-        );
-
-      }
-
-    }
-
-
-    function activateSatelliteMap() {
-
-      selectedMapMode =
-        "satellite";
-
-
-      mapModeButton.classList.remove(
-        "active"
-      );
-
-
-      satelliteModeButton.classList.add(
-        "active"
-      );
-
-
-      if (
-        map.hasLayer(
-          streetLayer
-        )
-      ) {
-
-        map.removeLayer(
-          streetLayer
-        );
-
-      }
-
-
-      if (
-        !map.hasLayer(
-          satelliteLayer
-        )
-      ) {
-
-        satelliteLayer.addTo(
-          map
-        );
-
-      }
-
-    }
-
-
-    mapModeButton.addEventListener(
-      "click",
-      () => {
-
-        activateStreetMap();
-
-      }
-    );
-
-
-    satelliteModeButton.addEventListener(
-      "click",
-      () => {
-
-        activateSatelliteMap();
-
-      }
-    );
-
-
-    /* =========================================================
-       DOM
-    ========================================================== */
-
-    const mainSearch =
-      document.getElementById(
-        "mainSearch"
-      );
-
-
-    const searchButton =
-      document.getElementById(
-        "searchButton"
-      );
-
-
-    const routeSearchButton =
-      document.getElementById(
-        "routeSearchButton"
-      );
-
-
-    const routeStops =
-      document.getElementById(
-        "routeStops"
-      );
-
-
-    const addStopButton =
-      document.getElementById(
-        "addStopButton"
-      );
-
-
-    const calculateRouteButton =
-      document.getElementById(
-        "calculateRouteButton"
-      );
-
-
-    const resetButton =
-      document.getElementById(
-        "resetButton"
-      );
-
-
-    const parkRadius =
-      document.getElementById(
-        "parkRadius"
-      );
-
-
-    const searchNearbyParksButton =
-      document.getElementById(
-        "searchNearbyParksButton"
-      );
-
-
-    const searchRouteParksButton =
-      document.getElementById(
-        "searchRouteParksButton"
-      );
-
-
-    const status =
-      document.getElementById(
-        "status"
-      );
-
-
-    const results =
-      document.getElementById(
-        "results"
-      );
-
-
-    const resultList =
-      document.getElementById(
-        "resultList"
-      );
-
-
-    const resultsCount =
-      document.getElementById(
-        "resultsCount"
-      );
-
-
-    /* =========================================================
-       REQUEST IDS
-    ========================================================== */
-
-    let searchRequestId =
-      0;
-
-
-    let parkRequestId =
-      0;
-
-
-    /* =========================================================
-       CACHE
-    ========================================================== */
-
-    const geocodeCache =
-      new Map();
-
-
-    const parkCache =
-      new Map();
-
-
-    /* =========================================================
-       ROUTE FELDER
-    ========================================================== */
-
-    let stopCounter =
-      0;
-
-
-    function createRouteStop(
-      value = ""
-    ) {
-
-      stopCounter++;
-
-
-      const wrapper =
-        document.createElement(
-          "div"
-        );
-
-
-      wrapper.className =
-        "route-stop";
-
-
-      const number =
-        document.createElement(
-          "div"
-        );
-
-
-      number.className =
-        "stop-number";
-
-
-      number.textContent =
-        stopCounter;
-
-
-      const input =
-        document.createElement(
-          "input"
-        );
-
-
-      input.type =
-        "text";
-
-
-      input.value =
-        value;
-
-
-      input.placeholder =
-        stopCounter === 1
-          ? "Start"
-          : "Ziel";
-
-
-      const remove =
-        document.createElement(
-          "button"
-        );
-
-
-      remove.type =
-        "button";
-
-
-      remove.className =
-        "remove-stop";
-
-
-      remove.textContent =
-        "×";
-
-
-      remove.addEventListener(
-        "click",
-        () => {
-
-          if (
-            routeStops.children.length <=
-            2
-          ) {
-
-            showStatus(
-              "Eine Route braucht mindestens Start und Ziel.",
-              "error"
-            );
-
-            return;
-
-          }
-
-
-          wrapper.remove();
-
-          renumberStops();
-
-        }
-      );
-
-
-      wrapper.appendChild(
-        number
-      );
-
-
-      wrapper.appendChild(
-        input
-      );
-
-
-      wrapper.appendChild(
-        remove
-      );
-
-
-      routeStops.appendChild(
-        wrapper
-      );
-
-    }
-
-
-    function renumberStops() {
-
-      const stops =
-        [
-          ...routeStops.querySelectorAll(
-            ".route-stop"
-          )
-        ];
-
-
-      stops.forEach(
-        (
-          stop,
-          index
-        ) => {
-
-          stop.querySelector(
-            ".stop-number"
-          ).textContent =
-            index + 1;
-
-
-          const input =
-            stop.querySelector(
-              "input"
-            );
-
-
-          input.placeholder =
-            index === 0
-              ? "Start"
-              : index ===
-                  stops.length - 1
-                ? "Ziel"
-                : "Zwischenstopp";
-
-        }
-      );
-
-    }
-
-
-    function getRouteStopValues() {
-
-      return [
-        ...routeStops.querySelectorAll(
-          "input"
-        )
-      ]
-      .map(
-        input =>
-          input.value.trim()
-      )
-      .filter(Boolean);
-
-    }
-
-
-    createRouteStop();
-
-    createRouteStop();
-
-
-    /* =========================================================
-       STATUS
-    ========================================================== */
-
-    function showStatus(
-      message,
-      type = ""
-    ) {
-
-      status.className =
-        "status visible";
-
-
-      if (
-        type
-      ) {
-
-        status.classList.add(
-          type
-        );
-
-      }
-
-
-      status.innerHTML =
-        message;
-
-    }
-
-
-    function showLoading(
-      message
-    ) {
-
-      showStatus(
-        `<span class="spinner"></span>${escapeHtml(message)}`
-      );
-
-    }
-
-
-    function clearStatus() {
-
-      status.className =
-        "status";
-
-
-      status.innerHTML =
-        "";
-
-    }
-
-
-    /* =========================================================
-       ESCAPE
-    ========================================================== */
-
-    function escapeHtml(
-      value
-    ) {
-
-      return String(
-        value ?? ""
-      )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-    }
-
-
-    /* =========================================================
-       QUERY NORMALISIEREN
-    ========================================================== */
-
-    function normalizeQuery(
-      query
-    ) {
-
-      return query
-        .trim()
-        .replace(
-          /\s+/g,
-          " "
-        );
-
-    }
-
-
-    function getQueryVariants(
-      query
-    ) {
-
-      const clean =
-        normalizeQuery(
-          query
-        );
-
-
-      const variants =
-        new Set();
-
-
-      variants.add(
-        clean
-      );
-
-
-      variants.add(
-        clean
-          .replace(
-            /ä/g,
-            "ae"
-          )
-          .replace(
-            /ö/g,
-            "oe"
-          )
-          .replace(
-            /ü/g,
-            "ue"
-          )
-          .replace(
-            /ß/g,
-            "ss"
-          )
-      );
-
-
-      return [
-        ...variants
-      ];
-
-    }
-
-
-    /* =========================================================
-       NOMINATIM
-    ========================================================== */
-
-    async function geocodeNominatim(
-      query,
-      signal
-    ) {
-
-      const params =
-        new URLSearchParams({
-
-          q:
-            query,
-
-          format:
-            "jsonv2",
-
-          limit:
-            "5",
-
-          dedupe:
-            "1",
-
-          addressdetails:
-            "1",
-
-          "accept-language":
-            "de"
-
-        });
-
-
-      const response =
-        await fetch(
-          `https://nominatim.openstreetmap.org/search?${params}`,
-          {
-            signal
-          }
-        );
-
-
-      if (
-        !response.ok
-      ) {
-
-        throw new Error(
-          `Nominatim HTTP ${response.status}`
-        );
-
-      }
-
-
-      const data =
-        await response.json();
-
-
-      if (
-        !Array.isArray(data) ||
-        data.length === 0
-      ) {
-
-        return null;
-
-      }
-
-
-      /*
-       * Der Geocoder liefert bereits eine sortierte
-       * Trefferliste. Der erste Treffer ist unser
-       * Standardtreffer.
-       */
-      const result =
-        data[0];
-
-
-      return {
-
-        lat:
-          Number(result.lat),
-
-        lng:
-          Number(result.lon),
-
-        displayName:
-          result.display_name ||
-          query
-
-      };
-
-    }
-
-
-    /* =========================================================
-       PHOTON
-    ========================================================== */
-
-    async function geocodePhoton(
-      query,
-      signal
-    ) {
-
-      const params =
-        new URLSearchParams({
-
-          q:
-            query,
-
-          limit:
-            "5",
-
-          lang:
-            "de"
-
-        });
-
-
-      const response =
-        await fetch(
-          `https://photon.komoot.io/api/?${params}`,
-          {
-            signal
-          }
-        );
-
-
-      if (
-        !response.ok
-      ) {
-
-        throw new Error(
-          `Photon HTTP ${response.status}`
-        );
-
-      }
-
-
-      const data =
-        await response.json();
-
-
-      const feature =
-        data?.features?.[0];
-
-
-      if (
-        !feature
-      ) {
-
-        return null;
-
-      }
-
-
-      const coordinates =
-        feature.geometry?.coordinates;
-
-
-      if (
-        !coordinates ||
-        coordinates.length <
-          2
-      ) {
-
-        return null;
-
-      }
-
-
-      const properties =
-        feature.properties ||
-        {};
-
-
-      const parts = [
-
-        properties.name,
-
-        properties.city,
-
-        properties.state,
-
-        properties.country
-
-      ]
-      .filter(Boolean);
-
-
-      return {
-
-        lat:
-          Number(
-            coordinates[1]
-          ),
-
-        lng:
-          Number(
-            coordinates[0]
-          ),
-
-        displayName:
-          parts.join(", ") ||
-          query
-
-      };
-
-    }
-
-
-    /* =========================================================
-       GEOCODE
-    ========================================================== */
-
-    async function geocode(
-      query,
-      signal
-    ) {
-
-      const normalized =
-        normalizeQuery(
-          query
-        );
-
-
-      if (
-        !normalized
-      ) {
-
-        throw new Error(
-          "Bitte einen Ort eingeben."
-        );
-
-      }
-
-
-      const cacheKey =
-        normalized.toLowerCase();
-
-
-      if (
-        geocodeCache.has(
-          cacheKey
-        )
-      ) {
-
-        return geocodeCache.get(
-          cacheKey
-        );
-
-      }
-
-
-      /*
-       * Nominatim + Schreibvarianten.
-       */
-      for (
-        const variant
-        of getQueryVariants(
-          normalized
-        )
-      ) {
-
-        try {
-
-          const result =
-            await geocodeNominatim(
-              variant,
-              signal
-            );
-
-
-          if (
-            result
-          ) {
-
-            geocodeCache.set(
-              cacheKey,
-              result
-            );
-
-
-            return result;
-
-          }
-
-        } catch (
-          error
-        ) {
-
-          if (
-            error.name ===
-            "AbortError"
-          ) {
-
-            throw error;
-
-          }
-
-          console.warn(
-            "Nominatim:",
-            error
-          );
-
-        }
-
-      }
-
-
-      /*
-       * Photon als Fallback.
-       */
-      try {
-
-        const result =
-          await geocodePhoton(
-            normalized,
-            signal
-          );
-
-
-        if (
-          result
-        ) {
-
-          geocodeCache.set(
-            cacheKey,
-            result
-          );
-
-
-          return result;
-
-        }
-
-      } catch (
-        error
-      ) {
-
-        if (
-          error.name ===
-          "AbortError"
-        ) {
-
-          throw error;
-
-        }
-
-        console.warn(
-          "Photon:",
-          error
-        );
-
-      }
-
-
-      throw new Error(
-        `„${normalized}“ wurde nicht gefunden.`
-      );
-
-    }
-
-
-    /* =========================================================
-       ROUTE PARSEN
-    ========================================================== */
-
-    function parseRoute(
-      value
-    ) {
-
-      const separators = [
-        "→",
-        "->",
-        "=>"
-      ];
-
-
-      for (
-        const separator
-        of separators
-      ) {
-
-        if (
-          value.includes(
-            separator
-          )
-        ) {
-
-          const parts =
-            value
-              .split(
-                separator
-              )
-              .map(
-                part =>
-                  part.trim()
-              )
-              .filter(Boolean);
-
-
-          if (
-            parts.length >=
-            2
-          ) {
-
-            return parts;
-
-          }
-
-        }
-
-      }
-
-
-      return null;
-
-    }
-
-
-    /* =========================================================
-       ORT SUCHEN
-    ========================================================== */
-
-    async function searchPlace() {
-
-      const query =
-        mainSearch.value.trim();
-
-
-      if (
-        !query
-      ) {
-
-        showStatus(
-          "Bitte einen Ort eingeben.",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      const route =
-        parseRoute(
-          query
-        );
-
-
-      if (
-        route
-      ) {
-
-        await calculateRoute(
-          route
-        );
-
-        return;
-
-      }
-
-
-      const requestId =
-        ++searchRequestId;
-
-
-      clearRoute();
-
-      clearParks();
-
-
-      showLoading(
-        "Ort wird gesucht..."
-      );
-
-
-      const controller =
-        new AbortController();
-
-
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          10000
-        );
-
-
-      try {
-
-        const location =
-          await geocode(
-            query,
-            controller.signal
-          );
-
-
-        if (
-          requestId !==
-          searchRequestId
-        ) {
-
-          return;
-
-        }
-
-
-        lastSearchLocation =
-          location;
-
-
-        map.setView(
-          [
-            location.lat,
-            location.lng
-          ],
-          11,
-          {
-            animate:
-              true
-          }
-        );
-
-
-        showStatus(
-          `Gefunden: <strong>${escapeHtml(location.displayName)}</strong>`,
+        statusElement.classList.remove(
+          "error",
           "success"
         );
 
-
-      } catch (
-        error
-      ) {
-
-        if (
-          error.name ===
-          "AbortError"
-        ) {
-
-          showStatus(
-            "Die Ortssuche hat zu lange gedauert.",
-            "error"
-          );
-
-        } else {
-
-          showStatus(
-            escapeHtml(
-              error.message
-            ),
-            "error"
-          );
-
+        if (type) {
+          statusElement.classList.add(type);
         }
-
-      } finally {
-
-        clearTimeout(
-          timeout
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       ROUTE BERECHNEN
-    ========================================================== */
-
-    async function calculateRoute(
-      providedStops = null
-    ) {
-
-      const stops =
-        providedStops ||
-        getRouteStopValues();
-
-
-      if (
-        stops.length < 2
-      ) {
-
-        showStatus(
-          "Eine Route braucht mindestens Start und Ziel.",
-          "error"
-        );
-
-        return;
-
       }
 
 
-      const requestId =
-        ++searchRequestId;
+      function clearResults() {
+        resultsElement.innerHTML = "";
+      }
 
 
-      clearRoute();
-
-      clearParks();
-
-
-      showLoading(
-        "Route wird vorbereitet..."
-      );
-
-
-      const controller =
-        new AbortController();
-
-
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          25000
-        );
-
-
-      try {
-
-        const locations =
-          [];
-
-
-        for (
-          let i = 0;
-          i < stops.length;
-          i++
-        ) {
-
-          showLoading(
-            `Ort ${i + 1} von ${stops.length} wird gesucht...`
-          );
-
-
-          const location =
-            await geocode(
-              stops[i],
-              controller.signal
-            );
-
-
-          locations.push(
-            location
-          );
-
-
-          if (
-            i <
-            stops.length - 1
-          ) {
-
-            await new Promise(
-              resolve =>
-                setTimeout(
-                  resolve,
-                  200
-                )
-            );
-
-          }
-
+      function clearParkMarkers() {
+        for (const marker of parkMarkers) {
+          map.removeLayer(marker);
         }
 
+        parkMarkers = [];
+      }
 
-        if (
-          requestId !==
-          searchRequestId
-        ) {
 
-          return;
-
+      function clearRoute() {
+        if (routeLayer) {
+          map.removeLayer(routeLayer);
+          routeLayer = null;
         }
 
-
-        currentRouteLocations =
-          locations;
-
-
-        /*
-         * Route als Globe-Daten vorbereiten.
-         */
-        globeStops =
-          locations.map(
-            location => ({
-
-              lat:
-                location.lat,
-
-              lng:
-                location.lng
-
-            })
-          );
-
-
-        showLoading(
-          "Route wird berechnet..."
-        );
-
-
-        const coordinates =
-          locations
-            .map(
-              location =>
-                `${location.lng},${location.lat}`
-            )
-            .join(";");
-
-
-        const params =
-          new URLSearchParams({
-
-            overview:
-              "full",
-
-            geometries:
-              "geojson",
-
-            steps:
-              "false"
-
-          });
-
-
-        const response =
-          await fetch(
-            `https://router.project-osrm.org/route/v1/driving/${coordinates}?${params}`,
-            {
-              signal:
-                controller.signal
-            }
-          );
-
-
-        if (
-          !response.ok
-        ) {
-
-          throw new Error(
-            "Der Routendienst ist momentan nicht erreichbar."
-          );
-
+        for (const marker of routeMarkers) {
+          map.removeLayer(marker);
         }
 
+        routeMarkers = [];
 
-        const data =
-          await response.json();
+        routeLatLngs = [];
+        routeStopsData = [];
 
-
-        if (
-          data.code !==
-            "Ok" ||
-          !data.routes?.length
-        ) {
-
-          throw new Error(
-            "Für diese Orte konnte keine Route berechnet werden."
-          );
-
-        }
-
-
-        const route =
-          data.routes[0];
-
-
-        currentRouteCoordinates =
-          route.geometry.coordinates;
-
-
-        /*
-         * Leaflet Route.
-         */
-        const latLngs =
-          currentRouteCoordinates.map(
-            point => [
-              point[1],
-              point[0]
-            ]
-          );
-
-
-        routeLayer =
-          L.polyline(
-            latLngs,
-            {
-
-              weight:
-                5,
-
-              opacity:
-                0.9
-
-            }
-          )
-          .addTo(map);
-
-
-        /*
-         * Route-Marker.
-         */
-        routeMarkers =
-          locations.map(
-            (
-              location,
-              index
-            ) => {
-
-              const marker =
-                L.marker(
-                  [
-                    location.lat,
-                    location.lng
-                  ]
-                );
-
-
-              const label =
-                index === 0
-                  ? "Start"
-                  : index ===
-                      locations.length - 1
-                    ? "Ziel"
-                    : `Zwischenstopp ${index}`;
-
-
-              marker.bindPopup(
-                `
-                  <strong>
-                    ${label}
-                  </strong>
-                  <br>
-                  ${escapeHtml(
-                    location.displayName
-                  )}
-                `
-              );
-
-
-              marker.addTo(
-                map
-              );
-
-
-              return marker;
-
-            }
-          );
-
-
-        /*
-         * Globus-Route.
-         */
-        globeRoute =
-          currentRouteCoordinates.map(
-            point => [
-              point[1],
-              point[0]
-            ]
-          );
-
+        routeParksButton.disabled = true;
 
         updateGlobeData();
+      }
 
 
-        /*
-         * Route sichtbar machen.
-         */
-        const bounds =
-          routeLayer.getBounds();
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
 
 
-        if (
-          bounds.isValid()
-        ) {
+      function normalizeText(value) {
+        return String(value ?? "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/ß/g, "ss")
+          .replace(/ä/g, "ae")
+          .replace(/ö/g, "oe")
+          .replace(/ü/g, "ue")
+          .replace(/[^a-z0-9\s]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
+      }
 
-          map.fitBounds(
-            bounds.pad(
-              0.12
-            ),
-            {
 
-              maxZoom:
-                12,
+      function transliterationVariants(value) {
+        const original = String(value ?? "").trim();
 
-              animate:
-                true
+        const variants = new Set([
+          original,
+          original.replace(/ä/g, "ae")
+            .replace(/ö/g, "oe")
+            .replace(/ü/g, "ue")
+            .replace(/Ä/g, "Ae")
+            .replace(/Ö/g, "Oe")
+            .replace(/Ü/g, "Ue")
+            .replace(/ß/g, "ss")
+        ]);
 
+        return [...variants].filter(Boolean);
+      }
+
+
+      function levenshtein(a, b) {
+        a = normalizeText(a);
+        b = normalizeText(b);
+
+        if (!a) return b.length;
+        if (!b) return a.length;
+
+        const previous = new Array(b.length + 1);
+
+        for (let j = 0; j <= b.length; j++) {
+          previous[j] = j;
+        }
+
+        for (let i = 1; i <= a.length; i++) {
+          let current = [i];
+
+          for (let j = 1; j <= b.length; j++) {
+            const cost = a[i - 1] === b[j - 1]
+              ? 0
+              : 1;
+
+            current[j] = Math.min(
+              current[j - 1] + 1,
+              previous[j] + 1,
+              previous[j - 1] + cost
+            );
+          }
+
+          for (let j = 0; j <= b.length; j++) {
+            previous[j] = current[j];
+          }
+        }
+
+        return previous[b.length];
+      }
+
+
+      function similarity(a, b) {
+        const aa = normalizeText(a);
+        const bb = normalizeText(b);
+
+        if (!aa || !bb) return 0;
+
+        const distance = levenshtein(aa, bb);
+
+        return Math.max(
+          0,
+          1 - distance / Math.max(aa.length, bb.length)
+        );
+      }
+
+
+      function formatDistance(km) {
+        if (!Number.isFinite(km)) return "–";
+
+        if (km < 1) {
+          return Math.round(km * 1000) + " m";
+        }
+
+        return km.toFixed(1) + " km";
+      }
+
+
+      function formatArea(areaM2) {
+        if (!Number.isFinite(areaM2) || areaM2 <= 0) {
+          return "nicht erfasst";
+        }
+
+        if (areaM2 < 1000) {
+          return "ca. " + Math.round(areaM2) + " m²";
+        }
+
+        return "ca. " + (areaM2 / 10000).toFixed(2) + " ha";
+      }
+
+
+      function haversineKm(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+
+        const dLat =
+          (lat2 - lat1) * Math.PI / 180;
+
+        const dLon =
+          (lon2 - lon1) * Math.PI / 180;
+
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos(lat1 * Math.PI / 180) *
+          Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) ** 2;
+
+        return 2 * R * Math.asin(
+          Math.sqrt(a)
+        );
+      }
+
+
+      /* =========================================================
+         TIMEOUT FETCH
+      ========================================================= */
+
+      async function fetchWithTimeout(
+        url,
+        options = {},
+        timeoutMs = 8000
+      ) {
+        const controller =
+          new AbortController();
+
+        const timer =
+          setTimeout(
+            () => controller.abort(),
+            timeoutMs
+          );
+
+        try {
+          const response =
+            await fetch(url, {
+              ...options,
+              signal: controller.signal
+            });
+
+          if (!response.ok) {
+            throw new Error(
+              "HTTP " + response.status
+            );
+          }
+
+          return response;
+        } finally {
+          clearTimeout(timer);
+        }
+      }
+
+
+      /* =========================================================
+         PANEL
+      ========================================================= */
+
+      closePanelButton.addEventListener(
+        "click",
+        () => {
+          controlPanel.classList.add("hidden");
+          openPanelButton.classList.add("visible");
+
+          setTimeout(() => {
+            map.invalidateSize();
+          }, 300);
+        }
+      );
+
+
+      openPanelButton.addEventListener(
+        "click",
+        () => {
+          controlPanel.classList.remove("hidden");
+          openPanelButton.classList.remove("visible");
+
+          setTimeout(() => {
+            map.invalidateSize();
+          }, 300);
+        }
+      );
+
+
+      /* =========================================================
+         ROUTE INPUTS
+      ========================================================= */
+
+      function addRouteStop(
+        value = "",
+        removable = true
+      ) {
+        const wrapper =
+          document.createElement("div");
+
+        wrapper.className = "routeStop";
+
+        const input =
+          document.createElement("input");
+
+        input.type = "text";
+        input.placeholder =
+          routeStopsElement.children.length === 0
+            ? "Start"
+            : "Ziel / Zwischenstopp";
+
+        input.value = value;
+        input.className = "routeInput";
+
+        wrapper.appendChild(input);
+
+        if (removable) {
+          const remove =
+            document.createElement("button");
+
+          remove.type = "button";
+          remove.className = "removeStop";
+          remove.textContent = "×";
+          remove.title = "Stopp entfernen";
+
+          remove.addEventListener(
+            "click",
+            () => {
+              wrapper.remove();
+
+              if (
+                routeStopsElement.children.length < 2
+              ) {
+                addRouteStop("");
+              }
             }
           );
 
+          wrapper.appendChild(remove);
         }
 
-
-        searchRouteParksButton.disabled =
-          false;
-
-
-        const distanceKm =
-          route.distance /
-          1000;
+        routeStopsElement.appendChild(wrapper);
+      }
 
 
-        const durationMinutes =
-          Math.round(
-            route.duration /
-            60
-          );
+      function getRouteInputValues() {
+        return [
+          ...routeStopsElement
+            .querySelectorAll(".routeInput")
+        ]
+          .map(input => input.value.trim())
+          .filter(Boolean);
+      }
 
 
-        showStatus(
-          `Route: <strong>${distanceKm.toFixed(1)} km</strong> · ca. <strong>${formatDuration(durationMinutes)}</strong> · ${locations.length} Stopps`,
-          "success"
+      function setRouteStops(values) {
+        routeStopsElement.innerHTML = "";
+
+        values.forEach(
+          (value, index) => {
+            addRouteStop(
+              value,
+              index > 0
+            );
+          }
         );
 
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          error
-        );
-
-
-        searchRouteParksButton.disabled =
-          true;
-
-
-        if (
-          error.name ===
-          "AbortError"
-        ) {
-
-          showStatus(
-            "Die Routenberechnung hat zu lange gedauert.",
-            "error"
-          );
-
-        } else {
-
-          showStatus(
-            escapeHtml(
-              error.message
-            ),
-            "error"
-          );
-
+        if (values.length < 2) {
+          addRouteStop("");
         }
-
-      } finally {
-
-        clearTimeout(
-          timeout
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       ZEIT
-    ========================================================== */
-
-    function formatDuration(
-      minutes
-    ) {
-
-      if (
-        minutes < 60
-      ) {
-
-        return `${minutes} Min.`;
-
       }
 
 
-      const hours =
-        Math.floor(
-          minutes /
-          60
-        );
+      addRouteStop("");
+      addRouteStop("");
 
 
-      const remaining =
-        minutes %
-        60;
-
-
-      if (
-        remaining === 0
-      ) {
-
-        return `${hours} Std.`;
-
-      }
-
-
-      return `${hours} Std. ${remaining} Min.`;
-
-    }
-
-
-    /* =========================================================
-       ROUTE LÖSCHEN
-    ========================================================== */
-
-    function clearRoute() {
-
-      if (
-        routeLayer
-      ) {
-
-        map.removeLayer(
-          routeLayer
-        );
-
-
-        routeLayer =
-          null;
-
-      }
-
-
-      routeMarkers.forEach(
-        marker => {
-
-          map.removeLayer(
-            marker
-          );
-
+      addStopButton.addEventListener(
+        "click",
+        () => {
+          addRouteStop("");
         }
       );
 
 
-      routeMarkers = [];
+      /* =========================================================
+         ROUTE PARSER
+      ========================================================= */
 
-      currentRouteCoordinates = [];
+      function parseRouteString(value) {
+        const text =
+          String(value ?? "").trim();
 
-      currentRouteLocations = [];
+        if (!text) return [];
 
-      globeRoute = [];
-
-      globeStops = [];
-
-
-      updateGlobeData();
-
-
-      searchRouteParksButton.disabled =
-        true;
-
-    }
-
-
-    /* =========================================================
-       SKATEPARK FILTER
-    ========================================================== */
-
-    function isValidSkatepark(
-      element
-    ) {
-
-      const tags =
-        element.tags ||
-        {};
-
-
-      const leisure =
-        String(
-          tags.leisure ||
-          ""
-        ).toLowerCase();
-
-
-      const sport =
-        String(
-          tags.sport ||
-          ""
-        ).toLowerCase();
-
-
-      const name =
-        String(
-          tags.name ||
-          ""
-        ).toLowerCase();
-
-
-      const description =
-        String(
-          tags.description ||
-          ""
-        ).toLowerCase();
-
-
-      const combined =
-        `${name} ${description}`;
-
-
-      const excludedWords = [
-
-        "spielplatz",
-
-        "kinderspielplatz",
-
-        "playground",
-
-        "pumptrack",
-
-        "bmx",
-
-        "bolzplatz",
-
-        "fußball",
-
-        "fussball",
-
-        "soccer",
-
-        "basketball",
-
-        "volleyball",
-
-        "minigolf",
-
-        "fitness",
-
-        "parcours",
-
-        "kindergarten"
-
-      ];
-
-
-      if (
-        excludedWords.some(
-          word =>
-            combined.includes(
-              word
+        const parts =
+          text
+            .split(
+              /\s*(?:→|->|=>)\s*|\s+(?:nach|bis|to)\s+/i
             )
-        )
-      ) {
+            .map(x => x.trim())
+            .filter(Boolean);
 
-        return false;
-
+        return parts;
       }
 
 
-      /*
-       * Primär echte OSM-Skateparks.
-       */
-      if (
-        leisure ===
-        "skatepark"
-      ) {
+      /* =========================================================
+         GEOCODING
+      ========================================================= */
 
-        return true;
+      async function geocodePlace(query) {
+        const cleanQuery =
+          String(query ?? "").trim();
 
-      }
+        if (!cleanQuery) {
+          throw new Error(
+            "Bitte einen Ort eingeben."
+          );
+        }
+
+        const cacheKey =
+          normalizeText(cleanQuery);
+
+        if (geocodeCache.has(cacheKey)) {
+          return geocodeCache.get(cacheKey);
+        }
+
+        let bestResult = null;
+
+        /*
+         * Nominatim zuerst.
+         */
+        for (
+          const variant of transliterationVariants(cleanQuery)
+        ) {
+          try {
+            const params =
+              new URLSearchParams({
+                q: variant,
+                format: "jsonv2",
+                addressdetails: "1",
+                limit: "5",
+                dedupe: "1",
+                "accept-language": "de"
+              });
+
+            const response =
+              await fetchWithTimeout(
+                NOMINATIM_URL +
+                "?" +
+                params.toString(),
+                {
+                  headers: {
+                    "Accept": "application/json"
+                  }
+                },
+                SEARCH_TIMEOUT
+              );
+
+            const data =
+              await response.json();
+
+            if (
+              Array.isArray(data) &&
+              data.length
+            ) {
+              bestResult =
+                data
+                  .map(item => ({
+                    lat: Number(item.lat),
+                    lon: Number(item.lon),
+                    display_name:
+                      item.display_name || variant,
+                    address:
+                      item.address || {},
+                    score:
+                      similarity(
+                        cleanQuery,
+                        item.display_name
+                      )
+                  }))
+                  .sort(
+                    (a, b) => b.score - a.score
+                  )[0];
+
+              if (bestResult) {
+                break;
+              }
+            }
+          } catch (error) {
+            /* Nominatim kann ausfallen → Photon */
+          }
+        }
 
 
-      /*
-       * sport=skateboard nur wenn auch
-       * Skate-Begriff im Namen/Text steht.
-       */
-      if (
-        sport.includes(
-          "skateboard"
-        ) &&
-        (
-          combined.includes(
-            "skate"
-          ) ||
-          combined.includes(
-            "skatepark"
-          )
-        )
-      ) {
+        /*
+         * Photon als Fallback.
+         */
+        if (!bestResult) {
+          for (
+            const variant of transliterationVariants(cleanQuery)
+          ) {
+            try {
+              const params =
+                new URLSearchParams({
+                  q: variant,
+                  limit: "5",
+                  lang: "de"
+                });
 
-        return true;
+              const response =
+                await fetchWithTimeout(
+                  PHOTON_URL +
+                  "?" +
+                  params.toString(),
+                  {},
+                  SEARCH_TIMEOUT
+                );
 
-      }
+              const data =
+                await response.json();
 
+              const features =
+                Array.isArray(data.features)
+                  ? data.features
+                  : [];
 
-      return false;
+              if (!features.length) {
+                continue;
+              }
 
-    }
+              const candidates =
+                features.map(feature => {
+                  const coords =
+                    feature.geometry?.coordinates || [];
 
+                  const props =
+                    feature.properties || {};
 
-    /* =========================================================
-       POSITION
-    ========================================================== */
+                  const label =
+                    [
+                      props.name,
+                      props.city,
+                      props.country
+                    ]
+                      .filter(Boolean)
+                      .join(", ");
 
-    function getElementPosition(
-      element
-    ) {
+                  return {
+                    lat: Number(coords[1]),
+                    lon: Number(coords[0]),
+                    display_name:
+                      label || variant,
+                    address: props,
+                    score:
+                      similarity(
+                        cleanQuery,
+                        label
+                      )
+                  };
+                });
 
-      if (
-        typeof element.lat ===
-          "number" &&
-        typeof element.lon ===
-          "number"
-      ) {
+              bestResult =
+                candidates.sort(
+                  (a, b) => b.score - a.score
+                )[0];
 
-        return [
-          element.lat,
-          element.lon
-        ];
+              if (bestResult) break;
 
-      }
-
-
-      if (
-        element.center
-      ) {
-
-        return [
-          element.center.lat,
-          element.center.lon
-        ];
-
-      }
-
-
-      if (
-        Array.isArray(
-          element.geometry
-        ) &&
-        element.geometry.length
-      ) {
-
-        const point =
-          element.geometry[0];
+            } catch (error) {
+              /* nächster Fallback */
+            }
+          }
+        }
 
 
         if (
-          point &&
-          typeof point.lat ===
-            "number"
+          !bestResult ||
+          !Number.isFinite(bestResult.lat) ||
+          !Number.isFinite(bestResult.lon)
         ) {
-
-          return [
-            point.lat,
-            point.lon
-          ];
-
+          throw new Error(
+            "Ort konnte nicht gefunden werden."
+          );
         }
 
-      }
-
-
-      return null;
-
-    }
-
-
-    /* =========================================================
-       FLÄCHE
-    ========================================================== */
-
-    function calculateArea(
-      element
-    ) {
-
-      /*
-       * Overpass liefert für unsere aktuelle Abfrage
-       * center statt vollständige Geometrie.
-       *
-       * Falls später geometry geladen wird,
-       * funktioniert die Flächenberechnung trotzdem.
-       */
-      if (
-        element.type !==
-          "way" ||
-        !Array.isArray(
-          element.geometry
-        ) ||
-        element.geometry.length <
-          4
-      ) {
-
-        return 0;
-
-      }
-
-
-      const first =
-        element.geometry[0];
-
-
-      const last =
-        element.geometry[
-          element.geometry.length - 1
-        ];
-
-
-      if (
-        Math.abs(
-          first.lat -
-          last.lat
-        ) >
-          0.000001 ||
-        Math.abs(
-          first.lon -
-          last.lon
-        ) >
-          0.000001
-      ) {
-
-        return 0;
-
-      }
-
-
-      const averageLat =
-        element.geometry.reduce(
-          (
-            total,
-            point
-          ) =>
-            total +
-            point.lat,
-          0
-        ) /
-        element.geometry.length;
-
-
-      const R =
-        6371000;
-
-
-      const cosLat =
-        Math.cos(
-          averageLat *
-          Math.PI /
-          180
+        geocodeCache.set(
+          cacheKey,
+          bestResult
         );
 
+        return bestResult;
+      }
 
-      const points =
-        element.geometry.map(
-          point => [
 
-            R *
-            point.lon *
-            Math.PI /
-            180 *
-            cosLat,
+      /* =========================================================
+         NORMAL PLACE SEARCH
+      ========================================================= */
 
-            R *
-            point.lat *
-            Math.PI /
-            180
+      async function searchPlace() {
+        const query =
+          mainSearch.value.trim();
 
-          ]
+        if (!query) {
+          return;
+        }
+
+        /*
+         * Route erkannt?
+         */
+        const routeParts =
+          parseRouteString(query);
+
+        if (routeParts.length >= 2) {
+          setRouteStops(routeParts);
+
+          await calculateRoute();
+
+          return;
+        }
+
+
+        setStatus(
+          "Ort wird gesucht …"
         );
-
-
-      let area =
-        0;
-
-
-      for (
-        let i = 0;
-        i < points.length;
-        i++
-      ) {
-
-        const next =
-          (
-            i + 1
-          ) %
-          points.length;
-
-
-        area +=
-          points[i][0] *
-          points[next][1] -
-          points[next][0] *
-          points[i][1];
-
-      }
-
-
-      return Math.abs(
-        area / 2
-      );
-
-    }
-
-
-    /* =========================================================
-       ENTFERNUNG
-    ========================================================== */
-
-    function distanceKm(
-      lat1,
-      lon1,
-      lat2,
-      lon2
-    ) {
-
-      const R =
-        6371;
-
-
-      const dLat =
-        (
-          lat2 -
-          lat1
-        ) *
-        Math.PI /
-        180;
-
-
-      const dLon =
-        (
-          lon2 -
-          lon1
-        ) *
-        Math.PI /
-        180;
-
-
-      const a =
-        Math.sin(
-          dLat / 2
-        ) ** 2 +
-
-        Math.cos(
-          lat1 *
-          Math.PI /
-          180
-        ) *
-
-        Math.cos(
-          lat2 *
-          Math.PI /
-          180
-        ) *
-
-        Math.sin(
-          dLon / 2
-        ) ** 2;
-
-
-      return (
-        2 *
-        R *
-        Math.atan2(
-          Math.sqrt(a),
-          Math.sqrt(1 - a)
-        )
-      );
-
-    }
-
-
-    /* =========================================================
-       PARK VORBEREITEN
-    ========================================================== */
-
-    function preparePark(
-      element,
-      referenceLat,
-      referenceLng
-    ) {
-
-      const position =
-        getElementPosition(
-          element
-        );
-
-
-      if (
-        !position
-      ) {
-
-        return null;
-
-      }
-
-
-      const tags =
-        element.tags ||
-        {};
-
-
-      const area =
-        calculateArea(
-          element
-        );
-
-
-      const distance =
-        distanceKm(
-          referenceLat,
-          referenceLng,
-          position[0],
-          position[1]
-        );
-
-
-      let metadataScore =
-        0;
-
-
-      if (
-        tags.leisure ===
-        "skatepark"
-      ) {
-
-        metadataScore +=
-          1000;
-
-      }
-
-
-      if (
-        tags.lit ===
-        "yes"
-      ) {
-
-        metadataScore +=
-          30;
-
-      }
-
-
-      if (
-        tags.surface
-      ) {
-
-        metadataScore +=
-          15;
-
-      }
-
-
-      if (
-        tags.description
-      ) {
-
-        metadataScore +=
-          10;
-
-      }
-
-
-      if (
-        tags.website
-      ) {
-
-        metadataScore +=
-          10;
-
-      }
-
-
-      return {
-
-        element,
-
-        lat:
-          position[0],
-
-        lng:
-          position[1],
-
-        name:
-          tags.name ||
-          "Skatepark ohne Namen",
-
-        tags,
-
-        areaM2:
-          area,
-
-        distance,
-
-        metadataScore
-
-      };
-
-    }
-
-
-    /* =========================================================
-       OVERPASS
-    ========================================================== */
-
-    async function queryOverpass(
-      lat,
-      lng,
-      radiusKm,
-      signal
-    ) {
-
-      const radius =
-        Math.min(
-          radiusKm,
-          50
-        ) *
-        1000;
-
-
-      const query = `
-        [out:json][timeout:25];
-
-        (
-          node[
-            "leisure"="skatepark"
-          ](
-            around:${radius},
-            ${lat},
-            ${lng}
-          );
-
-          way[
-            "leisure"="skatepark"
-          ](
-            around:${radius},
-            ${lat},
-            ${lng}
-          );
-
-          relation[
-            "leisure"="skatepark"
-          ](
-            around:${radius},
-            ${lat},
-            ${lng}
-          );
-        );
-
-        out tags center;
-      `;
-
-
-      const endpoints = [
-
-        "https://overpass-api.de/api/interpreter",
-
-        "https://overpass.kumi.systems/api/interpreter"
-
-      ];
-
-
-      let lastError =
-        null;
-
-
-      for (
-        const endpoint
-        of endpoints
-      ) {
 
         try {
+          const result =
+            await geocodePlace(query);
 
-          const response =
-            await fetch(
-              endpoint,
-              {
+          map.setView(
+            [result.lat, result.lon],
+            Math.max(map.getZoom(), 12)
+          );
 
-                method:
-                  "POST",
+          switchToMap();
 
-                headers: {
+          setStatus(
+            "Ort gefunden: " +
+            result.display_name,
+            "success"
+          );
 
-                  "Content-Type":
-                    "application/x-www-form-urlencoded"
+        } catch (error) {
+          setStatus(
+            error.message ||
+            "Ortssuche fehlgeschlagen.",
+            "error"
+          );
+        }
+      }
 
-                },
 
-                body:
-                  "data=" +
-                  encodeURIComponent(
-                    query
-                  ),
+      mainSearchButton.addEventListener(
+        "click",
+        searchPlace
+      );
 
-                signal
 
-              }
+      mainSearch.addEventListener(
+        "keydown",
+        event => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            searchPlace();
+          }
+        }
+      );
+
+
+      /* =========================================================
+         ROUTE CALCULATION
+      ========================================================= */
+
+      async function calculateRoute() {
+        const names =
+          getRouteInputValues();
+
+        if (names.length < 2) {
+          setStatus(
+            "Bitte mindestens Start und Ziel eingeben.",
+            "error"
+          );
+
+          return;
+        }
+
+        clearRoute();
+        clearParkMarkers();
+        clearResults();
+
+        calculateRouteButton.disabled = true;
+
+        setStatus(
+          "Route wird berechnet …"
+        );
+
+        try {
+          const locations = [];
+
+          /*
+           * Alle Orte nacheinander geocoden.
+           * Der OSRM-Request kommt erst danach.
+           */
+          for (let i = 0; i < names.length; i++) {
+            setStatus(
+              `Ort ${i + 1} von ${names.length} wird gesucht …`
             );
 
+            const result =
+              await geocodePlace(names[i]);
 
-          if (
-            !response.ok
-          ) {
-
-            throw new Error(
-              `Overpass HTTP ${response.status}`
-            );
-
+            locations.push(result);
           }
 
+
+          const coordinates =
+            locations
+              .map(
+                loc =>
+                  `${loc.lon},${loc.lat}`
+              )
+              .join(";");
+
+
+          setStatus(
+            "Straßenroute wird berechnet …"
+          );
+
+
+          const url =
+            OSRM_URL +
+            coordinates +
+            "?overview=full&geometries=geojson&steps=false";
+
+
+          const response =
+            await fetchWithTimeout(
+              url,
+              {},
+              ROUTE_TIMEOUT
+            );
 
           const data =
             await response.json();
 
 
-          return (
-            data.elements ||
-            []
-          );
-
-        } catch (
-          error
-        ) {
-
           if (
-            error.name ===
-            "AbortError"
+            data.code !== "Ok" ||
+            !data.routes ||
+            !data.routes.length
           ) {
-
-            throw error;
-
+            throw new Error(
+              "Keine Route gefunden."
+            );
           }
 
 
-          lastError =
-            error;
+          const route =
+            data.routes[0];
 
-        }
-
-      }
-
-
-      throw (
-        lastError ||
-        new Error(
-          "Kein Skatepark-Dienst erreichbar."
-        )
-      );
-
-    }
+          routeStopsData =
+            locations.map(
+              (location, index) => ({
+                ...location,
+                name: names[index]
+              })
+            );
 
 
-    /* =========================================================
-       PARK CACHE
-    ========================================================== */
-
-    async function getParksCached(
-      lat,
-      lng,
-      radiusKm,
-      signal
-    ) {
-
-      const key = [
-
-        lat.toFixed(3),
-
-        lng.toFixed(3),
-
-        radiusKm
-
-      ].join("|");
+          routeLatLngs =
+            route.geometry.coordinates.map(
+              coord => [
+                coord[1],
+                coord[0]
+              ]
+            );
 
 
-      if (
-        parkCache.has(
-          key
-        )
-      ) {
-
-        return parkCache.get(
-          key
-        );
-
-      }
+          routeLayer =
+            L.geoJSON(
+              route.geometry,
+              {
+                style: {
+                  weight: 5
+                }
+              }
+            ).addTo(map);
 
 
-      const promise =
-        queryOverpass(
-          lat,
-          lng,
-          radiusKm,
-          signal
-        );
+          /*
+           * Stop-Marker
+           */
+          routeStopsData.forEach(
+            (stop, index) => {
+              const marker =
+                L.marker([
+                  stop.lat,
+                  stop.lon
+                ]).addTo(map);
 
+              const googleUrl =
+                "https://www.google.com/maps/dir/?api=1&destination=" +
+                encodeURIComponent(
+                  stop.lat + "," + stop.lon
+                );
 
-      parkCache.set(
-        key,
-        promise
-      );
+              marker.bindPopup(`
+                <div class="popupTitle">
+                  ${escapeHtml(
+                    stop.name
+                  )}
+                </div>
 
+                <div class="popupMeta">
+                  Stopp ${index + 1}
+                </div>
 
-      try {
+                <div style="margin-top:8px;">
+                  <a
+                    href="${googleUrl}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Route in Google Maps
+                  </a>
+                </div>
+              `);
 
-        return await promise;
-
-      } catch (
-        error
-      ) {
-
-        parkCache.delete(
-          key
-        );
-
-        throw error;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       PARKS IN DER NÄHE
-    ========================================================== */
-
-    async function searchNearbyParks() {
-
-      const requestId =
-        ++parkRequestId;
-
-
-      const center =
-        lastSearchLocation ||
-        map.getCenter();
-
-
-      const radius =
-        Number(
-          parkRadius.value
-        );
-
-
-      clearParks();
-
-
-      showLoading(
-        `Skateparks im Radius von ${radius} km werden gesucht...`
-      );
-
-
-      const controller =
-        new AbortController();
-
-
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          30000
-        );
-
-
-      try {
-
-        const elements =
-          await getParksCached(
-            center.lat,
-            center.lng,
-            radius,
-            controller.signal
-          );
-
-
-        if (
-          requestId !==
-          parkRequestId
-        ) {
-
-          return;
-
-        }
-
-
-        const parks =
-          elements
-            .filter(
-              isValidSkatepark
-            )
-            .map(
-              element =>
-                preparePark(
-                  element,
-                  center.lat,
-                  center.lng
-                )
-            )
-            .filter(Boolean);
-
-
-        const unique =
-          new Map();
-
-
-        parks.forEach(
-          park => {
-
-            const key =
-              `${park.name}|${park.lat.toFixed(5)}|${park.lng.toFixed(5)}`;
-
-
-            if (
-              !unique.has(
-                key
-              )
-            ) {
-
-              unique.set(
-                key,
-                park
-              );
-
+              routeMarkers.push(marker);
             }
+          );
 
+
+          const bounds =
+            routeLayer.getBounds();
+
+          if (bounds.isValid()) {
+            map.fitBounds(
+              bounds,
+              {
+                padding: [40, 40]
+              }
+            );
           }
-        );
 
 
-        const sorted =
-          [
-            ...unique.values()
-          ];
+          const distanceKm =
+            Number(route.distance) / 1000;
 
+          const durationMin =
+            Number(route.duration) / 60;
 
-        sortParks(
-          sorted
-        );
-
-
-        currentParks =
-          sorted;
-
-
-        const visible =
-          sorted.slice(
-            0,
-            MAX_PARKS
+          setStatus(
+            `Route gefunden · ${distanceKm.toFixed(1)} km · ca. ${Math.round(durationMin)} min`,
+            "success"
           );
 
 
-        renderParks(
-          visible,
-          false
-        );
+          routeParksButton.disabled = false;
 
+          updateGlobeData();
 
-        renderResults(
-          visible,
-          sorted.length,
-          false
-        );
+          switchToMap();
 
+        } catch (error) {
 
-        if (
-          !sorted.length
-        ) {
-
-          showStatus(
-            `Keine passenden Skateparks innerhalb von ${radius} km gefunden.`,
+          setStatus(
+            error.name === "AbortError"
+              ? "Die Routenberechnung hat zu lange gedauert."
+              : (
+                  error.message ||
+                  "Routenberechnung fehlgeschlagen."
+                ),
             "error"
           );
 
-          return;
-
+        } finally {
+          calculateRouteButton.disabled = false;
         }
-
-
-        showStatus(
-          sorted.length >
-            MAX_PARKS
-
-            ? `${MAX_PARKS} von ${sorted.length} Skateparks angezeigt – größere zuerst.`
-
-            : `${sorted.length} passende Skateparks gefunden.`,
-
-          "success"
-        );
-
-      } catch (
-        error
-      ) {
-
-        if (
-          error.name ===
-          "AbortError"
-        ) {
-
-          showStatus(
-            "Die Skatepark-Suche hat zu lange gedauert.",
-            "error"
-          );
-
-        } else {
-
-          showStatus(
-            "Die Skateparks konnten gerade nicht geladen werden.",
-            "error"
-          );
-
-        }
-
-      } finally {
-
-        clearTimeout(
-          timeout
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       PARKS ENTLANG ROUTE
-    ========================================================== */
-
-    async function searchParksAlongRoute() {
-
-      if (
-        currentRouteCoordinates.length <
-        2
-      ) {
-
-        showStatus(
-          "Bitte zuerst eine Route berechnen.",
-          "error"
-        );
-
-        return;
-
       }
 
 
-      const requestId =
-        ++parkRequestId;
-
-
-      const radius =
-        Number(
-          parkRadius.value
-        );
-
-
-      clearParks();
-
-
-      showLoading(
-        "Skateparks entlang der Route werden gesucht..."
+      calculateRouteButton.addEventListener(
+        "click",
+        calculateRoute
       );
 
 
-      const points =
-        sampleRoutePoints(
-          currentRouteCoordinates,
-          5
-        );
+      /* =========================================================
+         SKATEPARK FILTER
+      ========================================================= */
+
+      const EXCLUDED_TERMS = [
+        "spielplatz",
+        "playground",
+        "kinderspielplatz",
+        "pumptrack",
+        "bmx",
+        "minigolf",
+        "bolzplatz",
+        "fussball",
+        "fußball",
+        "soccer",
+        "basketball",
+        "volleyball",
+        "fitness",
+        "parcours"
+      ];
 
 
-      const controller =
-        new AbortController();
+      function isValidSkatepark(element) {
+        const tags =
+          element.tags || {};
+
+        const name =
+          normalizeText(
+            tags.name ||
+            tags["name:de"] ||
+            ""
+          );
+
+        const description =
+          normalizeText(
+            tags.description || ""
+          );
+
+        const combined =
+          `${name} ${description}`;
 
 
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          60000
-        );
+        /*
+         * Harte Ausschlüsse.
+         */
+        if (
+          EXCLUDED_TERMS.some(
+            term =>
+              combined.includes(
+                normalizeText(term)
+              )
+          )
+        ) {
+          return false;
+        }
 
 
-      try {
+        /*
+         * leisure=skatepark ist der primäre
+         * und zuverlässigste Filter.
+         */
+        if (
+          tags.leisure === "skatepark"
+        ) {
+          return true;
+        }
 
-        const allElements =
-          [];
 
+        /*
+         * sport=skateboard alleine reicht NICHT.
+         */
+        if (
+          tags.sport === "skateboard" &&
+          (
+            combined.includes("skate") ||
+            combined.includes("skatepark")
+          )
+        ) {
+          return true;
+        }
+
+        return false;
+      }
+
+
+      /* =========================================================
+         AREA CALCULATION
+      ========================================================= */
+
+      function calculatePolygonAreaM2(
+        geometry
+      ) {
+        if (
+          !Array.isArray(geometry) ||
+          geometry.length < 3
+        ) {
+          return null;
+        }
+
+        const first =
+          geometry[0];
+
+        const last =
+          geometry[geometry.length - 1];
+
+        if (
+          !first ||
+          !last ||
+          first.lat !== last.lat ||
+          first.lon !== last.lon
+        ) {
+          return null;
+        }
+
+        const lat0 =
+          first.lat *
+          Math.PI /
+          180;
+
+        const R = 6371000;
+
+        const points =
+          geometry.map(point => {
+            const x =
+              R *
+              point.lon *
+              Math.PI /
+              180 *
+              Math.cos(lat0);
+
+            const y =
+              R *
+              point.lat *
+              Math.PI /
+              180;
+
+            return [x, y];
+          });
+
+
+        let area = 0;
 
         for (
           let i = 0;
           i < points.length;
           i++
         ) {
+          const j =
+            (i + 1) %
+            points.length;
 
-          if (
-            requestId !==
-            parkRequestId
-          ) {
-
-            return;
-
-          }
-
-
-          showLoading(
-            `Skateparks entlang der Route: ${i + 1}/${points.length} Bereiche...`
-          );
-
-
-          const point =
-            points[i];
-
-
-          try {
-
-            const elements =
-              await getParksCached(
-                point[1],
-                point[0],
-                radius,
-                controller.signal
-              );
-
-
-            allElements.push(
-              ...elements
-            );
-
-          } catch (
-            error
-          ) {
-
-            console.warn(
-              error
-            );
-
-          }
-
-
-          if (
-            i <
-            points.length - 1
-          ) {
-
-            await new Promise(
-              resolve =>
-                setTimeout(
-                  resolve,
-                  250
-                )
-            );
-
-          }
-
+          area +=
+            points[i][0] *
+              points[j][1] -
+            points[j][0] *
+              points[i][1];
         }
 
-
-        const uniqueElements =
-          new Map();
-
-
-        allElements
-          .filter(
-            isValidSkatepark
-          )
-          .forEach(
-            element => {
-
-              const key =
-                `${element.type}/${element.id}`;
-
-
-              if (
-                !uniqueElements.has(
-                  key
-                )
-              ) {
-
-                uniqueElements.set(
-                  key,
-                  element
-                );
-
-              }
-
-            }
-          );
-
-
-        const parks =
-          [
-            ...uniqueElements.values()
-          ]
-          .map(
-            element => {
-
-              const position =
-                getElementPosition(
-                  element
-                );
-
-
-              if (
-                !position
-              ) {
-
-                return null;
-
-              }
-
-
-              const park =
-                preparePark(
-                  element,
-                  position[0],
-                  position[1]
-                );
-
-
-              if (
-                !park
-              ) {
-
-                return null;
-
-              }
-
-
-              let nearest =
-                Infinity;
-
-
-              points.forEach(
-                point => {
-
-                  const distance =
-                    distanceKm(
-                      point[1],
-                      point[0],
-                      park.lat,
-                      park.lng
-                    );
-
-
-                  nearest =
-                    Math.min(
-                      nearest,
-                      distance
-                    );
-
-                }
-              );
-
-
-              park.routeDistance =
-                nearest;
-
-
-              return park;
-
-            }
-          )
-          .filter(Boolean);
-
-
-        parks.sort(
-          (
-            a,
-            b
-          ) => {
-
-            if (
-              a.areaM2 > 0 &&
-              b.areaM2 > 0
-            ) {
-
-              return (
-                b.areaM2 -
-                a.areaM2
-              );
-
-            }
-
-
-            if (
-              a.areaM2 > 0
-            ) {
-
-              return -1;
-
-            }
-
-
-            if (
-              b.areaM2 > 0
-            ) {
-
-              return 1;
-
-            }
-
-
-            if (
-              a.metadataScore !==
-              b.metadataScore
-            ) {
-
-              return (
-                b.metadataScore -
-                a.metadataScore
-              );
-
-            }
-
-
-            return (
-              a.routeDistance -
-              b.routeDistance
-            );
-
-          }
-        );
-
-
-        currentParks =
-          parks;
-
-
-        const visible =
-          parks.slice(
-            0,
-            MAX_PARKS
-          );
-
-
-        renderParks(
-          visible,
-          true
-        );
-
-
-        renderResults(
-          visible,
-          parks.length,
-          true
-        );
-
-
-        /*
-         * Globus aktualisieren.
-         */
-        globeParks =
-          visible;
-
-
-        updateGlobeData();
-
-
-        if (
-          !parks.length
-        ) {
-
-          showStatus(
-            `Keine passenden Skateparks innerhalb von ${radius} km entlang der Route gefunden.`,
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        showStatus(
-          parks.length >
-            MAX_PARKS
-
-            ? `${MAX_PARKS} von ${parks.length} Skateparks entlang der Route angezeigt.`
-
-            : `${parks.length} Skateparks entlang der Route gefunden.`,
-
-          "success"
-        );
-
-      } catch (
-        error
-      ) {
-
-        if (
-          error.name ===
-          "AbortError"
-        ) {
-
-          showStatus(
-            "Die Suche entlang der Route hat zu lange gedauert.",
-            "error"
-          );
-
-        } else {
-
-          showStatus(
-            "Die Skateparks entlang der Route konnten nicht geladen werden.",
-            "error"
-          );
-
-        }
-
-      } finally {
-
-        clearTimeout(
-          timeout
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       PARK SORTIERUNG
-    ========================================================== */
-
-    function sortParks(
-      parks
-    ) {
-
-      parks.sort(
-        (
-          a,
-          b
-        ) => {
-
-          if (
-            a.areaM2 > 0 &&
-            b.areaM2 > 0
-          ) {
-
-            return (
-              b.areaM2 -
-              a.areaM2
-            );
-
-          }
-
-
-          if (
-            a.areaM2 > 0
-          ) {
-
-            return -1;
-
-          }
-
-
-          if (
-            b.areaM2 > 0
-          ) {
-
-            return 1;
-
-          }
-
-
-          if (
-            a.metadataScore !==
-            b.metadataScore
-          ) {
-
-            return (
-              b.metadataScore -
-              a.metadataScore
-            );
-
-          }
-
-
-          return (
-            a.distance -
-            b.distance
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       ROUTE SAMPLING
-    ========================================================== */
-
-    function sampleRoutePoints(
-      coordinates,
-      maxPoints
-    ) {
-
-      if (
-        coordinates.length <=
-        maxPoints
-      ) {
-
-        return coordinates;
-
+        return Math.abs(area) / 2;
       }
 
 
-      const points =
-        [];
+      /* =========================================================
+         OVERPASS
+      ========================================================= */
 
-
-      for (
-        let i = 0;
-        i < maxPoints;
-        i++
+      function buildOverpassQuery(
+        lat,
+        lon,
+        radius
       ) {
-
-        const index =
-          Math.round(
-            i *
-            (
-              coordinates.length -
-              1
-            ) /
-            (
-              maxPoints -
-              1
-            )
-          );
-
-
-        points.push(
-          coordinates[index]
-        );
-
+        return `
+[out:json][timeout:8];
+(
+  nwr["leisure"="skatepark"](around:${radius},${lat},${lon});
+);
+out geom tags;
+        `.trim();
       }
 
 
-      return points;
-
-    }
-
-
-    /* =========================================================
-       PARK MARKER RENDERING
-    ========================================================== */
-
-    function renderParks(
-      parks,
-      alongRoute = false
-    ) {
-
-      parkLayer.clearLayers();
-
-
-      globeParks =
-        parks;
-
-
-      updateGlobeData();
-
-
-      parks.forEach(
-        park => {
-
-          const marker =
-            L.circleMarker(
-              [
-                park.lat,
-                park.lng
-              ],
-              {
-
-                radius:
-                  8,
-
-                weight:
-                  2,
-
-                fillOpacity:
-                  0.85
-
-              }
-            );
-
-
-          marker.bindPopup(
-            createParkPopup(
-              park,
-              alongRoute
-            )
+      function buildRouteOverpassQuery(
+        points,
+        radius
+      ) {
+        const queries =
+          points.map(
+            point =>
+              `nwr["leisure"="skatepark"](around:${radius},${point.lat},${point.lon});`
           );
 
-
-          marker.addTo(
-            parkLayer
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       PARK POPUP
-    ========================================================== */
-
-    function createParkPopup(
-      park,
-      alongRoute = false
-    ) {
-
-      const tags =
-        park.tags ||
-        {};
-
-
-      let size =
-        "Keine Größenangabe";
-
-
-      if (
-        park.areaM2 >=
-        10000
-      ) {
-
-        size =
-          `ca. ${(park.areaM2 / 10000).toFixed(1)} ha`;
-
-      } else if (
-        park.areaM2 > 0
-      ) {
-
-        size =
-          `ca. ${Math.round(
-            park.areaM2
-          ).toLocaleString(
-            "de-DE"
-          )} m²`;
-
+        return `
+[out:json][timeout:8];
+(
+  ${queries.join("\n  ")}
+);
+out geom tags;
+        `.trim();
       }
-
-
-      const lighting =
-        tags.lit ===
-          "yes"
-
-          ? "Ja"
-
-          : tags.lit ===
-              "no"
-
-            ? "Nein"
-
-            : "Keine Angabe";
-
-
-      const surface =
-        tags.surface
-          ? escapeHtml(
-              tags.surface
-            )
-          : "Keine Angabe";
-
-
-      const distance =
-        alongRoute
-
-          ? `${park.routeDistance.toFixed(1)} km zur Route`
-
-          : `${park.distance.toFixed(1)} km entfernt`;
 
 
       /*
-       * Kein OpenStreetMap-Link.
+       * Das ist der zentrale Sicherheitsmechanismus:
+       *
+       * Der gesamte Overpass-Vorgang bekommt EIN gemeinsames
+       * Zeitlimit. Serverwechsel starten KEIN neues 10-Sekunden-
+       * Zeitfenster.
        */
-      return `
-        <div class="park-popup">
-
-          <div class="park-popup-title">
-            ${escapeHtml(
-              park.name
-            )}
-          </div>
-
-          <div class="park-popup-row">
-            <span class="park-popup-label">
-              Entfernung:
-            </span>
-            ${distance}
-          </div>
-
-          <div class="park-popup-row">
-            <span class="park-popup-label">
-              Größe:
-            </span>
-            ${size}
-          </div>
-
-          <div class="park-popup-row">
-            <span class="park-popup-label">
-              Beleuchtung:
-            </span>
-            ${lighting}
-          </div>
-
-          <div class="park-popup-row">
-            <span class="park-popup-label">
-              Untergrund:
-            </span>
-            ${surface}
-          </div>
-
-        </div>
-      `;
-
-    }
-
-
-    /* =========================================================
-       ERGEBNISLISTE
-    ========================================================== */
-
-    function renderResults(
-      parks,
-      totalCount,
-      alongRoute = false
-    ) {
-
-      if (
-        !parks.length
+      async function queryOverpass(
+        query,
+        deadline
       ) {
+        let lastError = null;
 
-        results.classList.remove(
-          "visible"
-        );
+        for (
+          const server of OVERPASS_SERVERS
+        ) {
+          const remaining =
+            deadline -
+            Date.now();
 
-        return;
+          if (remaining <= 0) {
+            throw new Error(
+              "Zeitlimit erreicht."
+            );
+          }
 
+          try {
+            const response =
+              await fetchWithTimeout(
+                server +
+                "?data=" +
+                encodeURIComponent(query),
+                {
+                  headers: {
+                    "Accept":
+                      "application/json"
+                  }
+                },
+                Math.min(
+                  remaining,
+                  7500
+                )
+              );
+
+            const data =
+              await response.json();
+
+            if (
+              data &&
+              Array.isArray(data.elements)
+            ) {
+              return data.elements;
+            }
+
+            throw new Error(
+              "Ungültige Overpass-Antwort."
+            );
+
+          } catch (error) {
+            lastError = error;
+          }
+        }
+
+        throw lastError ||
+          new Error(
+            "Overpass nicht erreichbar."
+          );
       }
 
 
-      results.classList.add(
-        "visible"
-      );
+      /* =========================================================
+         PARK NORMALIZATION
+      ========================================================= */
+
+      function normalizePark(
+        element,
+        center = null,
+        routePoints = null
+      ) {
+        const tags =
+          element.tags || {};
+
+        let lat = null;
+        let lon = null;
 
 
-      resultList.innerHTML =
-        "";
+        if (
+          Number.isFinite(element.lat) &&
+          Number.isFinite(element.lon)
+        ) {
+          lat = Number(element.lat);
+          lon = Number(element.lon);
+        }
 
 
-      resultsCount.textContent =
-        totalCount >
-          MAX_PARKS
+        if (
+          (!Number.isFinite(lat) ||
+           !Number.isFinite(lon)) &&
+          Array.isArray(element.geometry) &&
+          element.geometry.length
+        ) {
+          const middle =
+            element.geometry[
+              Math.floor(
+                element.geometry.length / 2
+              )
+            ];
 
-          ? `${parks.length} / ${totalCount}`
+          lat = Number(middle.lat);
+          lon = Number(middle.lon);
+        }
 
-          : `${parks.length}`;
+
+        if (
+          !Number.isFinite(lat) ||
+          !Number.isFinite(lon)
+        ) {
+          return null;
+        }
 
 
-      parks.forEach(
-        (
-          park,
-          index
-        ) => {
+        const areaM2 =
+          calculatePolygonAreaM2(
+            element.geometry
+          );
 
-          const item =
-            document.createElement(
-              "div"
+
+        let distanceKm = null;
+
+        if (center) {
+          distanceKm =
+            haversineKm(
+              center.lat,
+              center.lon,
+              lat,
+              lon
+            );
+        }
+
+
+        let routeDistanceKm = null;
+
+        if (
+          Array.isArray(routePoints) &&
+          routePoints.length
+        ) {
+          routeDistanceKm =
+            Math.min(
+              ...routePoints.map(
+                point =>
+                  haversineKm(
+                    point.lat,
+                    point.lon,
+                    lat,
+                    lon
+                  )
+              )
+            );
+        }
+
+
+        const name =
+          tags.name ||
+          tags["name:de"] ||
+          "Skatepark";
+
+
+        return {
+          id:
+            element.type +
+            "/" +
+            element.id,
+
+          osmType: element.type,
+          osmId: element.id,
+
+          name,
+
+          lat,
+          lon,
+
+          areaM2,
+
+          distanceKm,
+
+          routeDistanceKm,
+
+          lit:
+            tags.lit === "yes"
+              ? "Ja"
+              : tags.lit === "no"
+                ? "Nein"
+                : "unbekannt",
+
+          surface:
+            tags.surface ||
+            tags["surface:material"] ||
+            "unbekannt",
+
+          tags
+        };
+      }
+
+
+      /* =========================================================
+         PARK SEARCH CORE
+      ========================================================= */
+
+      async function performParkSearch({
+        center = null,
+        routePoints = null,
+        radius
+      }) {
+        const deadline =
+          Date.now() +
+          PARK_TOTAL_TIMEOUT;
+
+
+        /*
+         * Cache-Key.
+         */
+        let cacheKey;
+
+        if (center) {
+          cacheKey =
+            [
+              "center",
+              center.lat.toFixed(4),
+              center.lon.toFixed(4),
+              radius
+            ].join(":");
+        } else {
+          cacheKey =
+            [
+              "route",
+              radius,
+              routePoints
+                .map(
+                  p =>
+                    `${p.lat.toFixed(3)},${p.lon.toFixed(3)}`
+                )
+                .join("|")
+            ].join(":");
+        }
+
+
+        if (parkCache.has(cacheKey)) {
+          return parkCache.get(cacheKey);
+        }
+
+
+        const query =
+          center
+            ? buildOverpassQuery(
+                center.lat,
+                center.lon,
+                radius
+              )
+            : buildRouteOverpassQuery(
+                routePoints,
+                radius
+              );
+
+
+        const elements =
+          await queryOverpass(
+            query,
+            deadline
+          );
+
+
+        /*
+         * Deduplizieren.
+         */
+        const unique =
+          new Map();
+
+        for (const element of elements) {
+          const key =
+            `${element.type}/${element.id}`;
+
+          if (!unique.has(key)) {
+            unique.set(
+              key,
+              element
+            );
+          }
+        }
+
+
+        const parks =
+          [...unique.values()]
+            .filter(isValidSkatepark)
+            .map(
+              element =>
+                normalizePark(
+                  element,
+                  center,
+                  routePoints
+                )
+            )
+            .filter(Boolean);
+
+
+        /*
+         * Große Parks zuerst.
+         *
+         * Bekannte Flächen werden vor unbekannten
+         * Flächen sortiert; innerhalb derselben
+         * Gruppe ist die Fläche ausschlaggebend.
+         */
+        parks.sort(
+          (a, b) => {
+
+            const aHasArea =
+              Number.isFinite(a.areaM2);
+
+            const bHasArea =
+              Number.isFinite(b.areaM2);
+
+            if (
+              aHasArea !== bHasArea
+            ) {
+              return bHasArea - aHasArea;
+            }
+
+            if (
+              aHasArea &&
+              bHasArea &&
+              a.areaM2 !== b.areaM2
+            ) {
+              return b.areaM2 - a.areaM2;
+            }
+
+            if (
+              center &&
+              Number.isFinite(a.distanceKm) &&
+              Number.isFinite(b.distanceKm)
+            ) {
+              return (
+                a.distanceKm -
+                b.distanceKm
+              );
+            }
+
+            if (
+              Number.isFinite(a.routeDistanceKm) &&
+              Number.isFinite(b.routeDistanceKm)
+            ) {
+              return (
+                a.routeDistanceKm -
+                b.routeDistanceKm
+              );
+            }
+
+            return a.name.localeCompare(
+              b.name,
+              "de"
+            );
+          }
+        );
+
+
+        const result =
+          parks.slice(0, 15);
+
+        parkCache.set(
+          cacheKey,
+          result
+        );
+
+        return result;
+      }
+
+
+      /* =========================================================
+         PARK POPUP
+      ========================================================= */
+
+      function parkPopupHtml(park) {
+        const distance =
+          Number.isFinite(
+            park.distanceKm
+          )
+            ? `
+              <div class="popupMeta">
+                Entfernung:
+                ${formatDistance(
+                  park.distanceKm
+                )}
+              </div>
+            `
+            : Number.isFinite(
+                park.routeDistanceKm
+              )
+                ? `
+                  <div class="popupMeta">
+                    Entfernung zur Route:
+                    ${formatDistance(
+                      park.routeDistanceKm
+                    )}
+                  </div>
+                `
+                : "";
+
+
+        return `
+          <div class="popupTitle">
+            ${escapeHtml(park.name)}
+          </div>
+
+          ${distance}
+
+          <div class="popupMeta">
+            Größe:
+            ${formatArea(park.areaM2)}
+            (geschätzt)
+          </div>
+
+          <div class="popupMeta">
+            Beleuchtung:
+            ${escapeHtml(park.lit)}
+          </div>
+
+          <div class="popupMeta">
+            Oberfläche:
+            ${escapeHtml(park.surface)}
+          </div>
+        `;
+      }
+
+
+      /* =========================================================
+         SHOW PARKS
+      ========================================================= */
+
+      function displayParks(
+        parks,
+        contextLabel
+      ) {
+        clearParkMarkers();
+        clearResults();
+
+        currentParks = parks;
+
+
+        if (!parks.length) {
+          resultsElement.innerHTML = `
+            <div class="emptyResults">
+              Keine passenden Skateparks gefunden.
+            </div>
+          `;
+
+          setStatus(
+            `Keine Skateparks ${contextLabel} gefunden.`,
+            "error"
+          );
+
+          updateGlobeData();
+
+          return;
+        }
+
+
+        const totalText =
+          parks.length >= 15
+            ? "15 von 15+"
+            : String(parks.length);
+
+
+        resultsElement.innerHTML = `
+          <div class="resultsHeader">
+            <span>Skateparks</span>
+            <strong>${totalText}</strong>
+          </div>
+        `;
+
+
+        parks.forEach(
+          (park, index) => {
+
+            const marker =
+              L.circleMarker(
+                [park.lat, park.lon],
+                {
+                  radius: 8,
+                  weight: 2
+                }
+              ).addTo(map);
+
+
+            marker.bindPopup(
+              parkPopupHtml(park)
             );
 
 
-          item.className =
-            "result-item";
+            marker.on(
+              "click",
+              () => {
+                marker.openPopup();
+              }
+            );
 
 
-          let size =
-            "Größe unbekannt";
+            parkMarkers.push(marker);
 
 
-          if (
-            park.areaM2 >=
-            10000
-          ) {
+            const result =
+              document.createElement("div");
 
-            size =
-              `ca. ${(park.areaM2 / 10000).toFixed(1)} ha`;
+            result.className =
+              "parkResult";
 
-          } else if (
-            park.areaM2 > 0
-          ) {
-
-            size =
-              `ca. ${Math.round(
-                park.areaM2
-              ).toLocaleString(
-                "de-DE"
-              )} m²`;
-
-          }
-
-
-          const distance =
-            alongRoute
-
-              ? `${park.routeDistance.toFixed(1)} km zur Route`
-
-              : `${park.distance.toFixed(1)} km entfernt`;
+            const distanceText =
+              Number.isFinite(
+                park.distanceKm
+              )
+                ? formatDistance(
+                    park.distanceKm
+                  )
+                : Number.isFinite(
+                    park.routeDistanceKm
+                  )
+                  ? formatDistance(
+                      park.routeDistanceKm
+                    ) +
+                    " zur Route"
+                  : "";
 
 
-          item.innerHTML =
-            `
-              <div class="result-name">
-                ${index + 1}.
-                ${escapeHtml(
+            result.innerHTML = `
+              <div class="parkName">
+                ${index + 1}. ${escapeHtml(
                   park.name
                 )}
               </div>
 
-              <div class="result-meta">
-                ${distance}
-                ·
-                ${size}
+              <div class="parkMeta">
+                ${distanceText}
+                ${distanceText ? " · " : ""}
+                ${formatArea(
+                  park.areaM2
+                )} geschätzt
+                <br>
+                Licht: ${escapeHtml(
+                  park.lit
+                )}
+                · Oberfläche:
+                ${escapeHtml(
+                  park.surface
+                )}
               </div>
             `;
 
 
-          item.addEventListener(
-            "click",
-            () => {
+            result.addEventListener(
+              "click",
+              () => {
+                switchToMap();
 
-              hideGlobe();
-
-
-              map.setView(
-                [
-                  park.lat,
-                  park.lng
-                ],
-                16,
-                {
-                  animate:
-                    true
-                }
-              );
-
-
-              parkLayer.eachLayer(
-                layer => {
-
-                  if (
-                    typeof layer.getLatLng !==
-                    "function"
-                  ) {
-
-                    return;
-
+                map.setView(
+                  [park.lat, park.lon],
+                  Math.max(
+                    map.getZoom(),
+                    15
+                  ),
+                  {
+                    animate: true
                   }
+                );
 
-
-                  const position =
-                    layer.getLatLng();
-
-
-                  if (
-                    Math.abs(
-                      position.lat -
-                      park.lat
-                    ) <
-                      0.00001 &&
-
-                    Math.abs(
-                      position.lng -
-                      park.lng
-                    ) <
-                      0.00001
-                  ) {
-
-                    layer.openPopup();
-
-                  }
-
-                }
-              );
-
-            }
-          );
-
-
-          resultList.appendChild(
-            item
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================================================
-       PARKS LÖSCHEN
-    ========================================================== */
-
-    function clearParks() {
-
-      parkRequestId++;
-
-
-      parkLayer.clearLayers();
-
-
-      currentParks =
-        [];
-
-
-      globeParks =
-        [];
-
-
-      updateGlobeData();
-
-
-      results.classList.remove(
-        "visible"
-      );
-
-
-      resultList.innerHTML =
-        "";
-
-
-      resultsCount.textContent =
-        "";
-
-    }
-
-
-    /* =========================================================
-       RESET
-    ========================================================== */
-
-    function resetEverything() {
-
-      searchRequestId++;
-
-      parkRequestId++;
-
-
-      clearRoute();
-
-      clearParks();
-
-
-      mainSearch.value =
-        "";
-
-
-      routeStops.innerHTML =
-        "";
-
-
-      stopCounter =
-        0;
-
-
-      createRouteStop();
-
-      createRouteStop();
-
-
-      lastSearchLocation =
-        null;
-
-
-      hideGlobe();
-
-
-      map.setView(
-        DEFAULT_CENTER,
-        DEFAULT_ZOOM,
-        {
-          animate:
-            true
-        }
-      );
-
-
-      activateStreetMap();
-
-
-      clearStatus();
-
-    }
-
-
-    /* =========================================================
-       EVENTS
-    ========================================================== */
-
-    searchButton.addEventListener(
-      "click",
-      searchPlace
-    );
-
-
-    routeSearchButton.addEventListener(
-      "click",
-      async () => {
-
-        const query =
-          mainSearch.value.trim();
-
-
-        if (
-          !query
-        ) {
-
-          showStatus(
-            "Gib z. B. Karlsruhe → Stuttgart → München ein.",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        let stops =
-          parseRoute(
-            query
-          );
-
-
-        /*
-         * Zusätzlich:
-         *
-         * Karlsruhe nach Stuttgart
-         * Karlsruhe bis Stuttgart
-         */
-        if (
-          !stops
-        ) {
-
-          const match =
-            query.match(
-              /^(.+?)\s+(?:nach|bis|to)\s+(.+)$/i
+                marker.openPopup();
+              }
             );
 
 
-          if (
-            match
-          ) {
+            resultsElement.appendChild(
+              result
+            );
+          }
+        );
 
-            stops = [
 
-              match[1].trim(),
+        updateGlobeData();
+      }
 
-              match[2].trim()
 
-            ];
+      /* =========================================================
+         LOCAL PARK SEARCH
+      ========================================================= */
 
+      async function searchParksHere() {
+        const center =
+          map.getCenter();
+
+        const radius =
+          Number(
+            parkRadius.value
+          );
+
+
+        searchParksButton.disabled =
+          true;
+
+        clearResults();
+
+        setStatus(
+          "Skateparks werden gesucht …"
+        );
+
+
+        try {
+
+          const parks =
+            await performParkSearch({
+              center: {
+                lat: center.lat,
+                lon: center.lng
+              },
+              radius
+            });
+
+
+          displayParks(
+            parks,
+            `im Umkreis von ${radius / 1000} km`
+          );
+
+
+          if (parks.length) {
+            setStatus(
+              `${parks.length >= 15 ? "15+" : parks.length} Skateparks gefunden.`,
+              "success"
+            );
           }
 
+        } catch (error) {
+
+          console.error(
+            "Skatepark-Suche:",
+            error
+          );
+
+          setStatus(
+            "Skatepark-Suche nach 10 Sekunden beendet. Bitte erneut versuchen.",
+            "error"
+          );
+
+
+          resultsElement.innerHTML = `
+            <button
+              id="retryParksButton"
+              class="secondaryButton"
+              type="button"
+            >
+              ↻ ERNEUT VERSUCHEN
+            </button>
+          `;
+
+
+          document
+            .getElementById(
+              "retryParksButton"
+            )
+            .addEventListener(
+              "click",
+              searchParksHere
+            );
+
+        } finally {
+          searchParksButton.disabled =
+            false;
+        }
+      }
+
+
+      searchParksButton.addEventListener(
+        "click",
+        searchParksHere
+      );
+
+
+      /* =========================================================
+         ROUTE PARK SEARCH
+      ========================================================= */
+
+      function sampleRoutePoints(
+        points,
+        maxPoints = 6
+      ) {
+        if (
+          !Array.isArray(points) ||
+          !points.length
+        ) {
+          return [];
+        }
+
+        if (
+          points.length <= maxPoints
+        ) {
+          return points.map(
+            p => ({
+              lat: p[0],
+              lon: p[1]
+            })
+          );
         }
 
 
-        if (
-          !stops ||
-          stops.length <
-            2
-        ) {
+        /*
+         * Gleichmäßig über die Route verteilt.
+         */
+        const sampled = [];
 
-          showStatus(
-            "Bitte z. B. „Karlsruhe → Stuttgart → München“ eingeben.",
+        for (
+          let i = 0;
+          i < maxPoints;
+          i++
+        ) {
+          const ratio =
+            i /
+            (maxPoints - 1);
+
+          const index =
+            Math.round(
+              ratio *
+              (points.length - 1)
+            );
+
+          const point =
+            points[index];
+
+          sampled.push({
+            lat: point[0],
+            lon: point[1]
+          });
+        }
+
+        return sampled;
+      }
+
+
+      async function searchParksAlongRoute() {
+        if (
+          !routeLatLngs.length
+        ) {
+          setStatus(
+            "Bitte zuerst eine Route berechnen.",
             "error"
           );
 
           return;
-
         }
 
 
-        routeStops.innerHTML =
-          "";
-
-
-        stopCounter =
-          0;
-
-
-        stops.forEach(
-          stop =>
-            createRouteStop(
-              stop
-            )
-        );
-
-
-        renumberStops();
-
-
-        await calculateRoute(
-          stops
-        );
-
-      }
-    );
-
-
-    addStopButton.addEventListener(
-      "click",
-      () => {
-
-        createRouteStop();
-
-        renumberStops();
-
-
-        const inputs =
-          routeStops.querySelectorAll(
-            "input"
+        const radius =
+          Number(
+            parkRadius.value
           );
 
 
-        inputs[
-          inputs.length - 1
-        ].focus();
+        routeParksButton.disabled =
+          true;
 
-      }
-    );
+        clearResults();
 
-
-    calculateRouteButton.addEventListener(
-      "click",
-      () =>
-        calculateRoute()
-    );
-
-
-    searchNearbyParksButton.addEventListener(
-      "click",
-      searchNearbyParks
-    );
-
-
-    searchRouteParksButton.addEventListener(
-      "click",
-      searchParksAlongRoute
-    );
-
-
-    resetButton.addEventListener(
-      "click",
-      resetEverything
-    );
-
-
-    mainSearch.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key ===
-          "Enter"
-        ) {
-
-          event.preventDefault();
-
-          searchPlace();
-
-        }
-
-      }
-    );
-
-
-    routeStops.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key ===
-          "Enter"
-        ) {
-
-          event.preventDefault();
-
-          calculateRoute();
-
-        }
-
-      }
-    );
-
-
-    /* =========================================================
-       WELT-BEGRENZUNG
-    ========================================================== */
-
-    map.on(
-      "drag",
-      () => {
-
-        map.panInsideBounds(
-          WORLD_BOUNDS,
-          {
-            animate:
-              false
-          }
+        setStatus(
+          "Skateparks entlang der Route werden gesucht …"
         );
 
+
+        try {
+
+          /*
+           * Je größer der Radius, desto weniger
+           * Abfragepunkte werden benötigt.
+           */
+          let count = 6;
+
+          if (radius >= 10000) {
+            count = 5;
+          }
+
+          if (radius >= 25000) {
+            count = 4;
+          }
+
+          if (radius >= 50000) {
+            count = 3;
+          }
+
+
+          const points =
+            sampleRoutePoints(
+              routeLatLngs,
+              count
+            );
+
+
+          const parks =
+            await performParkSearch({
+              routePoints: points,
+              radius
+            });
+
+
+          displayParks(
+            parks,
+            "entlang der Route"
+          );
+
+
+          if (parks.length) {
+            setStatus(
+              `${parks.length >= 15 ? "15+" : parks.length} Skateparks entlang der Route gefunden.`,
+              "success"
+            );
+          }
+
+        } catch (error) {
+
+          console.error(
+            "Route-Skatepark-Suche:",
+            error
+          );
+
+
+          setStatus(
+            "Die Skatepark-Suche wurde nach 10 Sekunden beendet. Bitte erneut versuchen.",
+            "error"
+          );
+
+
+          resultsElement.innerHTML = `
+            <button
+              id="retryRouteParksButton"
+              class="secondaryButton"
+              type="button"
+            >
+              ↻ ERNEUT VERSUCHEN
+            </button>
+          `;
+
+
+          document
+            .getElementById(
+              "retryRouteParksButton"
+            )
+            .addEventListener(
+              "click",
+              searchParksAlongRoute
+            );
+
+        } finally {
+          routeParksButton.disabled =
+            false;
+        }
       }
-    );
 
 
-    map.on(
-      "moveend",
-      () => {
+      routeParksButton.addEventListener(
+        "click",
+        searchParksAlongRoute
+      );
+
+
+      /* =========================================================
+         GLOBE LAZY LOAD
+      ========================================================= */
+
+      function loadGlobeLibrary() {
+        if (
+          window.Globe
+        ) {
+          return Promise.resolve();
+        }
 
         if (
-          globeMode
+          globeLoadPromise
         ) {
-
-          return;
-
+          return globeLoadPromise;
         }
 
 
-        const center =
-          map.getCenter();
+        globeLoadPromise =
+          new Promise(
+            (resolve, reject) => {
 
+              const script =
+                document.createElement(
+                  "script"
+                );
 
-        if (
-          !WORLD_BOUNDS.contains(
-            center
-          )
-        ) {
+              script.src =
+                "https://unpkg.com/globe.gl/dist/globe.gl.min.js";
 
-          map.panInsideBounds(
-            WORLD_BOUNDS,
-            {
-              animate:
-                false
+              script.async = true;
+
+              script.onload =
+                () => resolve();
+
+              script.onerror =
+                () => reject(
+                  new Error(
+                    "3D-Globus konnte nicht geladen werden."
+                  )
+                );
+
+              document.head.appendChild(
+                script
+              );
             }
           );
 
+
+        return globeLoadPromise;
+      }
+
+
+      /* =========================================================
+         GLOBE INIT
+      ========================================================= */
+
+      async function initGlobe() {
+        if (globeInstance) {
+          return;
         }
 
-      }
-    );
 
+        await loadGlobeLibrary();
 
-    /* =========================================================
-       RESIZE
-    ========================================================== */
-
-    window.addEventListener(
-      "resize",
-      () => {
-
-        map.invalidateSize(
-          false
-        );
 
         if (
-          globe &&
-          typeof globe.width ===
-            "function"
+          typeof window.Globe !==
+          "function"
         ) {
-
-          globe.width(
-            globeContainer.clientWidth
+          throw new Error(
+            "Globus-Bibliothek nicht verfügbar."
           );
-
-          globe.height(
-            globeContainer.clientHeight
-          );
-
         }
 
+
+        globeInstance =
+          window.Globe()(
+            globeElement
+          );
+
+
+        globeInstance
+          .globeImageUrl(
+            "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
+          )
+          .bumpImageUrl(
+            "https://unpkg.com/three-globe/example/img/earth-topology.png"
+          )
+          .backgroundColor(
+            "#05070a"
+          )
+          .showAtmosphere(true)
+          .atmosphereAltitude(
+            0.15
+          );
+
+
+        const controls =
+          globeInstance.controls();
+
+        controls.autoRotate =
+          false;
+
+        controls.enableZoom =
+          true;
+
+
+        globeInstance
+          .pointLabel(
+            point => point.name || "Skatepark"
+          )
+          .pointLat(
+            point => point.lat
+          )
+          .pointLng(
+            point => point.lon
+          )
+          .pointAltitude(
+            0.01
+          )
+          .pointRadius(
+            0.35
+          );
+
+
+        updateGlobeData();
       }
-    );
 
 
-    /* =========================================================
-       START
-    ========================================================== */
+      function updateGlobeData() {
+        if (!globeInstance) {
+          return;
+        }
 
-    requestAnimationFrame(
-      () => {
 
-        map.invalidateSize(
-          false
+        globeInstance
+          .pointsData(
+            currentParks
+          );
+
+
+        if (
+          routeLatLngs.length
+        ) {
+          globeInstance.pathsData([
+            {
+              coords:
+                routeLatLngs
+                  .map(
+                    p => [
+                      p[0],
+                      p[1]
+                    ]
+                  )
+            }
+          ]);
+        } else {
+          globeInstance.pathsData([]);
+        }
+      }
+
+
+      /* =========================================================
+         VIEW SWITCH
+      ========================================================= */
+
+      function updateModeButtons() {
+        mapModeButton.classList.toggle(
+          "active",
+          viewMode === "map"
         );
 
+        satelliteModeButton.classList.toggle(
+          "active",
+          viewMode === "satellite"
+        );
+
+        globeModeButton.classList.toggle(
+          "active",
+          viewMode === "globe"
+        );
       }
-    );
 
 
-    showStatus(
-      "Bereit. Suche einen Ort oder eine Route."
-    );
+      async function switchToGlobe() {
+        try {
 
+          setStatus(
+            "3D-Globus wird geladen …"
+          );
+
+          await initGlobe();
+
+          viewMode = "globe";
+
+          mapElement.style.display =
+            "none";
+
+          globeElement.style.display =
+            "block";
+
+          updateModeButtons();
+
+          setTimeout(
+            () => {
+              if (globeInstance) {
+                globeInstance
+                  .width(
+                    globeElement.clientWidth
+                  )
+                  .height(
+                    globeElement.clientHeight
+                  );
+              }
+            },
+            50
+          );
+
+
+          setStatus(
+            "3D-Globus aktiv.",
+            "success"
+          );
+
+        } catch (error) {
+
+          console.error(
+            "Globus:",
+            error
+          );
+
+          setStatus(
+            "Der 3D-Globus konnte nicht geladen werden.",
+            "error"
+          );
+
+          switchToMap();
+        }
+      }
+
+
+      function switchToMap() {
+        viewMode = "map";
+
+        globeElement.style.display =
+          "none";
+
+        mapElement.style.display =
+          "block";
+
+        updateModeButtons();
+
+        setTimeout(
+          () => map.invalidateSize(),
+          50
+        );
+      }
+
+
+      function switchToSatellite() {
+        viewMode = "satellite";
+
+        if (
+          currentMapLayer !==
+          satelliteLayer
+        ) {
+          map.removeLayer(
+            currentMapLayer
+          );
+
+          satelliteLayer.addTo(map);
+
+          currentMapLayer =
+            satelliteLayer;
+        }
+
+        globeElement.style.display =
+          "none";
+
+        mapElement.style.display =
+          "block";
+
+        updateModeButtons();
+
+        setTimeout(
+          () => map.invalidateSize(),
+          50
+        );
+      }
+
+
+      function switchToStreetMap() {
+        viewMode = "map";
+
+        if (
+          currentMapLayer !==
+          streetLayer
+        ) {
+          map.removeLayer(
+            currentMapLayer
+          );
+
+          streetLayer.addTo(map);
+
+          currentMapLayer =
+            streetLayer;
+        }
+
+        globeElement.style.display =
+          "none";
+
+        mapElement.style.display =
+          "block";
+
+        updateModeButtons();
+
+        setTimeout(
+          () => map.invalidateSize(),
+          50
+        );
+      }
+
+
+      mapModeButton.addEventListener(
+        "click",
+        switchToStreetMap
+      );
+
+
+      satelliteModeButton.addEventListener(
+        "click",
+        switchToSatellite
+      );
+
+
+      globeModeButton.addEventListener(
+        "click",
+        switchToGlobe
+      );
+
+
+      /* =========================================================
+         AUTOMATIC GLOBE WHEN ZOOMING OUT
+      ========================================================= */
+
+      let globeSwitchLock = false;
+
+
+      map.on(
+        "zoomend",
+        () => {
+
+          if (
+            globeSwitchLock ||
+            viewMode === "globe"
+          ) {
+            return;
+          }
+
+
+          /*
+           * Bei Zoom 2 oder kleiner:
+           * runde Erde zeigen.
+           */
+          if (
+            map.getZoom() <= 2
+          ) {
+
+            globeSwitchLock = true;
+
+            switchToGlobe()
+              .finally(
+                () => {
+                  setTimeout(
+                    () => {
+                      globeSwitchLock =
+                        false;
+                    },
+                    300
+                  );
+                }
+              );
+          }
+        }
+      );
+
+
+      /*
+       * Wenn der Nutzer aus dem Globus zurück
+       * auf die Karte möchte, nicht bei Zoom 2
+       * hängen bleiben.
+       */
+      mapModeButton.addEventListener(
+        "click",
+        () => {
+          if (
+            map.getZoom() <= 2
+          ) {
+            map.setZoom(3);
+          }
+        }
+      );
+
+
+      satelliteModeButton.addEventListener(
+        "click",
+        () => {
+          if (
+            map.getZoom() <= 2
+          ) {
+            map.setZoom(3);
+          }
+        }
+      );
+
+
+      /* =========================================================
+         GLOBE RESIZE
+      ========================================================= */
+
+      window.addEventListener(
+        "resize",
+        () => {
+          if (
+            globeInstance &&
+            viewMode === "globe"
+          ) {
+            globeInstance
+              .width(
+                globeElement.clientWidth
+              )
+              .height(
+                globeElement.clientHeight
+              );
+          }
+        }
+      );
+
+
+      /* =========================================================
+         MAIN SEARCH BUTTON
+      ========================================================= */
+
+      /*
+       * Auch Enter im ersten Routenfeld kann Route starten.
+       */
+      routeStopsElement.addEventListener(
+        "keydown",
+        event => {
+          if (
+            event.key === "Enter"
+          ) {
+            event.preventDefault();
+
+            calculateRoute();
+          }
+        }
+      );
+
+
+      /* =========================================================
+         INITIAL STATE
+      ========================================================= */
+
+      setStatus(
+        "Bereit. Karte und Suche sind geladen."
+      );
+
+      /*
+       * WICHTIG:
+       * Hier findet KEINE Netzwerk-Suche statt.
+       *
+       * Die Karte wird sofort angezeigt.
+       */
+      updateModeButtons();
+
+    })();
   </script>
 
 
-  <!-- =========================================================
-       DEIN BESTEHENDES SCRIPT
-  ========================================================== -->
+  <!--
+    Falls dein Projekt bereits eine externe script.js verwendet,
+    kannst du sie hier weiterhin laden.
 
+    Wichtig:
+    Die Datei sollte keine alten Leaflet-Karteninstanzen
+    oder alte Suchfunktionen erneut initialisieren.
+  -->
   <script src="script.js"></script>
 
 </body>
