@@ -3,234 +3,597 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Moi-cy 3D Skate Race</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#8faebe;font-family:Arial,sans-serif}
-canvas{display:block;width:100%;height:100%}
+<title>Moi-cy — 3D Skate Race</title>
 
-#loading,#menu,#finish{
-  position:fixed;inset:0;z-index:10;
-  display:flex;align-items:center;justify-content:center;
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#8da8b5;
+  font-family:Arial,Helvetica,sans-serif;
+  user-select:none;
+}
+
+canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+#loading,
+#menu,
+#finish{
+  position:fixed;
+  inset:0;
+  z-index:20;
+}
+
 #loading{
-  flex-direction:column;background:#0a0e11;color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:#0b1013;
+  color:#fff;
 }
+
 .logo{
-  font-size:76px;font-weight:900;letter-spacing:-6px;
+  font-size:clamp(58px,12vw,92px);
+  line-height:.9;
+  font-weight:900;
+  letter-spacing:-6px;
 }
-.logo i{color:#d8ff39;font-style:normal}
-#loading p{color:#9da9ae}
+
+.logo span{
+  color:#d8ff39;
+}
+
+#loading p{
+  color:#89969c;
+  margin:18px 0;
+  font-size:14px;
+}
+
 .loader{
-  width:220px;height:5px;background:#252d31;border-radius:10px;
-  overflow:hidden;margin-top:15px
+  width:210px;
+  height:5px;
+  background:#222b30;
+  border-radius:10px;
+  overflow:hidden;
 }
-.loader div{height:100%;width:50%;background:#d8ff39;animation:l 1s infinite}
-@keyframes l{from{transform:translateX(-100%)}to{transform:translateX(220%)}}
+
+.loader div{
+  width:45%;
+  height:100%;
+  background:#d8ff39;
+  animation:loader 1s infinite ease-in-out;
+}
+
+@keyframes loader{
+  from{transform:translateX(-130%)}
+  to{transform:translateX(450%)}
+}
 
 #menu{
-  background:linear-gradient(#0003,#0009);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(
+    rgba(0,0,0,.12),
+    rgba(0,0,0,.65)
+  );
 }
+
 .card{
-  width:min(450px,92vw);
+  width:min(460px,92vw);
   padding:35px;
-  background:#10171b;
+  border-radius:28px;
+  background:rgba(12,17,20,.91);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 30px 100px rgba(0,0,0,.55);
   color:#fff;
-  border:1px solid #ffffff22;
-  border-radius:25px;
   text-align:center;
-  box-shadow:0 25px 80px #0009;
 }
-.card .logo{font-size:65px}
-.sub{color:#aab5ba;letter-spacing:2px;font-size:12px;margin:12px 0 25px}
+
+.card .logo{
+  font-size:clamp(58px,13vw,82px);
+}
+
+.subtitle{
+  margin:15px 0 27px;
+  font-size:11px;
+  color:#96a3a9;
+  letter-spacing:3px;
+}
+
 button{
-  width:100%;border:0;border-radius:14px;padding:16px;
-  margin:5px 0;font-weight:900;font-size:15px;
-  cursor:pointer;background:#d8ff39;color:#101010;
+  width:100%;
+  padding:16px;
+  margin:5px 0;
+  border:0;
+  border-radius:15px;
+  background:#d8ff39;
+  color:#111;
+  font-weight:900;
+  font-size:15px;
+  cursor:pointer;
 }
-button.dark{background:#252d31;color:#fff}
+
+button:hover{
+  filter:brightness(1.08);
+}
+
+button.dark{
+  background:#252d31;
+  color:#fff;
+}
+
 .controls{
-  display:flex;gap:6px;margin-top:18px
+  display:flex;
+  gap:7px;
+  margin-top:20px;
 }
+
 .controls div{
-  flex:1;background:#1c2428;padding:10px;border-radius:10px;
-  font-size:10px;color:#9da8ad
+  flex:1;
+  padding:10px 4px;
+  border-radius:10px;
+  background:#1b2327;
+  color:#8e9a9f;
+  font-size:10px;
 }
-.controls b{display:block;color:#fff;margin-bottom:3px}
+
+.controls b{
+  display:block;
+  color:#fff;
+  margin-bottom:3px;
+}
 
 #hud{
-  position:fixed;z-index:5;top:15px;left:15px;right:15px;
-  display:none;justify-content:space-between;pointer-events:none;
+  position:fixed;
+  z-index:10;
+  top:14px;
+  left:14px;
+  right:14px;
+  display:none;
+  justify-content:space-between;
+  pointer-events:none;
 }
-.h{
-  background:#090e11bb;border:1px solid #fff1;border-radius:13px;
-  padding:9px 13px;color:#fff;min-width:95px;
-}
-.h small{display:block;color:#8f9ba0;font-size:8px;text-transform:uppercase}
-.h strong{font-size:19px}
-#boost{color:#d8ff39}
 
-#boostMsg{
-  position:fixed;bottom:25px;left:50%;transform:translateX(-50%);
-  background:#090e11dd;color:#d8ff39;padding:10px 17px;
-  border-radius:12px;font-weight:900;font-size:12px;
-  opacity:0;transition:.2s;z-index:6
+.hudBox{
+  min-width:95px;
+  padding:9px 13px;
+  border-radius:13px;
+  background:rgba(8,12,15,.72);
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;
+}
+
+.hudBox small{
+  display:block;
+  color:#89969c;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.hudBox strong{
+  display:block;
+  margin-top:2px;
+  font-size:19px;
+}
+
+#boostValue{
+  color:#d8ff39;
+}
+
+#boostMessage{
+  position:fixed;
+  z-index:12;
+  left:50%;
+  bottom:25px;
+  transform:translateX(-50%);
+  padding:10px 17px;
+  border-radius:12px;
+  background:rgba(7,11,14,.88);
+  color:#d8ff39;
+  font-weight:900;
+  font-size:12px;
+  opacity:0;
+  transition:opacity .2s;
+  pointer-events:none;
 }
 
 #mobile{
-  display:none;position:fixed;z-index:7;bottom:15px;left:15px;right:15px;
-  justify-content:space-between
+  position:fixed;
+  z-index:11;
+  left:15px;
+  right:15px;
+  bottom:14px;
+  display:none;
+  justify-content:space-between;
+  pointer-events:none;
 }
-.mgroup{display:flex;gap:8px}
-.mbtn{
-  width:62px;height:62px;padding:0;border-radius:17px;
-  background:#10171bcc;color:#fff;border:1px solid #fff2;
-  font-size:24px
-}
-.mbtn.boost{font-size:11px;background:#d8ff39;color:#111}
 
-#finish{display:none;background:#000b;backdrop-filter:blur(8px)}
-.finishCard{
-  width:min(430px,90vw);background:#10171b;color:#fff;
-  padding:38px;border-radius:25px;text-align:center
+.mobileGroup{
+  display:flex;
+  gap:8px;
+  pointer-events:auto;
 }
-.trophy{font-size:75px}
-.finishCard h2{font-size:42px;margin:8px}
-.finishCard h2 i{color:#d8ff39;font-style:normal}
-.finishCard p{color:#aab5ba}
+
+.mobileButton{
+  width:62px;
+  height:62px;
+  padding:0;
+  margin:0;
+  border-radius:17px;
+  background:rgba(10,15,18,.78);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.15);
+  font-size:25px;
+}
+
+.mobileButton.boost{
+  background:#d8ff39;
+  color:#111;
+  font-size:11px;
+}
+
+#finish{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(7px);
+}
+
+.finishCard{
+  width:min(440px,90vw);
+  padding:38px;
+  border-radius:27px;
+  background:#10171b;
+  color:#fff;
+  text-align:center;
+  box-shadow:0 30px 90px #0009;
+}
+
+.trophy{
+  font-size:78px;
+}
+
+.finishCard h2{
+  font-size:43px;
+  margin:5px 0 12px;
+}
+
+.finishCard h2 span{
+  color:#d8ff39;
+}
+
+.finishCard p{
+  color:#a5b0b5;
+}
 </style>
 </head>
+
 <body>
 
 <div id="loading">
-  <div class="logo">Moi-<i>cy</i></div>
-  <p>3D-Welt wird gestartet…</p>
+  <div class="logo">Moi-<span>cy</span></div>
+  <p>3D-Rennstrecke wird gestartet…</p>
   <div class="loader"><div></div></div>
 </div>
 
 <div id="menu">
   <div class="card">
-    <div class="logo">Moi-<i>cy</i></div>
-    <div class="sub">3D STREET SKATE RACE</div>
-    <button id="start">RACE STARTEN</button>
-    <button class="dark" id="music">♫ Musik: AN</button>
-    <div class="controls">
-      <div><b>← / A</b>LINKS</div>
-      <div><b>SHIFT</b>BOOST</div>
-      <div><b>→ / D</b>RECHTS</div>
+
+    <div class="logo">Moi-<span>cy</span></div>
+
+    <div class="subtitle">
+      STREET SKATE RACE
     </div>
+
+    <button id="startButton">
+      RACE STARTEN
+    </button>
+
+    <button id="musicButton" class="dark">
+      ♫ Musik: AN
+    </button>
+
+    <div class="controls">
+      <div>
+        <b>← / A</b>
+        LINKS
+      </div>
+
+      <div>
+        <b>SHIFT</b>
+        BOOST
+      </div>
+
+      <div>
+        <b>→ / D</b>
+        RECHTS
+      </div>
+    </div>
+
   </div>
 </div>
 
 <div id="hud">
-  <div class="h"><small>Position</small><strong id="pos">1 / 8</strong></div>
-  <div class="h"><small>Boost</small><strong id="boost">× 0</strong></div>
-  <div class="h"><small>Distanz</small><strong id="dist">0 m</strong></div>
+
+  <div class="hudBox">
+    <small>Position</small>
+    <strong id="position">1 / 8</strong>
+  </div>
+
+  <div class="hudBox">
+    <small>Boost</small>
+    <strong id="boostValue">× 0</strong>
+  </div>
+
+  <div class="hudBox">
+    <small>Distanz</small>
+    <strong id="distance">0 m</strong>
+  </div>
+
 </div>
 
-<div id="boostMsg">BOOST!</div>
+<div id="boostMessage">
+  BOOST!
+</div>
 
 <div id="mobile">
-  <div class="mgroup">
-    <button class="mbtn" id="left">←</button>
-    <button class="mbtn" id="right">→</button>
+
+  <div class="mobileGroup">
+    <button class="mobileButton" id="leftButton">←</button>
+    <button class="mobileButton" id="rightButton">→</button>
   </div>
-  <div class="mgroup">
-    <button class="mbtn boost" id="boostBtn">BOOST</button>
+
+  <div class="mobileGroup">
+    <button class="mobileButton boost" id="boostButton">
+      BOOST
+    </button>
   </div>
+
 </div>
 
 <div id="finish">
+
   <div class="finishCard">
+
     <div class="trophy">🏆</div>
-    <h2>Moi-<i>cy</i></h2>
-    <p id="finishText">Rennen gewonnen!</p>
-    <button id="again">NOCHMAL FAHREN</button>
-    <button class="dark" id="back">MENÜ</button>
+
+    <h2>
+      Moi-<span>cy</span>
+    </h2>
+
+    <p id="finishText">
+      Rennen gewonnen!
+    </p>
+
+    <button id="againButton">
+      NOCHMAL FAHREN
+    </button>
+
+    <button id="menuButton" class="dark">
+      MENÜ
+    </button>
+
   </div>
+
 </div>
 
 <canvas id="game"></canvas>
 
 <script>
-/* =========================================================
-   MOI-CY
-   Eigenes kleines WebGL-3D-Rendering
-   Keine externe Bibliothek
-   ========================================================= */
+"use strict";
 
-const canvas=document.getElementById("game");
-const gl=canvas.getContext("webgl",{antialias:true,alpha:false});
+/* ============================================================
+   MOI-CY 3D SKATE RACE
+   ------------------------------------------------------------
+   Komplett eigenständiges WebGL.
+   Keine Three.js-Datei.
+   Kein CDN.
+   Keine externen Dateien.
+   ============================================================ */
+
+
+/* ============================================================
+   CANVAS / WEBGL
+   ============================================================ */
+
+const canvas = document.getElementById("game");
+
+const gl = canvas.getContext("webgl",{
+  antialias:true,
+  alpha:false,
+  powerPreference:"high-performance"
+});
 
 if(!gl){
-  document.body.innerHTML=
-    "<div style='color:white;background:#111;height:100vh;display:grid;place-items:center;font:20px Arial'>Dieser Browser unterstützt WebGL nicht.</div>";
-  throw new Error("WebGL unavailable");
+
+  document.getElementById("loading").innerHTML=
+    '<div style="color:white;text-align:center;font:20px Arial">\
+    Dein Browser unterstützt leider kein WebGL.<br><br>\
+    Bitte Chrome, Edge, Firefox oder Safari verwenden.</div>';
+
+  throw new Error("WebGL not supported");
 }
 
-/* ---------- Shader ---------- */
 
-const VS=`
-attribute vec3 aPos;
-attribute vec3 aNormal;
-attribute vec3 aColor;
+/* ============================================================
+   SHADER
+   ============================================================ */
 
-uniform mat4 uM;
-uniform mat4 uV;
-uniform mat4 uP;
+const vertexShaderSource = `
+
+attribute vec3 position;
+attribute vec3 normal;
+attribute vec3 color;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 varying vec3 vColor;
 varying vec3 vNormal;
 
 void main(){
-  vec4 world=uM*vec4(aPos,1.0);
-  vNormal=mat3(uM)*aNormal;
-  vColor=aColor;
-  gl_Position=uP*uV*world;
+
+  vec4 worldPosition =
+    model * vec4(position,1.0);
+
+  vColor = color;
+
+  vNormal =
+    mat3(model) * normal;
+
+  gl_Position =
+    projection *
+    view *
+    worldPosition;
 }
 `;
 
-const FS=`
+const fragmentShaderSource = `
+
 precision mediump float;
 
 varying vec3 vColor;
 varying vec3 vNormal;
 
-uniform vec3 uSun;
+uniform vec3 sunDirection;
 
 void main(){
-  float light=.45+max(dot(normalize(vNormal),normalize(uSun)),0.0)*.65;
-  gl_FragColor=vec4(vColor*light,1.0);
+
+  vec3 n =
+    normalize(vNormal);
+
+  float light =
+    0.48 +
+    max(
+      dot(n,normalize(sunDirection)),
+      0.0
+    ) * .62;
+
+  gl_FragColor =
+    vec4(vColor * light,1.0);
 }
 `;
 
-function shader(type,src){
-  const s=gl.createShader(type);
-  gl.shaderSource(s,src);
-  gl.compileShader(s);
-  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))
-    throw new Error(gl.getShaderInfoLog(s));
-  return s;
+
+function makeShader(type,source){
+
+  const shader=gl.createShader(type);
+
+  gl.shaderSource(shader,source);
+  gl.compileShader(shader);
+
+  if(!gl.getShaderParameter(
+    shader,
+    gl.COMPILE_STATUS
+  )){
+    throw new Error(
+      gl.getShaderInfoLog(shader)
+    );
+  }
+
+  return shader;
 }
 
+
 const program=gl.createProgram();
-gl.attachShader(program,shader(gl.VERTEX_SHADER,VS));
-gl.attachShader(program,shader(gl.FRAGMENT_SHADER,FS));
+
+gl.attachShader(
+  program,
+  makeShader(
+    gl.VERTEX_SHADER,
+    vertexShaderSource
+  )
+);
+
+gl.attachShader(
+  program,
+  makeShader(
+    gl.FRAGMENT_SHADER,
+    fragmentShaderSource
+  )
+);
+
 gl.linkProgram(program);
+
+if(!gl.getProgramParameter(
+  program,
+  gl.LINK_STATUS
+)){
+  throw new Error(
+    gl.getProgramInfoLog(program)
+  );
+}
+
 gl.useProgram(program);
 
-const aPos=gl.getAttribLocation(program,"aPos");
-const aNormal=gl.getAttribLocation(program,"aNormal");
-const aColor=gl.getAttribLocation(program,"aColor");
 
-const uM=gl.getUniformLocation(program,"uM");
-const uV=gl.getUniformLocation(program,"uV");
-const uP=gl.getUniformLocation(program,"uP");
-const uSun=gl.getUniformLocation(program,"uSun");
+const positionLocation =
+  gl.getAttribLocation(
+    program,
+    "position"
+  );
 
-/* ---------- Math ---------- */
+const normalLocation =
+  gl.getAttribLocation(
+    program,
+    "normal"
+  );
 
-function mat4(){
+const colorLocation =
+  gl.getAttribLocation(
+    program,
+    "color"
+  );
+
+const modelLocation =
+  gl.getUniformLocation(
+    program,
+    "model"
+  );
+
+const viewLocation =
+  gl.getUniformLocation(
+    program,
+    "view"
+  );
+
+const projectionLocation =
+  gl.getUniformLocation(
+    program,
+    "projection"
+  );
+
+const sunLocation =
+  gl.getUniformLocation(
+    program,
+    "sunDirection"
+  );
+
+
+/* ============================================================
+   MATHEMATIK
+   ============================================================ */
+
+function identity(){
+
   return new Float32Array([
     1,0,0,0,
     0,1,0,0,
@@ -239,60 +602,2630 @@ function mat4(){
   ]);
 }
 
-function mul(a,b){
-  const o=new Float32Array(16);
-  for(let c=0;c<4;c++)
-    for(let r=0;r<4;r++)
-      o[c*4+r]=
-        a[r]*b[c*4]+
-        a[4+r]*b[c*4+1]+
-        a[8+r]*b[c*4+2]+
-        a[12+r]*b[c*4+3];
-  return o;
+
+function multiply(a,b){
+
+  const out=
+    new Float32Array(16);
+
+  for(let column=0;column<4;column++){
+
+    for(let row=0;row<4;row++){
+
+      out[
+        column*4+row
+      ] =
+        a[row]*
+        b[column*4] +
+
+        a[4+row]*
+        b[column*4+1] +
+
+        a[8+row]*
+        b[column*4+2] +
+
+        a[12+row]*
+        b[column*4+3];
+    }
+  }
+
+  return out;
 }
 
-function translate(x,y,z){
-  const m=mat4();
-  m[12]=x;m[13]=y;m[14]=z;
+
+function translation(x,y,z){
+
+  const m=identity();
+
+  m[12]=x;
+  m[13]=y;
+  m[14]=z;
+
   return m;
 }
 
-function scale(x,y,z){
-  const m=mat4();
-  m[0]=x;m[5]=y;m[10]=z;
+
+function scaling(x,y,z){
+
+  const m=identity();
+
+  m[0]=x;
+  m[5]=y;
+  m[10]=z;
+
   return m;
 }
 
-function rotateY(a){
-  const m=mat4();
-  const c=Math.cos(a),s=Math.sin(a);
-  m[0]=c;m[2]=-s;
-  m[8]=s;m[10]=c;
+
+function rotationY(angle){
+
+  const m=identity();
+
+  const c=Math.cos(angle);
+  const s=Math.sin(angle);
+
+  m[0]=c;
+  m[2]=-s;
+  m[8]=s;
+  m[10]=c;
+
   return m;
 }
 
-function perspective(fov,aspect,near,far){
-  const f=1/Math.tan(fov/2);
-  const m=new Float32Array(16);
-  m[0]=f/aspect;
-  m[5]=f;
-  m[10]=(far+near)/(near-far);
-  m[11]=-1;
-  m[14]=(2*far*near)/(near-far);
+
+function modelMatrix(
+  x,y,z,
+  sx,sy,sz,
+  ry=0
+){
+
+  return multiply(
+    translation(x,y,z),
+    multiply(
+      rotationY(ry),
+      scaling(sx,sy,sz)
+    )
+  );
+}
+
+
+function perspective(
+  fov,
+  aspect,
+  near,
+  far
+){
+
+  const f=
+    1/Math.tan(fov/2);
+
+  const out=
+    new Float32Array(16);
+
+  out[0]=f/aspect;
+  out[5]=f;
+
+  out[10]=
+    (far+near)/(near-far);
+
+  out[11]=-1;
+
+  out[14]=
+    (2*far*near)/(near-far);
+
+  return out;
+}
+
+
+function normalize(v){
+
+  const length=
+    Math.hypot(
+      v[0],v[1],v[2]
+    );
+
+  return [
+    v[0]/length,
+    v[1]/length,
+    v[2]/length
+  ];
+}
+
+
+function cross(a,b){
+
+  return [
+    a[1]*b[2]-a[2]*b[1],
+    a[2]*b[0]-a[0]*b[2],
+    a[0]*b[1]-a[1]*b[0]
+  ];
+}
+
+
+function lookAt(
+  eyeX,eyeY,eyeZ,
+  targetX,targetY,targetZ
+){
+
+  const z=normalize([
+    eyeX-targetX,
+    eyeY-targetY,
+    eyeZ-targetZ
+  ]);
+
+  const x=normalize(
+    cross([0,1,0],z)
+  );
+
+  const y=cross(z,x);
+
+  const m=identity();
+
+  m[0]=x[0];
+  m[1]=y[0];
+  m[2]=z[0];
+
+  m[4]=x[1];
+  m[5]=y[1];
+  m[6]=z[1];
+
+  m[8]=x[2];
+  m[9]=y[2];
+  m[10]=z[2];
+
+  m[12]=
+    -(x[0]*eyeX+
+      x[1]*eyeY+
+      x[2]*eyeZ);
+
+  m[13]=
+    -(y[0]*eyeX+
+      y[1]*eyeY+
+      y[2]*eyeZ);
+
+  m[14]=
+    -(z[0]*eyeX+
+      z[1]*eyeY+
+      z[2]*eyeZ);
+
   return m;
 }
 
-function lookAt(ex,ey,ez,cx,cy,cz){
-  let zx=ex-cx,zy=ey-cy,zz=ez-cz;
-  let l=Math.hypot(zx,zy,zz);
-  zx/=l;zy/=l;zz/=l;
 
-  let xx=zy,xy=-zx,xz=0;
-  l=Math.hypot(xx,xy);
-  xx/=l;xy/=l;
+/* ============================================================
+   CUBE GEOMETRIE
+   ============================================================ */
 
-  let yx=xy*zz,y y;
+const cubePositions=[
+  /* vorne */
+  -1,-1,1,
+   1,-1,1,
+   1,1,1,
+  -1,-1,1,
+   1,1,1,
+  -1,1,1,
+
+  /* hinten */
+   1,-1,-1,
+  -1,-1,-1,
+  -1,1,-1,
+   1,-1,-1,
+  -1,1,-1,
+   1,1,-1,
+
+  /* links */
+  -1,-1,-1,
+  -1,-1,1,
+  -1,1,1,
+  -1,-1,-1,
+  -1,1,1,
+  -1,1,-1,
+
+  /* rechts */
+   1,-1,1,
+   1,-1,-1,
+   1,1,-1,
+   1,-1,1,
+   1,1,-1,
+   1,1,1,
+
+  /* oben */
+  -1,1,1,
+   1,1,1,
+   1,1,-1,
+  -1,1,1,
+   1,1,-1,
+  -1,1,-1,
+
+  /* unten */
+  -1,-1,-1,
+   1,-1,-1,
+   1,-1,1,
+  -1,-1,-1,
+   1,-1,1,
+  -1,-1,1
+];
+
+const cubeNormals=[
+  0,0,1, 0,0,1, 0,0,1,
+  0,0,1, 0,0,1, 0,0,1,
+
+  0,0,-1, 0,0,-1, 0,0,-1,
+  0,0,-1, 0,0,-1, 0,0,-1,
+
+  -1,0,0, -1,0,0, -1,0,0,
+  -1,0,0, -1,0,0, -1,0,0,
+
+  1,0,0, 1,0,0, 1,0,0,
+  1,0,0, 1,0,0, 1,0,0,
+
+  0,1,0, 0,1,0, 0,1,0,
+  0,1,0, 0,1,0, 0,1,0,
+
+  0,-1,0, 0,-1,0, 0,-1,0,
+  0,-1,0, 0,-1,0, 0,-1,0
+];
+
+
+/* ============================================================
+   FARBE
+   ============================================================ */
+
+function hexColor(hex){
+
+  return [
+    ((hex>>16)&255)/255,
+    ((hex>>8)&255)/255,
+    (hex&255)/255
+  ];
 }
+
+
+/* ============================================================
+   STATIC WORLD
+   Alles wird in EINEM Buffer gesammelt.
+   ============================================================ */
+
+const staticVertices=[];
+const staticNormals=[];
+const staticColors=[];
+
+
+function addCube(
+  x,y,z,
+  sx,sy,sz,
+  color,
+  rot=0
+){
+
+  const c=Math.cos(rot);
+  const s=Math.sin(rot);
+
+  const rgb=
+    Array.isArray(color)
+      ? color
+      : hexColor(color);
+
+  for(let i=0;i<36;i++){
+
+    let px=cubePositions[i*3]*sx;
+    let py=cubePositions[i*3+1]*sy;
+    let pz=cubePositions[i*3+2]*sz;
+
+    const rx=
+      px*c+pz*s;
+
+    const rz=
+      -px*s+pz*c;
+
+    staticVertices.push(
+      x+rx,
+      y+py,
+      z+rz
+    );
+
+    let nx=cubeNormals[i*3];
+    let ny=cubeNormals[i*3+1];
+    let nz=cubeNormals[i*3+2];
+
+    const rnx=nx*c+nz*s;
+    const rnz=-nx*s+nz*c;
+
+    staticNormals.push(
+      rnx,ny,rnz
+    );
+
+    staticColors.push(
+      rgb[0],
+      rgb[1],
+      rgb[2]
+    );
+  }
+}
+
+
+/* ============================================================
+   RANDOM
+   ============================================================ */
+
+let seed=
+  (Date.now()>>>0);
+
+function random(){
+
+  seed^=seed<<13;
+  seed^=seed>>>17;
+  seed^=seed<<5;
+
+  return (seed>>>0)/4294967296;
+}
+
+function randomRange(a,b){
+  return a+(b-a)*random();
+}
+
+
+/* ============================================================
+   WORLD KONSTANTEN
+   ============================================================ */
+
+const ROAD_WIDTH=15;
+const WORLD_LENGTH=5200;
+const FINISH_Z=-4500;
+
+
+/* ============================================================
+   GRASS
+   ============================================================ */
+
+addCube(
+  0,-.65,-2200,
+  115,.5,2700,
+  0x527044
+);
+
+
+/* ============================================================
+   ROAD
+   ============================================================ */
+
+addCube(
+  0,-.42,-2200,
+  7.8,.22,2700,
+  0x4b4d4e
+);
+
+
+/* Gehwege */
+
+addCube(
+  -10,-.27,-2200,
+  2.1,.12,2700,
+  0x858789
+);
+
+addCube(
+  10,-.27,-2200,
+  2.1,.12,2700,
+  0x858789
+);
+
+
+/* ============================================================
+   STRASSENMARKIERUNGEN
+   ============================================================ */
+
+for(
+  let z=25;
+  z<5000;
+  z+=22
+){
+
+  addCube(
+    0,-.16,-z,
+    .07,.025,4.5,
+    0xe9e9e4
+  );
+}
+
+
+/* Randlinien */
+
+addCube(
+  -7.05,-.15,-2200,
+  .08,.025,2700,
+  0xe8e8e2
+);
+
+addCube(
+  7.05,-.15,-2200,
+  .08,.025,2700,
+  0xe8e8e2
+);
+
+
+/* ============================================================
+   STADT
+   ============================================================ */
+
+const buildingColors=[
+  0x938b82,
+  0xb0a89d,
+  0x747d81,
+  0xc0b09e,
+  0x8a726c,
+  0x697572,
+  0xa59b8e
+];
+
+
+/*
+  Dichte Häuser.
+  Drei Reihen pro Seite.
+  Sie gehen deutlich über das Ziel hinaus.
+*/
+
+for(
+  let z=35;
+  z<WORLD_LENGTH;
+  z+=34
+){
+
+  for(
+    const side of [-1,1]
+  ){
+
+    for(
+      let row=0;
+      row<3;
+      row++
+    ){
+
+      let x;
+
+      if(row===0){
+
+        x=
+          side*
+          randomRange(
+            12,
+            17
+          );
+
+      }else if(row===1){
+
+        x=
+          side*
+          randomRange(
+            24,
+            31
+          );
+
+      }else{
+
+        x=
+          side*
+          randomRange(
+            39,
+            50
+          );
+      }
+
+      const width=
+        randomRange(6,13);
+
+      const height=
+        randomRange(7,22);
+
+      const depth=
+        randomRange(20,34);
+
+      const color=
+        buildingColors[
+          Math.floor(
+            random()*buildingColors.length
+          )
+        ];
+
+      const offset=
+        row===1
+          ? 17
+          : row===2
+            ? -12
+            : 0;
+
+      addCube(
+        x,
+        height/2-.15,
+        -z+offset,
+        width,
+        height,
+        depth,
+        color,
+        randomRange(-.025,.025)
+      );
+
+      /*
+        dunkler Fassadenblock
+        erzeugt Fenster-/Balkonwirkung
+        ohne hunderte Objekte
+      */
+
+      if(row<2){
+
+        addCube(
+          x-side*(width+.03),
+          height*.65,
+          -z+offset,
+          .08,
+          height*.28,
+          depth*.7,
+          0x31373a
+        );
+      }
+    }
+  }
+}
+
+
+/* ============================================================
+   HORIZONT-BLOCKS
+   Verhindern leere Stellen zwischen den Häusern.
+   ============================================================ */
+
+for(
+  let z=50;
+  z<WORLD_LENGTH;
+  z+=80
+){
+
+  addCube(
+    -64,
+    12,
+    -z,
+    14,
+    24,
+    55,
+    0x606b6d
+  );
+
+  addCube(
+    64,
+    14,
+    -z-30,
+    15,
+    28,
+    55,
+    0x687174
+  );
+}
+
+
+/* ============================================================
+   BÄUME
+   ============================================================ */
+
+for(
+  let z=40;
+  z<WORLD_LENGTH;
+  z+=38
+){
+
+  for(
+    const side of [-1,1]
+  ){
+
+    const x=
+      side*
+      randomRange(14,55);
+
+    const y=1.8;
+
+    addCube(
+      x,
+      .9,
+      -z+randomRange(-12,12),
+      .28,
+      1.8,
+      .28,
+      0x5b402d
+    );
+
+    /*
+      Baumkrone als Würfel mit zufälliger Größe.
+      Low poly = schnell.
+    */
+
+    const crown=
+      random()<.5
+        ? 0x35673b
+        : 0x477b42;
+
+    addCube(
+      x,
+      y+randomRange(-.2,.6),
+      -z+randomRange(-12,12),
+      randomRange(1.2,2.1),
+      randomRange(1.2,2),
+      randomRange(1.2,2.1),
+      crown
+    );
+  }
+}
+
+
+/* ============================================================
+   LATERNN
+   ============================================================ */
+
+for(
+  let z=30;
+  z<WORLD_LENGTH;
+  z+=55
+){
+
+  for(
+    const side of [-1,1]
+  ){
+
+    const x=
+      side*10.8;
+
+    addCube(
+      x,
+      2.7,
+      -z,
+      .08,
+      2.7,
+      .08,
+      0x353a3d
+    );
+
+    addCube(
+      x,
+      5.45,
+      -z,
+      .35,
+      .08,
+      .35,
+      0x303538
+    );
+  }
+}
+
+
+/* ============================================================
+   AUTOS WEIT WEG VON DER STRASSE
+   ============================================================ */
+
+const carColors=[
+  0xb93d3d,
+  0x3e70a5,
+  0xd7a92f,
+  0x4d7655,
+  0x72787b
+];
+
+for(let i=0;i<35;i++){
+
+  const side=
+    random()<.5
+      ? -1
+      : 1;
+
+  const x=
+    side*randomRange(
+      18,
+      48
+    );
+
+  const z=
+    -randomRange(
+      50,
+      WORLD_LENGTH-100
+    );
+
+  const color=
+    carColors[
+      Math.floor(
+        random()*carColors.length
+      )
+    ];
+
+  addCube(
+    x,
+    .55,
+    z,
+    1.45,
+    .55,
+    2.4,
+    color
+  );
+
+  addCube(
+    x,
+    1.1,
+    z,
+    1.05,
+    .38,
+    1.25,
+    0x24282a
+  );
+}
+
+
+/* ============================================================
+   FINISH
+   ============================================================ */
+
+addCube(
+  0,
+  -.1,
+  FINISH_Z,
+  7.8,
+  .12,
+  4,
+  0xf0f0ec
+);
+
+
+/* Checker */
+
+for(
+  let x=-7;
+  x<7;
+  x+=1.75
+){
+
+  const even=
+    Math.round(x*2)%2===0;
+
+  addCube(
+    x,
+    .06,
+    FINISH_Z,
+    .87,
+    .04,
+    2,
+    even
+      ? 0x171b1d
+      : 0xe9e9e4
+  );
+}
+
+
+/* Finishbogen */
+
+addCube(
+  -8.8,
+  4,
+  FINISH_Z,
+  .45,
+  4,
+  .45,
+  0x171b1d
+);
+
+addCube(
+  8.8,
+  4,
+  FINISH_Z,
+  .45,
+  4,
+  .45,
+  0x171b1d
+);
+
+addCube(
+  0,
+  8,
+  FINISH_Z,
+  9,
+  .55,
+  .45,
+  0xd8ff39
+);
+
+
+/* ============================================================
+   STATIC BUFFER
+   ============================================================ */
+
+const staticPositionBuffer=
+  gl.createBuffer();
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  staticPositionBuffer
+);
+
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array(staticVertices),
+  gl.STATIC_DRAW
+);
+
+
+const staticNormalBuffer=
+  gl.createBuffer();
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  staticNormalBuffer
+);
+
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array(staticNormals),
+  gl.STATIC_DRAW
+);
+
+
+const staticColorBuffer=
+  gl.createBuffer();
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  staticColorBuffer
+);
+
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array(staticColors),
+  gl.STATIC_DRAW
+);
+
+const staticVertexCount=
+  staticVertices.length/3;
+
+
+/* ============================================================
+   DYNAMISCHE CUBES
+   ============================================================ */
+
+function drawCube(
+  x,y,z,
+  sx,sy,sz,
+  color,
+  rot=0
+){
+
+  const rgb=
+    Array.isArray(color)
+      ? color
+      : hexColor(color);
+
+  const positions=[];
+  const normals=[];
+  const colors=[];
+
+  const c=Math.cos(rot);
+  const s=Math.sin(rot);
+
+  for(let i=0;i<36;i++){
+
+    let px=cubePositions[i*3]*sx;
+    let py=cubePositions[i*3+1]*sy;
+    let pz=cubePositions[i*3+2]*sz;
+
+    const rx=
+      px*c+pz*s;
+
+    const rz=
+      -px*s+pz*c;
+
+    positions.push(
+      x+rx,
+      y+py,
+      z+rz
+    );
+
+    const nx=cubeNormals[i*3];
+    const ny=cubeNormals[i*3+1];
+    const nz=cubeNormals[i*3+2];
+
+    normals.push(
+      nx*c+nz*s,
+      ny,
+      -nx*s+nz*c
+    );
+
+    colors.push(
+      rgb[0],
+      rgb[1],
+      rgb[2]
+    );
+  }
+
+  const pb=gl.createBuffer();
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    pb
+  );
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(positions),
+    gl.STREAM_DRAW
+  );
+
+  gl.vertexAttribPointer(
+    positionLocation,
+    3,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+  gl.enableVertexAttribArray(
+    positionLocation
+  );
+
+  const nb=gl.createBuffer();
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    nb
+  );
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(normals),
+    gl.STREAM_DRAW
+  );
+
+  gl.vertexAttribPointer(
+    normalLocation,
+    3,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+  gl.enableVertexAttribArray(
+    normalLocation
+  );
+
+  const cb=gl.createBuffer();
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    cb
+  );
+
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(colors),
+    gl.STREAM_DRAW
+  );
+
+  gl.vertexAttribPointer(
+    colorLocation,
+    3,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+  gl.enableVertexAttribArray(
+    colorLocation
+  );
+
+  gl.uniformMatrix4fv(
+    modelLocation,
+    false,
+    identity()
+  );
+
+  gl.drawArrays(
+    gl.TRIANGLES,
+    0,
+    36
+  );
+
+  gl.deleteBuffer(pb);
+  gl.deleteBuffer(nb);
+  gl.deleteBuffer(cb);
+}
+
+
+/* ============================================================
+   SKATER
+   ============================================================ */
+
+function makeRider(data){
+
+  return {
+    name:data.name,
+
+    x:data.x,
+    z:data.z,
+
+    targetX:data.x,
+
+    speed:data.speed,
+    baseSpeed:data.speed,
+
+    shirt:data.shirt,
+    board:data.board,
+    skin:data.skin,
+    hair:data.hair,
+
+    aiTimer:randomRange(1,3),
+
+    phase:randomRange(0,10)
+  };
+}
+
+
+const player={
+  name:"Mika",
+
+  x:0,
+  z:0,
+
+  targetX:0,
+
+  speed:31,
+
+  shirt:0x181818,
+  board:0xd8ff39,
+
+  skin:0xc98b65,
+  hair:0x171717
+};
+
+
+const opponents=[
+
+  makeRider({
+    name:"Lena",
+    x:-5.2,
+    z:-18,
+    speed:34,
+    shirt:0xd14d4d,
+    board:0xe9e9e9,
+    skin:0xd39a72,
+    hair:0x171717
+  }),
+
+  makeRider({
+    name:"Noah",
+    x:5.2,
+    z:12,
+    speed:35,
+    shirt:0x3975b7,
+    board:0xe58b3d,
+    skin:0xb97952,
+    hair:0x4c3021
+  }),
+
+  makeRider({
+    name:"Jay",
+    x:0,
+    z:-45,
+    speed:33,
+    shirt:0x4d965d,
+    board:0x252525,
+    skin:0x9b6548,
+    hair:0x111111
+  }),
+
+  makeRider({
+    name:"Kim",
+    x:-5.2,
+    z:23,
+    speed:35.5,
+    shirt:0xe58b3d,
+    board:0x7956a8,
+    skin:0xd7a078,
+    hair:0x392218
+  }),
+
+  makeRider({
+    name:"Alex",
+    x:5.2,
+    z:-70,
+    speed:34,
+    shirt:0x7956a8,
+    board:0x3d79a8,
+    skin:0xa96f50,
+    hair:0x151515
+  }),
+
+  makeRider({
+    name:"Sam",
+    x:0,
+    z:8,
+    speed:35,
+    shirt:0xd7d7d2,
+    board:0xd84a43,
+    skin:0xe0ad82,
+    hair:0x2a1b13
+  }),
+
+  makeRider({
+    name:"Milo",
+    x:5.2,
+    z:-105,
+    speed:36,
+    shirt:0x4e7f75,
+    board:0xd8ff39,
+    skin:0x925c40,
+    hair:0x171717
+  })
+];
+
+
+/* ============================================================
+   DRAW SKATER
+   ============================================================ */
+
+function drawSkater(r,isPlayer=false){
+
+  const bob=
+    Math.sin(gameTime*7+r.phase)*.025;
+
+  const tilt=
+    isPlayer
+      ? playerTilt
+      : Math.sin(
+          gameTime*2+r.phase
+        )*.035;
+
+
+  /* ================= BOARD ================= */
+
+  /*
+    Das Deck liegt längs auf Z.
+  */
+
+  drawCube(
+    r.x,
+    .34+bob,
+    r.z,
+    .35,
+    .08,
+    1.35,
+    r.board,
+    tilt
+  );
+
+
+  /* Trucks */
+
+  drawCube(
+    r.x,
+    .23+bob,
+    r.z-.76,
+    .43,
+    .06,
+    .10,
+    0xaeb2b4,
+    tilt
+  );
+
+  drawCube(
+    r.x,
+    .23+bob,
+    r.z+.76,
+    .43,
+    .06,
+    .10,
+    0xaeb2b4,
+    tilt
+  );
+
+
+  /* 4 Räder */
+
+  const wheel=0x111111;
+
+  for(
+    const wx of [-.34,.34]
+  ){
+
+    drawCube(
+      r.x+wx,
+      .12+bob,
+      r.z-.86,
+      .13,
+      .15,
+      .20,
+      wheel,
+      tilt
+    );
+
+    drawCube(
+      r.x+wx,
+      .12+bob,
+      r.z+.86,
+      .13,
+      .15,
+      .20,
+      wheel,
+      tilt
+    );
+  }
+
+
+  /* ================= BEINE ================= */
+
+  drawCube(
+    r.x-.17,
+    .78+bob,
+    r.z-.20,
+    .10,
+    .38,
+    .11,
+    0x25282a,
+    tilt
+  );
+
+  drawCube(
+    r.x+.17,
+    .78+bob,
+    r.z+.20,
+    .10,
+    .38,
+    .11,
+    0x25282a,
+    tilt
+  );
+
+
+  /* Schuhe */
+
+  drawCube(
+    r.x-.17,
+    1.10+bob,
+    r.z-.28,
+    .20,
+    .09,
+    .31,
+    0xe9e9e5,
+    tilt
+  );
+
+  drawCube(
+    r.x+.17,
+    1.10+bob,
+    r.z+.28,
+    .20,
+    .09,
+    .31,
+    0xe9e9e5,
+    tilt
+  );
+
+
+  /* ================= HOSE ================= */
+
+  drawCube(
+    r.x,
+    1.24+bob,
+    r.z,
+    .30,
+    .15,
+    .22,
+    0x202426,
+    tilt
+  );
+
+
+  /* ================= SHIRT ================= */
+
+  drawCube(
+    r.x,
+    1.67+bob,
+    r.z,
+    .32,
+    .42,
+    .22,
+    r.shirt,
+    tilt
+  );
+
+
+  /* ================= ARME ================= */
+
+  drawCube(
+    r.x-.42,
+    1.64+bob,
+    r.z,
+    .08,
+    .30,
+    .08,
+    r.skin,
+    tilt-.18
+  );
+
+  drawCube(
+    r.x+.42,
+    1.64+bob,
+    r.z,
+    .08,
+    .30,
+    .08,
+    r.skin,
+    tilt+.18
+  );
+
+
+  /* ================= KOPF ================= */
+
+  drawCube(
+    r.x,
+    2.30+bob,
+    r.z,
+    .27,
+    .30,
+    .27,
+    r.skin,
+    tilt
+  );
+
+
+  /* Haare */
+
+  drawCube(
+    r.x,
+    2.56+bob,
+    r.z,
+    .29,
+    .10,
+    .28,
+    r.hair,
+    tilt
+  );
+
+
+  /* Moi-cy Brustlogo:
+     heller Block als gut sichtbares Shirt-Detail */
+
+  drawCube(
+    r.x,
+    1.70+bob,
+    r.z-.225,
+    .17,
+    .07,
+    .012,
+    0xd8ff39,
+    tilt
+  );
+}
+
+
+/* ============================================================
+   BOOST PICKUPS
+   ============================================================ */
+
+const boosts=[];
+
+const boostPositions=[
+  [-5.2,-270],
+  [5.2,-600],
+  [0,-920],
+  [-5.2,-1260],
+  [5.2,-1600],
+  [0,-1940],
+  [-5.2,-2280],
+  [5.2,-2620],
+  [0,-2960],
+  [-5.2,-3300],
+  [5.2,-3640],
+  [0,-3980],
+  [-5.2,-4300]
+];
+
+boostPositions.forEach((p,i)=>{
+
+  boosts.push({
+    x:p[0],
+    z:p[1],
+    collected:false,
+    phase:i*.7
+  });
+});
+
+
+function drawBoost(b){
+
+  if(b.collected)return;
+
+  const y=
+    .9+
+    Math.sin(
+      gameTime*4+b.phase
+    )*.15;
+
+  const s=
+    1+
+    Math.sin(
+      gameTime*5+b.phase
+    )*.1;
+
+  drawCube(
+    b.x,
+    y,
+    b.z,
+    .32*s,
+    .32*s,
+    .32*s,
+    0xd8ff39,
+    gameTime*2
+  );
+
+  drawCube(
+    b.x,
+    y,
+    b.z,
+    .12,
+    .12,
+    .12,
+    0xffffff,
+    -gameTime*3
+  );
+}
+
+
+/* ============================================================
+   GAME STATE
+   ============================================================ */
+
+let running=false;
+
+let gameTime=0;
+
+let lastTime=
+  performance.now();
+
+let boostCharges=0;
+
+let boostEnd=0;
+
+let playerTilt=0;
+
+let keys={
+  left:false,
+  right:false
+};
+
+
+/* ============================================================
+   CAMERA
+   ============================================================ */
+
+let cameraX=0;
+let cameraY=4.1;
+let cameraZ=9.5;
+
+function updateCamera(dt){
+
+  const desiredX=
+    player.x*.55;
+
+  cameraX +=
+    (desiredX-cameraX)*
+    Math.min(1,dt*5);
+
+  const desiredZ=
+    player.z+9.8;
+
+  cameraZ +=
+    (desiredZ-cameraZ)*
+    Math.min(1,dt*6);
+}
+
+
+/* ============================================================
+   UPDATE PLAYER
+   ============================================================ */
+
+function updatePlayer(dt){
+
+  let direction=0;
+
+  /*
+    WICHTIG:
+    ArrowLeft / A = LINKS
+    ArrowRight / D = RECHTS
+  */
+
+  if(keys.left)
+    direction-=1;
+
+  if(keys.right)
+    direction+=1;
+
+  player.targetX +=
+    direction*11*dt;
+
+  player.targetX=
+    Math.max(
+      -6.0,
+      Math.min(
+        6.0,
+        player.targetX
+      )
+    );
+
+  player.x +=
+    (player.targetX-player.x)*
+    Math.min(1,dt*10);
+
+
+  playerTilt +=
+    (
+      direction*.12-playerTilt
+    )*
+    Math.min(1,dt*8);
+
+
+  let speed=31;
+
+  if(performance.now()<boostEnd)
+    speed=47;
+
+  player.z-=speed*dt;
+}
+
+
+/* ============================================================
+   UPDATE OPPONENTS
+   ============================================================ */
+
+function updateOpponents(dt){
+
+  opponents.forEach(r=>{
+
+    r.aiTimer-=dt;
+
+    if(r.aiTimer<=0){
+
+      r.aiTimer=
+        randomRange(1.2,3.5);
+
+      const lane=
+        Math.floor(
+          random()*3
+        );
+
+      r.targetX=
+        [-5.2,0,5.2][lane];
+
+      /*
+        Manchmal fährt ein Gegner bewusst
+        in Richtung Spieler.
+      */
+
+      if(random()<.22){
+
+        r.targetX=
+          Math.max(
+            -5.2,
+            Math.min(
+              5.2,
+              Math.round(
+                player.x/5.2
+              )*5.2
+            )
+          );
+      }
+    }
+
+
+    let speed=
+      r.baseSpeed+
+      Math.sin(
+        gameTime*.7+r.phase
+      )*1.1;
+
+
+    const gap=
+      r.z-player.z;
+
+
+    /*
+      Gegner hinter dem Spieler
+      holen etwas auf.
+    */
+
+    if(gap>70)
+      speed+=3.5;
+
+    /*
+      Gegner weit voraus werden
+      nicht künstlich unendlich schnell.
+    */
+
+    if(gap<-140)
+      speed-=1.2;
+
+
+    r.z-=speed*dt;
+
+
+    r.x +=
+      (r.targetX-r.x)*
+      Math.min(1,dt*2.5);
+
+
+    /*
+      leichte Kollision
+    */
+
+    const dx=
+      r.x-player.x;
+
+    const dz=
+      r.z-player.z;
+
+    if(
+      Math.abs(dx)<1.0 &&
+      Math.abs(dz)<2.0
+    ){
+
+      const push=
+        dx>=0 ? -1:1;
+
+      player.targetX+=
+        push*1.1;
+
+      player.targetX=
+        Math.max(
+          -6,
+          Math.min(
+            6,
+            player.targetX
+          )
+        );
+    }
+  });
+}
+
+
+/* ============================================================
+   BOOST
+   ============================================================ */
+
+function collectBoosts(){
+
+  boosts.forEach(b=>{
+
+    if(b.collected)
+      return;
+
+    const dx=
+      Math.abs(
+        b.x-player.x
+      );
+
+    const dz=
+      Math.abs(
+        b.z-player.z
+      );
+
+    if(
+      dx<1.7 &&
+      dz<2.5
+    ){
+
+      b.collected=true;
+
+      boostCharges=
+        Math.min(
+          3,
+          boostCharges+1
+        );
+
+      showBoost(
+        "BOOST GESAMMELT  ×"+
+        boostCharges
+      );
+    }
+  });
+}
+
+
+function activateBoost(){
+
+  if(!running)
+    return;
+
+  if(boostCharges<=0)
+    return;
+
+  if(
+    performance.now()<
+    boostEnd
+  )
+    return;
+
+  boostCharges--;
+
+  boostEnd=
+    performance.now()+3000;
+
+  showBoost(
+    "BOOST AKTIV!"
+  );
+
+  boostSound();
+}
+
+
+function showBoost(text){
+
+  const el=
+    document.getElementById(
+      "boostMessage"
+    );
+
+  el.textContent=text;
+  el.style.opacity="1";
+
+  clearTimeout(
+    showBoost.timer
+  );
+
+  showBoost.timer=
+    setTimeout(()=>{
+      el.style.opacity="0";
+    },900);
+}
+
+
+/* ============================================================
+   POSITION
+   ============================================================ */
+
+function playerPosition(){
+
+  let position=1;
+
+  opponents.forEach(r=>{
+
+    if(r.z<player.z)
+      position++;
+  });
+
+  return position;
+}
+
+
+/* ============================================================
+   FINISH
+   ============================================================ */
+
+function checkFinish(){
+
+  if(player.z<=FINISH_Z){
+
+    running=false;
+
+    const position=
+      playerPosition();
+
+    document.getElementById(
+      "hud"
+    ).style.display="none";
+
+    document.getElementById(
+      "mobile"
+    ).style.display="none";
+
+    document.getElementById(
+      "finish"
+    ).style.display="flex";
+
+
+    document.getElementById(
+      "finishText"
+    ).textContent=
+      position===1
+        ? "Du hast das Rennen gewonnen!"
+        : "Ziel erreicht — Platz "+
+          position+
+          " von 8.";
+  }
+}
+
+
+/* ============================================================
+   HUD
+   ============================================================ */
+
+function updateHUD(){
+
+  document.getElementById(
+    "position"
+  ).textContent=
+    playerPosition()+
+    " / 8";
+
+  document.getElementById(
+    "boostValue"
+  ).textContent=
+    performance.now()<boostEnd
+      ? "BOOST!"
+      : "× "+boostCharges;
+
+  const d=
+    Math.max(
+      0,
+      Math.floor(
+        -player.z
+      )
+    );
+
+  document.getElementById(
+    "distance"
+  ).textContent=
+    Math.min(
+      4500,
+      d
+    )+" m";
+}
+
+
+/* ============================================================
+   AUDIO
+   Nur Hintergrundmusik.
+   KEIN Rollgeräusch.
+   ============================================================ */
+
+let audioContext=null;
+let musicInterval=null;
+let musicEnabled=true;
+
+function startMusic(){
+
+  if(!musicEnabled)
+    return;
+
+  if(audioContext)
+    return;
+
+  try{
+
+    audioContext=
+      new (
+        window.AudioContext||
+        window.webkitAudioContext
+      )();
+
+    const master=
+      audioContext.createGain();
+
+    master.gain.value=.025;
+
+    master.connect(
+      audioContext.destination
+    );
+
+    const notes=[
+      146.83,
+      174.61,
+      220,
+      261.63,
+      220,
+      174.61
+    ];
+
+    let n=0;
+
+    musicInterval=
+      setInterval(()=>{
+
+        if(!audioContext)
+          return;
+
+        const oscillator=
+          audioContext.createOscillator();
+
+        const gain=
+          audioContext.createGain();
+
+        oscillator.type="triangle";
+
+        oscillator.frequency.value=
+          notes[
+            n%notes.length
+          ];
+
+        gain.gain.setValueAtTime(
+          .001,
+          audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          .35,
+          audioContext.currentTime+.03
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+          .001,
+          audioContext.currentTime+.36
+        );
+
+        oscillator.connect(gain);
+        gain.connect(master);
+
+        oscillator.start();
+
+        oscillator.stop(
+          audioContext.currentTime+.4
+        );
+
+        n++;
+
+      },420);
+
+  }catch(e){}
+}
+
+
+function stopMusic(){
+
+  if(musicInterval){
+
+    clearInterval(
+      musicInterval
+    );
+
+    musicInterval=null;
+  }
+
+  if(audioContext){
+
+    try{
+      audioContext.close();
+    }catch(e){}
+
+    audioContext=null;
+  }
+}
+
+
+function boostSound(){
+
+  if(!audioContext)
+    return;
+
+  try{
+
+    const osc=
+      audioContext.createOscillator();
+
+    const gain=
+      audioContext.createGain();
+
+    osc.type="sawtooth";
+
+    osc.frequency.setValueAtTime(
+      170,
+      audioContext.currentTime
+    );
+
+    osc.frequency.exponentialRampToValueAtTime(
+      600,
+      audioContext.currentTime+.18
+    );
+
+    gain.gain.setValueAtTime(
+      .001,
+      audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .12,
+      audioContext.currentTime+.03
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .001,
+      audioContext.currentTime+.25
+    );
+
+    osc.connect(gain);
+    gain.connect(
+      audioContext.destination
+    );
+
+    osc.start();
+
+    osc.stop(
+      audioContext.currentTime+.27
+    );
+
+  }catch(e){}
+}
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+
+function resetRace(){
+
+  player.x=0;
+  player.targetX=0;
+  player.z=0;
+
+  boostCharges=0;
+  boostEnd=0;
+
+  const starts=[
+    -18,
+    12,
+    -45,
+    23,
+    -70,
+    8,
+    -105
+  ];
+
+  opponents.forEach((r,i)=>{
+
+    r.z=starts[i];
+
+    r.x=
+      [-5.2,5.2,0,-5.2,5.2,0,5.2][i];
+
+    r.targetX=r.x;
+
+    r.aiTimer=
+      randomRange(1,3);
+  });
+
+  boosts.forEach(b=>{
+    b.collected=false;
+  });
+}
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+function startRace(){
+
+  resetRace();
+
+  running=true;
+
+  gameTime=0;
+
+  document.getElementById(
+    "menu"
+  ).style.display="none";
+
+  document.getElementById(
+    "finish"
+  ).style.display="none";
+
+  document.getElementById(
+    "hud"
+  ).style.display="flex";
+
+  if(
+    "ontouchstart" in window
+  ){
+
+    document.getElementById(
+      "mobile"
+    ).style.display="flex";
+  }
+
+  startMusic();
+}
+
+
+/* ============================================================
+   RENDER STATIC
+   ============================================================ */
+
+function renderStatic(){
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    staticPositionBuffer
+  );
+
+  gl.vertexAttribPointer(
+    positionLocation,
+    3,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+  gl.enableVertexAttribArray(
+    positionLocation
+  );
+
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    staticNormalBuffer
+  );
+
+  gl.vertexAttribPointer(
+    normalLocation,
+    3,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+  gl.enableVertexAttribArray(
+    normalLocation
+  );
+
+
+  gl.bindBuffer(
+    gl.ARRAY_BUFFER,
+    staticColorBuffer
+  );
+
+  gl.vertexAttribPointer(
+    colorLocation,
+    3,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  );
+
+  gl.enableVertexAttribArray(
+    colorLocation
+  );
+
+
+  gl.uniformMatrix4fv(
+    modelLocation,
+    false,
+    identity()
+  );
+
+
+  gl.drawArrays(
+    gl.TRIANGLES,
+    0,
+    staticVertexCount
+  );
+}
+
+
+/* ============================================================
+   FRAME
+   ============================================================ */
+
+function frame(now){
+
+  requestAnimationFrame(frame);
+
+  let dt=
+    (now-lastTime)/1000;
+
+  lastTime=now;
+
+  dt=
+    Math.min(
+      .035,
+      Math.max(
+        .001,
+        dt
+      )
+    );
+
+
+  if(running){
+
+    gameTime+=dt;
+
+    updatePlayer(dt);
+
+    updateOpponents(dt);
+
+    collectBoosts();
+
+    checkFinish();
+
+    updateHUD();
+  }
+
+
+  updateCamera(dt);
+
+
+  /* ========================================================
+     CLEAR
+     ======================================================== */
+
+  gl.viewport(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  gl.clearColor(
+    .55,
+    .67,
+    .72,
+    1
+  );
+
+  gl.clear(
+    gl.COLOR_BUFFER_BIT|
+    gl.DEPTH_BUFFER_BIT
+  );
+
+
+  gl.enable(
+    gl.DEPTH_TEST
+  );
+
+  gl.depthFunc(
+    gl.LESS
+  );
+
+
+  /* ========================================================
+     MATRIZ
+     ======================================================== */
+
+  const projection=
+    perspective(
+      Math.PI/3,
+      canvas.width/canvas.height,
+      .1,
+      700
+    );
+
+
+  const view=
+    lookAt(
+      cameraX,
+      cameraY,
+      cameraZ,
+
+      player.x*.28,
+      1.25,
+      player.z-24
+    );
+
+
+  gl.uniformMatrix4fv(
+    projectionLocation,
+    false,
+    projection
+  );
+
+  gl.uniformMatrix4fv(
+    viewLocation,
+    false,
+    view
+  );
+
+  gl.uniform3f(
+    sunLocation,
+    -.5,
+    1,
+    .35
+  );
+
+
+  /* ========================================================
+     STATIC WORLD
+     ======================================================== */
+
+  renderStatic();
+
+
+  /* ========================================================
+     BOOSTS
+     ======================================================== */
+
+  boosts.forEach(
+    drawBoost
+  );
+
+
+  /* ========================================================
+     PLAYER
+     ======================================================== */
+
+  drawSkater(
+    player,
+    true
+  );
+
+
+  /* ========================================================
+     OPPONENTS
+     ======================================================== */
+
+  opponents.forEach(
+    r=>drawSkater(r,false)
+  );
+}
+
+
+/* ============================================================
+   RESIZE
+   ============================================================ */
+
+function resize(){
+
+  const dpr=
+    Math.min(
+      window.devicePixelRatio||1,
+      1.5
+    );
+
+  canvas.width=
+    Math.floor(
+      innerWidth*dpr
+    );
+
+  canvas.height=
+    Math.floor(
+      innerHeight*dpr
+    );
+
+  canvas.style.width=
+    innerWidth+"px";
+
+  canvas.style.height=
+    innerHeight+"px";
+}
+
+window.addEventListener(
+  "resize",
+  resize
+);
+
+resize();
+
+
+/* ============================================================
+   KEYBOARD
+   ============================================================ */
+
+window.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.code==="ArrowLeft"||
+      e.code==="KeyA"
+    ){
+
+      keys.left=true;
+
+      e.preventDefault();
+    }
+
+
+    if(
+      e.code==="ArrowRight"||
+      e.code==="KeyD"
+    ){
+
+      keys.right=true;
+
+      e.preventDefault();
+    }
+
+
+    if(
+      e.code==="ShiftLeft"||
+      e.code==="ShiftRight"
+    ){
+
+      if(!e.repeat)
+        activateBoost();
+
+      e.preventDefault();
+    }
+  }
+);
+
+
+window.addEventListener(
+  "keyup",
+  e=>{
+
+    if(
+      e.code==="ArrowLeft"||
+      e.code==="KeyA"
+    ){
+
+      keys.left=false;
+    }
+
+
+    if(
+      e.code==="ArrowRight"||
+      e.code==="KeyD"
+    ){
+
+      keys.right=false;
+    }
+  }
+);
+
+
+/* ============================================================
+   MOBILE CONTROLS
+   ============================================================ */
+
+function holdButton(
+  element,
+  property
+){
+
+  const down=e=>{
+    e.preventDefault();
+    keys[property]=true;
+  };
+
+  const up=e=>{
+    e.preventDefault();
+    keys[property]=false;
+  };
+
+  element.addEventListener(
+    "pointerdown",
+    down
+  );
+
+  element.addEventListener(
+    "pointerup",
+    up
+  );
+
+  element.addEventListener(
+    "pointercancel",
+    up
+  );
+
+  element.addEventListener(
+    "pointerleave",
+    up
+  );
+}
+
+holdButton(
+  document.getElementById(
+    "leftButton"
+  ),
+  "left"
+);
+
+holdButton(
+  document.getElementById(
+    "rightButton"
+  ),
+  "right"
+);
+
+
+document.getElementById(
+  "boostButton"
+).addEventListener(
+  "pointerdown",
+  e=>{
+    e.preventDefault();
+    activateBoost();
+  }
+);
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+document.getElementById(
+  "startButton"
+).addEventListener(
+  "click",
+  startRace
+);
+
+
+document.getElementById(
+  "againButton"
+).addEventListener(
+  "click",
+  startRace
+);
+
+
+document.getElementById(
+  "menuButton"
+).addEventListener(
+  "click",
+  ()=>{
+
+    running=false;
+
+    document.getElementById(
+      "finish"
+    ).style.display="none";
+
+    document.getElementById(
+      "menu"
+    ).style.display="flex";
+  }
+);
+
+
+document.getElementById(
+  "musicButton"
+).addEventListener(
+  "click",
+  ()=>{
+
+    musicEnabled=
+      !musicEnabled;
+
+    document.getElementById(
+      "musicButton"
+    ).textContent=
+      musicEnabled
+        ? "♫ Musik: AN"
+        : "♫ Musik: AUS";
+
+    if(!musicEnabled)
+      stopMusic();
+
+    else if(running)
+      startMusic();
+  }
+);
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+/*
+  Der Ladebildschirm verschwindet,
+  sobald der lokale WebGL-Renderer steht.
+  Es wird NICHT auf einen Internetdienst gewartet.
+*/
+
+setTimeout(()=>{
+
+  document.getElementById(
+    "loading"
+  ).style.opacity="0";
+
+  setTimeout(()=>{
+
+    document.getElementById(
+      "loading"
+    ).style.display="none";
+
+  },350);
+
+},250);
+
+
+/* erster Frame */
+
+requestAnimationFrame(frame);
+
 </script>
 </body>
 </html>
