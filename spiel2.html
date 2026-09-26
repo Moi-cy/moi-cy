@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Moi-cy — 3D Skate Race</title>
+<title>Moi-cy — Street Skate Race</title>
 
 <style>
 *{
@@ -16,7 +16,7 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background:#8da8b5;
+  background:#87aebf;
   font-family:Arial,Helvetica,sans-serif;
   user-select:none;
 }
@@ -34,21 +34,21 @@ canvas{
 #finish{
   position:fixed;
   inset:0;
-  z-index:20;
+  z-index:30;
 }
 
 #loading{
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  background:#0b1013;
-  color:#fff;
+  flex-direction:column;
+  background:#0a0f12;
+  color:white;
+  transition:opacity .35s;
 }
 
 .logo{
-  font-size:clamp(58px,12vw,92px);
-  line-height:.9;
+  font-size:clamp(58px,13vw,92px);
   font-weight:900;
   letter-spacing:-6px;
 }
@@ -58,29 +58,29 @@ canvas{
 }
 
 #loading p{
-  color:#89969c;
+  color:#829097;
+  font-size:13px;
   margin:18px 0;
-  font-size:14px;
 }
 
 .loader{
   width:210px;
   height:5px;
-  background:#222b30;
-  border-radius:10px;
+  background:#20282c;
+  border-radius:20px;
   overflow:hidden;
 }
 
 .loader div{
-  width:45%;
+  width:50%;
   height:100%;
   background:#d8ff39;
-  animation:loader 1s infinite ease-in-out;
+  animation:load 1s infinite ease-in-out;
 }
 
-@keyframes loader{
-  from{transform:translateX(-130%)}
-  to{transform:translateX(450%)}
+@keyframes load{
+  from{transform:translateX(-120%)}
+  to{transform:translateX(320%)}
 }
 
 #menu{
@@ -88,20 +88,20 @@ canvas{
   justify-content:center;
   align-items:center;
   background:linear-gradient(
-    rgba(0,0,0,.12),
-    rgba(0,0,0,.65)
+    rgba(0,0,0,.05),
+    rgba(0,0,0,.55)
   );
 }
 
 .card{
   width:min(460px,92vw);
-  padding:35px;
-  border-radius:28px;
-  background:rgba(12,17,20,.91);
+  padding:34px;
+  background:rgba(12,17,20,.94);
   border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 30px 100px rgba(0,0,0,.55);
-  color:#fff;
+  border-radius:28px;
+  color:white;
   text-align:center;
+  box-shadow:0 30px 100px rgba(0,0,0,.5);
 }
 
 .card .logo{
@@ -109,116 +109,112 @@ canvas{
 }
 
 .subtitle{
-  margin:15px 0 27px;
-  font-size:11px;
-  color:#96a3a9;
+  margin:12px 0 27px;
+  color:#93a0a6;
   letter-spacing:3px;
+  font-size:11px;
 }
 
 button{
   width:100%;
-  padding:16px;
-  margin:5px 0;
   border:0;
   border-radius:15px;
+  padding:16px;
+  margin:5px 0;
   background:#d8ff39;
-  color:#111;
+  color:#101214;
   font-weight:900;
   font-size:15px;
   cursor:pointer;
 }
 
-button:hover{
-  filter:brightness(1.08);
-}
-
 button.dark{
   background:#252d31;
-  color:#fff;
+  color:white;
 }
 
 .controls{
   display:flex;
   gap:7px;
-  margin-top:20px;
+  margin-top:19px;
 }
 
 .controls div{
   flex:1;
-  padding:10px 4px;
-  border-radius:10px;
   background:#1b2327;
-  color:#8e9a9f;
+  border-radius:11px;
+  padding:10px 4px;
+  color:#8f9a9f;
   font-size:10px;
 }
 
 .controls b{
   display:block;
-  color:#fff;
-  margin-bottom:3px;
+  color:white;
+  margin-bottom:4px;
 }
 
 #hud{
+  display:none;
   position:fixed;
-  z-index:10;
+  z-index:15;
   top:14px;
   left:14px;
   right:14px;
-  display:none;
   justify-content:space-between;
   pointer-events:none;
 }
 
-.hudBox{
+.hud{
   min-width:95px;
   padding:9px 13px;
-  border-radius:13px;
-  background:rgba(8,12,15,.72);
+  background:rgba(8,12,15,.75);
   border:1px solid rgba(255,255,255,.1);
-  color:#fff;
+  border-radius:13px;
+  color:white;
 }
 
-.hudBox small{
+.hud small{
   display:block;
-  color:#89969c;
+  color:#87939a;
   font-size:8px;
-  text-transform:uppercase;
   letter-spacing:1px;
+  text-transform:uppercase;
 }
 
-.hudBox strong{
+.hud strong{
   display:block;
-  margin-top:2px;
   font-size:19px;
+  margin-top:2px;
 }
 
-#boostValue{
+#boost{
   color:#d8ff39;
 }
 
 #boostMessage{
   position:fixed;
-  z-index:12;
+  z-index:18;
   left:50%;
-  bottom:25px;
+  bottom:28px;
   transform:translateX(-50%);
-  padding:10px 17px;
-  border-radius:12px;
-  background:rgba(7,11,14,.88);
+  background:rgba(7,10,12,.9);
   color:#d8ff39;
-  font-weight:900;
+  border-radius:12px;
+  padding:10px 18px;
   font-size:12px;
+  font-weight:900;
   opacity:0;
-  transition:opacity .2s;
   pointer-events:none;
+  transition:opacity .2s;
 }
 
 #mobile{
   position:fixed;
-  z-index:11;
+  z-index:20;
+  bottom:15px;
   left:15px;
   right:15px;
-  bottom:14px;
   display:none;
   justify-content:space-between;
   pointer-events:none;
@@ -236,9 +232,9 @@ button.dark{
   padding:0;
   margin:0;
   border-radius:17px;
-  background:rgba(10,15,18,.78);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.15);
+  background:rgba(8,12,15,.82);
+  color:white;
+  border:1px solid rgba(255,255,255,.16);
   font-size:25px;
 }
 
@@ -250,8 +246,8 @@ button.dark{
 
 #finish{
   display:none;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   background:rgba(0,0,0,.72);
   backdrop-filter:blur(7px);
 }
@@ -259,20 +255,20 @@ button.dark{
 .finishCard{
   width:min(440px,90vw);
   padding:38px;
-  border-radius:27px;
   background:#10171b;
-  color:#fff;
+  border-radius:27px;
+  color:white;
   text-align:center;
   box-shadow:0 30px 90px #0009;
 }
 
 .trophy{
-  font-size:78px;
+  font-size:80px;
 }
 
 .finishCard h2{
   font-size:43px;
-  margin:5px 0 12px;
+  margin:4px 0 12px;
 }
 
 .finishCard h2 span{
@@ -280,7 +276,7 @@ button.dark{
 }
 
 .finishCard p{
-  color:#a5b0b5;
+  color:#a6b0b5;
 }
 </style>
 </head>
@@ -289,7 +285,7 @@ button.dark{
 
 <div id="loading">
   <div class="logo">Moi-<span>cy</span></div>
-  <p>3D-Rennstrecke wird gestartet…</p>
+  <p>3D-Stadt wird geladen…</p>
   <div class="loader"><div></div></div>
 </div>
 
@@ -302,11 +298,11 @@ button.dark{
       STREET SKATE RACE
     </div>
 
-    <button id="startButton">
+    <button id="start">
       RACE STARTEN
     </button>
 
-    <button id="musicButton" class="dark">
+    <button id="music" class="dark">
       ♫ Musik: AN
     </button>
 
@@ -332,36 +328,34 @@ button.dark{
 
 <div id="hud">
 
-  <div class="hudBox">
+  <div class="hud">
     <small>Position</small>
     <strong id="position">1 / 8</strong>
   </div>
 
-  <div class="hudBox">
+  <div class="hud">
     <small>Boost</small>
-    <strong id="boostValue">× 0</strong>
+    <strong id="boost">× 0</strong>
   </div>
 
-  <div class="hudBox">
+  <div class="hud">
     <small>Distanz</small>
     <strong id="distance">0 m</strong>
   </div>
 
 </div>
 
-<div id="boostMessage">
-  BOOST!
-</div>
+<div id="boostMessage">BOOST!</div>
 
 <div id="mobile">
 
   <div class="mobileGroup">
-    <button class="mobileButton" id="leftButton">←</button>
-    <button class="mobileButton" id="rightButton">→</button>
+    <button class="mobileButton" id="left">←</button>
+    <button class="mobileButton" id="right">→</button>
   </div>
 
   <div class="mobileGroup">
-    <button class="mobileButton boost" id="boostButton">
+    <button class="mobileButton boost" id="mobileBoost">
       BOOST
     </button>
   </div>
@@ -382,11 +376,11 @@ button.dark{
       Rennen gewonnen!
     </p>
 
-    <button id="againButton">
+    <button id="again">
       NOCHMAL FAHREN
     </button>
 
-    <button id="menuButton" class="dark">
+    <button id="back" class="dark">
       MENÜ
     </button>
 
@@ -399,45 +393,31 @@ button.dark{
 <script>
 "use strict";
 
-/* ============================================================
-   MOI-CY 3D SKATE RACE
-   ------------------------------------------------------------
-   Komplett eigenständiges WebGL.
-   Keine Three.js-Datei.
-   Kein CDN.
-   Keine externen Dateien.
-   ============================================================ */
+/* ==========================================================
+   MOI-CY
+   KOMPLETTES EIGENSTÄNDIGES WEBGL-SPIEL
+   ========================================================== */
 
+const canvas=document.getElementById("game");
 
-/* ============================================================
-   CANVAS / WEBGL
-   ============================================================ */
-
-const canvas = document.getElementById("game");
-
-const gl = canvas.getContext("webgl",{
+const gl=canvas.getContext("webgl",{
   antialias:true,
   alpha:false,
   powerPreference:"high-performance"
 });
 
 if(!gl){
-
-  document.getElementById("loading").innerHTML=
-    '<div style="color:white;text-align:center;font:20px Arial">\
-    Dein Browser unterstützt leider kein WebGL.<br><br>\
-    Bitte Chrome, Edge, Firefox oder Safari verwenden.</div>';
-
-  throw new Error("WebGL not supported");
+  document.body.innerHTML=
+    "<div style='color:white;background:#111;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial'>WebGL wird von diesem Browser nicht unterstützt.</div>";
+  throw new Error("WebGL unavailable");
 }
 
 
-/* ============================================================
+/* ==========================================================
    SHADER
-   ============================================================ */
+   ========================================================== */
 
-const vertexShaderSource = `
-
+const VS=`
 attribute vec3 position;
 attribute vec3 normal;
 attribute vec3 color;
@@ -451,146 +431,83 @@ varying vec3 vNormal;
 
 void main(){
 
-  vec4 worldPosition =
-    model * vec4(position,1.0);
+  vec4 wp=model*vec4(position,1.0);
 
-  vColor = color;
+  vColor=color;
+  vNormal=mat3(model)*normal;
 
-  vNormal =
-    mat3(model) * normal;
-
-  gl_Position =
-    projection *
-    view *
-    worldPosition;
+  gl_Position=
+    projection*
+    view*
+    wp;
 }
 `;
 
-const fragmentShaderSource = `
-
+const FS=`
 precision mediump float;
 
 varying vec3 vColor;
 varying vec3 vNormal;
 
-uniform vec3 sunDirection;
+uniform vec3 sun;
 
 void main(){
 
-  vec3 n =
-    normalize(vNormal);
+  vec3 n=normalize(vNormal);
 
-  float light =
-    0.48 +
-    max(
-      dot(n,normalize(sunDirection)),
-      0.0
-    ) * .62;
+  float light=
+    .42+
+    max(dot(n,normalize(sun)),0.0)*.68;
 
-  gl_FragColor =
-    vec4(vColor * light,1.0);
+  gl_FragColor=
+    vec4(vColor*light,1.0);
 }
 `;
 
+function shader(type,src){
 
-function makeShader(type,source){
+  const s=gl.createShader(type);
 
-  const shader=gl.createShader(type);
+  gl.shaderSource(s,src);
+  gl.compileShader(s);
 
-  gl.shaderSource(shader,source);
-  gl.compileShader(shader);
-
-  if(!gl.getShaderParameter(
-    shader,
-    gl.COMPILE_STATUS
-  )){
-    throw new Error(
-      gl.getShaderInfoLog(shader)
-    );
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){
+    throw new Error(gl.getShaderInfoLog(s));
   }
 
-  return shader;
+  return s;
 }
-
 
 const program=gl.createProgram();
 
 gl.attachShader(
   program,
-  makeShader(
-    gl.VERTEX_SHADER,
-    vertexShaderSource
-  )
+  shader(gl.VERTEX_SHADER,VS)
 );
 
 gl.attachShader(
   program,
-  makeShader(
-    gl.FRAGMENT_SHADER,
-    fragmentShaderSource
-  )
+  shader(gl.FRAGMENT_SHADER,FS)
 );
 
 gl.linkProgram(program);
 
-if(!gl.getProgramParameter(
-  program,
-  gl.LINK_STATUS
-)){
-  throw new Error(
-    gl.getProgramInfoLog(program)
-  );
-}
-
 gl.useProgram(program);
 
-
-const positionLocation =
-  gl.getAttribLocation(
-    program,
-    "position"
-  );
-
-const normalLocation =
-  gl.getAttribLocation(
-    program,
-    "normal"
-  );
-
-const colorLocation =
-  gl.getAttribLocation(
-    program,
-    "color"
-  );
-
-const modelLocation =
-  gl.getUniformLocation(
-    program,
-    "model"
-  );
-
-const viewLocation =
-  gl.getUniformLocation(
-    program,
-    "view"
-  );
-
-const projectionLocation =
-  gl.getUniformLocation(
-    program,
-    "projection"
-  );
-
-const sunLocation =
-  gl.getUniformLocation(
-    program,
-    "sunDirection"
-  );
+const loc={
+  position:gl.getAttribLocation(program,"position"),
+  normal:gl.getAttribLocation(program,"normal"),
+  color:gl.getAttribLocation(program,"color"),
+  model:gl.getUniformLocation(program,"model"),
+  view:gl.getUniformLocation(program,"view"),
+  projection:gl.getUniformLocation(program,"projection"),
+  sun:gl.getUniformLocation(program,"sun")
+};
 
 
-/* ============================================================
+/* ==========================================================
    MATHEMATIK
-   ============================================================ */
+   ========================================================== */
 
 function identity(){
 
@@ -602,38 +519,25 @@ function identity(){
   ]);
 }
 
-
 function multiply(a,b){
 
-  const out=
-    new Float32Array(16);
+  const o=new Float32Array(16);
 
-  for(let column=0;column<4;column++){
+  for(let c=0;c<4;c++){
+    for(let r=0;r<4;r++){
 
-    for(let row=0;row<4;row++){
-
-      out[
-        column*4+row
-      ] =
-        a[row]*
-        b[column*4] +
-
-        a[4+row]*
-        b[column*4+1] +
-
-        a[8+row]*
-        b[column*4+2] +
-
-        a[12+row]*
-        b[column*4+3];
+      o[c*4+r]=
+        a[r]*b[c*4]+
+        a[4+r]*b[c*4+1]+
+        a[8+r]*b[c*4+2]+
+        a[12+r]*b[c*4+3];
     }
   }
 
-  return out;
+  return o;
 }
 
-
-function translation(x,y,z){
+function translate(x,y,z){
 
   const m=identity();
 
@@ -644,8 +548,7 @@ function translation(x,y,z){
   return m;
 }
 
-
-function scaling(x,y,z){
+function scale(x,y,z){
 
   const m=identity();
 
@@ -656,13 +559,12 @@ function scaling(x,y,z){
   return m;
 }
 
+function rotateY(a){
 
-function rotationY(angle){
+  const c=Math.cos(a);
+  const s=Math.sin(a);
 
   const m=identity();
-
-  const c=Math.cos(angle);
-  const s=Math.sin(angle);
 
   m[0]=c;
   m[2]=-s;
@@ -672,65 +574,44 @@ function rotationY(angle){
   return m;
 }
 
-
-function modelMatrix(
-  x,y,z,
-  sx,sy,sz,
-  ry=0
-){
+function model(x,y,z,sx,sy,sz,ry=0){
 
   return multiply(
-    translation(x,y,z),
+    translate(x,y,z),
     multiply(
-      rotationY(ry),
-      scaling(sx,sy,sz)
+      rotateY(ry),
+      scale(sx,sy,sz)
     )
   );
 }
 
+function perspective(fov,aspect,near,far){
 
-function perspective(
-  fov,
-  aspect,
-  near,
-  far
-){
+  const f=1/Math.tan(fov/2);
 
-  const f=
-    1/Math.tan(fov/2);
+  const m=new Float32Array(16);
 
-  const out=
-    new Float32Array(16);
+  m[0]=f/aspect;
+  m[5]=f;
+  m[10]=(far+near)/(near-far);
+  m[11]=-1;
+  m[14]=(2*far*near)/(near-far);
 
-  out[0]=f/aspect;
-  out[5]=f;
-
-  out[10]=
-    (far+near)/(near-far);
-
-  out[11]=-1;
-
-  out[14]=
-    (2*far*near)/(near-far);
-
-  return out;
+  return m;
 }
-
 
 function normalize(v){
 
-  const length=
-    Math.hypot(
-      v[0],v[1],v[2]
-    );
+  const l=Math.hypot(
+    v[0],v[1],v[2]
+  );
 
   return [
-    v[0]/length,
-    v[1]/length,
-    v[2]/length
+    v[0]/l,
+    v[1]/l,
+    v[2]/l
   ];
 }
-
 
 function cross(a,b){
 
@@ -741,16 +622,15 @@ function cross(a,b){
   ];
 }
 
-
 function lookAt(
-  eyeX,eyeY,eyeZ,
-  targetX,targetY,targetZ
+  ex,ey,ez,
+  tx,ty,tz
 ){
 
   const z=normalize([
-    eyeX-targetX,
-    eyeY-targetY,
-    eyeZ-targetZ
+    ex-tx,
+    ey-ty,
+    ez-tz
   ]);
 
   const x=normalize(
@@ -773,105 +653,59 @@ function lookAt(
   m[9]=y[2];
   m[10]=z[2];
 
-  m[12]=
-    -(x[0]*eyeX+
-      x[1]*eyeY+
-      x[2]*eyeZ);
-
-  m[13]=
-    -(y[0]*eyeX+
-      y[1]*eyeY+
-      y[2]*eyeZ);
-
-  m[14]=
-    -(z[0]*eyeX+
-      z[1]*eyeY+
-      z[2]*eyeZ);
+  m[12]=-(x[0]*ex+x[1]*ey+x[2]*ez);
+  m[13]=-(y[0]*ex+y[1]*ey+y[2]*ez);
+  m[14]=-(z[0]*ex+z[1]*ey+z[2]*ez);
 
   return m;
 }
 
 
-/* ============================================================
-   CUBE GEOMETRIE
-   ============================================================ */
+/* ==========================================================
+   WÜRFEL
+   ========================================================== */
 
-const cubePositions=[
-  /* vorne */
-  -1,-1,1,
-   1,-1,1,
-   1,1,1,
-  -1,-1,1,
-   1,1,1,
-  -1,1,1,
+const POS=[
+ -1,-1,1, 1,-1,1, 1,1,1,
+ -1,-1,1, 1,1,1,-1,1,1,
 
-  /* hinten */
-   1,-1,-1,
-  -1,-1,-1,
-  -1,1,-1,
-   1,-1,-1,
-  -1,1,-1,
-   1,1,-1,
+ 1,-1,-1,-1,-1,-1,-1,1,-1,
+ 1,-1,-1,-1,1,-1,1,1,-1,
 
-  /* links */
-  -1,-1,-1,
-  -1,-1,1,
-  -1,1,1,
-  -1,-1,-1,
-  -1,1,1,
-  -1,1,-1,
+ -1,-1,-1,-1,-1,1,-1,1,1,
+ -1,-1,-1,-1,1,1,-1,1,-1,
 
-  /* rechts */
-   1,-1,1,
-   1,-1,-1,
-   1,1,-1,
-   1,-1,1,
-   1,1,-1,
-   1,1,1,
+ 1,-1,1,1,-1,-1,1,1,-1,
+ 1,-1,1,1,1,-1,1,1,1,
 
-  /* oben */
-  -1,1,1,
-   1,1,1,
-   1,1,-1,
-  -1,1,1,
-   1,1,-1,
-  -1,1,-1,
+ -1,1,1,1,1,1,1,1,-1,
+ -1,1,1,1,1,-1,-1,1,-1,
 
-  /* unten */
-  -1,-1,-1,
-   1,-1,-1,
-   1,-1,1,
-  -1,-1,-1,
-   1,-1,1,
-  -1,-1,1
+ -1,-1,-1,1,-1,-1,1,-1,1,
+ -1,-1,-1,1,-1,1,-1,-1,1
 ];
 
-const cubeNormals=[
-  0,0,1, 0,0,1, 0,0,1,
-  0,0,1, 0,0,1, 0,0,1,
+const NORM=[
+ 0,0,1,0,0,1,0,0,1,
+ 0,0,1,0,0,1,0,0,1,
 
-  0,0,-1, 0,0,-1, 0,0,-1,
-  0,0,-1, 0,0,-1, 0,0,-1,
+ 0,0,-1,0,0,-1,0,0,-1,
+ 0,0,-1,0,0,-1,0,0,-1,
 
-  -1,0,0, -1,0,0, -1,0,0,
-  -1,0,0, -1,0,0, -1,0,0,
+ -1,0,0,-1,0,0,-1,0,0,
+ -1,0,0,-1,0,0,-1,0,0,
 
-  1,0,0, 1,0,0, 1,0,0,
-  1,0,0, 1,0,0, 1,0,0,
+ 1,0,0,1,0,0,1,0,0,
+ 1,0,0,1,0,0,1,0,0,
 
-  0,1,0, 0,1,0, 0,1,0,
-  0,1,0, 0,1,0, 0,1,0,
+ 0,1,0,0,1,0,0,1,0,
+ 0,1,0,0,1,0,0,1,0,
 
-  0,-1,0, 0,-1,0, 0,-1,0,
-  0,-1,0, 0,-1,0, 0,-1,0
+ 0,-1,0,0,-1,0,0,-1,0,
+ 0,-1,0,0,-1,0,0,-1,0
 ];
 
-
-/* ============================================================
-   FARBE
-   ============================================================ */
-
-function hexColor(hex){
+function color(hex){
 
   return [
     ((hex>>16)&255)/255,
@@ -881,77 +715,13 @@ function hexColor(hex){
 }
 
 
-/* ============================================================
-   STATIC WORLD
-   Alles wird in EINEM Buffer gesammelt.
-   ============================================================ */
+/* ==========================================================
+   ZUFALL
+   ========================================================== */
 
-const staticVertices=[];
-const staticNormals=[];
-const staticColors=[];
+let seed=918273645;
 
-
-function addCube(
-  x,y,z,
-  sx,sy,sz,
-  color,
-  rot=0
-){
-
-  const c=Math.cos(rot);
-  const s=Math.sin(rot);
-
-  const rgb=
-    Array.isArray(color)
-      ? color
-      : hexColor(color);
-
-  for(let i=0;i<36;i++){
-
-    let px=cubePositions[i*3]*sx;
-    let py=cubePositions[i*3+1]*sy;
-    let pz=cubePositions[i*3+2]*sz;
-
-    const rx=
-      px*c+pz*s;
-
-    const rz=
-      -px*s+pz*c;
-
-    staticVertices.push(
-      x+rx,
-      y+py,
-      z+rz
-    );
-
-    let nx=cubeNormals[i*3];
-    let ny=cubeNormals[i*3+1];
-    let nz=cubeNormals[i*3+2];
-
-    const rnx=nx*c+nz*s;
-    const rnz=-nx*s+nz*c;
-
-    staticNormals.push(
-      rnx,ny,rnz
-    );
-
-    staticColors.push(
-      rgb[0],
-      rgb[1],
-      rgb[2]
-    );
-  }
-}
-
-
-/* ============================================================
-   RANDOM
-   ============================================================ */
-
-let seed=
-  (Date.now()>>>0);
-
-function random(){
+function rnd(){
 
   seed^=seed<<13;
   seed^=seed>>>17;
@@ -960,598 +730,547 @@ function random(){
   return (seed>>>0)/4294967296;
 }
 
-function randomRange(a,b){
-  return a+(b-a)*random();
+function rand(a,b){
+  return a+(b-a)*rnd();
 }
 
 
-/* ============================================================
-   WORLD KONSTANTEN
-   ============================================================ */
-
-const ROAD_WIDTH=15;
-const WORLD_LENGTH=5200;
-const FINISH_Z=-4500;
-
-
-/* ============================================================
-   GRASS
-   ============================================================ */
-
-addCube(
-  0,-.65,-2200,
-  115,.5,2700,
-  0x527044
-);
-
-
-/* ============================================================
-   ROAD
-   ============================================================ */
-
-addCube(
-  0,-.42,-2200,
-  7.8,.22,2700,
-  0x4b4d4e
-);
-
-
-/* Gehwege */
-
-addCube(
-  -10,-.27,-2200,
-  2.1,.12,2700,
-  0x858789
-);
-
-addCube(
-  10,-.27,-2200,
-  2.1,.12,2700,
-  0x858789
-);
-
-
-/* ============================================================
-   STRASSENMARKIERUNGEN
-   ============================================================ */
-
-for(
-  let z=25;
-  z<5000;
-  z+=22
-){
-
-  addCube(
-    0,-.16,-z,
-    .07,.025,4.5,
-    0xe9e9e4
-  );
-}
-
-
-/* Randlinien */
-
-addCube(
-  -7.05,-.15,-2200,
-  .08,.025,2700,
-  0xe8e8e2
-);
-
-addCube(
-  7.05,-.15,-2200,
-  .08,.025,2700,
-  0xe8e8e2
-);
-
-
-/* ============================================================
-   STADT
-   ============================================================ */
-
-const buildingColors=[
-  0x938b82,
-  0xb0a89d,
-  0x747d81,
-  0xc0b09e,
-  0x8a726c,
-  0x697572,
-  0xa59b8e
-];
-
-
-/*
-  Dichte Häuser.
-  Drei Reihen pro Seite.
-  Sie gehen deutlich über das Ziel hinaus.
-*/
-
-for(
-  let z=35;
-  z<WORLD_LENGTH;
-  z+=34
-){
-
-  for(
-    const side of [-1,1]
-  ){
-
-    for(
-      let row=0;
-      row<3;
-      row++
-    ){
-
-      let x;
-
-      if(row===0){
-
-        x=
-          side*
-          randomRange(
-            12,
-            17
-          );
-
-      }else if(row===1){
-
-        x=
-          side*
-          randomRange(
-            24,
-            31
-          );
-
-      }else{
-
-        x=
-          side*
-          randomRange(
-            39,
-            50
-          );
-      }
-
-      const width=
-        randomRange(6,13);
-
-      const height=
-        randomRange(7,22);
-
-      const depth=
-        randomRange(20,34);
-
-      const color=
-        buildingColors[
-          Math.floor(
-            random()*buildingColors.length
-          )
-        ];
-
-      const offset=
-        row===1
-          ? 17
-          : row===2
-            ? -12
-            : 0;
-
-      addCube(
-        x,
-        height/2-.15,
-        -z+offset,
-        width,
-        height,
-        depth,
-        color,
-        randomRange(-.025,.025)
-      );
-
-      /*
-        dunkler Fassadenblock
-        erzeugt Fenster-/Balkonwirkung
-        ohne hunderte Objekte
-      */
-
-      if(row<2){
-
-        addCube(
-          x-side*(width+.03),
-          height*.65,
-          -z+offset,
-          .08,
-          height*.28,
-          depth*.7,
-          0x31373a
-        );
-      }
-    }
-  }
-}
-
-
-/* ============================================================
-   HORIZONT-BLOCKS
-   Verhindern leere Stellen zwischen den Häusern.
-   ============================================================ */
-
-for(
-  let z=50;
-  z<WORLD_LENGTH;
-  z+=80
-){
-
-  addCube(
-    -64,
-    12,
-    -z,
-    14,
-    24,
-    55,
-    0x606b6d
-  );
-
-  addCube(
-    64,
-    14,
-    -z-30,
-    15,
-    28,
-    55,
-    0x687174
-  );
-}
-
-
-/* ============================================================
-   BÄUME
-   ============================================================ */
-
-for(
-  let z=40;
-  z<WORLD_LENGTH;
-  z+=38
-){
-
-  for(
-    const side of [-1,1]
-  ){
-
-    const x=
-      side*
-      randomRange(14,55);
-
-    const y=1.8;
-
-    addCube(
-      x,
-      .9,
-      -z+randomRange(-12,12),
-      .28,
-      1.8,
-      .28,
-      0x5b402d
-    );
-
-    /*
-      Baumkrone als Würfel mit zufälliger Größe.
-      Low poly = schnell.
-    */
-
-    const crown=
-      random()<.5
-        ? 0x35673b
-        : 0x477b42;
-
-    addCube(
-      x,
-      y+randomRange(-.2,.6),
-      -z+randomRange(-12,12),
-      randomRange(1.2,2.1),
-      randomRange(1.2,2),
-      randomRange(1.2,2.1),
-      crown
-    );
-  }
-}
-
-
-/* ============================================================
-   LATERNN
-   ============================================================ */
-
-for(
-  let z=30;
-  z<WORLD_LENGTH;
-  z+=55
-){
-
-  for(
-    const side of [-1,1]
-  ){
-
-    const x=
-      side*10.8;
-
-    addCube(
-      x,
-      2.7,
-      -z,
-      .08,
-      2.7,
-      .08,
-      0x353a3d
-    );
-
-    addCube(
-      x,
-      5.45,
-      -z,
-      .35,
-      .08,
-      .35,
-      0x303538
-    );
-  }
-}
-
-
-/* ============================================================
-   AUTOS WEIT WEG VON DER STRASSE
-   ============================================================ */
-
-const carColors=[
-  0xb93d3d,
-  0x3e70a5,
-  0xd7a92f,
-  0x4d7655,
-  0x72787b
-];
-
-for(let i=0;i<35;i++){
-
-  const side=
-    random()<.5
-      ? -1
-      : 1;
-
-  const x=
-    side*randomRange(
-      18,
-      48
-    );
-
-  const z=
-    -randomRange(
-      50,
-      WORLD_LENGTH-100
-    );
-
-  const color=
-    carColors[
-      Math.floor(
-        random()*carColors.length
-      )
-    ];
-
-  addCube(
-    x,
-    .55,
-    z,
-    1.45,
-    .55,
-    2.4,
-    color
-  );
-
-  addCube(
-    x,
-    1.1,
-    z,
-    1.05,
-    .38,
-    1.25,
-    0x24282a
-  );
-}
-
-
-/* ============================================================
-   FINISH
-   ============================================================ */
-
-addCube(
-  0,
-  -.1,
-  FINISH_Z,
-  7.8,
-  .12,
-  4,
-  0xf0f0ec
-);
-
-
-/* Checker */
-
-for(
-  let x=-7;
-  x<7;
-  x+=1.75
-){
-
-  const even=
-    Math.round(x*2)%2===0;
-
-  addCube(
-    x,
-    .06,
-    FINISH_Z,
-    .87,
-    .04,
-    2,
-    even
-      ? 0x171b1d
-      : 0xe9e9e4
-  );
-}
-
-
-/* Finishbogen */
-
-addCube(
-  -8.8,
-  4,
-  FINISH_Z,
-  .45,
-  4,
-  .45,
-  0x171b1d
-);
-
-addCube(
-  8.8,
-  4,
-  FINISH_Z,
-  .45,
-  4,
-  .45,
-  0x171b1d
-);
-
-addCube(
-  0,
-  8,
-  FINISH_Z,
-  9,
-  .55,
-  .45,
-  0xd8ff39
-);
-
-
-/* ============================================================
-   STATIC BUFFER
-   ============================================================ */
-
-const staticPositionBuffer=
-  gl.createBuffer();
-
-gl.bindBuffer(
-  gl.ARRAY_BUFFER,
-  staticPositionBuffer
-);
-
-gl.bufferData(
-  gl.ARRAY_BUFFER,
-  new Float32Array(staticVertices),
-  gl.STATIC_DRAW
-);
-
-
-const staticNormalBuffer=
-  gl.createBuffer();
-
-gl.bindBuffer(
-  gl.ARRAY_BUFFER,
-  staticNormalBuffer
-);
-
-gl.bufferData(
-  gl.ARRAY_BUFFER,
-  new Float32Array(staticNormals),
-  gl.STATIC_DRAW
-);
-
-
-const staticColorBuffer=
-  gl.createBuffer();
-
-gl.bindBuffer(
-  gl.ARRAY_BUFFER,
-  staticColorBuffer
-);
-
-gl.bufferData(
-  gl.ARRAY_BUFFER,
-  new Float32Array(staticColors),
-  gl.STATIC_DRAW
-);
-
-const staticVertexCount=
-  staticVertices.length/3;
-
-
-/* ============================================================
-   DYNAMISCHE CUBES
-   ============================================================ */
-
-function drawCube(
+/* ==========================================================
+   STATIC WORLD
+   ========================================================== */
+
+const sv=[];
+const sn=[];
+const sc=[];
+
+function addStatic(
   x,y,z,
   sx,sy,sz,
-  color,
-  rot=0
+  col,
+  ry=0
 ){
 
-  const rgb=
-    Array.isArray(color)
-      ? color
-      : hexColor(color);
-
-  const positions=[];
-  const normals=[];
-  const colors=[];
-
-  const c=Math.cos(rot);
-  const s=Math.sin(rot);
+  const c=Math.cos(ry);
+  const s=Math.sin(ry);
+  const rgb=color(col);
 
   for(let i=0;i<36;i++){
 
-    let px=cubePositions[i*3]*sx;
-    let py=cubePositions[i*3+1]*sy;
-    let pz=cubePositions[i*3+2]*sz;
+    const k=i*3;
 
-    const rx=
-      px*c+pz*s;
+    const px=POS[k]*sx;
+    const py=POS[k+1]*sy;
+    const pz=POS[k+2]*sz;
 
-    const rz=
-      -px*s+pz*c;
+    const rx=px*c+pz*s;
+    const rz=-px*s+pz*c;
 
-    positions.push(
+    sv.push(
       x+rx,
       y+py,
       z+rz
     );
 
-    const nx=cubeNormals[i*3];
-    const ny=cubeNormals[i*3+1];
-    const nz=cubeNormals[i*3+2];
+    const nx=NORM[k];
+    const ny=NORM[k+1];
+    const nz=NORM[k+2];
 
-    normals.push(
+    sn.push(
       nx*c+nz*s,
       ny,
       -nx*s+nz*c
     );
 
-    colors.push(
+    sc.push(
       rgb[0],
       rgb[1],
       rgb[2]
     );
   }
+}
 
-  const pb=gl.createBuffer();
+
+/* ==========================================================
+   BODEN
+   ========================================================== */
+
+/*
+   WICHTIG:
+   Straße = GRAU
+   Gras = GRÜN
+
+   Die Straße ist nur 15 Meter breit.
+   Häuser beginnen erst deutlich außerhalb
+   des Straßenrandes.
+*/
+
+const ROAD=15;
+const WORLD=5600;
+const FINISH=-4500;
+
+/* riesige grüne Wiese */
+
+addStatic(
+  0,-1.15,-2200,
+  150,.9,3000,
+  0x4d7444
+);
+
+/* graue Straße */
+
+addStatic(
+  0,-.43,-2200,
+  ROAD/2,.28,3000,
+  0x505254
+);
+
+
+/* Asphalt hellere Seitenbereiche */
+
+addStatic(
+  -8.8,-.13,-2200,
+  1.5,.08,3000,
+  0x777a7b
+);
+
+addStatic(
+  8.8,-.13,-2200,
+  1.5,.08,3000,
+  0x777a7b
+);
+
+
+/* weiße Fahrbahnmarkierung */
+
+for(let z=15;z<WORLD;z+=26){
+
+  addStatic(
+    0,-.08,-z,
+    .075,.035,5,
+    0xe5e4df
+  );
+}
+
+
+/* Straßenrand */
+
+addStatic(
+  -7.45,-.04,-2200,
+  .09,.06,3000,
+  0xd8d8d2
+);
+
+addStatic(
+  7.45,-.04,-2200,
+  .09,.06,3000,
+  0xd8d8d2
+);
+
+
+/* ==========================================================
+   HÄUSER
+   ========================================================== */
+
+const houses=[
+  0x9a8275,
+  0xb49c88,
+  0x7c8588,
+  0xc2ad91,
+  0x8c7770,
+  0x6f7b78,
+  0xa49b8c,
+  0x877f76
+];
+
+const roofs=[
+  0x3a3d3d,
+  0x51433e,
+  0x624d44,
+  0x35393a
+];
+
+
+/*
+   Drei Reihen pro Seite.
+   Reihe 1 beginnt bei x 17.
+   Reihe 2 bei x 31.
+   Reihe 3 bei x 48.
+
+   Damit bleibt die Straße komplett frei.
+*/
+
+for(let z=30;z<WORLD;z+=42){
+
+  for(const side of [-1,1]){
+
+    for(let row=0;row<3;row++){
+
+      const distance=
+        row===0
+          ? rand(17,20)
+          : row===1
+            ? rand(29,35)
+            : rand(44,55);
+
+      const x=side*distance;
+
+      const width=rand(4.5,8);
+      const height=rand(5.5,13);
+      const depth=rand(14,25);
+
+      const zz=
+        -z+
+        rand(-13,13);
+
+      const wall=
+        houses[
+          Math.floor(rnd()*houses.length)
+        ];
+
+      addStatic(
+        x,
+        height/2-.1,
+        zz,
+        width,
+        height,
+        depth,
+        wall,
+        rand(-.03,.03)
+      );
+
+      /* Dach */
+
+      addStatic(
+        x,
+        height+.55,
+        zz,
+        width*1.08,
+        .55,
+        depth*1.03,
+        roofs[
+          Math.floor(rnd()*roofs.length)
+        ],
+        rand(-.03,.03)
+      );
+
+      /* dunkle Fensterfront */
+
+      const windowSide=
+        x>0 ? -1 : 1;
+
+      addStatic(
+        x+windowSide*(width+.04),
+        height*.64,
+        zz,
+        .08,
+        height*.20,
+        depth*.55,
+        0x28373b
+      );
+    }
+  }
+}
+
+
+/* ==========================================================
+   HINTERE STADT
+   ========================================================== */
+
+for(let z=60;z<WORLD;z+=95){
+
+  addStatic(
+    -72,
+    rand(9,16),
+    -z,
+    18,
+    rand(9,16),
+    34,
+    0x657071
+  );
+
+  addStatic(
+    72,
+    rand(10,18),
+    -z-35,
+    19,
+    rand(10,18),
+    38,
+    0x70797a
+  );
+}
+
+
+/* ==========================================================
+   BÄUME
+   ========================================================== */
+
+for(let z=45;z<WORLD;z+=48){
+
+  for(const side of [-1,1]){
+
+    const x=
+      side*rand(18,58);
+
+    const zz=
+      -z+rand(-18,18);
+
+    addStatic(
+      x,
+      1.4,
+      zz,
+      .25,
+      1.4,
+      .25,
+      0x62452e
+    );
+
+    addStatic(
+      x,
+      3.2,
+      zz,
+      rand(1.1,1.8),
+      rand(1.1,1.8),
+      rand(1.1,1.8),
+      rnd()<.5
+        ? 0x35633b
+        : 0x477c45
+    );
+  }
+}
+
+
+/* ==========================================================
+   LAMPEN
+   ========================================================== */
+
+for(let z=45;z<WORLD;z+=60){
+
+  for(const side of [-1,1]){
+
+    const x=side*10.2;
+
+    addStatic(
+      x,
+      2.6,
+      -z,
+      .09,
+      2.6,
+      .09,
+      0x363b3d
+    );
+
+    addStatic(
+      x,
+      5.25,
+      -z,
+      .34,
+      .09,
+      .34,
+      0xe5dca9
+    );
+  }
+}
+
+
+/* ==========================================================
+   AUTOS
+   ========================================================== */
+
+const carColors=[
+  0xb94242,
+  0x3d6fa3,
+  0xd1a52e,
+  0x527b5c,
+  0x777d80
+];
+
+for(let i=0;i<42;i++){
+
+  const side=rnd()<.5?-1:1;
+
+  /*
+     Autos stehen deutlich außerhalb der Skate-Strecke.
+  */
+
+  const x=
+    side*rand(18,47);
+
+  const z=
+    -rand(50,WORLD-100);
+
+  const c=
+    carColors[
+      Math.floor(rnd()*carColors.length)
+    ];
+
+  addStatic(
+    x,.45,z,
+    1.4,.45,2.35,
+    c
+  );
+
+  addStatic(
+    x,1.0,z,
+    1.0,.35,1.15,
+    0x24292b
+  );
+}
+
+
+/* ==========================================================
+   ZIEL
+   ========================================================== */
+
+addStatic(
+  0,-.05,FINISH,
+  7.45,.08,3.5,
+  0xf0f0ea
+);
+
+for(let x=-7;x<7;x+=1.75){
+
+  addStatic(
+    x,.08,FINISH,
+    .87,.045,1.75,
+    Math.round(x*2)%2===0
+      ? 0x171b1d
+      : 0xe8e8e2
+  );
+}
+
+addStatic(
+  -9,4,FINISH,
+  .45,4,.45,
+  0x1a1d1f
+);
+
+addStatic(
+  9,4,FINISH,
+  .45,4,.45,
+  0x1a1d1f
+);
+
+addStatic(
+  0,8,FINISH,
+  9,.55,.45,
+  0xd8ff39
+);
+
+
+/* ==========================================================
+   STATIC BUFFER
+   ========================================================== */
+
+const staticPos=gl.createBuffer();
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  staticPos
+);
+
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array(sv),
+  gl.STATIC_DRAW
+);
+
+const staticNorm=gl.createBuffer();
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  staticNorm
+);
+
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array(sn),
+  gl.STATIC_DRAW
+);
+
+const staticColor=gl.createBuffer();
+
+gl.bindBuffer(
+  gl.ARRAY_BUFFER,
+  staticColor
+);
+
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array(sc),
+  gl.STATIC_DRAW
+);
+
+const staticCount=sv.length/3;
+
+
+/* ==========================================================
+   DYNAMIC CUBE
+   ========================================================== */
+
+const dp=gl.createBuffer();
+const dn=gl.createBuffer();
+const dc=gl.createBuffer();
+
+const pArray=new Float32Array(108);
+const nArray=new Float32Array(108);
+const cArray=new Float32Array(108);
+
+function dynamicCube(
+  x,y,z,
+  sx,sy,sz,
+  col,
+  ry=0
+){
+
+  const rgb=
+    Array.isArray(col)
+      ? col
+      : color(col);
+
+  const c=Math.cos(ry);
+  const s=Math.sin(ry);
+
+  for(let i=0;i<36;i++){
+
+    const k=i*3;
+
+    const px=POS[k]*sx;
+    const py=POS[k+1]*sy;
+    const pz=POS[k+2]*sz;
+
+    const rx=px*c+pz*s;
+    const rz=-px*s+pz*c;
+
+    pArray[k]=x+rx;
+    pArray[k+1]=y+py;
+    pArray[k+2]=z+rz;
+
+    const nx=NORM[k];
+    const ny=NORM[k+1];
+    const nz=NORM[k+2];
+
+    nArray[k]=nx*c+nz*s;
+    nArray[k+1]=ny;
+    nArray[k+2]=-nx*s+nz*c;
+
+    cArray[k]=rgb[0];
+    cArray[k+1]=rgb[1];
+    cArray[k+2]=rgb[2];
+  }
 
   gl.bindBuffer(
     gl.ARRAY_BUFFER,
-    pb
+    dp
   );
 
   gl.bufferData(
     gl.ARRAY_BUFFER,
-    new Float32Array(positions),
-    gl.STREAM_DRAW
+    pArray,
+    gl.DYNAMIC_DRAW
   );
 
   gl.vertexAttribPointer(
-    positionLocation,
+    loc.position,
     3,
     gl.FLOAT,
     false,
@@ -1560,24 +1279,22 @@ function drawCube(
   );
 
   gl.enableVertexAttribArray(
-    positionLocation
+    loc.position
   );
-
-  const nb=gl.createBuffer();
 
   gl.bindBuffer(
     gl.ARRAY_BUFFER,
-    nb
+    dn
   );
 
   gl.bufferData(
     gl.ARRAY_BUFFER,
-    new Float32Array(normals),
-    gl.STREAM_DRAW
+    nArray,
+    gl.DYNAMIC_DRAW
   );
 
   gl.vertexAttribPointer(
-    normalLocation,
+    loc.normal,
     3,
     gl.FLOAT,
     false,
@@ -1586,24 +1303,22 @@ function drawCube(
   );
 
   gl.enableVertexAttribArray(
-    normalLocation
+    loc.normal
   );
-
-  const cb=gl.createBuffer();
 
   gl.bindBuffer(
     gl.ARRAY_BUFFER,
-    cb
+    dc
   );
 
   gl.bufferData(
     gl.ARRAY_BUFFER,
-    new Float32Array(colors),
-    gl.STREAM_DRAW
+    cArray,
+    gl.DYNAMIC_DRAW
   );
 
   gl.vertexAttribPointer(
-    colorLocation,
+    loc.color,
     3,
     gl.FLOAT,
     false,
@@ -1612,11 +1327,11 @@ function drawCube(
   );
 
   gl.enableVertexAttribArray(
-    colorLocation
+    loc.color
   );
 
   gl.uniformMatrix4fv(
-    modelLocation,
+    loc.model,
     false,
     identity()
   );
@@ -1626,661 +1341,482 @@ function drawCube(
     0,
     36
   );
-
-  gl.deleteBuffer(pb);
-  gl.deleteBuffer(nb);
-  gl.deleteBuffer(cb);
 }
 
 
-/* ============================================================
+/* ==========================================================
    SKATER
-   ============================================================ */
+   ========================================================== */
 
-function makeRider(data){
+function rider(
+  name,
+  x,
+  z,
+  speed,
+  shirt,
+  board,
+  skin,
+  hair
+){
 
   return {
-    name:data.name,
-
-    x:data.x,
-    z:data.z,
-
-    targetX:data.x,
-
-    speed:data.speed,
-    baseSpeed:data.speed,
-
-    shirt:data.shirt,
-    board:data.board,
-    skin:data.skin,
-    hair:data.hair,
-
-    aiTimer:randomRange(1,3),
-
-    phase:randomRange(0,10)
+    name,
+    x,
+    z,
+    targetX:x,
+    speed,
+    baseSpeed:speed,
+    shirt,
+    board,
+    skin,
+    hair,
+    timer:rand(1,3),
+    phase:rand(0,10)
   };
 }
 
-
 const player={
-  name:"Mika",
-
+  name:"Moi-cy",
   x:0,
   z:0,
-
   targetX:0,
-
   speed:31,
-
-  shirt:0x181818,
+  shirt:0x17191a,
   board:0xd8ff39,
-
-  skin:0xc98b65,
-  hair:0x171717
+  skin:0xc98a64,
+  hair:0x141414
 };
 
+const enemies=[
 
-const opponents=[
+  rider(
+    "Lena",
+    -5.1,-18,
+    34,
+    0xc94c4c,
+    0xe8e8e8,
+    0xd59a73,
+    0x161616
+  ),
 
-  makeRider({
-    name:"Lena",
-    x:-5.2,
-    z:-18,
-    speed:34,
-    shirt:0xd14d4d,
-    board:0xe9e9e9,
-    skin:0xd39a72,
-    hair:0x171717
-  }),
+  rider(
+    "Noah",
+    5.1,10,
+    35,
+    0x3977b7,
+    0xe58b3d,
+    0xb87851,
+    0x4b3021
+  ),
 
-  makeRider({
-    name:"Noah",
-    x:5.2,
-    z:12,
-    speed:35,
-    shirt:0x3975b7,
-    board:0xe58b3d,
-    skin:0xb97952,
-    hair:0x4c3021
-  }),
+  rider(
+    "Jay",
+    0,-45,
+    33.5,
+    0x4c955c,
+    0x292929,
+    0x986248,
+    0x111111
+  ),
 
-  makeRider({
-    name:"Jay",
-    x:0,
-    z:-45,
-    speed:33,
-    shirt:0x4d965d,
-    board:0x252525,
-    skin:0x9b6548,
-    hair:0x111111
-  }),
+  rider(
+    "Kim",
+    -5.1,24,
+    35.5,
+    0xe58b3d,
+    0x7651a3,
+    0xd7a078,
+    0x392218
+  ),
 
-  makeRider({
-    name:"Kim",
-    x:-5.2,
-    z:23,
-    speed:35.5,
-    shirt:0xe58b3d,
-    board:0x7956a8,
-    skin:0xd7a078,
-    hair:0x392218
-  }),
+  rider(
+    "Alex",
+    5.1,-68,
+    34.5,
+    0x7651a3,
+    0x3c76a7,
+    0xa96f50,
+    0x111111
+  ),
 
-  makeRider({
-    name:"Alex",
-    x:5.2,
-    z:-70,
-    speed:34,
-    shirt:0x7956a8,
-    board:0x3d79a8,
-    skin:0xa96f50,
-    hair:0x151515
-  }),
+  rider(
+    "Sam",
+    0,7,
+    35,
+    0xd8d8d3,
+    0xd64b43,
+    0xe0ad82,
+    0x281a13
+  ),
 
-  makeRider({
-    name:"Sam",
-    x:0,
-    z:8,
-    speed:35,
-    shirt:0xd7d7d2,
-    board:0xd84a43,
-    skin:0xe0ad82,
-    hair:0x2a1b13
-  }),
-
-  makeRider({
-    name:"Milo",
-    x:5.2,
-    z:-105,
-    speed:36,
-    shirt:0x4e7f75,
-    board:0xd8ff39,
-    skin:0x925c40,
-    hair:0x171717
-  })
+  rider(
+    "Milo",
+    5.1,-105,
+    36,
+    0x4c7c73,
+    0xd8ff39,
+    0x915b3f,
+    0x151515
+  )
 ];
 
 
-/* ============================================================
-   DRAW SKATER
-   ============================================================ */
+/* ==========================================================
+   SKATER RENDERN
+   ========================================================== */
 
 function drawSkater(r,isPlayer=false){
 
   const bob=
-    Math.sin(gameTime*7+r.phase)*.025;
+    Math.sin(time*7+r.phase)*.025;
 
   const tilt=
     isPlayer
       ? playerTilt
-      : Math.sin(
-          gameTime*2+r.phase
-        )*.035;
+      : Math.sin(time*2+r.phase)*.035;
 
 
-  /* ================= BOARD ================= */
-
-  /*
-    Das Deck liegt längs auf Z.
+  /* DECK
+     entlang der Fahrtrichtung
+     Z = vorne/hinten
   */
 
-  drawCube(
+  dynamicCube(
     r.x,
     .34+bob,
     r.z,
-    .35,
-    .08,
-    1.35,
+    .34,
+    .075,
+    1.32,
     r.board,
     tilt
   );
 
 
-  /* Trucks */
+  /* TRUCKS */
 
-  drawCube(
+  dynamicCube(
     r.x,
-    .23+bob,
-    r.z-.76,
-    .43,
-    .06,
-    .10,
-    0xaeb2b4,
+    .24+bob,
+    r.z-.75,
+    .44,.06,.12,
+    0xb5b8b8,
     tilt
   );
 
-  drawCube(
+  dynamicCube(
     r.x,
-    .23+bob,
-    r.z+.76,
-    .43,
-    .06,
-    .10,
-    0xaeb2b4,
+    .24+bob,
+    r.z+.75,
+    .44,.06,.12,
+    0xb5b8b8,
     tilt
   );
 
 
-  /* 4 Räder */
+  /* 4 RÄDER */
 
-  const wheel=0x111111;
+  for(const wx of [-.34,.34]){
 
-  for(
-    const wx of [-.34,.34]
-  ){
-
-    drawCube(
+    dynamicCube(
       r.x+wx,
       .12+bob,
-      r.z-.86,
-      .13,
-      .15,
-      .20,
-      wheel,
+      r.z-.87,
+      .13,.14,.20,
+      0x101111,
       tilt
     );
 
-    drawCube(
+    dynamicCube(
       r.x+wx,
       .12+bob,
-      r.z+.86,
-      .13,
-      .15,
-      .20,
-      wheel,
+      r.z+.87,
+      .13,.14,.20,
+      0x101111,
       tilt
     );
   }
 
 
-  /* ================= BEINE ================= */
+  /* BEINE */
 
-  drawCube(
+  dynamicCube(
     r.x-.17,
     .78+bob,
-    r.z-.20,
-    .10,
-    .38,
-    .11,
-    0x25282a,
+    r.z-.19,
+    .105,.38,.11,
+    0x26292b,
     tilt
   );
 
-  drawCube(
+  dynamicCube(
     r.x+.17,
     .78+bob,
-    r.z+.20,
-    .10,
-    .38,
-    .11,
-    0x25282a,
+    r.z+.19,
+    .105,.38,.11,
+    0x26292b,
     tilt
   );
 
 
-  /* Schuhe */
+  /* SCHUHE */
 
-  drawCube(
+  dynamicCube(
     r.x-.17,
-    1.10+bob,
-    r.z-.28,
-    .20,
-    .09,
-    .31,
-    0xe9e9e5,
+    1.09+bob,
+    r.z-.29,
+    .21,.09,.32,
+    0xe8e8e4,
     tilt
   );
 
-  drawCube(
+  dynamicCube(
     r.x+.17,
-    1.10+bob,
-    r.z+.28,
-    .20,
-    .09,
-    .31,
-    0xe9e9e5,
+    1.09+bob,
+    r.z+.29,
+    .21,.09,.32,
+    0xe8e8e4,
     tilt
   );
 
 
-  /* ================= HOSE ================= */
+  /* KÖRPER */
 
-  drawCube(
+  dynamicCube(
     r.x,
-    1.24+bob,
+    1.68+bob,
     r.z,
-    .30,
-    .15,
-    .22,
-    0x202426,
-    tilt
-  );
-
-
-  /* ================= SHIRT ================= */
-
-  drawCube(
-    r.x,
-    1.67+bob,
-    r.z,
-    .32,
-    .42,
-    .22,
+    .31,.43,.22,
     r.shirt,
     tilt
   );
 
 
-  /* ================= ARME ================= */
+  /* ARME */
 
-  drawCube(
+  dynamicCube(
     r.x-.42,
-    1.64+bob,
+    1.65+bob,
     r.z,
-    .08,
-    .30,
-    .08,
+    .08,.30,.08,
     r.skin,
     tilt-.18
   );
 
-  drawCube(
+  dynamicCube(
     r.x+.42,
-    1.64+bob,
+    1.65+bob,
     r.z,
-    .08,
-    .30,
-    .08,
+    .08,.30,.08,
     r.skin,
     tilt+.18
   );
 
 
-  /* ================= KOPF ================= */
+  /* KOPF */
 
-  drawCube(
+  dynamicCube(
     r.x,
-    2.30+bob,
+    2.31+bob,
     r.z,
-    .27,
-    .30,
-    .27,
+    .27,.30,.27,
     r.skin,
     tilt
   );
 
 
-  /* Haare */
+  /* HAARE */
 
-  drawCube(
+  dynamicCube(
     r.x,
     2.56+bob,
     r.z,
-    .29,
-    .10,
-    .28,
+    .30,.11,.28,
     r.hair,
     tilt
   );
 
 
-  /* Moi-cy Brustlogo:
-     heller Block als gut sichtbares Shirt-Detail */
+  /* MOI-CY LOGO */
 
-  drawCube(
+  dynamicCube(
     r.x,
     1.70+bob,
     r.z-.225,
-    .17,
-    .07,
-    .012,
+    .17,.07,.012,
     0xd8ff39,
     tilt
   );
 }
 
 
-/* ============================================================
-   BOOST PICKUPS
-   ============================================================ */
+/* ==========================================================
+   BOOSTS
+   ========================================================== */
 
 const boosts=[];
 
-const boostPositions=[
-  [-5.2,-270],
-  [5.2,-600],
-  [0,-920],
-  [-5.2,-1260],
-  [5.2,-1600],
-  [0,-1940],
-  [-5.2,-2280],
-  [5.2,-2620],
-  [0,-2960],
-  [-5.2,-3300],
-  [5.2,-3640],
-  [0,-3980],
-  [-5.2,-4300]
-];
-
-boostPositions.forEach((p,i)=>{
+for(let i=0;i<13;i++){
 
   boosts.push({
-    x:p[0],
-    z:p[1],
-    collected:false,
+    x:[-5.1,0,5.1][i%3],
+    z:-250-i*335,
+    taken:false,
     phase:i*.7
   });
-});
-
+}
 
 function drawBoost(b){
 
-  if(b.collected)return;
+  if(b.taken)return;
 
   const y=
-    .9+
-    Math.sin(
-      gameTime*4+b.phase
-    )*.15;
+    1+
+    Math.sin(time*4+b.phase)*.15;
 
   const s=
     1+
-    Math.sin(
-      gameTime*5+b.phase
-    )*.1;
+    Math.sin(time*5+b.phase)*.1;
 
-  drawCube(
+  dynamicCube(
     b.x,
     y,
     b.z,
-    .32*s,
-    .32*s,
-    .32*s,
+    .34*s,
+    .34*s,
+    .34*s,
     0xd8ff39,
-    gameTime*2
-  );
-
-  drawCube(
-    b.x,
-    y,
-    b.z,
-    .12,
-    .12,
-    .12,
-    0xffffff,
-    -gameTime*3
+    time*2
   );
 }
 
 
-/* ============================================================
-   GAME STATE
-   ============================================================ */
+/* ==========================================================
+   GAME
+   ========================================================== */
 
 let running=false;
-
-let gameTime=0;
-
-let lastTime=
-  performance.now();
+let time=0;
+let last=performance.now();
 
 let boostCharges=0;
-
-let boostEnd=0;
+let boostUntil=0;
 
 let playerTilt=0;
 
-let keys={
+let cameraX=0;
+let cameraY=4.0;
+let cameraZ=9.8;
+
+const keys={
   left:false,
   right:false
 };
 
 
-/* ============================================================
-   CAMERA
-   ============================================================ */
-
-let cameraX=0;
-let cameraY=4.1;
-let cameraZ=9.5;
-
-function updateCamera(dt){
-
-  const desiredX=
-    player.x*.55;
-
-  cameraX +=
-    (desiredX-cameraX)*
-    Math.min(1,dt*5);
-
-  const desiredZ=
-    player.z+9.8;
-
-  cameraZ +=
-    (desiredZ-cameraZ)*
-    Math.min(1,dt*6);
-}
-
-
-/* ============================================================
-   UPDATE PLAYER
-   ============================================================ */
+/* ==========================================================
+   SPIELER
+   ========================================================== */
 
 function updatePlayer(dt){
 
-  let direction=0;
+  let dir=0;
 
-  /*
-    WICHTIG:
-    ArrowLeft / A = LINKS
-    ArrowRight / D = RECHTS
-  */
+  if(keys.left)dir--;
+  if(keys.right)dir++;
 
-  if(keys.left)
-    direction-=1;
-
-  if(keys.right)
-    direction+=1;
-
-  player.targetX +=
-    direction*11*dt;
+  player.targetX+=dir*11*dt;
 
   player.targetX=
     Math.max(
-      -6.0,
+      -5.8,
       Math.min(
-        6.0,
+        5.8,
         player.targetX
       )
     );
 
-  player.x +=
+  player.x+=
     (player.targetX-player.x)*
     Math.min(1,dt*10);
 
-
-  playerTilt +=
-    (
-      direction*.12-playerTilt
-    )*
+  playerTilt+=
+    (dir*.12-playerTilt)*
     Math.min(1,dt*8);
 
+  const boosted=
+    performance.now()<boostUntil;
 
-  let speed=31;
+  player.speed=
+    boosted
+      ? 48
+      : 31;
 
-  if(performance.now()<boostEnd)
-    speed=47;
-
-  player.z-=speed*dt;
+  player.z-=player.speed*dt;
 }
 
 
-/* ============================================================
-   UPDATE OPPONENTS
-   ============================================================ */
+/* ==========================================================
+   GEGNER
+   ========================================================== */
 
-function updateOpponents(dt){
+function updateEnemies(dt){
 
-  opponents.forEach(r=>{
+  enemies.forEach(e=>{
 
-    r.aiTimer-=dt;
+    e.timer-=dt;
 
-    if(r.aiTimer<=0){
+    if(e.timer<=0){
 
-      r.aiTimer=
-        randomRange(1.2,3.5);
+      e.timer=rand(1.2,3.3);
 
       const lane=
-        Math.floor(
-          random()*3
-        );
+        Math.floor(rnd()*3);
 
-      r.targetX=
-        [-5.2,0,5.2][lane];
-
-      /*
-        Manchmal fährt ein Gegner bewusst
-        in Richtung Spieler.
-      */
-
-      if(random()<.22){
-
-        r.targetX=
-          Math.max(
-            -5.2,
-            Math.min(
-              5.2,
-              Math.round(
-                player.x/5.2
-              )*5.2
-            )
-          );
-      }
+      e.targetX=
+        [-5.1,0,5.1][lane];
     }
 
-
-    let speed=
-      r.baseSpeed+
-      Math.sin(
-        gameTime*.7+r.phase
-      )*1.1;
-
-
-    const gap=
-      r.z-player.z;
-
+    let s=
+      e.baseSpeed+
+      Math.sin(time*.8+e.phase)*1.2;
 
     /*
-      Gegner hinter dem Spieler
-      holen etwas auf.
+       Gegner holen auf, wenn sie weit hinten sind.
     */
 
-    if(gap>70)
-      speed+=3.5;
+    const gap=e.z-player.z;
 
-    /*
-      Gegner weit voraus werden
-      nicht künstlich unendlich schnell.
-    */
+    if(gap>65)s+=3.2;
+    if(gap<-150)s-=1;
 
-    if(gap<-140)
-      speed-=1.2;
+    e.z-=s*dt;
 
-
-    r.z-=speed*dt;
+    e.x+=
+      (e.targetX-e.x)*
+      Math.min(1,dt*2.7);
 
 
-    r.x +=
-      (r.targetX-r.x)*
-      Math.min(1,dt*2.5);
+    /* leichte Kollision */
 
-
-    /*
-      leichte Kollision
-    */
-
-    const dx=
-      r.x-player.x;
-
-    const dz=
-      r.z-player.z;
+    const dx=e.x-player.x;
+    const dz=e.z-player.z;
 
     if(
-      Math.abs(dx)<1.0 &&
-      Math.abs(dz)<2.0
+      Math.abs(dx)<.9 &&
+      Math.abs(dz)<1.7
     ){
 
-      const push=
-        dx>=0 ? -1:1;
-
       player.targetX+=
-        push*1.1;
+        dx>=0
+          ? -1
+          : 1;
 
       player.targetX=
         Math.max(
-          -6,
+          -5.8,
           Math.min(
-            6,
+            5.8,
             player.targetX
           )
         );
@@ -2289,33 +1825,27 @@ function updateOpponents(dt){
 }
 
 
-/* ============================================================
-   BOOST
-   ============================================================ */
+/* ==========================================================
+   BOOST EINSAMMELN
+   ========================================================== */
 
 function collectBoosts(){
 
   boosts.forEach(b=>{
 
-    if(b.collected)
-      return;
+    if(b.taken)return;
 
-    const dx=
-      Math.abs(
-        b.x-player.x
-      );
+    const dx=Math.abs(
+      b.x-player.x
+    );
 
-    const dz=
-      Math.abs(
-        b.z-player.z
-      );
+    const dz=Math.abs(
+      b.z-player.z
+    );
 
-    if(
-      dx<1.7 &&
-      dz<2.5
-    ){
+    if(dx<1.6 && dz<2.3){
 
-      b.collected=true;
+      b.taken=true;
 
       boostCharges=
         Math.min(
@@ -2323,7 +1853,7 @@ function collectBoosts(){
           boostCharges+1
         );
 
-      showBoost(
+      message(
         "BOOST GESAMMELT  ×"+
         boostCharges
       );
@@ -2332,180 +1862,179 @@ function collectBoosts(){
 }
 
 
-function activateBoost(){
+/* ==========================================================
+   BOOST
+   ========================================================== */
 
-  if(!running)
-    return;
+function useBoost(){
 
-  if(boostCharges<=0)
-    return;
+  if(!running)return;
 
-  if(
-    performance.now()<
-    boostEnd
-  )
+  if(boostCharges<=0)return;
+
+  if(performance.now()<boostUntil)
     return;
 
   boostCharges--;
 
-  boostEnd=
+  boostUntil=
     performance.now()+3000;
 
-  showBoost(
-    "BOOST AKTIV!"
-  );
-
-  boostSound();
+  message("BOOST AKTIV!");
 }
 
 
-function showBoost(text){
+/* ==========================================================
+   POSITION
+   ========================================================== */
+
+function position(){
+
+  let p=1;
+
+  enemies.forEach(e=>{
+    if(e.z<player.z)p++;
+  });
+
+  return p;
+}
+
+
+/* ==========================================================
+   HUD
+   ========================================================== */
+
+function updateHUD(){
+
+  document.getElementById("position")
+    .textContent=
+    position()+" / 8";
+
+  document.getElementById("boost")
+    .textContent=
+    performance.now()<boostUntil
+      ? "BOOST!"
+      : "× "+boostCharges;
+
+  document.getElementById("distance")
+    .textContent=
+    Math.min(
+      4500,
+      Math.max(
+        0,
+        Math.floor(-player.z)
+      )
+    )+" m";
+}
+
+
+/* ==========================================================
+   MESSAGE
+   ========================================================== */
+
+function message(t){
 
   const el=
     document.getElementById(
       "boostMessage"
     );
 
-  el.textContent=text;
+  el.textContent=t;
   el.style.opacity="1";
 
-  clearTimeout(
-    showBoost.timer
-  );
+  clearTimeout(message.timer);
 
-  showBoost.timer=
+  message.timer=
     setTimeout(()=>{
       el.style.opacity="0";
-    },900);
+    },850);
 }
 
 
-/* ============================================================
-   POSITION
-   ============================================================ */
-
-function playerPosition(){
-
-  let position=1;
-
-  opponents.forEach(r=>{
-
-    if(r.z<player.z)
-      position++;
-  });
-
-  return position;
-}
-
-
-/* ============================================================
+/* ==========================================================
    FINISH
-   ============================================================ */
+   ========================================================== */
 
-function checkFinish(){
+function finish(){
 
-  if(player.z<=FINISH_Z){
+  running=false;
 
-    running=false;
+  const p=position();
 
-    const position=
-      playerPosition();
+  document.getElementById("hud")
+    .style.display="none";
 
-    document.getElementById(
-      "hud"
-    ).style.display="none";
+  document.getElementById("mobile")
+    .style.display="none";
 
-    document.getElementById(
-      "mobile"
-    ).style.display="none";
+  document.getElementById("finish")
+    .style.display="flex";
 
-    document.getElementById(
-      "finish"
-    ).style.display="flex";
-
-
-    document.getElementById(
-      "finishText"
-    ).textContent=
-      position===1
+  document.getElementById("finishText")
+    .textContent=
+      p===1
         ? "Du hast das Rennen gewonnen!"
-        : "Ziel erreicht — Platz "+
-          position+
-          " von 8.";
-  }
+        : "Ziel erreicht — Platz "+p+" von 8.";
 }
 
 
-/* ============================================================
-   HUD
-   ============================================================ */
+/* ==========================================================
+   KAMERA
+   ========================================================== */
 
-function updateHUD(){
+/*
+   ENTSCHEIDEND:
+   Die Kamera befindet sich HINTER dem Spieler.
+   Dadurch sieht man den eigenen Skater.
+   Keine First-Person-Kamera.
+*/
 
-  document.getElementById(
-    "position"
-  ).textContent=
-    playerPosition()+
-    " / 8";
+function updateCamera(dt){
 
-  document.getElementById(
-    "boostValue"
-  ).textContent=
-    performance.now()<boostEnd
-      ? "BOOST!"
-      : "× "+boostCharges;
+  const wantedX=
+    player.x*.42;
 
-  const d=
-    Math.max(
-      0,
-      Math.floor(
-        -player.z
-      )
-    );
+  cameraX+=
+    (wantedX-cameraX)*
+    Math.min(1,dt*5);
 
-  document.getElementById(
-    "distance"
-  ).textContent=
-    Math.min(
-      4500,
-      d
-    )+" m";
+  const wantedZ=
+    player.z+10.5;
+
+  cameraZ+=
+    (wantedZ-cameraZ)*
+    Math.min(1,dt*6);
 }
 
 
-/* ============================================================
+/* ==========================================================
    AUDIO
-   Nur Hintergrundmusik.
-   KEIN Rollgeräusch.
-   ============================================================ */
+   ========================================================== */
 
-let audioContext=null;
-let musicInterval=null;
-let musicEnabled=true;
+let audio=null;
+let musicTimer=null;
+let musicOn=true;
 
 function startMusic(){
 
-  if(!musicEnabled)
-    return;
-
-  if(audioContext)
-    return;
+  if(!musicOn)return;
+  if(audio)return;
 
   try{
 
-    audioContext=
-      new (
+    audio=
+      new(
         window.AudioContext||
         window.webkitAudioContext
       )();
 
     const master=
-      audioContext.createGain();
+      audio.createGain();
 
-    master.gain.value=.025;
+    master.gain.value=.022;
 
     master.connect(
-      audioContext.destination
+      audio.destination
     );
 
     const notes=[
@@ -2517,228 +2046,153 @@ function startMusic(){
       174.61
     ];
 
-    let n=0;
+    let i=0;
 
-    musicInterval=
+    musicTimer=
       setInterval(()=>{
 
-        if(!audioContext)
-          return;
+        if(!audio)return;
 
-        const oscillator=
-          audioContext.createOscillator();
+        const o=
+          audio.createOscillator();
 
-        const gain=
-          audioContext.createGain();
+        const g=
+          audio.createGain();
 
-        oscillator.type="triangle";
+        o.type="triangle";
 
-        oscillator.frequency.value=
-          notes[
-            n%notes.length
-          ];
+        o.frequency.value=
+          notes[i++%notes.length];
 
-        gain.gain.setValueAtTime(
+        g.gain.setValueAtTime(
           .001,
-          audioContext.currentTime
+          audio.currentTime
         );
 
-        gain.gain.exponentialRampToValueAtTime(
-          .35,
-          audioContext.currentTime+.03
+        g.gain.exponentialRampToValueAtTime(
+          .28,
+          audio.currentTime+.03
         );
 
-        gain.gain.exponentialRampToValueAtTime(
+        g.gain.exponentialRampToValueAtTime(
           .001,
-          audioContext.currentTime+.36
+          audio.currentTime+.38
         );
 
-        oscillator.connect(gain);
-        gain.connect(master);
+        o.connect(g);
+        g.connect(master);
 
-        oscillator.start();
+        o.start();
 
-        oscillator.stop(
-          audioContext.currentTime+.4
+        o.stop(
+          audio.currentTime+.4
         );
-
-        n++;
 
       },420);
 
   }catch(e){}
 }
 
-
 function stopMusic(){
 
-  if(musicInterval){
-
-    clearInterval(
-      musicInterval
-    );
-
-    musicInterval=null;
+  if(musicTimer){
+    clearInterval(musicTimer);
+    musicTimer=null;
   }
 
-  if(audioContext){
+  if(audio){
 
     try{
-      audioContext.close();
+      audio.close();
     }catch(e){}
 
-    audioContext=null;
+    audio=null;
   }
 }
 
 
-function boostSound(){
-
-  if(!audioContext)
-    return;
-
-  try{
-
-    const osc=
-      audioContext.createOscillator();
-
-    const gain=
-      audioContext.createGain();
-
-    osc.type="sawtooth";
-
-    osc.frequency.setValueAtTime(
-      170,
-      audioContext.currentTime
-    );
-
-    osc.frequency.exponentialRampToValueAtTime(
-      600,
-      audioContext.currentTime+.18
-    );
-
-    gain.gain.setValueAtTime(
-      .001,
-      audioContext.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      .12,
-      audioContext.currentTime+.03
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioContext.currentTime+.25
-    );
-
-    osc.connect(gain);
-    gain.connect(
-      audioContext.destination
-    );
-
-    osc.start();
-
-    osc.stop(
-      audioContext.currentTime+.27
-    );
-
-  }catch(e){}
-}
-
-
-/* ============================================================
+/* ==========================================================
    RESET
-   ============================================================ */
+   ========================================================== */
 
-function resetRace(){
+function reset(){
 
   player.x=0;
   player.targetX=0;
   player.z=0;
 
   boostCharges=0;
-  boostEnd=0;
+  boostUntil=0;
 
   const starts=[
     -18,
-    12,
+    10,
     -45,
-    23,
-    -70,
-    8,
+    24,
+    -68,
+    7,
     -105
   ];
 
-  opponents.forEach((r,i)=>{
+  enemies.forEach((e,i)=>{
 
-    r.z=starts[i];
+    e.z=starts[i];
 
-    r.x=
-      [-5.2,5.2,0,-5.2,5.2,0,5.2][i];
+    e.x=
+      [-5.1,5.1,0,-5.1,5.1,0,5.1][i];
 
-    r.targetX=r.x;
-
-    r.aiTimer=
-      randomRange(1,3);
+    e.targetX=e.x;
+    e.timer=rand(1,3);
   });
 
   boosts.forEach(b=>{
-    b.collected=false;
+    b.taken=false;
   });
 }
 
 
-/* ============================================================
+/* ==========================================================
    START
-   ============================================================ */
+   ========================================================== */
 
 function startRace(){
 
-  resetRace();
+  reset();
 
   running=true;
+  time=0;
 
-  gameTime=0;
+  document.getElementById("menu")
+    .style.display="none";
 
-  document.getElementById(
-    "menu"
-  ).style.display="none";
+  document.getElementById("finish")
+    .style.display="none";
 
-  document.getElementById(
-    "finish"
-  ).style.display="none";
+  document.getElementById("hud")
+    .style.display="flex";
 
-  document.getElementById(
-    "hud"
-  ).style.display="flex";
-
-  if(
-    "ontouchstart" in window
-  ){
-
-    document.getElementById(
-      "mobile"
-    ).style.display="flex";
+  if("ontouchstart" in window){
+    document.getElementById("mobile")
+      .style.display="flex";
   }
 
   startMusic();
 }
 
 
-/* ============================================================
-   RENDER STATIC
-   ============================================================ */
+/* ==========================================================
+   STATIC RENDER
+   ========================================================== */
 
 function renderStatic(){
 
   gl.bindBuffer(
     gl.ARRAY_BUFFER,
-    staticPositionBuffer
+    staticPos
   );
 
   gl.vertexAttribPointer(
-    positionLocation,
+    loc.position,
     3,
     gl.FLOAT,
     false,
@@ -2747,17 +2201,16 @@ function renderStatic(){
   );
 
   gl.enableVertexAttribArray(
-    positionLocation
+    loc.position
   );
-
 
   gl.bindBuffer(
     gl.ARRAY_BUFFER,
-    staticNormalBuffer
+    staticNorm
   );
 
   gl.vertexAttribPointer(
-    normalLocation,
+    loc.normal,
     3,
     gl.FLOAT,
     false,
@@ -2766,17 +2219,16 @@ function renderStatic(){
   );
 
   gl.enableVertexAttribArray(
-    normalLocation
+    loc.normal
   );
-
 
   gl.bindBuffer(
     gl.ARRAY_BUFFER,
-    staticColorBuffer
+    staticColor
   );
 
   gl.vertexAttribPointer(
-    colorLocation,
+    loc.color,
     3,
     gl.FLOAT,
     false,
@@ -2785,70 +2237,57 @@ function renderStatic(){
   );
 
   gl.enableVertexAttribArray(
-    colorLocation
+    loc.color
   );
-
 
   gl.uniformMatrix4fv(
-    modelLocation,
+    loc.model,
     false,
     identity()
   );
 
-
   gl.drawArrays(
     gl.TRIANGLES,
     0,
-    staticVertexCount
+    staticCount
   );
 }
 
 
-/* ============================================================
-   FRAME
-   ============================================================ */
+/* ==========================================================
+   RENDER LOOP
+   ========================================================== */
 
 function frame(now){
 
   requestAnimationFrame(frame);
 
   let dt=
-    (now-lastTime)/1000;
+    (now-last)/1000;
 
-  lastTime=now;
+  last=now;
 
   dt=
     Math.min(
       .035,
-      Math.max(
-        .001,
-        dt
-      )
+      Math.max(.001,dt)
     );
-
 
   if(running){
 
-    gameTime+=dt;
+    time+=dt;
 
     updatePlayer(dt);
-
-    updateOpponents(dt);
-
+    updateEnemies(dt);
     collectBoosts();
-
-    checkFinish();
-
     updateHUD();
+
+    if(player.z<=FINISH){
+      finish();
+    }
   }
 
-
   updateCamera(dt);
-
-
-  /* ========================================================
-     CLEAR
-     ======================================================== */
 
   gl.viewport(
     0,
@@ -2858,9 +2297,9 @@ function frame(now){
   );
 
   gl.clearColor(
-    .55,
-    .67,
-    .72,
+    .52,
+    .66,
+    .73,
     1
   );
 
@@ -2869,28 +2308,20 @@ function frame(now){
     gl.DEPTH_BUFFER_BIT
   );
 
-
-  gl.enable(
-    gl.DEPTH_TEST
-  );
-
-  gl.depthFunc(
-    gl.LESS
-  );
-
-
-  /* ========================================================
-     MATRIZ
-     ======================================================== */
+  gl.enable(gl.DEPTH_TEST);
 
   const projection=
     perspective(
       Math.PI/3,
       canvas.width/canvas.height,
       .1,
-      700
+      800
     );
 
+  /*
+     Kamera HINTER dem Spieler.
+     Blickrichtung nach vorne.
+  */
 
   const view=
     lookAt(
@@ -2898,71 +2329,58 @@ function frame(now){
       cameraY,
       cameraZ,
 
-      player.x*.28,
+      player.x*.25,
       1.25,
-      player.z-24
+      player.z-25
     );
 
-
   gl.uniformMatrix4fv(
-    projectionLocation,
+    loc.projection,
     false,
     projection
   );
 
   gl.uniformMatrix4fv(
-    viewLocation,
+    loc.view,
     false,
     view
   );
 
   gl.uniform3f(
-    sunLocation,
+    loc.sun,
     -.5,
     1,
     .35
   );
 
-
-  /* ========================================================
-     STATIC WORLD
-     ======================================================== */
-
   renderStatic();
 
+  boosts.forEach(drawBoost);
 
-  /* ========================================================
-     BOOSTS
-     ======================================================== */
+  /*
+     Gegner werden nach Entfernung sortiert,
+     damit die Szene stabil aussieht.
+  */
 
-  boosts.forEach(
-    drawBoost
+  const all=[
+    ...enemies,
+    player
+  ].sort(
+    (a,b)=>b.z-a.z
   );
 
-
-  /* ========================================================
-     PLAYER
-     ======================================================== */
-
-  drawSkater(
-    player,
-    true
-  );
-
-
-  /* ========================================================
-     OPPONENTS
-     ======================================================== */
-
-  opponents.forEach(
-    r=>drawSkater(r,false)
-  );
+  all.forEach(r=>{
+    drawSkater(
+      r,
+      r===player
+    );
+  });
 }
 
 
-/* ============================================================
+/* ==========================================================
    RESIZE
-   ============================================================ */
+   ========================================================== */
 
 function resize(){
 
@@ -2981,12 +2399,6 @@ function resize(){
     Math.floor(
       innerHeight*dpr
     );
-
-  canvas.style.width=
-    innerWidth+"px";
-
-  canvas.style.height=
-    innerHeight+"px";
 }
 
 window.addEventListener(
@@ -2997,9 +2409,9 @@ window.addEventListener(
 resize();
 
 
-/* ============================================================
+/* ==========================================================
    KEYBOARD
-   ============================================================ */
+   ========================================================== */
 
 window.addEventListener(
   "keydown",
@@ -3011,10 +2423,8 @@ window.addEventListener(
     ){
 
       keys.left=true;
-
       e.preventDefault();
     }
-
 
     if(
       e.code==="ArrowRight"||
@@ -3022,10 +2432,8 @@ window.addEventListener(
     ){
 
       keys.right=true;
-
       e.preventDefault();
     }
-
 
     if(
       e.code==="ShiftLeft"||
@@ -3033,13 +2441,12 @@ window.addEventListener(
     ){
 
       if(!e.repeat)
-        activateBoost();
+        useBoost();
 
       e.preventDefault();
     }
   }
 );
-
 
 window.addEventListener(
   "keyup",
@@ -3049,183 +2456,146 @@ window.addEventListener(
       e.code==="ArrowLeft"||
       e.code==="KeyA"
     ){
-
       keys.left=false;
     }
-
 
     if(
       e.code==="ArrowRight"||
       e.code==="KeyD"
     ){
-
       keys.right=false;
     }
   }
 );
 
 
-/* ============================================================
-   MOBILE CONTROLS
-   ============================================================ */
+/* ==========================================================
+   MOBILE
+   ========================================================== */
 
-function holdButton(
-  element,
-  property
-){
+function hold(el,key){
 
   const down=e=>{
     e.preventDefault();
-    keys[property]=true;
+    keys[key]=true;
   };
 
   const up=e=>{
     e.preventDefault();
-    keys[property]=false;
+    keys[key]=false;
   };
 
-  element.addEventListener(
+  el.addEventListener(
     "pointerdown",
     down
   );
 
-  element.addEventListener(
+  el.addEventListener(
     "pointerup",
     up
   );
 
-  element.addEventListener(
+  el.addEventListener(
     "pointercancel",
     up
   );
 
-  element.addEventListener(
+  el.addEventListener(
     "pointerleave",
     up
   );
 }
 
-holdButton(
-  document.getElementById(
-    "leftButton"
-  ),
+hold(
+  document.getElementById("left"),
   "left"
 );
 
-holdButton(
-  document.getElementById(
-    "rightButton"
-  ),
+hold(
+  document.getElementById("right"),
   "right"
 );
 
-
 document.getElementById(
-  "boostButton"
+  "mobileBoost"
 ).addEventListener(
   "pointerdown",
   e=>{
     e.preventDefault();
-    activateBoost();
+    useBoost();
   }
 );
 
 
-/* ============================================================
+/* ==========================================================
    BUTTONS
-   ============================================================ */
+   ========================================================== */
 
 document.getElementById(
-  "startButton"
-).addEventListener(
-  "click",
-  startRace
-);
-
+  "start"
+).onclick=startRace;
 
 document.getElementById(
-  "againButton"
-).addEventListener(
-  "click",
-  startRace
-);
-
+  "again"
+).onclick=startRace;
 
 document.getElementById(
-  "menuButton"
-).addEventListener(
-  "click",
-  ()=>{
+  "back"
+).onclick=()=>{
 
-    running=false;
+  running=false;
 
-    document.getElementById(
-      "finish"
-    ).style.display="none";
+  document.getElementById("finish")
+    .style.display="none";
 
-    document.getElementById(
-      "menu"
-    ).style.display="flex";
-  }
-);
-
+  document.getElementById("menu")
+    .style.display="flex";
+};
 
 document.getElementById(
-  "musicButton"
-).addEventListener(
-  "click",
-  ()=>{
+  "music"
+).onclick=()=>{
 
-    musicEnabled=
-      !musicEnabled;
+  musicOn=!musicOn;
 
-    document.getElementById(
-      "musicButton"
-    ).textContent=
-      musicEnabled
+  document.getElementById("music")
+    .textContent=
+      musicOn
         ? "♫ Musik: AN"
         : "♫ Musik: AUS";
 
-    if(!musicEnabled)
-      stopMusic();
+  if(!musicOn)
+    stopMusic();
 
-    else if(running)
-      startMusic();
-  }
-);
+  else if(running)
+    startMusic();
+};
 
 
-/* ============================================================
-   START
-   ============================================================ */
-
-/*
-  Der Ladebildschirm verschwindet,
-  sobald der lokale WebGL-Renderer steht.
-  Es wird NICHT auf einen Internetdienst gewartet.
-*/
+/* ==========================================================
+   LOADING
+   ========================================================== */
 
 setTimeout(()=>{
 
-  document.getElementById(
-    "loading"
-  ).style.opacity="0";
+  document.getElementById("loading")
+    .style.opacity="0";
 
   setTimeout(()=>{
 
-    document.getElementById(
-      "loading"
-    ).style.display="none";
+    document.getElementById("loading")
+      .style.display="none";
 
   },350);
 
-},250);
+},350);
 
 
-/* erster Frame */
+/* START */
 
 requestAnimationFrame(frame);
 
 </script>
+
 </body>
 </html>
