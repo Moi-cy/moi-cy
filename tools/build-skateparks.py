@@ -4,23 +4,30 @@
 MOI-CY Skatepark Database Builder
 
 Erstellt:
-    map/skateparks.json
+    ../map/skateparks.json
 
-Aus:
-    osm-data/*.osm.pbf
+Die Website selbst fragt später NICHT Overpass ab.
+Overpass wird nur einmal beim Erstellen/Aktualisieren
+der lokalen Datenbank verwendet.
 
 Benötigt:
-    osmium-tool
+    Python 3.10+
+    requests
 
-Die OSM-Daten kommen z.B. von Geofabrik.
+Installation:
+    pip install requests
+
+Start:
+    python tools/build-skateparks.py
 """
 
 from pathlib import Path
 import json
-import shutil
-import subprocess
-import tempfile
+import math
+import time
 import sys
+
+import requests
 
 
 # ============================================================
@@ -29,30 +36,148 @@ import sys
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-OSM_DATA_DIR = BASE_DIR / "osm-data"
 OUTPUT_FILE = BASE_DIR / "map" / "skateparks.json"
 
 
 # ============================================================
-# OSM-TAGS
+# EINSTELLUNGEN
 # ============================================================
 
-# Moderne Schreibweise
-FILTER_MODERN = "nwr/leisure=skatepark"
+# Overpass-Server.
+# Wir benutzen mehrere Server als Ausweichmöglichkeiten.
 
-# Ältere / alternative Schreibweise
-FILTER_OLD = "nwr/leisure=skate_park"
+OVERPASS_SERVERS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
+]
+
+
+# Zwischen Anfragen warten.
+REQUEST_DELAY = 3
+
+
+# Timeout pro Anfrage.
+REQUEST_TIMEOUT = 180
+
+
+# ============================================================
+# REGIONEN
+# ============================================================
+
+# Die Welt wird in größere Regionen aufgeteilt.
+#
+# Dadurch versuchen wir nicht, die komplette Welt
+# in einer einzigen Overpass-Anfrage zu laden.
+#
+# Format:
+# name: (west, south, east, north)
+
+REGIONS = {
+
+    # --------------------------------------------------------
+    # EUROPA
+    # --------------------------------------------------------
+
+    "europe": (
+        -31.0,
+        34.0,
+        45.0,
+        72.0,
+    ),
+
+    # --------------------------------------------------------
+    # NORDAMERIKA
+    # --------------------------------------------------------
+
+    "north-america": (
+        -170.0,
+        5.0,
+        -50.0,
+        85.0,
+    ),
+
+    # --------------------------------------------------------
+    # SÜDAMERIKA
+    # --------------------------------------------------------
+
+    "south-america": (
+        -82.0,
+        -56.0,
+        -34.0,
+        13.0,
+    ),
+
+    # --------------------------------------------------------
+    # ASIEN
+    # --------------------------------------------------------
+
+    "asia": (
+        25.0,
+        -10.0,
+        180.0,
+        78.0,
+    ),
+
+    # --------------------------------------------------------
+    # AFRIKA
+    # --------------------------------------------------------
+
+    "africa": (
+        -20.0,
+        -36.0,
+        55.0,
+        38.0,
+    ),
+
+    # --------------------------------------------------------
+    # OZEANIEN
+    # --------------------------------------------------------
+
+    "oceania": (
+        110.0,
+        -50.0,
+        180.0,
+        5.0,
+    ),
+
+    # --------------------------------------------------------
+    # MITTELAMERIKA / KARIBIK
+    # --------------------------------------------------------
+
+    "central-america": (
+        -120.0,
+        5.0,
+        -55.0,
+        25.0,
+    ),
+}
+
+
+# ============================================================
+# HTTP SESSION
+# ============================================================
+
+session = requests.Session()
+
+session.headers.update({
+    "User-Agent": (
+        "MOI-CY-Skatepark-Map/1.0 "
+        "(local skatepark database builder)"
+    )
+})
 
 
 # ============================================================
 # AUSGABE
 # ============================================================
 
-def print_header():
+def header():
+
     print()
-    print("=" * 60)
+    print("=" * 65)
     print(" MOI-CY SKATEPARK DATABASE BUILDER")
-    print("=" * 60)
+    print("=" * 65)
     print()
 
 
@@ -61,12 +186,12 @@ def print_header():
 # ============================================================
 
 def clean(value):
-    """Entfernt leere Strings."""
 
     if value is None:
         return None
 
     if isinstance(value, str):
+
         value = value.strip()
 
         if not value:
@@ -78,116 +203,139 @@ def clean(value):
 
 
 def parse_bool(value):
-    """OSM yes/no Werte in Python True/False umwandeln."""
 
     if value is None:
         return None
 
-    value = str(value).strip().lower()
+    value = str(value).lower().strip()
 
-    if value in {
+    if value in (
         "yes",
         "true",
         "1",
         "on",
-    }:
+    ):
         return True
 
-    if value in {
+    if value in (
         "no",
         "false",
         "0",
         "off",
-    }:
+    ):
         return False
 
     return None
 
 
 def parse_number(value):
-    """Versucht einen Zahlenwert aus OSM-Tags zu lesen."""
 
     if value is None:
         return None
 
     try:
-        value = str(value).strip()
+
+        value = str(value)
         value = value.replace(",", ".")
+
         return float(value)
 
-    except (ValueError, TypeError):
+    except (
+        ValueError,
+        TypeError,
+    ):
         return None
 
 
-def get_osm_id(properties):
-    """Ermittelt die OSM-ID."""
+# ============================================================
+# OSM ELEMENT → KOORDINATEN
+# ============================================================
 
-    candidates = [
-        properties.get("@id"),
-        properties.get("id"),
-        properties.get("osm_id"),
-    ]
+def get_coordinates(element):
 
-    for value in candidates:
-        if value:
-            return str(value)
+    element_type = element.get("type")
+
+    # --------------------------------------------------------
+    # NODE
+    # --------------------------------------------------------
+
+    if element_type == "node":
+
+        lat = element.get("lat")
+        lon = element.get("lon")
+
+        if lat is None or lon is None:
+            return None
+
+        return float(lat), float(lon)
+
+    # --------------------------------------------------------
+    # WAY
+    # --------------------------------------------------------
+
+    if element_type == "way":
+
+        geometry = element.get(
+            "geometry",
+            [],
+        )
+
+        if not geometry:
+            return None
+
+        points = []
+
+        for point in geometry:
+
+            lat = point.get("lat")
+            lon = point.get("lon")
+
+            if lat is None or lon is None:
+                continue
+
+            points.append(
+                (
+                    float(lat),
+                    float(lon),
+                )
+            )
+
+        if not points:
+            return None
+
+        lat = sum(
+            point[0]
+            for point in points
+        ) / len(points)
+
+        lon = sum(
+            point[1]
+            for point in points
+        ) / len(points)
+
+        return lat, lon
+
+    # --------------------------------------------------------
+    # RELATION
+    # --------------------------------------------------------
+
+    if element_type == "relation":
+
+        center = element.get("center")
+
+        if center:
+
+            lat = center.get("lat")
+            lon = center.get("lon")
+
+            if lat is not None and lon is not None:
+                return float(lat), float(lon)
 
     return None
 
 
 # ============================================================
-# GEOMETRIE
-# ============================================================
-
-def collect_points(coords, points):
-    """
-    Sammelt alle Koordinaten einer GeoJSON-Geometrie.
-    """
-
-    if not isinstance(coords, list):
-        return
-
-    # Direkter Punkt [lng, lat]
-    if (
-        len(coords) >= 2
-        and isinstance(coords[0], (int, float))
-        and isinstance(coords[1], (int, float))
-    ):
-        points.append(coords)
-        return
-
-    for item in coords:
-        collect_points(item, points)
-
-
-def get_center(geometry):
-    """
-    Berechnet einen einfachen Mittelpunkt.
-    """
-
-    if not geometry:
-        return None
-
-    coords = geometry.get("coordinates")
-
-    if not coords:
-        return None
-
-    points = []
-
-    collect_points(coords, points)
-
-    if not points:
-        return None
-
-    lng = sum(point[0] for point in points) / len(points)
-    lat = sum(point[1] for point in points) / len(points)
-
-    return lat, lng
-
-
-# ============================================================
-# RELEVANTE OSM-TAGS
+# TAGS
 # ============================================================
 
 RELEVANT_TAGS = {
@@ -237,196 +385,196 @@ RELEVANT_TAGS = {
     "addr:city",
     "addr:country",
 
-    "architect",
     "start_date",
-
-    "payment:cash",
-    "payment:card",
-
-    "bicycle",
-    "motorcycle",
-    "car",
 }
 
 
-def extract_relevant_tags(properties):
-    """
-    Behält nur Tags, die für einen Skatepark
-    auf der Website interessant sind.
-    """
+def relevant_tags(tags):
 
-    tags = {}
+    result = {}
 
     for key in RELEVANT_TAGS:
 
-        value = properties.get(key)
+        value = tags.get(key)
 
         if value is None:
             continue
 
         if isinstance(value, str):
+
             value = value.strip()
 
             if not value:
                 continue
 
-        tags[key] = value
+        result[key] = value
 
-    return tags
+    return result
 
 
 # ============================================================
-# FEATURE → SKATEPARK
+# OSM ELEMENT → UNSERE DATEN
 # ============================================================
 
-def convert_feature(feature):
-    """
-    Wandelt ein GeoJSON-Feature in unser kompaktes
-    Skatepark-Format um.
-    """
+def convert_element(element):
 
-    properties = feature.get("properties") or {}
-    geometry = feature.get("geometry")
+    tags = element.get(
+        "tags",
+        {},
+    )
 
-    # --------------------------------------------------------
-    # ID
-    # --------------------------------------------------------
-
-    osm_id = get_osm_id(properties)
-
-    if not osm_id:
+    if not tags:
         return None
 
     # --------------------------------------------------------
-    # POSITION
+    # Nur Skateparks
     # --------------------------------------------------------
 
-    center = get_center(geometry)
+    leisure = tags.get(
+        "leisure"
+    )
 
-    if center is None:
-        return None
-
-    lat, lng = center
-
-    # Weltgrenzen überprüfen
-    if not -90 <= lat <= 90:
-        return None
-
-    if not -180 <= lng <= 180:
+    if leisure not in (
+        "skatepark",
+        "skate_park",
+    ):
         return None
 
     # --------------------------------------------------------
-    # NAME
+    # Koordinaten
+    # --------------------------------------------------------
+
+    coordinates = get_coordinates(
+        element
+    )
+
+    if coordinates is None:
+        return None
+
+    lat, lon = coordinates
+
+    # --------------------------------------------------------
+    # OSM ID
+    # --------------------------------------------------------
+
+    osm_id = (
+        f"{element.get('type')}-"
+        f"{element.get('id')}"
+    )
+
+    # --------------------------------------------------------
+    # Name
     # --------------------------------------------------------
 
     name = (
-        properties.get("name")
-        or properties.get("name:de")
-        or properties.get("name:en")
-        or properties.get("name:fr")
+        tags.get("name")
+        or tags.get("name:de")
+        or tags.get("name:en")
+        or tags.get("name:fr")
         or "Skatepark"
     )
 
     # --------------------------------------------------------
-    # ORT
+    # Stadt
     # --------------------------------------------------------
 
     city = (
-        properties.get("addr:city")
-        or properties.get("city")
-        or properties.get("town")
-        or properties.get("village")
-    )
-
-    country = (
-        properties.get("addr:country")
-        or properties.get("country")
+        tags.get("addr:city")
+        or tags.get("city")
+        or tags.get("town")
+        or tags.get("village")
     )
 
     # --------------------------------------------------------
-    # SURFACE
+    # Land
+    # --------------------------------------------------------
+
+    country = (
+        tags.get("addr:country")
+        or tags.get("country")
+    )
+
+    # --------------------------------------------------------
+    # Oberfläche
     # --------------------------------------------------------
 
     surface = (
-        properties.get("surface")
-        or properties.get("skatepark:surface")
+        tags.get("surface")
+        or tags.get("skatepark:surface")
     )
 
     # --------------------------------------------------------
-    # WEBSITE
+    # Website
     # --------------------------------------------------------
 
     website = (
-        properties.get("website")
-        or properties.get("contact:website")
+        tags.get("website")
+        or tags.get("contact:website")
     )
 
     # --------------------------------------------------------
-    # BETREIBER
+    # Betreiber
     # --------------------------------------------------------
 
     operator = (
-        properties.get("operator")
-        or properties.get("owner")
+        tags.get("operator")
+        or tags.get("owner")
     )
 
     # --------------------------------------------------------
-    # BESCHREIBUNG
+    # Beschreibung
     # --------------------------------------------------------
 
     description = (
-        properties.get("description")
-        or properties.get("description:de")
-        or properties.get("description:en")
-        or properties.get("description:fr")
+        tags.get("description:de")
+        or tags.get("description:en")
+        or tags.get("description:fr")
+        or tags.get("description")
     )
 
     # --------------------------------------------------------
-    # BELEUCHTUNG
+    # Beleuchtung
     # --------------------------------------------------------
 
     lit = parse_bool(
-        properties.get("lit")
+        tags.get("lit")
     )
 
     # --------------------------------------------------------
-    # GRÖSSE
+    # Größe
     # --------------------------------------------------------
 
     size = (
-        properties.get("size")
-        or properties.get("skatepark:size")
+        tags.get("size")
+        or tags.get("skatepark:size")
     )
 
     # --------------------------------------------------------
-    # FLÄCHE
+    # Fläche
     # --------------------------------------------------------
 
     area = parse_number(
-        properties.get("area")
-        or properties.get("skatepark:area")
+        tags.get("area")
     )
 
     # --------------------------------------------------------
-    # TAGS
-    # --------------------------------------------------------
-
-    tags = extract_relevant_tags(properties)
-
-    # --------------------------------------------------------
-    # PARK OBJEKT
+    # Park
     # --------------------------------------------------------
 
     park = {
         "id": osm_id,
         "name": str(name),
-        "lat": round(lat, 6),
-        "lng": round(lng, 6),
+        "lat": round(
+            lat,
+            6,
+        ),
+        "lng": round(
+            lon,
+            6,
+        ),
     }
 
-    # Nur vorhandene Informationen speichern.
-
-    optional_fields = {
+    optional = {
         "city": clean(city),
         "country": clean(country),
         "surface": clean(surface),
@@ -438,187 +586,122 @@ def convert_feature(feature):
         "description": clean(description),
     }
 
-    for key, value in optional_fields.items():
+    for key, value in optional.items():
 
         if value is not None:
             park[key] = value
 
-    if tags:
-        park["tags"] = tags
+    extra = relevant_tags(
+        tags
+    )
+
+    if extra:
+        park["tags"] = extra
 
     return park
 
 
 # ============================================================
-# GEOJSON LESEN
+# OVERPASS QUERY
 # ============================================================
 
-def read_geojson(filename):
-    """
-    Liest eine GeoJSON-Datei.
-    """
+def build_query(
+    west,
+    south,
+    east,
+    north,
+):
 
-    with open(
-        filename,
-        "r",
-        encoding="utf-8"
-    ) as file:
-
-        data = json.load(file)
-
-    features = data.get(
-        "features",
-        []
+    bbox = (
+        f"{south},"
+        f"{west},"
+        f"{north},"
+        f"{east}"
     )
 
-    parks = []
+    return f"""
+[out:json][timeout:120];
 
-    for feature in features:
+(
+  node["leisure"="skatepark"]({bbox});
+  way["leisure"="skatepark"]({bbox});
+  relation["leisure"="skatepark"]({bbox});
 
-        park = convert_feature(feature)
+  node["leisure"="skate_park"]({bbox});
+  way["leisure"="skate_park"]({bbox});
+  relation["leisure"="skate_park"]({bbox});
+);
 
-        if park:
-            parks.append(park)
-
-    return parks
+out center;
+"""
 
 
 # ============================================================
-# OSMIUM
+# OVERPASS ANFRAGE
 # ============================================================
 
-def check_osmium():
-    """
-    Prüft, ob osmium installiert ist.
-    """
+def query_overpass(
+    query,
+    region_name,
+):
 
-    if shutil.which("osmium") is None:
+    for server in OVERPASS_SERVERS:
 
-        print("FEHLER:")
         print()
-        print("Das Programm 'osmium' wurde nicht gefunden.")
-        print()
-        print("Du musst zuerst osmium-tool installieren.")
-        print()
+        print(
+            f"Server: {server}"
+        )
 
-        return False
+        try:
 
-    return True
+            response = session.post(
+                server,
+                data={
+                    "data": query
+                },
+                timeout=REQUEST_TIMEOUT,
+            )
 
+            if response.status_code != 200:
 
-def run_command(command):
-    """
-    Führt einen Befehl aus und zeigt ihn an.
-    """
+                print(
+                    f"HTTP {response.status_code}"
+                )
 
-    print()
-    print(">", " ".join(map(str, command)))
-    print()
+                continue
 
-    subprocess.run(
-        command,
-        check=True,
-    )
+            data = response.json()
 
+            elements = data.get(
+                "elements",
+                [],
+            )
 
-# ============================================================
-# EINE PBF DATEI VERARBEITEN
-# ============================================================
+            print(
+                f"Gefunden: "
+                f"{len(elements):,}"
+            )
 
-def process_pbf(pbf_file, temp_dir):
-    """
-    Filtert eine OSM-PBF-Datei nach Skateparks
-    und konvertiert sie anschließend nach GeoJSON.
-    """
+            return elements
 
-    print()
-    print("-" * 60)
-    print(f"Verarbeite: {pbf_file.name}")
-    print("-" * 60)
+        except (
+            requests.RequestException,
+            ValueError,
+        ) as error:
 
-    modern_pbf = (
-        temp_dir /
-        f"{pbf_file.stem}-modern.osm.pbf"
-    )
+            print(
+                "Fehler:",
+                error,
+            )
 
-    old_pbf = (
-        temp_dir /
-        f"{pbf_file.stem}-old.osm.pbf"
-    )
-
-    modern_geojson = (
-        temp_dir /
-        f"{pbf_file.stem}-modern.geojson"
-    )
-
-    old_geojson = (
-        temp_dir /
-        f"{pbf_file.stem}-old.geojson"
-    )
-
-    # --------------------------------------------------------
-    # MODERNE SCHREIBWEISE
-    # leisure=skatepark
-    # --------------------------------------------------------
-
-    run_command([
-        "osmium",
-        "tags-filter",
-        str(pbf_file),
-        FILTER_MODERN,
-        "-o",
-        str(modern_pbf),
-        "--overwrite",
-    ])
-
-    run_command([
-        "osmium",
-        "export",
-        str(modern_pbf),
-        "-o",
-        str(modern_geojson),
-        "--overwrite",
-    ])
-
-    parks = read_geojson(
-        modern_geojson
-    )
-
-    # --------------------------------------------------------
-    # ALTE SCHREIBWEISE
-    # leisure=skate_park
-    # --------------------------------------------------------
-
-    run_command([
-        "osmium",
-        "tags-filter",
-        str(pbf_file),
-        FILTER_OLD,
-        "-o",
-        str(old_pbf),
-        "--overwrite",
-    ])
-
-    run_command([
-        "osmium",
-        "export",
-        str(old_pbf),
-        "-o",
-        str(old_geojson),
-        "--overwrite",
-    ])
-
-    parks.extend(
-        read_geojson(old_geojson)
-    )
+            continue
 
     print()
     print(
-        f"Skateparks in {pbf_file.name}: "
-        f"{len(parks):,}"
+        f"Keine Antwort für {region_name}."
     )
 
-    return parks
+    return []
 
 
 # ============================================================
@@ -626,15 +709,6 @@ def process_pbf(pbf_file, temp_dir):
 # ============================================================
 
 def deduplicate(parks):
-    """
-    Entfernt doppelte Skateparks.
-
-    Hauptkriterium:
-        OSM-ID
-
-    Zusätzlich:
-        gleicher Name + fast identische Position
-    """
 
     result = []
 
@@ -645,16 +719,8 @@ def deduplicate(parks):
 
         park_id = park["id"]
 
-        # ----------------------------------------------------
-        # OSM-ID
-        # ----------------------------------------------------
-
         if park_id in seen_ids:
             continue
-
-        # ----------------------------------------------------
-        # Position
-        # ----------------------------------------------------
 
         location_key = (
             park["name"]
@@ -663,12 +729,12 @@ def deduplicate(parks):
 
             round(
                 park["lat"],
-                5
+                5,
             ),
 
             round(
                 park["lng"],
-                5
+                5,
             ),
         )
 
@@ -695,9 +761,6 @@ def deduplicate(parks):
 # ============================================================
 
 def sort_parks(parks):
-    """
-    Sortiert für eine reproduzierbare JSON-Datei.
-    """
 
     return sorted(
         parks,
@@ -705,21 +768,21 @@ def sort_parks(parks):
             str(
                 park.get(
                     "country",
-                    ""
+                    "",
                 )
             ).lower(),
 
             str(
                 park.get(
                     "city",
-                    ""
+                    "",
                 )
             ).lower(),
 
             str(
                 park.get(
                     "name",
-                    ""
+                    "",
                 )
             ).lower(),
         ),
@@ -730,20 +793,17 @@ def sort_parks(parks):
 # JSON SCHREIBEN
 # ============================================================
 
-def write_json(parks):
-    """
-    Schreibt die fertige Skatepark-Datenbank.
-    """
+def save_json(parks):
 
     OUTPUT_FILE.parent.mkdir(
         parents=True,
-        exist_ok=True
+        exist_ok=True,
     )
 
     with open(
         OUTPUT_FILE,
         "w",
-        encoding="utf-8"
+        encoding="utf-8",
     ) as file:
 
         json.dump(
@@ -752,19 +812,22 @@ def write_json(parks):
             ensure_ascii=False,
             separators=(
                 ",",
-                ":"
+                ":",
             ),
         )
 
     print()
-    print("JSON erstellt:")
+    print(
+        f"JSON gespeichert:"
+    )
+
     print(
         OUTPUT_FILE
     )
 
     print()
     print(
-        f"Anzahl Skateparks: "
+        f"Skateparks: "
         f"{len(parks):,}"
     )
 
@@ -775,100 +838,100 @@ def write_json(parks):
 
 def main():
 
-    print_header()
-
-    # --------------------------------------------------------
-    # OSMIUM
-    # --------------------------------------------------------
-
-    if not check_osmium():
-        sys.exit(1)
-
-    # --------------------------------------------------------
-    # OSM-DATEN ORDNER
-    # --------------------------------------------------------
-
-    if not OSM_DATA_DIR.exists():
-
-        print(
-            f"FEHLER: Ordner nicht gefunden:"
-        )
-
-        print(
-            OSM_DATA_DIR
-        )
-
-        sys.exit(1)
-
-    # --------------------------------------------------------
-    # PBF DATEIEN
-    # --------------------------------------------------------
-
-    pbf_files = sorted(
-        OSM_DATA_DIR.glob(
-            "*.osm.pbf"
-        )
-    )
-
-    if not pbf_files:
-
-        print(
-            "FEHLER:"
-        )
-
-        print(
-            "Keine .osm.pbf Dateien gefunden."
-        )
-
-        print()
-        print(
-            "Lege deine OSM-Daten hier ab:"
-        )
-
-        print(
-            OSM_DATA_DIR
-        )
-
-        sys.exit(1)
+    header()
 
     print(
-        f"{len(pbf_files)} OSM-Datei(en) gefunden:"
+        "Dieser Vorgang kann abhängig von"
     )
 
-    for file in pbf_files:
-        print(
-            f"  - {file.name}"
-        )
+    print(
+        "den Overpass-Servern einige Zeit dauern."
+    )
+
+    print()
+    print(
+        "Die fertige Website wird später"
+    )
+
+    print(
+        "KEINE Overpass-Anfragen durchführen."
+    )
 
     print()
 
-    # --------------------------------------------------------
-    # ALLE PARKS
-    # --------------------------------------------------------
-
     all_parks = []
 
-    # Temporärer Ordner.
-    # Die riesigen gefilterten Zwischen-Dateien
-    # werden danach automatisch gelöscht.
+    region_items = list(
+        REGIONS.items()
+    )
 
-    with tempfile.TemporaryDirectory(
-        prefix="moicy-skateparks-"
-    ) as temporary:
+    for index, (
+        region_name,
+        bbox,
+    ) in enumerate(
+        region_items,
+        start=1,
+    ):
 
-        temp_dir = Path(
-            temporary
+        west, south, east, north = bbox
+
+        print()
+        print("=" * 65)
+
+        print(
+            f"REGION {index}/"
+            f"{len(region_items)}: "
+            f"{region_name.upper()}"
         )
 
-        for pbf_file in pbf_files:
+        print("=" * 65)
 
-            parks = process_pbf(
-                pbf_file,
-                temp_dir
+        query = build_query(
+            west,
+            south,
+            east,
+            north,
+        )
+
+        elements = query_overpass(
+            query,
+            region_name,
+        )
+
+        region_parks = []
+
+        for element in elements:
+
+            park = convert_element(
+                element
             )
 
-            all_parks.extend(
-                parks
+            if park:
+                region_parks.append(
+                    park
+                )
+
+        print(
+            f"Verwertbare Skateparks: "
+            f"{len(region_parks):,}"
+        )
+
+        all_parks.extend(
+            region_parks
+        )
+
+        # Server nicht mit mehreren
+        # direkten Anfragen hintereinander belasten.
+
+        if index < len(region_items):
+
+            print()
+            print(
+                f"Warte {REQUEST_DELAY} Sekunden ..."
+            )
+
+            time.sleep(
+                REQUEST_DELAY
             )
 
     # --------------------------------------------------------
@@ -876,9 +939,9 @@ def main():
     # --------------------------------------------------------
 
     print()
-    print("=" * 60)
-    print("DUPLIKATE ENTFERNEN")
-    print("=" * 60)
+    print("=" * 65)
+    print("DUPLIKATE")
+    print("=" * 65)
 
     print(
         f"Vorher: "
@@ -903,31 +966,17 @@ def main():
     )
 
     # --------------------------------------------------------
-    # JSON
+    # SPEICHERN
     # --------------------------------------------------------
 
-    write_json(
+    save_json(
         all_parks
     )
 
-    # --------------------------------------------------------
-    # FERTIG
-    # --------------------------------------------------------
-
     print()
-    print("=" * 60)
-    print("FERTIG!")
-    print("=" * 60)
-    print()
-
-    print(
-        "Deine Skatepark-Datenbank befindet sich jetzt hier:"
-    )
-
-    print(
-        OUTPUT_FILE
-    )
-
+    print("=" * 65)
+    print("FERTIG")
+    print("=" * 65)
     print()
 
 
@@ -936,4 +985,15 @@ def main():
 # ============================================================
 
 if __name__ == "__main__":
-    main()
+
+    try:
+        main()
+
+    except KeyboardInterrupt:
+
+        print()
+        print(
+            "Abgebrochen."
+        )
+
+        sys.exit(1)
