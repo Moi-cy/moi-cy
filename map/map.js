@@ -1,2735 +1,1659 @@
-/* =========================================================
-   MOI-CY MAP
-   map/map.js
-   ========================================================= */
-
-const CONFIG = {
-    dataUrl: "./skateparks.json",
-
-    // Kartenstart
-    initialCenter: [51.2, 10.5],
-    initialZoom: 5.5,
-
-    // Weltgrenzen
-    maxBounds: [
-        [-85, -180],
-        [85, 180]
-    ],
-
-    // Geocoder
-    nominatimUrl: "https://nominatim.openstreetmap.org/search",
-    photonUrl: "https://photon.komoot.io/api/",
-
-    // Routing
-    osrmUrl: "https://router.project-osrm.org/route/v1/driving",
-
-    // Sicherheit / Timeouts
-    geocoderTimeout: 8000,
-    routeTimeout: 15000,
-    overallRouteTimeout: 45000,
-
-    // Suche
-    searchDebounce: 450,
-
-    // Lokaler Spatial Index
-    gridSize: 0.25,
-
-    // Skatepark-Suche
-    maxRadius: 25,
-    maxResults: 30,
-
-    // Route
-    maxRoutePoints: 8
-};
-
-
-/* =========================================================
-   DOM
-   ========================================================= */
-
-const mapElement = document.getElementById("map");
-
-const mapPanel = document.getElementById("mapPanel");
-const mapPanelContent = document.getElementById("mapPanelContent");
-const mapPanelToggle = document.getElementById("mapPanelToggle");
-const mapPanelOpen = document.getElementById("mapPanelOpen");
-
-const mainSearch = document.getElementById("mainSearch");
-const mainSearchButton = document.getElementById("mainSearchButton");
-const searchSuggestions = document.getElementById("searchSuggestions");
-
-const routeToggle = document.getElementById("routeToggle");
-const routeContent = document.getElementById("routeContent");
-const routePoints = document.getElementById("routePoints");
-const addRouteStopButton = document.getElementById("addRouteStop");
-const calculateRouteButton = document.getElementById("calculateRoute");
-const clearRouteButton = document.getElementById("clearRoute");
-
-const skateparkToggle = document.getElementById("skateparkToggle");
-const skateparkContent = document.getElementById("skateparkContent");
-const skateparkRadius = document.getElementById("skateparkRadius");
-const skateparkLimit = document.getElementById("skateparkLimit");
-const skateparkSort = document.getElementById("skateparkSort");
-const searchSkateparksButton = document.getElementById("searchSkateparks");
-
-const mapStatus = document.getElementById("mapStatus");
-const mapStatusDot = document.getElementById("mapStatusDot");
-const mapStatusText = document.getElementById("mapStatusText");
-
-const mapResults = document.getElementById("mapResults");
-const resultsTitle = document.getElementById("resultsTitle");
-const resultsCount = document.getElementById("resultsCount");
-const resultsList = document.getElementById("resultsList");
-
-const satelliteToggle = document.getElementById("satelliteToggle");
-const locateMeButton = document.getElementById("locateMe");
-
-
-/* =========================================================
-   MAP
-   ========================================================= */
+// MOI-CY Skatepark Map
+// Skateparks werden bei einer Skatepark-Suche direkt aus OpenStreetMap geladen.
+// Kein Python und keine skateparks.json-Datenbank notwendig.
 
 const map = L.map("map", {
-    zoomControl: false,
-    minZoom: 2,
-    maxZoom: 19,
-    maxBounds: CONFIG.maxBounds,
-    maxBoundsViscosity: 1,
-    worldCopyJump: false,
-    preferCanvas: true
-}).setView(CONFIG.initialCenter, CONFIG.initialZoom);
+  zoomControl: false,
+  minZoom: 2,
+  maxZoom: 19,
+  maxBounds: [
+    [-85, -180],
+    [85, 180]
+  ],
+  maxBoundsViscosity: 1,
+  worldCopyJump: false,
+  preferCanvas: true
+}).setView([51.2, 10.5], 5.5);
 
 L.control.zoom({
-    position: "bottomright"
+  position: "bottomright"
 }).addTo(map);
 
 
-/* =========================================================
-   TILE LAYERS
-   ========================================================= */
+// ------------------------------------------------------------
+// Karten
+// ------------------------------------------------------------
 
-const standardLayer = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap-Mitwirkende"
-    }
-);
+const osmLayer = L.tileLayer(
+  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }
+).addTo(map);
 
 const satelliteLayer = L.tileLayer(
-    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    {
-        maxZoom: 19,
-        attribution: "Tiles &copy; Esri"
-    }
+  "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  {
+    maxZoom: 19,
+    attribution: "Tiles &copy; Esri"
+  }
 );
 
-standardLayer.addTo(map);
 
-
-/* =========================================================
-   LAYER GROUPS
-   ========================================================= */
+// ------------------------------------------------------------
+// Layer
+// ------------------------------------------------------------
 
 const skateparkLayer = L.layerGroup().addTo(map);
 const routeLayer = L.layerGroup().addTo(map);
 const searchMarkerLayer = L.layerGroup().addTo(map);
 
 
-/* =========================================================
-   STATE
-   ========================================================= */
-
-let skateparks = [];
-let skateparkIndex = new Map();
+// ------------------------------------------------------------
+// Zustand
+// ------------------------------------------------------------
 
 let lastSearchLocation = null;
 let currentRoute = null;
-
 let searchMarker = null;
 
-let searchDebounceTimer = null;
-let geocoderRequestRunning = false;
 
-let lastNominatimRequest = 0;
-
-
-/* =========================================================
-   HELPER
-   ========================================================= */
-
-function clamp(value, min, max) {
-    return Math.min(Math.max(value, min), max);
-}
-
+// ------------------------------------------------------------
+// Hilfsfunktionen
+// ------------------------------------------------------------
 
 function escapeHtml(value) {
-    if (value === null || value === undefined) {
-        return "";
-    }
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function distanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * Math.PI / 180) *
+    Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) ** 2;
+
+  return R * 2 * Math.atan2(
+    Math.sqrt(a),
+    Math.sqrt(1 - a)
+  );
 }
 
 
-function withTimeout(promise, timeoutMs, message = "Zeitüberschreitung") {
-    let timer;
+// ------------------------------------------------------------
+// Marker
+// ------------------------------------------------------------
 
-    const timeout = new Promise((_, reject) => {
-        timer = setTimeout(() => {
-            reject(new Error(message));
-        }, timeoutMs);
+function createSkateparkMarker(park) {
+
+  const icon = L.divIcon({
+    className: "map-skatepark-marker-wrap",
+    html: `
+      <div class="map-skatepark-marker">
+        🛹
+      </div>
+    `,
+    iconSize: [38, 38],
+    iconAnchor: [19, 19],
+    popupAnchor: [0, -20]
+  });
+
+  const marker = L.marker(
+    [park.lat, park.lng],
+    { icon }
+  );
+
+  let popup = `
+    <div class="map-skatepark-popup">
+      <div class="map-skatepark-popup-title">
+        ${escapeHtml(park.name || "Skatepark")}
+      </div>
+  `;
+
+  const locationParts = [];
+
+  if (park.city) {
+    locationParts.push(park.city);
+  }
+
+  if (park.country) {
+    locationParts.push(park.country);
+  }
+
+  if (locationParts.length) {
+    popup += `
+      <div class="map-skatepark-popup-meta">
+        ${escapeHtml(locationParts.join(", "))}
+      </div>
+    `;
+  }
+
+  if (park.surface) {
+    popup += `
+      <div class="map-skatepark-popup-meta">
+        Untergrund: ${escapeHtml(park.surface)}
+      </div>
+    `;
+  }
+
+  if (park.lit) {
+    popup += `
+      <div class="map-skatepark-popup-meta">
+        Beleuchtung: ${escapeHtml(park.lit)}
+      </div>
+    `;
+  }
+
+  popup += `
+      <button
+        type="button"
+        class="map-skatepark-directions"
+        data-lat="${park.lat}"
+        data-lng="${park.lng}"
+      >
+        Route mit Google Maps
+      </button>
+    </div>
+  `;
+
+  marker.bindPopup(popup);
+
+  marker.on("popupopen", () => {
+
+    const button = document.querySelector(
+      `.map-skatepark-directions[data-lat="${park.lat}"][data-lng="${park.lng}"]`
+    );
+
+    if (!button) return;
+
+    button.addEventListener("click", () => {
+
+      const url =
+        `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+          `${park.lat},${park.lng}`
+        )}`;
+
+      window.open(url, "_blank", "noopener,noreferrer");
     });
+  });
 
-    return Promise.race([
-        promise.finally(() => clearTimeout(timer)),
-        timeout
-    ]);
+  return marker;
 }
 
 
-function normalizeText(value) {
-    return String(value || "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9äöüß\s]/gi, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-}
+// ------------------------------------------------------------
+// OSM / Overpass
+// ------------------------------------------------------------
+
+const OVERPASS_SERVERS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter"
+];
 
 
-function haversineDistance(lat1, lng1, lat2, lng2) {
-    const earthRadius = 6371;
+async function fetchOverpass(query) {
 
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
+  let lastError = null;
 
-    const a =
-        Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLng / 2) ** 2;
+  for (const server of OVERPASS_SERVERS) {
 
-    return earthRadius * 2 * Math.atan2(
-        Math.sqrt(a),
-        Math.sqrt(1 - a)
-    );
-}
-
-
-function formatDistance(distance) {
-    if (distance < 1) {
-        return `${Math.round(distance * 1000)} m`;
-    }
-
-    if (distance < 10) {
-        return `${distance.toFixed(1).replace(".", ",")} km`;
-    }
-
-    return `${Math.round(distance)} km`;
-}
-
-
-function getGridKey(lat, lng) {
-    const latCell = Math.floor(lat / CONFIG.gridSize);
-    const lngCell = Math.floor(lng / CONFIG.gridSize);
-
-    return `${latCell}:${lngCell}`;
-}
-
-
-function getGridCandidates(lat, lng, radiusKm) {
-    const latDelta = radiusKm / 111;
-    const lngDelta = radiusKm / Math.max(
-        111 * Math.cos(lat * Math.PI / 180),
-        1
-    );
-
-    const minLat = lat - latDelta;
-    const maxLat = lat + latDelta;
-    const minLng = lng - lngDelta;
-    const maxLng = lng + lngDelta;
-
-    const minLatCell = Math.floor(minLat / CONFIG.gridSize);
-    const maxLatCell = Math.floor(maxLat / CONFIG.gridSize);
-
-    const minLngCell = Math.floor(minLng / CONFIG.gridSize);
-    const maxLngCell = Math.floor(maxLng / CONFIG.gridSize);
-
-    const candidates = [];
-
-    for (let latCell = minLatCell; latCell <= maxLatCell; latCell++) {
-        for (let lngCell = minLngCell; lngCell <= maxLngCell; lngCell++) {
-            const key = `${latCell}:${lngCell}`;
-            const bucket = skateparkIndex.get(key);
-
-            if (bucket) {
-                candidates.push(...bucket);
-            }
-        }
-    }
-
-    return candidates;
-}
-
-
-function setStatus(text, type = "") {
-    if (!mapStatusText) {
-        return;
-    }
-
-    mapStatusText.textContent = text;
-
-    mapStatus.classList.remove(
-        "loading",
-        "success",
-        "error"
-    );
-
-    if (type) {
-        mapStatus.classList.add(type);
-    }
-
-    if (mapStatusDot) {
-        mapStatusDot.className = "map-status-dot";
-
-        if (type) {
-            mapStatusDot.classList.add(type);
-        }
-    }
-}
-
-
-/* =========================================================
-   LOCAL STORAGE CACHE
-   ========================================================= */
-
-const GEO_CACHE_KEY = "moiCyMapGeoCacheV1";
-
-
-function getGeoCache() {
     try {
-        return JSON.parse(
-            localStorage.getItem(GEO_CACHE_KEY) || "{}"
+
+      const controller = new AbortController();
+
+      const timeout = setTimeout(() => {
+        controller.abort();
+      }, 30000);
+
+      const response = await fetch(server, {
+        method: "POST",
+        body: query,
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "text/plain;charset=UTF-8"
+        }
+      });
+
+      clearTimeout(timeout);
+
+      if (!response.ok) {
+        throw new Error(
+          `Overpass HTTP ${response.status}`
         );
-    } catch {
-        return {};
+      }
+
+      return await response.json();
+
+    } catch (error) {
+
+      lastError = error;
+
     }
+  }
+
+  throw lastError || new Error("Overpass konnte nicht erreicht werden.");
 }
 
 
-function setGeoCache(cache) {
-    try {
-        localStorage.setItem(
-            GEO_CACHE_KEY,
-            JSON.stringify(cache)
-        );
-    } catch {
-        // LocalStorage kann blockiert sein.
-    }
-}
+// ------------------------------------------------------------
+// Skateparks in Radius suchen
+// ------------------------------------------------------------
 
+async function searchSkateparks(
+  lat,
+  lng,
+  radiusKm = 10,
+  limit = 20
+) {
 
-function getCachedGeocode(query) {
-    const cache = getGeoCache();
-    const key = normalizeText(query);
+  skateparkLayer.clearLayers();
 
-    return cache[key] || null;
-}
+  const status = document.getElementById("skateparkStatus");
+  const results = document.getElementById("skateparkResults");
 
+  if (status) {
+    status.textContent = "Skateparks werden gesucht …";
+    status.classList.remove("error", "success");
+    status.classList.add("loading");
+  }
 
-function cacheGeocode(query, results) {
-    const cache = getGeoCache();
-    const key = normalizeText(query);
+  if (results) {
+    results.innerHTML = "";
+  }
 
-    cache[key] = results;
+  // Overpass-Radius in Metern
+  const radiusMeters = radiusKm * 1000;
 
-    const keys = Object.keys(cache);
+  const query = `
+[out:json][timeout:25];
 
-    if (keys.length > 100) {
-        delete cache[keys[0]];
-    }
+(
+  node["leisure"="skatepark"](around:${radiusMeters},${lat},${lng});
+  way["leisure"="skatepark"](around:${radiusMeters},${lat},${lng});
+  relation["leisure"="skatepark"](around:${radiusMeters},${lat},${lng});
 
-    setGeoCache(cache);
-}
+  node["leisure"="skate_park"](around:${radiusMeters},${lat},${lng});
+  way["leisure"="skate_park"](around:${radiusMeters},${lat},${lng});
+  relation["leisure"="skate_park"](around:${radiusMeters},${lat},${lng});
+);
 
+out center tags;
+`;
 
-/* =========================================================
-   FUZZY SEARCH
-   ========================================================= */
+  try {
 
-function levenshtein(a, b) {
-    a = normalizeText(a);
-    b = normalizeText(b);
+    const data = await fetchOverpass(query);
 
-    if (!a.length) return b.length;
-    if (!b.length) return a.length;
+    const parks = [];
 
-    const matrix = [];
+    for (const element of data.elements || []) {
 
-    for (let i = 0; i <= b.length; i++) {
-        matrix[i] = [i];
-    }
+      let parkLat = element.lat;
+      let parkLng = element.lon;
 
-    for (let j = 0; j <= a.length; j++) {
-        matrix[0][j] = j;
-    }
+      if (
+        (parkLat == null || parkLng == null) &&
+        element.center
+      ) {
+        parkLat = element.center.lat;
+        parkLng = element.center.lon;
+      }
 
-    for (let i = 1; i <= b.length; i++) {
-        for (let j = 1; j <= a.length; j++) {
-            matrix[i][j] =
-                b.charAt(i - 1) === a.charAt(j - 1)
-                    ? matrix[i - 1][j - 1]
-                    : Math.min(
-                        matrix[i - 1][j - 1] + 1,
-                        matrix[i][j - 1] + 1,
-                        matrix[i - 1][j] + 1
-                    );
-        }
-    }
+      if (
+        parkLat == null ||
+        parkLng == null
+      ) {
+        continue;
+      }
 
-    return matrix[b.length][a.length];
-}
+      const tags = element.tags || {};
 
+      const name =
+        tags.name ||
+        tags["name:de"] ||
+        "Skatepark";
 
-function fuzzyScore(query, text) {
-    const q = normalizeText(query);
-    const t = normalizeText(text);
+      const distance = distanceKm(
+        lat,
+        lng,
+        parkLat,
+        parkLng
+      );
 
-    if (!q || !t) {
-        return 0;
-    }
-
-    if (t === q) {
-        return 1;
-    }
-
-    if (t.includes(q)) {
-        return 0.9;
-    }
-
-    const queryWords = q.split(" ");
-    const textWords = t.split(" ");
-
-    let matchedWords = 0;
-
-    for (const word of queryWords) {
-        if (!word) continue;
-
-        let best = 0;
-
-        for (const textWord of textWords) {
-            const distance = levenshtein(word, textWord);
-            const maxLength = Math.max(word.length, textWord.length);
-
-            if (!maxLength) continue;
-
-            const similarity = 1 - distance / maxLength;
-            best = Math.max(best, similarity);
-        }
-
-        if (best >= 0.65) {
-            matchedWords++;
-        }
-    }
-
-    return matchedWords / Math.max(queryWords.length, 1);
-}
-
-
-function rankGeocoderResults(query, results) {
-    return [...results]
-        .map(result => {
-            const searchable = [
-                result.name,
-                result.display_name,
-                result.address?.city,
-                result.address?.town,
-                result.address?.village,
-                result.address?.municipality,
-                result.address?.state,
-                result.address?.country
-            ]
-                .filter(Boolean)
-                .join(" ");
-
-            return {
-                ...result,
-                _score: fuzzyScore(query, searchable)
-            };
-        })
-        .sort((a, b) => b._score - a._score);
-}
-
-
-/* =========================================================
-   GEOCODING
-   ========================================================= */
-
-async function waitForNominatim() {
-    const now = Date.now();
-    const difference = now - lastNominatimRequest;
-
-    if (difference < 1100) {
-        await sleep(1100 - difference);
+      parks.push({
+        id: `${element.type}/${element.id}`,
+        name,
+        lat: parkLat,
+        lng: parkLng,
+        city:
+          tags["addr:city"] ||
+          tags["addr:place"] ||
+          "",
+        country:
+          tags["addr:country"] ||
+          "",
+        surface:
+          tags.surface ||
+          "",
+        lit:
+          tags.lit ||
+          "",
+        website:
+          tags.website ||
+          tags["contact:website"] ||
+          "",
+        operator:
+          tags.operator ||
+          "",
+        description:
+          tags.description ||
+          "",
+        distance
+      });
     }
 
-    lastNominatimRequest = Date.now();
-}
+    // Doppelte Einträge entfernen
+    const unique = new Map();
 
+    for (const park of parks) {
 
-async function fetchNominatim(query) {
-    await waitForNominatim();
+      const key =
+        `${park.name.toLowerCase()}|` +
+        `${park.lat.toFixed(5)}|` +
+        `${park.lng.toFixed(5)}`;
 
-    const params = new URLSearchParams({
-        format: "jsonv2",
-        limit: "5",
-        addressdetails: "1",
-        "accept-language": "de",
-        q: query
-    });
+      if (!unique.has(key)) {
+        unique.set(key, park);
+      }
+    }
 
-    const controller = new AbortController();
+    const cleanParks = [...unique.values()];
 
-    const timer = setTimeout(
-        () => controller.abort(),
-        CONFIG.geocoderTimeout
+    // Erst Nähe
+    cleanParks.sort(
+      (a, b) => a.distance - b.distance
     );
 
-    try {
-        const response = await fetch(
-            `${CONFIG.nominatimUrl}?${params}`,
-            {
-                signal: controller.signal,
-                headers: {
-                    "Accept": "application/json"
+    const visibleParks =
+      cleanParks.slice(0, limit);
+
+    // Marker erzeugen
+    for (const park of visibleParks) {
+
+      const marker = createSkateparkMarker(park);
+
+      marker.addTo(skateparkLayer);
+    }
+
+    // Ergebnisse unter der Suche
+    if (results) {
+
+      if (!visibleParks.length) {
+
+        results.innerHTML = `
+          <div class="map-skatepark-empty">
+            Keine Skateparks im gewählten Radius gefunden.
+          </div>
+        `;
+
+      } else {
+
+        results.innerHTML = visibleParks.map((park, index) => {
+
+          return `
+            <button
+              type="button"
+              class="map-skatepark-result"
+              data-index="${index}"
+            >
+              <span class="map-skatepark-result-name">
+                ${escapeHtml(park.name)}
+              </span>
+
+              <span class="map-skatepark-result-distance">
+                ${park.distance.toFixed(1)} km
+              </span>
+            </button>
+          `;
+
+        }).join("");
+
+        results
+          .querySelectorAll(".map-skatepark-result")
+          .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+              const index =
+                Number(button.dataset.index);
+
+              const park =
+                visibleParks[index];
+
+              map.flyTo(
+                [park.lat, park.lng],
+                Math.max(map.getZoom(), 15),
+                {
+                  duration: 0.8
                 }
-            }
-        );
+              );
 
-        if (!response.ok) {
-            throw new Error(
-                `Nominatim HTTP ${response.status}`
-            );
-        }
+              setTimeout(() => {
 
-        return await response.json();
+                skateparkLayer.eachLayer(layer => {
 
-    } finally {
-        clearTimeout(timer);
+                  const position =
+                    layer.getLatLng();
+
+                  if (
+                    Math.abs(position.lat - park.lat) < 0.00001 &&
+                    Math.abs(position.lng - park.lng) < 0.00001
+                  ) {
+                    layer.openPopup();
+                  }
+
+                });
+
+              }, 850);
+            });
+          });
+      }
     }
+
+    if (status) {
+
+      status.classList.remove("loading");
+
+      if (visibleParks.length) {
+
+        status.textContent =
+          `${visibleParks.length} Skatepark${visibleParks.length === 1 ? "" : "s"} gefunden`;
+
+        status.classList.add("success");
+
+      } else {
+
+        status.textContent =
+          "Keine Skateparks gefunden.";
+      }
+    }
+
+    return visibleParks;
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (status) {
+
+      status.classList.remove("loading");
+      status.classList.add("error");
+
+      status.textContent =
+        "Skateparks konnten gerade nicht geladen werden.";
+    }
+
+    if (results) {
+
+      results.innerHTML = `
+        <div class="map-skatepark-empty">
+          Die OpenStreetMap-Suche konnte gerade nicht erreicht werden.
+          Bitte versuche es gleich noch einmal.
+        </div>
+      `;
+    }
+
+    return [];
+  }
 }
 
 
-async function fetchPhoton(query) {
-    const params = new URLSearchParams({
-        q: query,
-        limit: "5",
-        lang: "de"
-    });
+// ------------------------------------------------------------
+// Ortssuche
+// ------------------------------------------------------------
 
-    const controller = new AbortController();
+let geocodeCache = {};
 
-    const timer = setTimeout(
-        () => controller.abort(),
-        CONFIG.geocoderTimeout
+try {
+  geocodeCache =
+    JSON.parse(
+      localStorage.getItem("moiCyGeocodeCache") || "{}"
+    );
+} catch {
+  geocodeCache = {};
+}
+
+
+function saveGeocodeCache() {
+
+  try {
+
+    localStorage.setItem(
+      "moiCyGeocodeCache",
+      JSON.stringify(geocodeCache)
     );
 
-    try {
-        const response = await fetch(
-            `${CONFIG.photonUrl}?${params}`,
-            {
-                signal: controller.signal
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                `Photon HTTP ${response.status}`
-            );
-        }
-
-        const data = await response.json();
-
-        return (data.features || []).map(feature => {
-            const coordinates = feature.geometry?.coordinates || [];
-            const properties = feature.properties || {};
-
-            return {
-                lat: String(coordinates[1] || ""),
-                lon: String(coordinates[0] || ""),
-                display_name: [
-                    properties.name,
-                    properties.city,
-                    properties.state,
-                    properties.country
-                ]
-                    .filter(Boolean)
-                    .join(", "),
-                name: properties.name || "",
-                address: {
-                    city: properties.city,
-                    town: properties.town,
-                    village: properties.village,
-                    municipality: properties.municipality,
-                    state: properties.state,
-                    country: properties.country
-                }
-            };
-        });
-
-    } finally {
-        clearTimeout(timer);
-    }
+  } catch {
+    // Cache ist optional
+  }
 }
 
 
 async function geocode(query) {
-    const cleanQuery = query.trim();
 
-    if (!cleanQuery) {
-        return [];
-    }
+  const cleanQuery =
+    query.trim();
 
-    const cached = getCachedGeocode(cleanQuery);
+  if (!cleanQuery) {
+    return null;
+  }
 
-    if (cached) {
-        return cached;
-    }
+  const cacheKey =
+    cleanQuery.toLowerCase();
 
-    let results = [];
+  if (geocodeCache[cacheKey]) {
+    return geocodeCache[cacheKey];
+  }
 
-    try {
-        results = await fetchNominatim(cleanQuery);
-    } catch {
-        results = [];
-    }
+  // Nominatim
+  try {
 
-    if (!results.length) {
-        try {
-            results = await fetchPhoton(cleanQuery);
-        } catch {
-            results = [];
+    const url =
+      "https://nominatim.openstreetmap.org/search?" +
+      new URLSearchParams({
+        q: cleanQuery,
+        format: "jsonv2",
+        limit: "5",
+        addressdetails: "1"
+      });
+
+    const response =
+      await fetch(url, {
+        headers: {
+          "Accept": "application/json"
         }
+      });
+
+    if (response.ok) {
+
+      const data =
+        await response.json();
+
+      if (data.length) {
+
+        geocodeCache[cacheKey] =
+          data;
+
+        saveGeocodeCache();
+
+        return data;
+      }
     }
 
-    results = rankGeocoderResults(
-        cleanQuery,
-        results
-    );
+  } catch (error) {
+    console.warn("Nominatim Fehler:", error);
+  }
 
-    cacheGeocode(
-        cleanQuery,
-        results
-    );
 
-    return results;
+  // Photon als Fallback
+  try {
+
+    const url =
+      "https://photon.komoot.io/api/?" +
+      new URLSearchParams({
+        q: cleanQuery,
+        limit: "5"
+      });
+
+    const response =
+      await fetch(url);
+
+    if (response.ok) {
+
+      const data =
+        await response.json();
+
+      const converted =
+        (data.features || []).map(feature => {
+
+          const coords =
+            feature.geometry.coordinates;
+
+          return {
+            lat: coords[1],
+            lon: coords[0],
+            display_name:
+              feature.properties.name ||
+              cleanQuery
+          };
+
+        });
+
+      if (converted.length) {
+
+        geocodeCache[cacheKey] =
+          converted;
+
+        saveGeocodeCache();
+
+        return converted;
+      }
+    }
+
+  } catch (error) {
+    console.warn("Photon Fehler:", error);
+  }
+
+  return null;
 }
 
 
-function getGeocoderResultName(result) {
-    if (result.name) {
-        return result.name;
-    }
+// ------------------------------------------------------------
+// Hauptsuche
+// ------------------------------------------------------------
 
-    if (result.address?.city) {
-        return result.address.city;
-    }
+const mainSearch =
+  document.getElementById("mainSearch");
 
-    if (result.address?.town) {
-        return result.address.town;
-    }
-
-    if (result.address?.village) {
-        return result.address.village;
-    }
-
-    return result.display_name || "Ort";
-}
+const searchSuggestions =
+  document.getElementById("searchSuggestions");
 
 
-/* =========================================================
-   MAIN SEARCH
-   ========================================================= */
-
-async function performMainSearch(query = mainSearch.value) {
-    const cleanQuery = query.trim();
-
-    if (!cleanQuery) {
-        return;
-    }
-
-    setStatus(
-        "Ort wird gesucht …",
-        "loading"
-    );
-
-    hideSuggestions();
-
-    try {
-        const results = await geocode(cleanQuery);
-
-        if (!results.length) {
-            setStatus(
-                "Ort wurde nicht gefunden.",
-                "error"
-            );
-
-            return;
-        }
-
-        const result = results[0];
-
-        const lat = Number(result.lat);
-        const lng = Number(
-            result.lon ?? result.lng
-        );
-
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-            throw new Error("Ungültige Koordinaten");
-        }
-
-        lastSearchLocation = {
-            lat,
-            lng,
-            name: getGeocoderResultName(result),
-            displayName: result.display_name || ""
-        };
-
-        searchMarkerLayer.clearLayers();
-
-        searchMarker = L.marker([lat, lng])
-            .addTo(searchMarkerLayer);
-
-        searchMarker.bindPopup(`
-            <div class="map-popup">
-                <div class="map-popup-title">
-                    ${escapeHtml(
-                        getGeocoderResultName(result)
-                    )}
-                </div>
-
-                <div class="map-popup-meta">
-                    ${escapeHtml(
-                        result.display_name || ""
-                    )}
-                </div>
-            </div>
-        `);
-
-        searchMarker.openPopup();
-
-        map.flyTo(
-            [lat, lng],
-            Math.max(map.getZoom(), 12),
-            {
-                duration: 0.8
-            }
-        );
-
-        setStatus(
-            `${getGeocoderResultName(result)} gefunden.`,
-            "success"
-        );
-
-    } catch (error) {
-        console.error(error);
-
-        setStatus(
-            "Die Ortssuche ist gerade nicht verfügbar.",
-            "error"
-        );
-    }
-}
+let searchTimer = null;
 
 
-async function updateSearchSuggestions(query) {
-    if (query.trim().length < 3) {
-        hideSuggestions();
-        return;
-    }
+if (mainSearch) {
 
-    if (geocoderRequestRunning) {
-        return;
-    }
-
-    geocoderRequestRunning = true;
-
-    try {
-        const results = await geocode(query);
-
-        if (!results.length) {
-            hideSuggestions();
-            return;
-        }
-
-        searchSuggestions.innerHTML = results
-            .slice(0, 5)
-            .map((result, index) => `
-                <button
-                    type="button"
-                    class="map-search-suggestion"
-                    data-suggestion-index="${index}"
-                >
-                    <span class="map-search-suggestion-main">
-                        ${escapeHtml(
-                            getGeocoderResultName(result)
-                        )}
-                    </span>
-
-                    <span class="map-search-suggestion-sub">
-                        ${escapeHtml(
-                            result.display_name || ""
-                        )}
-                    </span>
-                </button>
-            `)
-            .join("");
-
-        searchSuggestions.hidden = false;
-
-        searchSuggestions
-            .querySelectorAll(
-                ".map-search-suggestion"
-            )
-            .forEach(button => {
-                button.addEventListener(
-                    "click",
-                    async () => {
-                        const index = Number(
-                            button.dataset.suggestionIndex
-                        );
-
-                        const selected = results[index];
-
-                        if (!selected) {
-                            return;
-                        }
-
-                        mainSearch.value =
-                            getGeocoderResultName(selected);
-
-                        hideSuggestions();
-
-                        await performMainSearch(
-                            mainSearch.value
-                        );
-                    }
-                );
-            });
-
-    } catch {
-        hideSuggestions();
-    } finally {
-        geocoderRequestRunning = false;
-    }
-}
-
-
-function hideSuggestions() {
-    if (!searchSuggestions) {
-        return;
-    }
-
-    searchSuggestions.hidden = true;
-    searchSuggestions.innerHTML = "";
-}
-
-
-/* =========================================================
-   NORMAL SEARCH EVENTS
-   ========================================================= */
-
-mainSearchButton?.addEventListener(
-    "click",
-    () => performMainSearch()
-);
-
-mainSearch?.addEventListener(
-    "keydown",
-    event => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            performMainSearch();
-        }
-
-        if (event.key === "Escape") {
-            hideSuggestions();
-        }
-    }
-);
-
-
-mainSearch?.addEventListener(
+  mainSearch.addEventListener(
     "input",
     () => {
-        clearTimeout(searchDebounceTimer);
 
-        searchDebounceTimer = setTimeout(
-            () => updateSearchSuggestions(
-                mainSearch.value
-            ),
-            CONFIG.searchDebounce
-        );
+      clearTimeout(searchTimer);
+
+      const value =
+        mainSearch.value.trim();
+
+      if (searchSuggestions) {
+        searchSuggestions.innerHTML = "";
+      }
+
+      if (value.length < 2) {
+        return;
+      }
+
+      searchTimer =
+        setTimeout(async () => {
+
+          const results =
+            await geocode(value);
+
+          if (
+            !results ||
+            !searchSuggestions
+          ) {
+            return;
+          }
+
+          searchSuggestions.innerHTML =
+            results.slice(0, 5).map((result, index) => {
+
+              return `
+                <button
+                  type="button"
+                  class="map-search-suggestion"
+                  data-index="${index}"
+                >
+                  ${escapeHtml(
+                    result.display_name ||
+                    result.name ||
+                    value
+                  )}
+                </button>
+              `;
+
+            }).join("");
+
+          searchSuggestions
+            .querySelectorAll(".map-search-suggestion")
+            .forEach(button => {
+
+              button.addEventListener(
+                "click",
+                () => {
+
+                  const result =
+                    results[
+                      Number(button.dataset.index)
+                    ];
+
+                  selectSearchResult(result);
+
+                }
+              );
+            });
+
+        }, 350);
     }
-);
+  );
 
 
-document.addEventListener(
+  mainSearch.addEventListener(
+    "keydown",
+    async event => {
+
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      event.preventDefault();
+
+      const value =
+        mainSearch.value.trim();
+
+      if (!value) {
+        return;
+      }
+
+      const results =
+        await geocode(value);
+
+      if (
+        results &&
+        results.length
+      ) {
+        selectSearchResult(results[0]);
+      }
+    }
+  );
+}
+
+
+function selectSearchResult(result) {
+
+  const lat =
+    Number(result.lat);
+
+  const lng =
+    Number(result.lon);
+
+  if (
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lng)
+  ) {
+    return;
+  }
+
+  lastSearchLocation = {
+    lat,
+    lng
+  };
+
+  searchMarkerLayer.clearLayers();
+
+  searchMarker =
+    L.marker([lat, lng])
+      .addTo(searchMarkerLayer);
+
+  searchMarker.bindPopup(
+    escapeHtml(
+      result.display_name ||
+      result.name ||
+      "Suchort"
+    )
+  ).openPopup();
+
+  map.flyTo(
+    [lat, lng],
+    12,
+    {
+      duration: 0.8
+    }
+  );
+
+  if (searchSuggestions) {
+    searchSuggestions.innerHTML = "";
+  }
+}
+
+
+// ------------------------------------------------------------
+// Skatepark-Suche Button
+// ------------------------------------------------------------
+
+const skateparkSearchButton =
+  document.getElementById("searchSkateparks");
+
+
+if (skateparkSearchButton) {
+
+  skateparkSearchButton.addEventListener(
     "click",
-    event => {
-        if (
-            !event.target.closest(
-                ".map-main-search"
-            ) &&
-            !event.target.closest(
-                "#searchSuggestions"
-            )
-        ) {
-            hideSuggestions();
+    async () => {
+
+      if (!lastSearchLocation) {
+
+        const value =
+          mainSearch?.value.trim();
+
+        if (!value) {
+
+          const status =
+            document.getElementById(
+              "skateparkStatus"
+            );
+
+          if (status) {
+
+            status.textContent =
+              "Bitte zuerst einen Ort suchen.";
+
+            status.classList.add("error");
+          }
+
+          return;
         }
+
+        const results =
+          await geocode(value);
+
+        if (
+          !results ||
+          !results.length
+        ) {
+          return;
+        }
+
+        selectSearchResult(results[0]);
+      }
+
+      const radiusSelect =
+        document.getElementById(
+          "skateparkRadius"
+        );
+
+      const limitSelect =
+        document.getElementById(
+          "skateparkLimit"
+        );
+
+      const radius =
+        Number(
+          radiusSelect?.value || 10
+        );
+
+      const limit =
+        Number(
+          limitSelect?.value || 20
+        );
+
+      await searchSkateparks(
+        lastSearchLocation.lat,
+        lastSearchLocation.lng,
+        Math.min(radius, 25),
+        Math.min(limit, 30)
+      );
     }
-);
+  );
+}
 
 
-/* =========================================================
-   SKATEPARK DATA
-   ========================================================= */
+// ------------------------------------------------------------
+// Radius / Filter
+// ------------------------------------------------------------
 
-function normalizeSkatepark(raw, index) {
-    if (!raw) {
-        return null;
+const radiusSelect =
+  document.getElementById(
+    "skateparkRadius"
+  );
+
+if (radiusSelect) {
+
+  radiusSelect.addEventListener(
+    "change",
+    () => {
+
+      if (!lastSearchLocation) {
+        return;
+      }
+
+      const limit =
+        Number(
+          document.getElementById(
+            "skateparkLimit"
+          )?.value || 20
+        );
+
+      searchSkateparks(
+        lastSearchLocation.lat,
+        lastSearchLocation.lng,
+        Math.min(
+          Number(radiusSelect.value),
+          25
+        ),
+        Math.min(limit, 30)
+      );
     }
+  );
+}
 
-    const lat = Number(
-        raw.lat ?? raw.latitude
+
+const limitSelect =
+  document.getElementById(
+    "skateparkLimit"
+  );
+
+if (limitSelect) {
+
+  limitSelect.addEventListener(
+    "change",
+    () => {
+
+      if (!lastSearchLocation) {
+        return;
+      }
+
+      const radius =
+        Number(
+          document.getElementById(
+            "skateparkRadius"
+          )?.value || 10
+        );
+
+      searchSkateparks(
+        lastSearchLocation.lat,
+        lastSearchLocation.lng,
+        Math.min(radius, 25),
+        Math.min(
+          Number(limitSelect.value),
+          30
+        )
+      );
+    }
+  );
+}
+
+
+// ------------------------------------------------------------
+// Route
+// ------------------------------------------------------------
+
+const routeInputs = [];
+let routeStopCount = 2;
+
+function getRouteInputElements() {
+  return [
+    document.getElementById("routeStart"),
+    ...Array.from(
+      document.querySelectorAll(
+        ".route-stop-input"
+      )
+    ),
+    document.getElementById("routeEnd")
+  ].filter(Boolean);
+}
+
+
+async function routeGeocodeInput(input) {
+
+  const value =
+    input.value.trim();
+
+  if (!value) {
+    return null;
+  }
+
+  const results =
+    await geocode(value);
+
+  if (
+    !results ||
+    !results.length
+  ) {
+    return null;
+  }
+
+  return {
+    lat: Number(results[0].lat),
+    lng: Number(results[0].lon),
+    name:
+      results[0].display_name ||
+      value
+  };
+}
+
+
+async function calculateRoute() {
+
+  const inputs =
+    getRouteInputElements();
+
+  if (inputs.length < 2) {
+    return;
+  }
+
+  const status =
+    document.getElementById(
+      "routeStatus"
     );
 
-    const lng = Number(
-        raw.lng ??
-        raw.lon ??
-        raw.longitude
-    );
+  if (status) {
+    status.textContent =
+      "Route wird berechnet …";
+  }
+
+  const points = [];
+
+  for (const input of inputs) {
+
+    const point =
+      await routeGeocodeInput(input);
+
+    if (!point) {
+
+      if (status) {
+        status.textContent =
+          `Ort nicht gefunden: ${input.value}`;
+        status.classList.add("error");
+      }
+
+      return;
+    }
+
+    points.push(point);
+  }
+
+  if (points.length < 2) {
+    return;
+  }
+
+  const coordinates =
+    points
+      .map(point =>
+        `${point.lng},${point.lat}`
+      )
+      .join(";");
+
+  const url =
+    `https://router.project-osrm.org/route/v1/driving/${coordinates}?overview=full&geometries=geojson`;
+
+  try {
+
+    const response =
+      await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("OSRM Fehler");
+    }
+
+    const data =
+      await response.json();
 
     if (
-        !Number.isFinite(lat) ||
-        !Number.isFinite(lng)
+      data.code !== "Ok" ||
+      !data.routes?.length
     ) {
-        return null;
+      throw new Error("Keine Route gefunden");
     }
 
-    const tags =
-        raw.tags &&
-        typeof raw.tags === "object"
-            ? raw.tags
-            : {};
+    const route =
+      data.routes[0];
 
-    const name =
-        raw.name ||
-        tags.name ||
-        "Skatepark";
+    currentRoute =
+      route;
 
-    return {
-        id: String(
-            raw.id ||
-            `park-${index}-${lat}-${lng}`
-        ),
+    routeLayer.clearLayers();
 
-        name,
+    L.geoJSON(
+      route.geometry,
+      {
+        style: {
+          weight: 5,
+          opacity: 0.85
+        }
+      }
+    ).addTo(routeLayer);
 
-        lat,
-        lng,
+    const bounds =
+      L.geoJSON(route.geometry)
+        .getBounds();
 
-        city:
-            raw.city ||
-            raw.town ||
-            raw.village ||
-            tags.city ||
+    map.fitBounds(
+      bounds,
+      {
+        padding: [40, 40]
+      }
+    );
+
+    if (status) {
+
+      status.classList.remove("error");
+
+      status.textContent =
+        `${(route.distance / 1000).toFixed(1)} km · ` +
+        `${Math.round(route.duration / 60)} min`;
+    }
+
+    await searchSkateparksAlongRoute(
+      route.geometry
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (status) {
+
+      status.classList.add("error");
+
+      status.textContent =
+        "Route konnte nicht berechnet werden.";
+    }
+  }
+}
+
+
+// ------------------------------------------------------------
+// Skateparks entlang der gesamten Route
+// ------------------------------------------------------------
+
+async function searchSkateparksAlongRoute(
+  geometry
+) {
+
+  const coordinates =
+    geometry.coordinates;
+
+  if (!coordinates?.length) {
+    return;
+  }
+
+  // Wir nehmen mehrere Punkte entlang der gesamten Route.
+  // So wird nicht nur der Startpunkt durchsucht.
+
+  const samples = [];
+
+  const maxSamples = 25;
+
+  const step =
+    Math.max(
+      1,
+      Math.floor(
+        coordinates.length / maxSamples
+      )
+    );
+
+  for (
+    let i = 0;
+    i < coordinates.length;
+    i += step
+  ) {
+
+    samples.push(
+      coordinates[i]
+    );
+  }
+
+  const unique = new Map();
+
+  const status =
+    document.getElementById(
+      "skateparkStatus"
+    );
+
+  if (status) {
+    status.textContent =
+      "Skateparks entlang der Route werden gesucht …";
+  }
+
+  for (const coordinate of samples) {
+
+    const lng =
+      coordinate[0];
+
+    const lat =
+      coordinate[1];
+
+    const radiusMeters =
+      5000;
+
+    const query = `
+[out:json][timeout:20];
+
+(
+  node["leisure"="skatepark"](around:${radiusMeters},${lat},${lng});
+  way["leisure"="skatepark"](around:${radiusMeters},${lat},${lng});
+  relation["leisure"="skatepark"](around:${radiusMeters},${lat},${lng});
+
+  node["leisure"="skate_park"](around:${radiusMeters},${lat},${lng});
+  way["leisure"="skate_park"](around:${radiusMeters},${lat},${lng});
+  relation["leisure"="skate_park"](around:${radiusMeters},${lat},${lng});
+);
+
+out center tags;
+`;
+
+    try {
+
+      const data =
+        await fetchOverpass(query);
+
+      for (const element of data.elements || []) {
+
+        let parkLat =
+          element.lat;
+
+        let parkLng =
+          element.lon;
+
+        if (
+          (parkLat == null || parkLng == null) &&
+          element.center
+        ) {
+          parkLat =
+            element.center.lat;
+
+          parkLng =
+            element.center.lon;
+        }
+
+        if (
+          parkLat == null ||
+          parkLng == null
+        ) {
+          continue;
+        }
+
+        const tags =
+          element.tags || {};
+
+        const park = {
+          id:
+            `${element.type}/${element.id}`,
+
+          name:
+            tags.name ||
+            tags["name:de"] ||
+            "Skatepark",
+
+          lat: parkLat,
+          lng: parkLng,
+
+          city:
+            tags["addr:city"] ||
             "",
 
-        country:
-            raw.country ||
-            tags.country ||
+          country:
+            tags["addr:country"] ||
             "",
 
-        size:
-            raw.size ||
-            tags.size ||
-            "",
-
-        sizeScore: Number(
-            raw.size_score ??
-            raw.sizeScore ??
-            0
-        ),
-
-        area: Number(
-            raw.area || 0
-        ),
-
-        website:
-            raw.website ||
-            tags.website ||
-            "",
-
-        surface:
-            raw.surface ||
+          surface:
             tags.surface ||
             "",
 
-        lit:
-            raw.lit === true ||
-            raw.lit === "yes" ||
-            tags.lit === true ||
-            tags.lit === "yes",
-
-        operator:
-            raw.operator ||
-            tags.operator ||
-            "",
-
-        description:
-            raw.description ||
-            tags.description ||
-            "",
-
-        tags
-    };
-}
-
-
-async function loadSkateparks() {
-    setStatus(
-        "Skatepark-Daten werden geladen …",
-        "loading"
-    );
-
-    try {
-        const response = await fetch(
-            CONFIG.dataUrl,
-            {
-                cache: "default"
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                `HTTP ${response.status}`
-            );
-        }
-
-        const data = await response.json();
-
-        if (!Array.isArray(data)) {
-            throw new Error(
-                "skateparks.json muss ein Array enthalten."
-            );
-        }
-
-        skateparks = data
-            .map(normalizeSkatepark)
-            .filter(Boolean);
-
-        buildSkateparkIndex();
-
-        setStatus(
-            `${skateparks.length.toLocaleString("de-DE")} Skateparks geladen.`,
-            "success"
-        );
-
-    } catch (error) {
-        console.error(
-            "Skatepark-Daten konnten nicht geladen werden:",
-            error
-        );
-
-        skateparks = [];
-        skateparkIndex.clear();
-
-        setStatus(
-            "skateparks.json konnte nicht geladen werden.",
-            "error"
-        );
-    }
-}
-
-
-function buildSkateparkIndex() {
-    skateparkIndex.clear();
-
-    for (const park of skateparks) {
-        const key = getGridKey(
-            park.lat,
-            park.lng
-        );
-
-        if (!skateparkIndex.has(key)) {
-            skateparkIndex.set(
-                key,
-                []
-            );
-        }
-
-        skateparkIndex
-            .get(key)
-            .push(park);
-    }
-}
-
-
-/* =========================================================
-   SKATEPARK RELEVANCE
-   ========================================================= */
-
-function getParkRelevance(park) {
-    let score = 0;
-
-    const name = normalizeText(
-        park.name
-    );
-
-    const tagText = normalizeText(
-        Object.values(park.tags || {})
-            .filter(value =>
-                typeof value === "string"
-            )
-            .join(" ")
-    );
-
-    const combined =
-        `${name} ${tagText}`;
-
-    if (
-        park.tags?.leisure === "skatepark"
-    ) {
-        score += 100;
-    }
-
-    if (
-        combined.includes("skatepark")
-    ) {
-        score += 40;
-    }
-
-    if (
-        combined.includes("skate")
-    ) {
-        score += 15;
-    }
-
-    if (
-        combined.includes("bmx")
-    ) {
-        score += 8;
-    }
-
-    if (park.website) {
-        score += 8;
-    }
-
-    if (park.operator) {
-        score += 4;
-    }
-
-    if (park.description) {
-        score += 4;
-    }
-
-    if (park.surface) {
-        score += 3;
-    }
-
-    if (park.lit) {
-        score += 2;
-    }
-
-    if (park.sizeScore > 0) {
-        score += park.sizeScore * 5;
-    }
-
-    if (park.area > 0) {
-        score += Math.min(
-            park.area / 1000,
-            15
-        );
-    }
-
-    return score;
-}
-
-
-/* =========================================================
-   ROUTE DISTANCE
-   ========================================================= */
-
-function distancePointToSegment(
-    pointLat,
-    pointLng,
-    aLat,
-    aLng,
-    bLat,
-    bLng
-) {
-    const latFactor =
-        Math.cos(
-            pointLat * Math.PI / 180
-        );
-
-    const x =
-        pointLng * latFactor;
-
-    const y =
-        pointLat;
-
-    const ax =
-        aLng * latFactor;
-
-    const ay =
-        aLat;
-
-    const bx =
-        bLng * latFactor;
-
-    const by =
-        bLat;
-
-    const dx = bx - ax;
-    const dy = by - ay;
-
-    if (dx === 0 && dy === 0) {
-        return haversineDistance(
-            pointLat,
-            pointLng,
-            aLat,
-            aLng
-        );
-    }
-
-    const t = clamp(
-        (
-            (x - ax) * dx +
-            (y - ay) * dy
-        ) /
-        (dx * dx + dy * dy),
-        0,
-        1
-    );
-
-    const closestX =
-        ax + t * dx;
-
-    const closestY =
-        ay + t * dy;
-
-    const closestLng =
-        closestX / latFactor;
-
-    return haversineDistance(
-        pointLat,
-        pointLng,
-        closestY,
-        closestLng
-    );
-}
-
-
-function distancePointToRoute(
-    park,
-    routeLatLngs
-) {
-    let minimum = Infinity;
-
-    for (
-        let i = 0;
-        i < routeLatLngs.length - 1;
-        i++
-    ) {
-        const a = routeLatLngs[i];
-        const b = routeLatLngs[i + 1];
-
-        const distance =
-            distancePointToSegment(
-                park.lat,
-                park.lng,
-                a.lat,
-                a.lng,
-                b.lat,
-                b.lng
-            );
-
-        if (distance < minimum) {
-            minimum = distance;
-        }
-    }
-
-    return minimum;
-}
-
-
-/* =========================================================
-   SKATEPARK SEARCH
-   ========================================================= */
-
-function searchSkateparksAroundLocation(
-    center,
-    radiusKm,
-    limit,
-    sortMode
-) {
-    const candidates =
-        getGridCandidates(
-            center.lat,
-            center.lng,
-            radiusKm
-        );
-
-    const unique = new Map();
-
-    for (const park of candidates) {
-        unique.set(
-            park.id,
-            park
-        );
-    }
-
-    const results = [];
-
-    for (const park of unique.values()) {
-        const distance =
-            haversineDistance(
-                center.lat,
-                center.lng,
-                park.lat,
-                park.lng
-            );
-
-        if (distance <= radiusKm) {
-            results.push({
-                park,
-                distance,
-                relevance:
-                    getParkRelevance(park)
-            });
-        }
-    }
-
-    sortParkResults(
-        results,
-        sortMode
-    );
-
-    return results.slice(
-        0,
-        limit
-    );
-}
-
-
-function searchSkateparksAlongRoute(
-    routeLatLngs,
-    radiusKm,
-    limit,
-    sortMode
-) {
-    if (
-        !routeLatLngs ||
-        routeLatLngs.length < 2
-    ) {
-        return [];
-    }
-
-    const lats =
-        routeLatLngs.map(point => point.lat);
-
-    const lngs =
-        routeLatLngs.map(point => point.lng);
-
-    const latPadding =
-        radiusKm / 111;
-
-    const averageLat =
-        lats.reduce(
-            (sum, value) => sum + value,
-            0
-        ) / lats.length;
-
-    const lngPadding =
-        radiusKm /
-        Math.max(
-            111 *
-            Math.cos(
-                averageLat * Math.PI / 180
-            ),
-            1
-        );
-
-    const minLat =
-        Math.min(...lats) -
-        latPadding;
-
-    const maxLat =
-        Math.max(...lats) +
-        latPadding;
-
-    const minLng =
-        Math.min(...lngs) -
-        lngPadding;
-
-    const maxLng =
-        Math.max(...lngs) +
-        lngPadding;
-
-    const minLatCell =
-        Math.floor(
-            minLat / CONFIG.gridSize
-        );
-
-    const maxLatCell =
-        Math.floor(
-            maxLat / CONFIG.gridSize
-        );
-
-    const minLngCell =
-        Math.floor(
-            minLng / CONFIG.gridSize
-        );
-
-    const maxLngCell =
-        Math.floor(
-            maxLng / CONFIG.gridSize
-        );
-
-    const candidates = new Map();
-
-    for (
-        let latCell = minLatCell;
-        latCell <= maxLatCell;
-        latCell++
-    ) {
-        for (
-            let lngCell = minLngCell;
-            lngCell <= maxLngCell;
-            lngCell++
-        ) {
-            const bucket =
-                skateparkIndex.get(
-                    `${latCell}:${lngCell}`
-                );
-
-            if (!bucket) {
-                continue;
-            }
-
-            for (const park of bucket) {
-                candidates.set(
-                    park.id,
-                    park
-                );
-            }
-        }
-    }
-
-    const results = [];
-
-    for (const park of candidates.values()) {
-        const distance =
-            distancePointToRoute(
-                park,
-                routeLatLngs
-            );
-
-        if (distance <= radiusKm) {
-            results.push({
-                park,
-                distance,
-                relevance:
-                    getParkRelevance(park)
-            });
-        }
-    }
-
-    sortParkResults(
-        results,
-        sortMode
-    );
-
-    return results.slice(
-        0,
-        limit
-    );
-}
-
-
-function sortParkResults(
-    results,
-    sortMode
-) {
-    if (sortMode === "size") {
-        results.sort(
-            (a, b) => {
-                const aSize =
-                    a.park.sizeScore ||
-                    a.park.area ||
-                    0;
-
-                const bSize =
-                    b.park.sizeScore ||
-                    b.park.area ||
-                    0;
-
-                if (bSize !== aSize) {
-                    return bSize - aSize;
-                }
-
-                return (
-                    a.distance -
-                    b.distance
-                );
-            }
-        );
-
-        return;
-    }
-
-    if (sortMode === "quality") {
-        results.sort(
-            (a, b) => {
-                if (
-                    b.relevance !==
-                    a.relevance
-                ) {
-                    return (
-                        b.relevance -
-                        a.relevance
-                    );
-                }
-
-                return (
-                    a.distance -
-                    b.distance
-                );
-            }
-        );
-
-        return;
-    }
-
-    results.sort(
-        (a, b) => {
-            if (
-                a.distance !==
-                b.distance
-            ) {
-                return (
-                    a.distance -
-                    b.distance
-                );
-            }
-
-            return (
-                b.relevance -
-                a.relevance
-            );
-        }
-    );
-}
-
-
-async function performSkateparkSearch() {
-    if (!skateparks.length) {
-        setStatus(
-            "Die Skatepark-Daten sind noch nicht verfügbar.",
-            "error"
-        );
-
-        return;
-    }
-
-    const radius = clamp(
-        Number(
-            skateparkRadius?.value || 15
-        ),
-        1,
-        CONFIG.maxRadius
-    );
-
-    const limit = clamp(
-        Number(
-            skateparkLimit?.value || 20
-        ),
-        1,
-        CONFIG.maxResults
-    );
-
-    const sortMode =
-        skateparkSort?.value ||
-        "distance";
-
-    skateparkLayer.clearLayers();
-
-    let results = [];
-
-    if (
-        currentRoute &&
-        currentRoute.latLngs?.length >= 2
-    ) {
-        results =
-            searchSkateparksAlongRoute(
-                currentRoute.latLngs,
-                radius,
-                limit,
-                sortMode
-            );
-
-        resultsTitle.textContent =
-            "Skateparks entlang der Route";
-
-    } else {
-        const center =
-            lastSearchLocation ||
-            (() => {
-                const center =
-                    map.getCenter();
-
-                return {
-                    lat: center.lat,
-                    lng: center.lng,
-                    name: "Kartenmitte"
-                };
-            })();
-
-        results =
-            searchSkateparksAroundLocation(
-                center,
-                radius,
-                limit,
-                sortMode
-            );
-
-        resultsTitle.textContent =
-            "Skateparks in der Nähe";
-    }
-
-    renderSkateparkResults(
-        results
-    );
-
-    if (results.length) {
-        setStatus(
-            `${results.length} Skateparks gefunden.`,
-            "success"
-        );
-    } else {
-        setStatus(
-            `Keine Skateparks im Radius von ${radius} km gefunden.`,
-            "error"
-        );
-    }
-}
-
-
-/* =========================================================
-   SKATEPARK MARKERS
-   ========================================================= */
-
-function createSkateparkIcon() {
-    return L.divIcon({
-        className: "map-skatepark-marker-wrap",
-        html: `
-            <div class="map-skatepark-marker">
-                <span>▰</span>
-            </div>
-        `,
-        iconSize: [34, 34],
-        iconAnchor: [17, 17],
-        popupAnchor: [0, -18]
-    });
-}
-
-
-function renderSkateparkMarkers(
-    results
-) {
-    skateparkLayer.clearLayers();
-
-    for (const item of results) {
-        const park = item.park;
-
-        const marker =
-            L.marker(
-                [park.lat, park.lng],
-                {
-                    icon:
-                        createSkateparkIcon()
-                }
-            );
-
-        const locationText = [
-            park.city,
-            park.country
-        ]
-            .filter(Boolean)
-            .join(", ");
-
-        const googleMapsUrl =
-            `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-                `${park.lat},${park.lng}`
-            )}`;
-
-        const metadata = [
-            locationText,
-            item.distance !== undefined
-                ? `${formatDistance(item.distance)} entfernt`
-                : "",
-            park.surface
-                ? `Belag: ${park.surface}`
-                : "",
-            park.lit
-                ? "Beleuchtet"
-                : ""
-        ]
-            .filter(Boolean)
-            .join(" · ");
-
-        marker.bindPopup(`
-            <div class="map-popup">
-                <div class="map-popup-title">
-                    ${escapeHtml(park.name)}
-                </div>
-
-                ${
-                    metadata
-                        ? `
-                            <div class="map-popup-meta">
-                                ${escapeHtml(metadata)}
-                            </div>
-                        `
-                        : ""
-                }
-
-                <a
-                    class="map-popup-button"
-                    href="${googleMapsUrl}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Route mit Google Maps
-                </a>
-            </div>
-        `);
-
-        marker.addTo(skateparkLayer);
-
-        marker.on(
-            "click",
-            () => {
-                highlightResult(
-                    park.id
-                );
-            }
-        );
-    }
-}
-
-
-/* =========================================================
-   SKATEPARK RESULT LIST
-   ========================================================= */
-
-function renderSkateparkResults(
-    results
-) {
-    renderSkateparkMarkers(
-        results
-    );
-
-    if (!mapResults || !resultsList) {
-        return;
-    }
-
-    mapResults.hidden = false;
-
-    resultsCount.textContent =
-        String(results.length);
-
-    if (!results.length) {
-        resultsList.innerHTML = `
-            <div class="map-results-empty">
-                Keine passenden Skateparks gefunden.
-            </div>
-        `;
-
-        return;
-    }
-
-    resultsList.innerHTML =
-        results
-            .map((item, index) => {
-                const park = item.park;
-
-                const locationText = [
-                    park.city,
-                    park.country
-                ]
-                    .filter(Boolean)
-                    .join(", ");
-
-                const details = [
-                    locationText,
-                    formatDistance(
-                        item.distance
-                    )
-                ]
-                    .filter(Boolean)
-                    .join(" · ");
-
-                return `
-                    <button
-                        type="button"
-                        class="map-result-item"
-                        data-park-id="${escapeHtml(
-                            park.id
-                        )}"
-                    >
-                        <span class="map-result-number">
-                            ${index + 1}
-                        </span>
-
-                        <span class="map-result-content">
-                            <strong>
-                                ${escapeHtml(
-                                    park.name
-                                )}
-                            </strong>
-
-                            <span>
-                                ${escapeHtml(
-                                    details
-                                )}
-                            </span>
-                        </span>
-
-                        <span class="map-result-arrow">
-                            →
-                        </span>
-                    </button>
-                `;
-            })
-            .join("");
-
-    resultsList
-        .querySelectorAll(
-            ".map-result-item"
-        )
-        .forEach(button => {
-            button.addEventListener(
-                "click",
-                () => {
-                    const park =
-                        skateparks.find(
-                            item =>
-                                item.id ===
-                                button.dataset.parkId
-                        );
-
-                    if (!park) {
-                        return;
-                    }
-
-                    focusSkatepark(
-                        park
-                    );
-                }
-            );
-        });
-}
-
-
-function highlightResult(id) {
-    resultsList
-        ?.querySelectorAll(
-            ".map-result-item"
-        )
-        .forEach(item => {
-            item.classList.toggle(
-                "is-active",
-                item.dataset.parkId === id
-            );
-        });
-}
-
-
-function focusSkatepark(park) {
-    highlightResult(
-        park.id
-    );
-
-    map.flyTo(
-        [park.lat, park.lng],
-        Math.max(
-            map.getZoom(),
-            16
-        ),
-        {
-            duration: 0.6
-        }
-    );
-
-    skateparkLayer.eachLayer(
-        marker => {
-            const latLng =
-                marker.getLatLng();
-
-            if (
-                Math.abs(
-                    latLng.lat -
-                    park.lat
-                ) < 0.00001 &&
-                Math.abs(
-                    latLng.lng -
-                    park.lng
-                ) < 0.00001
-            ) {
-                marker.openPopup();
-            }
-        }
-    );
-}
-
-
-/* =========================================================
-   ROUTE POINTS
-   ========================================================= */
-
-function getRouteInputs() {
-    return [
-        ...routePoints.querySelectorAll(
-            "[data-route-input]"
-        )
-    ];
-}
-
-
-function updateRoutePointLabels() {
-    const points =
-        getRouteInputs();
-
-    points.forEach(
-        (input, index) => {
-            const wrapper =
-                input.closest(
-                    ".map-route-point"
-                );
-
-            if (!wrapper) {
-                return;
-            }
-
-            const label =
-                wrapper.querySelector(
-                    ".map-route-point-label"
-                );
-
-            if (label) {
-                label.textContent =
-                    String.fromCharCode(
-                        65 + index
-                    );
-            }
-
-            const removeButton =
-                wrapper.querySelector(
-                    ".map-route-remove"
-                );
-
-            if (removeButton) {
-                removeButton.disabled =
-                    points.length <= 2;
-            }
-        }
-    );
-}
-
-
-function createRoutePoint(
-    value = ""
-) {
-    const index =
-        getRouteInputs().length;
-
-    const wrapper =
-        document.createElement(
-            "div"
-        );
-
-    wrapper.className =
-        "map-route-point";
-
-    wrapper.innerHTML = `
-        <span class="map-route-point-label">
-            ${String.fromCharCode(
-                65 + index
-            )}
-        </span>
-
-        <input
-            type="text"
-            class="map-route-input"
-            data-route-input="${index}"
-            placeholder="Zwischenstopp eingeben"
-            autocomplete="off"
-            value="${escapeHtml(value)}"
-        >
-
-        <button
-            type="button"
-            class="map-route-remove"
-            aria-label="Zwischenstopp entfernen"
-        >
-            ×
-        </button>
-    `;
-
-    const removeButton =
-        wrapper.querySelector(
-            ".map-route-remove"
-        );
-
-    removeButton.addEventListener(
-        "click",
-        () => {
-            wrapper.remove();
-            updateRoutePointLabels();
-        }
-    );
-
-    routePoints.insertBefore(
-        wrapper,
-        routePoints.lastElementChild
-    );
-
-    updateRoutePointLabels();
-
-    return wrapper;
-}
-
-
-addRouteStopButton?.addEventListener(
-    "click",
-    () => {
-        if (
-            getRouteInputs().length >=
-            CONFIG.maxRoutePoints
-        ) {
-            setStatus(
-                `Maximal ${CONFIG.maxRoutePoints} Punkte möglich.`,
-                "error"
-            );
-
-            return;
-        }
-
-        const wrapper =
-            createRoutePoint();
-
-        wrapper
-            .querySelector("input")
-            ?.focus();
-    }
-);
-
-
-/* =========================================================
-   ROUTE GEOCODING
-   ========================================================= */
-
-async function geocodeRoutePoints(
-    values
-) {
-    const locations = [];
-
-    for (
-        let i = 0;
-        i < values.length;
-        i++
-    ) {
-        const value =
-            values[i].trim();
-
-        if (!value) {
-            throw new Error(
-                `Routenpunkt ${String.fromCharCode(
-                    65 + i
-                )} fehlt.`
-            );
-        }
-
-        setStatus(
-            `Routenpunkt ${String.fromCharCode(
-                65 + i
-            )} wird gesucht …`,
-            "loading"
-        );
-
-        const results =
-            await geocode(value);
-
-        if (!results.length) {
-            throw new Error(
-                `"${value}" wurde nicht gefunden.`
-            );
-        }
-
-        const result =
-            results[0];
-
-        const lat =
-            Number(result.lat);
-
-        const lng =
-            Number(
-                result.lon ??
-                result.lng
-            );
-
-        if (
-            !Number.isFinite(lat) ||
-            !Number.isFinite(lng)
-        ) {
-            throw new Error(
-                `"${value}" hat keine gültigen Koordinaten.`
-            );
-        }
-
-        locations.push({
-            lat,
-            lng,
-            name:
-                getGeocoderResultName(
-                    result
-                ),
-            displayName:
-                result.display_name ||
-                ""
-        });
-    }
-
-    return locations;
-}
-
-
-/* =========================================================
-   ROUTING
-   ========================================================= */
-
-async function requestRoute(
-    locations
-) {
-    const coordinates =
-        locations
-            .map(
-                location =>
-                    `${location.lng},${location.lat}`
-            )
-            .join(";");
-
-    const url =
-        `${CONFIG.osrmUrl}/${coordinates}?overview=full&geometries=geojson&steps=false`;
-
-    const controller =
-        new AbortController();
-
-    const timer =
-        setTimeout(
-            () => controller.abort(),
-            CONFIG.routeTimeout
-        );
-
-    try {
-        const response =
-            await fetch(
-                url,
-                {
-                    signal:
-                        controller.signal
-                }
-            );
-
-        if (!response.ok) {
-            throw new Error(
-                `Routing HTTP ${response.status}`
-            );
-        }
-
-        const data =
-            await response.json();
-
-        if (
-            data.code !== "Ok" ||
-            !data.routes?.length
-        ) {
-            throw new Error(
-                "Keine Route gefunden."
-            );
-        }
-
-        return data.routes[0];
-
-    } finally {
-        clearTimeout(timer);
-    }
-}
-
-
-async function performRouteCalculation() {
-    const inputs =
-        getRouteInputs();
-
-    if (inputs.length < 2) {
-        return;
-    }
-
-    const values =
-        inputs.map(
-            input =>
-                input.value.trim()
-        );
-
-    clearRouteDisplay();
-
-    setStatus(
-        "Route wird berechnet …",
-        "loading"
-    );
-
-    try {
-        const routePromise =
-            (async () => {
-                const locations =
-                    await geocodeRoutePoints(
-                        values
-                    );
-
-                setStatus(
-                    "Route wird berechnet …",
-                    "loading"
-                );
-
-                const route =
-                    await requestRoute(
-                        locations
-                    );
-
-                return {
-                    locations,
-                    route
-                };
-            })();
-
-        const {
-            locations,
-            route
-        } = await withTimeout(
-            routePromise,
-            CONFIG.overallRouteTimeout,
-            "Die Routenberechnung dauert zu lange."
-        );
-
-        const geometry =
-            route.geometry;
-
-        if (
-            !geometry ||
-            geometry.type !== "LineString"
-        ) {
-            throw new Error(
-                "Keine gültige Routengeometrie erhalten."
-            );
-        }
-
-        const latLngs =
-            geometry.coordinates.map(
-                coordinate => ({
-                    lat: coordinate[1],
-                    lng: coordinate[0]
-                })
-            );
-
-        currentRoute = {
-            locations,
-            latLngs,
-            distanceKm:
-                route.distance / 1000,
-            durationMinutes:
-                route.duration / 60
+          lit:
+            tags.lit ||
+            ""
         };
 
-        const line =
-            L.geoJSON(
-                geometry,
-                {
-                    style: {
-                        className:
-                            "map-route-line",
-                        weight: 5
-                    }
-                }
-            );
-
-        line.addTo(
-            routeLayer
+        unique.set(
+          park.id,
+          park
         );
-
-        locations.forEach(
-            (location, index) => {
-                const marker =
-                    L.circleMarker(
-                        [
-                            location.lat,
-                            location.lng
-                        ],
-                        {
-                            radius: 9,
-                            className:
-                                "map-route-marker"
-                        }
-                    );
-
-                marker.bindTooltip(
-                    String.fromCharCode(
-                        65 + index
-                    ),
-                    {
-                        permanent: true,
-                        direction: "center",
-                        className:
-                            "map-route-marker-label"
-                    }
-                );
-
-                marker.addTo(
-                    routeLayer
-                );
-            }
-        );
-
-        const bounds =
-            line.getBounds();
-
-        if (bounds.isValid()) {
-            map.fitBounds(
-                bounds.pad(0.12),
-                {
-                    maxZoom: 12,
-                    duration: 0.8
-                }
-            );
-        }
-
-        const distanceText =
-            currentRoute.distanceKm < 10
-                ? `${currentRoute.distanceKm
-                    .toFixed(1)
-                    .replace(".", ",")} km`
-                : `${Math.round(
-                    currentRoute.distanceKm
-                )} km`;
-
-        const hours =
-            Math.floor(
-                currentRoute.durationMinutes /
-                60
-            );
-
-        const minutes =
-            Math.round(
-                currentRoute.durationMinutes %
-                60
-            );
-
-        let durationText;
-
-        if (hours > 0) {
-            durationText =
-                `${hours} Std. ${minutes} Min.`;
-        } else {
-            durationText =
-                `${minutes} Min.`;
-        }
-
-        setStatus(
-            `Route: ${distanceText} · ${durationText}`,
-            "success"
-        );
+      }
 
     } catch (error) {
-        console.error(
-            "Route:",
-            error
-        );
 
-        currentRoute = null;
-
-        setStatus(
-            error.message ||
-            "Die Route konnte nicht berechnet werden.",
-            "error"
-        );
+      console.warn(
+        "Routen-Skateparks:",
+        error
+      );
     }
+  }
+
+  const parks =
+    [...unique.values()];
+
+  parks.sort(
+    (a, b) => {
+
+      const da =
+        distanceToRoute(
+          a,
+          coordinates
+        );
+
+      const db =
+        distanceToRoute(
+          b,
+          coordinates
+        );
+
+      return da - db;
+    }
+  );
+
+  const visible =
+    parks.slice(0, 30);
+
+  skateparkLayer.clearLayers();
+
+  for (const park of visible) {
+
+    createSkateparkMarker(park)
+      .addTo(skateparkLayer);
+  }
+
+  if (status) {
+
+    status.textContent =
+      `${visible.length} Skateparks entlang der Route gefunden`;
+
+    status.classList.remove("loading");
+    status.classList.add("success");
+  }
 }
 
 
-calculateRouteButton?.addEventListener(
+function distanceToRoute(
+  park,
+  coordinates
+) {
+
+  let minimum =
+    Infinity;
+
+  // Näherungsweise Entfernung zum nächsten
+  // Routenpunkt. Für die Darstellung reicht das.
+
+  for (const coordinate of coordinates) {
+
+    const lng =
+      coordinate[0];
+
+    const lat =
+      coordinate[1];
+
+    const distance =
+      distanceKm(
+        park.lat,
+        park.lng,
+        lat,
+        lng
+      );
+
+    if (distance < minimum) {
+      minimum = distance;
+    }
+
+    if (minimum < 0.1) {
+      break;
+    }
+  }
+
+  return minimum;
+}
+
+
+// ------------------------------------------------------------
+// Routenbuttons
+// ------------------------------------------------------------
+
+const calculateRouteButton =
+  document.getElementById(
+    "calculateRoute"
+  );
+
+if (calculateRouteButton) {
+
+  calculateRouteButton.addEventListener(
     "click",
-    performRouteCalculation
-);
-
-
-/* =========================================================
-   CLEAR ROUTE
-   ========================================================= */
-
-function clearRouteDisplay() {
-    routeLayer.clearLayers();
-    currentRoute = null;
+    calculateRoute
+  );
 }
 
 
-clearRouteButton?.addEventListener(
+const clearRouteButton =
+  document.getElementById(
+    "clearRoute"
+  );
+
+if (clearRouteButton) {
+
+  clearRouteButton.addEventListener(
     "click",
     () => {
-        clearRouteDisplay();
 
-        getRouteInputs()
-            .forEach(
-                input => {
-                    input.value = "";
-                }
-            );
+      routeLayer.clearLayers();
+      skateparkLayer.clearLayers();
 
-        setStatus(
-            "Route gelöscht.",
-            "success"
+      currentRoute = null;
+
+      const status =
+        document.getElementById(
+          "routeStatus"
         );
+
+      if (status) {
+        status.textContent = "";
+      }
+
+      const skateparkStatus =
+        document.getElementById(
+          "skateparkStatus"
+        );
+
+      if (skateparkStatus) {
+        skateparkStatus.textContent = "";
+      }
     }
-);
+  );
+}
 
 
-/* =========================================================
-   COLLAPSIBLE SECTIONS
-   ========================================================= */
+// ------------------------------------------------------------
+// Zwischenstopp hinzufügen
+// ------------------------------------------------------------
 
-function setupSectionToggle(
-    button,
-    content
-) {
-    if (!button || !content) {
+const addStopButton =
+  document.getElementById(
+    "addRouteStop"
+  );
+
+if (addStopButton) {
+
+  addStopButton.addEventListener(
+    "click",
+    () => {
+
+      const container =
+        document.getElementById(
+          "routeStops"
+        );
+
+      if (!container) {
         return;
+      }
+
+      if (
+        container.querySelectorAll(
+          ".route-stop-input"
+        ).length >= 6
+      ) {
+        return;
+      }
+
+      const input =
+        document.createElement("input");
+
+      input.type = "text";
+      input.className =
+        "route-stop-input";
+
+      input.placeholder =
+        `Zwischenstopp ${
+          container.querySelectorAll(
+            ".route-stop-input"
+          ).length + 1
+        }`;
+
+      container.appendChild(input);
     }
+  );
+}
+
+
+// ------------------------------------------------------------
+// Satellit
+// ------------------------------------------------------------
+
+const satelliteToggle =
+  document.getElementById(
+    "satelliteToggle"
+  );
+
+if (satelliteToggle) {
+
+  satelliteToggle.addEventListener(
+    "click",
+    () => {
+
+      if (map.hasLayer(osmLayer)) {
+
+        map.removeLayer(osmLayer);
+        satelliteLayer.addTo(map);
+
+        satelliteToggle.textContent =
+          "Karte";
+
+      } else {
+
+        map.removeLayer(satelliteLayer);
+        osmLayer.addTo(map);
+
+        satelliteToggle.textContent =
+          "Satellit";
+      }
+    }
+  );
+}
+
+
+// ------------------------------------------------------------
+// Standort
+// ------------------------------------------------------------
+
+const locateButton =
+  document.getElementById(
+    "locateMe"
+  );
+
+if (locateButton) {
+
+  locateButton.addEventListener(
+    "click",
+    () => {
+
+      if (!navigator.geolocation) {
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+
+          const lat =
+            position.coords.latitude;
+
+          const lng =
+            position.coords.longitude;
+
+          lastSearchLocation = {
+            lat,
+            lng
+          };
+
+          map.flyTo(
+            [lat, lng],
+            14,
+            {
+              duration: 0.8
+            }
+          );
+
+          searchMarkerLayer.clearLayers();
+
+          searchMarker =
+            L.marker([lat, lng])
+              .addTo(searchMarkerLayer)
+              .bindPopup(
+                "Dein Standort"
+              )
+              .openPopup();
+        },
+
+        error => {
+          console.warn(
+            "Standort konnte nicht ermittelt werden:",
+            error
+          );
+        }
+      );
+    }
+  );
+}
+
+
+// ------------------------------------------------------------
+// Panel einklappen
+// ------------------------------------------------------------
+
+document
+  .querySelectorAll(
+    "[data-collapse]"
+  )
+  .forEach(button => {
 
     button.addEventListener(
-        "click",
-        () => {
-            const isOpen =
-                button.getAttribute(
-                    "aria-expanded"
-                ) === "true";
+      "click",
+      () => {
 
-            button.setAttribute(
-                "aria-expanded",
-                String(!isOpen)
-            );
+        const target =
+          document.getElementById(
+            button.dataset.collapse
+          );
 
-            content.hidden = isOpen;
-        }
-    );
-}
-
-
-setupSectionToggle(
-    routeToggle,
-    routeContent
-);
-
-setupSectionToggle(
-    skateparkToggle,
-    skateparkContent
-);
-
-
-/* =========================================================
-   MAP PANEL
-   ========================================================= */
-
-function collapseMapPanel() {
-    mapPanel?.classList.add(
-        "is-collapsed"
-    );
-
-    mapPanelOpen?.classList.remove(
-        "is-hidden"
-    );
-
-    setTimeout(
-        () => map.invalidateSize(),
-        250
-    );
-}
-
-
-function openMapPanel() {
-    mapPanel?.classList.remove(
-        "is-collapsed"
-    );
-
-    mapPanelOpen?.classList.add(
-        "is-hidden"
-    );
-
-    setTimeout(
-        () => map.invalidateSize(),
-        250
-    );
-}
-
-
-mapPanelToggle?.addEventListener(
-    "click",
-    collapseMapPanel
-);
-
-
-mapPanelOpen?.addEventListener(
-    "click",
-    openMapPanel
-);
-
-
-/* =========================================================
-   SATELLITE
-   ========================================================= */
-
-satelliteToggle?.addEventListener(
-    "click",
-    () => {
-        const active =
-            map.hasLayer(
-                satelliteLayer
-            );
-
-        if (active) {
-            map.removeLayer(
-                satelliteLayer
-            );
-
-            standardLayer.addTo(
-                map
-            );
-
-            satelliteToggle.setAttribute(
-                "aria-pressed",
-                "false"
-            );
-
-        } else {
-            map.removeLayer(
-                standardLayer
-            );
-
-            satelliteLayer.addTo(
-                map
-            );
-
-            satelliteToggle.setAttribute(
-                "aria-pressed",
-                "true"
-            );
-        }
-    }
-);
-
-
-/* =========================================================
-   LOCATE USER
-   ========================================================= */
-
-locateMeButton?.addEventListener(
-    "click",
-    () => {
-        if (
-            !navigator.geolocation
-        ) {
-            setStatus(
-                "Dein Browser unterstützt keine Standortbestimmung.",
-                "error"
-            );
-
-            return;
+        if (!target) {
+          return;
         }
 
-        setStatus(
-            "Standort wird ermittelt …",
-            "loading"
+        target.classList.toggle(
+          "is-collapsed"
         );
 
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const lat =
-                    position.coords.latitude;
-
-                const lng =
-                    position.coords.longitude;
-
-                lastSearchLocation = {
-                    lat,
-                    lng,
-                    name: "Mein Standort"
-                };
-
-                searchMarkerLayer.clearLayers();
-
-                searchMarker =
-                    L.marker(
-                        [lat, lng]
-                    ).addTo(
-                        searchMarkerLayer
-                    );
-
-                searchMarker.bindPopup(
-                    `
-                        <div class="map-popup">
-                            <div class="map-popup-title">
-                                Mein Standort
-                            </div>
-                        </div>
-                    `
-                );
-
-                map.flyTo(
-                    [lat, lng],
-                    14,
-                    {
-                        duration: 0.8
-                    }
-                );
-
-                setStatus(
-                    "Standort gefunden.",
-                    "success"
-                );
-            },
-
-            error => {
-                console.warn(
-                    "Geolocation:",
-                    error
-                );
-
-                setStatus(
-                    "Standort konnte nicht ermittelt werden.",
-                    "error"
-                );
-            },
-
-            {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 30000
-            }
+        button.classList.toggle(
+          "is-collapsed"
         );
-    }
+      }
+    );
+  });
+
+
+// ------------------------------------------------------------
+// Start
+// ------------------------------------------------------------
+
+console.log(
+  "MOI-CY Skatepark Map geladen."
 );
-
-
-/* =========================================================
-   SKATEPARK SEARCH BUTTON
-   ========================================================= */
-
-searchSkateparksButton?.addEventListener(
-    "click",
-    performSkateparkSearch
-);
-
-
-/* =========================================================
-   ENTER IN ROUTE INPUTS
-   ========================================================= */
-
-routePoints?.addEventListener(
-    "keydown",
-    event => {
-        if (
-            event.key === "Enter" &&
-            event.target.matches(
-                "[data-route-input]"
-            )
-        ) {
-            event.preventDefault();
-
-            performRouteCalculation();
-        }
-    }
-);
-
-
-/* =========================================================
-   MAP MOVE
-   ========================================================= */
-
-map.on(
-    "moveend",
-    () => {
-        /*
-         * Die normale Ortssuche bleibt bewusst
-         * unabhängig von der Skatepark-Suche.
-         *
-         * Daher wird beim Verschieben der Karte
-         * NICHT automatisch nach Skateparks gesucht.
-         */
-    }
-);
-
-
-/* =========================================================
-   INITIALIZATION
-   ========================================================= */
-
-updateRoutePointLabels();
-
-if (mapResults) {
-    mapResults.hidden = true;
-}
-
-if (searchSuggestions) {
-    searchSuggestions.hidden = true;
-}
-
-loadSkateparks();
-
-
-/* =========================================================
-   DEBUG / OPTIONAL GLOBAL ACCESS
-   ========================================================= */
-
-window.MOICYMap = {
-    map,
-    get skateparks() {
-        return skateparks;
-    },
-    get route() {
-        return currentRoute;
-    },
-    searchPlace: performMainSearch,
-    searchSkateparks: performSkateparkSearch
-};
