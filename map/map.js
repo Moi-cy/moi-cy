@@ -1,1529 +1,1203 @@
 // ============================================================
-// MOI-CY MAP
+// MOI-CY – SKATEPARK KARTE
 // ============================================================
 
-const map = L.map("map", {
-    zoomControl: false,
-    minZoom: 2,
-    maxZoom: 19,
-    maxBounds: [
-        [-85, -180],
-        [85, 180]
-    ],
-    maxBoundsViscosity: 1,
-    worldCopyJump: false,
-    preferCanvas: true
-}).setView([51.2, 10.5], 5.5);
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("MOI-CY Map: Start");
 
+    // ------------------------------------------------------------
+    // ELEMENTE
+    // ------------------------------------------------------------
 
-// ============================================================
-// KARTEN
-// ============================================================
+    const mapElement = document.getElementById("map");
 
-const osmLayer = L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap contributors"
+    const mainSearch = document.getElementById("mainSearch");
+    const mainSearchButton = document.getElementById("mainSearchButton");
+    const searchSuggestions = document.getElementById("searchSuggestions");
+
+    const skateparkRadius = document.getElementById("skateparkRadius");
+    const skateparkLimit = document.getElementById("skateparkLimit");
+    const skateparkSort = document.getElementById("skateparkSort");
+    const searchSkateparksButton = document.getElementById("searchSkateparks");
+
+    const resultsTitle = document.getElementById("resultsTitle");
+    const resultsCount = document.getElementById("resultsCount");
+    const resultsList = document.getElementById("resultsList");
+
+    const mapStatus = document.getElementById("mapStatus");
+    const mapStatusDot = document.getElementById("mapStatusDot");
+    const mapStatusText = document.getElementById("mapStatusText");
+
+    const satelliteToggle = document.getElementById("satelliteToggle");
+    const locateMe = document.getElementById("locateMe");
+
+    const mapPanel = document.getElementById("mapPanel");
+    const mapPanelToggle = document.getElementById("mapPanelToggle");
+    const mapPanelOpen = document.getElementById("mapPanelOpen");
+
+    const routeToggle = document.getElementById("routeToggle");
+    const routeContent = document.getElementById("routeContent");
+    const routePoints = document.getElementById("routePoints");
+    const addRouteStop = document.getElementById("addRouteStop");
+    const calculateRouteButton = document.getElementById("calculateRoute");
+    const clearRouteButton = document.getElementById("clearRoute");
+
+    if (!mapElement) {
+        console.error("MOI-CY Map: #map wurde nicht gefunden.");
+        return;
     }
-).addTo(map);
 
-const satelliteLayer = L.tileLayer(
-    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    {
+    // ------------------------------------------------------------
+    // KARTE
+    // ------------------------------------------------------------
+
+    const map = L.map("map", {
+        zoomControl: false,
+        minZoom: 2,
         maxZoom: 19,
-        attribution: "Tiles &copy; Esri"
+        worldCopyJump: false,
+        maxBounds: [
+            [-85, -180],
+            [85, 180]
+        ],
+        maxBoundsViscosity: 1
+    }).setView([51.2, 10.5], 5.5);
+
+    const osmLayer = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution: "&copy; OpenStreetMap-Mitwirkende",
+            maxZoom: 19
+        }
+    );
+
+    const satelliteLayer = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+            attribution: "Tiles &copy; Esri",
+            maxZoom: 19
+        }
+    );
+
+    osmLayer.addTo(map);
+
+    L.control.zoom({
+        position: "bottomright"
+    }).addTo(map);
+
+    const skateparkLayer = L.layerGroup().addTo(map);
+    const routeLayer = L.layerGroup().addTo(map);
+    const searchLayer = L.layerGroup().addTo(map);
+
+    // ------------------------------------------------------------
+    // STATUS
+    // ------------------------------------------------------------
+
+    function status(text, type = "normal") {
+        if (mapStatusText) {
+            mapStatusText.textContent = text;
+        }
+
+        if (mapStatusDot) {
+            mapStatusDot.className = "map-status-dot";
+
+            if (type === "loading") {
+                mapStatusDot.classList.add("loading");
+            }
+
+            if (type === "error") {
+                mapStatusDot.classList.add("error");
+            }
+
+            if (type === "success") {
+                mapStatusDot.classList.add("success");
+            }
+        }
+
+        if (mapStatus) {
+            mapStatus.classList.remove("is-loading", "is-error", "is-success");
+
+            if (type === "loading") {
+                mapStatus.classList.add("is-loading");
+            }
+
+            if (type === "error") {
+                mapStatus.classList.add("is-error");
+            }
+
+            if (type === "success") {
+                mapStatus.classList.add("is-success");
+            }
+        }
     }
-);
 
-L.control.zoom({
-    position: "bottomright"
-}).addTo(map);
+    // ------------------------------------------------------------
+    // HILFSFUNKTIONEN
+    // ------------------------------------------------------------
 
+    function escapeHtml(value) {
+        if (value === null || value === undefined) return "";
 
-// ============================================================
-// LAYER
-// ============================================================
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
 
-const skateparkLayer = L.layerGroup().addTo(map);
-const routeLayer = L.layerGroup().addTo(map);
-const searchMarkerLayer = L.layerGroup().addTo(map);
+    function distanceKm(lat1, lon1, lat2, lon2) {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
 
+        const a =
+            Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) *
+            Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) ** 2;
 
-// ============================================================
-// ZUSTAND
-// ============================================================
-
-let lastSearchLocation = null;
-let currentRoute = null;
-
-
-// ============================================================
-// HILFSFUNKTIONEN
-// ============================================================
-
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-function distanceKm(lat1, lng1, lat2, lng2) {
-
-    const R = 6371;
-
-    const dLat =
-        (lat2 - lat1) * Math.PI / 180;
-
-    const dLng =
-        (lng2 - lng1) * Math.PI / 180;
-
-    const a =
-        Math.sin(dLat / 2) ** 2 +
-        Math.cos(lat1 * Math.PI / 180) *
-        Math.cos(lat2 * Math.PI / 180) *
-        Math.sin(dLng / 2) ** 2;
-
-    return R * 2 *
-        Math.atan2(
+        return R * 2 * Math.atan2(
             Math.sqrt(a),
             Math.sqrt(1 - a)
         );
-}
-
-
-function setStatus(text, type = "") {
-
-    const statusText =
-        document.getElementById("mapStatusText");
-
-    const status =
-        document.getElementById("mapStatus");
-
-    if (statusText) {
-        statusText.textContent = text;
     }
 
-    if (status) {
-
-        status.classList.remove(
-            "loading",
-            "success",
-            "error"
-        );
-
-        if (type) {
-            status.classList.add(type);
-        }
-    }
-}
-
-
-function showResults() {
-
-    const results =
-        document.getElementById("mapResults");
-
-    if (results) {
-        results.hidden = false;
-    }
-}
-
-
-function clearResults() {
-
-    const resultsList =
-        document.getElementById("resultsList");
-
-    if (resultsList) {
-        resultsList.innerHTML = "";
-    }
-
-    const results =
-        document.getElementById("mapResults");
-
-    if (results) {
-        results.hidden = true;
-    }
-
-    const count =
-        document.getElementById("resultsCount");
-
-    if (count) {
-        count.textContent = "0";
-    }
-}
-
-
-// ============================================================
-// MARKER
-// ============================================================
-
-function createSkateparkMarker(park) {
-
-    const icon = L.divIcon({
-        className: "map-skatepark-marker-wrap",
-        html: `
-            <div class="map-skatepark-marker">
-                🛹
-            </div>
-        `,
-        iconSize: [38, 38],
-        iconAnchor: [19, 19],
-        popupAnchor: [0, -20]
-    });
-
-    const marker =
-        L.marker(
-            [park.lat, park.lng],
-            { icon }
-        );
-
-    let popup = `
-        <div class="map-skatepark-popup">
-
-            <div class="map-skatepark-popup-title">
-                ${escapeHtml(park.name)}
-            </div>
-    `;
-
-    if (park.city || park.country) {
-
-        popup += `
-            <div class="map-skatepark-popup-meta">
-                ${escapeHtml(
-                    [park.city, park.country]
-                        .filter(Boolean)
-                        .join(", ")
-                )}
-            </div>
-        `;
-    }
-
-    if (park.distance != null) {
-
-        popup += `
-            <div class="map-skatepark-popup-meta">
-                ${park.distance.toFixed(1)} km entfernt
-            </div>
-        `;
-    }
-
-    if (park.surface) {
-
-        popup += `
-            <div class="map-skatepark-popup-meta">
-                Untergrund: ${escapeHtml(park.surface)}
-            </div>
-        `;
-    }
-
-    if (park.lit) {
-
-        popup += `
-            <div class="map-skatepark-popup-meta">
-                Beleuchtung: ${escapeHtml(park.lit)}
-            </div>
-        `;
-    }
-
-    popup += `
-            <button
-                type="button"
-                class="map-skatepark-directions"
-                data-lat="${park.lat}"
-                data-lng="${park.lng}"
-            >
-                Route mit Google Maps
-            </button>
-
-        </div>
-    `;
-
-    marker.bindPopup(popup);
-
-    marker.on("popupopen", () => {
-
-        const button =
-            document.querySelector(
-                `.map-skatepark-directions[data-lat="${park.lat}"][data-lng="${park.lng}"]`
-            );
-
-        if (!button) {
-            return;
-        }
-
-        button.onclick = () => {
-
-            const url =
-                `https://www.google.com/maps/dir/?api=1&destination=${park.lat},${park.lng}`;
-
-            window.open(
-                url,
-                "_blank",
-                "noopener,noreferrer"
-            );
-        };
-    });
-
-    return marker;
-}
-
-
-// ============================================================
-// OVERPASS
-// ============================================================
-
-const OVERPASS_SERVERS = [
-    "https://overpass-api.de/api/interpreter",
-    "https://overpass.kumi.systems/api/interpreter",
-    "https://overpass.private.coffee/api/interpreter"
-];
-
-
-async function fetchOverpass(query) {
-
-    let lastError = null;
-
-    for (const server of OVERPASS_SERVERS) {
-
-        try {
-
-            const controller =
-                new AbortController();
-
-            const timeout =
-                setTimeout(
-                    () => controller.abort(),
-                    30000
-                );
-
-            const response =
-                await fetch(
-                    server,
-                    {
-                        method: "POST",
-                        body: query,
-                        signal: controller.signal,
-                        headers: {
-                            "Content-Type":
-                                "text/plain;charset=UTF-8"
-                        }
-                    }
-                );
-
-            clearTimeout(timeout);
-
-            if (!response.ok) {
-                throw new Error(
-                    `Overpass HTTP ${response.status}`
-                );
-            }
-
-            return await response.json();
-
-        } catch (error) {
-
-            lastError = error;
-            console.warn(
-                "Overpass Server fehlgeschlagen:",
-                server,
-                error
-            );
+    function clearSearchResults() {
+        if (searchSuggestions) {
+            searchSuggestions.innerHTML = "";
+            searchSuggestions.hidden = true;
         }
     }
 
-    throw (
-        lastError ||
-        new Error(
-            "Kein Overpass-Server erreichbar."
-        )
-    );
-}
+    function clearResults() {
+        if (resultsList) {
+            resultsList.innerHTML = "";
+        }
 
-
-// ============================================================
-// ORTSSUCHE
-// ============================================================
-
-async function geocode(query) {
-
-    const cleanQuery =
-        query.trim();
-
-    if (!cleanQuery) {
-        return [];
+        if (resultsCount) {
+            resultsCount.textContent = "0";
+        }
     }
 
-    try {
+    function googleMapsLink(lat, lon) {
+        return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+    }
+
+    // ------------------------------------------------------------
+    // AKTUELLER SUCHORT
+    // ------------------------------------------------------------
+
+    let selectedLocation = null;
+
+    // ------------------------------------------------------------
+    // NOMINATIM – ORTSSUCHE
+    // ------------------------------------------------------------
+
+    async function searchPlace(query) {
+        const text = query.trim();
+
+        if (!text) {
+            status("Bitte einen Ort eingeben.", "error");
+            return [];
+        }
+
+        status(`Suche nach „${text}“…`, "loading");
 
         const url =
-            "https://nominatim.openstreetmap.org/search?" +
-            new URLSearchParams({
-                q: cleanQuery,
-                format: "jsonv2",
-                limit: "5",
-                addressdetails: "1"
-            });
+            "https://nominatim.openstreetmap.org/search" +
+            "?format=jsonv2" +
+            "&addressdetails=1" +
+            "&limit=8" +
+            "&accept-language=de" +
+            "&q=" +
+            encodeURIComponent(text);
 
-        const response =
-            await fetch(url, {
+        try {
+            const response = await fetch(url, {
                 headers: {
                     "Accept": "application/json"
                 }
             });
 
-        if (response.ok) {
-
-            const data =
-                await response.json();
-
-            if (data.length) {
-                return data;
+            if (!response.ok) {
+                throw new Error(`Nominatim HTTP ${response.status}`);
             }
-        }
 
-    } catch (error) {
+            const data = await response.json();
 
-        console.warn(
-            "Ortssuche fehlgeschlagen:",
-            error
-        );
-    }
-
-    return [];
-}
-
-
-// ============================================================
-// ORT AUSWÄHLEN
-// ============================================================
-
-function selectSearchResult(result) {
-
-    const lat =
-        Number(result.lat);
-
-    const lng =
-        Number(result.lon);
-
-    if (
-        !Number.isFinite(lat) ||
-        !Number.isFinite(lng)
-    ) {
-        return;
-    }
-
-    lastSearchLocation = {
-        lat,
-        lng
-    };
-
-    searchMarkerLayer.clearLayers();
-
-    const marker =
-        L.marker([lat, lng])
-            .addTo(searchMarkerLayer);
-
-    marker.bindPopup(
-        escapeHtml(
-            result.display_name ||
-            "Suchort"
-        )
-    );
-
-    marker.openPopup();
-
-    map.flyTo(
-        [lat, lng],
-        12,
-        {
-            duration: 0.8
-        }
-    );
-
-    const suggestions =
-        document.getElementById(
-            "searchSuggestions"
-        );
-
-    if (suggestions) {
-        suggestions.innerHTML = "";
-        suggestions.hidden = true;
-    }
-
-    setStatus(
-        "Ort gefunden. Du kannst jetzt Skateparks suchen.",
-        "success"
-    );
-}
-
-
-// ============================================================
-// HAUPTSUCHE
-// ============================================================
-
-const mainSearch =
-    document.getElementById("mainSearch");
-
-const mainSearchButton =
-    document.getElementById(
-        "mainSearchButton"
-    );
-
-const searchSuggestions =
-    document.getElementById(
-        "searchSuggestions"
-    );
-
-
-async function performMainSearch() {
-
-    const value =
-        mainSearch?.value.trim();
-
-    if (!value) {
-
-        setStatus(
-            "Bitte einen Ort eingeben.",
-            "error"
-        );
-
-        return;
-    }
-
-    setStatus(
-        "Ort wird gesucht …",
-        "loading"
-    );
-
-    const results =
-        await geocode(value);
-
-    if (!results.length) {
-
-        setStatus(
-            "Ort wurde nicht gefunden.",
-            "error"
-        );
-
-        return;
-    }
-
-    if (results.length === 1) {
-
-        selectSearchResult(
-            results[0]
-        );
-
-        return;
-    }
-
-    if (searchSuggestions) {
-
-        searchSuggestions.innerHTML =
-            results.map(
-                (result, index) => `
-                    <button
-                        type="button"
-                        class="map-search-suggestion"
-                        data-index="${index}"
-                    >
-                        ${escapeHtml(
-                            result.display_name
-                        )}
-                    </button>
-                `
-            ).join("");
-
-        searchSuggestions.hidden = false;
-
-        searchSuggestions
-            .querySelectorAll(
-                ".map-search-suggestion"
-            )
-            .forEach(button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const index =
-                            Number(
-                                button.dataset.index
-                            );
-
-                        selectSearchResult(
-                            results[index]
-                        );
-                    }
-                );
-            });
-    }
-
-    setStatus(
-        "Bitte einen Ort aus den Vorschlägen auswählen.",
-        ""
-    );
-}
-
-
-if (mainSearchButton) {
-
-    mainSearchButton.addEventListener(
-        "click",
-        performMainSearch
-    );
-}
-
-
-if (mainSearch) {
-
-    mainSearch.addEventListener(
-        "keydown",
-        event => {
-
-            if (event.key === "Enter") {
-
-                event.preventDefault();
-
-                performMainSearch();
+            if (!Array.isArray(data) || data.length === 0) {
+                status("Kein Ort gefunden.", "error");
+                return [];
             }
+
+            status(`${data.length} Ort${data.length === 1 ? "" : "e"} gefunden.`, "success");
+
+            return data;
+
+        } catch (error) {
+            console.error("Ortssuche Fehler:", error);
+            status("Ortssuche konnte nicht geladen werden.", "error");
+            return [];
         }
-    );
-}
+    }
 
+    // ------------------------------------------------------------
+    // ORT AUSWÄHLEN
+    // ------------------------------------------------------------
 
-// ============================================================
-// SKATEPARK-SUCHE
-// ============================================================
+    function selectPlace(place) {
+        const lat = Number(place.lat);
+        const lon = Number(place.lon);
 
-async function searchSkateparks() {
-
-    if (!lastSearchLocation) {
-
-        // Falls noch kein Ort ausgewählt wurde,
-        // versuchen wir automatisch die Hauptsuche.
-
-        await performMainSearch();
-
-        if (!lastSearchLocation) {
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
             return;
         }
+
+        const name =
+            place.display_name ||
+            place.name ||
+            "Gesuchter Ort";
+
+        selectedLocation = {
+            lat,
+            lon,
+            name
+        };
+
+        searchLayer.clearLayers();
+
+        const marker = L.marker([lat, lon]);
+
+        marker.bindPopup(`
+            <strong>${escapeHtml(place.name || name)}</strong>
+            <br>
+            ${escapeHtml(name)}
+        `);
+
+        marker.addTo(searchLayer);
+        marker.openPopup();
+
+        map.flyTo([lat, lon], 12, {
+            duration: 1
+        });
+
+        clearSearchResults();
+
+        status(
+            `Ort ausgewählt: ${place.name || name}`,
+            "success"
+        );
     }
 
-    const radius =
-        Math.min(
-            Number(
-                document.getElementById(
-                    "skateparkRadius"
-                )?.value || 15
-            ),
+    // ------------------------------------------------------------
+    // ORTSSUCHE BUTTON
+    // ------------------------------------------------------------
+
+    async function performMainSearch() {
+        const query = mainSearch?.value?.trim();
+
+        if (!query) {
+            status("Bitte zuerst einen Ort eingeben.", "error");
+
+            if (mainSearch) {
+                mainSearch.focus();
+            }
+
+            return;
+        }
+
+        clearSearchResults();
+
+        const places = await searchPlace(query);
+
+        if (!places.length) {
+            return;
+        }
+
+        // Bei genau einem Treffer direkt auswählen
+        if (places.length === 1) {
+            selectPlace(places[0]);
+            return;
+        }
+
+        // Mehrere Treffer anzeigen
+        if (searchSuggestions) {
+            searchSuggestions.innerHTML = "";
+
+            places.forEach((place) => {
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.className = "map-search-suggestion";
+
+                button.innerHTML = `
+                    <strong>${escapeHtml(place.name || "Ort")}</strong>
+                    <span>${escapeHtml(place.display_name || "")}</span>
+                `;
+
+                button.addEventListener("click", () => {
+                    selectPlace(place);
+                });
+
+                searchSuggestions.appendChild(button);
+            });
+
+            searchSuggestions.hidden = false;
+        }
+
+        status("Bitte einen Suchtreffer auswählen.", "success");
+    }
+
+    // Button
+    if (mainSearchButton) {
+        mainSearchButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            performMainSearch();
+        });
+    }
+
+    // Enter
+    if (mainSearch) {
+        mainSearch.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                performMainSearch();
+            }
+        });
+    }
+
+    // ------------------------------------------------------------
+    // OVERPASS
+    // ------------------------------------------------------------
+
+    const overpassServers = [
+        "https://overpass-api.de/api/interpreter",
+        "https://overpass.kumi.systems/api/interpreter",
+        "https://overpass.private.coffee/api/interpreter"
+    ];
+
+    async function overpassRequest(query) {
+        let lastError = null;
+
+        for (const server of overpassServers) {
+            const controller = new AbortController();
+
+            const timeout = setTimeout(() => {
+                controller.abort();
+            }, 30000);
+
+            try {
+                const response = await fetch(server, {
+                    method: "POST",
+                    body: query,
+                    headers: {
+                        "Content-Type": "text/plain;charset=UTF-8"
+                    },
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeout);
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Overpass HTTP ${response.status}`
+                    );
+                }
+
+                return await response.json();
+
+            } catch (error) {
+                clearTimeout(timeout);
+                lastError = error;
+
+                console.warn(
+                    "Overpass Server nicht erreichbar:",
+                    server,
+                    error
+                );
+            }
+        }
+
+        throw lastError || new Error("Kein Overpass Server erreichbar.");
+    }
+
+    // ------------------------------------------------------------
+    // SKATEPARK DATEN
+    // ------------------------------------------------------------
+
+    function getElementCoordinates(element) {
+        if (
+            element.type === "node" &&
+            Number.isFinite(Number(element.lat)) &&
+            Number.isFinite(Number(element.lon))
+        ) {
+            return {
+                lat: Number(element.lat),
+                lon: Number(element.lon)
+            };
+        }
+
+        if (
+            element.center &&
+            Number.isFinite(Number(element.center.lat)) &&
+            Number.isFinite(Number(element.center.lon))
+        ) {
+            return {
+                lat: Number(element.center.lat),
+                lon: Number(element.center.lon)
+            };
+        }
+
+        return null;
+    }
+
+    function normalizeSkateparks(elements) {
+        const parks = [];
+        const seen = new Set();
+
+        for (const element of elements) {
+            const coords = getElementCoordinates(element);
+
+            if (!coords) continue;
+
+            const tags = element.tags || {};
+
+            const name =
+                tags.name ||
+                tags["name:de"] ||
+                "Skatepark";
+
+            const key =
+                `${name.toLowerCase()}_${coords.lat.toFixed(5)}_${coords.lon.toFixed(5)}`;
+
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+
+            parks.push({
+                id: `${element.type}/${element.id}`,
+                name,
+                lat: coords.lat,
+                lon: coords.lon,
+                tags
+            });
+        }
+
+        return parks;
+    }
+
+    // ------------------------------------------------------------
+    // SKATEPARK SUCHEN
+    // ------------------------------------------------------------
+
+    async function searchSkateparks() {
+        // Falls noch kein Ort ausgewählt wurde:
+        if (!selectedLocation) {
+            const query = mainSearch?.value?.trim();
+
+            if (!query) {
+                status(
+                    "Bitte zuerst einen Ort suchen.",
+                    "error"
+                );
+
+                mainSearch?.focus();
+                return;
+            }
+
+            const places = await searchPlace(query);
+
+            if (!places.length) {
+                return;
+            }
+
+            // Besten/ersten Treffer verwenden
+            selectPlace(places[0]);
+        }
+
+        if (!selectedLocation) {
+            status(
+                "Es wurde kein Suchort ausgewählt.",
+                "error"
+            );
+            return;
+        }
+
+        const radius = Math.min(
+            Number(skateparkRadius?.value || 25),
             25
         );
 
-    const limit =
-        Math.min(
-            Number(
-                document.getElementById(
-                    "skateparkLimit"
-                )?.value || 20
-            ),
+        const limit = Math.min(
+            Number(skateparkLimit?.value || 30),
             30
         );
 
-    skateparkLayer.clearLayers();
-    clearResults();
+        const lat = selectedLocation.lat;
+        const lon = selectedLocation.lon;
 
-    setStatus(
-        "Skateparks werden gesucht …",
-        "loading"
-    );
+        status(
+            `Suche Skateparks rund um ${selectedLocation.name}…`,
+            "loading"
+        );
 
-    const query = `
+        skateparkLayer.clearLayers();
+        clearResults();
+
+        const query = `
 [out:json][timeout:25];
 
 (
-    node["leisure"="skatepark"]
-        (around:${radius * 1000},${lastSearchLocation.lat},${lastSearchLocation.lng});
-
-    way["leisure"="skatepark"]
-        (around:${radius * 1000},${lastSearchLocation.lat},${lastSearchLocation.lng});
-
-    relation["leisure"="skatepark"]
-        (around:${radius * 1000},${lastSearchLocation.lat},${lastSearchLocation.lng});
-
-    node["leisure"="skate_park"]
-        (around:${radius * 1000},${lastSearchLocation.lat},${lastSearchLocation.lng});
-
-    way["leisure"="skate_park"]
-        (around:${radius * 1000},${lastSearchLocation.lat},${lastSearchLocation.lng});
-
-    relation["leisure"="skate_park"]
-        (around:${radius * 1000},${lastSearchLocation.lat},${lastSearchLocation.lng});
+  nwr["leisure"="skatepark"](around:${radius * 1000},${lat},${lon});
+  nwr["leisure"="skate_park"](around:${radius * 1000},${lat},${lon});
 );
 
 out center tags;
 `;
 
-    try {
+        try {
+            const data = await overpassRequest(query);
 
-        const data =
-            await fetchOverpass(query);
+            let parks = normalizeSkateparks(
+                data.elements || []
+            );
 
-        const unique =
-            new Map();
+            // Entfernung berechnen
+            parks.forEach((park) => {
+                park.distance = distanceKm(
+                    lat,
+                    lon,
+                    park.lat,
+                    park.lon
+                );
+            });
 
-        for (
-            const element
-            of data.elements || []
-        ) {
+            // Sortierung
+            const sortMode = skateparkSort?.value || "distance";
 
-            let lat =
-                element.lat;
-
-            let lng =
-                element.lon;
-
-            if (
-                (lat == null || lng == null) &&
-                element.center
-            ) {
-
-                lat =
-                    element.center.lat;
-
-                lng =
-                    element.center.lon;
+            if (sortMode === "distance") {
+                parks.sort((a, b) => a.distance - b.distance);
+            } else {
+                // Für Größe/Qualität gibt es in OSM keine
+                // einheitliche weltweite Bewertung.
+                // Deshalb bleibt die Entfernung als
+                // nachvollziehbare Ersatzsortierung.
+                parks.sort((a, b) => a.distance - b.distance);
             }
 
-            if (
-                lat == null ||
-                lng == null
-            ) {
-                continue;
+            parks = parks.slice(0, limit);
+
+            if (!parks.length) {
+                status(
+                    `Keine Skateparks innerhalb von ${radius} km gefunden.`,
+                    "success"
+                );
+
+                if (resultsTitle) {
+                    resultsTitle.textContent = "Skateparks";
+                }
+
+                return;
             }
 
-            const tags =
-                element.tags || {};
+            // ----------------------------------------------------
+            // MARKER
+            // ----------------------------------------------------
 
-            const park = {
+            parks.forEach((park, index) => {
+                const marker = L.marker(
+                    [park.lat, park.lon],
+                    {
+                        title: park.name
+                    }
+                );
 
-                id:
-                    `${element.type}/${element.id}`,
+                const surface =
+                    park.tags.surface ||
+                    park.tags["surface:material"] ||
+                    "Keine Angabe";
 
-                name:
-                    tags.name ||
-                    tags["name:de"] ||
-                    "Skatepark",
+                const lit =
+                    park.tags.lit === "yes"
+                        ? "Ja"
+                        : park.tags.lit === "no"
+                            ? "Nein"
+                            : "Keine Angabe";
 
-                lat,
-                lng,
+                marker.bindPopup(`
+                    <div class="map-skatepark-popup">
+                        <h3>${escapeHtml(park.name)}</h3>
 
-                city:
-                    tags["addr:city"] ||
-                    "",
-
-                country:
-                    tags["addr:country"] ||
-                    "",
-
-                surface:
-                    tags.surface ||
-                    "",
-
-                lit:
-                    tags.lit ||
-                    "",
-
-                distance:
-                    distanceKm(
-                        lastSearchLocation.lat,
-                        lastSearchLocation.lng,
-                        lat,
-                        lng
-                    )
-            };
-
-            const key =
-                `${park.name.toLowerCase()}|` +
-                `${park.lat.toFixed(5)}|` +
-                `${park.lng.toFixed(5)}`;
-
-            if (!unique.has(key)) {
-                unique.set(key, park);
-            }
-        }
-
-        let parks =
-            [...unique.values()];
-
-        parks.sort(
-            (a, b) =>
-                a.distance - b.distance
-        );
-
-        parks =
-            parks.slice(0, limit);
-
-        displaySkateparks(parks);
-
-    } catch (error) {
-
-        console.error(error);
-
-        setStatus(
-            "Skateparks konnten gerade nicht geladen werden.",
-            "error"
-        );
-    }
-}
-
-
-function displaySkateparks(parks) {
-
-    const resultsList =
-        document.getElementById(
-            "resultsList"
-        );
-
-    const resultsCount =
-        document.getElementById(
-            "resultsCount"
-        );
-
-    showResults();
-
-    if (resultsCount) {
-        resultsCount.textContent =
-            String(parks.length);
-    }
-
-    if (!parks.length) {
-
-        if (resultsList) {
-
-            resultsList.innerHTML = `
-                <div class="map-skatepark-empty">
-                    Keine Skateparks im gewählten Radius gefunden.
-                </div>
-            `;
-        }
-
-        setStatus(
-            "Keine Skateparks gefunden.",
-            ""
-        );
-
-        return;
-    }
-
-    if (resultsList) {
-
-        resultsList.innerHTML =
-            parks.map(
-                (park, index) => `
-                    <button
-                        type="button"
-                        class="map-skatepark-result"
-                        data-index="${index}"
-                    >
-
-                        <span class="map-skatepark-result-name">
-                            ${escapeHtml(park.name)}
-                        </span>
-
-                        <span class="map-skatepark-result-distance">
+                        <p>
+                            <strong>Entfernung:</strong>
                             ${park.distance.toFixed(1)} km
+                        </p>
+
+                        <p>
+                            <strong>Untergrund:</strong>
+                            ${escapeHtml(surface)}
+                        </p>
+
+                        <p>
+                            <strong>Beleuchtung:</strong>
+                            ${escapeHtml(lit)}
+                        </p>
+
+                        <a
+                            href="${googleMapsLink(park.lat, park.lon)}"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Route mit Google Maps
+                        </a>
+                    </div>
+                `);
+
+                marker.addTo(skateparkLayer);
+            });
+
+            // ----------------------------------------------------
+            // ERGEBNISLISTE
+            // ----------------------------------------------------
+
+            if (resultsTitle) {
+                resultsTitle.textContent =
+                    `Skateparks rund um ${selectedLocation.name}`;
+            }
+
+            if (resultsCount) {
+                resultsCount.textContent = parks.length;
+            }
+
+            if (resultsList) {
+                resultsList.innerHTML = "";
+
+                parks.forEach((park) => {
+                    const item = document.createElement("button");
+
+                    item.type = "button";
+                    item.className = "map-skatepark-result";
+
+                    item.innerHTML = `
+                        <strong>
+                            ${escapeHtml(park.name)}
+                        </strong>
+
+                        <span>
+                            ${park.distance.toFixed(1)} km entfernt
                         </span>
+                    `;
 
-                    </button>
-                `
-            ).join("");
-
-        resultsList
-            .querySelectorAll(
-                ".map-skatepark-result"
-            )
-            .forEach(button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const park =
-                            parks[
-                                Number(
-                                    button.dataset.index
-                                )
-                            ];
-
+                    item.addEventListener("click", () => {
                         map.flyTo(
-                            [park.lat, park.lng],
+                            [park.lat, park.lon],
                             16,
                             {
                                 duration: 0.8
                             }
                         );
 
-                        skateparkLayer.eachLayer(
-                            layer => {
-
-                                const position =
-                                    layer.getLatLng();
-
-                                if (
-                                    Math.abs(
-                                        position.lat -
-                                        park.lat
-                                    ) < 0.00001 &&
-                                    Math.abs(
-                                        position.lng -
-                                        park.lng
-                                    ) < 0.00001
-                                ) {
-
-                                    layer.openPopup();
-                                }
+                        // passenden Marker öffnen
+                        skateparkLayer.eachLayer((layer) => {
+                            if (
+                                layer.getLatLng &&
+                                Math.abs(layer.getLatLng().lat - park.lat) < 0.00001 &&
+                                Math.abs(layer.getLatLng().lng - park.lon) < 0.00001
+                            ) {
+                                layer.openPopup();
                             }
-                        );
-                    }
-                );
+                        });
+                    });
+
+                    resultsList.appendChild(item);
+                });
+            }
+
+            // Karte auf Ergebnisse anpassen
+            const bounds = L.latLngBounds(
+                parks.map((park) => [park.lat, park.lon])
+            );
+
+            bounds.extend([lat, lon]);
+
+            map.fitBounds(bounds, {
+                padding: [60, 60],
+                maxZoom: 13
             });
-    }
 
-    for (const park of parks) {
-
-        createSkateparkMarker(park)
-            .addTo(skateparkLayer);
-    }
-
-    setStatus(
-        `${parks.length} Skateparks gefunden.`,
-        "success"
-    );
-}
-
-
-const searchSkateparksButton =
-    document.getElementById(
-        "searchSkateparks"
-    );
-
-if (searchSkateparksButton) {
-
-    searchSkateparksButton.addEventListener(
-        "click",
-        searchSkateparks
-    );
-}
-
-
-// ============================================================
-// FILTER ÄNDERN
-// ============================================================
-
-document
-    .getElementById("skateparkRadius")
-    ?.addEventListener(
-        "change",
-        () => {
-
-            if (lastSearchLocation) {
-                searchSkateparks();
-            }
-        }
-    );
-
-
-document
-    .getElementById("skateparkLimit")
-    ?.addEventListener(
-        "change",
-        () => {
-
-            if (lastSearchLocation) {
-                searchSkateparks();
-            }
-        }
-    );
-
-
-// ============================================================
-// SATELLIT
-// ============================================================
-
-const satelliteToggle =
-    document.getElementById(
-        "satelliteToggle"
-    );
-
-if (satelliteToggle) {
-
-    satelliteToggle.addEventListener(
-        "click",
-        () => {
-
-            if (map.hasLayer(osmLayer)) {
-
-                map.removeLayer(osmLayer);
-                satelliteLayer.addTo(map);
-
-                satelliteToggle
-                    .setAttribute(
-                        "aria-pressed",
-                        "true"
-                    );
-
-                satelliteToggle
-                    .querySelector("span:last-child")
-                    .textContent =
-                    "KARTE";
-
-            } else {
-
-                map.removeLayer(
-                    satelliteLayer
-                );
-
-                osmLayer.addTo(map);
-
-                satelliteToggle
-                    .setAttribute(
-                        "aria-pressed",
-                        "false"
-                    );
-
-                satelliteToggle
-                    .querySelector("span:last-child")
-                    .textContent =
-                    "SATELLIT";
-            }
-        }
-    );
-}
-
-
-// ============================================================
-// MEINE POSITION
-// ============================================================
-
-const locateMe =
-    document.getElementById(
-        "locateMe"
-    );
-
-if (locateMe) {
-
-    locateMe.addEventListener(
-        "click",
-        () => {
-
-            if (!navigator.geolocation) {
-
-                setStatus(
-                    "Standort wird von diesem Browser nicht unterstützt.",
-                    "error"
-                );
-
-                return;
-            }
-
-            setStatus(
-                "Standort wird ermittelt …",
-                "loading"
+            status(
+                `${parks.length} Skatepark${parks.length === 1 ? "" : "s"} gefunden.`,
+                "success"
             );
 
-            navigator.geolocation.getCurrentPosition(
-                position => {
+        } catch (error) {
+            console.error("Skatepark-Suche Fehler:", error);
 
-                    const lat =
-                        position.coords.latitude;
-
-                    const lng =
-                        position.coords.longitude;
-
-                    lastSearchLocation = {
-                        lat,
-                        lng
-                    };
-
-                    searchMarkerLayer.clearLayers();
-
-                    const marker =
-                        L.marker([lat, lng])
-                            .addTo(
-                                searchMarkerLayer
-                            );
-
-                    marker
-                        .bindPopup(
-                            "Dein Standort"
-                        )
-                        .openPopup();
-
-                    map.flyTo(
-                        [lat, lng],
-                        14,
-                        {
-                            duration: 0.8
-                        }
-                    );
-
-                    setStatus(
-                        "Standort gefunden.",
-                        "success"
-                    );
-                },
-
-                () => {
-
-                    setStatus(
-                        "Standort konnte nicht ermittelt werden.",
-                        "error"
-                    );
-                }
-            );
-        }
-    );
-}
-
-
-// ============================================================
-// PANEL EIN-/AUSBLENDEN
-// ============================================================
-
-const panel =
-    document.getElementById(
-        "mapPanel"
-    );
-
-const panelOpen =
-    document.getElementById(
-        "mapPanelOpen"
-    );
-
-const panelToggle =
-    document.getElementById(
-        "mapPanelToggle"
-    );
-
-
-function closePanel() {
-
-    if (panel) {
-        panel.classList.add(
-            "is-collapsed"
-        );
-    }
-
-    if (panelOpen) {
-        panelOpen.hidden = false;
-    }
-
-    if (panelToggle) {
-        panelToggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-    }
-
-    setTimeout(
-        () => map.invalidateSize(),
-        250
-    );
-}
-
-
-function openPanel() {
-
-    if (panel) {
-        panel.classList.remove(
-            "is-collapsed"
-        );
-    }
-
-    if (panelOpen) {
-        panelOpen.hidden = true;
-    }
-
-    if (panelToggle) {
-        panelToggle.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-    }
-
-    setTimeout(
-        () => map.invalidateSize(),
-        250
-    );
-}
-
-
-panelToggle?.addEventListener(
-    "click",
-    closePanel
-);
-
-panelOpen?.addEventListener(
-    "click",
-    openPanel
-);
-
-
-// ============================================================
-// ROUTE EIN-/AUSBLENDEN
-// ============================================================
-
-const routeToggle =
-    document.getElementById(
-        "routeToggle"
-    );
-
-const routeContent =
-    document.getElementById(
-        "routeContent"
-    );
-
-
-routeToggle?.addEventListener(
-    "click",
-    () => {
-
-        const collapsed =
-            routeContent.classList.toggle(
-                "is-collapsed"
-            );
-
-        routeToggle
-            .setAttribute(
-                "aria-expanded",
-                String(!collapsed)
-            );
-
-        routeToggle.textContent =
-            collapsed
-                ? "EINBLENDEN"
-                : "AUSBLENDEN";
-    }
-);
-
-
-// ============================================================
-// SKATEPARK-BEREICH EIN-/AUSBLENDEN
-// ============================================================
-
-const skateparkToggle =
-    document.getElementById(
-        "skateparkToggle"
-    );
-
-const skateparkContent =
-    document.getElementById(
-        "skateparkContent"
-    );
-
-
-skateparkToggle?.addEventListener(
-    "click",
-    () => {
-
-        const collapsed =
-            skateparkContent.classList.toggle(
-                "is-collapsed"
-            );
-
-        skateparkToggle
-            .setAttribute(
-                "aria-expanded",
-                String(!collapsed)
-            );
-
-        skateparkToggle.textContent =
-            collapsed
-                ? "EINBLENDEN"
-                : "AUSBLENDEN";
-    }
-);
-
-
-// ============================================================
-// ZWISCHENSTOPP
-// ============================================================
-
-const addRouteStop =
-    document.getElementById(
-        "addRouteStop"
-    );
-
-const routePoints =
-    document.getElementById(
-        "routePoints"
-    );
-
-
-let stopNumber = 1;
-
-
-addRouteStop?.addEventListener(
-    "click",
-    () => {
-
-        const existingStops =
-            routePoints.querySelectorAll(
-                ".route-point"
-            ).length;
-
-        if (existingStops >= 8) {
-
-            setStatus(
-                "Maximal 8 Routenpunkte möglich.",
+            status(
+                "Die Skatepark-Daten konnten nicht geladen werden.",
                 "error"
             );
 
+            if (resultsList) {
+                resultsList.innerHTML = `
+                    <div class="map-skatepark-empty">
+                        <strong>Fehler beim Laden</strong>
+                        <p>
+                            Der OpenStreetMap-Dienst antwortet gerade nicht.
+                            Bitte versuche es in ein paar Sekunden erneut.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+    }
+
+    if (searchSkateparksButton) {
+        searchSkateparksButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            searchSkateparks();
+        });
+    }
+
+    // Änderungen an Radius / Anzahl
+    if (skateparkRadius) {
+        skateparkRadius.addEventListener("change", () => {
+            if (selectedLocation) {
+                searchSkateparks();
+            }
+        });
+    }
+
+    if (skateparkLimit) {
+        skateparkLimit.addEventListener("change", () => {
+            if (selectedLocation) {
+                searchSkateparks();
+            }
+        });
+    }
+
+    if (skateparkSort) {
+        skateparkSort.addEventListener("change", () => {
+            if (selectedLocation) {
+                searchSkateparks();
+            }
+        });
+    }
+
+    // ------------------------------------------------------------
+    // ROUTE
+    // ------------------------------------------------------------
+
+    function getRouteInputs() {
+        return Array.from(
+            document.querySelectorAll(
+                "#routePoints .route-input"
+            )
+        );
+    }
+
+    function addRouteInput(value = "") {
+        const inputs = getRouteInputs();
+
+        if (inputs.length >= 8) {
+            status(
+                "Maximal 8 Routenpunkte möglich.",
+                "error"
+            );
             return;
         }
 
-        const point =
-            document.createElement("div");
+        const wrapper = document.createElement("div");
 
-        point.className =
-            "route-point";
+        wrapper.className = "route-point";
 
-        point.dataset.routeIndex =
-            existingStops;
-
-        point.innerHTML = `
-
-            <span class="route-point-marker">
-                ${existingStops}
-            </span>
-
+        wrapper.innerHTML = `
             <input
-                class="route-input"
                 type="text"
+                class="route-input"
+                data-route-input
                 placeholder="Zwischenstopp"
-                autocomplete="off"
-                spellcheck="false"
+                value="${escapeHtml(value)}"
             >
-
             <button
-                class="route-remove-point"
                 type="button"
+                class="route-remove"
                 aria-label="Zwischenstopp entfernen"
             >
                 ×
             </button>
         `;
 
-        routePoints.insertBefore(
-            point,
-            routePoints.lastElementChild
-        );
+        // Vor den letzten Punkt setzen
+        const currentInputs = getRouteInputs();
 
-        point
-            .querySelector(
-                ".route-remove-point"
-            )
-            .addEventListener(
-                "click",
-                () => {
+        if (currentInputs.length > 0) {
+            const lastPoint =
+                currentInputs[currentInputs.length - 1]
+                    .closest(".route-point");
 
-                    point.remove();
-                }
+            routePoints.insertBefore(
+                wrapper,
+                lastPoint
             );
-    }
-);
-
-
-// ============================================================
-// ROUTE BERECHNEN
-// ============================================================
-
-async function calculateRoute() {
-
-    const inputs =
-        Array.from(
-            document.querySelectorAll(
-                ".route-input"
-            )
-        );
-
-    const values =
-        inputs
-            .map(input =>
-                input.value.trim()
-            )
-            .filter(Boolean);
-
-    if (values.length < 2) {
-
-        setStatus(
-            "Bitte Start und Ziel eingeben.",
-            "error"
-        );
-
-        return;
-    }
-
-    setStatus(
-        "Route wird berechnet …",
-        "loading"
-    );
-
-    const points = [];
-
-    for (const value of values) {
-
-        const results =
-            await geocode(value);
-
-        if (!results.length) {
-
-            setStatus(
-                `Ort nicht gefunden: ${value}`,
-                "error"
-            );
-
-            return;
+        } else {
+            routePoints.appendChild(wrapper);
         }
 
-        points.push({
-            lat:
-                Number(results[0].lat),
+        const removeButton =
+            wrapper.querySelector(".route-remove");
 
-            lng:
-                Number(results[0].lon)
+        removeButton.addEventListener("click", () => {
+            wrapper.remove();
         });
     }
 
-    const coordinates =
-        points
-            .map(
-                point =>
-                    `${point.lng},${point.lat}`
-            )
-            .join(";");
+    if (addRouteStop) {
+        addRouteStop.addEventListener("click", (event) => {
+            event.preventDefault();
+            addRouteInput();
+        });
+    }
 
-    const url =
-        `https://router.project-osrm.org/route/v1/driving/${coordinates}` +
-        "?overview=full&geometries=geojson";
+    async function geocodeRoutePoint(value) {
+        const results = await searchPlace(value);
 
-    try {
-
-        const response =
-            await fetch(url);
-
-        if (!response.ok) {
+        if (!results.length) {
             throw new Error(
-                "OSRM Fehler"
+                `Ort nicht gefunden: ${value}`
             );
         }
 
-        const data =
-            await response.json();
+        return {
+            lat: Number(results[0].lat),
+            lon: Number(results[0].lon),
+            name: results[0].display_name
+        };
+    }
 
-        if (
-            data.code !== "Ok" ||
-            !data.routes?.length
-        ) {
+    async function calculateRoute() {
+        const inputs = getRouteInputs();
 
-            throw new Error(
-                "Keine Route gefunden"
+        const values = inputs
+            .map((input) => input.value.trim())
+            .filter(Boolean);
+
+        if (values.length < 2) {
+            status(
+                "Bitte mindestens Start und Ziel eingeben.",
+                "error"
             );
+            return;
         }
 
-        currentRoute =
-            data.routes[0];
+        status(
+            "Route wird berechnet…",
+            "loading"
+        );
 
         routeLayer.clearLayers();
 
-        const routeGeoJson =
-            L.geoJSON(
-                currentRoute.geometry,
+        try {
+            const points = [];
+
+            for (const value of values) {
+                const point = await geocodeRoutePoint(value);
+                points.push(point);
+            }
+
+            const coordinates = points
+                .map((point) => `${point.lon},${point.lat}`)
+                .join(";");
+
+            const url =
+                "https://router.project-osrm.org/route/v1/driving/" +
+                coordinates +
+                "?overview=full&geometries=geojson";
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(
+                    `OSRM HTTP ${response.status}`
+                );
+            }
+
+            const data = await response.json();
+
+            if (
+                data.code !== "Ok" ||
+                !data.routes ||
+                !data.routes.length
+            ) {
+                throw new Error(
+                    "Keine Route gefunden."
+                );
+            }
+
+            const route = data.routes[0];
+
+            const line = L.geoJSON(
+                route.geometry,
                 {
                     style: {
-                        weight: 5,
-                        opacity: 0.85
+                        weight: 6
                     }
                 }
-            ).addTo(routeLayer);
+            );
 
-        map.fitBounds(
-            routeGeoJson.getBounds(),
-            {
-                padding: [40, 40]
-            }
-        );
+            line.addTo(routeLayer);
 
-        setStatus(
-            `Route: ${(currentRoute.distance / 1000).toFixed(1)} km · ` +
-            `${Math.round(currentRoute.duration / 60)} min`,
-            "success"
-        );
+            map.fitBounds(
+                line.getBounds(),
+                {
+                    padding: [50, 50]
+                }
+            );
 
-    } catch (error) {
+            const distance =
+                route.distance / 1000;
 
-        console.error(error);
+            const duration =
+                Math.round(route.duration / 60);
 
-        setStatus(
-            "Route konnte nicht berechnet werden.",
-            "error"
-        );
-    }
-}
+            status(
+                `Route: ${distance.toFixed(1)} km · ca. ${duration} Min.`,
+                "success"
+            );
 
+        } catch (error) {
+            console.error("Routenfehler:", error);
 
-document
-    .getElementById("calculateRoute")
-    ?.addEventListener(
-        "click",
-        calculateRoute
-    );
-
-
-// ============================================================
-// ROUTE ZURÜCKSETZEN
-// ============================================================
-
-document
-    .getElementById("clearRoute")
-    ?.addEventListener(
-        "click",
-        () => {
-
-            routeLayer.clearLayers();
-            skateparkLayer.clearLayers();
-
-            currentRoute = null;
-
-            document
-                .querySelectorAll(
-                    ".route-input"
-                )
-                .forEach(input => {
-                    input.value = "";
-                });
-
-            clearResults();
-
-            setStatus(
-                "Bereit.",
-                ""
+            status(
+                "Die Route konnte nicht berechnet werden.",
+                "error"
             );
         }
+    }
+
+    if (calculateRouteButton) {
+        calculateRouteButton.addEventListener(
+            "click",
+            (event) => {
+                event.preventDefault();
+                calculateRoute();
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // ROUTE LEEREN
+    // ------------------------------------------------------------
+
+    function clearRoute() {
+        routeLayer.clearLayers();
+
+        const inputs = getRouteInputs();
+
+        inputs.forEach((input, index) => {
+            if (index === 0 || index === inputs.length - 1) {
+                input.value = "";
+            } else {
+                input.closest(".route-point")?.remove();
+            }
+        });
+
+        status(
+            "Route zurückgesetzt.",
+            "normal"
+        );
+    }
+
+    if (clearRouteButton) {
+        clearRouteButton.addEventListener(
+            "click",
+            (event) => {
+                event.preventDefault();
+                clearRoute();
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // SATELLIT
+    // ------------------------------------------------------------
+
+    if (satelliteToggle) {
+        satelliteToggle.addEventListener(
+            "click",
+            (event) => {
+                event.preventDefault();
+
+                if (map.hasLayer(osmLayer)) {
+                    map.removeLayer(osmLayer);
+                    satelliteLayer.addTo(map);
+
+                    satelliteToggle.classList.add(
+                        "active"
+                    );
+                } else {
+                    map.removeLayer(satelliteLayer);
+                    osmLayer.addTo(map);
+
+                    satelliteToggle.classList.remove(
+                        "active"
+                    );
+                }
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // STANDORT DES BENUTZERS
+    // ------------------------------------------------------------
+
+    if (locateMe) {
+        locateMe.addEventListener(
+            "click",
+            (event) => {
+                event.preventDefault();
+
+                if (!navigator.geolocation) {
+                    status(
+                        "Dein Browser unterstützt keine Standortbestimmung.",
+                        "error"
+                    );
+                    return;
+                }
+
+                status(
+                    "Standort wird ermittelt…",
+                    "loading"
+                );
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat =
+                            position.coords.latitude;
+
+                        const lon =
+                            position.coords.longitude;
+
+                        selectedLocation = {
+                            lat,
+                            lon,
+                            name: "Mein Standort"
+                        };
+
+                        searchLayer.clearLayers();
+
+                        L.marker([lat, lon])
+                            .bindPopup(
+                                "<strong>Mein Standort</strong>"
+                            )
+                            .addTo(searchLayer)
+                            .openPopup();
+
+                        map.flyTo(
+                            [lat, lon],
+                            14,
+                            {
+                                duration: 1
+                            }
+                        );
+
+                        status(
+                            "Dein Standort wurde gefunden.",
+                            "success"
+                        );
+                    },
+                    (error) => {
+                        console.error(
+                            "Geolocation:",
+                            error
+                        );
+
+                        status(
+                            "Dein Standort konnte nicht ermittelt werden.",
+                            "error"
+                        );
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 60000
+                    }
+                );
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // PANEL
+    // ------------------------------------------------------------
+
+    if (mapPanelToggle && mapPanel) {
+        mapPanelToggle.addEventListener(
+            "click",
+            () => {
+                mapPanel.classList.toggle("is-collapsed");
+            }
+        );
+    }
+
+    if (mapPanelOpen && mapPanel) {
+        mapPanelOpen.addEventListener(
+            "click",
+            () => {
+                mapPanel.classList.remove(
+                    "is-collapsed"
+                );
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // ROUTE AUF-/ZUKLAPPEN
+    // ------------------------------------------------------------
+
+    if (routeToggle && routeContent) {
+        routeToggle.addEventListener(
+            "click",
+            () => {
+                routeContent.hidden =
+                    !routeContent.hidden;
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // SKATEPARK-BEREICH AUF-/ZUKLAPPEN
+    // ------------------------------------------------------------
+
+    const skateparkToggle =
+        document.getElementById("skateparkToggle");
+
+    const skateparkContent =
+        document.getElementById("skateparkContent");
+
+    if (skateparkToggle && skateparkContent) {
+        skateparkToggle.addEventListener(
+            "click",
+            () => {
+                skateparkContent.hidden =
+                    !skateparkContent.hidden;
+            }
+        );
+    }
+
+    // ------------------------------------------------------------
+    // START
+    // ------------------------------------------------------------
+
+    status(
+        "Karte bereit.",
+        "success"
     );
 
-
-// ============================================================
-// START
-// ============================================================
-
-console.log(
-    "MOI-CY Karte erfolgreich geladen."
-);
+    console.log(
+        "MOI-CY Map: vollständig geladen"
+    );
+});
