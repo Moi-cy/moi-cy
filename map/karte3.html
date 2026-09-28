@@ -1,1 +1,764 @@
+<!DOCTYPE html>
+<html lang="de">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="MOI-CY Karte – Skateparks finden und Routen planen."
+    >
+
+    <title>MOI-CY – Karte</title>
+
+
+    <!-- =====================================================
+         BESTEHENDES WEBSITE-CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+
+    <!-- =====================================================
+         LEAFLET
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
+    >
+
+
+    <!-- =====================================================
+         KARTEN-CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="map.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         BESTEHENDER WEBSITE-HEADER
+         ===================================================== -->
+
+    <div id="site-header"></div>
+
+
+    <!-- =====================================================
+         HAUPTBEREICH
+         ===================================================== -->
+
+    <main
+        class="map-page"
+        id="mapPage"
+    >
+
+
+        <!-- =================================================
+             KARTE
+             ================================================= -->
+
+        <div
+            class="map-wrapper"
+            id="mapWrapper"
+        >
+
+            <div
+                id="map"
+                aria-label="Interaktive Karte"
+            ></div>
+
+
+            <!-- =============================================
+                 KARTEN-PANEL
+                 ============================================= -->
+
+            <aside
+                class="map-panel"
+                id="mapPanel"
+                aria-label="Kartensuche"
+            >
+
+
+                <!-- =========================================
+                     PANEL HEADER
+                     ========================================== -->
+
+                <div class="map-panel-header">
+
+
+                    <div>
+
+                        <p class="map-kicker">
+                            MOI-CY / MAP
+                        </p>
+
+
+                        <h1 class="map-title">
+                            FIND YOUR SPOT
+                        </h1>
+
+                    </div>
+
+
+                    <button
+                        id="mapPanelToggle"
+                        class="map-panel-toggle"
+                        type="button"
+                        aria-label="Suchfeld einklappen"
+                        aria-expanded="true"
+                    >
+
+                        <span></span>
+                        <span></span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     PANEL INHALT
+                     ========================================== -->
+
+                <div
+                    class="map-panel-content"
+                    id="mapPanelContent"
+                >
+
+
+                    <p class="map-intro">
+
+                        Suche Orte, plane Routen und
+                        finde Skateparks in deiner Umgebung
+                        oder entlang deiner Strecke.
+
+                    </p>
+
+
+                    <!-- =====================================
+                         EINHEITLICHE SUCHE
+                         ====================================== -->
+
+                    <section
+                        class="map-section map-search-section"
+                        aria-label="Suche"
+                    >
+
+                        <label
+                            class="map-label"
+                            for="mainSearch"
+                        >
+                            Suchen
+                        </label>
+
+
+                        <div class="map-search-row">
+
+                            <input
+                                id="mainSearch"
+                                class="map-input"
+                                type="search"
+                                placeholder="Ort, Adresse oder Ziel..."
+                                autocomplete="off"
+                                spellcheck="false"
+                            >
+
+
+                            <button
+                                id="mainSearchButton"
+                                class="map-button"
+                                type="button"
+                            >
+                                SUCHEN
+                            </button>
+
+                        </div>
+
+
+                        <!--
+                            Hier werden später Suchvorschläge
+                            aus der lokalen / Geocoding-Suche
+                            angezeigt.
+                        -->
+
+                        <div
+                            id="searchSuggestions"
+                            class="map-suggestions"
+                            hidden
+                        ></div>
+
+                    </section>
+
+
+                    <!-- =====================================
+                         ROUTE
+                         ====================================== -->
+
+                    <section
+                        class="map-section route-section"
+                        aria-label="Route planen"
+                    >
+
+
+                        <div class="section-heading">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    ROUTE
+                                </span>
+
+                                <h2>
+                                    Route planen
+                                </h2>
+
+                            </div>
+
+
+                            <button
+                                id="routeToggle"
+                                class="text-button"
+                                type="button"
+                                aria-expanded="true"
+                            >
+                                AUSBLENDEN
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="routeContent"
+                            class="route-content"
+                        >
+
+
+                            <!-- =================================
+                                 ROUTENPUNKTE
+                                 ================================== -->
+
+                            <div
+                                id="routePoints"
+                                class="route-points"
+                            >
+
+
+                                <div
+                                    class="route-point"
+                                    data-route-index="0"
+                                >
+
+                                    <span class="route-point-marker start">
+                                        A
+                                    </span>
+
+
+                                    <input
+                                        class="route-input"
+                                        type="text"
+                                        placeholder="Start"
+                                        autocomplete="off"
+                                        spellcheck="false"
+                                        data-route-input="0"
+                                    >
+
+
+                                    <button
+                                        class="route-remove-point"
+                                        type="button"
+                                        aria-label="Start entfernen"
+                                        disabled
+                                    >
+                                        ×
+                                    </button>
+
+                                </div>
+
+
+                                <div
+                                    class="route-point"
+                                    data-route-index="1"
+                                >
+
+                                    <span class="route-point-marker end">
+                                        B
+                                    </span>
+
+
+                                    <input
+                                        class="route-input"
+                                        type="text"
+                                        placeholder="Ziel"
+                                        autocomplete="off"
+                                        spellcheck="false"
+                                        data-route-input="1"
+                                    >
+
+
+                                    <button
+                                        class="route-remove-point"
+                                        type="button"
+                                        aria-label="Ziel entfernen"
+                                        disabled
+                                    >
+                                        ×
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 ZWISCHENSTOPP
+                                 ================================== -->
+
+                            <button
+                                id="addRouteStop"
+                                class="route-add-stop"
+                                type="button"
+                            >
+
+                                <span>+</span>
+
+                                ZWISCHENSTOPP HINZUFÜGEN
+
+                            </button>
+
+
+                            <!-- =================================
+                                 ROUTEN BUTTONS
+                                 ================================== -->
+
+                            <div class="route-actions">
+
+                                <button
+                                    id="calculateRoute"
+                                    class="map-button"
+                                    type="button"
+                                >
+                                    ROUTE BERECHNEN
+                                </button>
+
+
+                                <button
+                                    id="clearRoute"
+                                    class="map-button secondary"
+                                    type="button"
+                                >
+                                    ZURÜCKSETZEN
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =====================================
+                         SKATEPARK-FILTER
+                         ====================================== -->
+
+                    <section
+                        class="map-section skatepark-section"
+                        aria-label="Skateparks"
+                    >
+
+
+                        <div class="section-heading">
+
+                            <div>
+
+                                <span class="section-kicker">
+                                    SKATEPARKS
+                                </span>
+
+                                <h2>
+                                    Skateparks
+                                </h2>
+
+                            </div>
+
+
+                            <button
+                                id="skateparkToggle"
+                                class="text-button"
+                                type="button"
+                                aria-expanded="true"
+                            >
+                                AUSBLENDEN
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="skateparkContent"
+                            class="skatepark-content"
+                        >
+
+
+                            <!-- =================================
+                                 RADIUS
+                                 ================================== -->
+
+                            <div class="filter-group">
+
+                                <label
+                                    class="map-label"
+                                    for="skateparkRadius"
+                                >
+                                    Suchradius
+                                </label>
+
+
+                                <div class="select-wrapper">
+
+                                    <select
+                                        id="skateparkRadius"
+                                        class="map-select"
+                                    >
+
+                                        <option value="5">
+                                            5 km
+                                        </option>
+
+                                        <option value="10">
+                                            10 km
+                                        </option>
+
+                                        <option
+                                            value="15"
+                                            selected
+                                        >
+                                            15 km
+                                        </option>
+
+                                        <option value="25">
+                                            25 km
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 ANZAHL
+                                 ================================== -->
+
+                            <div class="filter-group">
+
+                                <label
+                                    class="map-label"
+                                    for="skateparkLimit"
+                                >
+                                    Anzahl anzeigen
+                                </label>
+
+
+                                <div class="select-wrapper">
+
+                                    <select
+                                        id="skateparkLimit"
+                                        class="map-select"
+                                    >
+
+                                        <option value="10">
+                                            10 Skateparks
+                                        </option>
+
+                                        <option
+                                            value="20"
+                                            selected
+                                        >
+                                            20 Skateparks
+                                        </option>
+
+                                        <option value="30">
+                                            30 Skateparks
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 SORTIERUNG
+                                 ================================== -->
+
+                            <div class="filter-group">
+
+                                <label
+                                    class="map-label"
+                                    for="skateparkSort"
+                                >
+                                    Sortierung
+                                </label>
+
+
+                                <div class="select-wrapper">
+
+                                    <select
+                                        id="skateparkSort"
+                                        class="map-select"
+                                    >
+
+                                        <option
+                                            value="distance"
+                                            selected
+                                        >
+                                            Entfernung
+                                        </option>
+
+                                        <option value="size">
+                                            Größere zuerst
+                                        </option>
+
+                                        <option value="quality">
+                                            Relevanz
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 SKATEPARK SUCHEN
+                                 ================================== -->
+
+                            <button
+                                id="searchSkateparks"
+                                class="map-button full"
+                                type="button"
+                            >
+                                SKATEPARKS SUCHEN
+                            </button>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =====================================
+                         STATUS
+                         ====================================== -->
+
+                    <div
+                        id="mapStatus"
+                        class="map-status"
+                        role="status"
+                        aria-live="polite"
+                    >
+
+                        <span
+                            id="mapStatusDot"
+                            class="status-dot"
+                        ></span>
+
+
+                        <span id="mapStatusText">
+
+                            Bereit.
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         ERGEBNISSE
+                         ====================================== -->
+
+                    <section
+                        id="mapResults"
+                        class="map-results"
+                        aria-label="Suchergebnisse"
+                        hidden
+                    >
+
+
+                        <div class="results-header">
+
+                            <span
+                                id="resultsTitle"
+                                class="results-title"
+                            >
+                                ERGEBNISSE
+                            </span>
+
+
+                            <span
+                                id="resultsCount"
+                                class="results-count"
+                            >
+                                0
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            id="resultsList"
+                            class="results-list"
+                        ></div>
+
+                    </section>
+
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 PANEL ÖFFNEN
+                 Wird sichtbar, wenn das Panel eingeklappt ist.
+                 ================================================= -->
+
+            <button
+                id="mapPanelOpen"
+                class="map-panel-open"
+                type="button"
+                aria-label="Kartensuche öffnen"
+                hidden
+            >
+
+                <span class="map-panel-open-icon">
+                    ☰
+                </span>
+
+                <span>
+                    SUCHE
+                </span>
+
+            </button>
+
+
+            <!-- =================================================
+                 KARTEN-CONTROLS
+                 ================================================= -->
+
+            <div
+                class="map-extra-controls"
+                aria-label="Kartenoptionen"
+            >
+
+
+                <!-- =============================================
+                     SATELLIT
+                     ============================================== -->
+
+                <button
+                    id="satelliteToggle"
+                    class="map-control-button"
+                    type="button"
+                    aria-pressed="false"
+                >
+
+                    <span class="map-control-icon">
+                        ◈
+                    </span>
+
+                    <span>
+                        SATELLIT
+                    </span>
+
+                </button>
+
+
+                <!-- =============================================
+                     MEINE POSITION
+                     ============================================== -->
+
+                <button
+                    id="locateMe"
+                    class="map-control-button"
+                    type="button"
+                >
+
+                    <span class="map-control-icon">
+                        ⌾
+                    </span>
+
+                    <span>
+                        MEINE POSITION
+                    </span>
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         BESTEHENDER WEBSITE-FOOTER
+         ===================================================== -->
+
+    <div id="site-footer"></div>
+
+
+    <!-- =====================================================
+         LEAFLET
+         ===================================================== -->
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin=""
+    ></script>
+
+
+    <!-- =====================================================
+         BESTEHENDES WEBSITE-JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        type="module"
+        src="../script.js"
+    ></script>
+
+
+    <!-- =====================================================
+         KARTEN-JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        type="module"
+        src="map.js"
+    ></script>
+
+
+</body>
+
+</html>
